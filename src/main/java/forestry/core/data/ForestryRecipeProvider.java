@@ -1632,6 +1632,13 @@ public class ForestryRecipeProvider {
 				.product(0.7f, honeyDrop)
 				.product(0.7f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR, 2))
 				.build(consumer, id("centrifuge", "luminous_comb"));
+
+
+		new CentrifugeRecipeBuilder()
+				.setProcessingTime(20)
+				.setInput(Ingredient.of(Items.HONEYCOMB))
+				.product(1.0f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
+				.build(consumer, id("centrifuge", "comb_to_wax"));
 	}
 
 	private static void registerFabricator(Consumer<FinishedRecipe> consumer) {
