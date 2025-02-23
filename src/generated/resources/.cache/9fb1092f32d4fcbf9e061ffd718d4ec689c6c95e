@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-23T18:50:39.4725287	Recipes
+// 1.20.1	2025-02-23T18:54:19.5578286	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1005,7 +1005,7 @@ d37cc67177c73903646b8843bb112158a1ff5571 data/forestry/recipes/baobab_slab.json
 b8a4e92f31aa2d52869973e9cb95668609c9e05d data/forestry/recipes/baobab_stripped_wood.json
 eca71aba70cd7a248471ee015544566d48572ad7 data/forestry/recipes/baobab_trapdoor.json
 32334b5b770dc9f2b171314712f3aaddd66a9111 data/forestry/recipes/baobab_wood.json
-9dc085501af9e455cea2560c7bced4037bc9772c data/forestry/recipes/beeswax_candles.json
+8d757db7cb28b5182b756f7fb294c10480da46b5 data/forestry/recipes/beeswax_candles.json
 88de9ed5a1b917654c479c69e0721564985c54e6 data/forestry/recipes/bee_chest.json
 13600cad95403060d0899858e0a8d23758e304bf data/forestry/recipes/bee_house.json
 9e2ce5e0ba6d35d0039d2cfcad6c5bc18872b574 data/forestry/recipes/birch_door.json
