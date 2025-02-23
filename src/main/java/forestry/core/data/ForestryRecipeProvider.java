@@ -773,6 +773,12 @@ public class ForestryRecipeProvider {
 			recipe.pattern("# #");
 		});
 
+		recipes.shapedCrafting("ice_shards", RecipeCategory.MISC, Items.ICE, 1, recipe -> {
+			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD));
+			recipe.pattern("## ");
+			recipe.pattern("## ");
+		});
+
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
