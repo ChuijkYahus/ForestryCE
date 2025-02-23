@@ -490,14 +490,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern("###");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.FOOD, ApicultureItems.HONEY_POT, recipe -> {
-			recipe.define('#', honeyDrop);
-			recipe.define('X', waxCapsule);
-			recipe.pattern("# #");
-			recipe.pattern(" X ");
-			recipe.pattern("# #");
-		});
-
 		recipes.shapedCrafting(RecipeCategory.FOOD, ApicultureItems.HONEYED_SLICE, recipe -> {
 			recipe.define('#', honeyDrop);
 			recipe.define('X', Items.BREAD);
@@ -505,6 +497,9 @@ public class ForestryRecipeProvider {
 			recipe.pattern("#X#");
 			recipe.pattern("###");
 		});
+
+		recipes.shapelessCrafting(RecipeCategory.FOOD, Items.HONEY_BOTTLE, 1, "honey_bottle", Items.GLASS_BOTTLE, honeyDrop, honeyDrop);
+
 	}
 
 	private static void registerBackpackRecipes(MKRecipeProvider recipes) {
@@ -778,6 +773,15 @@ public class ForestryRecipeProvider {
 			recipe.pattern("## ");
 			recipe.pattern("## ");
 		});
+
+		recipes.shapedCrafting("honey_block", RecipeCategory.MISC, Items.HONEY_BLOCK, 1, recipe -> {
+			recipe.define('V', ApicultureItems.HONEY_DROP);
+			recipe.pattern("VVV");
+			recipe.pattern("V V");
+			recipe.pattern("VVV");
+		});
+
+		recipes.shapelessCrafting(RecipeCategory.MISC, ApicultureItems.HONEY_DROP, 4, Items.HONEY_BLOCK);
 
 		recipes.shapedCrafting("phosphor_torches", RecipeCategory.MISC, Items.TORCH, 6, recipe -> {
 			recipe.define('P', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
@@ -1987,6 +1991,7 @@ public class ForestryRecipeProvider {
 
 	private static void registerSqueezer(Consumer<FinishedRecipe> consumer) {
 		FluidStack honeyDropFluid = ForestryFluids.HONEY.getFluid(Constants.FLUID_PER_HONEY_DROP);
+		FluidStack honeyBlockFluid = ForestryFluids.HONEY.getFluid(Constants.FLUID_PER_HONEY_DROP * 8);
 
 		new SqueezerRecipeBuilder()
 				.setProcessingTime(10)
@@ -1995,6 +2000,13 @@ public class ForestryRecipeProvider {
 				.setRemnants(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
 				.setRemnantsChance(5 / 100f)
 				.build(consumer, id("squeezer", "honey_drop"));
+
+		new SqueezerRecipeBuilder()
+				.setProcessingTime(60)
+				.setResources(NonNullList.withSize(1, Ingredient.of(Items.HONEY_BLOCK)))
+				.setFluidOutput(honeyBlockFluid)
+				.build(consumer, id("squeezer", "honey_block"));
+
 		new SqueezerRecipeBuilder()
 				.setProcessingTime(10)
 				.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEYDEW)))
