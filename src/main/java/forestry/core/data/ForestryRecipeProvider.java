@@ -795,7 +795,6 @@ public class ForestryRecipeProvider {
 			recipe.define('^', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX));
 			recipe.pattern(" | ");
 			recipe.pattern(" ^ ");
-			recipe.pattern(" ^ ");
 		});
 
 		// Books
@@ -1634,7 +1633,7 @@ public class ForestryRecipeProvider {
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.LUMINOUS)))
 				.product(1.0f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.BEESWAX))
 				.product(0.7f, honeyDrop)
-				.product(0.7f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR, 2))
+				.product(0.6f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR, 1))
 				.build(consumer, id("centrifuge", "luminous_comb"));
 
 

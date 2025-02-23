@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-23T18:54:19.5578286	Recipes
+// 1.20.1	2025-02-23T19:00:04.7726611	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1245,7 +1245,7 @@ cf76ddd67961b94dbc685f0de62533a651717f9c data/forestry/recipes/centrifuge/drippi
 f555e2af3563f00e5ae768ba9cd861e2e86f3dc7 data/forestry/recipes/centrifuge/frozen_comb.json
 88fdef7da6ce2b2e52ac9dafae42d7c6c9aea904 data/forestry/recipes/centrifuge/honey_comb.json
 0e77f21d70058a832cdaf236b898e2074233fc24 data/forestry/recipes/centrifuge/kaolin_comb.json
-120080efbd502ed749073913a32c0e7962f3f2a0 data/forestry/recipes/centrifuge/luminous_comb.json
+280f2ce0fcba199b1c971b040eece0f8fa15634a data/forestry/recipes/centrifuge/luminous_comb.json
 05297ec108817a166b116911e838d80c2a2eddc6 data/forestry/recipes/centrifuge/mellow_comb.json
 92169e74baef3c69ed7cd534631123ea994a3a85 data/forestry/recipes/centrifuge/mossy_comb.json
 c4303a72c20ee706e8c8641afb719f83cc45a36a data/forestry/recipes/centrifuge/mysterious_comb.json

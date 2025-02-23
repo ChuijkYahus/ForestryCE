@@ -13,8 +13,7 @@
       "item": "forestry:honey_drop"
     },
     {
-      "chance": 0.7,
-      "count": 2,
+      "chance": 0.6,
       "item": "forestry:phosphor"
     }
   ],
