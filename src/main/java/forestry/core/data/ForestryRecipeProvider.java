@@ -797,6 +797,9 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" ^ ");
 		});
 
+		recipes.shapelessCrafting("phosphorescent_frames", RecipeCategory.MISC, Items.GLOW_ITEM_FRAME, 1, Items.ITEM_FRAME, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
+
+
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);

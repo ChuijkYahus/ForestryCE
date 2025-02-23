@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-23T19:00:04.7726611	Recipes
+// 1.20.1	2025-02-23T20:45:27.8071891	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -706,6 +706,7 @@ d4da831c1b7c8a899a8c6e927772333d95d18be3 data/forestry/advancements/recipes/misc
 e32de4e5cf4a964233d5bd7d32ffb50bdebdc750 data/forestry/advancements/recipes/misc/peat_bog_managed.json
 8ebf4ee2f519e3e3cd7a13161d799fb76082560c data/forestry/advancements/recipes/misc/peat_bog_managed_from_manual.json
 c9520aef1322eb0d3bb424a0809264c62dba61fd data/forestry/advancements/recipes/misc/peat_bog_manual.json
+e255091382a92fcecf15747584cc3e6dc8fe98ea data/forestry/advancements/recipes/misc/phosphorescent_frames.json
 e5d68cd17ce090dc1424ad08d3aba33b4f71d117 data/forestry/advancements/recipes/misc/phosphor_torches.json
 8f20e9ae3b5f9409cfdfa8101b1752d87d7ca9b8 data/forestry/advancements/recipes/misc/pine_boat.json
 5be8175ccc310c709b902bf19aad8dd55169151a data/forestry/advancements/recipes/misc/pine_chest_boat.json
@@ -1998,6 +1999,7 @@ f5aebe6e69f359c9f61582cff05085b1cb85156e data/forestry/recipes/papaya_trapdoor.j
 2e6caf8e448cdedc1d45f15e1adacb69ba261784 data/forestry/recipes/peat_bog_managed.json
 eb660f95cbb03e5ada885f8c23bedc12b76c05ca data/forestry/recipes/peat_bog_managed_from_manual.json
 71ff08e19469fcfad5d943dc8d6bcd8644725d59 data/forestry/recipes/peat_bog_manual.json
+aa498718e2278818c14e159734a5e48dc5e7219d data/forestry/recipes/phosphorescent_frames.json
 f7cece485b9c25a55c8f1520daaeccea40c0ba36 data/forestry/recipes/phosphor_torches.json
 e6561385356e0d8368b4e5d272e0d4b2ecef3f9e data/forestry/recipes/pine_boat.json
 c12cb074e6ba7ce85aac8fc43898044afe4a4230 data/forestry/recipes/pine_button.json
