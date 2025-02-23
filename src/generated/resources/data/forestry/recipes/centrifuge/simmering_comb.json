@@ -10,8 +10,7 @@
     },
     {
       "chance": 0.7,
-      "count": 2,
-      "item": "forestry:phosphor"
+      "item": "forestry:propolis_volcanic"
     }
   ],
   "time": 20

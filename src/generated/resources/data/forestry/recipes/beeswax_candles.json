@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "forestry:honey_drop"
+    "^": {
+      "item": "forestry:beeswax"
     },
-    "X": {
-      "item": "forestry:capsule"
+    "|": {
+      "item": "minecraft:string"
     }
   },
   "pattern": [
-    "# #",
-    " X ",
-    "# #"
+    " | ",
+    " ^ ",
+    " ^ "
   ],
   "result": {
-    "item": "forestry:honey_pot"
+    "item": "minecraft:candle"
   },
   "show_notification": true
 }

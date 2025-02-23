@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "forestry:honey_drop"
+              "forestry:bee_comb_luminous"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:honey_pot"
+        "recipe": "forestry:block_bee_comb_luminous"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:honey_pot"
+      "forestry:block_bee_comb_luminous"
     ]
   },
   "sends_telemetry_event": true
