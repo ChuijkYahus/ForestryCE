@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "forestry:ice_shard"
+              "forestry:honey_drop"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:ice_shards"
+        "recipe": "forestry:honey_drop_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:ice_shards"
+      "forestry:honey_drop_block"
     ]
   },
   "sends_telemetry_event": true

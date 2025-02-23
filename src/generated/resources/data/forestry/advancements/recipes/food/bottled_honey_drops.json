@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:honey_bottle"
+        "recipe": "forestry:bottled_honey_drops"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:honey_bottle"
+      "forestry:bottled_honey_drops"
     ]
   },
   "sends_telemetry_event": true

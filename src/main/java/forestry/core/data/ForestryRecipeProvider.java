@@ -498,7 +498,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("###");
 		});
 
-		recipes.shapelessCrafting(RecipeCategory.FOOD, Items.HONEY_BOTTLE, 1, "honey_bottle", Items.GLASS_BOTTLE, honeyDrop, honeyDrop);
+		recipes.shapelessCrafting("bottled_honey_drops", RecipeCategory.FOOD, Items.HONEY_BOTTLE, 1, Items.GLASS_BOTTLE, honeyDrop, honeyDrop);
 
 	}
 
@@ -768,13 +768,13 @@ public class ForestryRecipeProvider {
 			recipe.pattern("# #");
 		});
 
-		recipes.shapedCrafting("ice_shards", RecipeCategory.MISC, Items.ICE, 1, recipe -> {
+		recipes.shapedCrafting("compressed_ice_shards", RecipeCategory.MISC, Items.ICE, 1, recipe -> {
 			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD));
 			recipe.pattern("## ");
 			recipe.pattern("## ");
 		});
 
-		recipes.shapedCrafting("honey_block", RecipeCategory.MISC, Items.HONEY_BLOCK, 1, recipe -> {
+		recipes.shapedCrafting("honey_drop_block", RecipeCategory.MISC, Items.HONEY_BLOCK, 1, recipe -> {
 			recipe.define('V', ApicultureItems.HONEY_DROP);
 			recipe.pattern("VVV");
 			recipe.pattern("V V");
