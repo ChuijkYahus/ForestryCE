@@ -21,7 +21,7 @@ import forestry.api.core.IItemSubtype;
 public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSubtype {
 	HONEY(new Color(0xe8d56a), new Color(0xffa12b)),
 	COCOA(new Color(0x674016), new Color(0xffb62b)),
-	SIMMERING(new Color(0x981919), new Color(0xffb62b)),
+	SIMMERING(new Color(0x981919), new Color(0xFE8738)),
 	STRINGY(new Color(0xc8be67), new Color(0xbda93e)),
 	FROZEN(new Color(0xf9ffff), new Color(0xa0ffff)),
 	DRIPPING(new Color(0xdc7613), new Color(0xffff00)),
@@ -33,7 +33,7 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 	MOSSY(new Color(0x2a3313), new Color(0x7e9939)),
 	MELLOW(new Color(0x886000), new Color(0xfff960)),
 	KAOLIN(new Color(0x5e6c8d), new Color(0xafb9d6)),
-	LUMINOUS(new Color(0x5B4012), new Color(0xF7E26B));
+	LUMINOUS(new Color(0x495E27), new Color(0xF7CE46));
 	//""(new Color(0xd7bee5), new Color(0xfd58ab)); // kindof pinkish
 
 	public static final EnumHoneyComb[] VALUES = values();
