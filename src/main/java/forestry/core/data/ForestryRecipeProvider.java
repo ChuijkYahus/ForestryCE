@@ -781,7 +781,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("VVV");
 		});
 
-		recipes.shapelessCrafting(RecipeCategory.MISC, ApicultureItems.HONEY_DROP, 4, Items.HONEY_BLOCK);
+		recipes.shapelessCrafting(RecipeCategory.MISC, ApicultureItems.HONEY_DROP, 8, Items.HONEY_BLOCK);
 
 		recipes.shapedCrafting("phosphor_torches", RecipeCategory.MISC, Items.TORCH, 6, recipe -> {
 			recipe.define('P', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
