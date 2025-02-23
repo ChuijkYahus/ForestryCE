@@ -779,6 +779,21 @@ public class ForestryRecipeProvider {
 			recipe.pattern("## ");
 		});
 
+		recipes.shapedCrafting("phosphor_torches", RecipeCategory.MISC, Items.TORCH, 6, recipe -> {
+			recipe.define('P', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
+			recipe.define('|', Items.STICK);
+			recipe.pattern(" P ");
+			recipe.pattern(" | ");
+		});
+
+		recipes.shapedCrafting("beeswax_candles", RecipeCategory.MISC, Items.CANDLE, 1, recipe -> {
+			recipe.define('|', Items.STRING);
+			recipe.define('^', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX));
+			recipe.pattern(" | ");
+			recipe.pattern(" ^ ");
+			recipe.pattern(" ^ ");
+		});
+
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
