@@ -6,7 +6,7 @@
       "item": "forestry:phosphor"
     },
     "|": {
-      "item": "minecraft:stick"
+      "tag": "forge:rods/wooden"
     }
   },
   "pattern": [

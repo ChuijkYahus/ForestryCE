@@ -2,7 +2,7 @@
   "type": "forestry:squeezer",
   "chance": 0.0,
   "output": {
-    "Amount": 1500,
+    "Amount": 1000,
     "FluidName": "minecraft:lava"
   },
   "remnant": {

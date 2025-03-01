@@ -713,7 +713,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.LUSH, GENUS_LUSH, SPECIES_LUSH, true, new Color(0x70922D))
 				.setTemperature(TemperatureType.WARM)
 				.setHumidity(HumidityType.DAMP)
-				.addProduct(BEE_COMBS.stack(EnumHoneyComb.LUMINOUS), 0.35F)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.35F)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_NORMAL);
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
@@ -725,7 +725,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.VERDANT, GENUS_LUSH, SPECIES_VERDANT, true, new Color(0x1C5B3A))
 				.setTemperature(TemperatureType.WARM)
 				.setHumidity(HumidityType.DAMP)
-				.addProduct(BEE_COMBS.stack(EnumHoneyComb.LUMINOUS), 0.45F)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.45F)
 				.addSpecialty(new ItemStack(Items.SMALL_DRIPLEAF), 0.15F)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
@@ -741,7 +741,8 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.LUXURIANT, GENUS_LUSH, SPECIES_LUXURIANT, false, new Color(0xEB8931))
 				.setTemperature(TemperatureType.WARM)
 				.setHumidity(HumidityType.DAMP)
-				.addProduct(BEE_COMBS.stack(EnumHoneyComb.LUMINOUS), 0.55F)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.55F)
+				.addSpecialty(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR), 0.40f)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);

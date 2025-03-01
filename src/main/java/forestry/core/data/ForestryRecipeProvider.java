@@ -795,9 +795,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" ^ ");
 		});
 
-		recipes.shapelessCrafting("phosphorescent_frames", RecipeCategory.MISC, Items.GLOW_ITEM_FRAME, 1, Items.ITEM_FRAME, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
-
-
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
@@ -1629,13 +1626,6 @@ public class ForestryRecipeProvider {
 				.product(0.6f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.SILK_WISP, 1))
 				.product(0.1f, ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
 				.build(consumer, id("centrifuge", "silky_propolis"));
-		new CentrifugeRecipeBuilder()
-				.setProcessingTime(20)
-				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.LUMINOUS)))
-				.product(1.0f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.BEESWAX))
-				.product(0.7f, honeyDrop)
-				.product(0.6f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR, 1))
-				.build(consumer, id("centrifuge", "luminous_comb"));
 
 
 		new CentrifugeRecipeBuilder()

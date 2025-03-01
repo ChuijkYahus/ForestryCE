@@ -6,7 +6,7 @@
       "item": "forestry:beeswax"
     },
     "|": {
-      "item": "minecraft:string"
+      "tag": "forge:string"
     }
   },
   "pattern": [
