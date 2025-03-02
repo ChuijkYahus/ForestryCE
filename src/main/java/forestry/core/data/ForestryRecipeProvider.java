@@ -1521,15 +1521,8 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerCentrifuge(Consumer<FinishedRecipe> consumer) {
-		new CentrifugeRecipeBuilder()
-				.setProcessingTime(5)
-				.setInput(Ingredient.of(Items.STRING))
-				.product(0.15F, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.SILK_WISP))
-				.build(consumer, id("centrifuge", "string"));
 
 		ItemStack honeyDrop = ApicultureItems.HONEY_DROP.stack();
-
-		ItemLike propolis = ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL);
 
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
