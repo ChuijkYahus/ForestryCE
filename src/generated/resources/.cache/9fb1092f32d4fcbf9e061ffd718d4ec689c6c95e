@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-02T13:41:11.9612356	Recipes
+// 1.20.1	2025-03-02T14:12:45.9605369	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1235,7 +1235,7 @@ c0a8257e5827e532549a6eed0adbb5288e1bb881 data/forestry/recipes/carpenter/reclaim
 004131405115082a22809b36759700849a820887 data/forestry/recipes/carpenter/scented_paneling.json
 76d6aa78a49b3bdc9ed50bf0934c30c75f411331 data/forestry/recipes/carpenter/soldering_iron.json
 b8078710e4c560f89d6b6002953bcb1f12d2e837 data/forestry/recipes/carpenter/wood_pulp.json
-1ac6c850c6ec7d3de0d690142c3e757e7e34c7d9 data/forestry/recipes/carpenter/woven_silk.json
+98384b7c1dea5346c267319a35481a85b98dcb49 data/forestry/recipes/carpenter/woven_silk.json
 f30d2a71f6d1c471b28714f9e6e70aba23591eee data/forestry/recipes/catalogue.json
 30a42f1e04964d99dbb7a92a351da31ac0959e1d data/forestry/recipes/centrifuge.json
 8349380b3e5512f94955e19079b2221dd5eb1112 data/forestry/recipes/centrifuge/cocoa_comb.json

@@ -1233,9 +1233,8 @@ public class ForestryRecipeProvider {
 				.setLiquid(new FluidStack(Fluids.WATER, 500))
 				.setBox(Ingredient.EMPTY)
 				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOVEN_SILK))
-						.pattern("XXX")
-						.pattern("XXX")
-						.pattern("XXX")
+						.pattern("XX")
+						.pattern("XX")
 						.define('X', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SILK_WISP)))
 				.build(consumer, id("carpenter", "woven_silk"));
 		new CarpenterRecipeBuilder()
