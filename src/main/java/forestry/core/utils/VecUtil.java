@@ -30,9 +30,9 @@ public final class VecUtil {
 	public static final Comparator<BlockPos> TOP_DOWN_COMPARATOR = (a, b) -> Integer.compare(b.getY(), a.getY());
 
 	public static BlockPos getRandomPositionInArea(RandomSource random, Vec3i area) {
-		int x = random.nextInt(area.getX() + 1);
-		int y = random.nextInt(area.getY() + 1);
-		int z = random.nextInt(area.getZ() + 1);
+		int x = random.nextInt(area.getX());
+		int y = random.nextInt(area.getY());
+		int z = random.nextInt(area.getZ());
 		return new BlockPos(x, y, z);
 	}
 
@@ -49,6 +49,9 @@ public final class VecUtil {
 	}
 
 	// todo look into usages and replace with adjusted territory respecting IBeeModifiers
+	// Do not use this to find the center of an area.
+	// TODO check is usage in farming logic is using this correctly
+	@Deprecated
 	public static BlockPos scale(Vec3i vec, float factor) {
 		return BlockPos.containing(vec.getX() * factor, vec.getY() * factor, vec.getZ() * factor);
 	}

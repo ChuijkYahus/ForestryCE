@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import forestry.core.utils.VecUtil;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.Vec3i;
@@ -83,7 +85,7 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 						IBeeModifier modifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
 						Vec3i territory = Bee.getAdjustedTerritory(genome, modifier);
 
-						applyEffectToNearbyTiles(affectedHives, level, pos, territory);
+						affectNearbyTiles(affectedHives, level, pos, territory);
 
 						// Skips the iterator.remove() at the end of the loop
 						continue;
@@ -95,32 +97,28 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 		}
 	}
 
-	private void applyEffectToNearbyTiles(HashSet<BlockPos> affectedHives, Level level, BlockPos pos, Vec3i territory) {
-		int x = pos.getX();
-		int z = pos.getZ();
-		int xWidth = territory.getX();
-		int zWidth = territory.getZ();
-		int xChunksPositive = (x % 16 + xWidth) / 16;
-		int zChunksPositive = (z % 16 + zWidth) / 16;
-		int xChunksNegative = (x % 16 - xWidth) / 16;
-		int zChunksNegative = (z % 16 - zWidth) / 16;
-		int chunkX = SectionPos.blockToSectionCoord(pos.getX());
-		int chunkZ = SectionPos.blockToSectionCoord(pos.getZ());
-
-		for (int i = chunkX - xChunksPositive; i <= chunkX + xChunksNegative; i++) {
-			for (int j = chunkZ - zChunksPositive; j <= chunkZ + zChunksNegative; j++) {
-				level.getChunk(i, j).blockEntities.forEach((targetPos, blockEntity) -> {
-					if (blockEntity instanceof IBeeHousing housing) {
-						int distX = Math.abs(pos.getX() - targetPos.getX());
-						int distY = Math.abs(pos.getY() - targetPos.getY());
-						int distZ = Math.abs(pos.getZ() - targetPos.getZ());
-
-						if (distX > territory.getX() || distY > territory.getY() || distZ > territory.getZ() || pos.equals(targetPos)) {
+	private void affectNearbyTiles(HashSet<BlockPos> affectedHives, Level level, BlockPos pos, Vec3i territory) {
+		BlockPos topLeft = pos.offset(VecUtil.center(territory));
+		BlockPos bottomRight = topLeft.offset(territory);
+		for (int x = SectionPos.blockToSectionCoord(topLeft.getX()); x <= SectionPos.blockToSectionCoord(bottomRight.getX()); x++) {
+			for (int z = SectionPos.blockToSectionCoord(topLeft.getZ()); z <= SectionPos.blockToSectionCoord(bottomRight.getZ()); z++) {
+				level.getChunk(x, z).getBlockEntities().forEach((targetPos, tileEntity) -> {
+					if (tileEntity instanceof IBeeHousing housing) {
+						if (targetPos.equals(pos)) {
 							return;
 						}
-
-						if (affectedHives.add(targetPos)) {
-							doEffectForHive(level, housing);
+						//dont do math if already affected
+						if (affectedHives.contains(targetPos)) {
+							return;
+						}
+						if (targetPos.getX() >= topLeft.getX() && targetPos.getX() < topLeft.getX() + territory.getX()) {
+							if (targetPos.getY() >= topLeft.getY() && targetPos.getY() < topLeft.getY() + territory.getY()) {
+								if (targetPos.getZ() >= topLeft.getZ() && targetPos.getZ() < topLeft.getZ() + territory.getZ()) {
+									if (affectedHives.add(targetPos)) {
+										doEffectForHive(level, housing);
+									}
+								}
+							}
 						}
 					}
 				});

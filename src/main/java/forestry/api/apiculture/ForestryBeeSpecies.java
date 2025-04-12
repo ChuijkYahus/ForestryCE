@@ -62,6 +62,9 @@ public class ForestryBeeSpecies {
 	public static final ResourceLocation KLEPTOPLASTIC = forestry("bee_kleptoplastic");
 	public static final ResourceLocation PHOTOSYNTHETIC = forestry("bee_photosynthetic");
 	public static final ResourceLocation AUTOTROPHIC = forestry("bee_autotrophic");
+	public static final ResourceLocation PRIMEVAL = forestry("bee_primeval");
+	public static final ResourceLocation ANACHRONE = forestry("bee_anachrone");
+	public static final ResourceLocation RELIC = forestry("bee_relic");
 	public static final ResourceLocation AQUATIC = forestry("bee_aquatic");
 	public static final ResourceLocation PIRATE = forestry("bee_pirate");
 	public static final ResourceLocation PRISMATIC = forestry("bee_prismatic");

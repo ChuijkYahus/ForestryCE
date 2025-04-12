@@ -40,10 +40,9 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 		}
 
 		Vec3i area = Bee.getParticleArea(genome, housing);
-		Vec3i offset = VecUtil.scale(area, -0.5f);
 
 		BlockPos randomPos = VecUtil.getRandomPositionInArea(level.random, area);
-		BlockPos posBlock = randomPos.offset(housing.getCoordinates()).offset(offset);
+		BlockPos posBlock = randomPos.offset(housing.getCoordinates()).offset(VecUtil.center(area));
 
 		// Put snow on the ground
 		if (level.hasChunkAt(posBlock)) {
@@ -75,11 +74,10 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 
 		if (level.random.nextInt(3) == 0) {
 			Vec3i area = Bee.getParticleArea(genome, housing);
-			Vec3i offset = VecUtil.scale(area, -0.5F);
 
 			BlockPos coordinates = housing.getCoordinates();
 
-			BlockPos spawn = VecUtil.getRandomPositionInArea(level.random, area).offset(coordinates).offset(offset);
+			BlockPos spawn = VecUtil.getRandomPositionInArea(level.random, area).offset(coordinates).offset(VecUtil.center(area));
 			ParticleRender.addEntitySnowFX(level, spawn.getX(), spawn.getY(), spawn.getZ());
 			return storedData;
 		} else {

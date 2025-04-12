@@ -19,6 +19,7 @@ public class ForestryFlowerTypes {
 	public static final ResourceLocation GOURD = ForestryConstants.forestry("flower_type_gourd");
 	public static final ResourceLocation CAVE = ForestryConstants.forestry("flower_type_cave");
 	public static final ResourceLocation PHOTOSYNTHESIS = ForestryConstants.forestry("flower_type_photosynthesis");
+	public static final ResourceLocation ANCIENT = ForestryConstants.forestry("flower_type_ancient");
 	public static final ResourceLocation SEA = ForestryConstants.forestry("flower_type_sea");
 	public static final ResourceLocation CORAL = ForestryConstants.forestry("flower_type_coral");
 	public static final ResourceLocation SCULK = ForestryConstants.forestry("flower_type_sculk");
