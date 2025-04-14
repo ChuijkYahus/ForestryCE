@@ -102,26 +102,28 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 		BlockPos bottomRight = topLeft.offset(territory);
 		for (int x = SectionPos.blockToSectionCoord(topLeft.getX()); x <= SectionPos.blockToSectionCoord(bottomRight.getX()); x++) {
 			for (int z = SectionPos.blockToSectionCoord(topLeft.getZ()); z <= SectionPos.blockToSectionCoord(bottomRight.getZ()); z++) {
-				level.getChunk(x, z).getBlockEntities().forEach((targetPos, tileEntity) -> {
-					if (tileEntity instanceof IBeeHousing housing) {
-						if (targetPos.equals(pos)) {
-							return;
-						}
-						//dont do math if already affected
-						if (affectedHives.contains(targetPos)) {
-							return;
-						}
-						if (targetPos.getX() >= topLeft.getX() && targetPos.getX() < topLeft.getX() + territory.getX()) {
-							if (targetPos.getY() >= topLeft.getY() && targetPos.getY() < topLeft.getY() + territory.getY()) {
-								if (targetPos.getZ() >= topLeft.getZ() && targetPos.getZ() < topLeft.getZ() + territory.getZ()) {
-									if (affectedHives.add(targetPos)) {
-										doEffectForHive(level, housing);
+				if(level.hasChunk(x,z)) {
+					level.getChunk(x, z).getBlockEntities().forEach((targetPos, tileEntity) -> {
+						if (tileEntity instanceof IBeeHousing housing) {
+							if (targetPos.equals(pos)) {
+								return;
+							}
+							//dont do math if already affected
+							if (affectedHives.contains(targetPos)) {
+								return;
+							}
+							if (targetPos.getX() >= topLeft.getX() && targetPos.getX() < topLeft.getX() + territory.getX()) {
+								if (targetPos.getY() >= topLeft.getY() && targetPos.getY() < topLeft.getY() + territory.getY()) {
+									if (targetPos.getZ() >= topLeft.getZ() && targetPos.getZ() < topLeft.getZ() + territory.getZ()) {
+										if (affectedHives.add(targetPos)) {
+											doEffectForHive(level, housing);
+										}
 									}
 								}
 							}
 						}
-					}
-				});
+					});
+				}
 			}
 		}
 	}

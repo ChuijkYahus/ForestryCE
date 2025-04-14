@@ -201,7 +201,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_PATRIOTIC = "americanus";
 	public static final String SPECIES_RURAL = "rustico";
 	public static final String SPECIES_FARMERLY = "arator";
-	public static final String SPECIES_AGRARIAN = "arator2";
+	public static final String SPECIES_AGRARIAN = "agrarius";
 	public static final String SPECIES_MARSHY = "adorasti";
 	public static final String SPECIES_MIRY = "humidium";
 	public static final String SPECIES_BOGGY = "paluster";
