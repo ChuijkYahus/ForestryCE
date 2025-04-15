@@ -130,6 +130,7 @@ public class ForestryAlleles {
 	public static final IRegistryAllele<IFlowerType> FLOWER_TYPE_GOURD = REGISTRY.registryAllele(ForestryFlowerTypes.GOURD, BeeChromosomes.FLOWER_TYPE);
 	public static final IRegistryAllele<IFlowerType> FLOWER_TYPE_CAVE = REGISTRY.registryAllele(ForestryFlowerTypes.CAVE, BeeChromosomes.FLOWER_TYPE);
 	public static final IRegistryAllele<IFlowerType> FLOWER_TYPE_PHOTOSYNTHESIS = REGISTRY.registryAllele(ForestryFlowerTypes.PHOTOSYNTHESIS, BeeChromosomes.FLOWER_TYPE);
+	public static final IRegistryAllele<IFlowerType> FLOWER_TYPE_ANCIENT = REGISTRY.registryAllele(ForestryFlowerTypes.ANCIENT, BeeChromosomes.FLOWER_TYPE);
 	public static final IRegistryAllele<IFlowerType> FLOWER_TYPE_SEA = REGISTRY.registryAllele(ForestryFlowerTypes.SEA, BeeChromosomes.FLOWER_TYPE);
 	public static final IRegistryAllele<IFlowerType> FLOWER_TYPE_CORAL = REGISTRY.registryAllele(ForestryFlowerTypes.CORAL, BeeChromosomes.FLOWER_TYPE);
 	public static final IRegistryAllele<IFlowerType> FLOWER_TYPE_SCULK = REGISTRY.registryAllele(ForestryFlowerTypes.SCULK, BeeChromosomes.FLOWER_TYPE);
@@ -157,6 +158,8 @@ public class ForestryAlleles {
 	public static final IRegistryAllele<IBeeEffect> EFFECT_SIFTER = REGISTRY.registryAllele(ForestryBeeEffects.SIFTER, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_HAKUNA_MATATA = REGISTRY.registryAllele(ForestryBeeEffects.HAKUNA_MATATA, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_GLOW_BERRY_GROW = REGISTRY.registryAllele(ForestryBeeEffects.GLOW_BERRY_GROW, BeeChromosomes.EFFECT);
+	public static final IRegistryAllele<IBeeEffect> EFFECT_REJUVENATION = REGISTRY.registryAllele(ForestryBeeEffects.REJUVENATION, BeeChromosomes.EFFECT);
+	public static final IRegistryAllele<IBeeEffect> EFFECT_CHRONOPHAGE = REGISTRY.registryAllele(ForestryBeeEffects.CHRONOPHAGE, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_GUARDIAN = REGISTRY.registryAllele(ForestryBeeEffects.GUARDIAN, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_PHASING = REGISTRY.registryAllele(ForestryBeeEffects.PHASING, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_ASCENSION = REGISTRY.registryAllele(ForestryBeeEffects.ASCENSION, BeeChromosomes.EFFECT);

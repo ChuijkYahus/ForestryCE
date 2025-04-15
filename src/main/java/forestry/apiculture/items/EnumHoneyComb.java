@@ -33,6 +33,7 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 	MOSSY(new Color(0x2a3313), new Color(0x7e9939)),
 	MELLOW(new Color(0x886000), new Color(0xfff960)),
 	KAOLIN(new Color(0x5e6c8d), new Color(0xafb9d6)),
+	VINTAGE(new Color(0xDEB887), new Color(0xCD853F)),
 	SPONGE(new Color(0x9D8F39), new Color(0xe1e351)),
 	SCULKEN(new Color(0x111B21), new Color(0x05625d)),
 	;
