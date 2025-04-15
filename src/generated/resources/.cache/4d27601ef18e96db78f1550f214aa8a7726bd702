@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-18T23:15:27.5619334	Item Models: forestry
+// 1.20.1	2025-04-14T19:55:27.9084761	Item Models: forestry
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/adventurer_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/adventurer_bag_woven.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/apiarist_bag.json
@@ -39,6 +39,7 @@ e1baf302155b8bb7e7702eea7ca6de07d5f2a8ab assets/forestry/models/item/crated_ash.
 4ad1ee6e44859791d0f7ffaf2cf7eec377fe3770 assets/forestry/models/item/crated_bee_comb_simmering.json
 4ad1ee6e44859791d0f7ffaf2cf7eec377fe3770 assets/forestry/models/item/crated_bee_comb_sponge.json
 4ad1ee6e44859791d0f7ffaf2cf7eec377fe3770 assets/forestry/models/item/crated_bee_comb_stringy.json
+4ad1ee6e44859791d0f7ffaf2cf7eec377fe3770 assets/forestry/models/item/crated_bee_comb_vintage.json
 4ad1ee6e44859791d0f7ffaf2cf7eec377fe3770 assets/forestry/models/item/crated_bee_comb_wheaten.json
 a0fc03c33d492934a9da86d10e0b3d106cc9a511 assets/forestry/models/item/crated_birch_log.json
 44febf22b77fef8e07fd6a1860df26d0ec550175 assets/forestry/models/item/crated_birch_sapling.json

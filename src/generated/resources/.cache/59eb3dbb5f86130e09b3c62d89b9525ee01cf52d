@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-18T23:15:27.5387221	Loot Tables
+// 1.20.1	2025-04-14T19:55:27.8942869	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -131,6 +131,7 @@ f17c572efd3737307cefed8f1c43be5f8107943b data/forestry/loot_tables/blocks/block_
 c017639c447460b570a54ffc5deaf7aa4a69ea4b data/forestry/loot_tables/blocks/block_bee_comb_simmering.json
 c246e95d196aa369075894e98e8390c9cb1718d0 data/forestry/loot_tables/blocks/block_bee_comb_sponge.json
 cb5181962372e675dc52dd5c1378050e7869cfe4 data/forestry/loot_tables/blocks/block_bee_comb_stringy.json
+e21627f3a1f28865f7fe0d503126ae660ed1cb07 data/forestry/loot_tables/blocks/block_bee_comb_vintage.json
 e3ad197e3509223093c14c77fcd78d010222f18c data/forestry/loot_tables/blocks/block_bee_comb_wheaten.json
 1ee4d8981bc97535b752b405771cbda5d7df0357 data/forestry/loot_tables/blocks/bog_earth.json
 3ac941b79d3e4be7b77309a1a49f8f412d3c9f9a data/forestry/loot_tables/blocks/bottler.json
@@ -1018,10 +1019,9 @@ c1469046a844c9ba913426be435274623ed907b9 data/forestry/loot_tables/blocks/zebraw
 d2d767738075d160682570646935e3ea531cac1f data/forestry/loot_tables/blocks/zebrawood_trapdoor.json
 4bfce25f09bebdd10e0fe519a481eddf6bf3caf8 data/forestry/loot_tables/blocks/zebrawood_wood.json
 59f0c226b448b464106827e2e5bc41539b453e71 data/forestry/loot_tables/chests/abandoned_mineshaft/apiculture.json
-dd7b53e8bf888c71099fbaba822f8870cab3a23b data/forestry/loot_tables/chests/abandoned_mineshaft/factory.json
+c054a686e2e68e969791799270a56df7a0575f77 data/forestry/loot_tables/chests/abandoned_mineshaft/factory.json
 8a8b6bb101f56370594c23fd93d68cd07de2e371 data/forestry/loot_tables/chests/abandoned_mineshaft/storage.json
-5369d12dc5695eb7613dd78a836075e452b7b71d data/forestry/loot_tables/chests/buried_treasure/apiculture.json
-a007d8ff7df7556c7aef154c0026fa065035a7da data/forestry/loot_tables/chests/desert_pyramid/apiculture.json
+b39a527f7bb5b18a2ce317cbc57bb8013765e69f data/forestry/loot_tables/chests/desert_pyramid/apiculture.json
 c7fceacee87f2113159e7a756a2442fa1415b034 data/forestry/loot_tables/chests/desert_pyramid/arboriculture.json
 ececc3f7361f72bc38f9a334f0586423a273252b data/forestry/loot_tables/chests/desert_pyramid/factory.json
 d1508052ee6f973f362990b90f65bf1913da37e5 data/forestry/loot_tables/chests/end_city_treasure/apiculture.json
