@@ -3,14 +3,14 @@ package forestry.apiculture.genetics.effects;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-
-import forestry.core.utils.VecUtil;
+import java.util.Map;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -28,6 +28,7 @@ import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.apiculture.genetics.Bee;
 import forestry.core.tiles.TileUtil;
+import forestry.core.utils.VecUtil;
 
 // An effect applied to other bee hives that shouldn't stack (ex. the Chronophage and Rejuvenation effects)
 public abstract class NonStackingBeeEffect implements IBeeEffect {
@@ -100,21 +101,41 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 	private void affectNearbyTiles(HashSet<BlockPos> affectedHives, Level level, BlockPos pos, Vec3i territory) {
 		BlockPos topLeft = pos.offset(VecUtil.center(territory));
 		BlockPos bottomRight = topLeft.offset(territory);
-		for (int x = SectionPos.blockToSectionCoord(topLeft.getX()); x <= SectionPos.blockToSectionCoord(bottomRight.getX()); x++) {
-			for (int z = SectionPos.blockToSectionCoord(topLeft.getZ()); z <= SectionPos.blockToSectionCoord(bottomRight.getZ()); z++) {
-				if(level.hasChunk(x,z)) {
-					level.getChunk(x, z).getBlockEntities().forEach((targetPos, tileEntity) -> {
-						if (tileEntity instanceof IBeeHousing housing) {
+
+		int topLeftX = topLeft.getX();
+		int topLeftZ = topLeft.getZ();
+
+		int bottomRightX = bottomRight.getX();
+		int bottomRightZ = bottomRight.getZ();
+
+		int territoryX = territory.getX();
+		int territoryY = territory.getY();
+		int territoryZ = territory.getZ();
+
+		for (int x = SectionPos.blockToSectionCoord(topLeftX); x <= SectionPos.blockToSectionCoord(bottomRightX); x++) {
+			for (int z = SectionPos.blockToSectionCoord(topLeftZ); z <= SectionPos.blockToSectionCoord(bottomRightZ); z++) {
+				if (level.hasChunk(x, z)) {
+					for (Map.Entry<BlockPos, BlockEntity> entry : level.getChunk(x, z).getBlockEntities().entrySet()) {
+						BlockPos targetPos = entry.getKey();
+
+						if (entry.getValue() instanceof IBeeHousing housing) {
 							if (targetPos.equals(pos)) {
-								return;
+								continue;
 							}
-							//dont do math if already affected
+							// don't do math if already affected
 							if (affectedHives.contains(targetPos)) {
-								return;
+								continue;
 							}
-							if (targetPos.getX() >= topLeft.getX() && targetPos.getX() < topLeft.getX() + territory.getX()) {
-								if (targetPos.getY() >= topLeft.getY() && targetPos.getY() < topLeft.getY() + territory.getY()) {
-									if (targetPos.getZ() >= topLeft.getZ() && targetPos.getZ() < topLeft.getZ() + territory.getZ()) {
+
+							int targetX = targetPos.getX();
+
+							if (targetX >= topLeftX && targetX < topLeftX + territoryX) {
+								int targetY = targetPos.getY();
+
+								if (targetY >= topLeft.getY() && targetY < topLeft.getY() + territoryY) {
+									int targetZ = targetPos.getZ();
+
+									if (targetZ >= topLeftZ && targetZ < topLeftZ + territoryZ) {
 										if (affectedHives.add(targetPos)) {
 											doEffectForHive(level, housing);
 										}
@@ -122,11 +143,19 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 								}
 							}
 						}
-					});
+					}
 				}
 			}
 		}
 	}
 
+	/**
+	 * Performs the effect on another beehive. Multiple hives that perform the same effect cannot affect the same
+	 * hive twice in a single effect tick, hence the name "non-stacking" bee effect..
+	 *
+	 * @param level   The level where the housing is located
+	 * @param housing The housing to perform the effect on. It is recommended to check
+	 *                {@code IBeeHousing.getErrorLogic().hasErrors()} before performing the effect.
+	 */
 	protected abstract void doEffectForHive(Level level, IBeeHousing housing);
 }
