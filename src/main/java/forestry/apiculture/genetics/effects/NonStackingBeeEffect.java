@@ -3,12 +3,14 @@ package forestry.apiculture.genetics.effects;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -26,6 +28,7 @@ import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.apiculture.genetics.Bee;
 import forestry.core.tiles.TileUtil;
+import forestry.core.utils.VecUtil;
 
 // An effect applied to other bee hives that shouldn't stack (ex. the Chronophage and Rejuvenation effects)
 public abstract class NonStackingBeeEffect implements IBeeEffect {
@@ -83,7 +86,7 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 						IBeeModifier modifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
 						Vec3i territory = Bee.getAdjustedTerritory(genome, modifier);
 
-						applyEffectToNearbyTiles(affectedHives, level, pos, territory);
+						affectNearbyTiles(affectedHives, level, pos, territory);
 
 						// Skips the iterator.remove() at the end of the loop
 						continue;
@@ -95,38 +98,64 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 		}
 	}
 
-	private void applyEffectToNearbyTiles(HashSet<BlockPos> affectedHives, Level level, BlockPos pos, Vec3i territory) {
-		int x = pos.getX();
-		int z = pos.getZ();
-		int xWidth = territory.getX();
-		int zWidth = territory.getZ();
-		int xChunksPositive = (x % 16 + xWidth) / 16;
-		int zChunksPositive = (z % 16 + zWidth) / 16;
-		int xChunksNegative = (x % 16 - xWidth) / 16;
-		int zChunksNegative = (z % 16 - zWidth) / 16;
-		int chunkX = SectionPos.blockToSectionCoord(pos.getX());
-		int chunkZ = SectionPos.blockToSectionCoord(pos.getZ());
+	private void affectNearbyTiles(HashSet<BlockPos> affectedHives, Level level, BlockPos pos, Vec3i territory) {
+		BlockPos topLeft = pos.offset(VecUtil.center(territory));
+		BlockPos bottomRight = topLeft.offset(territory);
 
-		for (int i = chunkX - xChunksPositive; i <= chunkX + xChunksNegative; i++) {
-			for (int j = chunkZ - zChunksPositive; j <= chunkZ + zChunksNegative; j++) {
-				level.getChunk(i, j).blockEntities.forEach((targetPos, blockEntity) -> {
-					if (blockEntity instanceof IBeeHousing housing) {
-						int distX = Math.abs(pos.getX() - targetPos.getX());
-						int distY = Math.abs(pos.getY() - targetPos.getY());
-						int distZ = Math.abs(pos.getZ() - targetPos.getZ());
+		int topLeftX = topLeft.getX();
+		int topLeftZ = topLeft.getZ();
 
-						if (distX > territory.getX() || distY > territory.getY() || distZ > territory.getZ() || pos.equals(targetPos)) {
-							return;
-						}
+		int bottomRightX = bottomRight.getX();
+		int bottomRightZ = bottomRight.getZ();
 
-						if (affectedHives.add(targetPos)) {
-							doEffectForHive(level, housing);
+		int territoryX = territory.getX();
+		int territoryY = territory.getY();
+		int territoryZ = territory.getZ();
+
+		for (int x = SectionPos.blockToSectionCoord(topLeftX); x <= SectionPos.blockToSectionCoord(bottomRightX); x++) {
+			for (int z = SectionPos.blockToSectionCoord(topLeftZ); z <= SectionPos.blockToSectionCoord(bottomRightZ); z++) {
+				if (level.hasChunk(x, z)) {
+					for (Map.Entry<BlockPos, BlockEntity> entry : level.getChunk(x, z).getBlockEntities().entrySet()) {
+						BlockPos targetPos = entry.getKey();
+
+						if (entry.getValue() instanceof IBeeHousing housing) {
+							if (targetPos.equals(pos)) {
+								continue;
+							}
+							// don't do math if already affected
+							if (affectedHives.contains(targetPos)) {
+								continue;
+							}
+
+							int targetX = targetPos.getX();
+
+							if (targetX >= topLeftX && targetX < topLeftX + territoryX) {
+								int targetY = targetPos.getY();
+
+								if (targetY >= topLeft.getY() && targetY < topLeft.getY() + territoryY) {
+									int targetZ = targetPos.getZ();
+
+									if (targetZ >= topLeftZ && targetZ < topLeftZ + territoryZ) {
+										if (affectedHives.add(targetPos)) {
+											doEffectForHive(level, housing);
+										}
+									}
+								}
+							}
 						}
 					}
-				});
+				}
 			}
 		}
 	}
 
+	/**
+	 * Performs the effect on another beehive. Multiple hives that perform the same effect cannot affect the same
+	 * hive twice in a single effect tick, hence the name "non-stacking" bee effect..
+	 *
+	 * @param level   The level where the housing is located
+	 * @param housing The housing to perform the effect on. It is recommended to check
+	 *                {@code IBeeHousing.getErrorLogic().hasErrors()} before performing the effect.
+	 */
 	protected abstract void doEffectForHive(Level level, IBeeHousing housing);
 }

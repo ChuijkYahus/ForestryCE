@@ -62,10 +62,8 @@ public class LootTableHelper {
 				LootTable.lootTable().withPool(LootPool.lootPool()
 						.name("forestry_factory_items")
 						.setRolls(ConstantValue.exactly(1))
-						.add(LootItem.lootTableItem(CoreItems.BROKEN_BRONZE_PICKAXE.item()).setWeight(30))
-						.add(LootItem.lootTableItem(CoreItems.BROKEN_BRONZE_SHOVEL.item()).setWeight(10))
-						.add(LootItem.lootTableItem(CoreItems.KIT_PICKAXE.item()).setWeight(10))
-						.add(LootItem.lootTableItem(CoreItems.KIT_SHOVEL.item()).setWeight(5))
+						.add(LootItem.lootTableItem(CoreItems.KIT_PICKAXE.item()).setWeight(30))
+						.add(LootItem.lootTableItem(CoreItems.KIT_SHOVEL.item()).setWeight(10))
 						.add(EmptyLootItem.emptyItem().setWeight(50))
 				));
 		add(BuiltInLootTables.ABANDONED_MINESHAFT, "storage",
@@ -79,7 +77,7 @@ public class LootTableHelper {
 						.name("forestry_apiculture_bees")
 						.setRolls(ConstantValue.exactly(1))
 						.add(beeLoot(ForestryBeeSpecies.STEADFAST))
-						.add(beeLoot(ForestryBeeSpecies.STEADFAST).setWeight(3)
+						.add(beeLoot(ForestryBeeSpecies.MODEST).setWeight(3)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))
 						.add(EmptyLootItem.emptyItem().setWeight(6))
 				));
@@ -231,12 +229,6 @@ public class LootTableHelper {
 						.add(beeLoot(ForestryBeeSpecies.PIRATE).setWeight(12).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
 						.add(EmptyLootItem.emptyItem().setWeight(3))
 				));
-		add(BuiltInLootTables.BURIED_TREASURE, "apiculture",
-				LootTable.lootTable().withPool(LootPool.lootPool()
-						.name("forestry_apiculture_bees")
-						.setRolls(ConstantValue.exactly(1))
-						.add(beeLoot(BeeLifeStage.PRINCESS, ForestryBeeSpecies.PIRATE))
-				));
 	}
 
 	private LootPoolSingletonContainer.Builder<?> saplingLoot(ResourceLocation species) {
@@ -248,23 +240,23 @@ public class LootTableHelper {
 				.apply(OrganismFunction.fromDefinition(SpeciesUtil.TREE_TYPE.get(), SpeciesUtil.getTreeSpecies(species)));
 	}
 
-	private LootPoolSingletonContainer.Builder<?> beeLoot(ResourceLocation species) {
+	public static LootPoolSingletonContainer.Builder<?> beeLoot(ResourceLocation species) {
 		return beeLoot(BeeLifeStage.DRONE, species);
 	}
 
-	private LootPoolSingletonContainer.Builder<?> beeLoot(BeeLifeStage type, ResourceLocation species) {
+	public static LootPoolSingletonContainer.Builder<?> beeLoot(BeeLifeStage type, ResourceLocation species) {
 		return LootItem.lootTableItem(beeItem(type))
 				.apply(OrganismFunction.fromDefinition(SpeciesUtil.BEE_TYPE.get(), SpeciesUtil.getBeeSpecies(species)));
 	}
 
-	private Item saplingItem(TreeLifeStage type) {
+	private static Item saplingItem(TreeLifeStage type) {
 		return switch (type) {
 			case POLLEN -> ArboricultureItems.POLLEN_FERTILE.item();
 			case SAPLING -> ArboricultureItems.SAPLING.item();
 		};
 	}
 
-	private Item beeItem(BeeLifeStage type) {
+	private static Item beeItem(BeeLifeStage type) {
 		return switch (type) {
 			case QUEEN -> ApicultureItems.BEE_QUEEN.item();
 			case LARVAE -> ApicultureItems.BEE_LARVAE.item();

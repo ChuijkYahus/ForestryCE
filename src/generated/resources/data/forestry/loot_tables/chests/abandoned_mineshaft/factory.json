@@ -6,23 +6,13 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "forestry:broken_bronze_pickaxe",
+          "name": "forestry:kit_pickaxe",
           "weight": 30
         },
         {
           "type": "minecraft:item",
-          "name": "forestry:broken_bronze_shovel",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "name": "forestry:kit_pickaxe",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
           "name": "forestry:kit_shovel",
-          "weight": 5
+          "weight": 10
         },
         {
           "type": "minecraft:empty",

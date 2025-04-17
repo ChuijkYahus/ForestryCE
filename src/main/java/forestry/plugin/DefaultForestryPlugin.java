@@ -57,6 +57,7 @@ import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.genetics.BeeSpeciesType;
 import forestry.apiculture.genetics.effects.AggressiveBeeEffect;
+import forestry.apiculture.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.genetics.effects.AscensionBeeEffect;
 import forestry.apiculture.genetics.effects.CreeperBeeEffect;
 import forestry.apiculture.genetics.effects.DummyBeeEffect;
@@ -254,6 +255,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 
 		apiculture.registerHive(ForestryBeeSpecies.SAVANNA, HiveDefinition.SAVANNA)
 				.addDrop(0.80, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f)
+				.addDrop(0.35, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_AGGRESSIVE))
 				.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.LUSH, HiveDefinition.LUSH)
@@ -297,6 +299,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerFlowerType(ForestryFlowerTypes.GOURD, new FlowerType(ForestryTags.Blocks.GOURD_FLOWERS, true));
 		apiculture.registerFlowerType(ForestryFlowerTypes.CAVE, new FlowerType(ForestryTags.Blocks.CAVE_FLOWERS, true));
 		apiculture.registerFlowerType(ForestryFlowerTypes.PHOTOSYNTHESIS, new PhotosynthesisFlowerType());
+		apiculture.registerFlowerType(ForestryFlowerTypes.ANCIENT, new FlowerType(ForestryTags.Blocks.ANCIENT_FLOWERS, true));
 		apiculture.registerFlowerType(ForestryFlowerTypes.SEA, new WaterFlowerType(ForestryTags.Blocks.SEA_FLOWERS, false));
 		apiculture.registerFlowerType(ForestryFlowerTypes.CORAL, new WaterFlowerType(ForestryTags.Blocks.CORAL_FLOWERS, false));
 		apiculture.registerFlowerType(ForestryFlowerTypes.SCULK, new FlowerType(ForestryTags.Blocks.SCULK_FLOWERS, false));
@@ -323,6 +326,8 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.SIFTER, new SifterBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.HAKUNA_MATATA, new PotionBeeEffectExclusive(false, ApicultureEffects.HAKUNA_MATATA.get(), 20 * 60 * 3, 100, 1.0f, ApicultureEffects.MATATA.get()));
 		apiculture.registerBeeEffect(ForestryBeeEffects.GLOW_BERRY_GROW, new GlowBerryGrowEffect());
+		apiculture.registerBeeEffect(ForestryBeeEffects.REJUVENATION, new AgingBeeEffect(false, false));
+		apiculture.registerBeeEffect(ForestryBeeEffects.CHRONOPHAGE, new AgingBeeEffect(false, true));
 		apiculture.registerBeeEffect(ForestryBeeEffects.GUARDIAN, new GuardianBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.PHASING, new PhasingBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.ASCENSION, new AscensionBeeEffect());

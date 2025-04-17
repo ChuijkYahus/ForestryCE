@@ -64,13 +64,11 @@ public class RadioactiveBeeEffect extends ThrottledBeeEffect {
 		RandomSource rand = level.random;
 
 		Vec3i area = VecUtil.scale(genome.getActiveValue(BeeChromosomes.TERRITORY), 2);
-		Vec3i offset = VecUtil.scale(area, -1 / 2.0f);
 		BlockPos posHousing = housing.getCoordinates();
 
 		for (int i = 0; i < 20; i++) {
 			BlockPos randomPos = VecUtil.getRandomPositionInArea(rand, area);
-			BlockPos posBlock = randomPos.offset(posHousing);
-			posBlock = posBlock.offset(offset);
+			BlockPos posBlock = randomPos.offset(posHousing).offset(VecUtil.center(area));
 
 			if (posBlock.getY() <= 1 || posBlock.getY() >= level.getMaxBuildHeight()) {
 				continue;
