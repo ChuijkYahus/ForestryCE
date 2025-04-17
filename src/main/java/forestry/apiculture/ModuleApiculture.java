@@ -19,17 +19,20 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
-import forestry.api.ForestryTags;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.IArmorApiarist;
@@ -48,6 +51,7 @@ import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
 import forestry.apiculture.proxy.ApicultureClientHandler;
 import forestry.apiculture.villagers.ApicultureVillagers;
+import forestry.core.data.LootTableHelper;
 import forestry.core.network.PacketIdClient;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.BlankForestryModule;
@@ -74,6 +78,7 @@ public class ModuleApiculture extends BlankForestryModule {
 
 		MinecraftForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
 		MinecraftForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
+		MinecraftForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
 	}
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
@@ -95,6 +100,19 @@ public class ModuleApiculture extends BlankForestryModule {
 	private static void onNetherBeeMate(ForestryEvent.BeeMatingEvent event) {
 		if (event.getPrincess().getSpecies().getGenusName().equals(ForestryTaxa.GENUS_EMBITTERED) && event.getHousing().temperature() != TemperatureType.HELLISH) {
 			event.setPrincess(SpeciesUtil.getBeeSpecies(ForestryBeeSpecies.ZOMBIFIED).createIndividual());
+		}
+	}
+
+	private static void modifySnifferLoot(LootTableLoadEvent event) {
+		if (event.getName().equals(BuiltInLootTables.SNIFFER_DIGGING)) {
+			LootPool main = event.getTable().getPool("main");
+
+			if (main != null) {
+				LootPoolEntryContainer[] entries = new LootPoolEntryContainer[main.entries.length + 1];
+				System.arraycopy(main.entries, 0, entries, 0, main.entries.length);
+				entries[main.entries.length] = LootTableHelper.beeLoot(ForestryBeeSpecies.RELIC).build();
+				main.entries = entries;
+			}
 		}
 	}
 

@@ -240,23 +240,23 @@ public class LootTableHelper {
 				.apply(OrganismFunction.fromDefinition(SpeciesUtil.TREE_TYPE.get(), SpeciesUtil.getTreeSpecies(species)));
 	}
 
-	private LootPoolSingletonContainer.Builder<?> beeLoot(ResourceLocation species) {
+	public static LootPoolSingletonContainer.Builder<?> beeLoot(ResourceLocation species) {
 		return beeLoot(BeeLifeStage.DRONE, species);
 	}
 
-	private LootPoolSingletonContainer.Builder<?> beeLoot(BeeLifeStage type, ResourceLocation species) {
+	public static LootPoolSingletonContainer.Builder<?> beeLoot(BeeLifeStage type, ResourceLocation species) {
 		return LootItem.lootTableItem(beeItem(type))
 				.apply(OrganismFunction.fromDefinition(SpeciesUtil.BEE_TYPE.get(), SpeciesUtil.getBeeSpecies(species)));
 	}
 
-	private Item saplingItem(TreeLifeStage type) {
+	private static Item saplingItem(TreeLifeStage type) {
 		return switch (type) {
 			case POLLEN -> ArboricultureItems.POLLEN_FERTILE.item();
 			case SAPLING -> ArboricultureItems.SAPLING.item();
 		};
 	}
 
-	private Item beeItem(BeeLifeStage type) {
+	private static Item beeItem(BeeLifeStage type) {
 		return switch (type) {
 			case QUEEN -> ApicultureItems.BEE_QUEEN.item();
 			case LARVAE -> ApicultureItems.BEE_LARVAE.item();
