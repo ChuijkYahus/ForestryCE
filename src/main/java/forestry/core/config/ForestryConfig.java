@@ -133,7 +133,7 @@ public class ForestryConfig {
 			builder.push("trees");
 			this.treesSpawnNaturally = builder
 					.comment("Multiplies the chance of a Forestry tree spawning in the wild. Set to 0 to disable Forestry tree spawning.")
-					.defineInRange("tree_spawn_chance_modifier", 1.0f, 0.0f, 1000000.0f);
+					.defineInRange("tree_spawn_chance_modifier", 0.0f, 0.0f, 1000000.0f);
 			builder.pop();
 
 			// Butterflies
