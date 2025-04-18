@@ -1616,6 +1616,12 @@ public class ForestryRecipeProvider {
 				.build(consumer, id("centrifuge", "mellow_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
+				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE)))
+				.product(1.0f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
+				.product(0.9f, ApicultureItems.HONEYDEW.stack())
+				.build(consumer, id("centrifuge", "vintage_comb"));
+		new CentrifugeRecipeBuilder()
+				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SCULKEN)))
 				.product(1.0f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.9f, ApicultureItems.EXPERIENCE_DROP.stack())
