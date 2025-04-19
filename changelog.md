@@ -1,5 +1,6 @@
 ## Forestry 2.5.3
 - Fences no longer attach to decorative leaves (#172)
+- Deepslate Tin and Apatite now use correct sounds (#209)
 
 ## Forestry 2.5.2
 - Fix hybrids not producing drops of inactive species
