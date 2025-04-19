@@ -1,3 +1,6 @@
+## Forestry 2.5.3
+- Fences no longer attach to decorative leaves (#172)
+
 ## Forestry 2.5.2
 - Fix hybrids not producing drops of inactive species
 - Forestry trees no longer spawn naturally by default. Can still be enabled in the config (#206)
