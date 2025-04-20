@@ -160,18 +160,17 @@ public final class ForestryBlockTagsProvider {
 
 		tags.tag(BlockTags.DIRT).add(CoreBlocks.HUMUS.block());
 
-		tags.tag(ForestryTags.Blocks.VANILLA_FLOWERS).addTag(BlockTags.FLOWERS);
+		Block[] pottedFlowers = {Blocks.POTTED_ALLIUM, Blocks.POTTED_AZURE_BLUET, Blocks.POTTED_BLUE_ORCHID, Blocks.POTTED_CORNFLOWER, Blocks.POTTED_DANDELION, Blocks.POTTED_FLOWERING_AZALEA, Blocks.POTTED_LILY_OF_THE_VALLEY, Blocks.POTTED_ORANGE_TULIP, Blocks.POTTED_OXEYE_DAISY, Blocks.POTTED_PINK_TULIP, Blocks.POTTED_POPPY, Blocks.POTTED_RED_TULIP, Blocks.POTTED_TORCHFLOWER, Blocks.POTTED_WHITE_TULIP, Blocks.POTTED_WITHER_ROSE};
+		tags.tag(ForestryTags.Blocks.VANILLA_FLOWERS).addTag(BlockTags.FLOWERS).add(pottedFlowers);
 		tags.tag(ForestryTags.Blocks.NETHER_FLOWERS).add(Blocks.NETHER_WART, Blocks.WARPED_FUNGUS, Blocks.POTTED_WARPED_FUNGUS, Blocks.CRIMSON_FUNGUS, Blocks.POTTED_CRIMSON_FUNGUS, Blocks.CRIMSON_ROOTS, Blocks.POTTED_CRIMSON_ROOTS, Blocks.WARPED_ROOTS, Blocks.POTTED_WARPED_ROOTS);
-		tags.tag(ForestryTags.Blocks.CACTI_FLOWERS).add(Blocks.CACTUS);
-		// todo is there a mushroom tag in later versions? should i add the nether fungi to this tag?
+		tags.tag(ForestryTags.Blocks.CACTI_FLOWERS).add(Blocks.CACTUS, Blocks.POTTED_CACTUS);
 		tags.tag(ForestryTags.Blocks.MUSHROOMS_FLOWERS).add(Blocks.RED_MUSHROOM, Blocks.POTTED_RED_MUSHROOM, Blocks.BROWN_MUSHROOM, Blocks.POTTED_BROWN_MUSHROOM);
 		tags.tag(ForestryTags.Blocks.END_FLOWERS).add(Blocks.DRAGON_EGG, Blocks.CHORUS_PLANT, Blocks.CHORUS_FLOWER);
 		tags.tag(ForestryTags.Blocks.JUNGLE_FLOWERS).add(Blocks.VINE, Blocks.CAVE_VINES, Blocks.CAVE_VINES_PLANT, Blocks.FERN, Blocks.LARGE_FERN, Blocks.POTTED_FERN);
-		// todo what belongs in this tag?
-		tags.tag(ForestryTags.Blocks.SNOW_FLOWERS).addTag(BlockTags.FLOWERS);
+		tags.tag(ForestryTags.Blocks.SNOW_FLOWERS).addTag(BlockTags.FLOWERS).add(pottedFlowers);
 		tags.tag(ForestryTags.Blocks.WHEAT_FLOWERS).add(Blocks.WHEAT);
 		tags.tag(ForestryTags.Blocks.GOURD_FLOWERS).add(Blocks.MELON_STEM, Blocks.ATTACHED_MELON_STEM, Blocks.PUMPKIN_STEM, Blocks.ATTACHED_PUMPKIN_STEM);
-		tags.tag(ForestryTags.Blocks.ANCIENT_FLOWERS).add(Blocks.TORCHFLOWER, Blocks.PITCHER_PLANT);
+		tags.tag(ForestryTags.Blocks.ANCIENT_FLOWERS).add(Blocks.TORCHFLOWER, Blocks.PITCHER_PLANT, Blocks.POTTED_TORCHFLOWER);
 		tags.tag(ForestryTags.Blocks.CAVE_FLOWERS).add(Blocks.CAVE_VINES, Blocks.CAVE_VINES_PLANT, Blocks.SPORE_BLOSSOM);
 		tags.tag(ForestryTags.Blocks.SEA_FLOWERS).add(Blocks.KELP, Blocks.KELP_PLANT);
 		tags.tag(ForestryTags.Blocks.CORAL_FLOWERS).addTags(BlockTags.CORALS).addTags(BlockTags.WALL_CORALS);
@@ -185,7 +184,6 @@ public final class ForestryBlockTagsProvider {
 
 		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND).add(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE);
 
-		//why is there no tag for cactus plantable, but there is for dead bush?
 		tags.tag(ForestryTags.Blocks.MODEST_BEE_GROUND).addTag(BlockTags.SAND).addTag(BlockTags.TERRACOTTA);
 		tags.tag(ForestryTags.Blocks.WINTRY_BEE_GROUND).addTag(BlockTags.DIRT).addTag(BlockTags.SNOW);
 		tags.tag(ForestryTags.Blocks.LUSH_BEE_CEILING).add(Blocks.MOSS_BLOCK).add(Blocks.ROOTED_DIRT);
