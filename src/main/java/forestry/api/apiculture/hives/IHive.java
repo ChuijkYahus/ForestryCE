@@ -49,6 +49,7 @@ public interface IHive {
 	 * @param posZ  The Z coordinate of the position where the hive should be generated.
 	 * @return The adjusted position where the hive should be generated or {@code null} if no hive should be generated.
 	 */
+	@Nullable
 	default BlockPos getPosForHive(WorldGenLevel level, RandomSource rand, int posX, int posZ) {
 		return getPosForHive(level, posX, posZ);
 	}

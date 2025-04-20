@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Determines placement conditions for a naturally generated wild beehive.
- * todo rename to IHivePlacement
+ * todo 1.21.1 rename to IHivePlacement
  */
 public interface IHiveGen {
 	/**

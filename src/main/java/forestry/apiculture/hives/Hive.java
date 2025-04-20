@@ -95,6 +95,7 @@ public final class Hive implements IHive {
 		return this.hiveDescription.getHiveGen().getPosForHive(level, posX, posZ);
 	}
 
+	@Nullable
 	@Override
 	public BlockPos getPosForHive(WorldGenLevel level, RandomSource rand, int posX, int posZ) {
 		return this.hiveDescription.getHiveGen().getPosForHive(level, rand, posX, posZ);
