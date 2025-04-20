@@ -13,9 +13,11 @@ package forestry.core.gui.ledgers;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 
 import forestry.api.core.IError;
+import forestry.core.gui.GuiForestry;
 import forestry.core.utils.StringUtil;
 
 /**
@@ -37,6 +39,12 @@ public class ErrorLedger extends Ledger {
 			int lineHeight = StringUtil.getLineHeight(maxTextWidth, getTooltip(), Component.translatable(state.getHelpTranslationKey()));
 			maxHeight = lineHeight + 20;
 		}
+	}
+
+	@Override
+	public Rect2i getArea() {
+		GuiForestry gui = this.manager.gui;
+		return new Rect2i(gui.getGuiLeft() - (int) this.currentWidth, gui.getGuiTop() + y, (int) this.currentWidth, (int) this.currentHeight);
 	}
 
 	@Override

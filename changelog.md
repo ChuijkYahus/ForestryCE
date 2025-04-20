@@ -2,6 +2,7 @@
 - Fences no longer attach to decorative leaves (#172)
 - Deepslate Tin and Apatite now use correct sounds (#209)
 - Fix Alveary Sieve, Hygroregulator, Swarmer not dropping contents when destroyed (#207)
+- Fix Error Ledgers being covered by JEI bookmarks (#204)
 
 ## Forestry 2.5.2
 - Fix hybrids not producing drops of inactive species

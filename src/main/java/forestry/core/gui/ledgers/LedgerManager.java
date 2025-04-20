@@ -10,6 +10,8 @@
  ******************************************************************************/
 package forestry.core.gui.ledgers;
 
+import com.google.common.collect.Iterables;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,9 +123,10 @@ public class LedgerManager {
 		return null;
 	}
 
+	// Used by JEI to avoid drawing items over ledgers
 	public List<Rect2i> getLedgerAreas() {
 		List<Rect2i> areas = new ArrayList<>();
-		for (Ledger ledger : ledgers) {
+		for (Ledger ledger : Iterables.concat(this.ledgers, this.errorLedgers)) {
 			if (ledger.isVisible()) {
 				Rect2i area = ledger.getArea();
 				areas.add(area);

@@ -58,8 +58,8 @@ public abstract class Ledger {
 
 	protected float currentWidth = minWidth;
 	protected float currentHeight = minHeight;
-	private int x;
-	private int y;
+	protected int x;
+	protected int y;
 
 	private final ResourceLocation texture;
 
