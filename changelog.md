@@ -4,6 +4,7 @@
 - Fix Alveary Sieve, Hygroregulator, Swarmer not dropping contents when destroyed (#207)
 - Fix Error Ledgers being covered by JEI bookmarks (#204)
 - Allow bees to pollinate potted flowers (#163)
+- Fix unsafe direct Level usage in HiveDecorator (#197)
 
 ## Forestry 2.5.2
 - Fix hybrids not producing drops of inactive species

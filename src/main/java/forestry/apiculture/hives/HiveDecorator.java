@@ -22,12 +22,10 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.hives.IHive;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.apiculture.blocks.BlockHiveType;
 import forestry.core.config.ForestryConfig;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -63,23 +61,21 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 		return setHive(world, rand, hivePos, hive);
 	}
 
-	private static boolean setHive(WorldGenLevel world, RandomSource rand, BlockPos pos, IHive hive) {
+	private static boolean setHive(WorldGenLevel level, RandomSource rand, BlockPos pos, IHive hive) {
 		BlockState hiveState = hive.getHiveBlockState();
 		Block hiveBlock = hiveState.getBlock();
-		boolean placed = world.setBlock(pos, hiveState, Block.UPDATE_CLIENTS);
+		boolean placed = level.setBlock(pos, hiveState, Block.UPDATE_CLIENTS);
 		if (!placed) {
 			return false;
 		}
 
-		BlockState state = world.getBlockState(pos);
+		BlockState state = level.getBlockState(pos);
 		Block placedBlock = state.getBlock();
 		if (!(hiveBlock == placedBlock)) {
 			return false;
 		}
 
-		hiveBlock.onPlace(state, world.getLevel(), pos, hiveState, false);
-
-		hive.postGen(world, rand, pos);
+		hive.postGen(level, rand, pos);
 
 		return true;
 	}
