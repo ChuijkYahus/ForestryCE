@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
-import net.minecraftforge.common.loot.LootTableIdCondition;
 
 import forestry.api.ForestryConstants;
 import forestry.arboriculture.features.ArboricultureItems;

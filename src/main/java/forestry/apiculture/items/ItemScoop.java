@@ -64,14 +64,17 @@ public class ItemScoop extends ItemForestry {
 
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
-		if(interactionTarget instanceof Bee){
-			ItemEntity bee=new ItemEntity(interactionTarget.level(), interactionTarget.getX(), interactionTarget.getY(), interactionTarget.getZ(), SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE));
-			interactionTarget.level().addFreshEntity(bee);
-			interactionTarget.level().playSound(null,interactionTarget.blockPosition(), SoundEvents.BEE_HURT, SoundSource.PLAYERS,1F,1F);
-			interactionTarget.setRemoved(Entity.RemovalReason.DISCARDED);
-			stack.hurtAndBreak(1, player, (living) -> living.broadcastBreakEvent(usedHand));
-			return InteractionResult.SUCCESS;
+		if(!interactionTarget.level().isClientSide()) {
+			if (interactionTarget instanceof Bee) {
+				ItemEntity bee = new ItemEntity(interactionTarget.level(), interactionTarget.getX(), interactionTarget.getY(), interactionTarget.getZ(), SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE));
+				interactionTarget.level().addFreshEntity(bee);
+				interactionTarget.level().playSound(null, interactionTarget.blockPosition(), SoundEvents.BEE_HURT, SoundSource.PLAYERS, 1F, 1F);
+				interactionTarget.setRemoved(Entity.RemovalReason.DISCARDED);
+				stack.hurtAndBreak(1, player, (living) -> living.broadcastBreakEvent(usedHand));
+				return InteractionResult.SUCCESS;
+			}
+			return InteractionResult.PASS;
 		}
-		return InteractionResult.PASS;
+		return InteractionResult.sidedSuccess(player.level().isClientSide());
 	}
 }
