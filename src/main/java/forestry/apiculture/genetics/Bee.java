@@ -58,6 +58,7 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.IIntegerChromosome;
 import forestry.api.genetics.pollen.IPollen;
 import forestry.api.genetics.pollen.IPollenManager;
@@ -376,6 +377,10 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 			return null;
 		}
 
+		if(this.genome.getActiveValue(BeeChromosomes.FERTILITY)<1){
+			return null;
+		}
+
 		// Fatigued (dead ignoble) queens do not produce princesses.
 		if (!this.pristine) {
 			IBeeModifier beeModifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
@@ -397,6 +402,10 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 	public List<IBee> spawnDrones(IBeeHousing housing) {
 		// We need a mated queen to produce offspring.
 		if (mate == null) {
+			return Collections.emptyList();
+		}
+
+		if(this.genome.getActiveValue(BeeChromosomes.FERTILITY)<1){
 			return Collections.emptyList();
 		}
 

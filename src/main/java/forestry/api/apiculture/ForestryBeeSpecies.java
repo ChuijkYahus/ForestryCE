@@ -76,4 +76,5 @@ public class ForestryBeeSpecies {
 	public static final ResourceLocation WARPED = forestry("bee_warped");
 	public static final ResourceLocation ZOMBIFIED = forestry("bee_zombified");
 	public static final ResourceLocation SCULK = forestry("bee_sculk");
+	public static final ResourceLocation VANILLA = forestry("bee_vanilla");
 }
