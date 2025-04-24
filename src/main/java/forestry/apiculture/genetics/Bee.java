@@ -58,7 +58,6 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.IIntegerChromosome;
 import forestry.api.genetics.pollen.IPollen;
 import forestry.api.genetics.pollen.IPollenManager;
@@ -377,7 +376,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 			return null;
 		}
 
-		if(this.genome.getActiveValue(BeeChromosomes.FERTILITY)<1){
+		if (this.genome.getActiveValue(BeeChromosomes.FERTILITY) < 1) {
 			return null;
 		}
 
@@ -405,7 +404,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 			return Collections.emptyList();
 		}
 
-		if(this.genome.getActiveValue(BeeChromosomes.FERTILITY)<1){
+		if (this.genome.getActiveValue(BeeChromosomes.FERTILITY) < 1) {
 			return Collections.emptyList();
 		}
 

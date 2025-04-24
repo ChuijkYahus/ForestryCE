@@ -23,7 +23,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -64,17 +63,18 @@ public class ItemScoop extends ItemForestry {
 
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
-		if(!interactionTarget.level().isClientSide()) {
+		Level level = interactionTarget.level();
+
+		if (!level.isClientSide()) {
 			if (interactionTarget instanceof Bee) {
-				ItemEntity bee = new ItemEntity(interactionTarget.level(), interactionTarget.getX(), interactionTarget.getY(), interactionTarget.getZ(), SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE));
-				interactionTarget.level().addFreshEntity(bee);
-				interactionTarget.level().playSound(null, interactionTarget.blockPosition(), SoundEvents.BEE_HURT, SoundSource.PLAYERS, 1F, 1F);
+				ItemEntity bee = new ItemEntity(level, interactionTarget.getX(), interactionTarget.getY(), interactionTarget.getZ(), SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE));
+				level.addFreshEntity(bee);
+				level.playSound(null, interactionTarget.blockPosition(), SoundEvents.BEE_HURT, SoundSource.PLAYERS, 1f, 1f);
 				interactionTarget.setRemoved(Entity.RemovalReason.DISCARDED);
-				stack.hurtAndBreak(1, player, (living) -> living.broadcastBreakEvent(usedHand));
-				return InteractionResult.SUCCESS;
+				stack.hurtAndBreak(1, player, living -> living.broadcastBreakEvent(usedHand));
 			}
-			return InteractionResult.PASS;
+			return InteractionResult.sidedSuccess(player.level().isClientSide());
 		}
-		return InteractionResult.sidedSuccess(player.level().isClientSide());
+		return InteractionResult.PASS;
 	}
 }
