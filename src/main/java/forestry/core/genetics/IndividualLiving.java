@@ -83,18 +83,18 @@ public abstract class IndividualLiving<S extends ISpecies<I>, I extends IIndivid
 			setHealth(0);
 			return;
 		}
-		// don't age, skip division by zero later down the line
+		// don't age
 		if (ageStep == 0f) {
 			return;
 		}
 
-		float ageModifier = ageStep;
-
-		while (ageModifier > 1.0f) {
+		// whole number of aging steps
+		while (ageStep > 1.0f) {
 			decreaseHealth();
-			ageModifier--;
+			ageStep--;
 		}
-		if (level.random.nextFloat() < ageModifier) {
+		// percentage chance to age again
+		if (level.random.nextFloat() < ageStep) {
 			decreaseHealth();
 		}
 	}

@@ -31,7 +31,7 @@ public class BeehouseBeeModifier implements IBeeModifier {
 
 	@Override
 	public float modifyAging(IGenome genome, @Nullable IGenome mate, float currentAging) {
-		return 3.0f * currentAging;
+		return currentAging / 3f;
 	}
 
 	@Override

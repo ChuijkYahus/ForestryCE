@@ -31,7 +31,10 @@ public interface IIndividualLiving extends IIndividual {
 	 *
 	 * @param level   The world where the individual lives.
 	 * @param ageStep The amount to age this by. Base amount is {@code 1f}, and higher values should age faster.
-	 *                {@code 0f} should not age, and negative values should instantly kill this individual.
+	 *                {@code 0f} should not age, and negative values will instantly kill this individual. If given as
+	 *                a decimal number, the bee is aged by the whole number of steps, and has a percentage chance to age
+	 *                based on the decimal portion. For example, when ageStep = 2.3, the bee is aged twice, with a 30%
+	 *                chance to age a third time.
 	 */
 	void age(Level level, float ageStep);
 

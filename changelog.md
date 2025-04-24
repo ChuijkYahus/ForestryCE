@@ -5,6 +5,7 @@
 - Fix Error Ledgers being covered by JEI bookmarks (#204)
 - Allow bees to pollinate potted flowers (#163)
 - Fix unsafe direct Level usage in HiveDecorator (#197)
+- Fix regression with Bee House not extending lifespan to 3x like in old versions
 
 ## Forestry 2.5.2
 - Fix hybrids not producing drops of inactive species
