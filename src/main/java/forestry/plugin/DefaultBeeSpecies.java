@@ -24,6 +24,7 @@ import forestry.apiculture.genetics.FireworkProduct;
 import forestry.apiculture.genetics.HermitBeeJubilance;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.EnumPollenCluster;
+import forestry.apiculture.items.EnumPropolis;
 import forestry.core.features.CoreItems;
 import forestry.core.genetics.mutations.MutationConditionCave;
 import forestry.core.items.definitions.EnumCraftingMaterial;
@@ -166,7 +167,7 @@ public class DefaultBeeSpecies {
 				.setTemperature(TemperatureType.HELLISH)
 				.setHumidity(HumidityType.ARID)
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.SIMMERING), 0.45f)
-				.addProduct(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR, 2), 0.30F)
+				.addProduct(ApicultureItems.PROPOLIS.stack(EnumPropolis.VOLCANIC, 2), 0.30F)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWER);
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_NORMAL);
@@ -714,7 +715,7 @@ public class DefaultBeeSpecies {
 				.setTemperature(TemperatureType.HELLISH)
 				.setHumidity(HumidityType.ARID)
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.SIMMERING), 0.45F)
-				.addProduct(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR), 0.15F)
+				.addProduct(ApicultureItems.PROPOLIS.stack(EnumPropolis.VOLCANIC), 0.15F)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_NORMAL);
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_AGGRESSIVE);
@@ -900,6 +901,17 @@ public class DefaultBeeSpecies {
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_REJUVENATION);
 				})
 				.setGlint(true)
+				.setAuthority("EnderiumSmith");
+
+		// VANILLA
+		apiculture.registerSpecies(ForestryBeeSpecies.VANILLA, GENUS_VANILLA, SPECIES_VANILLA, false, new Color(0xEDC343))
+				.addProduct(new ItemStack(Items.HONEYCOMB), 0.65F)
+				.setGenome(genome -> {
+					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTENED);
+					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
+					genome.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_AVERAGE);
+					genome.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_0);
+				})
 				.setAuthority("EnderiumSmith");
 
 

@@ -1378,6 +1378,15 @@ public class ForestryRecipeProvider {
 						.define('#', Tags.Items.INGOTS_GOLD)
 						.define('R', Tags.Items.DUSTS_REDSTONE))
 				.build(consumer, id("carpenter", "circuits", "intricate"));
+		new CarpenterRecipeBuilder()
+				.setBox(Ingredient.EMPTY)
+				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, Items.CANDLE, 4)
+						.pattern("# #")
+						.pattern(" X ")
+						.pattern("# #")
+						.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX))
+						.define('X', Items.STRING))
+				.build(consumer, id("carpenter", "candles"));
 
 		// Crates
 		new CarpenterRecipeBuilder()
@@ -1541,7 +1550,7 @@ public class ForestryRecipeProvider {
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SIMMERING)))
 				.product(1.0f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.REFRACTORY_WAX))
-				.product(0.7f, ApicultureItems.PROPOLIS.stack(EnumPropolis.VOLCANIC, 1))
+				.product(0.7f, honeyDrop)
 				.build(consumer, id("centrifuge", "simmering_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
