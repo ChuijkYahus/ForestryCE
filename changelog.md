@@ -6,6 +6,7 @@
 - Allow bees to pollinate potted flowers (#163)
 - Fix unsafe direct Level usage in HiveDecorator (#197)
 - Fix regression with Bee House not extending lifespan to 3x like in old versions
+- Add Vanilla bee species, obtained by right-clicking a Vanilla bee entity with a scoop
 
 ## Forestry 2.5.2
 - Fix hybrids not producing drops of inactive species
