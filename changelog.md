@@ -1,3 +1,6 @@
+## Forestry 2.5.4
+- Fixed incompatibility with ModernFix
+
 ## Forestry 2.5.3
 - Fences no longer attach to decorative leaves (#172)
 - Deepslate Tin and Apatite now use correct sounds (#209)
