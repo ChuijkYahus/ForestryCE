@@ -12,7 +12,6 @@ package forestry.core;
 
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.registries.Registries;
@@ -34,7 +33,6 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolderRegistry;
 import net.minecraftforge.registries.RegisterEvent;
 
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -72,6 +70,7 @@ import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.network.packets.PacketItemStackDisplay;
 import forestry.core.network.packets.PacketPipetteClick;
+import forestry.core.network.packets.PacketRefractoryWax;
 import forestry.core.network.packets.PacketSocketUpdate;
 import forestry.core.network.packets.PacketSolderingIronClick;
 import forestry.core.network.packets.PacketTankLevelUpdate;
@@ -79,6 +78,7 @@ import forestry.core.network.packets.PacketTileStream;
 import forestry.core.network.packets.RecipeCachePacket;
 import forestry.core.owner.GameProfileDataSerializer;
 import forestry.core.recipes.RecipeManagers;
+import forestry.core.utils.ModUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.modules.BlankForestryModule;
@@ -90,8 +90,6 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 
 @ForestryModule
 public class ModuleCore extends BlankForestryModule {
-	private static boolean hasInit;
-
 	@Override
 	public ResourceLocation getId() {
 		return ForestryModuleIds.CORE;
@@ -101,7 +99,7 @@ public class ModuleCore extends BlankForestryModule {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleCore::onCommonSetup);
 		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
-		ObjectHolderRegistry.addHandler(ModuleCore::postItemRegistry);
+		ModUtil.addRegistryListener(Registries.ITEM, ModuleCore::postItemRegistry);
 
 		ModuleUtil.loadFeatureProviders();
 		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
@@ -155,13 +153,10 @@ public class ModuleCore extends BlankForestryModule {
 		});
 	}
 
-	private static void postItemRegistry(Predicate<ResourceLocation> registryPredicate) {
-		if (!hasInit && registryPredicate.test(Registries.ITEM.location())) {
-			PluginManager.registerGenetics();
-			PluginManager.registerFarming();
-			PluginManager.registerPollen();
-			hasInit = true;
-		}
+	private static void postItemRegistry() {
+		PluginManager.registerGenetics();
+		PluginManager.registerFarming();
+		PluginManager.registerPollen();
 	}
 
 	private static void onItemPickup(EntityItemPickupEvent event) {
@@ -235,6 +230,7 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.GENOME_TRACKER_UPDATE, PacketTankLevelUpdate.class, PacketTankLevelUpdate::decode, PacketTankLevelUpdate::handle);
 		registry.clientbound(PacketIdClient.TANK_LEVEL_UPDATE, PacketGenomeTrackerSync.class, PacketGenomeTrackerSync::decode, PacketGenomeTrackerSync::handle);
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket.class, RecipeCachePacket::decode, RecipeCachePacket::handle);
+		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax.class, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
 	}
 
 	@Override

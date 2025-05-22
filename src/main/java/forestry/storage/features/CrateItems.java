@@ -93,8 +93,8 @@ public class CrateItems {
 	public static final FeatureItem<ItemCrated> CRATED_ACACIA_SAPLING = register(Items.ACACIA_SAPLING, "crated_acacia_sapling");
 	public static final FeatureItem<ItemCrated> CRATED_DARK_OAK_SAPLING = register(Items.DARK_OAK_SAPLING, "crated_dark_oak_sapling");
 
-	public static final FeatureItem<ItemCrated> CRATED_BEESWAX = register(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX), "crated_beeswax");
-	public static final FeatureItem<ItemCrated> CRATED_REFRACTORY_WAX = register(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.REFRACTORY_WAX), "crated_refractory_wax");
+	public static final FeatureItem<ItemCrated> CRATED_BEESWAX = register(CoreItems.BEESWAX, "crated_beeswax");
+	public static final FeatureItem<ItemCrated> CRATED_REFRACTORY_WAX = register(CoreItems.REFRACTORY_WAX, "crated_refractory_wax");
 
 	// Apiculture
 	public static final FeatureItem<ItemCrated> CRATED_POLLEN_CLUSTER_NORMAL = register(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL), "crated_pollen_cluster_normal");
