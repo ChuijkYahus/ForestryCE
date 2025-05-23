@@ -1,6 +1,10 @@
 ## Forestry 2.6.0
 - Fixed planks recipes for all wood types, now able to craft planks from stripped logs (#227)
 - Fix beeswax not waxing Copper blocks or Signs
+- Fix vanilla fireproof logs and wood not being strippable
+- Allow right-clicking wood with Refractory Wax to make it fireproof (#89)
+- Make crafting fireproof logs and planks cheaper in the Thermionic Fabricator (#89)
+- Fix Willow leaves decaying upon spawn (#232)
 
 ## Forestry 2.5.4
 - Fixed incompatibility with ModernFix

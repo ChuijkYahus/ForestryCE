@@ -16,7 +16,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -41,7 +40,7 @@ import forestry.core.utils.SpeciesUtil;
 /**
  * Parent class for shared behavior between {@link BlockDefaultLeaves} and {@link BlockForestryLeaves}
  */
-public abstract class BlockAbstractLeaves extends LeavesBlock implements IColoredBlock {
+public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements IColoredBlock {
 	public static final int FOLIAGE_COLOR_INDEX = 0;
 	public static final int FRUIT_COLOR_INDEX = 2;
 

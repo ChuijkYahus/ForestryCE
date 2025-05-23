@@ -10,14 +10,10 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.OptionalInt;
 import java.util.Set;
 
@@ -56,6 +52,9 @@ import forestry.core.worldgen.FeatureBase;
  */
 public abstract class FeatureArboriculture extends FeatureBase {
 	protected static final int minPodHeight = 3;
+
+	// skips performance-heavy checks during world generation or sapling generation
+	public static final ThreadLocal<Boolean> SKIP_EXTENDED_CHECKS = ThreadLocal.withInitial(() -> false);
 
 	protected final ITreeGenData tree;
 
@@ -103,7 +102,9 @@ public abstract class FeatureArboriculture extends FeatureBase {
 				// Correctly update the leaf distance states on the leaf blocks
 				DiscreteVoxelShape voxelshapepart = updateLeaves(level, contour);
 				// Call updateShape method on all blocks on the edge of the tree's bounding box
+				SKIP_EXTENDED_CHECKS.set(true);
 				StructureTemplate.updateShapeAtEdge(level, 3, voxelshapepart, contour.boundingBox.minX(), contour.boundingBox.minY(), contour.boundingBox.minZ());
+				SKIP_EXTENDED_CHECKS.set(false);
 			}
 			return true;
 		}
@@ -120,7 +121,7 @@ public abstract class FeatureArboriculture extends FeatureBase {
 	/**
 	 * Copied vanilla logic from TreeFeature#updateLeaves
 	 */
-	private DiscreteVoxelShape updateLeaves(LevelAccessor level, TreeContour.Impl contour) {
+	private static DiscreteVoxelShape updateLeaves(LevelAccessor level, TreeContour.Impl contour) {
 		BoundingBox pBox = contour.boundingBox;
 		DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(pBox.getXSpan(), pBox.getYSpan(), pBox.getZSpan());
 		ArrayList<HashSet<BlockPos>> list = new ArrayList<>();
@@ -129,7 +130,7 @@ public abstract class FeatureArboriculture extends FeatureBase {
 			list.add(new HashSet<>());
 		}
 
-		for (BlockPos blockpos : Lists.newArrayList(contour.leavePositions)) {
+		for (BlockPos blockpos : contour.leavePositions) {
 			if (pBox.isInside(blockpos)) {
 				discretevoxelshape.fill(blockpos.getX() - pBox.minX(), blockpos.getY() - pBox.minY(), blockpos.getZ() - pBox.minZ());
 			}
@@ -150,12 +151,12 @@ public abstract class FeatureArboriculture extends FeatureBase {
 				if (pBox.isInside(blockpos1)) {
 					if (k1 != 0) {
 						BlockState blockstate = level.getBlockState(blockpos1);
-						setBlockKnownShape(level, blockpos1, blockstate.setValue(BlockStateProperties.DISTANCE, Integer.valueOf(k1)));
+						setBlockKnownShape(level, blockpos1, blockstate.setValue(BlockStateProperties.DISTANCE, k1));
 					}
 
 					discretevoxelshape.fill(blockpos1.getX() - pBox.minX(), blockpos1.getY() - pBox.minY(), blockpos1.getZ() - pBox.minZ());
 
-					for (Direction direction : Direction.values()) {
+					for (Direction direction : Direction.VALUES) {
 						blockpos$mutableblockpos.setWithOffset(blockpos1, direction);
 						if (pBox.isInside(blockpos$mutableblockpos)) {
 							int k = blockpos$mutableblockpos.getX() - pBox.minX();
