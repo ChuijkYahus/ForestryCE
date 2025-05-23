@@ -33,7 +33,7 @@ public class ForestSpawner implements ITreeSpawner {
 			int spawnZ = z + level.random.nextInt(32) - 16;
 			BlockPos pos = new BlockPos(spawnX, y, spawnZ);
 
-			TreeGenHelper.generateTree(tree.getSpecies(), level, pos);
+			TreeGenHelper.generateTree(tree.getSpecies(), null, level, level.getRandom(), pos);
 		}
 
 		return 1;

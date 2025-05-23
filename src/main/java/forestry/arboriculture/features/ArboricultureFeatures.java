@@ -12,6 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 import forestry.api.ForestryConstants;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.worldgen.TreeDecorator;
+import forestry.arboriculture.worldgen.feature.ForestryTreeFeature;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
@@ -25,4 +26,6 @@ public class ArboricultureFeatures {
 	public static final RegistryObject<TreeDecorator> TREE_DECORATOR = FEATURES.register("tree", TreeDecorator::new);
 	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ForestryConstants.forestry("tree"));
 	public static final ResourceKey<PlacedFeature> PLACED_TREE = ResourceKey.create(Registries.PLACED_FEATURE, ForestryConstants.forestry("tree"));
+
+	public static final RegistryObject<ForestryTreeFeature> CUSTOM_TREE = FEATURES.register("custom_tree", ForestryTreeFeature::new);
 }

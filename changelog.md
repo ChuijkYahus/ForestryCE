@@ -5,6 +5,9 @@
 - Allow right-clicking wood with Refractory Wax to make it fireproof (#89)
 - Make crafting fireproof logs and planks cheaper in the Thermionic Fabricator (#89)
 - Fix Willow leaves decaying upon spawn (#232)
+- Allow data-driven tree generation through new "forestry:custom_tree" feature, which accepts a "genome" field (#216)
+  - To override existing tree generation, disable Forestry's tree generation in its server config file. Then, add your desired tree features.
+- Fix inconsistent tree generation by using the world gen random source rather than the world random
 
 ## Forestry 2.5.4
 - Fixed incompatibility with ModernFix

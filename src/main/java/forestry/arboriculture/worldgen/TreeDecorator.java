@@ -132,7 +132,7 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 						continue;
 					}
 
-					if (TreeGenHelper.generateTree(species, level, validPos)) {
+					if (TreeGenHelper.generateTree(species, null, level, context.random(), validPos)) {
 						return true;
 					}
 				}
