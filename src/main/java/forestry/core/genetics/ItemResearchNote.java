@@ -81,7 +81,7 @@ public class ItemResearchNote extends ItemForestry {
 
 		ResearchNote note = new ResearchNote(heldItem.getTag());
 		if (registerResults(worldIn, playerIn, note.inner)) {
-			playerIn.getInventory().removeItem(playerIn.getInventory().selected, 1);
+			heldItem.shrink(1);
 		}
 
 		return InteractionResultHolder.success(heldItem);

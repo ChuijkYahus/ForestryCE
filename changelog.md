@@ -1,3 +1,6 @@
+## Forestry 2.6.1
+- Fixed Research Notes voiding items when used in the offhand (#222)
+
 ## Forestry 2.6.0
 - Fixed planks recipes for all wood types, now able to craft planks from stripped logs (#227)
 - Fix beeswax not waxing Copper blocks or Signs
