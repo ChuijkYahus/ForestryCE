@@ -1,4 +1,4 @@
-// 1.20.1	2025-05-12T15:11:14.586233	Tags for minecraft:item mod id forestry
+// 1.20.1	2025-05-24T15:36:38.7354741	Tags for minecraft:item mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
 426fdc880d77e5feaa70125d93a57b7ce21dbc2b data/forestry/tags/items/backpack/allow/builder.json
@@ -114,6 +114,7 @@ c74d64c654da6d15a76cd4167268fc9965ef23ca data/forge/tags/items/storage_blocks/ch
 ed974f25f4057a6e2a627a4ee061decd56b7d274 data/forge/tags/items/storage_blocks/tin.json
 e91391e92a69b4d4671725791c4d18eab3a67dc5 data/minecraft/tags/items/boats.json
 fb0bd2460dbe1ab5a379bc617361df42116a0b6e data/minecraft/tags/items/chest_boats.json
+6192b7352b9e9c5c454e3337140f5368ddd64f03 data/minecraft/tags/items/cluster_max_harvestables.json
 fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/items/dirt.json
 535a46aff3a61f198d4837345f5a5f16d84d4e1d data/minecraft/tags/items/doors.json
 ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/items/fences.json
@@ -122,8 +123,10 @@ ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/items/fences.json
 7a00d8194ae9d94f723f8673e95d371e7eae7b2f data/minecraft/tags/items/logs.json
 2fa725e5e2f1586fd0ce67dbd9779aef302e6603 data/minecraft/tags/items/logs_that_burn.json
 931dd7265d2187cbb7d0310987b312520ac6515e data/minecraft/tags/items/non_flammable_wood.json
+6192b7352b9e9c5c454e3337140f5368ddd64f03 data/minecraft/tags/items/pickaxes.json
 b8d8845e32db9a28a151672112321b3b2ef862c6 data/minecraft/tags/items/planks.json
 08e1c8fddff888b2e2b86f112d281dcdcd9c970e data/minecraft/tags/items/saplings.json
+47160d2500c85023e8b8d89dda0eb10f5492fdfc data/minecraft/tags/items/shovels.json
 ec2b9b82d9bb7662750ec7ea524fe6aaa80e1dcf data/minecraft/tags/items/signs.json
 7490f2ef65e294f43406b0accf0563e09ef6a664 data/minecraft/tags/items/slabs.json
 aa896dcb75240a90479818bdceee0539fdb24ada data/minecraft/tags/items/stairs.json

@@ -131,5 +131,9 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.BEES).add(ApicultureItems.BEE_DRONE.get(), ApicultureItems.BEE_PRINCESS.get(), ApicultureItems.BEE_QUEEN.get(), ApicultureItems.BEE_LARVAE.get());
 		tags.tag(ItemTags.BOATS).add(ArboricultureItems.BOAT.itemArray());
 		tags.tag(ItemTags.CHEST_BOATS).add(ArboricultureItems.CHEST_BOAT.itemArray());
+
+		tags.tag(ItemTags.CLUSTER_MAX_HARVESTABLES).add(CoreItems.BRONZE_PICKAXE);
+		tags.tag(ItemTags.PICKAXES).add(CoreItems.BRONZE_PICKAXE);
+		tags.tag(ItemTags.SHOVELS).add(CoreItems.BRONZE_SHOVEL);
 	}
 }
