@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.IEffectData;
@@ -99,7 +100,7 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 			hasFlowersCache.update(queen, housing);
 			Level level = housing.getWorldObj();
 			IGenome genome = queen.getGenome();
-			boolean canWork = genome.getActiveValue(BeeChromosomes.ACTIVITY).isActive(level.getGameTime(), level.getDayTime(), housing.getBlockPos()) &&
+			boolean canWork = genome.getActiveValue(BeeChromosomes.ACTIVITY).isActive(level.getGameTime(), IActivityType.getBeeDayTime(level), housing.getBlockPos()) &&
 					(!housing.isRaining() || genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN));
 			boolean flowerCacheNeedsSync = hasFlowersCache.needsSync();
 

@@ -1,6 +1,7 @@
 ## Forestry 2.6.1
 - Fixed Research Notes voiding items when used in the offhand (#222)
 - Fix tags for Survivalist tools (#221)
+- Fix bees using Overworld time in dimensions without a daylight cycle, like Nether and End (#223)
 
 ## Forestry 2.6.0
 - Fixed planks recipes for all wood types, now able to craft planks from stripped logs (#227)

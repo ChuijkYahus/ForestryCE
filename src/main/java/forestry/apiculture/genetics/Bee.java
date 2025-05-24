@@ -184,7 +184,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 		if (!beeModifier.isAlwaysActive(genome)) {
 			long gameTime = level.getGameTime();
-			long dayTime = level.getDayTime();
+			long dayTime = IActivityType.getBeeDayTime(level);
 			BlockPos pos = housing.getCoordinates();
 
 			if (!type.isActive(gameTime, dayTime, pos)) {

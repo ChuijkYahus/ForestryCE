@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IIndividual;
@@ -30,7 +31,7 @@ public enum ApicultureFilterRule implements IFilterRule {
 	PURE_NOCTURNAL(DefaultFilterRuleType.PURE_NOCTURNAL) {
 		@Override
 		protected boolean isValid(IBee bee) {
-			return bee.getGenome().getActiveValue(BeeChromosomes.ACTIVITY).isActive(0, 15000, BlockPos.ZERO);
+			return bee.getGenome().getActiveValue(BeeChromosomes.ACTIVITY).isActive(0, IActivityType.NIGHT_TIME, BlockPos.ZERO);
 		}
 	},
 	FLYER(DefaultFilterRuleType.FLYER) {
