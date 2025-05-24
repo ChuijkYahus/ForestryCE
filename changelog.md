@@ -8,6 +8,7 @@
 - Allow data-driven tree generation through new "forestry:custom_tree" feature, which accepts a "genome" field (#216)
   - To override existing tree generation, disable Forestry's tree generation in its server config file. Then, add your desired tree features.
 - Fix inconsistent tree generation by using the world gen random source rather than the world random
+- Fix potential crash from Desert Acacia generation
 
 ## Forestry 2.5.4
 - Fixed incompatibility with ModernFix

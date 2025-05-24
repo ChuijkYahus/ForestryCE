@@ -363,18 +363,21 @@ public class FeatureHelper {
 	}
 
 	public static class DirectionHelper {
-
-		public static final Direction[] VALUES = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
+		// Indices correspond to 3D Data Value of direction
+		private static final Direction[] VALUES = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
 
 		public static Direction getRandom(RandomSource random) {
 			return VALUES[random.nextInt(VALUES.length)];
 		}
 
 		public static Direction getRandomOther(RandomSource random, Direction direction) {
-			List<Direction> directions = Arrays.asList(VALUES);
-			directions.remove(direction);
-			int size = directions.size();
-			return directions.toArray(new Direction[size])[random.nextInt(size)];
+			// exclude the direction by index
+			int exclude = direction.get3DDataValue() - 2;
+			int choice = random.nextInt(3);
+			if (choice >= exclude) {
+				choice++;
+			}
+			return VALUES[choice];
 		}
 	}
 }
