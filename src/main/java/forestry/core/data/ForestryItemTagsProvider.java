@@ -12,6 +12,7 @@ import net.minecraftforge.common.Tags;
 import forestry.api.ForestryTags;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
@@ -33,6 +34,9 @@ public class ForestryItemTagsProvider {
 		tags.copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
 		for (ForestryWoodType type : ForestryWoodType.VALUES) {
 			tags.copy(type.blockTag, type.itemTag);
+			tags.copy(type.fireproofBlockTag, type.fireproofItemTag);
+		}
+		for (VanillaWoodType type : VanillaWoodType.VALUES) {
 			tags.copy(type.fireproofBlockTag, type.fireproofItemTag);
 		}
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.PLANKS_FIREPROOF.getItems().toArray(Item[]::new));

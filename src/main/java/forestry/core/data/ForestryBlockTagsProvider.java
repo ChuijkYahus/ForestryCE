@@ -14,6 +14,7 @@ import net.minecraftforge.common.Tags;
 import forestry.api.ForestryTags;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.blocks.EnumResourceType;
@@ -99,6 +100,15 @@ public final class ForestryBlockTagsProvider {
 			tags.tag(BlockTags.LOGS).addTags(woodType.fireproofBlockTag);
 			tags.tag(BlockTags.LOGS_THAT_BURN).addTag(woodType.blockTag);
 			tags.tag(BlockTags.OVERWORLD_NATURAL_LOGS).add(ArboricultureBlocks.LOGS.get(woodType).block());
+		}
+		for (VanillaWoodType woodType : VanillaWoodType.VALUES) {
+			tags.tag(woodType.fireproofBlockTag).add(
+				ArboricultureBlocks.LOGS_VANILLA_FIREPROOF.get(woodType).block(),
+				ArboricultureBlocks.WOOD_VANILLA_FIREPROOF.get(woodType).block(),
+				ArboricultureBlocks.STRIPPED_LOGS_VANILLA_FIREPROOF.get(woodType).block(),
+				ArboricultureBlocks.STRIPPED_WOOD_VANILLA_FIREPROOF.get(woodType).block()
+			);
+			tags.tag(BlockTags.LOGS).addTags(woodType.fireproofBlockTag);
 		}
 
 		tags.tag(BlockTags.STAIRS).add(ArboricultureBlocks.STAIRS.blockArray());

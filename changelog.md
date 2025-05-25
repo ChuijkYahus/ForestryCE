@@ -6,6 +6,7 @@
 - Accommodate Amendments's janky Mixins that print snarky log messages about other mods causing bugs (#192)
 - Allow equipping Spectacles in Curios head slot (#224)
 - Add missing stamp recipes to Carpenter (#228)
+- Fix Vanilla fireproof log tags being empty (#237)
 
 ## Forestry 2.6.0
 - Fixed planks recipes for all wood types, now able to craft planks from stripped logs (#227)

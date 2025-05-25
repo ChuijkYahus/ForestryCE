@@ -1,4 +1,4 @@
-// 1.20.1	2025-05-24T19:03:01.3198119	Tags for minecraft:item mod id forestry
+// 1.20.1	2025-05-24T21:16:45.3277104	Tags for minecraft:item mod id forestry
 e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
@@ -24,22 +24,28 @@ bc7896f819c64d7001e44ae623800293d1e776d3 data/forestry/tags/items/cocobolo_logs.
 0065fbab36f74fb846e11c84e9d0bfd535b7c25e data/forestry/tags/items/drop_honey.json
 6eabef4518f12701c9313cc05d8f73d9f80d0217 data/forestry/tags/items/ebony_logs.json
 f325d2ec9a1667fbb13f65621a214b7536d09265 data/forestry/tags/items/fireproof_acacia_desert_logs.json
+6287e45cc5944b9ab030ba66d775c136ca790de4 data/forestry/tags/items/fireproof_acacia_logs.json
 ed489cef863f2aa79aea8c510a0ab988b98cb828 data/forestry/tags/items/fireproof_balsa_logs.json
 861be551e8f1754628b012e92cde9836e91a961c data/forestry/tags/items/fireproof_baobab_logs.json
+d0a1167868d025cdc9f3eadecbc1a1650141b615 data/forestry/tags/items/fireproof_birch_logs.json
+b8bc047b925f5bcd4bdfbe848949b29f6751d239 data/forestry/tags/items/fireproof_cherry_logs.json
 77ce20a9ee6b8b7489b73753c2f01dc43205a35f data/forestry/tags/items/fireproof_chestnut_logs.json
 abaf91ee313c8310c0db5bc8c2aca5a5794c6df2 data/forestry/tags/items/fireproof_citrus_logs.json
 9881ad195e77d70fad949f6f69ad9e6bb7e0376c data/forestry/tags/items/fireproof_cocobolo_logs.json
+d85ecdb527872f059eae9c01c6ed4c084c78b728 data/forestry/tags/items/fireproof_dark_oak_logs.json
 0e4ad3b99014545d1c9567db98d33a6205f37274 data/forestry/tags/items/fireproof_ebony_logs.json
 3f01869bded1b9bbb7314c2e6f86f74ff4f3cecf data/forestry/tags/items/fireproof_giganteum_logs.json
 77b0454e2271481220a59c25d51420cde70ad7aa data/forestry/tags/items/fireproof_greenheart_logs.json
 f9db4b6447db834b2c9318968d53e4e1cd262c96 data/forestry/tags/items/fireproof_hill_cherry_logs.json
 b31efe8e38353098c6d28642d48804cc8c0469fa data/forestry/tags/items/fireproof_ipe_logs.json
+6ba90a50bc103d08fcc2191cf1a87b97d581e0ed data/forestry/tags/items/fireproof_jungle_logs.json
 ccc41ced2d4dfe74dd8f1534cf650b912724c0f7 data/forestry/tags/items/fireproof_kapok_logs.json
 89afafad13added5d88bf297c981d3f2de4d99bd data/forestry/tags/items/fireproof_larch_logs.json
 9ff884df5143a7808d6ec5ffef0d9f1ee11a86b7 data/forestry/tags/items/fireproof_lime_logs.json
 931b01e64c86ce530bb19cc8158b7aa4483ac167 data/forestry/tags/items/fireproof_mahoe_logs.json
 fcc592216c9374143fad5393e523ea6a41ce6609 data/forestry/tags/items/fireproof_mahogany_logs.json
 6bedb4132c8d0894c948c6aa1bc6222d2a157dfa data/forestry/tags/items/fireproof_maple_logs.json
+1d822ab86bbdbd1acf61c8e51c8853b2524be6b3 data/forestry/tags/items/fireproof_oak_logs.json
 6e863a419bc719846a05ed3b68b0d99cc0cee5fb data/forestry/tags/items/fireproof_padauk_logs.json
 7d0eeb623fd7d9b99b781037eb1ea43e493ea5c6 data/forestry/tags/items/fireproof_palm_logs.json
 57c293e9268ed1504bd8bbc2cf9625d599b694b4 data/forestry/tags/items/fireproof_papaya_logs.json
@@ -47,6 +53,7 @@ f04087ed4a200a6d7aa68e851042fe7b3d9e0f6c data/forestry/tags/items/fireproof_pine
 a239730f030db359388c52865b0919211680963e data/forestry/tags/items/fireproof_plum_logs.json
 d563e02daaf5505f563c57c3e9319f0b73782140 data/forestry/tags/items/fireproof_poplar_logs.json
 316f2aafe67bbfbceba2d665a2ea1419b4c6d82d data/forestry/tags/items/fireproof_sequoia_logs.json
+3febac6671f19cca4366efda622a4a4ae1725e77 data/forestry/tags/items/fireproof_spruce_logs.json
 687e7eb72afd9c72c9797b016bd34d4479b34a99 data/forestry/tags/items/fireproof_teak_logs.json
 2bd84418d6f6d94253a72325ebd2a90bd8f8be6d data/forestry/tags/items/fireproof_walnut_logs.json
 df517a61e2436b7e7414e9951e70d0f7001e9c87 data/forestry/tags/items/fireproof_wenge_logs.json
@@ -121,7 +128,7 @@ fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/items/dirt.json
 ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/items/fences.json
 39ce810f3b19b5efa70cab096e02ed2dc753ff60 data/minecraft/tags/items/hanging_signs.json
 67f7f6abdeb398ab237a01d47b715b183d6acb10 data/minecraft/tags/items/leaves.json
-7a00d8194ae9d94f723f8673e95d371e7eae7b2f data/minecraft/tags/items/logs.json
+0c36173725e75e9deff26713e3b4352f9e6e9757 data/minecraft/tags/items/logs.json
 2fa725e5e2f1586fd0ce67dbd9779aef302e6603 data/minecraft/tags/items/logs_that_burn.json
 931dd7265d2187cbb7d0310987b312520ac6515e data/minecraft/tags/items/non_flammable_wood.json
 6192b7352b9e9c5c454e3337140f5368ddd64f03 data/minecraft/tags/items/pickaxes.json
