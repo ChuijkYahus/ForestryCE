@@ -1,4 +1,4 @@
-// 1.20.1	2025-05-24T16:56:53.8579725	Recipes
+// 1.20.1	2025-05-24T21:09:55.1128627	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1244,6 +1244,13 @@ c0a8257e5827e532549a6eed0adbb5288e1bb881 data/forestry/recipes/carpenter/reclaim
 14617cec657245b2989810a222edfef8ca118714 data/forestry/recipes/carpenter/reclaim_bronze_shovel.json
 004131405115082a22809b36759700849a820887 data/forestry/recipes/carpenter/scented_paneling.json
 76d6aa78a49b3bdc9ed50bf0934c30c75f411331 data/forestry/recipes/carpenter/soldering_iron.json
+e4bcd0e34bf671fe692ae57b45f67e566085888b data/forestry/recipes/carpenter/stamp_100n.json
+9316c34f9749521b0aaeb21d869a0cca730fc1b5 data/forestry/recipes/carpenter/stamp_10n.json
+7bbfcbcec05334dec986a1ecc094b0a760512ea0 data/forestry/recipes/carpenter/stamp_1n.json
+298fdd9f6b81d764961480957be8c861f6145574 data/forestry/recipes/carpenter/stamp_20n.json
+5a0edb5cf31ff103a42f833217b1a6e12ec8b84a data/forestry/recipes/carpenter/stamp_2n.json
+57aefa38778bb84996d5793c7a736e7c06127740 data/forestry/recipes/carpenter/stamp_50n.json
+450604c6a51c38050a03b9838510a1122d6ef911 data/forestry/recipes/carpenter/stamp_5n.json
 b8078710e4c560f89d6b6002953bcb1f12d2e837 data/forestry/recipes/carpenter/wood_pulp.json
 98384b7c1dea5346c267319a35481a85b98dcb49 data/forestry/recipes/carpenter/woven_silk.json
 f30d2a71f6d1c471b28714f9e6e70aba23591eee data/forestry/recipes/catalogue.json

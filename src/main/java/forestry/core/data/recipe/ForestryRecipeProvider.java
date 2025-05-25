@@ -94,6 +94,7 @@ import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.items.ItemLetter;
+import forestry.mail.items.ItemStamp;
 import forestry.modules.features.FeatureItem;
 import forestry.sorting.features.SortingBlocks;
 import forestry.storage.features.BackpackItems;
@@ -1327,6 +1328,20 @@ public class ForestryRecipeProvider {
 						.pattern(" # ")
 						.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 				.build(consumer, id("carpenter", "carton"));
+
+		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
+			FeatureItem<ItemStamp> item = MailItems.STAMPS.get(stamp);
+
+			new CarpenterRecipeBuilder()
+				.setLiquid(ForestryFluids.SEED_OIL.getFluid(300))
+				.setBox(Ingredient.EMPTY)
+				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, item, 9)
+					.pattern("###")
+					.pattern("PPP")
+					.define('#', stamp.getCraftingIngredient())
+					.define('P', Items.PAPER))
+				.build(consumer, id("carpenter", item.getName()));
+		}
 
 		ItemStack basic = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.BASIC, null, new ICircuit[]{});
 		ItemStack enhanced = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.ENHANCED, null, new ICircuit[]{});

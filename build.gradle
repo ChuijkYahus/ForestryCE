@@ -109,7 +109,7 @@ dependencies {
 	modImplementation "dev.latvian.mods:rhino-forge:${rhino_version}"
 	modImplementation "dev.latvian.mods:kubejs-forge:${kubejs_version}"
 	// Curios Optional
-	modCompileOnly "top.theillusivec4.curios:curios-forge:${curiosVersion}+${minecraftVersion}"
+	modImplementation "top.theillusivec4.curios:curios-forge:${curiosVersion}+${minecraftVersion}"
 	// PATCHOULI REQUIRED
 	modCompileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api"
 	modRuntimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-FORGE"
