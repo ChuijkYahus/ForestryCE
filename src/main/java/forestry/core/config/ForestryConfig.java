@@ -73,6 +73,7 @@ public class ForestryConfig {
 		// Trees
 		public final ForgeConfigSpec.DoubleValue treesSpawnNaturally;
 		// Butterflies
+		public final ForgeConfigSpec.BooleanValue disableButterflySpawning;
 		public final ForgeConfigSpec.IntValue butterflyClusterLimit;
 		public final ForgeConfigSpec.IntValue butterflyClusterWidth;
 		public final ForgeConfigSpec.IntValue butterflyClusterHeight;
@@ -84,7 +85,8 @@ public class ForestryConfig {
 		public final ForgeConfigSpec.IntValue legacyFarmsRingSize;
 		// Misc
 		public final ForgeConfigSpec.BooleanValue enableBackpackResupply;
-		public final ForgeConfigSpec.BooleanValue disableButterflySpawning;
+		public final ForgeConfigSpec.BooleanValue spawnTinOre;
+		public final ForgeConfigSpec.BooleanValue spawnApatiteOre;
 
 		public Server(ForgeConfigSpec.Builder builder) {
 			// Genetics
@@ -156,6 +158,12 @@ public class ForestryConfig {
 			this.enableBackpackResupply = builder
 					.comment("Whether backpacks can have their resupply mode enabled, which stocks a player's inventory using blocks from the backpack's inventory.")
 					.define("enable_backpack_resupply", true);
+			this.spawnTinOre = builder
+				.comment("Whether Tin Ore veins generate naturally in the Overworld.")
+				.define("spawn_tin_ore", true);
+			this.spawnApatiteOre = builder
+				.comment("Whether Apatite Ore veins generate naturally in the Overworld.")
+				.define("spawn_apatite_ore", true);
 		}
 	}
 
