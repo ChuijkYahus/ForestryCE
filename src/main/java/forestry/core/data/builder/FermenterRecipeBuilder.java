@@ -18,10 +18,9 @@ import forestry.factory.features.FactoryRecipeTypes;
 import forestry.factory.recipes.RecipeSerializers;
 
 public class FermenterRecipeBuilder {
-
 	private Ingredient resource;
 	private int fermentationValue;
-	private float modifier;
+	private float modifier = 1.0f;
 	private Fluid output;
 	private FluidStack fluidResource;
 

@@ -3,11 +3,11 @@
   "fermentationValue": 50,
   "fluidResource": {
     "Amount": 1,
-    "FluidName": "forestry:honey"
+    "FluidName": "forestry:juice"
   },
   "modifier": 1.5,
   "output": "forestry:biomass",
   "resource": {
-    "item": "minecraft:brown_mushroom"
+    "item": "minecraft:cactus"
   }
 }

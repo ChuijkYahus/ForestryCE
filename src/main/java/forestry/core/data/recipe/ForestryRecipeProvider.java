@@ -1,4 +1,4 @@
-package forestry.core.data;
+package forestry.core.data.recipe;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -1860,80 +1860,46 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerFermenter(Consumer<FinishedRecipe> consumer) {
-		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(Items.BROWN_MUSHROOM))
-				.setFermentationValue(Preference.FERMENTED_MUSHROOM)
-				.setModifier(1.5f)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(ForestryFluids.HONEY.getFluid(1))
-				.build(consumer, id("fermenter", "brown_mushroom_honey"));
-		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(Items.BROWN_MUSHROOM))
-				.setFermentationValue(Preference.FERMENTED_MUSHROOM)
-				.setModifier(1.5f)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(ForestryFluids.JUICE.getFluid(1))
-				.build(consumer, id("fermenter", "brown_mushroom_juice"));
-		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(Items.RED_MUSHROOM))
-				.setFermentationValue(Preference.FERMENTED_MUSHROOM)
-				.setModifier(1.5f)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(ForestryFluids.HONEY.getFluid(1))
-				.build(consumer, id("fermenter", "red_mushroom_honey"));
-		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(Items.RED_MUSHROOM))
-				.setFermentationValue(Preference.FERMENTED_MUSHROOM)
-				.setModifier(1.5f)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(ForestryFluids.JUICE.getFluid(1))
-				.build(consumer, id("fermenter", "red_mushroom_juice"));
-
-		FluidStack shortMead = ForestryFluids.SHORT_MEAD.getFluid(1);
-		FluidStack honey = ForestryFluids.HONEY.getFluid(1);
-
+		// Apiculture
 		new FermenterRecipeBuilder()
 				.setResource(Ingredient.of(ApicultureItems.HONEYDEW))
 				.setFermentationValue(500)
-				.setModifier(1.0f)
-				.setOutput(shortMead.getFluid())
-				.setFluidResource(honey)
+				.setOutput(ForestryFluids.SHORT_MEAD.getFluid())
+				.setFluidResource(ForestryFluids.HONEY.getFluid(1))
 				.build(consumer, id("fermenter", "honeydew"));
+		// Arboriculture
+		addFermenterRecipes(consumer, "sapling", Ingredient.of(ItemTags.SAPLINGS), 250, ForestryFluids.BIOMASS);
+		// Factory
+		addFermenterRecipes(consumer, "cactus", Ingredient.of(Items.CACTUS), 50, ForestryFluids.BIOMASS);
+		addFermenterRecipes(consumer, "wheat", Ingredient.of(Tags.Items.CROPS_WHEAT), 50, ForestryFluids.BIOMASS);
+		addFermenterRecipes(consumer, "potato", Ingredient.of(Tags.Items.CROPS_POTATO), 100, ForestryFluids.BIOMASS);
+		addFermenterRecipes(consumer, "sugar_cane", Ingredient.of(Items.SUGAR_CANE), 50, ForestryFluids.BIOMASS);
+		addFermenterRecipes(consumer, "mushroom", Ingredient.of(Tags.Items.MUSHROOMS), 50, ForestryFluids.BIOMASS);
+	}
+
+	private static void addFermenterRecipes(Consumer<FinishedRecipe> writer, String name, Ingredient resource, int fermentationValue, ForestryFluids output) {
+		Fluid outputFluid = output.getFluid();
+
 		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(ItemTags.SAPLINGS))
-				.setFermentationValue(Preference.FERMENTED_SAPLING)
-				.setModifier(1)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(new FluidStack(Fluids.WATER, 1000))
-				.build(consumer, id("fermenter", "sapling"));
+				.setResource(resource)
+				.setFermentationValue(fermentationValue)
+				.setFluidResource(new FluidStack(Fluids.WATER, 1))
+				.setOutput(outputFluid)
+				.build(writer, id("fermenter", name));
 		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(Items.CACTUS))
-				.setFermentationValue(Preference.FERMENTED_CACTI)
-				.setModifier(1)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(new FluidStack(Fluids.WATER, 1000))
-				.build(consumer, id("fermenter", "cactus"));
+				.setResource(resource)
+				.setFermentationValue(fermentationValue)
+				.setFluidResource(ForestryFluids.JUICE.getFluid(1))
+				.setOutput(outputFluid)
+				.setModifier(1.5f)
+				.build(writer, id("fermenter", name + "_juice"));
 		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(Tags.Items.CROPS_WHEAT))
-				.setFermentationValue(Preference.FERMENTED_WHEAT)
-				.setModifier(1)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(new FluidStack(Fluids.WATER, 1000))
-				.build(consumer, id("fermenter", "wheat"));
-		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(Tags.Items.CROPS_POTATO))
-				.setFermentationValue(2 * Preference.FERMENTED_WHEAT)
-				.setModifier(1)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(new FluidStack(Fluids.WATER, 1000))
-				.build(consumer, id("fermenter", "potato"));
-		new FermenterRecipeBuilder()
-				.setResource(Ingredient.of(Items.SUGAR_CANE))
-				.setFermentationValue(Preference.FERMENTED_CANE)
-				.setModifier(1)
-				.setOutput(ForestryFluids.BIOMASS.getFluid())
-				.setFluidResource(new FluidStack(Fluids.WATER, 1000))
-				.build(consumer, id("fermenter", "sugar_cane"));
+				.setResource(resource)
+				.setFermentationValue(fermentationValue)
+				.setFluidResource(ForestryFluids.HONEY.getFluid(1))
+				.setOutput(outputFluid)
+				.setModifier(1.5f)
+				.build(writer, id("fermenter", name + "_honey"));
 	}
 
 	private static void registerHygroregulator(Consumer<FinishedRecipe> consumer) {

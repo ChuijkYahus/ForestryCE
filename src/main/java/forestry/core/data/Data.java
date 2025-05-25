@@ -19,6 +19,7 @@ import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.data.models.ForestryItemModelProvider;
 import forestry.core.data.models.ForestryWoodModelProvider;
+import forestry.core.data.recipe.ForestryRecipeProvider;
 import forestry.modules.ForestryModuleManager;
 
 import thedarkcolour.modkit.data.DataHelper;

@@ -8,6 +8,6 @@
   "modifier": 1.5,
   "output": "forestry:biomass",
   "resource": {
-    "item": "minecraft:red_mushroom"
+    "tag": "forge:mushrooms"
   }
 }

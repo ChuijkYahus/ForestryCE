@@ -3,11 +3,11 @@
   "fermentationValue": 50,
   "fluidResource": {
     "Amount": 1,
-    "FluidName": "minecraft:water"
+    "FluidName": "forestry:honey"
   },
-  "modifier": 1.0,
+  "modifier": 1.5,
   "output": "forestry:biomass",
   "resource": {
-    "tag": "forge:crops/wheat"
+    "item": "minecraft:sugar_cane"
   }
 }

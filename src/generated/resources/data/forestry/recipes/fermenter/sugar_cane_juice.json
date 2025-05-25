@@ -8,6 +8,6 @@
   "modifier": 1.5,
   "output": "forestry:biomass",
   "resource": {
-    "item": "minecraft:brown_mushroom"
+    "item": "minecraft:sugar_cane"
   }
 }
