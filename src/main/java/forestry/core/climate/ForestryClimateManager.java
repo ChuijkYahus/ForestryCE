@@ -30,7 +30,7 @@ public class ForestryClimateManager implements IClimateManager {
 
 	@Override
 	public TemperatureType getTemperature(ResourceKey<Biome> biome) {
-		return this.temperatures.get(biome);
+		return this.temperatures.getOrDefault(biome, TemperatureType.NORMAL);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ForestryClimateManager implements IClimateManager {
 
 	@Override
 	public HumidityType getHumidity(ResourceKey<Biome> biome) {
-		return this.humidities.get(biome);
+		return this.humidities.getOrDefault(biome, HumidityType.NORMAL);
 	}
 
 	@Override

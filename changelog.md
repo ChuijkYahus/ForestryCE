@@ -7,6 +7,7 @@
 - Allow equipping Spectacles in Curios head slot (#224)
 - Add missing stamp recipes to Carpenter (#228)
 - Fix Vanilla fireproof log tags being empty (#237)
+- Fix worldgen crash caused by Undermod biomes (#229)
 
 ## Forestry 2.6.0
 - Fixed planks recipes for all wood types, now able to craft planks from stripped logs (#227)

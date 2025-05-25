@@ -49,7 +49,12 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 		Holder<Biome> biome = world.getBiome(hivePos);
 		TemperatureType temperature = IForestryApi.INSTANCE.getClimateManager().getTemperature(biome);
 		HumidityType humidity = IForestryApi.INSTANCE.getClimateManager().getHumidity(biome);
-		//Check if the biome is valid
+		if (temperature == null) {
+			System.out.println(biome.getClass());
+			System.out.println(biome.unwrapKey());
+			System.out.println(biome.get());
+		}
+		// check if the biome is valid
 		if (!hive.isGoodBiome(biome) || !hive.isGoodTemperature(temperature) || !hive.isGoodHumidity(humidity)) {
 			return false;
 		}
