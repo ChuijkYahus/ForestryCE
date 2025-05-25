@@ -11,10 +11,13 @@
 package forestry.arboriculture.models;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.data.ModelData;
 
 import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
@@ -34,5 +37,10 @@ public class ModelDefaultLeavesFruit extends ModelDecorativeLeaves<BlockDefaultL
 	protected ModelDefaultLeaves.Key getWorldKey(BlockState state, ModelData extraData) {
 		Block block = state.getBlock();
 		return new ModelDefaultLeaves.Key(((BlockDefaultLeavesFruit) block).getSpeciesId(), Minecraft.useFancyGraphics());
+	}
+
+	@Override
+	public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
+		return ChunkRenderTypeSet.of(RenderType.cutoutMipped());
 	}
 }

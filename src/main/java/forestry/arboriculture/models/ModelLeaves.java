@@ -14,16 +14,19 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.data.ModelData;
 
 import forestry.api.arboriculture.ITreeSpecies;
@@ -52,6 +55,10 @@ public class ModelLeaves extends ModelBlockCached<BlockForestryLeaves, ModelLeav
 			new ItemTransform(new Vector3f(0, 0, 0), new Vector3f(0, 3 / 16f, 0), new Vector3f(0.25f, 0.25f, 0.25f)),
 			new ItemTransform(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(0.5f, 0.5f, 0.5f))
 	);
+
+	public ModelLeaves() {
+		super(BlockForestryLeaves.class);
+	}
 
 	public static class Key {
 		public final TextureAtlasSprite leafSprite;
@@ -126,8 +133,9 @@ public class ModelLeaves extends ModelBlockCached<BlockForestryLeaves, ModelLeav
 		baker.setParticleSprite(key.leafSprite);
 	}
 
-	public ModelLeaves() {
-		super(BlockForestryLeaves.class);
+	@Override
+	public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
+		return getKey(data).fruitSprite != null ? ChunkRenderTypeSet.of(RenderType.cutoutMipped()) : super.getRenderTypes(state, rand, data);
 	}
 
 	@Override
