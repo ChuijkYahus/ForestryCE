@@ -11,6 +11,9 @@ import forestry.api.genetics.filter.IFilterLogic;
 
 /**
  * All capabilities added by base Forestry.
+ * <p>
+ * If your mod does not require a dependency on Forestry, it is recommended to use your own CapabilityTokens instead
+ * of the ones below, as recommended by {@link net.minecraftforge.common.capabilities.ForgeCapabilities}.
  */
 public class ForestryCapabilities {
 	// Apiculture

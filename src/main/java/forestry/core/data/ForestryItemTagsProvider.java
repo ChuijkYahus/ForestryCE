@@ -3,6 +3,7 @@ package forestry.core.data;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -135,5 +136,7 @@ public class ForestryItemTagsProvider {
 		tags.tag(ItemTags.CLUSTER_MAX_HARVESTABLES).add(CoreItems.BRONZE_PICKAXE);
 		tags.tag(ItemTags.PICKAXES).add(CoreItems.BRONZE_PICKAXE);
 		tags.tag(ItemTags.SHOVELS).add(CoreItems.BRONZE_SHOVEL);
+
+		tags.tag("curios:head").add(CoreItems.SPECTACLES);
 	}
 }

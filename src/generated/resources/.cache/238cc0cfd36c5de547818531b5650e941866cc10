@@ -1,4 +1,5 @@
-// 1.20.1	2025-05-24T15:36:38.7354741	Tags for minecraft:item mod id forestry
+// 1.20.1	2025-05-24T19:03:01.3198119	Tags for minecraft:item mod id forestry
+e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
 426fdc880d77e5feaa70125d93a57b7ce21dbc2b data/forestry/tags/items/backpack/allow/builder.json

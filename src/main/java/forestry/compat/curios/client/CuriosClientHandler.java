@@ -1,0 +1,21 @@
+package forestry.compat.curios.client;
+
+import net.minecraftforge.eventbus.api.IEventBus;
+
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import forestry.api.client.IClientModuleHandler;
+import forestry.core.features.CoreItems;
+
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
+
+public class CuriosClientHandler implements IClientModuleHandler {
+	@Override
+	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(CuriosClientHandler::clientSetup);
+	}
+
+	private static void clientSetup(FMLClientSetupEvent event) {
+		CuriosRendererRegistry.register(CoreItems.SPECTACLES.item(), SpectaclesCurioRenderer::new);
+	}
+}

@@ -4,6 +4,7 @@
 - Fix bees using Overworld time in dimensions without a daylight cycle, like Nether and End (#223)
 - Add missing Fermenter recipes (#231)
 - Accommodate Amendments's janky Mixins that print snarky log messages about other mods causing bugs (#192)
+- Allow equipping Spectacles in Curios head slot (#224)
 
 ## Forestry 2.6.0
 - Fixed planks recipes for all wood types, now able to craft planks from stripped logs (#227)

@@ -57,6 +57,7 @@ public class Data {
 		generator.addProvider(event.includeClient(), new ForestryItemModelProvider(output, existingFileHelper));
 		generator.addProvider(event.includeClient(), new ForestryAtlasProvider(output, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ForestryFeaturesProvider(output, lookup));
+		generator.addProvider(event.includeClient(), new ForestryCuriosProvider(output, existingFileHelper, lookup));
 	}
 
 	// Hack fix to make API work in data generation environment

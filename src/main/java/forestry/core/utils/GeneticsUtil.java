@@ -40,6 +40,7 @@ import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.arboriculture.capabilities.ArmorNaturalist;
+import forestry.compat.curios.CuriosCompat;
 import forestry.core.genetics.ItemGE;
 import forestry.core.tiles.TileUtil;
 
@@ -81,9 +82,17 @@ public class GeneticsUtil {
 	public static boolean hasNaturalistEye(Player player) {
 		ItemStack armorItemStack = player.getItemBySlot(EquipmentSlot.HEAD);
 		if (armorItemStack.isEmpty()) {
-			return false;
+			if (CuriosCompat.IS_LOADED) {
+				return CuriosCompat.hasNaturalistEye(player);
+			} else {
+				return false;
+			}
 		}
 
+		return hasNaturalistEye(player, armorItemStack);
+	}
+
+	public static boolean hasNaturalistEye(Player player, ItemStack armorItemStack) {
 		final IArmorNaturalist armorNaturalist;
 		LazyOptional<IArmorNaturalist> armorCap = armorItemStack.getCapability(ForestryCapabilities.ARMOR_NATURALIST);
 		if (armorCap.isPresent()) {

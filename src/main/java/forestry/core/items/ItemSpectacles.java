@@ -32,8 +32,12 @@ import net.minecraftforge.common.util.LazyOptional;
 import forestry.api.ForestryCapabilities;
 import forestry.api.ForestryConstants;
 import forestry.arboriculture.capabilities.ArmorNaturalist;
+import forestry.compat.curios.CuriosCompat;
 import forestry.core.config.Constants;
 import forestry.core.utils.ItemTooltipUtil;
+
+import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.type.capability.ICurio;
 
 public class ItemSpectacles extends ArmorItem {
 	public static final String TEXTURE_NATURALIST_ARMOR_PRIMARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/naturalist_armor_1.png";
