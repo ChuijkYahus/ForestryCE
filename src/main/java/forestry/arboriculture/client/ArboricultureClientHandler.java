@@ -20,6 +20,8 @@ import net.minecraft.client.renderer.blockentity.SignRenderer;
 
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -44,9 +46,15 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 		modBus.addListener(ArboricultureClientHandler::onClientSetup);
 		modBus.addListener(ArboricultureClientHandler::registerEntityRenderers);
 		modBus.addListener(ArboricultureClientHandler::registerModelLayers);
+		modBus.addListener(ArboricultureClientHandler::beforeResourceLoad);
 	}
 
-	@SuppressWarnings("deprecation")
+	private static void beforeResourceLoad(RegisterClientReloadListenersEvent event) {
+		for (ForestryWoodType type : ForestryWoodType.VALUES) {
+			Sheets.addWoodType(type.getWoodType());
+		}
+	}
+
 	private static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
 			ClientManager clientManager = ClientManager.INSTANCE;
@@ -64,10 +72,6 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 			ArboricultureBlocks.DOORS.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
 
 			ArboricultureBlocks.PODS.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
-
-			for (ForestryWoodType type : ForestryWoodType.VALUES) {
-				Sheets.addWoodType(type.getWoodType());
-			}
 		});
 	}
 
