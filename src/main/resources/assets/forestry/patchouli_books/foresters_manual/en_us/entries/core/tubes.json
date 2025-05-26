@@ -1,7 +1,7 @@
 {
-  "icon": "forestry:electron_tube_copper",
   "name": "for.gui.book.patchouli.entry.core.tubes",
   "category": "forestry:core",
+  "icon": "forestry:electron_tube_copper",
   "pages": [
     {
       "type": "spotlight",

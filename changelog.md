@@ -10,6 +10,7 @@
 - Fix worldgen crash caused by Undermod biomes (#229)
 - Add config options to forestry-server.toml to disable Apatite and Tin generation (#108)
 - Fix incorrect fruit leaves rendering when fast graphics is enabled (#159)
+- Fix missing Patchouli pages (#125)
 
 ## Forestry 2.6.0
 - Fixed planks recipes for all wood types, now able to craft planks from stripped logs (#227)

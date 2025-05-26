@@ -1,4 +1,4 @@
-package forestry.core.patchouli.component;
+package forestry.compat.patchouli.component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,7 @@ import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
 
+@SuppressWarnings("unused")
 public class FluidComponent implements ICustomComponent {
 	public IVariable fluid;
 	public IVariable amount;

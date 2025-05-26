@@ -12,7 +12,7 @@
   ],
   "components": [
     {
-      "type": "text",
+      "type": "patchouli:text",
       "text": "#text",
       "x": 0,
       "y": 69

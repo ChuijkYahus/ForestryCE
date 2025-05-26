@@ -1,13 +1,13 @@
 {
   "components": [
     {
-      "type": "header",
+      "type": "patchouli:header",
       "text": "for.gui.book.patchouli.template.farm_gui.header",
       "x": -1,
       "y": -5
     },
     {
-      "type": "image",
+      "type": "patchouli:image",
       "image": "forestry:textures/gui/almanac/guis/multi_farm_1024.png",
       "width": 512,
       "height": 256,
@@ -18,9 +18,8 @@
       "y": 8
     },
     {
-      "type": "text",
+      "type": "patchouli:text",
       "text": "#text",
-      "x": 0,
       "y": 78
     }
   ]

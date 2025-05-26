@@ -1,4 +1,4 @@
-package forestry.core.patchouli.processor;
+package forestry.compat.patchouli.processor;
 
 import java.util.Arrays;
 
