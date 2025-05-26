@@ -20,7 +20,12 @@ Full crash reports are located in [the minecraft data folder](http://hopper.mine
 Thank you for reporting bugs!
 
 ### Contributing
-Forestry is a large and complex project that I spent hundreds of hours working on, so I am always
+Forestry is a large and complex project that I spent hundreds of hours working on, so I am always open to contributions.
+
+To set up your environment, clone from GitHub, and make sure to run the following command:
+```shell
+git config --local blame.ignoreRevsFile .git-blame-ignore-revs
+```
 
 If you'd like to contribute to Forestry:
 - **Bugfixes**: Bugfixes are always welcome.
