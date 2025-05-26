@@ -10,24 +10,19 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.IContainerCrafting;
-import forestry.core.gui.slots.SlotCraftMatrix;
-import forestry.core.gui.slots.SlotFiltered;
-import forestry.core.gui.slots.SlotLiquidIn;
-import forestry.core.gui.slots.SlotLocked;
-import forestry.core.gui.slots.SlotOutput;
+import forestry.core.gui.slots.*;
 import forestry.core.network.packets.PacketItemStackDisplay;
 import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryCarpenter;
 import forestry.factory.tiles.TileCarpenter;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 public class ContainerCarpenter extends ContainerLiquidTanks<TileCarpenter> implements IContainerCrafting {
 	private ItemStack oldCraftPreview = ItemStack.EMPTY;
@@ -74,18 +69,18 @@ public class ContainerCarpenter extends ContainerLiquidTanks<TileCarpenter> impl
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		Container craftPreviewInventory = tile.getCraftPreviewInventory();
+		Container craftPreviewInventory = this.tile.getCraftPreviewInventory();
 
 		ItemStack newCraftPreview = craftPreviewInventory.getItem(0);
-		if (!ItemStack.matches(oldCraftPreview, newCraftPreview)) {
-			oldCraftPreview = newCraftPreview;
+		if (!ItemStack.matches(this.oldCraftPreview, newCraftPreview)) {
+            this.oldCraftPreview = newCraftPreview;
 
-			PacketItemStackDisplay packet = new PacketItemStackDisplay(tile, newCraftPreview);
+			PacketItemStackDisplay packet = new PacketItemStackDisplay(this.tile, newCraftPreview);
 			sendPacketToListeners(packet);
 		}
 	}
 
 	public TileCarpenter getCarpenter() {
-		return tile;
+		return this.tile;
 	}
 }

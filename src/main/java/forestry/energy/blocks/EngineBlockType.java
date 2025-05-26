@@ -22,9 +22,9 @@ public enum EngineBlockType implements IBlockType {
 
 	private static <T extends EngineBlockEntity> IMachineProperties<T> createEngineProperties(FeatureTileType<T> teClass, String name) {
 		return new MachineProperties.Builder<>(teClass, name)
-				.setClientTicker(EngineBlockEntity::clientTick)
-				.setServerTicker(EngineBlockEntity::serverTick)
-				.create();
+			.setClientTicker(EngineBlockEntity::clientTick)
+			.setServerTicker(EngineBlockEntity::serverTick)
+			.create();
 	}
 
 	@Override

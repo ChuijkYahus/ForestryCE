@@ -1,14 +1,5 @@
 package forestry.factory.recipes.jei.carpenter;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
-
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.recipes.ICarpenterRecipe;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
@@ -16,11 +7,18 @@ import forestry.core.utils.NetworkUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.gui.ContainerCarpenter;
 import forestry.factory.network.packets.PacketRecipeTransferRequest;
-
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class CarpenterRecipeTransferHandler implements IRecipeTransferHandler<ContainerCarpenter, ICarpenterRecipe> {
 	@Override

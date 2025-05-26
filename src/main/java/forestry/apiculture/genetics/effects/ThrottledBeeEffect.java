@@ -10,13 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.AABB;
-
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeModifier;
@@ -26,6 +19,12 @@ import forestry.api.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;
 import forestry.core.genetics.EffectData;
 import forestry.core.utils.VecUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
+
+import java.util.List;
 
 public abstract class ThrottledBeeEffect extends DummyBeeEffect implements IBeeEffect {
 	private final boolean isCombinable;
@@ -85,7 +84,7 @@ public abstract class ThrottledBeeEffect extends DummyBeeEffect implements IBeeE
 		time++;
 		storedData.setInteger(0, time);
 
-		if (time < throttle) {
+		if (time < this.throttle) {
 			return true;
 		}
 

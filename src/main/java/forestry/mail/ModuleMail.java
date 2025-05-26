@@ -10,20 +10,7 @@
  ******************************************************************************/
 package forestry.mail;
 
-import java.util.function.Consumer;
-
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.mail.IMailAddress;
 import forestry.api.modules.ForestryModule;
@@ -37,14 +24,18 @@ import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.client.MailClientHandler;
 import forestry.mail.commands.CommandMail;
-import forestry.mail.network.packets.PacketLetterInfoRequest;
-import forestry.mail.network.packets.PacketLetterInfoResponsePlayer;
-import forestry.mail.network.packets.PacketLetterInfoResponseTrader;
-import forestry.mail.network.packets.PacketLetterTextSet;
-import forestry.mail.network.packets.PacketPOBoxInfoResponse;
-import forestry.mail.network.packets.PacketTraderAddressRequest;
-import forestry.mail.network.packets.PacketTraderAddressResponse;
+import forestry.mail.network.packets.*;
 import forestry.modules.BlankForestryModule;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+
+import java.util.function.Consumer;
 
 @ForestryModule
 public class ModuleMail extends BlankForestryModule {

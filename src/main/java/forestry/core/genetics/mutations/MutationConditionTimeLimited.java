@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.genetics.mutations;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.Level;
-
 import forestry.api.climate.IClimateProvider;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.IMutationCondition;
 import forestry.core.utils.DayMonth;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 
 public class MutationConditionTimeLimited implements IMutationCondition {
 	private final DayMonth start;
@@ -33,7 +32,7 @@ public class MutationConditionTimeLimited implements IMutationCondition {
 	public float modifyChance(Level level, BlockPos pos, IMutation<?> mutation, IGenome genome0, IGenome genome1, IClimateProvider climate, float currentChance) {
 		DayMonth now = DayMonth.now();
 
-		if (now.between(start, end)) {
+		if (now.between(this.start, this.end)) {
 			return currentChance;
 		}
 
@@ -42,6 +41,6 @@ public class MutationConditionTimeLimited implements IMutationCondition {
 
 	@Override
 	public Component getDescription() {
-		return Component.translatable("for.mutation.condition.date", start.getDisplayName(), end.getDisplayName());
+		return Component.translatable("for.mutation.condition.date", this.start.getDisplayName(), this.end.getDisplayName());
 	}
 }

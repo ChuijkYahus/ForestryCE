@@ -10,12 +10,11 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
+import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
-
-import forestry.api.arboriculture.ITreeGenData;
-import forestry.api.genetics.IGenome;
 
 public class TreeBlockTypeLeaf implements ITreeBlockType {
 	private final ITreeGenData tree;
@@ -32,6 +31,6 @@ public class TreeBlockTypeLeaf implements ITreeBlockType {
 
 	@Override
 	public boolean setBlock(LevelAccessor level, BlockPos pos) {
-		return tree.setLeaves(this.genome, level, pos, level.getRandom(), false);
+		return this.tree.setLeaves(this.genome, level, pos, level.getRandom(), false);
 	}
 }

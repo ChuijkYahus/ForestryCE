@@ -1,8 +1,7 @@
 package forestry.api.genetics.pollen;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * All pollen types used by base Forestry.

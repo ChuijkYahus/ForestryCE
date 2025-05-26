@@ -10,26 +10,23 @@
  ******************************************************************************/
 package forestry.core.models.baker;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockFaceUV;
-import net.minecraft.client.renderer.block.model.BlockElementFace;
-import net.minecraft.client.renderer.block.model.FaceBakery;
-import net.minecraft.client.resources.model.BlockModelRotation;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.ForestryConstants;
 import forestry.core.models.ClientManager;
 import forestry.core.utils.ResourceUtil;
-
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockElementFace;
+import net.minecraft.client.renderer.block.model.BlockFaceUV;
+import net.minecraft.client.renderer.block.model.FaceBakery;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BlockModelRotation;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -66,7 +63,7 @@ public final class ModelBaker {
 
 	public ModelBaker addFace(Direction facing, TextureAtlasSprite sprite) {
 		if (sprite != ResourceUtil.getMissingTexture()) {
-			faces.add(new ModelBakerFace(facing, colorIndex, sprite));
+            this.faces.add(new ModelBakerFace(facing, this.colorIndex, sprite));
 		}
 		return this;
 	}
@@ -78,19 +75,19 @@ public final class ModelBaker {
 			modelRotation = BlockModelRotation.X0_Y180;
 		}
 
-		for (ModelBakerFace face : faces) {
+		for (ModelBakerFace face : this.faces) {
 			Direction facing = face.face;
 			BlockFaceUV uvFace = new BlockFaceUV(UVS, 0);
 			BlockElementFace partFace = new BlockElementFace(facing, face.colorIndex, "", uvFace);
 			BakedQuad quad = FACE_BAKERY.bakeQuad(POS_FROM, POS_TO, partFace, face.spite, facing, modelRotation, null, true, FACE_LOCATION);
 
-			currentModel.addQuad(facing, quad);
+            this.currentModel.addQuad(facing, quad);
 		}
 
-		return currentModel;
+		return this.currentModel;
 	}
 
 	public void setParticleSprite(TextureAtlasSprite particleSprite) {
-		currentModel.setParticleSprite(particleSprite);
+        this.currentModel.setParticleSprite(particleSprite);
 	}
 }

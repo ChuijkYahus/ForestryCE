@@ -1,15 +1,14 @@
 package forestry.arboriculture.worldgen;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import forestry.api.arboriculture.ITreeGenData;
+import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import forestry.api.arboriculture.ITreeGenData;
-import forestry.core.worldgen.FeatureHelper;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FeatureCherryVanilla extends FeatureTree {
 	private static final float WIDE_BOTTOM_LAYER_HOLE_CHANCE = 0.25f;

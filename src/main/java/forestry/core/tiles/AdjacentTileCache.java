@@ -10,17 +10,18 @@
  ******************************************************************************/
 package forestry.core.tiles;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-
 // todo does this actually improve performance?
+
 /**
  * A helper class that caches adjacent tiles for a given tile entity.
  * <p>
@@ -56,20 +57,20 @@ public final class AdjacentTileCache {
 
 	public AdjacentTileCache(BlockEntity tile) {
 		this.source = tile;
-		Arrays.fill(delay, DELAY_MIN);
-		for (int i = 0; i < timer.length; i++) {
-			timer[i] = new Timer();
+		Arrays.fill(this.delay, DELAY_MIN);
+		for (int i = 0; i < this.timer.length; i++) {
+            this.timer[i] = new Timer();
 		}
 	}
 
 	public void addListener(ICacheListener listener) {
-		listeners.add(listener);
+        this.listeners.add(listener);
 	}
 
 	@Nullable
 	private BlockEntity searchSide(Direction side) {
-		Level world = source.getLevel();
-		BlockPos pos = source.getBlockPos().relative(side);
+		Level world = this.source.getLevel();
+		BlockPos pos = this.source.getBlockPos().relative(side);
 		if (world.hasChunkAt(pos) && !world.isEmptyBlock(pos)) {
 			return TileUtil.getTile(world, pos);
 		}
@@ -83,70 +84,70 @@ public final class AdjacentTileCache {
 	}
 
 	public void purge() {
-		Arrays.fill(cache, null);
-		Arrays.fill(delay, DELAY_MIN);
-		for (Timer t : timer) {
+		Arrays.fill(this.cache, null);
+		Arrays.fill(this.delay, DELAY_MIN);
+		for (Timer t : this.timer) {
 			t.reset();
 		}
 		changed();
-		for (ICacheListener listener : listeners) {
+		for (ICacheListener listener : this.listeners) {
 			listener.purge();
 		}
 	}
 
 	public void onNeighborChange() {
-		Arrays.fill(delay, DELAY_MIN);
+		Arrays.fill(this.delay, DELAY_MIN);
 	}
 
-	protected void setTile(int side, @Nullable BlockEntity tile) {
-		if (cache[side] != tile) {
-			cache[side] = tile;
+	private void setTile(int side, @Nullable BlockEntity tile) {
+		if (this.cache[side] != tile) {
+            this.cache[side] = tile;
 			changed();
 		}
 	}
 
 	private void changed() {
-		for (ICacheListener listener : listeners) {
+		for (ICacheListener listener : this.listeners) {
 			listener.changed();
 		}
 	}
 
 	private boolean areCoordinatesOnSide(Direction side, BlockEntity target) {
-		return source.getBlockPos().getX() + side.getStepX() == target.getBlockPos().getX() && source.getBlockPos().getY() + side.getStepY() == target.getBlockPos().getY() && source.getBlockPos().getZ() + side.getStepZ() == target.getBlockPos().getZ();
+		return this.source.getBlockPos().getX() + side.getStepX() == target.getBlockPos().getX() && this.source.getBlockPos().getY() + side.getStepY() == target.getBlockPos().getY() && this.source.getBlockPos().getZ() + side.getStepZ() == target.getBlockPos().getZ();
 	}
 
 	@Nullable
 	public BlockEntity getTileOnSide(Direction side) {
 		int s = side.ordinal();
-		if (cache[s] != null) {
-			if (cache[s].isRemoved() || !areCoordinatesOnSide(side, cache[s])) {
+		if (this.cache[s] != null) {
+			if (this.cache[s].isRemoved() || !areCoordinatesOnSide(side, this.cache[s])) {
 				setTile(s, null);
 			} else {
-				return cache[s];
+				return this.cache[s];
 			}
 		}
 
-		if (timer[s].hasTriggered(source.getLevel(), delay[s])) {
+		if (this.timer[s].hasTriggered(this.source.getLevel(), this.delay[s])) {
 			setTile(s, searchSide(side));
-			if (cache[s] == null) {
+			if (this.cache[s] == null) {
 				incrementDelay(s);
 			} else {
-				delay[s] = DELAY_MIN;
+                this.delay[s] = DELAY_MIN;
 			}
 		}
 
-		return cache[s];
+		return this.cache[s];
 	}
 
 	private void incrementDelay(int side) {
-		delay[side] += DELAY_STEP;
-		if (delay[side] > DELAY_MAX) {
-			delay[side] = DELAY_MAX;
+        this.delay[side] += DELAY_STEP;
+		if (this.delay[side] > DELAY_MAX) {
+            this.delay[side] = DELAY_MAX;
 		}
 	}
 
 	public BlockEntity getSource() {
-		return source;
+		return this.source;
 	}
 
 	private static class Timer {
@@ -155,15 +156,15 @@ public final class AdjacentTileCache {
 
 		public boolean hasTriggered(Level world, int ticks) {
 			long currentTime = world.getGameTime();
-			if (currentTime >= ticks + startTime || startTime > currentTime) {
-				startTime = currentTime;
+			if (currentTime >= ticks + this.startTime || this.startTime > currentTime) {
+                this.startTime = currentTime;
 				return true;
 			}
 			return false;
 		}
 
 		public void reset() {
-			startTime = Long.MIN_VALUE;
+            this.startTime = Long.MIN_VALUE;
 		}
 
 	}

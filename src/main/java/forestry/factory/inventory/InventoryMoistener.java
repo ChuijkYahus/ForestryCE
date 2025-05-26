@@ -10,19 +10,17 @@
  ******************************************************************************/
 package forestry.factory.inventory;
 
-import java.util.Optional;
-
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-
 import forestry.api.fuels.FuelManager;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.utils.RecipeUtils;
 import forestry.core.utils.SlotUtil;
 import forestry.factory.tiles.TileMoistener;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+
+import java.util.Optional;
 
 public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 	public static final short SLOT_STASH_1 = 0;
@@ -40,7 +38,7 @@ public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
 		if (slotIndex == SLOT_RESOURCE) {
-			return RecipeUtils.getMoistenerRecipe(tile.getLevel().getRecipeManager(), stack) != null;
+			return RecipeUtils.getMoistenerRecipe(this.tile.getLevel().getRecipeManager(), stack) != null;
 		}
 
 		if (SlotUtil.isSlotInRange(slotIndex, SLOT_STASH_1, SLOT_STASH_COUNT)) {
@@ -49,7 +47,7 @@ public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 
 		if (slotIndex == SLOT_PRODUCT) {
 			Optional<FluidStack> fluidCap = FluidUtil.getFluidContained(stack);
-			return fluidCap.map(f -> tile.getTankManager().canFillFluidType(f)).orElse(false);    //TODO very common pattern. Create Helper?
+			return fluidCap.map(f -> this.tile.getTankManager().canFillFluidType(f)).orElse(false);    //TODO very common pattern. Create Helper?
 		}
 
 		return false;

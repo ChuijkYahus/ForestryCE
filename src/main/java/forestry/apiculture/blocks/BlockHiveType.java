@@ -1,12 +1,11 @@
 package forestry.apiculture.blocks;
 
-import java.util.Locale;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.core.IBlockSubtype;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Locale;
 
 public enum BlockHiveType implements IBlockSubtype {
 	FOREST(ForestryBeeSpecies.FOREST),

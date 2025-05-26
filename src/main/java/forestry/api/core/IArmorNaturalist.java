@@ -1,14 +1,8 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.core;
 
+import forestry.api.ForestryCapabilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-
-import forestry.api.ForestryCapabilities;
 
 /**
  * Naturalist armor allows players to see pollinated tree leaves.

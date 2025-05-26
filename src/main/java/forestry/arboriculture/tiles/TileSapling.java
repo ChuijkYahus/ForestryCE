@@ -10,23 +10,6 @@
  ******************************************************************************/
 package forestry.arboriculture.tiles;
 
-import javax.annotation.Nonnull;
-import java.util.Optional;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
-
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.genetics.IBreedingTracker;
@@ -37,6 +20,21 @@ import forestry.core.owner.IOwnerHandler;
 import forestry.core.owner.OwnerHandler;
 import forestry.core.utils.SpeciesUtil;
 import forestry.core.worldgen.FeatureBase;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelProperty;
+
+import javax.annotation.Nonnull;
+import java.util.Optional;
 
 public class TileSapling extends TileTreeContainer implements IOwnedTile {
 	public static final ModelProperty<ITreeSpecies> TREE_SPECIES = new ModelProperty<>();
@@ -54,7 +52,7 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
 
-		timesTicked = nbt.getInt("TT");
+        this.timesTicked = nbt.getInt("TT");
 		this.ownerHandler.read(nbt);
 	}
 
@@ -62,13 +60,13 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 
-		nbt.putInt("TT", timesTicked);
+		nbt.putInt("TT", this.timesTicked);
 		this.ownerHandler.write(nbt);
 	}
 
 	@Override
 	public void onBlockTick(Level worldIn, BlockPos pos, BlockState state, RandomSource rand) {
-		timesTicked++;
+        this.timesTicked++;
 		tryGrow(rand, false);
 	}
 
@@ -85,15 +83,15 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 			return false;
 		}
 
-		int maturity = getRequiredMaturity(level, tree);
-		if (timesTicked < maturity) {
+		int maturity = getRequiredMaturity(this.level, tree);
+		if (this.timesTicked < maturity) {
 			return true;
 		}
 
-		Feature<NoneFeatureConfiguration> generator = tree.getTreeGenerator((ServerLevel) level, getBlockPos(), true);
+		Feature<NoneFeatureConfiguration> generator = tree.getTreeGenerator((ServerLevel) this.level, getBlockPos(), true);
 		if (generator instanceof FeatureArboriculture arboricultureGenerator) {
-			arboricultureGenerator.preGenerate(getTree().getGenome(), level, rand, getBlockPos());
-			return arboricultureGenerator.getValidGrowthPos(level, getBlockPos()) != null;
+			arboricultureGenerator.preGenerate(getTree().getGenome(), this.level, rand, getBlockPos());
+			return arboricultureGenerator.getValidGrowthPos(this.level, getBlockPos()) != null;
 		} else {
 			return true;
 		}
@@ -106,25 +104,25 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 			return;
 		}
 
-		int maturity = getRequiredMaturity(level, tree);
-		if (timesTicked < maturity) {
+		int maturity = getRequiredMaturity(this.level, tree);
+		if (this.timesTicked < maturity) {
 			if (boneMealed) {
-				timesTicked = maturity;
+                this.timesTicked = maturity;
 			}
 			return;
 		}
 
-		Feature<NoneFeatureConfiguration> generator = tree.getTreeGenerator((ServerLevel) level, getBlockPos(), boneMealed);
+		Feature<NoneFeatureConfiguration> generator = tree.getTreeGenerator((ServerLevel) this.level, getBlockPos(), boneMealed);
 		final boolean generated;
 		if (generator instanceof FeatureBase base) {
-			generated = base.place(tree.getGenome(), level, random, getBlockPos(), false);
+			generated = base.place(tree.getGenome(), this.level, random, getBlockPos(), false);
 		} else {
 			ServerLevel level = (ServerLevel) this.level;
 			generated = generator.place(new FeaturePlaceContext<>(Optional.empty(), level, level.getChunkSource().getGenerator(), random, getBlockPos(), FeatureConfiguration.NONE));
 		}
 
 		if (generated) {
-			IBreedingTracker breedingTracker = SpeciesUtil.TREE_TYPE.get().getBreedingTracker(level, getOwnerHandler().getOwner());
+			IBreedingTracker breedingTracker = SpeciesUtil.TREE_TYPE.get().getBreedingTracker(this.level, getOwnerHandler().getOwner());
 			breedingTracker.registerBirth(tree.getSpecies());
 		}
 	}

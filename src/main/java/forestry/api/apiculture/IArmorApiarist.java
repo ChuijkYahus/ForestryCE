@@ -1,17 +1,11 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.apiculture;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.apiculture.genetics.IBeeEffect;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 /**
  * When implemented as a capability by armor items, protects the wearer from negative bee effects.

@@ -10,13 +10,11 @@
  ******************************************************************************/
 package forestry.lepidopterology.entities;
 
-import javax.annotation.Nullable;
-import java.util.EnumSet;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 
-import net.minecraft.world.entity.ai.goal.Goal.Flag;
+import javax.annotation.Nullable;
+import java.util.EnumSet;
 
 public abstract class AIButterflyInteract extends AIButterflyBase {
 	@Nullable
@@ -32,25 +30,25 @@ public abstract class AIButterflyInteract extends AIButterflyBase {
 
 	@Override
 	public boolean canUse() {
-		if (entity.getState() != EnumButterflyState.RESTING) {
+		if (this.entity.getState() != EnumButterflyState.RESTING) {
 			return false;
 		}
-		Vec3 pos = entity.position();
-		rest = new BlockPos((int) pos.x, (int) Math.floor(pos.y) - 1, (int) pos.z);
-		if (entity.level().isEmptyBlock(rest)) {
+		Vec3 pos = this.entity.position();
+        this.rest = new BlockPos((int) pos.x, (int) Math.floor(pos.y) - 1, (int) pos.z);
+		if (this.entity.level().isEmptyBlock(this.rest)) {
 			return false;
 		}
 
-		canInteract = canInteract();
+        this.canInteract = canInteract();
 
-		return canInteract;
+		return this.canInteract;
 	}
 
 	protected abstract boolean canInteract();
 
 	@Override
 	public boolean canContinueToUse() {
-		return canInteract && !hasInteracted;
+		return this.canInteract && !this.hasInteracted;
 	}
 
 	@Override
@@ -59,13 +57,13 @@ public abstract class AIButterflyInteract extends AIButterflyBase {
 
 	@Override
 	public void stop() {
-		canInteract = false;
-		hasInteracted = false;
-		rest = null;
+        this.canInteract = false;
+        this.hasInteracted = false;
+        this.rest = null;
 	}
 
 	protected void setHasInteracted() {
-		hasInteracted = true;
+        this.hasInteracted = true;
 	}
 
 }

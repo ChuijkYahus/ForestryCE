@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.storage;
 
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.storage.IBackpackDefinition;
 import forestry.storage.gui.ContainerBackpack;
 import forestry.storage.gui.ContainerNaturalistBackpack;
 import forestry.storage.items.ItemBackpack;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class PickupHandlerStorage {
 	public static boolean onItemPickup(Player player, ItemEntity entityitem) {

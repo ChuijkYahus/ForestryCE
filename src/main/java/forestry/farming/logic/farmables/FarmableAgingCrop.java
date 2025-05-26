@@ -1,10 +1,10 @@
 package forestry.farming.logic.farmables;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.util.function.Consumer;
-
+import forestry.api.farming.ICrop;
+import forestry.api.farming.IFarmable;
+import forestry.core.utils.BlockUtil;
+import forestry.farming.logic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -14,10 +14,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmable;
-import forestry.core.utils.BlockUtil;
-import forestry.farming.logic.crops.CropDestroy;
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 /**
  * For blocks that are harvestable once they are a certain age.
@@ -67,30 +65,30 @@ public class FarmableAgingCrop implements IFarmable {
 
 	@Override
 	public boolean isSaplingAt(Level level, BlockPos pos, BlockState state) {
-		return state.getBlock() == cropBlock && state.getValue(ageProperty) <= minHarvestAge;
+		return state.getBlock() == this.cropBlock && state.getValue(this.ageProperty) <= this.minHarvestAge;
 	}
 
 	@Override
 	@Nullable
 	public ICrop getCropAt(Level level, BlockPos pos, BlockState state) {
-		if (state.getBlock() != cropBlock) {
+		if (state.getBlock() != this.cropBlock) {
 			return null;
 		}
 
-		if (state.getValue(ageProperty) < minHarvestAge) {
+		if (state.getValue(this.ageProperty) < this.minHarvestAge) {
 			return null;
 		}
 
 		BlockState replantState = getReplantState(state);
-		return new CropDestroy(level, state, pos, replantState, germling);
+		return new CropDestroy(level, state, pos, replantState, this.germling);
 	}
 
 	@Nullable
 	protected BlockState getReplantState(BlockState blockState) {
-		if (replantAge == null) {
+		if (this.replantAge == null) {
 			return null;
 		}
-		return blockState.setValue(ageProperty, replantAge);
+		return blockState.setValue(this.ageProperty, this.replantAge);
 	}
 
 	@Override
@@ -105,14 +103,14 @@ public class FarmableAgingCrop implements IFarmable {
 
 	@Override
 	public void addProducts(Consumer<ItemStack> accumulator) {
-		for (ItemStack product : products) {
+		for (ItemStack product : this.products) {
 			accumulator.accept(product);
 		}
 	}
 
 	@Override
 	public boolean plantSaplingAt(Player player, ItemStack germling, Level level, BlockPos pos) {
-		BlockState plantedState = cropBlock.defaultBlockState().setValue(ageProperty, 0);
+		BlockState plantedState = this.cropBlock.defaultBlockState().setValue(this.ageProperty, 0);
 		return BlockUtil.setBlockWithPlaceSound(level, pos, plantedState);
 	}
 

@@ -34,7 +34,7 @@ public class CircuitSpeedUpgrade extends Circuit {
 			return;
 		}
 		if (tile instanceof ISpeedUpgradable machine) {
-			machine.applySpeedUpgrade(speedBoost, powerDraw);
+			machine.applySpeedUpgrade(this.speedBoost, this.powerDraw);
 		}
 	}
 
@@ -49,7 +49,7 @@ public class CircuitSpeedUpgrade extends Circuit {
 			return;
 		}
 		if (tile instanceof ISpeedUpgradable machine) {
-			machine.applySpeedUpgrade(-speedBoost, -powerDraw);
+			machine.applySpeedUpgrade(-this.speedBoost, -this.powerDraw);
 		}
 	}
 

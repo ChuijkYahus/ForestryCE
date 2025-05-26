@@ -1,14 +1,13 @@
 package forestry.api.climate;
 
+import forestry.api.core.HumidityType;
+import forestry.api.core.TemperatureType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
-
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
 
 /**
  * Used to keep track of climate information.

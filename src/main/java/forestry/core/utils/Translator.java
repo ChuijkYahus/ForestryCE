@@ -1,12 +1,11 @@
 package forestry.core.utils;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import net.minecraft.locale.Language;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class Translator {
 	public static boolean canTranslateToLocal(String key) {

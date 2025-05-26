@@ -11,27 +11,6 @@
 package forestry.factory.tiles;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.util.Objects;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.recipes.IStillRecipe;
@@ -47,6 +26,24 @@ import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerStill;
 import forestry.factory.inventory.InventoryStill;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class TileStill extends TilePowered implements WorldlyContainer, ILiquidTankTile {
 	private static final int ENERGY_PER_RECIPE_TIME = 200;
@@ -65,17 +62,17 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 
 		this.resourceTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY, true, true).setFilter(FluidRecipeFilter.STILL_INPUT);
 		this.productTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY, false, true).setFilter(FluidRecipeFilter.STILL_OUTPUT);
-		this.tankManager = new TankManager(this, resourceTank, productTank);
+		this.tankManager = new TankManager(this, this.resourceTank, this.productTank);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-		tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT);
 
-		if (!bufferedLiquid.isEmpty()) {
+		if (!this.bufferedLiquid.isEmpty()) {
 			CompoundTag buffer = new CompoundTag();
-			bufferedLiquid.writeToNBT(buffer);
+            this.bufferedLiquid.writeToNBT(buffer);
 			compoundNBT.put("Buffer", buffer);
 		}
 	}
@@ -83,24 +80,24 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-		tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT);
 
 		if (compoundNBT.contains("Buffer")) {
 			CompoundTag buffer = compoundNBT.getCompound("Buffer");
-			bufferedLiquid = FluidStack.loadFluidStackFromNBT(buffer);
+            this.bufferedLiquid = FluidStack.loadFluidStackFromNBT(buffer);
 		}
 	}
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
-		tankManager.writeData(data);
+        this.tankManager.writeData(data);
 	}
 
 	@Override
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		tankManager.readData(data);
+        this.tankManager.readData(data);
 	}
 
 	@Override
@@ -108,31 +105,31 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 		super.serverTick(level, pos, state);
 
 		if (updateOnInterval(20)) {
-			FluidHelper.drainContainers(tankManager, this, InventoryStill.SLOT_CAN);
+			FluidHelper.drainContainers(this.tankManager, this, InventoryStill.SLOT_CAN);
 
-			FluidStack fluidStack = productTank.getFluid();
+			FluidStack fluidStack = this.productTank.getFluid();
 			if (!fluidStack.isEmpty()) {
-				FluidHelper.fillContainers(tankManager, this, InventoryStill.SLOT_RESOURCE, InventoryStill.SLOT_PRODUCT, fluidStack.getFluid(), true);
+				FluidHelper.fillContainers(this.tankManager, this, InventoryStill.SLOT_RESOURCE, InventoryStill.SLOT_PRODUCT, fluidStack.getFluid(), true);
 			}
 		}
 	}
 
 	@Override
 	public boolean workCycle() {
-		Preconditions.checkNotNull(currentRecipe);
-		int cycles = currentRecipe.getCyclesPerUnit();
-		FluidStack output = currentRecipe.getOutput();
+		Preconditions.checkNotNull(this.currentRecipe);
+		int cycles = this.currentRecipe.getCyclesPerUnit();
+		FluidStack output = this.currentRecipe.getOutput();
 
 		FluidStack product = new FluidStack(output, output.getAmount() * cycles);
-		productTank.fillInternal(product, IFluidHandler.FluidAction.EXECUTE);
+        this.productTank.fillInternal(product, IFluidHandler.FluidAction.EXECUTE);
 
-		bufferedLiquid = FluidStack.EMPTY;
+        this.bufferedLiquid = FluidStack.EMPTY;
 
 		return true;
 	}
 
 	private void checkRecipe() {
-		FluidStack recipeLiquid = !bufferedLiquid.isEmpty() ? bufferedLiquid : resourceTank.getFluid();
+		FluidStack recipeLiquid = !this.bufferedLiquid.isEmpty() ? this.bufferedLiquid : this.resourceTank.getFluid();
 
 		if (this.currentRecipe == null || !this.currentRecipe.matches(recipeLiquid)) {
 			Level level = Objects.requireNonNull(this.level);
@@ -148,22 +145,22 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	public boolean hasWork() {
 		checkRecipe();
 
-		boolean hasRecipe = currentRecipe != null;
+		boolean hasRecipe = this.currentRecipe != null;
 		boolean hasTankSpace = true;
 		boolean hasLiquidResource = true;
 
 		if (hasRecipe) {
-			FluidStack fluidStack = currentRecipe.getOutput();
-			hasTankSpace = productTank.fillInternal(fluidStack, IFluidHandler.FluidAction.SIMULATE) == fluidStack.getAmount();
-			if (bufferedLiquid.isEmpty()) {
-				int cycles = currentRecipe.getCyclesPerUnit();
-				FluidStack input = currentRecipe.getInput();
+			FluidStack fluidStack = this.currentRecipe.getOutput();
+			hasTankSpace = this.productTank.fillInternal(fluidStack, IFluidHandler.FluidAction.SIMULATE) == fluidStack.getAmount();
+			if (this.bufferedLiquid.isEmpty()) {
+				int cycles = this.currentRecipe.getCyclesPerUnit();
+				FluidStack input = this.currentRecipe.getInput();
 				int drainAmount = cycles * input.getAmount();
-				FluidStack drained = resourceTank.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
+				FluidStack drained = this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
 				hasLiquidResource = !drained.isEmpty() && drained.getAmount() == drainAmount;
 				if (hasLiquidResource) {
-					bufferedLiquid = new FluidStack(input, drainAmount);
-					resourceTank.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
+                    this.bufferedLiquid = new FluidStack(input, drainAmount);
+                    this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
 				}
 			}
 		}
@@ -178,25 +175,25 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 
 	@Override
 	public TankRenderInfo getResourceTankInfo() {
-		return new TankRenderInfo(resourceTank);
+		return new TankRenderInfo(this.resourceTank);
 	}
 
 	@Override
 	public TankRenderInfo getProductTankInfo() {
-		return new TankRenderInfo(productTank);
+		return new TankRenderInfo(this.productTank);
 	}
 
 
 	@Override
 	public TankManager getTankManager() {
-		return tankManager;
+		return this.tankManager;
 	}
 
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> tankManager).cast();
+			return LazyOptional.of(() -> this.tankManager).cast();
 		}
 		return super.getCapability(capability, facing);
 	}

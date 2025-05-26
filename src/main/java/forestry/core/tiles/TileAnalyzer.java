@@ -10,41 +10,14 @@
  ******************************************************************************/
 package forestry.core.tiles;
 
-import javax.annotation.Nullable;
-
-import java.util.List;
-
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.Container;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-
+import forestry.api.core.ForestryError;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.config.Constants;
-import forestry.api.core.ForestryError;
 import forestry.core.features.CoreTiles;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.FluidTagFilter;
-import forestry.core.fluids.ForestryFluids;
 import forestry.core.fluids.TankManager;
 import forestry.core.gui.ContainerAnalyzer;
 import forestry.core.inventory.InventoryAnalyzer;
@@ -54,6 +27,28 @@ import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import javax.annotation.Nullable;
 
 public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiquidTankTile, IItemStackDisplay {
 	private static final int TIME_TO_ANALYZE = 125;
@@ -74,10 +69,10 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	public TileAnalyzer(BlockPos pos, BlockState state) {
 		super(CoreTiles.ANALYZER.tileType(), pos, state, 800, Constants.MACHINE_MAX_ENERGY);
 		setInternalInventory(new InventoryAnalyzer(this));
-		resourceTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY).setFilter(FluidTagFilter.HONEY);
-		tankManager = new TankManager(this, resourceTank);
-		invInput = new InventoryMapper(getInternalInventory(), InventoryAnalyzer.SLOT_INPUT_1, InventoryAnalyzer.SLOT_INPUT_COUNT);
-		invOutput = new InventoryMapper(getInternalInventory(), InventoryAnalyzer.SLOT_OUTPUT_1, InventoryAnalyzer.SLOT_OUTPUT_COUNT);
+        this.resourceTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY).setFilter(FluidTagFilter.HONEY);
+        this.tankManager = new TankManager(this, this.resourceTank);
+        this.invInput = new InventoryMapper(getInternalInventory(), InventoryAnalyzer.SLOT_INPUT_1, InventoryAnalyzer.SLOT_INPUT_COUNT);
+        this.invOutput = new InventoryMapper(getInternalInventory(), InventoryAnalyzer.SLOT_OUTPUT_1, InventoryAnalyzer.SLOT_OUTPUT_COUNT);
 	}
 
 	/* SAVING & LOADING */
@@ -85,17 +80,17 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-		tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT);
 	}
 
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-		tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT);
 
 		ItemStack stackToAnalyze = getItem(InventoryAnalyzer.SLOT_ANALYZE);
 		if (!stackToAnalyze.isEmpty()) {
-			specimenToAnalyze = IIndividualHandlerItem.getIndividual(stackToAnalyze);
+            this.specimenToAnalyze = IIndividualHandlerItem.getIndividual(stackToAnalyze);
 		}
 	}
 
@@ -105,7 +100,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 		if (updateOnInterval(20)) {
 			// Check if we have suitable items waiting in the can slot
-			FluidHelper.drainContainers(tankManager, this, InventoryAnalyzer.SLOT_CAN);
+			FluidHelper.drainContainers(this.tankManager, this, InventoryAnalyzer.SLOT_CAN);
 		}
 	}
 
@@ -113,38 +108,38 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	@Override
 	public boolean workCycle() {
 		ItemStack stackToAnalyze = getItem(InventoryAnalyzer.SLOT_ANALYZE);
-		if (stackToAnalyze.isEmpty() || specimenToAnalyze == null) {
+		if (stackToAnalyze.isEmpty() || this.specimenToAnalyze == null) {
 			return false;
 		}
 
-		if (!specimenToAnalyze.isAnalyzed()) {
-			FluidStack drained = resourceTank.drain(HONEY_REQUIRED, IFluidHandler.FluidAction.SIMULATE);
+		if (!this.specimenToAnalyze.isAnalyzed()) {
+			FluidStack drained = this.resourceTank.drain(HONEY_REQUIRED, IFluidHandler.FluidAction.SIMULATE);
 			if (drained.isEmpty() || drained.getAmount() != HONEY_REQUIRED) {
 				return false;
 			}
-			resourceTank.drain(HONEY_REQUIRED, IFluidHandler.FluidAction.EXECUTE);
+            this.resourceTank.drain(HONEY_REQUIRED, IFluidHandler.FluidAction.EXECUTE);
 
-			specimenToAnalyze.analyze();
+            this.specimenToAnalyze.analyze();
 
-			specimenToAnalyze.saveToStack(stackToAnalyze);
+            this.specimenToAnalyze.saveToStack(stackToAnalyze);
 		}
 
-		boolean added = InventoryUtil.tryAddStack(invOutput, stackToAnalyze, true);
+		boolean added = InventoryUtil.tryAddStack(this.invOutput, stackToAnalyze, true);
 		if (!added) {
 			return false;
 		}
 
 		setItem(InventoryAnalyzer.SLOT_ANALYZE, ItemStack.EMPTY);
 		PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-		NetworkUtil.sendNetworkPacket(packet, worldPosition, level);
+		NetworkUtil.sendNetworkPacket(packet, this.worldPosition, this.level);
 
 		return true;
 	}
 
 	@Nullable
 	private Integer getInputSlotIndex() {
-		for (int slotIndex = 0; slotIndex < invInput.getContainerSize(); slotIndex++) {
-			ItemStack stack = invInput.getItem(slotIndex);
+		for (int slotIndex = 0; slotIndex < this.invInput.getContainerSize(); slotIndex++) {
+			ItemStack stack = this.invInput.getItem(slotIndex);
 			if (IIndividualHandlerItem.isIndividual(stack)) {
 				return slotIndex;
 			}
@@ -158,21 +153,21 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 		super.writeData(data);
 		ItemStack displayStack = getIndividualOnDisplay();
 		data.writeItem(displayStack);
-		tankManager.writeData(data);
+        this.tankManager.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		individualOnDisplayClient = data.readItem();
-		tankManager.readData(data);
+        this.individualOnDisplayClient = data.readItem();
+        this.tankManager.readData(data);
 	}
 
 	@Override
 	public void handleItemStackForDisplay(ItemStack itemStack) {
-		if (!ItemStack.matches(itemStack, individualOnDisplayClient)) {
-			individualOnDisplayClient = itemStack;
+		if (!ItemStack.matches(itemStack, this.individualOnDisplayClient)) {
+            this.individualOnDisplayClient = itemStack;
 			//TODO
 			BlockPos pos = getBlockPos();
 			Minecraft.getInstance().levelRenderer.setSectionDirty(pos.getX(), pos.getY(), pos.getZ());
@@ -192,10 +187,10 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 		boolean hasSpace = true;
 
 		if (hasSpecimen) {
-			hasSpace = InventoryUtil.tryAddStack(invOutput, specimen, true, false);
+			hasSpace = InventoryUtil.tryAddStack(this.invOutput, specimen, true, false);
 
-			if (specimenToAnalyze != null && !specimenToAnalyze.isAnalyzed()) {
-				FluidStack drained = resourceTank.drain(HONEY_REQUIRED, IFluidHandler.FluidAction.SIMULATE);
+			if (this.specimenToAnalyze != null && !this.specimenToAnalyze.isAnalyzed()) {
+				FluidStack drained = this.resourceTank.drain(HONEY_REQUIRED, IFluidHandler.FluidAction.SIMULATE);
 				hasResource = !drained.isEmpty() && drained.getAmount() == HONEY_REQUIRED;
 			}
 		}
@@ -217,7 +212,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 			return;
 		}
 
-		ItemStack inputStack = invInput.getItem(slotIndex);
+		ItemStack inputStack = this.invInput.getItem(slotIndex);
 		if (inputStack.isEmpty()) {
 			return;
 		}
@@ -226,15 +221,15 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 			inputStack = GeneticsUtil.convertToGeneticEquivalent(inputStack);
 		}
 
-		specimenToAnalyze = IIndividualHandlerItem.getIndividual(inputStack);
-		if (specimenToAnalyze == null) {
+        this.specimenToAnalyze = IIndividualHandlerItem.getIndividual(inputStack);
+		if (this.specimenToAnalyze == null) {
 			return;
 		}
 
 		setItem(InventoryAnalyzer.SLOT_ANALYZE, inputStack);
-		invInput.setItem(slotIndex, ItemStack.EMPTY);
+        this.invInput.setItem(slotIndex, ItemStack.EMPTY);
 
-		if (specimenToAnalyze.isAnalyzed()) {
+		if (this.specimenToAnalyze.isAnalyzed()) {
 			setTicksPerWorkCycle(1);
 			setEnergyPerWorkCycle(0);
 		} else {
@@ -243,7 +238,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 		}
 
 		PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-		NetworkUtil.sendNetworkPacket(packet, worldPosition, level);
+		NetworkUtil.sendNetworkPacket(packet, this.worldPosition, this.level);
 	}
 
 	public ItemStack getIndividualOnDisplay() {
@@ -258,14 +253,14 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 	@Override
 	public TankManager getTankManager() {
-		return tankManager;
+		return this.tankManager;
 	}
 
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> tankManager).cast();
+			return LazyOptional.of(() -> this.tankManager).cast();
 		}
 		return super.getCapability(capability, facing);
 	}

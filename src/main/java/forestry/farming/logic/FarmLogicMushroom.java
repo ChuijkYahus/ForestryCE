@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
-import java.util.List;
-
+import forestry.api.farming.IFarmHousing;
+import forestry.api.farming.IFarmType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmType;
+import java.util.List;
 
 public class FarmLogicMushroom extends FarmLogicArboreal {
 	public FarmLogicMushroom(IFarmType properties, boolean isManual) {

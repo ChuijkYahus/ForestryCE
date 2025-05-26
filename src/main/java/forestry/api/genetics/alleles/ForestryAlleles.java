@@ -1,16 +1,8 @@
 package forestry.api.genetics.alleles;
 
-import java.util.List;
-
-import net.minecraft.core.Vec3i;
-
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
-import forestry.api.apiculture.ForestryActivityTypes;
-import forestry.api.apiculture.ForestryBeeEffects;
-import forestry.api.apiculture.ForestryFlowerTypes;
-import forestry.api.apiculture.IActivityType;
-import forestry.api.apiculture.IFlowerType;
+import forestry.api.apiculture.*;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.arboriculture.ForestryFruits;
 import forestry.api.arboriculture.genetics.IFruit;
@@ -20,6 +12,9 @@ import forestry.api.lepidopterology.ForestryButterflyEffects;
 import forestry.api.lepidopterology.ForestryCocoons;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
+import net.minecraft.core.Vec3i;
+
+import java.util.List;
 
 /**
  * All alleles defined by base Forestry. Although the field names might seem to suggest that they're

@@ -10,21 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.multiblock;
 
-import javax.annotation.Nullable;
-import java.util.ArrayDeque;
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
@@ -40,6 +25,20 @@ import forestry.apiculture.inventory.InventorySwarmer;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.IActivatable;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
+import java.util.ArrayDeque;
+import java.util.List;
 
 public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer, IActivatable, IAlvearyComponent.Active<MultiblockLogicAlveary>, IAlvearyComponent.HasInventory {
 	private final InventorySwarmer inventory;
@@ -52,7 +51,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 
 	@Override
 	public IInventoryAdapter getInternalInventory() {
-		return inventory;
+		return this.inventory;
 	}
 
 	@Override
@@ -63,7 +62,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 	/* UPDATING */
 	@Override
 	public void updateServer(int tickCount) {
-		if (!pendingSpawns.isEmpty()) {
+		if (!this.pendingSpawns.isEmpty()) {
 			setActive(true);
 			if (tickCount % 300 == 0) {
 				trySpawnSwarm();
@@ -87,7 +86,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 		}
 
 		// Try to spawn princess
-		if (level.random.nextFloat() < chance) {
+		if (this.level.random.nextFloat() < chance) {
 			// Queue swarm spawn
 			IIndividualHandlerItem.ifPresent(princessStack, individual -> {
 				if (individual instanceof IBee princess) {
@@ -129,7 +128,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 	}
 
 	private void trySpawnSwarm() {
-		ItemStack toSpawn = pendingSpawns.peek();
+		ItemStack toSpawn = this.pendingSpawns.peek();
 		HiveDefinitionSwarmer hiveDescription = new HiveDefinitionSwarmer(toSpawn);
 		Hive hive = new Hive(hiveDescription, hiveDescription.getGenChance(), List.of());
 
@@ -139,7 +138,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 		int z = getBlockPos().getZ() + level.random.nextInt(40 * 2) - 40;
 
 		if (HiveDecorator.tryGenHive(level, level.random, x, z, hive)) {
-			pendingSpawns.pop();
+            this.pendingSpawns.pop();
 		}
 	}
 
@@ -151,7 +150,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 		ListTag nbttaglist = compoundNBT.getList("PendingSpawns", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag compoundNBT1 = nbttaglist.getCompound(i);
-			pendingSpawns.add(ItemStack.of(compoundNBT1));
+            this.pendingSpawns.add(ItemStack.of(compoundNBT1));
 		}
 	}
 
@@ -160,7 +159,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 		super.saveAdditional(compoundNBT);
 
 		ListTag nbttaglist = new ListTag();
-		ItemStack[] offspring = pendingSpawns.toArray(new ItemStack[0]);
+		ItemStack[] offspring = this.pendingSpawns.toArray(new ItemStack[0]);
 		for (int i = 0; i < offspring.length; i++) {
 			if (offspring[i] != null) {
 				CompoundTag compoundNBT1 = new CompoundTag();

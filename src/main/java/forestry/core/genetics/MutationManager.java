@@ -1,19 +1,16 @@
 package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableList;
+import forestry.api.genetics.IMutation;
+import forestry.api.genetics.IMutationManager;
+import forestry.api.genetics.ISpecies;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.Util;
+import net.minecraft.util.RandomSource;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
-
-import net.minecraft.Util;
-import net.minecraft.util.RandomSource;
-
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationManager;
-import forestry.api.genetics.ISpecies;
-
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class MutationManager<S extends ISpecies<?>> implements IMutationManager<S> {
 	private final IdentityHashMap<S, List<IMutation<S>>> mutationsFrom = new IdentityHashMap<>();
@@ -28,13 +25,13 @@ public class MutationManager<S extends ISpecies<?>> implements IMutationManager<
 			// for mutation (A, B) -> C
 			// mutationsFrom.get(A) will contain the mutation
 			this.mutationsFrom.computeIfAbsent(mutation.getFirstParent(), k -> new ArrayList<>())
-					.add(mutation);
+				.add(mutation);
 			// mutationsFrom.get(B) will also contain the mutation
 			this.mutationsFrom.computeIfAbsent(mutation.getSecondParent(), k -> new ArrayList<>())
-					.add(mutation);
+				.add(mutation);
 			// mutationsInto.get(C) will contain the mutation
 			this.mutationsInto.computeIfAbsent(mutation.getResult(), k -> new ArrayList<>())
-					.add(mutation);
+				.add(mutation);
 		}
 	}
 

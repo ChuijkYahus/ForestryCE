@@ -10,6 +10,11 @@
  ******************************************************************************/
 package forestry.apiculture.items;
 
+import forestry.api.ForestryTags;
+import forestry.api.apiculture.ForestryBeeSpecies;
+import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.core.items.ItemForestry;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,12 +30,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-
-import forestry.api.ForestryTags;
-import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.core.items.ItemForestry;
-import forestry.core.utils.SpeciesUtil;
 
 public class ItemScoop extends ItemForestry {
 	public ItemScoop() {

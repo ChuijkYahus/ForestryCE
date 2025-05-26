@@ -1,14 +1,6 @@
 package forestry.apiculture;
 
 import com.google.common.base.Preconditions;
-
-import java.util.List;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Rarity;
-
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeJubilance;
@@ -26,6 +18,12 @@ import forestry.api.genetics.alleles.IValueAllele;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.genetics.Bee;
 import forestry.core.genetics.Species;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Rarity;
+
+import java.util.List;
 
 public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSpecies {
 	private final List<IProduct> products;

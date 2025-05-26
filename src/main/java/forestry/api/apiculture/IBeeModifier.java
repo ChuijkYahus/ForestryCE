@@ -1,19 +1,13 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.apiculture;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.core.Vec3i;
 
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.alleles.BeeChromosomes;
+import net.minecraft.core.Vec3i;
+
+import javax.annotation.Nullable;
 
 /**
  * A bee modifier allows modifying certain conditions in a bee hive.

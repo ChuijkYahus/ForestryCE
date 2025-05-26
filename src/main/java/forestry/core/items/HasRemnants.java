@@ -25,7 +25,7 @@ public interface HasRemnants {
 				if (entity instanceof Player player) {
 					// make sure it's really broken
 					stack.shrink(1);
-					player.getInventory().add(remnants.get());
+					player.getInventory().add(this.remnants.get());
 				}
 			}
 			return super.damageItem(stack, amount, entity, onBroken);
@@ -46,7 +46,7 @@ public interface HasRemnants {
 				if (entity instanceof Player player) {
 					// make sure it's really broken
 					stack.shrink(1);
-					player.getInventory().add(remnants.get());
+					player.getInventory().add(this.remnants.get());
 				}
 			}
 			return super.damageItem(stack, amount, entity, onBroken);

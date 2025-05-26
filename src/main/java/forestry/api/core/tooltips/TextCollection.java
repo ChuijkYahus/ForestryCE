@@ -1,11 +1,11 @@
 package forestry.api.core.tooltips;
 
+import net.minecraft.network.chat.Component;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import net.minecraft.network.chat.Component;
 
 public class TextCollection implements ITextInstance<TextCollection, TextCompound, TextCollection> {
 	private final List<Component> lines = new ArrayList<>();
@@ -24,19 +24,19 @@ public class TextCollection implements ITextInstance<TextCollection, TextCompoun
 
 	@Override
 	public boolean isEmpty() {
-		return lines.isEmpty();
+		return this.lines.isEmpty();
 	}
 
 	@Nullable
 	@Override
 	public Component lastComponent() {
-		return last;
+		return this.last;
 	}
 
 	@Override
 	public TextCollection add(Component line) {
-		lines.add(line);
-		last = line;
+        this.lines.add(line);
+        this.last = line;
 		return this;
 	}
 
@@ -54,10 +54,10 @@ public class TextCollection implements ITextInstance<TextCollection, TextCompoun
 	}
 
 	public void clear() {
-		lines.clear();
+        this.lines.clear();
 	}
 
 	public List<Component> getLines() {
-		return Collections.unmodifiableList(lines);
+		return Collections.unmodifiableList(this.lines);
 	}
 }

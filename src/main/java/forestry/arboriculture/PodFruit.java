@@ -10,15 +10,6 @@
  ******************************************************************************/
 package forestry.arboriculture;
 
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-
 import forestry.api.ForestryTags;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.core.IProduct;
@@ -27,6 +18,14 @@ import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.blocks.ForestryPodType;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+
+import java.util.List;
 
 // Fruits that grow on the side of a tree's trunk, like cocoa beans
 public class PodFruit extends Fruit {
@@ -49,7 +48,7 @@ public class PodFruit extends Fruit {
 			return false;
 		}
 
-		if (type == ForestryPodType.COCOA) {
+		if (this.type == ForestryPodType.COCOA) {
 			return BlockUtil.tryPlantCocoaPod(world, pos);
 		} else {
 			IFruit activeAllele = genome.getActiveValue(TreeChromosomes.FRUIT);
@@ -59,7 +58,7 @@ public class PodFruit extends Fruit {
 
 	@Override
 	public TagKey<Block> getLogTag() {
-		return switch (type) {
+		return switch (this.type) {
 			case DATES -> ForestryTags.Blocks.PALM_LOGS;
 			case PAPAYA -> ForestryTags.Blocks.PAPAYA_LOGS;
 			default -> BlockTags.JUNGLE_LOGS;

@@ -1,21 +1,6 @@
 package forestry.apiimpl.plugin;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.awt.Color;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.function.Function;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.api.arboriculture.ITreeGenerator;
 import forestry.api.arboriculture.ITreeSpecies;
@@ -24,6 +9,18 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.TreeSpecies;
 import forestry.arboriculture.worldgen.DefaultTreeGenerator;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.function.Function;
 
 public class TreeSpeciesBuilder extends SpeciesBuilder<ITreeSpeciesType, ITreeSpecies, ITreeSpeciesBuilder> implements ITreeSpeciesBuilder {
 	@Nullable

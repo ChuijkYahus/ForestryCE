@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import net.minecraft.resources.ResourceLocation;
+import forestry.core.render.ColourProperties;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.network.chat.Component;
-
-import forestry.core.render.ColourProperties;
 
 public abstract class GuiForestryTitled<C extends AbstractContainerMenu> extends GuiForestry<C> {
 	protected GuiForestryTitled(String texture, C container, Inventory inv, Component title) {
@@ -32,14 +31,14 @@ public abstract class GuiForestryTitled<C extends AbstractContainerMenu> extends
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
 		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
-		textLayout.line = 6;
+        this.textLayout.line = 6;
 		if (centeredTitle()) {
-			textLayout.drawCenteredLine(graphics, title, 0, ColourProperties.INSTANCE.get("gui.title"));
+            this.textLayout.drawCenteredLine(graphics, this.title, 0, ColourProperties.INSTANCE.get("gui.title"));
 		} else {
-			textLayout.drawLine(graphics, title.getString(), 8, ColourProperties.INSTANCE.get("gui.title"));
+            this.textLayout.drawLine(graphics, this.title.getString(), 8, ColourProperties.INSTANCE.get("gui.title"));
 		}
 		// todo get rid of this and make sure nothing breaks
-		bindTexture(textureFile);
+		bindTexture(this.textureFile);
 	}
 
 	protected boolean centeredTitle() {

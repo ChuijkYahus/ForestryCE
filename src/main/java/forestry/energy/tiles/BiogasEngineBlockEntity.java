@@ -10,8 +10,16 @@
  ******************************************************************************/
 package forestry.energy.tiles;
 
-import javax.annotation.Nullable;
-
+import forestry.api.core.ForestryError;
+import forestry.api.core.IErrorLogic;
+import forestry.api.fuels.EngineBronzeFuel;
+import forestry.api.fuels.FuelManager;
+import forestry.core.config.Constants;
+import forestry.core.fluids.*;
+import forestry.core.tiles.ILiquidTankTile;
+import forestry.energy.features.EnergyTiles;
+import forestry.energy.inventory.InventoryEngineBiogas;
+import forestry.energy.menu.BiogasEngineMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +32,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -33,20 +40,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-import forestry.api.core.ForestryError;
-import forestry.api.core.IErrorLogic;
-import forestry.api.fuels.EngineBronzeFuel;
-import forestry.api.fuels.FuelManager;
-import forestry.core.config.Constants;
-import forestry.core.fluids.FilteredTank;
-import forestry.core.fluids.FluidHelper;
-import forestry.core.fluids.FluidTagFilter;
-import forestry.core.fluids.StandardTank;
-import forestry.core.fluids.TankManager;
-import forestry.core.tiles.ILiquidTankTile;
-import forestry.energy.features.EnergyTiles;
-import forestry.energy.inventory.InventoryEngineBiogas;
-import forestry.energy.menu.BiogasEngineMenu;
+import javax.annotation.Nullable;
 
 import static net.minecraftforge.fluids.FluidType.BUCKET_VOLUME;
 
@@ -71,18 +65,18 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		this.heatingTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilter(FluidTagFilter.LAVA);
 		this.burnTank = new StandardTank(BUCKET_VOLUME, false, false);
 
-		this.tankManager = new TankManager(this, fuelTank, heatingTank, burnTank);
-		this.fluidCap = LazyOptional.of(() -> tankManager);
+		this.tankManager = new TankManager(this, this.fuelTank, this.heatingTank, this.burnTank);
+		this.fluidCap = LazyOptional.of(() -> this.tankManager);
 	}
 
 	@Override
 	public TankManager getTankManager() {
-		return tankManager;
+		return this.tankManager;
 	}
 
 	@Nullable
 	public Fluid getBurnTankFluidType() {
-		return burnTank.getFluidType();
+		return this.burnTank.getFluidType();
 	}
 
 	@Override
@@ -93,14 +87,14 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		}
 
 		// Check if we have suitable items waiting in the item slot
-		FluidHelper.drainContainers(tankManager, this, InventoryEngineBiogas.SLOT_CAN);
+		FluidHelper.drainContainers(this.tankManager, this, InventoryEngineBiogas.SLOT_CAN);
 
 		IErrorLogic errorLogic = getErrorLogic();
 
-		boolean hasHeat = getHeatLevel() > 0.2 || heatingTank.getFluidAmount() > 0;
+		boolean hasHeat = getHeatLevel() > 0.2 || this.heatingTank.getFluidAmount() > 0;
 		errorLogic.setCondition(!hasHeat, ForestryError.NO_HEAT);
 
-		boolean hasFuel = burnTank.getFluidAmount() > 0 || fuelTank.getFluidAmount() > 0;
+		boolean hasFuel = this.burnTank.getFluidAmount() > 0 || this.fuelTank.getFluidAmount() > 0;
 		errorLogic.setCondition(!hasFuel, ForestryError.NO_FUEL);
 	}
 
@@ -110,37 +104,37 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	@Override
 	public void burn() {
 
-		currentOutput = 0;
+        this.currentOutput = 0;
 
-		if (isRedstoneActivated() && (fuelTank.getFluidAmount() >= BUCKET_VOLUME || burnTank.getFluidAmount() > 0)) {
+		if (isRedstoneActivated() && (this.fuelTank.getFluidAmount() >= BUCKET_VOLUME || this.burnTank.getFluidAmount() > 0)) {
 
 			double heatStage = getHeatLevel();
 
 			// If we have reached a safe temperature, enable energy transfer
-			if (heatStage > 0.25 && shutdown) {
+			if (heatStage > 0.25 && this.shutdown) {
 				shutdown(false);
-			} else if (shutdown) {
-				if (heatingTank.getFluidAmount() > 0 && heatingTank.getFluidType() == Fluids.LAVA) {
+			} else if (this.shutdown) {
+				if (this.heatingTank.getFluidAmount() > 0 && this.heatingTank.getFluidType() == Fluids.LAVA) {
 					addHeat(Constants.ENGINE_HEAT_VALUE_LAVA);
-					heatingTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
+                    this.heatingTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
 				}
 			}
 
 			// We need a minimum temperature to generate energy
 			if (heatStage > 0.2) {
-				if (burnTank.getFluidAmount() > 0) {
-					FluidStack drained = burnTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
-					currentOutput = determineFuelValue(drained);
-					energyStorage.generateEnergy(currentOutput);
-					level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
+				if (this.burnTank.getFluidAmount() > 0) {
+					FluidStack drained = this.burnTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
+                    this.currentOutput = determineFuelValue(drained);
+                    this.energyStorage.generateEnergy(this.currentOutput);
+                    this.level.updateNeighbourForOutputSignal(this.worldPosition, getBlockState().getBlock());
 				} else {
-					FluidStack fuel = fuelTank.drainInternal(BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
+					FluidStack fuel = this.fuelTank.drainInternal(BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
 					int burnTime = determineBurnTime(fuel);
 					if (!fuel.isEmpty()) {
 						fuel.setAmount(burnTime);
 					}
-					burnTank.setCapacity(burnTime);
-					burnTank.setFluid(fuel);
+                    this.burnTank.setCapacity(burnTime);
+                    this.burnTank.setFluid(fuel);
 				}
 			} else {
 				shutdown(true);
@@ -149,12 +143,12 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	}
 
 	private void shutdown(boolean val) {
-		shutdown = val;
+        this.shutdown = val;
 	}
 
 	@Override
 	public void dissipateHeat() {
-		if (heat <= 0) {
+		if (this.heat <= 0) {
 			return;
 		}
 
@@ -170,8 +164,8 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		}
 
 		// Lose extra heat when using water as fuel.
-		if (fuelTank.getFluidAmount() > 0) {
-			FluidStack fuelFluidStack = fuelTank.getFluid();
+		if (this.fuelTank.getFluidAmount() > 0) {
+			FluidStack fuelFluidStack = this.fuelTank.getFluid();
 			if (!fuelFluidStack.isEmpty()) {
 				EngineBronzeFuel fuel = FuelManager.biogasEngineFuel.get(fuelFluidStack.getFluid());
 				if (fuel != null) {
@@ -180,7 +174,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 			}
 		}
 
-		heat -= loss;
+        this.heat -= loss;
 	}
 
 	@Override
@@ -188,7 +182,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 
 		int generate = 0;
 
-		if (isRedstoneActivated() && burnTank.getFluidAmount() > 0) {
+		if (isRedstoneActivated() && this.burnTank.getFluidAmount() > 0) {
 			double heatStage = getHeatLevel();
 			if (heatStage >= 0.75) {
 				generate += ENGINE_BRONZE_HEAT_GENERATION_ENERGY * 3;
@@ -199,7 +193,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 			}
 		}
 
-		heat += generate;
+        this.heat += generate;
 
 	}
 
@@ -232,20 +226,20 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	// / STATE INFORMATION
 	@Override
 	protected boolean isBurning() {
-		return mayBurn() && burnTank.getFluidAmount() > 0;
+		return mayBurn() && this.burnTank.getFluidAmount() > 0;
 	}
 
 	@Override
 	public int getBurnTimeRemainingScaled(int i) {
-		if (burnTank.getCapacity() == 0) {
+		if (this.burnTank.getCapacity() == 0) {
 			return 0;
 		}
 
-		return burnTank.getFluidAmount() * i / burnTank.getCapacity();
+		return this.burnTank.getFluidAmount() * i / this.burnTank.getCapacity();
 	}
 
 	public int getOperatingTemperatureScaled(int i) {
-		return (int) Math.round(heat * i / (maxHeat * 0.2));
+		return (int) Math.round(this.heat * i / (this.maxHeat * 0.2));
 	}
 
 	@Override
@@ -253,41 +247,41 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		super.load(nbt);
 
 		if (nbt.contains("shutdown")) {
-			shutdown = nbt.getBoolean("shutdown");
+            this.shutdown = nbt.getBoolean("shutdown");
 		}
-		tankManager.read(nbt);
+        this.tankManager.read(nbt);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 
-		nbt.putBoolean("shutdown", shutdown);
-		tankManager.write(nbt);
+		nbt.putBoolean("shutdown", this.shutdown);
+        this.tankManager.write(nbt);
 	}
 
 	/* NETWORK */
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
-		data.writeBoolean(shutdown);
-		tankManager.writeData(data);
-		burnTank.writeData(data);
+		data.writeBoolean(this.shutdown);
+        this.tankManager.writeData(data);
+        this.burnTank.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		shutdown = data.readBoolean();
-		tankManager.readData(data);
-		burnTank.readData(data);
+        this.shutdown = data.readBoolean();
+        this.tankManager.readData(data);
+        this.burnTank.readData(data);
 	}
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction facing) {
-		if (!remove && cap == ForgeCapabilities.FLUID_HANDLER) {
-			return fluidCap.cast();
+		if (!this.remove && cap == ForgeCapabilities.FLUID_HANDLER) {
+			return this.fluidCap.cast();
 		}
 		return super.getCapability(cap, facing);
 	}

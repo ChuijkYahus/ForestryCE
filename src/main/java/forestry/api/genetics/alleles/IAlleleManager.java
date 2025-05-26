@@ -1,10 +1,9 @@
 package forestry.api.genetics.alleles;
 
-import javax.annotation.Nullable;
-
+import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
 
-import com.mojang.serialization.Codec;
+import javax.annotation.Nullable;
 
 /**
  * Used to retrieve interned instances of alleles. Also exposes methods for creating chromosomes.

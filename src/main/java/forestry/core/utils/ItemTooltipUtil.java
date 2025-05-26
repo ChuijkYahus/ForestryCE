@@ -1,22 +1,19 @@
 package forestry.core.utils;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.api.core.tooltips.ToolTip;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.api.core.tooltips.ToolTip;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemTooltipUtil {
 	@OnlyIn(Dist.CLIENT)
@@ -24,7 +21,7 @@ public class ItemTooltipUtil {
 		String unlocalizedName = stack.getDescriptionId();
 		String tooltipKey = unlocalizedName + ".tooltip";
 		if (Translator.canTranslateToLocal(tooltipKey)) {
-            tooltip.add(Component.translatable(tooltipKey).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable(tooltipKey).withStyle(ChatFormatting.GRAY));
 			/*Minecraft minecraft = Minecraft.getInstance();
 			List<ITextProperties> tooltipInfoWrapped = minecraft.fontRenderer.split(tooltipInfo, 150);
 			tooltipInfoWrapped.forEach(s -> {

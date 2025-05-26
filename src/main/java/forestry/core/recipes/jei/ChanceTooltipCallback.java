@@ -1,13 +1,11 @@
 package forestry.core.recipes.jei;
 
-import java.util.List;
-
-import net.minecraft.network.chat.Component;
-
 import forestry.core.utils.JeiUtil;
-
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
+import net.minecraft.network.chat.Component;
+
+import java.util.List;
 
 public class ChanceTooltipCallback implements IRecipeSlotTooltipCallback {
 	private final float chance;

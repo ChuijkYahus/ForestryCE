@@ -1,17 +1,12 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.apiculture.hives;
-
-import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
 
 /**
  * Determines placement conditions for a naturally generated wild beehive.
@@ -27,6 +22,7 @@ public interface IHiveGen {
 
 	/**
 	 * Determines the position of a hive.
+	 *
 	 * @param level The level to generate the hive in.
 	 * @param rand  The world generation random. Use this instead of the level random.
 	 * @param posX  The X coordinate of the position where the hive should be generated.

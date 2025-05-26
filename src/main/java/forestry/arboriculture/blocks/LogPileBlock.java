@@ -1,7 +1,11 @@
 package forestry.arboriculture.blocks;
 
 import com.google.common.base.Preconditions;
-
+import forestry.api.arboriculture.ICharcoalManager;
+import forestry.api.arboriculture.ICharcoalPileWall;
+import forestry.api.arboriculture.TreeManager;
+import forestry.arboriculture.charcoal.CharcoalManager;
+import forestry.arboriculture.features.CharcoalBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -21,15 +25,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import forestry.api.arboriculture.ICharcoalManager;
-import forestry.api.arboriculture.ICharcoalPileWall;
-import forestry.api.arboriculture.TreeManager;
-import forestry.arboriculture.charcoal.CharcoalManager;
-import forestry.arboriculture.features.CharcoalBlocks;
 
 public class LogPileBlock extends Block {
 	public static final BooleanProperty IS_ACTIVE = BooleanProperty.create("active");
@@ -96,8 +93,8 @@ public class LogPileBlock extends Block {
 						activatePile(blockState, world, position, true);
 					}
 				} else if (world.isEmptyBlock(position)
-						|| !Block.canSupportCenter(world, position, facing.getOpposite())
-						|| block.isFlammable(blockState, world, position, facing.getOpposite())) {
+					|| !Block.canSupportCenter(world, position, facing.getOpposite())
+					|| block.isFlammable(blockState, world, position, facing.getOpposite())) {
 					world.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
 					return;
 				}

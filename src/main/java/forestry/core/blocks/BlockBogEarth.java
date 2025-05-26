@@ -10,6 +10,7 @@
  ******************************************************************************/
 package forestry.core.blocks;
 
+import forestry.core.features.CoreBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -22,10 +23,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-
 import net.minecraftforge.common.IPlantable;
-
-import forestry.core.features.CoreBlocks;
 
 /**
  * bog earth, which becomes peat
@@ -36,9 +34,9 @@ public class BlockBogEarth extends Block {
 
 	public BlockBogEarth() {
 		super(Block.Properties.of()
-				.randomTicks()
-				.strength(0.5f)
-				.sound(SoundType.GRAVEL));
+			.randomTicks()
+			.strength(0.5f)
+			.sound(SoundType.GRAVEL));
 
 		registerDefaultState(this.getStateDefinition().any().setValue(MATURITY, 0));
 	}

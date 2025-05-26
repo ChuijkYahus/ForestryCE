@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.chat.Component;
-
 import forestry.apiculture.multiblock.TileAlvearyHygroregulator;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
 import forestry.core.gui.widgets.TankWidget;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 public class GuiAlvearyHygroregulator extends GuiForestryTitled<ContainerAlvearyHygroregulator> {
 	private final TileAlvearyHygroregulator tile;
@@ -25,11 +24,11 @@ public class GuiAlvearyHygroregulator extends GuiForestryTitled<ContainerAlveary
 		super(Constants.TEXTURE_PATH_GUI + "/hygroregulator.png", container, inventory, title);
 		this.tile = container.getTile();
 
-		widgetManager.add(new TankWidget(this.widgetManager, 104, 17, 0));
+        this.widgetManager.add(new TankWidget(this.widgetManager, 104, 17, 0));
 	}
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(tile);
+		addErrorLedger(this.tile);
 	}
 }

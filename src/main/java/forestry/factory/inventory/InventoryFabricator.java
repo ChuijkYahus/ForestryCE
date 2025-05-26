@@ -10,15 +10,13 @@
  ******************************************************************************/
 package forestry.factory.inventory;
 
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.core.Direction;
-
-import forestry.core.recipes.RecipeManagers;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.utils.RecipeUtils;
 import forestry.core.utils.SlotUtil;
 import forestry.factory.tiles.TileFabricator;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeManager;
 
 public class InventoryFabricator extends InventoryAdapterTile<TileFabricator> {
 	public static final short SLOT_METAL = 0;
@@ -34,7 +32,7 @@ public class InventoryFabricator extends InventoryAdapterTile<TileFabricator> {
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		RecipeManager recipeManager = tile.getLevel().getRecipeManager();
+		RecipeManager recipeManager = this.tile.getLevel().getRecipeManager();
 
 		if (slotIndex == SLOT_METAL) {
 			return RecipeUtils.getFabricatorMeltingRecipe(recipeManager, stack) != null;

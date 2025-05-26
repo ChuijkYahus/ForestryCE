@@ -10,12 +10,12 @@
  ******************************************************************************/
 package forestry.apiculture;
 
-import javax.annotation.Nullable;
-
 import forestry.api.apiculture.IBeeModifier;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
+
+import javax.annotation.Nullable;
 
 // no mutations/ignoble decay, 300% aging and flowering, 25% production
 public class BeehouseBeeModifier implements IBeeModifier {

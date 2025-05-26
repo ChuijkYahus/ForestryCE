@@ -10,8 +10,7 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import javax.annotation.Nullable;
-
+import forestry.core.gui.ContainerItemInventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -22,10 +21,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
 import net.minecraftforge.network.NetworkHooks;
 
-import forestry.core.gui.ContainerItemInventory;
+import javax.annotation.Nullable;
 
 public abstract class ItemWithGui extends ItemForestry {
 	public ItemWithGui(Item.Properties properties) {

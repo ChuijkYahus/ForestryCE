@@ -10,11 +10,10 @@
  ******************************************************************************/
 package forestry.core.items.definitions;
 
-import java.util.Locale;
-
+import forestry.core.items.ItemOverlay;
 import net.minecraft.network.chat.TextColor;
 
-import forestry.core.items.ItemOverlay;
+import java.util.Locale;
 
 public enum EnumElectronTube implements ItemOverlay.IOverlayInfo {
 	COPPER(TextColor.fromRgb(0xe3b78e)),

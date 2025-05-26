@@ -1,14 +1,12 @@
 package forestry.arboriculture;
 
 import com.google.common.collect.ImmutableMap;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.world.level.block.Block;
-
 import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ITreeManager;
 import forestry.api.arboriculture.IWoodAccess;
+import net.minecraft.world.level.block.Block;
+
+import javax.annotation.Nullable;
 
 public class TreeManager implements ITreeManager {
 	private final ImmutableMap<Block, Block> refractoryWaxables;

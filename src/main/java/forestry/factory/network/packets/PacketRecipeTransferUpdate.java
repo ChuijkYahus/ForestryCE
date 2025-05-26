@@ -10,6 +10,12 @@
  ******************************************************************************/
 package forestry.factory.network.packets;
 
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.network.PacketIdClient;
+import forestry.core.tiles.TileUtil;
+import forestry.core.utils.NetworkUtil;
+import forestry.factory.tiles.TileCarpenter;
+import forestry.factory.tiles.TileFabricator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,14 +24,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import forestry.api.modules.IForestryPacketClient;
-import forestry.core.network.PacketIdClient;
-import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
-import forestry.factory.tiles.TileCarpenter;
-import forestry.factory.tiles.TileFabricator;
-
-public record PacketRecipeTransferUpdate(BlockPos pos, NonNullList<ItemStack> craftingInventory) implements IForestryPacketClient {
+public record PacketRecipeTransferUpdate(BlockPos pos,
+										 NonNullList<ItemStack> craftingInventory) implements IForestryPacketClient {
 	@Override
 	public ResourceLocation id() {
 		return PacketIdClient.RECIPE_TRANSFER_UPDATE;
@@ -33,8 +33,8 @@ public record PacketRecipeTransferUpdate(BlockPos pos, NonNullList<ItemStack> cr
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		NetworkUtil.writeItemStacks(buffer, craftingInventory);
+		buffer.writeBlockPos(this.pos);
+		NetworkUtil.writeItemStacks(buffer, this.craftingInventory);
 	}
 
 	public static PacketRecipeTransferUpdate decode(FriendlyByteBuf buffer) {

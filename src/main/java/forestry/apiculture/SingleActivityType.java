@@ -1,12 +1,9 @@
 package forestry.apiculture;
 
-import net.minecraft.core.BlockPos;
-
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.LightPreference;
 import forestry.api.core.IError;
-
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
 
 /**
  * A bee who has a single period of activity per day. Used by Diurnal, Nocturnal, and Metaturnal.
@@ -16,7 +13,8 @@ import org.jetbrains.annotations.Nullable;
  * @param endTick   The end day tick of activity. Exclusive upper bound.
  * @param error     The error to show in the hive GUI when this bee is inactive.
  */
-public record SingleActivityType(int startTick, int endTick, IError error, LightPreference preference) implements IActivityType {
+public record SingleActivityType(int startTick, int endTick, IError error,
+								 LightPreference preference) implements IActivityType {
 	@Override
 	public boolean isDominant() {
 		return true;

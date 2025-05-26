@@ -10,15 +10,6 @@
  ******************************************************************************/
 package forestry.core.utils;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
-import org.apache.maven.artifact.versioning.ArtifactVersion;
-import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
-import org.apache.maven.artifact.versioning.VersionRange;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceKey;
@@ -26,12 +17,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
-
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolderRegistry;
-
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ObjectHolderRegistry;
+import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.artifact.versioning.VersionRange;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 
 public abstract class ModUtil {
@@ -99,9 +96,9 @@ public abstract class ModUtil {
 
 		@Override
 		public void accept(Predicate<ResourceLocation> predicate) {
-			if (!this.hasInit && predicate.test(type.location())) {
+			if (!this.hasInit && predicate.test(this.type.location())) {
 				this.hasInit = true;
-				listener.run();
+                this.listener.run();
 			}
 		}
 	}

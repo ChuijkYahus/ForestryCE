@@ -10,9 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.entities;
 
-import javax.annotation.Nullable;
-import java.util.EnumSet;
-
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -20,6 +17,9 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
+import java.util.EnumSet;
 
 public class AIAvoidPlayers extends Goal {
 	private final PathfinderMob mob;
@@ -46,28 +46,28 @@ public class AIAvoidPlayers extends Goal {
 
 	@Override
 	public boolean canUse() {
-		player = mob.level().getNearestPlayer(mob, minDistance);
+        this.player = this.mob.level().getNearestPlayer(this.mob, this.minDistance);
 
-		if (player == null) {
+		if (this.player == null) {
 			return false;
 		}
 
-		if (!mob.getSensing().hasLineOfSight(player)) {
+		if (!this.mob.getSensing().hasLineOfSight(this.player)) {
 			return false;
 		}
 
-		Vec3 randomTarget = DefaultRandomPos.getPosAway(mob, 16, 7, player.position());
+		Vec3 randomTarget = DefaultRandomPos.getPosAway(this.mob, 16, 7, this.player.position());
 
 		if (randomTarget == null) {
 			return false;
 		}
 
-		if (player.distanceToSqr(randomTarget.x, randomTarget.y, randomTarget.z) < player.distanceTo(mob)) {
+		if (this.player.distanceToSqr(randomTarget.x, randomTarget.y, randomTarget.z) < this.player.distanceTo(this.mob)) {
 			return false;
 		}
 
-		path = pathNavigator.createPath(randomTarget.x, randomTarget.y, randomTarget.z, 0);
-		return path != null;
+        this.path = this.pathNavigator.createPath(randomTarget.x, randomTarget.y, randomTarget.z, 0);
+		return this.path != null;
 	}
 
 	@Override
@@ -77,20 +77,20 @@ public class AIAvoidPlayers extends Goal {
 
 	@Override
 	public void start() {
-		this.pathNavigator.moveTo(path, farSpeed);
+		this.pathNavigator.moveTo(this.path, this.farSpeed);
 	}
 
 	@Override
 	public void stop() {
-		player = null;
+        this.player = null;
 	}
 
 	@Override
 	public void tick() {
-		if (player != null && mob.distanceTo(player) < 49.0D) {
-			mob.getNavigation().setSpeedModifier(nearSpeed);
+		if (this.player != null && this.mob.distanceTo(this.player) < 49.0D) {
+            this.mob.getNavigation().setSpeedModifier(this.nearSpeed);
 		} else {
-			mob.getNavigation().setSpeedModifier(farSpeed);
+            this.mob.getNavigation().setSpeedModifier(this.farSpeed);
 		}
 	}
 }

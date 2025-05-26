@@ -1,20 +1,17 @@
 package forestry.modules;
 
+import forestry.Forestry;
+import forestry.modules.features.FeatureProvider;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.forgespi.language.ModFileScanData;
+import org.objectweb.asm.Type;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.forgespi.language.ModFileScanData;
-
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-
-import forestry.Forestry;
-import forestry.modules.features.FeatureProvider;
-
-import org.objectweb.asm.Type;
 
 public class ModuleUtil {
 	private static final HashMap<Class<?>, Field> MOD_BUS_FIELDS = new HashMap<>();

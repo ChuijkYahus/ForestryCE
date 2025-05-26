@@ -10,22 +10,15 @@
  ******************************************************************************/
 package forestry.mail;
 
+import forestry.api.mail.*;
+import forestry.mail.features.MailItems;
+import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
-
-import forestry.api.mail.EnumPostage;
-import forestry.api.mail.ILetter;
-import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostOffice;
-import forestry.api.mail.IPostalCarrier;
-import forestry.api.mail.IPostalState;
-import forestry.api.mail.IStamps;
-import forestry.mail.features.MailItems;
-import forestry.mail.items.EnumStampDefinition;
 
 public class PostOffice extends SavedData implements IPostOffice {
 	public static final String SAVE_NAME = "forestry_mail";
@@ -35,17 +28,17 @@ public class PostOffice extends SavedData implements IPostOffice {
 	}
 
 	public PostOffice(CompoundTag tag) {
-		for (int i = 0; i < collectedPostage.length; i++) {
+		for (int i = 0; i < this.collectedPostage.length; i++) {
 			if (tag.contains("CPS" + i)) {
-				collectedPostage[i] = tag.getInt("CPS" + i);
+                this.collectedPostage[i] = tag.getInt("CPS" + i);
 			}
 		}
 	}
 
 	@Override
 	public CompoundTag save(CompoundTag compoundNBT) {
-		for (int i = 0; i < collectedPostage.length; i++) {
-			compoundNBT.putInt("CPS" + i, collectedPostage[i]);
+		for (int i = 0; i < this.collectedPostage.length; i++) {
+			compoundNBT.putInt("CPS" + i, this.collectedPostage[i]);
 		}
 		return compoundNBT;
 	}
@@ -64,8 +57,8 @@ public class PostOffice extends SavedData implements IPostOffice {
 	@Override
 	public ItemStack getAnyStamp(EnumPostage[] postages, int max) {
 		for (EnumPostage postage : postages) {
-			int collected = Math.min(max, collectedPostage[postage.ordinal()]);
-			collectedPostage[postage.ordinal()] -= collected;
+			int collected = Math.min(max, this.collectedPostage[postage.ordinal()]);
+            this.collectedPostage[postage.ordinal()] -= collected;
 
 			if (collected > 0) {
 				EnumStampDefinition stampDefinition = EnumStampDefinition.getFromPostage(postage);
@@ -100,8 +93,8 @@ public class PostOffice extends SavedData implements IPostOffice {
 		IMailAddress address = letter.getRecipient();
 		if (address != null) {
 			IPostalCarrier carrier = address.getCarrier();
-            state = carrier.deliverLetter(world, this, address, itemstack, doLodge);
-        }
+			state = carrier.deliverLetter(world, this, address, itemstack, doLodge);
+		}
 
 		if (!state.isOk()) {
 			return state;
@@ -123,7 +116,7 @@ public class PostOffice extends SavedData implements IPostOffice {
 
 			if (stamp.getItem() instanceof IStamps) {
 				EnumPostage postage = ((IStamps) stamp.getItem()).getPostage(stamp);
-				collectedPostage[postage.ordinal()] += stamp.getCount();
+                this.collectedPostage[postage.ordinal()] += stamp.getCount();
 			}
 		}
 	}

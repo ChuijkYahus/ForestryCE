@@ -13,6 +13,6 @@ public class PotionBeeEffectExclusive extends PotionBeeEffect {
 
 	@Override
 	public boolean secondaryEntityCheck(LivingEntity entity) {
-		return !entity.hasEffect(exclude);
+		return !entity.hasEffect(this.exclude);
 	}
 }

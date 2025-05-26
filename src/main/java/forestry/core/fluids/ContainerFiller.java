@@ -1,15 +1,13 @@
 package forestry.core.fluids;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.world.level.material.Fluid;
+import forestry.core.utils.ItemStackUtil;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
-import forestry.core.utils.ItemStackUtil;
+import javax.annotation.Nullable;
 
 /**
  * Helper to slowly fill containers from a machine's internal tank.
@@ -35,28 +33,28 @@ public class ContainerFiller {
 	}
 
 	public void updateServerSide() {
-		ItemStack input = inventory.getItem(inputSlot);
-		if (usedInput == null || !ItemStackUtil.isIdenticalItem(usedInput, input)) {
-			fillingProgress = 0;
-			usedInput = input;
+		ItemStack input = this.inventory.getItem(this.inputSlot);
+		if (this.usedInput == null || !ItemStackUtil.isIdenticalItem(this.usedInput, input)) {
+            this.fillingProgress = 0;
+            this.usedInput = input;
 		}
 
-		if (usedInput != null) {
-			FluidStack tankContents = fluidTank.getFluid();
+		if (this.usedInput != null) {
+			FluidStack tankContents = this.fluidTank.getFluid();
 			if (!tankContents.isEmpty() && tankContents.getAmount() > 0) {
-				if (fillingProgress == 0) {
+				if (this.fillingProgress == 0) {
 					Fluid tankFluid = tankContents.getFluid();
-					FluidHelper.FillStatus canFill = FluidHelper.fillContainers(fluidTank, inventory, inputSlot, outputSlot, tankFluid, false);
+					FluidHelper.FillStatus canFill = FluidHelper.fillContainers(this.fluidTank, this.inventory, this.inputSlot, this.outputSlot, tankFluid, false);
 					if (canFill == FluidHelper.FillStatus.SUCCESS) {
-						fillingProgress = 1;
+                        this.fillingProgress = 1;
 					}
 				} else {
-					fillingProgress++;
-					if (fillingProgress >= fillingTime) {
+                    this.fillingProgress++;
+					if (this.fillingProgress >= this.fillingTime) {
 						Fluid tankFluid = tankContents.getFluid();
-						FluidHelper.FillStatus filled = FluidHelper.fillContainers(fluidTank, inventory, inputSlot, outputSlot, tankFluid, true);
+						FluidHelper.FillStatus filled = FluidHelper.fillContainers(this.fluidTank, this.inventory, this.inputSlot, this.outputSlot, tankFluid, true);
 						if (filled == FluidHelper.FillStatus.SUCCESS) {
-							fillingProgress = 0;
+                            this.fillingProgress = 0;
 						}
 					}
 				}
@@ -65,6 +63,6 @@ public class ContainerFiller {
 	}
 
 	public int getFillingProgress() {
-		return fillingProgress;
+		return this.fillingProgress;
 	}
 }

@@ -10,9 +10,6 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Inventory;
-
 import forestry.core.gui.ContainerLiquidTanksSocketed;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotLiquidIn;
@@ -21,6 +18,8 @@ import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventorySqueezer;
 import forestry.factory.tiles.TileSqueezer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ContainerSqueezer extends ContainerLiquidTanksSocketed<TileSqueezer> {
 	public static ContainerSqueezer fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {

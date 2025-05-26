@@ -2,21 +2,6 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.genetics.ForestryTaxa;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.ITaxon;
@@ -29,6 +14,11 @@ import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ISpeciesTypeFactory;
 import forestry.api.plugin.ITaxonBuilder;
 import forestry.core.genetics.Taxon;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.function.Consumer;
 
 // Handles registration of species types, taxonomy, and filter rules.
 public final class GeneticRegistration implements IGeneticRegistration {
@@ -254,16 +244,16 @@ public final class GeneticRegistration implements IGeneticRegistration {
 
 			TaxonBuilder that = (TaxonBuilder) o;
 
-			if (rank != that.rank) {
+			if (this.rank != that.rank) {
 				return false;
 			}
-			return name.equals(that.name);
+			return this.name.equals(that.name);
 		}
 
 		@Override
 		public int hashCode() {
-			int result = rank.hashCode();
-			result = 31 * result + name.hashCode();
+			int result = this.rank.hashCode();
+			result = 31 * result + this.name.hashCode();
 			return result;
 		}
 	}

@@ -10,11 +10,10 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
-
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.tiles.TileNaturalistChest;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
 
 public class InventoryNaturalistChest extends InventoryAdapterTile<TileNaturalistChest> {
 	private final ISpeciesType speciesRoot;
@@ -26,7 +25,7 @@ public class InventoryNaturalistChest extends InventoryAdapterTile<TileNaturalis
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		return speciesRoot.isMember(stack);
+		return this.speciesRoot.isMember(stack);
 	}
 
 	@Override

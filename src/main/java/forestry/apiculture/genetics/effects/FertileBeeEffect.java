@@ -10,6 +10,10 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
+import forestry.api.apiculture.IBeeHousing;
+import forestry.api.genetics.IEffectData;
+import forestry.api.genetics.IGenome;
+import forestry.apiculture.genetics.Bee;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
@@ -17,13 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.common.IPlantable;
-
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
-import forestry.apiculture.genetics.Bee;
 
 public class FertileBeeEffect extends ThrottledBeeEffect {
 	private static final int MAX_BLOCK_FIND_TRIES = 5;

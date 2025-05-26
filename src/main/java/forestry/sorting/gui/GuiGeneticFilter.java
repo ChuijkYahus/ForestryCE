@@ -1,17 +1,6 @@
 package forestry.sorting.gui;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import forestry.api.genetics.filter.IFilterLogic;
 import forestry.core.config.Constants;
 import forestry.core.gui.Drawable;
@@ -22,6 +11,15 @@ import forestry.sorting.gui.widgets.RuleWidget;
 import forestry.sorting.gui.widgets.SelectionWidget;
 import forestry.sorting.gui.widgets.SpeciesWidget;
 import forestry.sorting.tiles.TileGeneticFilter;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
+
+import javax.annotation.Nullable;
 
 public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> {
 	private final TileGeneticFilter tile;
@@ -32,31 +30,31 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 
 	public GuiGeneticFilter(ContainerGeneticFilter container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/filter.png", container, inventory, title);
-		imageHeight = 222;
-		imageWidth = 212;
+        this.imageHeight = 222;
+        this.imageWidth = 212;
 		this.tile = container.getTile();
 
 		for (int i = 0; i < 6; i++) {
 			Direction facing = Direction.from3DDataValue(i);
-			widgetManager.add(new RuleWidget(widgetManager, 8 + 36, 18 + i * 18, facing, this));
+            this.widgetManager.add(new RuleWidget(this.widgetManager, 8 + 36, 18 + i * 18, facing, this));
 		}
 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 2; k++) {
-					widgetManager.add(new SpeciesWidget(widgetManager, 44 + 36 + j * 45 + k * 18, 18 + i * 18, Direction.from3DDataValue(i), j, k == 0, this));
+                    this.widgetManager.add(new SpeciesWidget(this.widgetManager, 44 + 36 + j * 45 + k * 18, 18 + i * 18, Direction.from3DDataValue(i), j, k == 0, this));
 				}
 			}
 		}
 
-		this.scrollBar = new WidgetScrollBar(widgetManager, 157 + 36, 150, 12, 64, new Drawable(new ResourceLocation(Constants.TEXTURE_PATH_GUI + "/container/creative_inventory/tabs.png"), 232, 0, 12, 15));
-		widgetManager.add(this.selection = new SelectionWidget(widgetManager, 0, 134, scrollBar, this));
-		widgetManager.add(scrollBar);
-		scrollBar.setVisible(false);
+		this.scrollBar = new WidgetScrollBar(this.widgetManager, 157 + 36, 150, 12, 64, new Drawable(new ResourceLocation(Constants.TEXTURE_PATH_GUI + "/container/creative_inventory/tabs.png"), 232, 0, 12, 15));
+        this.widgetManager.add(this.selection = new SelectionWidget(this.widgetManager, 0, 134, this.scrollBar, this));
+        this.widgetManager.add(this.scrollBar);
+        this.scrollBar.setVisible(false);
 	}
 
 	public <S> void onModuleClick(ISelectableProvider<S> provider) {
-		if (selection.isSame(provider)) {
+		if (this.selection.isSame(provider)) {
 			deselectFilter();
 		} else {
 			selectFilter(provider);
@@ -64,12 +62,12 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 	}
 
 	private <S> void selectFilter(ISelectableProvider<S> provider) {
-		selection.setProvider(provider);
-		if (searchField != null) {
-			searchField.setEditable(true);
-			searchField.setVisible(true);
+        this.selection.setProvider(provider);
+		if (this.searchField != null) {
+            this.searchField.setEditable(true);
+            this.searchField.setVisible(true);
 		}
-		selection.filterEntries(searchField != null ? searchField.getValue() : "");
+        this.selection.filterEntries(this.searchField != null ? this.searchField.getValue() : "");
 		for (Slot slot : this.menu.slots) {
 			if (slot instanceof SlotGeneticFilter filter) {
 				filter.setEnabled(false);
@@ -79,11 +77,11 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 
 	private void deselectFilter() {
 		this.selection.setProvider(null);
-		if (searchField != null) {
-			searchField.setEditable(false);
-			searchField.setVisible(false);
+		if (this.searchField != null) {
+            this.searchField.setEditable(false);
+            this.searchField.setVisible(false);
 		}
-		scrollBar.setVisible(false);
+        this.scrollBar.setVisible(false);
 		for (Slot slot : this.menu.slots) {
 			if (slot instanceof SlotGeneticFilter filter) {
 				filter.setEnabled(true);
@@ -95,9 +93,9 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 	public void init() {
 		super.init();
 
-		String oldString = searchField != null ? searchField.getValue() : "";
+		String oldString = this.searchField != null ? this.searchField.getValue() : "";
 
-		this.searchField = new EditBox(this.font, this.leftPos + selection.getX() + 89 + 36, selection.getY() + this.topPos + 4, 80, this.font.lineHeight, null);
+		this.searchField = new EditBox(this.font, this.leftPos + this.selection.getX() + 89 + 36, this.selection.getY() + this.topPos + 4, 80, this.font.lineHeight, null);
 		this.searchField.setMaxLength(50);
 		this.searchField.setBordered(false);
 		this.searchField.setTextColor(16777215);
@@ -109,16 +107,16 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		if (searchField != null) {
+		if (this.searchField != null) {
 			this.searchField.render(graphics, mouseX, mouseY, partialTicks);
 		}
 	}
 
 	@Override
 	public boolean keyPressed(int key, int scanCode, int modifiers) {
-		if (searchField != null && this.searchField.keyPressed(key, scanCode, modifiers)) {
-			scrollBar.setValue(0);
-			selection.filterEntries(searchField.getValue());
+		if (this.searchField != null && this.searchField.keyPressed(key, scanCode, modifiers)) {
+            this.scrollBar.setValue(0);
+            this.selection.filterEntries(this.searchField.getValue());
 			return true;
 		} else {
 			return super.keyPressed(key, scanCode, modifiers);
@@ -129,7 +127,7 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 	@Override
 	protected Slot getSlotAtPosition(double mouseX, double mouseY) {
 		Slot slot = super.getSlotAtPosition(mouseX, mouseY);
-		if (slot instanceof SlotGeneticFilter && selection.getLogic() != null) {
+		if (slot instanceof SlotGeneticFilter && this.selection.getLogic() != null) {
 			return null;
 		}
 		return slot;
@@ -141,10 +139,10 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 			return true;
 		}
 
-		if (searchField != null) {
-			searchField.mouseClicked(mouseX, mouseY, mouseButton);
+		if (this.searchField != null) {
+            this.searchField.mouseClicked(mouseX, mouseY, mouseButton);
 		}
-		Widget widget = widgetManager.getAtPosition(mouseX - leftPos, mouseY - topPos);
+		Widget widget = this.widgetManager.getAtPosition(mouseX - this.leftPos, mouseY - this.topPos);
 		if (widget == null) {
 			deselectFilter();
 		}
@@ -157,6 +155,6 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 	}
 
 	public IFilterLogic getLogic() {
-		return tile.getLogic();
+		return this.tile.getLogic();
 	}
 }

@@ -1,26 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
-
 package forestry.storage;
-
-import java.util.function.Consumer;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
 
 import forestry.api.ForestryTags;
 import forestry.api.client.IClientModuleHandler;
@@ -32,6 +10,15 @@ import forestry.core.ForestryColors;
 import forestry.core.config.ForestryConfig;
 import forestry.modules.BlankForestryModule;
 import forestry.storage.client.StorageClientHandler;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.IEventBus;
+
+import java.util.function.Consumer;
 
 @ForestryModule
 public class ModuleStorage extends BlankForestryModule {

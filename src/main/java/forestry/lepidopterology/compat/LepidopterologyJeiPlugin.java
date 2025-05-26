@@ -1,15 +1,13 @@
 package forestry.lepidopterology.compat;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.SpeciesUtil;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.ISubtypeRegistration;
+import net.minecraft.resources.ResourceLocation;
 
 @JeiPlugin
 public class LepidopterologyJeiPlugin implements IModPlugin {

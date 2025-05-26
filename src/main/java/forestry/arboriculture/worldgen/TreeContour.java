@@ -1,12 +1,12 @@
 package forestry.arboriculture.worldgen;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+
 import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 /**
  * A tree contour holds branch end positions and leaf positions.

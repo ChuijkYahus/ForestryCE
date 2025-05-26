@@ -1,11 +1,10 @@
 package forestry.core.genetics.alleles;
 
-import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.core.utils.GeneticsUtil;
+import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class AbstractChromosome<A extends IAllele> implements IChromosome<A> {
 	protected final ResourceLocation id;

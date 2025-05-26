@@ -1,20 +1,5 @@
 package forestry.factory.recipes.jei;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
-import net.minecraft.client.renderer.Rect2i;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
-
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModuleIds;
@@ -31,13 +16,7 @@ import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.gui.GuiCarpenter;
-import forestry.factory.gui.GuiCentrifuge;
-import forestry.factory.gui.GuiFabricator;
-import forestry.factory.gui.GuiFermenter;
-import forestry.factory.gui.GuiMoistener;
-import forestry.factory.gui.GuiSqueezer;
-import forestry.factory.gui.GuiStill;
+import forestry.factory.gui.*;
 import forestry.factory.recipes.jei.carpenter.CarpenterRecipeCategory;
 import forestry.factory.recipes.jei.carpenter.CarpenterRecipeTransferHandler;
 import forestry.factory.recipes.jei.centrifuge.CentrifugeRecipeCategory;
@@ -48,7 +27,6 @@ import forestry.factory.recipes.jei.moistener.MoistenerRecipeCategory;
 import forestry.factory.recipes.jei.rainmaker.RainmakerRecipeCategory;
 import forestry.factory.recipes.jei.squeezer.SqueezerRecipeCategory;
 import forestry.factory.recipes.jei.still.StillRecipeCategory;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -58,14 +36,22 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.ingredients.ITypedIngredient;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.IRecipeTransferRegistration;
-import mezz.jei.api.registration.ISubtypeRegistration;
+import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IClickableIngredient;
 import mezz.jei.api.runtime.IIngredientManager;
+import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @JeiPlugin
 public class FactoryJeiPlugin implements IModPlugin {
@@ -80,14 +66,14 @@ public class FactoryJeiPlugin implements IModPlugin {
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 
 		registry.addRecipeCategories(
-				new CarpenterRecipeCategory(guiHelper),
-				new CentrifugeRecipeCategory(guiHelper),
-				new FabricatorRecipeCategory(guiHelper),
-				new FermenterRecipeCategory(guiHelper),
-				new MoistenerRecipeCategory(guiHelper),
-				new RainmakerRecipeCategory(guiHelper),
-				new SqueezerRecipeCategory(guiHelper),
-				new StillRecipeCategory(guiHelper)
+			new CarpenterRecipeCategory(guiHelper),
+			new CentrifugeRecipeCategory(guiHelper),
+			new FabricatorRecipeCategory(guiHelper),
+			new FermenterRecipeCategory(guiHelper),
+			new MoistenerRecipeCategory(guiHelper),
+			new RainmakerRecipeCategory(guiHelper),
+			new SqueezerRecipeCategory(guiHelper),
+			new StillRecipeCategory(guiHelper)
 		);
 	}
 
@@ -101,8 +87,8 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipes(ForestryRecipeType.FERMENTER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.FERMENTER).toList());
 		registry.addRecipes(ForestryRecipeType.MOISTENER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.MOISTENER).toList());
 		registry.addRecipes(ForestryRecipeType.RAINMAKER, FuelManager.rainSubstrate.values().stream()
-				.sorted(Comparator.comparing(RainSubstrate::duration))
-				.toList());
+			.sorted(Comparator.comparing(RainSubstrate::duration))
+			.toList());
 		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());
 		registry.addRecipes(ForestryRecipeType.STILL, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.STILL).toList());
 
@@ -154,9 +140,9 @@ public class FactoryJeiPlugin implements IModPlugin {
 		IIngredientSubtypeInterpreter<ItemStack> subtypeInterpreter = (itemStack, context) -> {
 			LazyOptional<IFluidHandlerItem> fluidHandler = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
 			return fluidHandler.map(handler -> handler.getFluidInTank(0))
-					.map(fluid -> ModUtil.getRegistryName(fluid.getFluid()))
-					.map(ResourceLocation::toString)
-					.orElse(IIngredientSubtypeInterpreter.NONE);
+				.map(fluid -> ModUtil.getRegistryName(fluid.getFluid()))
+				.map(ResourceLocation::toString)
+				.orElse(IIngredientSubtypeInterpreter.NONE);
 		};
 
 		for (Item container : FluidsItems.CONTAINERS.itemArray()) {
@@ -182,7 +168,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 			TankWidget widget = guiContainer.getTankAtPosition(mouseX, mouseY);
 
 			if (widget != null && widget.getTank() != null) {
-				return manager.createTypedIngredient(ForgeTypes.FLUID_STACK, widget.getTank().getFluid()).map(ingredient -> new IClickableIngredient<FluidStack>() {
+				return this.manager.createTypedIngredient(ForgeTypes.FLUID_STACK, widget.getTank().getFluid()).map(ingredient -> new IClickableIngredient<FluidStack>() {
 					@Override
 					public ITypedIngredient<FluidStack> getTypedIngredient() {
 						return ingredient;

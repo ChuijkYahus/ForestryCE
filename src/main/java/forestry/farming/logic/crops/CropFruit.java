@@ -10,16 +10,15 @@
  ******************************************************************************/
 package forestry.farming.logic.crops;
 
-import java.util.List;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-
 import forestry.api.genetics.IFruitBearer;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.BlockUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
+import java.util.List;
 
 public class CropFruit extends Crop {
 	public CropFruit(Level world, BlockPos position) {

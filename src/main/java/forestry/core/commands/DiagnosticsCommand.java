@@ -1,39 +1,29 @@
 package forestry.core.commands;
 
-import java.util.Collection;
-import java.util.List;
-
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
-
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-
-import net.minecraftforge.api.distmarker.Dist;
-
-import net.minecraftforge.fml.loading.FMLEnvironment;
-
 import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.genetics.IGeneticManager;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IBooleanChromosome;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.genetics.alleles.IRegistryChromosome;
+import forestry.api.genetics.alleles.*;
 import forestry.core.utils.SpeciesUtil;
 import forestry.core.utils.Translator;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
+import java.util.Collection;
+import java.util.List;
 
 // Test command to make sure things aren't broken after the API rewrite.
 public class DiagnosticsCommand {
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
 		return Commands.literal("diagnostics")
-				.executes(DiagnosticsCommand::diagnostics);
+			.executes(DiagnosticsCommand::diagnostics);
 	}
 
 	private static int diagnostics(CommandContext<CommandSourceStack> ctx) {

@@ -12,14 +12,13 @@ package forestry.core.tiles;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import net.minecraft.locale.Language;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
-
-import net.minecraft.locale.Language;
-import net.minecraft.network.chat.Component;
 
 public class EscritoireTextSource {
 
@@ -51,12 +50,12 @@ public class EscritoireTextSource {
 
 	public Component getText(EscritoireGame escritoireGame) {
 		Notes noteLevel = getNoteLevel(escritoireGame);
-		if (lastNoteLevel != noteLevel || researchNote == null) {
-			researchNote = getRandomNote(noteLevel);
-			lastNoteLevel = noteLevel;
+		if (this.lastNoteLevel != noteLevel || this.researchNote == null) {
+            this.researchNote = getRandomNote(noteLevel);
+            this.lastNoteLevel = noteLevel;
 		}
 
-		return researchNote;
+		return this.researchNote;
 	}
 
 	private static Component getRandomNote(Notes level) {

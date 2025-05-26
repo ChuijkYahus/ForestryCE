@@ -10,18 +10,16 @@
  ******************************************************************************/
 package forestry.factory.inventory;
 
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.item.ItemStack;
+import forestry.core.inventory.InventoryAdapterTile;
+import forestry.factory.tiles.TileRaintank;
 import net.minecraft.core.Direction;
-
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-
-import forestry.core.inventory.InventoryAdapterTile;
-import forestry.factory.tiles.TileRaintank;
 
 public class InventoryRaintank extends InventoryAdapterTile<TileRaintank> {
 	public static final short SLOT_RESOURCE = 0;

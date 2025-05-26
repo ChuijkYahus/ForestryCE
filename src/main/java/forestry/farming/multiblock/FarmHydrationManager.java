@@ -10,12 +10,6 @@
  ******************************************************************************/
 package forestry.farming.multiblock;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.Level;
-
 import forestry.api.core.HumidityType;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
@@ -23,6 +17,11 @@ import forestry.api.core.TemperatureType;
 import forestry.core.network.IStreamable;
 import forestry.cultivation.IFarmHousingInternal;
 import forestry.farming.gui.IFarmLedgerDelegate;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 
 public class FarmHydrationManager implements IFarmLedgerDelegate, INbtWritable, INbtReadable, IStreamable {
 	private static final int DELAY_HYDRATION = 100;
@@ -38,18 +37,18 @@ public class FarmHydrationManager implements IFarmLedgerDelegate, INbtWritable, 
 	}
 
 	public void updateServer() {
-		Level world = housing.getWorldObj();
-		BlockPos coordinates = housing.getTopCoord();
+		Level world = this.housing.getWorldObj();
+		BlockPos coordinates = this.housing.getTopCoord();
 		if (world.isRainingAt(coordinates.above())) {
-			if (hydrationDelay > 0) {
-				hydrationDelay--;
+			if (this.hydrationDelay > 0) {
+                this.hydrationDelay--;
 			} else {
-				ticksSinceRainfall = 0;
+                this.ticksSinceRainfall = 0;
 			}
 		} else {
-			hydrationDelay = DELAY_HYDRATION;
-			if (ticksSinceRainfall < Integer.MAX_VALUE) {
-				ticksSinceRainfall++;
+            this.hydrationDelay = DELAY_HYDRATION;
+			if (this.ticksSinceRainfall < Integer.MAX_VALUE) {
+                this.ticksSinceRainfall++;
 			}
 		}
 	}
@@ -90,36 +89,36 @@ public class FarmHydrationManager implements IFarmLedgerDelegate, INbtWritable, 
 
 	@Override
 	public float getHydrationRainfallModifier() {
-		return Mth.clamp((float) ticksSinceRainfall / 24000, RAINFALL_MODIFIER_MIN, RAINFALL_MODIFIER_MAX);
+		return Mth.clamp((float) this.ticksSinceRainfall / 24000, RAINFALL_MODIFIER_MIN, RAINFALL_MODIFIER_MAX);
 	}
 
 	@Override
 	public double getDrought() {
-		return Math.round((double) ticksSinceRainfall / 24000 * 10) / 10.;
+		return Math.round((double) this.ticksSinceRainfall / 24000 * 10) / 10.;
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag compoundNBT) {
-		compoundNBT.putInt("HydrationDelay", hydrationDelay);
-		compoundNBT.putInt("TicksSinceRainfall", ticksSinceRainfall);
+		compoundNBT.putInt("HydrationDelay", this.hydrationDelay);
+		compoundNBT.putInt("TicksSinceRainfall", this.ticksSinceRainfall);
 		return compoundNBT;
 	}
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		data.writeVarInt(hydrationDelay);
-		data.writeVarInt(ticksSinceRainfall);
+		data.writeVarInt(this.hydrationDelay);
+		data.writeVarInt(this.ticksSinceRainfall);
 	}
 
 	@Override
 	public void readData(FriendlyByteBuf data) {
-		hydrationDelay = data.readVarInt();
-		ticksSinceRainfall = data.readVarInt();
+        this.hydrationDelay = data.readVarInt();
+        this.ticksSinceRainfall = data.readVarInt();
 	}
 
 	@Override
 	public void read(CompoundTag nbt) {
-		hydrationDelay = nbt.getInt("HydrationDelay");
-		ticksSinceRainfall = nbt.getInt("TicksSinceRainfall");
+        this.hydrationDelay = nbt.getInt("HydrationDelay");
+        this.ticksSinceRainfall = nbt.getInt("TicksSinceRainfall");
 	}
 }

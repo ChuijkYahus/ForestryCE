@@ -1,14 +1,13 @@
 package forestry.apiimpl.plugin;
 
-import java.util.ArrayList;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.circuits.CircuitHolder;
 import forestry.api.circuits.ICircuit;
 import forestry.api.plugin.ICircuitRegistration;
 import forestry.core.circuits.CircuitLayout;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
 
 // should circuit board items be registered too? not sure if there's a use for any besides the four Forestry ones
 public class CircuitRegistration implements ICircuitRegistration {

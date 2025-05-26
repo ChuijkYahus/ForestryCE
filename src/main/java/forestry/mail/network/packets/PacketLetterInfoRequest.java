@@ -11,16 +11,16 @@
 package forestry.mail.network.packets;
 
 import forestry.api.mail.IPostalCarrier;
+import forestry.api.modules.IForestryPacketServer;
+import forestry.core.network.PacketIdServer;
 import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.gui.ContainerLetter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-import forestry.api.modules.IForestryPacketServer;
-import forestry.core.network.PacketIdServer;
-import forestry.mail.gui.ContainerLetter;
-
-public record PacketLetterInfoRequest(String recipientName, IPostalCarrier addressType) implements IForestryPacketServer {
+public record PacketLetterInfoRequest(String recipientName,
+									  IPostalCarrier addressType) implements IForestryPacketServer {
 	public static void handle(PacketLetterInfoRequest msg, ServerPlayer player) {
 		if (player.containerMenu instanceof ContainerLetter containerLetter) {
 			containerLetter.handleRequestLetterInfo(player, msg.recipientName(), msg.addressType());
@@ -34,8 +34,8 @@ public record PacketLetterInfoRequest(String recipientName, IPostalCarrier addre
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeUtf(recipientName);
-		buffer.writeUtf(PostalCarriers.REGISTRY.get().getKey(addressType).toString());
+		buffer.writeUtf(this.recipientName);
+		buffer.writeUtf(PostalCarriers.REGISTRY.get().getKey(this.addressType).toString());
 	}
 
 	public static PacketLetterInfoRequest decode(FriendlyByteBuf buffer) {

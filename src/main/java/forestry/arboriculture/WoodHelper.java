@@ -1,11 +1,10 @@
 package forestry.arboriculture;
 
-import net.minecraft.network.chat.Component;
-
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.core.utils.Translator;
+import net.minecraft.network.chat.Component;
 
 public class WoodHelper {
 	public static Component getDisplayName(IWoodTyped wood, IWoodType woodType) {

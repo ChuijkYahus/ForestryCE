@@ -11,19 +11,15 @@
 package forestry.core.inventory;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.util.Random;
-
-import net.minecraft.world.entity.player.Player;
+import forestry.core.tiles.IFilterSlotDelegate;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.core.NonNullList;
-
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -31,7 +27,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import forestry.core.tiles.IFilterSlotDelegate;
+import javax.annotation.Nullable;
+import java.util.Random;
 
 public abstract class ItemInventory implements Container, IFilterSlotDelegate, ICapabilityProvider {
 	private static final String KEY_SLOTS = "Slots";
@@ -59,14 +56,14 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 		setUID(nbt); // Set a uid to identify the itemStack on SMP
 
 		CompoundTag nbtSlots = nbt.getCompound(KEY_SLOTS);
-		for (int i = 0; i < inventoryStacks.size(); i++) {
+		for (int i = 0; i < this.inventoryStacks.size(); i++) {
 			String slotKey = getSlotNBTKey(i);
 			if (nbtSlots.contains(slotKey)) {
 				CompoundTag itemNbt = nbtSlots.getCompound(slotKey);
 				ItemStack itemStack = ItemStack.of(itemNbt);
-				inventoryStacks.set(i, itemStack);
+                this.inventoryStacks.set(i, itemStack);
 			} else {
-				inventoryStacks.set(i, ItemStack.EMPTY);
+                this.inventoryStacks.set(i, ItemStack.EMPTY);
 			}
 		}
 	}
@@ -94,12 +91,12 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 
 	protected ItemStack getParent() {
 		for (InteractionHand hand : InteractionHand.values()) {
-			ItemStack held = player.getItemInHand(hand);
-			if (isSameItemInventory(held, parent)) {
+			ItemStack held = this.player.getItemInHand(hand);
+			if (isSameItemInventory(held, this.parent)) {
 				return held;
 			}
 		}
-		return parent;
+		return this.parent;
 	}
 
 	protected void setParent(ItemStack parent) {
@@ -109,8 +106,8 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 	@Nullable
 	protected InteractionHand getHand() {
 		for (InteractionHand hand : InteractionHand.values()) {
-			ItemStack held = player.getItemInHand(hand);
-			if (isSameItemInventory(held, parent)) {
+			ItemStack held = this.player.getItemInHand(hand);
+			if (isSameItemInventory(held, this.parent)) {
 				return hand;
 			}
 		}
@@ -200,7 +197,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 
 	@Override
 	public void setItem(int index, ItemStack itemstack) {
-		inventoryStacks.set(index, itemstack);
+        this.inventoryStacks.set(index, itemstack);
 
 		ItemStack parent = getParent();
 
@@ -232,12 +229,12 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 
 	@Override
 	public ItemStack getItem(int i) {
-		return inventoryStacks.get(i);
+		return this.inventoryStacks.get(i);
 	}
 
 	@Override
 	public int getContainerSize() {
-		return inventoryStacks.size();
+		return this.inventoryStacks.size();
 	}
 
 	@Override
@@ -295,13 +292,13 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			return LazyOptional.of(() -> itemHandler).cast();
+			return LazyOptional.of(() -> this.itemHandler).cast();
 		}
 		return LazyOptional.empty();
 	}
 
 	public IItemHandler getItemHandler() {
-		return itemHandler;
+		return this.itemHandler;
 	}
 
 	@Override

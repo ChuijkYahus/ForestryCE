@@ -11,18 +11,15 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
-
-import java.util.function.Consumer;
-
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-
 import net.minecraftforge.fluids.FluidStack;
 
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import java.util.function.Consumer;
 
 public class FabricatorSmeltingRecipeBuilder {
 
@@ -46,7 +43,7 @@ public class FabricatorSmeltingRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, meltingPoint, resource, product));
+		consumer.accept(new Result(id, this.meltingPoint, this.resource, this.product));
 	}
 
 	public static class Result implements FinishedRecipe {
@@ -64,14 +61,14 @@ public class FabricatorSmeltingRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.addProperty("melting", meltingPoint);
-			json.add("resource", resource.toJson());
-			json.add("product", RecipeSerializers.serializeFluid(product));
+			json.addProperty("melting", this.meltingPoint);
+			json.add("resource", this.resource.toJson());
+			json.add("product", RecipeSerializers.serializeFluid(this.product));
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

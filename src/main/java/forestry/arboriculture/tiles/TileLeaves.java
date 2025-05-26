@@ -10,29 +10,6 @@
  ******************************************************************************/
 package forestry.arboriculture.tiles;
 
-import javax.annotation.Nullable;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Objects;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
-
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ILeafTickHandler;
@@ -49,13 +26,7 @@ import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IFruitBearer;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IValueAllele;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.genetics.alleles.*;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.arboriculture.features.ArboricultureTiles;
@@ -66,6 +37,27 @@ import forestry.core.network.packets.PacketTileStream;
 import forestry.core.utils.ColourUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelProperty;
+
+import javax.annotation.Nullable;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButterflyNursery, IRipeningPacketReceiver, IBiomeProvider, ISpectacleBlock {
 	private static final String NBT_RIPENING = "RT";
@@ -134,13 +126,13 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		super.saveAdditional(nbt);
 
 		nbt.putInt(NBT_RIPENING, this.ripeningTime);
-		nbt.putInt(NBT_DAMAGE, damage);
-		nbt.putBoolean(NBT_FRUIT_LEAF, isFruitLeaf);
+		nbt.putInt(NBT_DAMAGE, this.damage);
+		nbt.putBoolean(NBT_FRUIT_LEAF, this.isFruitLeaf);
 
-		if (caterpillar != null) {
-			nbt.putInt(NBT_MATURATION, maturationTime);
+		if (this.caterpillar != null) {
+			nbt.putInt(NBT_MATURATION, this.maturationTime);
 
-			Tag caterpillarNbt = SpeciesUtil.serializeIndividual(caterpillar);
+			Tag caterpillarNbt = SpeciesUtil.serializeIndividual(this.caterpillar);
 			if (caterpillarNbt != null) {
 				nbt.put(NBT_CATERPILLAR, caterpillarNbt);
 			}
@@ -157,9 +149,9 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		IGenome genome = tree.getGenome();
 		ITreeSpecies primary = genome.getActiveValue(TreeChromosomes.SPECIES);
 
-		boolean isDestroyed = isDestroyed(tree, damage);
+		boolean isDestroyed = isDestroyed(tree, this.damage);
 		for (ILeafTickHandler tickHandler : primary.getType().getLeafTickHandlers()) {
-			if (tickHandler.onRandomLeafTick(tree, level, rand, getBlockPos(), isDestroyed)) {
+			if (tickHandler.onRandomLeafTick(tree, this.level, rand, getBlockPos(), isDestroyed)) {
 				return;
 			}
 		}
@@ -168,26 +160,26 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			return;
 		}
 
-		if (damage > 0) {
-			damage--;
+		if (this.damage > 0) {
+            this.damage--;
 		}
 
-		if (hasFruit() && getRipeningTime() < ripeningPeriod) {
+		if (hasFruit() && getRipeningTime() < this.ripeningPeriod) {
 			//ITreekeepingMode treekeepingMode = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(level);
 			//float sappinessModifier = treekeepingMode.getSappinessModifier(genome, 1f);
 			float sappiness = genome.getActiveValue(TreeChromosomes.SAPPINESS);// * sappinessModifier;
 
 			if (rand.nextFloat() < sappiness) {
-				ripeningTime++;
+                this.ripeningTime++;
 				sendNetworkUpdateRipening();
 			}
 		}
 
-		if (caterpillar != null) {
+		if (this.caterpillar != null) {
 			matureCaterpillar();
 		}
 
-		effectData = tree.doEffect(effectData, level, getBlockPos());
+        this.effectData = tree.doEffect(this.effectData, this.level, getBlockPos());
 	}
 
 	@Override
@@ -211,10 +203,10 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	public void setFruit(ITree tree, boolean alwaysFruit) {
 		IGenome genome = tree.getGenome();
 
-		if (tree.hasFruitLeaves() && level != null && !level.isClientSide) {
+		if (tree.hasFruitLeaves() && this.level != null && !this.level.isClientSide) {
 			IFruit fruitProvider = genome.getActiveValue(TreeChromosomes.FRUIT);
 			if (fruitProvider.isFruitLeaf()) {
-				this.isFruitLeaf = alwaysFruit || fruitProvider.getFruitChance(genome, level) >= level.random.nextFloat();
+				this.isFruitLeaf = alwaysFruit || fruitProvider.getFruitChance(genome, this.level) >= this.level.random.nextFloat();
 			}
 		}
 
@@ -237,7 +229,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	public boolean isPollinated() {
 		ITree tree = getTree();
-		return tree != null && !isDestroyed(tree, damage) && tree.getMate() != null;
+		return tree != null && !isDestroyed(tree, this.damage) && tree.getMate() != null;
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -245,9 +237,9 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		final int baseColor = IForestryClientApi.INSTANCE.getTreeManager().getTint(this.species).get(this.level, this.worldPosition);
 
 		ITree tree = getTree();
-		if (isDestroyed(tree, damage)) {
+		if (isDestroyed(tree, this.damage)) {
 			return ColourUtil.addRGBComponents(baseColor, 92, 61, 0);
-		} else if (caterpillar != null) {
+		} else if (this.caterpillar != null) {
 			return ColourUtil.multiplyRGBComponents(baseColor, 1.5f);
 		} else {
 			return baseColor;
@@ -255,10 +247,10 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	}
 
 	public int getFruitColour() {
-		if (colourFruits == 0 && hasFruit()) {
-			colourFruits = determineFruitColour();
+		if (this.colourFruits == 0 && hasFruit()) {
+            this.colourFruits = determineFruitColour();
 		}
-		return colourFruits;
+		return this.colourFruits;
 	}
 
 	private int determineFruitColour() {
@@ -268,7 +260,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		}
 		IGenome genome = tree.getGenome();
 		IFruit fruit = genome.getActiveValue(TreeChromosomes.FRUIT);
-		return fruit.getColour(genome, level, getBlockPos(), getRipeningTime());
+		return fruit.getColour(genome, this.level, getBlockPos(), getRipeningTime());
 	}
 
 	@Override
@@ -281,19 +273,19 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	}
 
 	public int getRipeningTime() {
-		return ripeningTime;
+		return this.ripeningTime;
 	}
 
 	public void setMate(ITree pollen) {
 		getTree().setMate(pollen.getGenome());
-		if (!level.isClientSide) {
+		if (!this.level.isClientSide) {
 			sendNetworkUpdate();
 		}
 	}
 
 	/* NETWORK */
 	public void sendNetworkUpdate() {
-		NetworkUtil.sendNetworkPacket(new PacketTileStream(this), worldPosition, level);
+		NetworkUtil.sendNetworkPacket(new PacketTileStream(this), this.worldPosition, this.level);
 	}
 
 	private void sendNetworkUpdateRipening() {
@@ -301,13 +293,13 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			return;
 		}
 		int newColourFruits = determineFruitColour();
-		if (newColourFruits == colourFruits) {
+		if (newColourFruits == this.colourFruits) {
 			return;
 		}
-		colourFruits = newColourFruits;
+        this.colourFruits = newColourFruits;
 
 		PacketRipeningUpdate ripeningUpdate = new PacketRipeningUpdate(this);
-		NetworkUtil.sendNetworkPacket(ripeningUpdate, worldPosition, level);
+		NetworkUtil.sendNetworkPacket(ripeningUpdate, this.worldPosition, this.level);
 		setChanged();
 	}
 
@@ -376,9 +368,9 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		boolean hasInactiveEffect = (leafState & FLAG_HAS_INACTIVE_EFFECT) != 0;
 		ResourceLocation fruitId = null;
 
-		if (isFruitLeaf) {
+		if (this.isFruitLeaf) {
 			fruitId = data.readResourceLocation();
-			colourFruits = data.readInt();
+            this.colourFruits = data.readInt();
 		}
 
 		ResourceLocation activeEffectAlleleId = hasActiveEffect ? data.readResourceLocation() : null;
@@ -398,13 +390,13 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			IAllele inactiveEffectAllele = ForestryAlleles.REGISTRY.getAllele(inactiveEffectAlleleId);
 			if (activeEffectAllele != null || inactiveEffectAllele != null) {
 				alleles.put(TreeChromosomes.EFFECT, new AllelePair<>(
-						activeEffectAllele != null ? activeEffectAllele : ForestryAlleles.TREE_EFFECT_NONE,
-						inactiveEffectAllele != null ? inactiveEffectAllele : ForestryAlleles.TREE_EFFECT_NONE
+					activeEffectAllele != null ? activeEffectAllele : ForestryAlleles.TREE_EFFECT_NONE,
+					inactiveEffectAllele != null ? inactiveEffectAllele : ForestryAlleles.TREE_EFFECT_NONE
 				));
 			}
 
 			ITree tree = treeTemplate.createIndividualFromPairs(alleles);
-			if (isPollinatedState) {
+			if (this.isPollinatedState) {
 				tree.setMate(tree.getGenome());
 			}
 
@@ -416,10 +408,10 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	@Override
 	public void fromRipeningPacket(int newColourFruits) {
-		if (newColourFruits == colourFruits) {
+		if (newColourFruits == this.colourFruits) {
 			return;
 		}
-		colourFruits = newColourFruits;
+        this.colourFruits = newColourFruits;
 		ClientsideCode.markForUpdate(this.worldPosition);
 	}
 
@@ -432,14 +424,14 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		}
 
 		List<ItemStack> produceStacks = tree.produceStacks(this.level, this.worldPosition, getRipeningTime());
-		ripeningTime = 0;
+        this.ripeningTime = 0;
 		sendNetworkUpdateRipening();
 		return produceStacks;
 	}
 
 	@Override
 	public float getRipeness() {
-		if (ripeningPeriod == 0) {
+		if (this.ripeningPeriod == 0) {
 			return 1.0f;
 		}
 		if (getTree() == null) {
@@ -450,7 +442,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	@Override
 	public boolean hasFruit() {
-		return this.isFruitLeaf && !isDestroyed(getTree(), damage);
+		return this.isFruitLeaf && !isDestroyed(getTree(), this.damage);
 	}
 
 	@Override
@@ -465,22 +457,22 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	/* IBUTTERFLYNURSERY */
 
 	private void matureCaterpillar() {
-		if (caterpillar == null) {
+		if (this.caterpillar == null) {
 			return;
 		}
-		maturationTime++;
+        this.maturationTime++;
 
 		ITree tree = getTree();
-		boolean wasDestroyed = isDestroyed(tree, damage);
-		damage += caterpillar.getGenome().getActiveValue(ButterflyChromosomes.METABOLISM);
+		boolean wasDestroyed = isDestroyed(tree, this.damage);
+        this.damage += this.caterpillar.getGenome().getActiveValue(ButterflyChromosomes.METABOLISM);
 
-		IGenome caterpillarGenome = caterpillar.getGenome();
+		IGenome caterpillarGenome = this.caterpillar.getGenome();
 		int caterpillarMatureTime = Math.round((float) caterpillarGenome.getActiveValue(ButterflyChromosomes.LIFESPAN) / (caterpillarGenome.getActiveValue(ButterflyChromosomes.FERTILITY) * 2));
 
-		if (maturationTime >= caterpillarMatureTime) {
-			SpeciesUtil.BUTTERFLY_TYPE.get().plantCocoon(level, worldPosition, caterpillar, 0, false);
+		if (this.maturationTime >= caterpillarMatureTime) {
+			SpeciesUtil.BUTTERFLY_TYPE.get().plantCocoon(this.level, this.worldPosition, this.caterpillar, 0, false);
 			setCaterpillar(null);
-		} else if (!wasDestroyed && isDestroyed(tree, damage)) {
+		} else if (!wasDestroyed && isDestroyed(tree, this.damage)) {
 			sendNetworkUpdate();
 		}
 	}
@@ -493,7 +485,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	@Override
 	@Nullable
 	public IButterfly getCaterpillar() {
-		return caterpillar;
+		return this.caterpillar;
 	}
 
 	@Override
@@ -503,7 +495,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	@Override
 	public void setCaterpillar(@Nullable IButterfly caterpillar) {
-		maturationTime = 0;
+        this.maturationTime = 0;
 		this.caterpillar = caterpillar;
 		sendNetworkUpdate();
 	}
@@ -511,12 +503,12 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	@Override
 	public boolean canNurse(IButterfly caterpillar) {
 		ITree tree = getTree();
-		return !isDestroyed(tree, damage) && this.caterpillar == null;
+		return !isDestroyed(tree, this.damage) && this.caterpillar == null;
 	}
 
 	@Override
 	public Holder<Biome> getBiome() {
-		return this.level.getBiome(worldPosition);
+		return this.level.getBiome(this.worldPosition);
 	}
 
 	@Override
@@ -531,7 +523,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	@Override
 	public Level getWorldObj() {
-		return level;
+		return this.level;
 	}
 
 	@Override

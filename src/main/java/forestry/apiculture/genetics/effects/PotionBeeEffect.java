@@ -10,10 +10,11 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
+import forestry.api.apiculture.BeeManager;
+import forestry.api.apiculture.IBeeHousing;
+import forestry.api.genetics.IEffectData;
+import forestry.api.genetics.IGenome;
+import forestry.core.render.ParticleRender;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -23,15 +24,12 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.api.apiculture.BeeManager;
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
-import forestry.core.render.ParticleRender;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class PotionBeeEffect extends ThrottledBeeEffect {
 	private final MobEffect potion;
@@ -59,7 +57,7 @@ public class PotionBeeEffect extends ThrottledBeeEffect {
 		List<LivingEntity> entities = ThrottledBeeEffect.getEntitiesInRange(genome, housing, LivingEntity.class);
 
 		for (LivingEntity entity : entities) {
-			if (rand.nextFloat() >= chance) {
+			if (rand.nextFloat() >= this.chance) {
 				continue;
 			}
 
@@ -68,7 +66,7 @@ public class PotionBeeEffect extends ThrottledBeeEffect {
 			}
 
 			int dur = this.duration;
-			if (potion.getCategory() == MobEffectCategory.HARMFUL) {
+			if (this.potion.getCategory() == MobEffectCategory.HARMFUL) {
 				// Entities are not attacked if they wear a full set of apiarist's armor.
 				int count = BeeManager.armorApiaristHelper.wearsItems(entity, this, true);
 				if (count >= 4) {
@@ -83,12 +81,12 @@ public class PotionBeeEffect extends ThrottledBeeEffect {
 			} else {
 				// don't apply positive effects to mobs
 				// but apply neutral ones
-				if (potion.getCategory() == MobEffectCategory.BENEFICIAL && entity instanceof Enemy) {
+				if (this.potion.getCategory() == MobEffectCategory.BENEFICIAL && entity instanceof Enemy) {
 					continue;
 				}
 			}
 
-			entity.addEffect(new MobEffectInstance(potion, dur, 0, true, true));
+			entity.addEffect(new MobEffectInstance(this.potion, dur, 0, true, true));
 		}
 
 		return storedData;
@@ -106,7 +104,7 @@ public class PotionBeeEffect extends ThrottledBeeEffect {
 			super.doFX(genome, storedData, housing);
 		} else {
 			Vec3 beeFXCoordinates = housing.getBeeFXCoordinates();
-			ParticleRender.addEntityPotionFX(level, beeFXCoordinates.x, beeFXCoordinates.y + 0.5, beeFXCoordinates.z, potionFXColor);
+			ParticleRender.addEntityPotionFX(level, beeFXCoordinates.x, beeFXCoordinates.y + 0.5, beeFXCoordinates.z, this.potionFXColor);
 		}
 		return storedData;
 	}

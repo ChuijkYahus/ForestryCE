@@ -1,22 +1,11 @@
 package forestry.factory.client;
 
-import net.minecraft.client.gui.screens.MenuScreens;
-
-import net.minecraftforge.eventbus.api.IEventBus;
-
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
 import forestry.api.client.IClientModuleHandler;
 import forestry.factory.features.FactoryMenuTypes;
-import forestry.factory.gui.GuiBottler;
-import forestry.factory.gui.GuiCarpenter;
-import forestry.factory.gui.GuiCentrifuge;
-import forestry.factory.gui.GuiFabricator;
-import forestry.factory.gui.GuiFermenter;
-import forestry.factory.gui.GuiMoistener;
-import forestry.factory.gui.GuiRaintank;
-import forestry.factory.gui.GuiSqueezer;
-import forestry.factory.gui.GuiStill;
+import forestry.factory.gui.*;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class FactoryClientHandler implements IClientModuleHandler {
 	@Override

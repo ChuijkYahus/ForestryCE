@@ -1,25 +1,16 @@
 package forestry.core.genetics;
 
-import java.util.List;
-import java.util.Map;
-
+import forestry.api.IForestryApi;
+import forestry.api.genetics.*;
+import forestry.api.genetics.alleles.*;
+import forestry.api.plugin.ISpeciesBuilder;
+import forestry.core.utils.GeneticsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.IForestryApi;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.ITaxon;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IRegistryChromosome;
-import forestry.api.genetics.alleles.IValueAllele;
-import forestry.api.plugin.ISpeciesBuilder;
-import forestry.core.utils.GeneticsUtil;
+import java.util.List;
+import java.util.Map;
 
 public abstract class Species<T extends ISpeciesType<? extends ISpecies<I>, I>, I extends IIndividual> implements ISpecies<I> {
 	protected final ResourceLocation id;

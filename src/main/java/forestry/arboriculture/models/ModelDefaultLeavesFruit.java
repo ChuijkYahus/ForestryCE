@@ -10,17 +10,15 @@
  ******************************************************************************/
 package forestry.arboriculture.models;
 
+import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.data.ModelData;
-
-import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
 
 public class ModelDefaultLeavesFruit extends ModelDecorativeLeaves<BlockDefaultLeavesFruit> {
 	public ModelDefaultLeavesFruit() {

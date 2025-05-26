@@ -10,19 +10,7 @@
  ******************************************************************************/
 package forestry.lepidopterology;
 
-import java.util.List;
-import java.util.function.Consumer;
-
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
@@ -31,19 +19,27 @@ import forestry.lepidopterology.entities.EntityButterfly;
 import forestry.lepidopterology.features.LepidopterologyEntities;
 import forestry.lepidopterology.proxy.LepidopterologyClientHandler;
 import forestry.modules.BlankForestryModule;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 @ForestryModule
 public class ModuleLepidopterology extends BlankForestryModule {
 	public static int maxDistance = 64;
-	private static boolean allowPollination = true;
+	private static final boolean allowPollination = true;
 	public static final Object2FloatOpenHashMap<String> spawnRarities = new Object2FloatOpenHashMap<>();
 	public static boolean spawnButterflysFromLeaves = true;
-	private static boolean generateCocoons = false;
-	private static float generateCocoonsAmount = 1.0f;
-	private static float serumChance = 0.55f;
-	private static float secondSerumChance = 0;
+	private static final boolean generateCocoons = false;
+	private static final float generateCocoonsAmount = 1.0f;
+	private static final float serumChance = 0.55f;
+	private static final float secondSerumChance = 0;
 
 	@Override
 	public void registerEvents(IEventBus modBus) {

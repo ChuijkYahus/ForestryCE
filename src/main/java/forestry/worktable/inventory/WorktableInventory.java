@@ -1,10 +1,9 @@
 package forestry.worktable.inventory;
 
-import net.minecraft.world.item.ItemStack;
-
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.utils.SlotUtil;
 import forestry.worktable.tiles.WorktableTile;
+import net.minecraft.world.item.ItemStack;
 
 public class WorktableInventory extends InventoryAdapterTile<WorktableTile> {
 	public static final int SLOT_INVENTORY_1 = 0;

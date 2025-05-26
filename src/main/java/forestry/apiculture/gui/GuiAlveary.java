@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Inventory;
-
 import forestry.apiculture.multiblock.IAlvearyControllerInternal;
 import forestry.apiculture.multiblock.TileAlveary;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
 import forestry.core.render.EnumTankLevel;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 public class GuiAlveary extends GuiForestryTitled<ContainerAlveary> {
 	private final TileAlveary tile;
@@ -33,8 +32,8 @@ public class GuiAlveary extends GuiForestryTitled<ContainerAlveary> {
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
 		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
-		IAlvearyControllerInternal alvearyController = tile.getMultiblockLogic().getController();
-		drawHealthMeter(graphics, leftPos + 20, topPos + 37, alvearyController.getHealthScaled(46), EnumTankLevel.rateTankLevel(alvearyController.getHealthScaled(100)));
+		IAlvearyControllerInternal alvearyController = this.tile.getMultiblockLogic().getController();
+		drawHealthMeter(graphics, this.leftPos + 20, this.topPos + 37, alvearyController.getHealthScaled(46), EnumTankLevel.rateTankLevel(alvearyController.getHealthScaled(100)));
 	}
 
 	private void drawHealthMeter(GuiGraphics graphics, int x, int y, int height, EnumTankLevel rated) {
@@ -46,9 +45,9 @@ public class GuiAlveary extends GuiForestryTitled<ContainerAlveary> {
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(tile);
-		addClimateLedger(tile);
+		addErrorLedger(this.tile);
+		addClimateLedger(this.tile);
 		addHintLedger("apiary");
-		addOwnerLedger(tile);
+		addOwnerLedger(this.tile);
 	}
 }

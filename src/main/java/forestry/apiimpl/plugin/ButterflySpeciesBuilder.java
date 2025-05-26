@@ -1,19 +1,17 @@
 package forestry.apiimpl.plugin;
 
-import javax.annotation.Nullable;
-import java.awt.Color;
-import java.util.List;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
-
 import forestry.api.core.IProduct;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.lepidopterology.ButterflySpecies;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ButterflySpeciesBuilder extends SpeciesBuilder<IButterflySpeciesType, IButterflySpecies, IButterflySpeciesBuilder> implements IButterflySpeciesBuilder {
 	private float flightDistance = 5.0f;

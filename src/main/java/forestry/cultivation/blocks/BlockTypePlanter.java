@@ -1,13 +1,13 @@
 package forestry.cultivation.blocks;
 
-import java.util.List;
-
 import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
 import forestry.cultivation.features.CultivationTiles;
 import forestry.cultivation.tiles.TilePlanter;
 import forestry.modules.features.FeatureTileType;
+
+import java.util.List;
 
 public enum BlockTypePlanter implements IBlockType {
 	ARBORETUM(CultivationTiles.ARBORETUM, "arboretum"),
@@ -24,8 +24,8 @@ public enum BlockTypePlanter implements IBlockType {
 
 	BlockTypePlanter(FeatureTileType<? extends TilePlanter> teClass, String name) {
 		this.machineProperties = new MachineProperties.Builder<>(teClass, name)
-				.setServerTicker(TilePlanter::serverTick)
-				.create();
+			.setServerTicker(TilePlanter::serverTick)
+			.create();
 	}
 
 	@Override

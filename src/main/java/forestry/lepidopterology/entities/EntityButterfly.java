@@ -10,47 +10,6 @@
  ******************************************************************************/
 package forestry.lepidopterology.entities;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Mth;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.IPlantable;
-
 import forestry.api.ForestryTags;
 import forestry.api.IForestryApi;
 import forestry.api.client.IForestryClientApi;
@@ -69,6 +28,41 @@ import forestry.core.config.ForestryConfig;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.ModuleLepidopterology;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.IPlantable;
+
+import javax.annotation.Nullable;
 
 public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	private static final String NBT_BUTTERFLY = "BTFLY";
@@ -132,9 +126,9 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 
-		entityData.define(DATAWATCHER_ID_SPECIES, "");
-		entityData.define(DATAWATCHER_ID_SIZE, (int) (DEFAULT_BUTTERFLY_SIZE * 100));
-		entityData.define(DATAWATCHER_ID_STATE, (byte) DEFAULT_STATE.ordinal());
+        this.entityData.define(DATAWATCHER_ID_SPECIES, "");
+        this.entityData.define(DATAWATCHER_ID_SIZE, (int) (DEFAULT_BUTTERFLY_SIZE * 100));
+        this.entityData.define(DATAWATCHER_ID_STATE, (byte) DEFAULT_STATE.ordinal());
 	}
 
 	@Override
@@ -164,16 +158,16 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		}
 
 		// Pollen data
-		if (pollen != null) {
+		if (this.pollen != null) {
 			Tag pollenNbt = this.pollen.writeNbt();
 			if (pollenNbt != null) {
-				nbt.putString(NBT_POLLEN_TYPE, pollen.getType().id().toString());
+				nbt.putString(NBT_POLLEN_TYPE, this.pollen.getType().id().toString());
 				nbt.put(NBT_POLLEN, pollenNbt);
 			}
 		}
 
 		nbt.putByte(NBT_STATE, (byte) getState().ordinal());
-		nbt.putInt(NBT_EXHAUSTION, exhaustion);
+		nbt.putInt(NBT_EXHAUSTION, this.exhaustion);
 
 		nbt.putLong(NBT_HOME, getRestrictCenter().asLong());
 	}
@@ -199,13 +193,13 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 		EnumButterflyState butterflyState = EnumButterflyState.VALUES[nbt.getByte(NBT_STATE)];
 		setState(butterflyState);
-		exhaustion = nbt.getInt(NBT_EXHAUSTION);
+        this.exhaustion = nbt.getInt(NBT_EXHAUSTION);
 		BlockPos home = BlockPos.of(nbt.getLong(NBT_HOME));
 		restrictTo(home, ModuleLepidopterology.maxDistance);
 	}
 
 	public float getWingFlap(float partialTickTime) {
-		int offset = species != null ? species.id().toString().hashCode() : level().random.nextInt();
+		int offset = this.species != null ? this.species.id().toString().hashCode() : level().random.nextInt();
 		return getState().getWingFlap(this, offset, partialTickTime);
 	}
 
@@ -214,37 +208,37 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		if (this.state != state) {
 			this.state = state;
 			if (!level().isClientSide) {
-				entityData.set(DATAWATCHER_ID_STATE, (byte) state.ordinal());
+                this.entityData.set(DATAWATCHER_ID_STATE, (byte) state.ordinal());
 			}
 		}
 	}
 
 	public EnumButterflyState getState() {
-		return state;
+		return this.state;
 	}
 
 	public float getSize() {
-		return size;
+		return this.size;
 	}
 
 	@Override
 	public float getSpeed() {
-		return contained.getGenome().getActiveValue(ButterflyChromosomes.SPEED);
+		return this.contained.getGenome().getActiveValue(ButterflyChromosomes.SPEED);
 	}
 
 	@Override
 	public boolean fireImmune() {
-		return isImmuneToFire;
+		return this.isImmuneToFire;
 	}
 
 	/* DESTINATION */
 	@Nullable
 	public Vec3 getDestination() {
-		return flightTarget;
+		return this.flightTarget;
 	}
 
 	public void setDestination(@Nullable Vec3 destination) {
-		flightTarget = destination;
+        this.flightTarget = destination;
 	}
 
 	@Override
@@ -329,7 +323,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	@Override
 	@Nullable
 	public IPollen<?> getPollen() {
-		return pollen;
+		return this.pollen;
 	}
 
 	@Override
@@ -340,12 +334,12 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	/* EXHAUSTION */
 	@Override
 	public void changeExhaustion(int change) {
-		exhaustion = Math.max(exhaustion + change, 0);
+        this.exhaustion = Math.max(this.exhaustion + change, 0);
 	}
 
 	@Override
 	public int getExhaustion() {
-		return exhaustion;
+		return this.exhaustion;
 	}
 
 	/* FLYING ABILITY */
@@ -357,41 +351,41 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		if (butterfly == null) {
 			butterfly = IForestryApi.INSTANCE.getGeneticManager().createDefaultIndividual(ForestrySpeciesTypes.BUTTERFLY);
 		}
-		contained = butterfly;
+        this.contained = butterfly;
 
-		IGenome genome = contained.getGenome();
+		IGenome genome = this.contained.getGenome();
 
 		this.isImmuneToFire = genome.getActiveValue(ButterflyChromosomes.FIREPROOF);
 		this.size = genome.getActiveValue(ButterflyChromosomes.SIZE);
 		this.species = genome.getActiveValue(ButterflyChromosomes.SPECIES);
 
 		if (!level().isClientSide) {
-			entityData.set(DATAWATCHER_ID_SIZE, (int) (size * 100));
-			entityData.set(DATAWATCHER_ID_SPECIES, this.species.id().toString());
+            this.entityData.set(DATAWATCHER_ID_SIZE, (int) (this.size * 100));
+            this.entityData.set(DATAWATCHER_ID_SPECIES, this.species.id().toString());
 		} else {
-			textureResource = IForestryClientApi.INSTANCE.getButterflyManager().getTextures(this.species).getSecond();
+            this.textureResource = IForestryClientApi.INSTANCE.getButterflyManager().getTextures(this.species).getSecond();
 		}
 	}
 
 	@Override
 	public IButterfly getButterfly() {
-		return contained;
+		return this.contained;
 	}
 
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		if (!level().isClientSide) {
-			setIndividual(contained);
+			setIndividual(this.contained);
 		}
 		return spawnDataIn;
 	}
 
 	@Override
 	public Component getName() {
-		if (species == null) {
+		if (this.species == null) {
 			return super.getName();
 		}
-		return species.getDisplayName();
+		return this.species.getDisplayName();
 	}
 
 	@Override
@@ -405,12 +399,12 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	}
 
 	public boolean isRenderable() {
-		return species != null;
+		return this.species != null;
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	public ResourceLocation getTexture() {
-		return textureResource;
+		return this.textureResource;
 	}
 
 	@Override
@@ -424,14 +418,14 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 	@Override
 	public boolean removeWhenFarAway(double distanceToClosestPlayer) {
-		return tickCount > MAX_LIFESPAN;
+		return this.tickCount > MAX_LIFESPAN;
 	}
 
 	/* INTERACTION */
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (dead) {
+		if (this.dead) {
 			return InteractionResult.FAIL;
 		}
 		ItemStack stack = player.getItemInHand(hand);
@@ -440,9 +434,9 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 			if (!level.isClientSide) {
 				IButterflySpeciesType type = SpeciesUtil.BUTTERFLY_TYPE.get();
 				ILepidopteristTracker tracker = (ILepidopteristTracker) type.getBreedingTracker(level, player.getGameProfile());
-				ItemStack itemStack = contained.createStack(ButterflyLifeStage.BUTTERFLY);
+				ItemStack itemStack = this.contained.createStack(ButterflyLifeStage.BUTTERFLY);
 
-				tracker.registerCatch(contained);
+				tracker.registerCatch(this.contained);
 				ItemStackUtil.dropItemStackAsEntity(itemStack, level, getX(), getY(), getZ());
 				remove(RemovalReason.KILLED);
 			} else {
@@ -458,7 +452,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHitIn) {
 		Level level = level();
-		for (ItemStack stack : contained.getLootDrop(this, recentlyHitIn, looting)) {
+		for (ItemStack stack : this.contained.getLootDrop(this, recentlyHitIn, looting)) {
 			ItemStackUtil.dropItemStackAsEntity(stack, level, getX(), getY(), getZ());
 		}
 
@@ -478,48 +472,48 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 		// Update stuff client side
 		if (level().isClientSide) {
-			if (species == null) {
-				String speciesUid = entityData.get(DATAWATCHER_ID_SPECIES);
+			if (this.species == null) {
+				String speciesUid = this.entityData.get(DATAWATCHER_ID_SPECIES);
 				IButterflySpecies species = SpeciesUtil.BUTTERFLY_TYPE.get().getSpeciesSafe(new ResourceLocation(speciesUid));
 
 				if (species != null) {
 					this.species = species;
 					this.textureResource = IForestryClientApi.INSTANCE.getButterflyManager().getTextures(this.species).getSecond();
-					this.size = entityData.get(DATAWATCHER_ID_SIZE) / 100f;
+					this.size = this.entityData.get(DATAWATCHER_ID_SIZE) / 100f;
 				}
 			}
 
-			byte stateOrdinal = entityData.get(DATAWATCHER_ID_STATE);
-			if (state.ordinal() != stateOrdinal) {
+			byte stateOrdinal = this.entityData.get(DATAWATCHER_ID_STATE);
+			if (this.state.ordinal() != stateOrdinal) {
 				setState(EnumButterflyState.VALUES[stateOrdinal]);
 			}
 		}
 
 		Vec3 motion = getDeltaMovement();
-		if (state == EnumButterflyState.FLYING && flightTarget != null && flightTarget.y > position().y) {
+		if (this.state == EnumButterflyState.FLYING && this.flightTarget != null && this.flightTarget.y > position().y) {
 			setDeltaMovement(motion.x, motion.y * 0.6 + 0.15, motion.z);
 		} else {
 			setDeltaMovement(motion.x, motion.y * 0.6, motion.z);
 		}
 
 		// Make sure we die if the butterfly hasn't rested in a long, long time.
-		if (exhaustion > EXHAUSTION_CONSUMPTION && random.nextInt(20) == 0) {
+		if (this.exhaustion > EXHAUSTION_CONSUMPTION && this.random.nextInt(20) == 0) {
 			hurt(damageSources().generic(), 1);
 		}
 
-		if (tickCount > MAX_LIFESPAN) {
+		if (this.tickCount > MAX_LIFESPAN) {
 			hurt(damageSources().generic(), 1);
 		}
 
 		// Reduce cooldowns
-		if (cooldownEgg > 0) {
-			cooldownEgg--;
+		if (this.cooldownEgg > 0) {
+            this.cooldownEgg--;
 		}
-		if (cooldownPollination > 0) {
-			cooldownPollination--;
+		if (this.cooldownPollination > 0) {
+            this.cooldownPollination--;
 		}
-		if (cooldownMate > 0) {
-			cooldownMate--;
+		if (this.cooldownMate > 0) {
+            this.cooldownMate--;
 		}
 	}
 
@@ -542,7 +536,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 			float horizontal = (float) (Mth.atan2(newZ, newX) * Mth.RAD_TO_DEG) - 90f;
 			setYRot(getYRot() + Mth.wrapDegrees(horizontal - getYRot()));
 
-			setZza(contained.getGenome().getActiveValue(ButterflyChromosomes.SPEED));
+			setZza(this.contained.getGenome().getActiveValue(ButterflyChromosomes.SPEED));
 		} else {
 			setDeltaMovement(getDeltaMovement().multiply(1, 0.6, 1));
 		}
@@ -588,6 +582,6 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 	@Override
 	public boolean canMate() {
-		return cooldownMate <= 0;
+		return this.cooldownMate <= 0;
 	}
 }

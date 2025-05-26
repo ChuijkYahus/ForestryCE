@@ -1,24 +1,20 @@
 package forestry.compat.patchouli.processor;
 
-import java.util.Arrays;
-
 import com.google.common.base.Preconditions;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
-
 import forestry.api.recipes.IFabricatorRecipe;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
-
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class FabricatorProcessor implements IComponentProcessor {
@@ -34,7 +30,7 @@ public class FabricatorProcessor implements IComponentProcessor {
 
 	@Override
 	public IVariable process(Level level, String key) {
-		Preconditions.checkNotNull(recipe);
+		Preconditions.checkNotNull(this.recipe);
 		if (key.equals("output")) {
 			return IVariable.from(this.recipe.getCraftingGridRecipe().getResultItem(level.registryAccess()));
 		} else if (key.equals("fluid")) {
@@ -43,9 +39,9 @@ public class FabricatorProcessor implements IComponentProcessor {
 			return IVariable.wrap(this.recipe.getResultFluid().getAmount());
 		} else if (key.startsWith("ingredient")) {
 			int index = Integer.parseInt(key.substring("ingredient".length()));
-            if (index < 1 || index > 9) {
-                return IVariable.empty();
-            }
+			if (index < 1 || index > 9) {
+				return IVariable.empty();
+			}
 
 			Ingredient ingredient;
 			try {
@@ -62,11 +58,11 @@ public class FabricatorProcessor implements IComponentProcessor {
 			}
 
 			return RecipeUtils.getRecipes(RecipeUtils.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
-					.filter(recipe -> recipe.getResultFluid().isFluidEqual(this.recipe.getResultFluid()))
-					.flatMap(r -> Arrays.stream(r.getInput().getItems()))
-					.findFirst()
-					.map(IVariable::from)
-					.orElseGet(IVariable::empty);
+				.filter(recipe -> recipe.getResultFluid().isFluidEqual(this.recipe.getResultFluid()))
+				.flatMap(r -> Arrays.stream(r.getInput().getItems()))
+				.findFirst()
+				.map(IVariable::from)
+				.orElseGet(IVariable::empty);
 		} else {
 			return IVariable.empty();
 		}

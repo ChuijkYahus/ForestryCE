@@ -1,10 +1,10 @@
 package forestry.api.circuits;
 
+import net.minecraft.world.item.ItemStack;
+
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
-
-import net.minecraft.world.item.ItemStack;
 
 /**
  * Manages data about different circuits and layouts in Forestry.
@@ -43,6 +43,7 @@ public interface ICircuitManager {
 
 	/**
 	 * Note: Currently hardcoded to Forestry circuit board.
+	 *
 	 * @return {@code true} if the given item is a circuit board and can have circuits installed in it.
 	 */
 	boolean isCircuitBoard(ItemStack stack);

@@ -11,14 +11,6 @@
 package forestry.core.inventory;
 
 import com.google.common.collect.ImmutableSet;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ICircuit;
 import forestry.api.circuits.ICircuitLayout;
@@ -27,6 +19,11 @@ import forestry.api.core.IError;
 import forestry.api.core.IErrorSource;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.circuits.ItemCircuitBoard;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public class ItemInventorySolderingIron extends ItemInventory implements IErrorSource {
 	private final List<ICircuitLayout> layouts = IForestryApi.INSTANCE.getCircuitManager().getLayouts();
@@ -50,7 +47,7 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 	}
 
 	public ICircuitLayout getLayout() {
-		return this.layouts.get(layoutIndex);
+		return this.layouts.get(this.layoutIndex);
 	}
 
 	public void setLayout(ICircuitLayout layout) {
@@ -58,7 +55,7 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 	}
 
 	public void advanceLayout() {
-		this.layoutIndex = (layoutIndex + 1) % layoutCount;
+		this.layoutIndex = (this.layoutIndex + 1) % this.layoutCount;
 	}
 
 	public void regressLayout() {

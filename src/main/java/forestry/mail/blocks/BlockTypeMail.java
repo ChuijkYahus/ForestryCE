@@ -10,8 +10,6 @@
  ******************************************************************************/
 package forestry.mail.blocks;
 
-import javax.annotation.Nullable;
-
 import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
@@ -21,6 +19,8 @@ import forestry.mail.features.MailTiles;
 import forestry.mail.tiles.TileStampCollector;
 import forestry.mail.tiles.TileTrader;
 import forestry.modules.features.FeatureTileType;
+
+import javax.annotation.Nullable;
 
 public enum BlockTypeMail implements IBlockType {
 	MAILBOX(MailTiles.MAILBOX, "mailbox", null),
@@ -35,7 +35,7 @@ public enum BlockTypeMail implements IBlockType {
 
 	@Override
 	public IMachineProperties<?> getMachineProperties() {
-		return machineProperties;
+		return this.machineProperties;
 	}
 
 	@Override

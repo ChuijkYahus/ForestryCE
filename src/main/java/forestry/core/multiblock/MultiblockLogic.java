@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.multiblock;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-
 import forestry.Forestry;
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.api.multiblock.IMultiblockLogic;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+
+import javax.annotation.Nullable;
 
 public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> implements IMultiblockLogic {
 	private final Class<T> controllerClass;
@@ -40,13 +39,13 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 	public void setController(@Nullable IMultiblockControllerInternal controller) {
 		if (controller == null) {
 			this.controller = null;
-		} else if (controllerClass.isAssignableFrom(controller.getClass())) {
-			this.controller = controllerClass.cast(controller);
+		} else if (this.controllerClass.isAssignableFrom(controller.getClass())) {
+			this.controller = this.controllerClass.cast(controller);
 		}
 	}
 
 	public Class<T> getControllerClass() {
-		return controllerClass;
+		return this.controllerClass;
 	}
 
 	@Override
@@ -138,7 +137,7 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 
 	@Override
 	public final boolean isConnected() {
-		return controller != null;
+		return this.controller != null;
 	}
 
 	public void becomeMultiblockSaveDelegate() {
@@ -187,9 +186,9 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 	 */
 	@Override
 	public void encodeDescriptionPacket(CompoundTag packetData) {
-		if (this.isMultiblockSaveDelegate() && controller != null) {
+		if (this.isMultiblockSaveDelegate() && this.controller != null) {
 			CompoundTag tag = new CompoundTag();
-			controller.formatDescriptionPacket(tag);
+            this.controller.formatDescriptionPacket(tag);
 			packetData.put("multiblockData", tag);
 		}
 	}
@@ -204,8 +203,8 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 	public void decodeDescriptionPacket(CompoundTag packetData) {
 		if (packetData.contains("multiblockData")) {
 			CompoundTag tag = packetData.getCompound("multiblockData");
-			if (controller != null) {
-				controller.decodeDescriptionPacket(tag);
+			if (this.controller != null) {
+                this.controller.decodeDescriptionPacket(tag);
 			} else {
 				// This part hasn't been added to a machine yet, so cache the data.
 				this.cachedMultiblockData = tag;

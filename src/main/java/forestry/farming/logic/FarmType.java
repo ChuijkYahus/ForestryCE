@@ -2,24 +2,17 @@ package forestry.farming.logic;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.ToIntFunction;
-
+import forestry.api.farming.*;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
-import forestry.api.farming.IWaterConsumption;
-import forestry.api.farming.Soil;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.ToIntFunction;
 
 public final class FarmType implements IFarmType {
 	private final ResourceLocation id;

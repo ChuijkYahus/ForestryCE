@@ -20,61 +20,61 @@ public class AIButterflyRise extends AIButterflyMovement {
 
 	@Override
 	public boolean canUse() {
-		if (entity.getDestination() != null) {
+		if (this.entity.getDestination() != null) {
 			return false;
 		}
 
-		if (!entity.horizontalCollision && entity.getRandom().nextInt(64) != 0) {
+		if (!this.entity.horizontalCollision && this.entity.getRandom().nextInt(64) != 0) {
 			return false;
 		}
 
-		flightTarget = getRandomDestinationUpwards();
-		if (flightTarget == null) {
-			if (entity.getState().doesMovement) {
-				entity.setState(EnumButterflyState.HOVER);
+        this.flightTarget = getRandomDestinationUpwards();
+		if (this.flightTarget == null) {
+			if (this.entity.getState().doesMovement) {
+                this.entity.setState(EnumButterflyState.HOVER);
 			}
 			return false;
 		}
 
-		entity.setDestination(flightTarget);
-		entity.setState(EnumButterflyState.RISING);
+        this.entity.setDestination(this.flightTarget);
+        this.entity.setState(EnumButterflyState.RISING);
 		return true;
 	}
 
 	@Override
 	public boolean canContinueToUse() {
-		if (entity.getState() != EnumButterflyState.RISING) {
+		if (this.entity.getState() != EnumButterflyState.RISING) {
 			return false;
 		}
-		if (flightTarget == null) {
+		if (this.flightTarget == null) {
 			return false;
 		}
 		// Abort if the flight target changed on us.
-		if (entity.getDestination() == null || !entity.getDestination().equals(flightTarget)) {
+		if (this.entity.getDestination() == null || !this.entity.getDestination().equals(this.flightTarget)) {
 			return false;
 		}
 
 		// Continue if we have not yet reached the destination.
-		if (entity.getDestination().distanceToSqr(entity.position()) > 2.0f) {
+		if (this.entity.getDestination().distanceToSqr(this.entity.position()) > 2.0f) {
 			return true;
 		}
 
-		entity.setDestination(null);
+        this.entity.setDestination(null);
 		return false;
 	}
 
 	@Override
 	public void tick() {
-		if (entity.isInWater()) {
-			flightTarget = getRandomDestinationUpwards();
-		} else if (entity.verticalCollision && entity.getRandom().nextInt(62) == 0) {
-			flightTarget = null;
+		if (this.entity.isInWater()) {
+            this.flightTarget = getRandomDestinationUpwards();
+		} else if (this.entity.verticalCollision && this.entity.getRandom().nextInt(62) == 0) {
+            this.flightTarget = null;
 		}
 
-		entity.setDestination(flightTarget);
-		if (flightTarget != null) {
-			entity.getNavigation().moveTo(flightTarget.x, flightTarget.y, flightTarget.z, 0.5f);
+        this.entity.setDestination(this.flightTarget);
+		if (this.flightTarget != null) {
+            this.entity.getNavigation().moveTo(this.flightTarget.x, this.flightTarget.y, this.flightTarget.z, 0.5f);
 		}
-		entity.changeExhaustion(1);
+        this.entity.changeExhaustion(1);
 	}
 }

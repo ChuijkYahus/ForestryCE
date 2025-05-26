@@ -1,11 +1,7 @@
 package forestry.api.plugin;
 
 import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IBooleanChromosome;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.genetics.alleles.*;
 
 /**
  * Used to create a genome.

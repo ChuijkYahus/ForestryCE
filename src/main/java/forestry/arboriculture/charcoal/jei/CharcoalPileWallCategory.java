@@ -16,7 +16,6 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -33,10 +32,10 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 	public CharcoalPileWallCategory(IGuiHelper helper) {
 		super(helper.createBlankDrawable(120, 38), "for.jei.charcoal.pile");
 		ResourceLocation resourceLocation = ForestryConstants.forestry("textures/gui/jei/recipes.png");
-		arrow = helper.createDrawable(resourceLocation, 0, 14, 22, 16);
+        this.arrow = helper.createDrawable(resourceLocation, 0, 14, 22, 16);
 		IDrawableStatic arrowAnimated = helper.createDrawable(resourceLocation, 22, 14, 22, 16);
 		this.arrowAnimated = helper.createAnimatedDrawable(arrowAnimated, 160, StartDirection.LEFT, false);
-		flame = helper.createDrawable(resourceLocation, 0, 0, 14, 14);
+        this.flame = helper.createDrawable(resourceLocation, 0, 0, 14, 14);
 		IDrawableStatic flameAnimated = helper.createDrawable(resourceLocation, 14, 0, 14, 14);
 		this.flameAnimated = helper.createAnimatedDrawable(flameAnimated, 260, StartDirection.TOP, true);
 		this.slot = helper.getSlotDrawable();
@@ -50,7 +49,7 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 
 	@Override
 	public IDrawable getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 	@Override
@@ -64,23 +63,23 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, ICharcoalPileWall recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 17)
-				.setBackground(slot, -1, -1)
-				.addItemStacks(recipe.getDisplayItems());
+			.setBackground(this.slot, -1, -1)
+			.addItemStacks(recipe.getDisplayItems());
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 21, 17)
-				.setBackground(slot, -1, -1)
-				.addItemStack(CharcoalBlocks.LOG_PILE.stack());
+			.setBackground(this.slot, -1, -1)
+			.addItemStack(CharcoalBlocks.LOG_PILE.stack());
 
 		int amount = 9 + recipe.getCharcoalAmount();
 
 		ItemStack coal = new ItemStack(Items.CHARCOAL, amount);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 85, 17)
-				.setBackground(slot, -1, -1)
-				.addItemStack(coal);
+			.setBackground(this.slot, -1, -1)
+			.addItemStack(coal);
 
 		ItemStack ash = CoreItems.ASH.stack(amount / 4);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 105, 17)
-				.setBackground(slot, -1, -1)
-				.addItemStack(ash);
+			.setBackground(this.slot, -1, -1)
+			.addItemStack(ash);
 	}
 }

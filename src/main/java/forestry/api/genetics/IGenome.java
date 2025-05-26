@@ -2,20 +2,11 @@ package forestry.api.genetics;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import forestry.api.genetics.alleles.*;
+import net.minecraft.network.chat.MutableComponent;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
-
-import net.minecraft.network.chat.MutableComponent;
-
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IBooleanChromosome;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IFloatChromosome;
-import forestry.api.genetics.alleles.IIntegerChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.genetics.alleles.IValueChromosome;
 
 /**
  * Holds the {@link AllelePair}s which comprise the traits of a given individual.

@@ -1,19 +1,15 @@
 package forestry.core.genetics.root;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.world.level.LevelAccessor;
-
 import com.mojang.authlib.GameProfile;
-
-import net.minecraftforge.api.distmarker.Dist;
-
-import net.minecraftforge.fml.loading.FMLEnvironment;
-
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IBreedingTrackerManager;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.ClientsideCode;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
+import javax.annotation.Nullable;
 
 public enum BreedingTrackerManager implements IBreedingTrackerManager {
 	INSTANCE;

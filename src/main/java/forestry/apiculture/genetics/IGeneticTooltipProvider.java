@@ -1,7 +1,6 @@
 package forestry.apiculture.genetics;
 
 import forestry.api.core.tooltips.ToolTip;
-
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
 

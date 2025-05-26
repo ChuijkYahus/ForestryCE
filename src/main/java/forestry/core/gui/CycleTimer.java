@@ -1,9 +1,9 @@
 package forestry.core.gui;
 
+import net.minecraft.client.gui.screens.Screen;
+
 import java.util.List;
 import java.util.function.Supplier;
-
-import net.minecraft.client.gui.screens.Screen;
 
 public class CycleTimer {
 	private long startTime;
@@ -12,7 +12,7 @@ public class CycleTimer {
 
 	public CycleTimer(int offset) {
 		long time = System.currentTimeMillis();
-		this.startTime = time - (long) (offset * 1000);
+		this.startTime = time - (long) (offset * 1000L);
 		this.drawTime = time;
 	}
 

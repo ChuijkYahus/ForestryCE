@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.farming.multiblock;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
 import forestry.cultivation.IFarmHousingInternal;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 
 public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStreamable {
 	private static final int BUFFER_FERTILIZER = 200;
@@ -25,67 +24,67 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 
 	public FarmFertilizerManager(IFarmHousingInternal housing) {
 		this.inventory = housing.getFarmInventory();
-		storedFertilizer = 0;
+        this.storedFertilizer = 0;
 	}
 
 	public boolean hasFertilizer(int amount) {
-		if (inventory.getFertilizerValue() < 0) {
+		if (this.inventory.getFertilizerValue() < 0) {
 			return true;
 		}
 
-		return storedFertilizer >= amount;
+		return this.storedFertilizer >= amount;
 	}
 
 	public void removeFertilizer(int amount) {
-		if (inventory.getFertilizerValue() < 0) {
+		if (this.inventory.getFertilizerValue() < 0) {
 			return;
 		}
 
-		storedFertilizer -= amount;
-		if (storedFertilizer < 0) {
-			storedFertilizer = 0;
+        this.storedFertilizer -= amount;
+		if (this.storedFertilizer < 0) {
+            this.storedFertilizer = 0;
 		}
 	}
 
 	public boolean maintainFertilizer() {
-		if (storedFertilizer <= BUFFER_FERTILIZER) {
-			int fertilizerValue = inventory.getFertilizerValue();
+		if (this.storedFertilizer <= BUFFER_FERTILIZER) {
+			int fertilizerValue = this.inventory.getFertilizerValue();
 			if (fertilizerValue < 0) {
-				storedFertilizer += 2000;
-			} else if (inventory.useFertilizer()) {
-				storedFertilizer += fertilizerValue;
+                this.storedFertilizer += 2000;
+			} else if (this.inventory.useFertilizer()) {
+                this.storedFertilizer += fertilizerValue;
 			}
 		}
 
-		return storedFertilizer > 0;
+		return this.storedFertilizer > 0;
 	}
 
 	@Override
 	public void read(CompoundTag data) {
-		storedFertilizer = data.getInt("StoredFertilizer");
+        this.storedFertilizer = data.getInt("StoredFertilizer");
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag data) {
-		data.putInt("StoredFertilizer", storedFertilizer);
+		data.putInt("StoredFertilizer", this.storedFertilizer);
 		return data;
 	}
 
 	public int getStoredFertilizerScaled(IFarmInventoryInternal inventory, int scale) {
-		if (storedFertilizer == 0) {
+		if (this.storedFertilizer == 0) {
 			return 0;
 		}
 
-		return storedFertilizer * scale / (inventory.getFertilizerValue() + BUFFER_FERTILIZER);
+		return this.storedFertilizer * scale / (inventory.getFertilizerValue() + BUFFER_FERTILIZER);
 	}
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		data.writeVarInt(storedFertilizer);
+		data.writeVarInt(this.storedFertilizer);
 	}
 
 	@Override
 	public void readData(FriendlyByteBuf data) {
-		storedFertilizer = data.readVarInt();
+        this.storedFertilizer = data.readVarInt();
 	}
 }

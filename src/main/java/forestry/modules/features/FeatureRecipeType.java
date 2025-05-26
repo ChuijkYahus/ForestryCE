@@ -1,7 +1,5 @@
 package forestry.modules.features;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -9,8 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
 
 public class FeatureRecipeType<R extends Recipe<?>> extends ModFeature implements IModFeature {
 	private final RegistryObject<RecipeType<R>> type;

@@ -10,8 +10,13 @@
  ******************************************************************************/
 package forestry.core.gui.ledgers;
 
-import java.util.List;
-
+import com.mojang.blaze3d.systems.RenderSystem;
+import forestry.api.ForestryConstants;
+import forestry.api.client.ForestrySprites;
+import forestry.api.client.IForestryClientApi;
+import forestry.core.config.Constants;
+import forestry.core.config.SessionVars;
+import forestry.core.gui.GuiForestry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
@@ -20,14 +25,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import forestry.api.ForestryConstants;
-import forestry.api.client.ForestrySprites;
-import forestry.api.client.IForestryClientApi;
-import forestry.core.config.Constants;
-import forestry.core.config.SessionVars;
-import forestry.core.gui.GuiForestry;
+import java.util.List;
 
 /**
  * Side ledger for guis
@@ -70,23 +68,23 @@ public abstract class Ledger {
 	protected Ledger(LedgerManager manager, String name, boolean rightSide) {
 		this.manager = manager;
 		if (rightSide) {
-			texture = ledgerTextureRight;
+            this.texture = ledgerTextureRight;
 		} else {
-			texture = ledgerTextureLeft;
+            this.texture = ledgerTextureLeft;
 		}
 
-		fontColorHeader = manager.gui.getFontColor().get("ledger." + name + ".header");
-		fontColorSubheader = manager.gui.getFontColor().get("ledger." + name + ".subheader");
-		fontColorText = manager.gui.getFontColor().get("ledger." + name + ".text");
-		overlayColor = manager.gui.getFontColor().get("ledger." + name + ".background");
+        this.fontColorHeader = manager.gui.getFontColor().get("ledger." + name + ".header");
+        this.fontColorSubheader = manager.gui.getFontColor().get("ledger." + name + ".subheader");
+        this.fontColorText = manager.gui.getFontColor().get("ledger." + name + ".text");
+        this.overlayColor = manager.gui.getFontColor().get("ledger." + name + ".background");
 
-		maxWidth = Math.min(124, manager.getMaxWidth());
-		maxTextWidth = maxWidth - 18;
+        this.maxWidth = Math.min(124, manager.getMaxWidth());
+        this.maxTextWidth = this.maxWidth - 18;
 	}
 
 	public Rect2i getArea() {
-		GuiForestry gui = manager.gui;
-		return new Rect2i(gui.getGuiLeft() + x, gui.getGuiTop() + y, (int) currentWidth, (int) currentHeight);
+		GuiForestry gui = this.manager.gui;
+		return new Rect2i(gui.getGuiLeft() + this.x, gui.getGuiTop() + this.y, (int) this.currentWidth, (int) this.currentHeight);
 	}
 
 	// adjust the update's move amount to match the look of 60 fps (16.67 ms per update)
@@ -96,50 +94,50 @@ public abstract class Ledger {
 	public void update() {
 
 		long updateTime;
-		if (lastUpdateTime == 0) {
-			lastUpdateTime = System.currentTimeMillis();
-			updateTime = lastUpdateTime + Math.round(msPerUpdate);
+		if (this.lastUpdateTime == 0) {
+            this.lastUpdateTime = System.currentTimeMillis();
+			updateTime = this.lastUpdateTime + Math.round(msPerUpdate);
 		} else {
 			updateTime = System.currentTimeMillis();
 		}
 
-		float moveAmount = guiTabSpeed * (updateTime - lastUpdateTime) / msPerUpdate;
+		float moveAmount = guiTabSpeed * (updateTime - this.lastUpdateTime) / msPerUpdate;
 
-		lastUpdateTime = updateTime;
+        this.lastUpdateTime = updateTime;
 
 		// Width
-		if (open && currentWidth < maxWidth) {
-			currentWidth += moveAmount;
-			if (currentWidth > maxWidth) {
-				currentWidth = maxWidth;
+		if (this.open && this.currentWidth < this.maxWidth) {
+            this.currentWidth += moveAmount;
+			if (this.currentWidth > this.maxWidth) {
+                this.currentWidth = this.maxWidth;
 			}
-		} else if (!open && currentWidth > minWidth) {
-			currentWidth -= moveAmount;
-			if (currentWidth < minWidth) {
-				currentWidth = minWidth;
+		} else if (!this.open && this.currentWidth > minWidth) {
+            this.currentWidth -= moveAmount;
+			if (this.currentWidth < minWidth) {
+                this.currentWidth = minWidth;
 			}
 		}
 
 		// Height
-		if (open && currentHeight < maxHeight) {
-			currentHeight += moveAmount;
-			if (currentHeight > maxHeight) {
-				currentHeight = maxHeight;
+		if (this.open && this.currentHeight < this.maxHeight) {
+            this.currentHeight += moveAmount;
+			if (this.currentHeight > this.maxHeight) {
+                this.currentHeight = this.maxHeight;
 			}
-		} else if (!open && currentHeight > minHeight) {
-			currentHeight -= moveAmount;
-			if (currentHeight < minHeight) {
-				currentHeight = minHeight;
+		} else if (!this.open && this.currentHeight > minHeight) {
+            this.currentHeight -= moveAmount;
+			if (this.currentHeight < minHeight) {
+                this.currentHeight = minHeight;
 			}
 		}
 	}
 
 	public int getHeight() {
-		return Math.round(currentHeight);
+		return Math.round(this.currentHeight);
 	}
 
 	public int getWidth() {
-		return Math.round(currentWidth);
+		return Math.round(this.currentWidth);
 	}
 
 	public void setPosition(int x, int y) {
@@ -148,7 +146,7 @@ public abstract class Ledger {
 	}
 
 	public final void draw(GuiGraphics graphics) {
-		draw(graphics, y, x);
+		draw(graphics, this.y, this.x);
 	}
 
 	public abstract void draw(GuiGraphics graphics, int y, int x);
@@ -160,21 +158,21 @@ public abstract class Ledger {
 	}
 
 	public boolean intersects(double mouseX, double mouseY) {
-		return mouseX >= currentShiftX && mouseX <= currentShiftX + currentWidth && mouseY >= currentShiftY && mouseY <= currentShiftY + getHeight();
+		return mouseX >= this.currentShiftX && mouseX <= this.currentShiftX + this.currentWidth && mouseY >= this.currentShiftY && mouseY <= this.currentShiftY + getHeight();
 	}
 
 	public void setFullyOpen() {
-		open = true;
-		currentWidth = maxWidth;
-		currentHeight = maxHeight;
+        this.open = true;
+        this.currentWidth = this.maxWidth;
+        this.currentHeight = this.maxHeight;
 	}
 
 	public void toggleOpen() {
-		if (open) {
-			open = false;
+		if (this.open) {
+            this.open = false;
 			SessionVars.setOpenedLedger(null);
 		} else {
-			open = true;
+            this.open = true;
 			SessionVars.setOpenedLedger(this.getClass());
 		}
 	}
@@ -188,7 +186,7 @@ public abstract class Ledger {
 	}
 
 	protected boolean isFullyOpened() {
-		return currentWidth >= maxWidth;
+		return this.currentWidth >= this.maxWidth;
 	}
 
 	public void onGuiClosed() {
@@ -196,12 +194,12 @@ public abstract class Ledger {
 	}
 
 	protected void drawBackground(GuiGraphics graphics, int y, int x) {
-		float colorR = (overlayColor >> 16 & 255) / 255.0F;
-		float colorG = (overlayColor >> 8 & 255) / 255.0F;
-		float colorB = (overlayColor & 255) / 255.0F;
+		float colorR = (this.overlayColor >> 16 & 255) / 255.0F;
+		float colorG = (this.overlayColor >> 8 & 255) / 255.0F;
+		float colorB = (this.overlayColor & 255) / 255.0F;
 
 		RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0F);
-		RenderSystem.setShaderTexture(0, texture);
+		RenderSystem.setShaderTexture(0, this.texture);
 
 		int height = getHeight();
 		int width = getWidth();
@@ -231,19 +229,19 @@ public abstract class Ledger {
 	}
 
 	protected int drawHeader(GuiGraphics graphics, Component string, int x, int y) {
-		return drawShadowText(graphics, string, x, y, fontColorHeader);
+		return drawShadowText(graphics, string, x, y, this.fontColorHeader);
 	}
 
 	protected int drawSubheader(GuiGraphics graphics, Component string, int x, int y) {
-		return drawShadowText(graphics, string, x, y, fontColorSubheader);
+		return drawShadowText(graphics, string, x, y, this.fontColorSubheader);
 	}
 
 	protected int drawShadowText(GuiGraphics graphics, Component string, int x, int y, int color) {
-		return drawSplitText(graphics, string, x, y, maxTextWidth, color, true);
+		return drawSplitText(graphics, string, x, y, this.maxTextWidth, color, true);
 	}
 
 	protected int drawSplitText(GuiGraphics graphics, Component string, int x, int y, int width) {
-		return drawSplitText(graphics, string, x, y, width, fontColorText, false);
+		return drawSplitText(graphics, string, x, y, width, this.fontColorText, false);
 	}
 
 	protected int drawSplitText(GuiGraphics graphics, Component string, int x, int y, int width, int color, boolean shadow) {
@@ -259,7 +257,7 @@ public abstract class Ledger {
 
 	protected int drawText(GuiGraphics graphics, String string, int x, int y) {
 		Minecraft mc = Minecraft.getInstance();
-		graphics.drawString(mc.font, string, x, y, fontColorText, false);
+		graphics.drawString(mc.font, string, x, y, this.fontColorText, false);
 		return mc.font.lineHeight;
 	}
 }

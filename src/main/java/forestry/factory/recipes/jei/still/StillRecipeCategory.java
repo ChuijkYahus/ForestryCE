@@ -1,9 +1,5 @@
 package forestry.factory.recipes.jei.still;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.ForestryConstants;
 import forestry.api.recipes.IStillRecipe;
 import forestry.core.config.Constants;
@@ -11,7 +7,6 @@ import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -23,6 +18,9 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class StillRecipeCategory extends ForestryRecipeCategory<IStillRecipe> {
 	private static final ResourceLocation guiTexture = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/still.png");
@@ -54,14 +52,14 @@ public class StillRecipeCategory extends ForestryRecipeCategory<IStillRecipe> {
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, IStillRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
-				.setFluidRenderer(10000, false, 16, 58)
-				.setOverlay(tankOverlay, 0, 0)
-				.addIngredient(ForgeTypes.FLUID_STACK, recipe.getInput());
+			.setFluidRenderer(10000, false, 16, 58)
+			.setOverlay(this.tankOverlay, 0, 0)
+			.addIngredient(ForgeTypes.FLUID_STACK, recipe.getInput());
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 91, 1)
-				.setFluidRenderer(10000, false, 16, 58)
-				.setOverlay(tankOverlay, 0, 0)
-				.addIngredient(ForgeTypes.FLUID_STACK, recipe.getOutput());
+			.setFluidRenderer(10000, false, 16, 58)
+			.setOverlay(this.tankOverlay, 0, 0)
+			.addIngredient(ForgeTypes.FLUID_STACK, recipe.getOutput());
 	}
 
 	@Override

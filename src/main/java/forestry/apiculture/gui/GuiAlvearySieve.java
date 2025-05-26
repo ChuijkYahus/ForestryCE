@@ -10,12 +10,11 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.chat.Component;
-
 import forestry.apiculture.multiblock.TileAlvearySieve;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 public class GuiAlvearySieve extends GuiForestryTitled<ContainerAlvearySieve> {
 	private final TileAlvearySieve tile;
@@ -27,6 +26,6 @@ public class GuiAlvearySieve extends GuiForestryTitled<ContainerAlvearySieve> {
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(tile);
+		addErrorLedger(this.tile);
 	}
 }

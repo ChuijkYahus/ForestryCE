@@ -1,13 +1,11 @@
 package forestry.compat.kubejs.event;
 
-import net.minecraft.resources.ResourceLocation;
-
+import dev.latvian.mods.kubejs.event.EventJS;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.client.plugin.IClientRegistration;
 import forestry.api.genetics.ILifeStage;
-
-import dev.latvian.mods.kubejs.event.EventJS;
+import net.minecraft.resources.ResourceLocation;
 
 public class ForestryClientEventJS extends EventJS {
 	private final IClientRegistration wrapped;
@@ -24,7 +22,7 @@ public class ForestryClientEventJS extends EventJS {
 		this.wrapped.setCustomBeeModel(speciesId, stage, model);
 	}
 
- 	public void setSaplingModel(ResourceLocation speciesId, ResourceLocation blockModel, ResourceLocation itemModel) {
+	public void setSaplingModel(ResourceLocation speciesId, ResourceLocation blockModel, ResourceLocation itemModel) {
 		this.wrapped.setSaplingModel(speciesId, blockModel, itemModel);
 	}
 

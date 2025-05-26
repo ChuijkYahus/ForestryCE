@@ -1,8 +1,7 @@
 package forestry.api.apiculture;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * IDs for all activity types available in base Forestry.

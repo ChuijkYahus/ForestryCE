@@ -1,18 +1,15 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
-
-import javax.annotation.Nullable;
-import java.util.function.Consumer;
-
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-
 import net.minecraftforge.fluids.FluidStack;
 
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class HygroregulatorRecipeBuilder {
 	private FluidStack liquid;
@@ -61,15 +58,15 @@ public class HygroregulatorRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.add("liquid", RecipeSerializers.serializeFluid(liquid));
-			json.addProperty("time", retainTime);
-			json.addProperty("humidity_steps", humiditySteps);
-			json.addProperty("temperature_steps", temperatureSteps);
+			json.add("liquid", RecipeSerializers.serializeFluid(this.liquid));
+			json.addProperty("time", this.retainTime);
+			json.addProperty("humidity_steps", this.humiditySteps);
+			json.addProperty("temperature_steps", this.temperatureSteps);
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

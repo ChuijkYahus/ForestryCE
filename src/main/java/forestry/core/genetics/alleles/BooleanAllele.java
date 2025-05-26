@@ -1,9 +1,8 @@
 package forestry.core.genetics.alleles;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
 import forestry.api.genetics.alleles.IBooleanAllele;
+import net.minecraft.resources.ResourceLocation;
 
 public record BooleanAllele(ResourceLocation alleleId, boolean value, boolean dominant) implements IBooleanAllele {
 	BooleanAllele(boolean value, boolean dominant) {

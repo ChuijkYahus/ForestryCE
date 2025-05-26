@@ -3,6 +3,15 @@ package forestry.apiimpl.plugin;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import forestry.api.farming.*;
+import forestry.api.plugin.IFarmTypeBuilder;
+import forestry.api.plugin.IWindfallFarmableBuilder;
+import forestry.core.utils.ModUtil;
+import forestry.farming.logic.FarmType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -11,23 +20,6 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
-
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
-import forestry.api.farming.IFarmableFactory;
-import forestry.api.farming.IWaterConsumption;
-import forestry.api.farming.Soil;
-import forestry.api.plugin.IFarmTypeBuilder;
-import forestry.api.plugin.IWindfallFarmableBuilder;
-import forestry.core.utils.ModUtil;
-import forestry.farming.logic.FarmType;
 
 public class FarmTypeBuilder implements IFarmTypeBuilder {
 	private final ResourceLocation id;

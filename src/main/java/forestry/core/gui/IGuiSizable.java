@@ -1,7 +1,6 @@
 package forestry.core.gui;
 
 import com.google.common.base.Preconditions;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 

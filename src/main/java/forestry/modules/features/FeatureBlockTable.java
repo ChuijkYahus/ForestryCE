@@ -1,17 +1,16 @@
 package forestry.modules.features;
 
+import forestry.api.core.IBlockSubtype;
+import forestry.core.utils.datastructures.TriFunction;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.block.Block;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.block.Block;
-
-import forestry.api.core.IBlockSubtype;
-import forestry.core.utils.datastructures.TriFunction;
 
 public class FeatureBlockTable<B extends Block, R extends IBlockSubtype, C extends IBlockSubtype> extends FeatureTable<FeatureBlockTable.Builder<B, R, C>, FeatureBlock<B, BlockItem>, R, C> {
 	public FeatureBlockTable(Builder<B, R, C> builder) {
@@ -25,7 +24,7 @@ public class FeatureBlockTable<B extends Block, R extends IBlockSubtype, C exten
 
 	public Collection<B> getBlocks() {
 		ArrayList<B> blocks = new ArrayList<>(this.featureByTypes.size());
-		for (FeatureBlock<B, BlockItem> feature : featureByTypes.values()) {
+		for (FeatureBlock<B, BlockItem> feature : this.featureByTypes.values()) {
 			blocks.add(feature.block());
 		}
 		return blocks;
@@ -33,7 +32,7 @@ public class FeatureBlockTable<B extends Block, R extends IBlockSubtype, C exten
 
 	public Collection<BlockItem> getItems() {
 		ArrayList<BlockItem> list = new ArrayList<>();
-		for (FeatureBlock<B, BlockItem> feature : featureByTypes.values()) {
+		for (FeatureBlock<B, BlockItem> feature : this.featureByTypes.values()) {
 			list.add(feature.item());
 		}
 		return list;

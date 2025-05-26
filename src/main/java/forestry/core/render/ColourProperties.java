@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.core.render;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
+import forestry.Forestry;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 
-import forestry.Forestry;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public enum ColourProperties implements ResourceManagerReloadListener {
 	INSTANCE;
@@ -26,15 +25,15 @@ public enum ColourProperties implements ResourceManagerReloadListener {
 	private final Properties mappings = new Properties();
 
 	public int get(String key) {
-		return Integer.parseInt(mappings.getProperty(key, defaultMappings.getProperty(key, "d67fff")), 16);
+		return Integer.parseInt(this.mappings.getProperty(key, this.defaultMappings.getProperty(key, "d67fff")), 16);
 	}
 
 	@Override
 	public void onResourceManagerReload(ResourceManager resourceManager) {
 		try {
 			InputStream defaultFontStream = ColourProperties.class.getResourceAsStream("/config/forestry/colour.properties");
-			mappings.load(defaultFontStream);
-			defaultMappings.load(defaultFontStream);
+            this.mappings.load(defaultFontStream);
+            this.defaultMappings.load(defaultFontStream);
 
 			defaultFontStream.close();
 		} catch (IOException e) {

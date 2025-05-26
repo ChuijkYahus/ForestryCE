@@ -1,8 +1,7 @@
 package forestry.api.apiculture;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * IDs of all bee effects added by base Forestry.

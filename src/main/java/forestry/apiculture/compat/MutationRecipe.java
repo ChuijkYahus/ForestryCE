@@ -1,18 +1,13 @@
 package forestry.apiculture.compat;
 
-import java.util.List;
-
-import net.minecraft.world.item.ItemStack;
-
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.*;
 import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.plugin.IGenomeBuilder;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public class MutationRecipe {
 	final ItemStack firstParent;

@@ -37,22 +37,22 @@ public enum StandardButtonTextureSets implements IButtonTextureSet {
 
 	@Override
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 	@Override
 	public int getHeight() {
-		return height;
+		return this.height;
 	}
 
 	@Override
 	public int getWidth() {
-		return width;
+		return this.width;
 	}
 
 	@Override

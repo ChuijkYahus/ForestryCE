@@ -25,13 +25,13 @@ public class BeeRoundTripParticle extends TextureSheetParticle {
 		this.origin = new Vec3(x, y, z);
 
 		this.destination = destination;
-		this.xd = (destination.getX() + 0.5 - this.x) * 0.02 + 0.1 * random.nextFloat();
-		this.yd = (destination.getY() + 0.5 - this.y) * 0.015 + 0.1 * random.nextFloat();
-		this.zd = (destination.getZ() + 0.5 - this.z) * 0.02 + 0.1 * random.nextFloat();
+		this.xd = (destination.getX() + 0.5 - this.x) * 0.02 + 0.1 * this.random.nextFloat();
+		this.yd = (destination.getY() + 0.5 - this.y) * 0.015 + 0.1 * this.random.nextFloat();
+		this.zd = (destination.getZ() + 0.5 - this.z) * 0.02 + 0.1 * this.random.nextFloat();
 
-		rCol = (color >> 16 & 255) / 255.0F;
-		gCol = (color >> 8 & 255) / 255.0F;
-		bCol = (color & 255) / 255.0F;
+        this.rCol = (color >> 16 & 255) / 255.0F;
+        this.gCol = (color >> 8 & 255) / 255.0F;
+        this.bCol = (color & 255) / 255.0F;
 
 		this.setSize(0.1F, 0.1F);
 		this.quadSize *= 0.2F;
@@ -50,34 +50,34 @@ public class BeeRoundTripParticle extends TextureSheetParticle {
 		this.move(this.xd, this.yd, this.zd);
 
 		if (this.age == this.lifetime / 2) {
-			this.xd = (origin.x - this.x) * 0.03 + 0.1 * random.nextFloat();
-			this.yd = (origin.y - this.y) * 0.03 + 0.1 * random.nextFloat();
-			this.zd = (origin.z - this.z) * 0.03 + 0.1 * random.nextFloat();
+			this.xd = (this.origin.x - this.x) * 0.03 + 0.1 * this.random.nextFloat();
+			this.yd = (this.origin.y - this.y) * 0.03 + 0.1 * this.random.nextFloat();
+			this.zd = (this.origin.z - this.z) * 0.03 + 0.1 * this.random.nextFloat();
 		}
 
 		if (this.age < this.lifetime * 0.25) {
 			// venture out
-			this.xd *= 0.92 + 0.2D * random.nextFloat();
-			this.yd = (this.yd + 0.3 * (-0.5 + random.nextFloat())) / 2;
-			this.zd *= 0.92 + 0.2D * random.nextFloat();
+			this.xd *= 0.92 + 0.2D * this.random.nextFloat();
+			this.yd = (this.yd + 0.3 * (-0.5 + this.random.nextFloat())) / 2;
+			this.zd *= 0.92 + 0.2D * this.random.nextFloat();
 		} else if (this.age < this.lifetime * 0.5) {
 			// get to flower destination
-			this.xd = (destination.getX() + 0.5 - this.x) * 0.03;
-			this.yd = (destination.getY() + 0.5 - this.y) * 0.1;
-			this.yd = (this.yd + 0.2 * (-0.5 + random.nextFloat())) / 2;
-			this.zd = (destination.getZ() + 0.5 - this.z) * 0.03;
+			this.xd = (this.destination.getX() + 0.5 - this.x) * 0.03;
+			this.yd = (this.destination.getY() + 0.5 - this.y) * 0.1;
+			this.yd = (this.yd + 0.2 * (-0.5 + this.random.nextFloat())) / 2;
+			this.zd = (this.destination.getZ() + 0.5 - this.z) * 0.03;
 		} else if (this.age < this.lifetime * 0.75) {
 			// venture back
 			this.xd *= 0.95;
-			this.yd = (origin.y - this.y) * 0.03;
-			this.yd = (this.yd + 0.2 * (-0.5 + random.nextFloat())) / 2;
+			this.yd = (this.origin.y - this.y) * 0.03;
+			this.yd = (this.yd + 0.2 * (-0.5 + this.random.nextFloat())) / 2;
 			this.zd *= 0.95;
 		} else {
 			// get to origin
-			this.xd = (origin.x - this.x) * 0.03;
-			this.yd = (origin.y - this.y) * 0.03;
-			this.yd = (this.yd + 0.2 * (-0.5 + random.nextFloat())) / 2;
-			this.zd = (origin.z - this.z) * 0.03;
+			this.xd = (this.origin.x - this.x) * 0.03;
+			this.yd = (this.origin.y - this.y) * 0.03;
+			this.yd = (this.yd + 0.2 * (-0.5 + this.random.nextFloat())) / 2;
+			this.zd = (this.origin.z - this.z) * 0.03;
 		}
 
 		if (this.age++ >= this.lifetime) {

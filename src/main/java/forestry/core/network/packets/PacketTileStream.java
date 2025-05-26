@@ -10,19 +10,18 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
-import javax.annotation.Nullable;
-
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.network.IStreamable;
+import forestry.core.network.PacketIdClient;
+import forestry.core.tiles.TileUtil;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import forestry.api.modules.IForestryPacketClient;
-import forestry.core.network.IStreamable;
-import forestry.core.network.PacketIdClient;
-import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
+import javax.annotation.Nullable;
 
 public class PacketTileStream implements IForestryPacketClient {
 	protected final BlockPos pos;
@@ -50,8 +49,8 @@ public class PacketTileStream implements IForestryPacketClient {
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		NetworkUtil.writePayloadBuffer(buffer, streamable::writeData);
+		buffer.writeBlockPos(this.pos);
+		NetworkUtil.writePayloadBuffer(buffer, this.streamable::writeData);
 	}
 
 	public static PacketTileStream decode(FriendlyByteBuf data) {

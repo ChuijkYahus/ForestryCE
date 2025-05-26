@@ -1,19 +1,18 @@
 package forestry.api.plugin;
 
-import java.awt.Color;
-import java.util.Map;
-import java.util.function.Consumer;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.hives.IHiveDefinition;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+
+import java.awt.*;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Entry point for apiculture related registration.

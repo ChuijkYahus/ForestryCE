@@ -10,27 +10,26 @@
  ******************************************************************************/
 package forestry.core.fluids;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.item.Rarity;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
-
 import forestry.api.core.tooltips.ToolTip;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.ModUtil;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class StandardTank extends FluidTank implements IStreamable {
-	private ITankUpdateHandler tankUpdateHandler = tank -> {};
+	private ITankUpdateHandler tankUpdateHandler = tank -> {
+	};
 	private int tankIndex;
 	private final boolean canFill;
 	private final boolean canDrain;
@@ -62,7 +61,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	public int getTankIndex() {
-		return tankIndex;
+		return this.tankIndex;
 	}
 
 	public boolean isEmpty() {
@@ -74,7 +73,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	public int getRemainingSpace() {
-		return capacity - getFluidAmount();
+		return this.capacity - getFluidAmount();
 	}
 
 	@Nullable
@@ -84,15 +83,15 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	@Override
 	public boolean isFluidValid(FluidStack stack) {
-		return internalTest || validator.test(stack);
+		return this.internalTest || this.validator.test(stack);
 	}
 
 	public boolean canFill() {
-		return canFill;
+		return this.canFill;
 	}
 
 	public boolean canDrain() {
-		return canDrain;
+		return this.canDrain;
 	}
 
 	@Override
@@ -104,19 +103,19 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	public int fillInternal(FluidStack resource, FluidAction action) {
-		internalTest = true;
+        this.internalTest = true;
 		int filled = super.fill(resource, action);
 		if (action == FluidAction.EXECUTE && filled > 0) {
-			tankUpdateHandler.updateTankLevels(this);
+            this.tankUpdateHandler.updateTankLevels(this);
 		}
-		internalTest = false;
+        this.internalTest = false;
 		return filled;
 	}
 
 	@Nonnull
 	@Override
 	public FluidStack drain(int maxDrain, FluidAction action) {
-		if (!canDrain) {
+		if (!this.canDrain) {
 			return FluidStack.EMPTY;
 		}
 		return drainInternal(maxDrain, action);
@@ -126,7 +125,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	public FluidStack drainInternal(int maxDrain, FluidAction action) {
 		FluidStack drained = super.drain(maxDrain, action);
 		if (action == FluidAction.EXECUTE && !drained.isEmpty() && drained.getAmount() > 0) {
-			tankUpdateHandler.updateTankLevels(this);
+            this.tankUpdateHandler.updateTankLevels(this);
 		}
 		return drained;
 	}
@@ -134,7 +133,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	@Nonnull
 	@Override
 	public FluidStack drain(FluidStack resource, FluidAction action) {
-		if (!canDrain) {
+		if (!this.canDrain) {
 			return FluidStack.EMPTY;
 		}
 		return drainInternal(resource, action);
@@ -144,14 +143,14 @@ public class StandardTank extends FluidTank implements IStreamable {
 	public FluidStack drainInternal(FluidStack resource, FluidAction action) {
 		FluidStack drained = super.drain(resource, action);
 		if (action == FluidAction.EXECUTE && !drained.isEmpty() && drained.getAmount() > 0) {
-			tankUpdateHandler.updateTankLevels(this);
+            this.tankUpdateHandler.updateTankLevels(this);
 		}
 		return drained;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Tank: %s, %d/%d", !fluid.isEmpty() ? ModUtil.getRegistryName(fluid.getFluid()) : "Empty", getFluidAmount(), getCapacity());
+		return String.format("Tank: %s, %d/%d", !this.fluid.isEmpty() ? ModUtil.getRegistryName(this.fluid.getFluid()) : "Empty", getFluidAmount(), getCapacity());
 	}
 
 	protected boolean hasFluid() {
@@ -161,20 +160,20 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		data.writeFluidStack(fluid);
+		data.writeFluidStack(this.fluid);
 	}
 
 	@Override
 	public void readData(FriendlyByteBuf data) {
-		fluid = data.readFluidStack();
+        this.fluid = data.readFluidStack();
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	public ToolTip getToolTip() {
-		if (toolTip == null) {
-			toolTip = new TankToolTip(this);
+		if (this.toolTip == null) {
+            this.toolTip = new TankToolTip(this);
 		}
-		return toolTip;
+		return this.toolTip;
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -207,7 +206,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 		@Override
 		public void refresh() {
-			standardTank.refreshTooltip();
+            this.standardTank.refreshTooltip();
 		}
 	}
 }

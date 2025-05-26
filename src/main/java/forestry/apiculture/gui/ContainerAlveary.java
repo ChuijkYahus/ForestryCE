@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Inventory;
-
 import forestry.api.modules.IForestryPacketClient;
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.multiblock.TileAlveary;
 import forestry.core.gui.ContainerTile;
 import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ContainerAlveary extends ContainerTile<TileAlveary> {
 	public static ContainerAlveary fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
@@ -39,10 +38,10 @@ public class ContainerAlveary extends ContainerTile<TileAlveary> {
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		int beeProgress = tile.getBeekeepingLogic().getBeeProgressPercent();
+		int beeProgress = this.tile.getBeekeepingLogic().getBeeProgressPercent();
 		if (this.beeProgress != beeProgress) {
 			this.beeProgress = beeProgress;
-			IForestryPacketClient packet = new PacketGuiStream(tile);
+			IForestryPacketClient packet = new PacketGuiStream(this.tile);
 			sendPacketToListeners(packet);
 		}
 	}

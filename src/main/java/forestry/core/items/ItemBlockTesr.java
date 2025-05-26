@@ -1,13 +1,11 @@
 package forestry.core.items;
 
-import java.util.function.Consumer;
-
+import forestry.core.client.CoreClientHandler;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.level.block.Block;
-
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
-import forestry.core.client.CoreClientHandler;
+import java.util.function.Consumer;
 
 public class ItemBlockTesr<B extends Block> extends ItemBlockForestry<B> {
 	public ItemBlockTesr(B block, Properties builder) {

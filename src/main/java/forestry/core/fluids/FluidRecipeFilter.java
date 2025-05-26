@@ -1,18 +1,13 @@
 package forestry.core.fluids;
 
-import java.util.Set;
-import java.util.function.Function;
-
+import forestry.api.recipes.*;
+import forestry.core.utils.RecipeUtils;
+import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeManager;
 
-import forestry.api.recipes.ICarpenterRecipe;
-import forestry.api.recipes.IFabricatorSmeltingRecipe;
-import forestry.api.recipes.IFermenterRecipe;
-import forestry.api.recipes.IHygroregulatorRecipe;
-import forestry.api.recipes.IStillRecipe;
-import forestry.core.utils.RecipeUtils;
-import forestry.factory.features.FactoryRecipeTypes;
+import java.util.Set;
+import java.util.function.Function;
 
 public class FluidRecipeFilter extends ReloadableFluidFilter {
 	public static final FluidRecipeFilter HYGROREGULATOR_INPUT = new FluidRecipeFilter(manager -> RecipeUtils.getTargetFluidsFromStacks(manager, FactoryRecipeTypes.HYGROREGULATOR.type(), IHygroregulatorRecipe::getInputFluid));

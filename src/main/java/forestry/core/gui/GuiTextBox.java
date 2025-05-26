@@ -10,15 +10,13 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import java.util.List;
-
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import java.util.List;
 
 public class GuiTextBox extends EditBox {
 	private static final int enabledColor = 14737632;
@@ -44,19 +42,19 @@ public class GuiTextBox extends EditBox {
 	}
 
 	public void advanceLine() {
-		if (lineScroll < maxLines - 1) {
-			lineScroll++;
+		if (this.lineScroll < this.maxLines - 1) {
+            this.lineScroll++;
 		}
 	}
 
 	public void regressLine() {
-		if (lineScroll > 0) {
-			lineScroll--;
+		if (this.lineScroll > 0) {
+            this.lineScroll--;
 		}
 	}
 
 	public boolean moreLinesAllowed() {
-		return font.split(Component.literal(getCursoredText()), width).size() * font.lineHeight < height;
+		return this.font.split(Component.literal(getCursoredText()), this.width).size() * this.font.lineHeight < this.height;
 	}
 
 	private String getCursoredText() {
@@ -77,16 +75,16 @@ public class GuiTextBox extends EditBox {
 
 	private void drawScrolledSplitString(GuiGraphics graphics, Component text, int startX, int startY, int width, int textColour) {
 		List<FormattedCharSequence> lines = this.font.split(text, width);
-		maxLines = lines.size();
+        this.maxLines = lines.size();
 
 		int count = 0;
 		int lineY = startY;
 
 		for (FormattedCharSequence line : lines) {
-			if (count < lineScroll) {
+			if (count < this.lineScroll) {
 				count++;
 				continue;
-			} else if (lineY + this.font.lineHeight - startY > height) {
+			} else if (lineY + this.font.lineHeight - startY > this.height) {
 				break;
 			}
 

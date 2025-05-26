@@ -29,9 +29,9 @@ public class BeeTargetEntityParticle extends TextureSheetParticle {
 		this.yd = (entity.getY() + 1.62F - this.y) * 0.015;
 		this.zd = (entity.getZ() - this.z) * 0.015;
 
-		rCol = (color >> 16 & 255) / 255.0F;
-		gCol = (color >> 8 & 255) / 255.0F;
-		bCol = (color & 255) / 255.0F;
+        this.rCol = (color >> 16 & 255) / 255.0F;
+        this.gCol = (color >> 8 & 255) / 255.0F;
+        this.bCol = (color & 255) / 255.0F;
 
 		this.setSize(0.1F, 0.1F);
 		this.quadSize *= 0.2F;
@@ -50,31 +50,31 @@ public class BeeTargetEntityParticle extends TextureSheetParticle {
 		this.move(this.xd, this.yd, this.zd);
 
 		if (this.age == this.lifetime / 2) {
-			this.xd = (origin.x - this.x) * 0.03;
-			this.yd = (origin.y - this.y) * 0.03;
-			this.zd = (origin.z - this.z) * 0.03;
+			this.xd = (this.origin.x - this.x) * 0.03;
+			this.yd = (this.origin.y - this.y) * 0.03;
+			this.zd = (this.origin.z - this.z) * 0.03;
 		}
 
 		if (this.age < this.lifetime * 0.5) {
 			// fly near the entity
-			this.xd = (entity.getX() - this.x) * 0.09;
-			this.xd = (this.xd + 0.2 * (-0.5 + random.nextFloat())) / 2;
-			this.yd = (entity.getY() + 1.62F - this.y) * 0.03;
-			this.yd = (this.yd + 0.4 * (-0.5 + random.nextFloat())) / 4;
-			this.zd = (entity.getZ() - this.z) * 0.09;
-			this.zd = (this.zd + 0.2 * (-0.5 + random.nextFloat())) / 2;
+			this.xd = (this.entity.getX() - this.x) * 0.09;
+			this.xd = (this.xd + 0.2 * (-0.5 + this.random.nextFloat())) / 2;
+			this.yd = (this.entity.getY() + 1.62F - this.y) * 0.03;
+			this.yd = (this.yd + 0.4 * (-0.5 + this.random.nextFloat())) / 4;
+			this.zd = (this.entity.getZ() - this.z) * 0.09;
+			this.zd = (this.zd + 0.2 * (-0.5 + this.random.nextFloat())) / 2;
 		} else if (this.age < this.lifetime * 0.75) {
 			// venture back
 			this.xd *= 0.95;
-			this.yd = (origin.y - this.y) * 0.03;
-			this.yd = (this.yd + 0.2 * (-0.5 + random.nextFloat())) / 2;
+			this.yd = (this.origin.y - this.y) * 0.03;
+			this.yd = (this.yd + 0.2 * (-0.5 + this.random.nextFloat())) / 2;
 			this.zd *= 0.95;
 		} else {
 			// get to origin
-			this.xd = (origin.x - this.x) * 0.03;
-			this.yd = (origin.y - this.y) * 0.03;
-			this.yd = (this.yd + 0.2 * (-0.5 + random.nextFloat())) / 2;
-			this.zd = (origin.z - this.z) * 0.03;
+			this.xd = (this.origin.x - this.x) * 0.03;
+			this.yd = (this.origin.y - this.y) * 0.03;
+			this.yd = (this.yd + 0.2 * (-0.5 + this.random.nextFloat())) / 2;
+			this.zd = (this.origin.z - this.z) * 0.03;
 		}
 
 		if (this.age++ >= this.lifetime) {

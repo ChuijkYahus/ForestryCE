@@ -1,8 +1,5 @@
 package forestry.lepidopterology;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
@@ -10,8 +7,9 @@ import forestry.api.genetics.filter.FilterData;
 import forestry.api.genetics.filter.IFilterRule;
 import forestry.api.genetics.filter.IFilterRuleType;
 import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.core.utils.SpeciesUtil;
 import forestry.sorting.DefaultFilterRuleType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public enum LepidopterologyFilterRule implements IFilterRule {
 	PURE_BREED(DefaultFilterRuleType.PURE_BREED) {

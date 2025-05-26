@@ -1,11 +1,9 @@
 package forestry.core.data;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.world.level.material.Fluid;
-
 import forestry.api.ForestryTags;
 import forestry.core.fluids.ForestryFluids;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.level.material.Fluid;
 import thedarkcolour.modkit.data.MKTagsProvider;
 
 public class ForestryFluidTagsProvider {

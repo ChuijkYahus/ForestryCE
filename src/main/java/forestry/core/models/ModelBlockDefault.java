@@ -11,11 +11,9 @@
 package forestry.core.models;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.core.models.baker.ModelBaker;
+import forestry.core.models.baker.ModelBakerModel;
+import forestry.core.utils.ResourceUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
@@ -31,12 +29,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.client.model.data.ModelData;
 
-import forestry.core.models.baker.ModelBaker;
-import forestry.core.models.baker.ModelBakerModel;
-import forestry.core.utils.ResourceUtil;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class ModelBlockDefault<B extends Block, K> implements BakedModel {
 	@Nullable
@@ -58,27 +55,27 @@ public abstract class ModelBlockDefault<B extends Block, K> implements BakedMode
 
 		bakeBlock(block, extraData, key, baker, false);
 
-		blockModel = baker.bake(false);
-		onCreateModel(blockModel);
-		return blockModel;
+        this.blockModel = baker.bake(false);
+		onCreateModel(this.blockModel);
+		return this.blockModel;
 	}
 
 	protected BakedModel getModel(BlockState state, ModelData extraData) {
-		Preconditions.checkArgument(blockClass.isInstance(state.getBlock()));
+		Preconditions.checkArgument(this.blockClass.isInstance(state.getBlock()));
 
 		K worldKey = getWorldKey(state, extraData);
-		B block = blockClass.cast(state.getBlock());
+		B block = this.blockClass.cast(state.getBlock());
 		return bakeModel(state, worldKey, block, extraData);
 	}
 
 	protected BakedModel bakeModel(ItemStack stack, Level world, K key) {
 		ModelBaker baker = new ModelBaker();
 		Block block = Block.byItem(stack.getItem());
-		Preconditions.checkArgument(blockClass.isInstance(block));
-		B bBlock = blockClass.cast(block);
+		Preconditions.checkArgument(this.blockClass.isInstance(block));
+		B bBlock = this.blockClass.cast(block);
 		bakeBlock(bBlock, ModelData.EMPTY, key, baker, true);
 
-		return itemModel = baker.bake(true);
+		return this.itemModel = baker.bake(true);
 	}
 
 	protected BakedModel getModel(ItemStack stack, Level world) {
@@ -104,40 +101,40 @@ public abstract class ModelBlockDefault<B extends Block, K> implements BakedMode
 
 	@Override
 	public boolean useAmbientOcclusion() {
-		return (itemModel != null || blockModel != null) &&
-				(blockModel != null ? blockModel.useAmbientOcclusion() : itemModel.useAmbientOcclusion());
+		return (this.itemModel != null || this.blockModel != null) &&
+			(this.blockModel != null ? this.blockModel.useAmbientOcclusion() : this.itemModel.useAmbientOcclusion());
 	}
 
 	@Override
 	public boolean isGui3d() {
-		return itemModel != null && itemModel.isGui3d();
+		return this.itemModel != null && this.itemModel.isGui3d();
 	}
 
 	@Override
 	public boolean isCustomRenderer() {
-		return (itemModel != null || blockModel != null) &&
-				(blockModel != null ? blockModel.isCustomRenderer() : itemModel.isCustomRenderer());
+		return (this.itemModel != null || this.blockModel != null) &&
+			(this.blockModel != null ? this.blockModel.isCustomRenderer() : this.itemModel.isCustomRenderer());
 	}
 
 	@Override
 	public boolean usesBlockLight() {
-		return itemModel != null && itemModel.usesBlockLight();
+		return this.itemModel != null && this.itemModel.usesBlockLight();
 	}
 
 	@Override
 	public TextureAtlasSprite getParticleIcon() {
-		if (blockModel != null) {
-			return blockModel.getParticleIcon();
+		if (this.blockModel != null) {
+			return this.blockModel.getParticleIcon();
 		}
 		return ResourceUtil.getMissingTexture();
 	}
 
 	@Override
 	public ItemTransforms getTransforms() {
-		if (itemModel == null) {
+		if (this.itemModel == null) {
 			return ItemTransforms.NO_TRANSFORMS;
 		}
-		return itemModel.getTransforms();
+		return this.itemModel.getTransforms();
 	}
 
 	protected ItemOverrides createOverrides() {
@@ -146,10 +143,10 @@ public abstract class ModelBlockDefault<B extends Block, K> implements BakedMode
 
 	@Override
 	public ItemOverrides getOverrides() {
-		if (overrideList == null) {
-			overrideList = createOverrides();
+		if (this.overrideList == null) {
+            this.overrideList = createOverrides();
 		}
-		return overrideList;
+		return this.overrideList;
 	}
 
 	protected abstract K getInventoryKey(ItemStack stack);

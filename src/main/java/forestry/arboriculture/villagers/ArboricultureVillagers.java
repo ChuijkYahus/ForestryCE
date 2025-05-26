@@ -1,31 +1,6 @@
 package forestry.arboriculture.villagers;
 
 import com.google.common.collect.ImmutableSet;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.trading.MerchantOffer;
-
-import net.minecraftforge.event.village.VillagerTradesEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
-
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.WoodBlockKind;
@@ -41,9 +16,30 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Predicate;
 
 @FeatureProvider
 public class ArboricultureVillagers {
@@ -86,9 +82,9 @@ public class ArboricultureVillagers {
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
 			ForestryWoodType woodType = ForestryWoodType.getRandom(rand);
 			ItemStack sellStack = TreeManager.woodAccess.getStack(woodType, WoodBlockKind.PLANKS, false);
-			sellStack.setCount(sellingPriceInfo.getPrice(rand));
+			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, emeraldsPriceInfo.getPrice(rand)), sellStack, maxUses, xp, priceMult);
+			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 
@@ -100,9 +96,9 @@ public class ArboricultureVillagers {
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
 			ForestryWoodType woodType = ForestryWoodType.getRandom(rand);
 			ItemStack sellStack = TreeManager.woodAccess.getStack(woodType, WoodBlockKind.LOG, false);
-			sellStack.setCount(sellingPriceInfo.getPrice(rand));
+			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, emeraldsPriceInfo.getPrice(rand)), sellStack, maxUses, xp, priceMult);
+			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 
@@ -119,7 +115,7 @@ public class ArboricultureVillagers {
 			List<ITreeSpecies> registeredSpecies = SpeciesUtil.getAllTreeSpecies();
 			ArrayList<ITreeSpecies> potentialSpecies = new ArrayList<>();
 			for (ITreeSpecies species : registeredSpecies) {
-				if (species.getComplexity() <= maxComplexity) {
+				if (species.getComplexity() <= this.maxComplexity) {
 					potentialSpecies.add(species);
 				}
 			}
@@ -129,10 +125,10 @@ public class ArboricultureVillagers {
 			}
 
 			ITreeSpecies chosenSpecies = potentialSpecies.get(rand.nextInt(potentialSpecies.size()));
-			ItemStack sellStack = chosenSpecies.createStack(stage);
-			sellStack.setCount(sellingPriceInfo.getPrice(rand));
+			ItemStack sellStack = chosenSpecies.createStack(this.stage);
+			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, buyingPriceInfo.getPrice(rand)), sellStack, maxUses, xp, priceMult);
+			return new MerchantOffer(new ItemStack(Items.EMERALD, this.buyingPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 }

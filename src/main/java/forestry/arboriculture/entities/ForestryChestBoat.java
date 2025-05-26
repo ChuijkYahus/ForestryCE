@@ -1,7 +1,7 @@
 package forestry.arboriculture.entities;
 
-import javax.annotation.Nullable;
-
+import forestry.arboriculture.features.ArboricultureEntities;
+import forestry.arboriculture.features.ArboricultureItems;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -24,13 +24,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import forestry.arboriculture.features.ArboricultureEntities;
-import forestry.arboriculture.features.ArboricultureItems;
+import javax.annotation.Nullable;
 
 public class ForestryChestBoat extends ForestryBoat implements HasCustomInventoryScreen, ContainerEntity {
 	private static final int CONTAINER_SIZE = 27;

@@ -1,19 +1,15 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
-
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraftforge.fluids.FluidStack;
-
-import forestry.api.recipes.IStillRecipe;
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
 
 public class StillRecipeBuilder {
 
@@ -37,7 +33,7 @@ public class StillRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, timePerUnit, input, output));
+		consumer.accept(new Result(id, this.timePerUnit, this.input, this.output));
 	}
 
 	private static class Result implements FinishedRecipe {
@@ -55,14 +51,14 @@ public class StillRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.addProperty("time", timePerUnit);
-			json.add("input", RecipeSerializers.serializeFluid(input));
-			json.add("output", RecipeSerializers.serializeFluid(output));
+			json.addProperty("time", this.timePerUnit);
+			json.add("input", RecipeSerializers.serializeFluid(this.input));
+			json.add("output", RecipeSerializers.serializeFluid(this.output));
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

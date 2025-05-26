@@ -2,30 +2,18 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-import java.util.Map;
-import java.util.function.Consumer;
-
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.datafixers.util.Pair;
-
 import forestry.Forestry;
 import forestry.api.IForestryApi;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationManager;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.ITaxon;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.genetics.alleles.IRegistryChromosome;
+import forestry.api.genetics.*;
+import forestry.api.genetics.alleles.*;
 import forestry.api.plugin.IGenomeBuilder;
 import forestry.api.plugin.ISpeciesBuilder;
 import forestry.core.genetics.MutationManager;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Base implementation of {@link ISpeciesBuilder} with common logic.

@@ -1,12 +1,11 @@
 package forestry.core.fluids;
 
+import forestry.core.recipes.RecipeManagers;
+import net.minecraft.resources.ResourceLocation;
+
 import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.function.Supplier;
-
-import net.minecraft.resources.ResourceLocation;
-
-import forestry.core.recipes.RecipeManagers;
 
 public class ReloadableFluidFilter implements Supplier<Set<ResourceLocation>> {
 	private final Supplier<Set<ResourceLocation>> filterGetter;

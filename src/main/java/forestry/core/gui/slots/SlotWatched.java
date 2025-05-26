@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.core.gui.slots;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.core.inventory.watchers.FakeSlotChangeWatcher;
 import forestry.core.inventory.watchers.FakeSlotPickupWatcher;
 import forestry.core.inventory.watchers.ISlotChangeWatcher;
 import forestry.core.inventory.watchers.ISlotPickupWatcher;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Slot with a watcher callbacks.
@@ -45,13 +44,13 @@ public class SlotWatched extends SlotForestry {
 		super.onTake(player, itemStack);
 		// todo why is this commented out? (it was my doing)
 		//if (player instanceof ServerPlayer) {
-			//pickupWatcher.onTake(getSlotIndex(), player);
+		//pickupWatcher.onTake(getSlotIndex(), player);
 		//}
 	}
 
 	@Override
 	public void setChanged() {
 		super.setChanged();
-		changeWatcher.onSlotChanged(container, getSlotIndex());
+        this.changeWatcher.onSlotChanged(this.container, getSlotIndex());
 	}
 }

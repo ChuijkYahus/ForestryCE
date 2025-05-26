@@ -1,7 +1,6 @@
 package forestry.farming.logic.crops;
 
-import java.util.List;
-
+import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
@@ -9,7 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.core.utils.BlockUtil;
+import java.util.List;
 
 public class CropChorusFlower extends Crop {
 	private static final BlockState BLOCK_STATE = Blocks.CHORUS_FLOWER.defaultBlockState();

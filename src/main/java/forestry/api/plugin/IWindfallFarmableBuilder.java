@@ -1,8 +1,7 @@
 package forestry.api.plugin;
 
-import net.minecraft.world.item.Item;
-
 import forestry.api.farming.IFarmable;
+import net.minecraft.world.item.Item;
 
 /**
  * Allows customization of an {@link IFarmable} that has windfall items.

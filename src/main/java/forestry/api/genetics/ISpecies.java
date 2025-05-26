@@ -1,18 +1,13 @@
 package forestry.api.genetics;
 
-import java.util.List;
-import java.util.Map;
-
+import forestry.api.genetics.alleles.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.genetics.alleles.IRegistryAlleleValue;
+import java.util.List;
+import java.util.Map;
 
 public interface ISpecies<I extends IIndividual> extends IRegistryAlleleValue {
 	/**

@@ -1,13 +1,8 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.genetics;
 
-import java.util.List;
-
 import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 /**
  * Can be implemented by tile entities which can bear fruit.

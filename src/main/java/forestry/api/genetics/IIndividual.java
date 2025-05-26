@@ -1,12 +1,11 @@
 package forestry.api.genetics;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
-
+import forestry.api.ForestryConstants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.ForestryConstants;
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * An individual belongs to a certain species and has a genome and life stage.

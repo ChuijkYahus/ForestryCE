@@ -1,7 +1,9 @@
 package forestry.arboriculture.blocks;
 
-import javax.annotation.Nullable;
-
+import forestry.api.arboriculture.WoodBlockKind;
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.IWoodTyped;
+import forestry.arboriculture.features.ArboricultureTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
@@ -13,10 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
-import forestry.api.arboriculture.WoodBlockKind;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.IWoodTyped;
-import forestry.arboriculture.features.ArboricultureTiles;
+import javax.annotation.Nullable;
 
 public class BlockForestryHangingSign extends CeilingHangingSignBlock implements IWoodTyped {
 	private final ForestryWoodType type;

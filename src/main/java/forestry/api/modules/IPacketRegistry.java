@@ -10,13 +10,13 @@
  ******************************************************************************/
 package forestry.api.modules;
 
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public interface IPacketRegistry {
 	/**

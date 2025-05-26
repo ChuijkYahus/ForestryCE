@@ -10,12 +10,11 @@
  ******************************************************************************/
 package forestry.mail;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.mail.ILetter;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.ItemLetter;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class LetterProperties {
 	public static ItemStack createStampedLetterStack(ILetter letter) {

@@ -1,10 +1,5 @@
 package forestry.worktable.network.packets;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
@@ -12,6 +7,10 @@ import forestry.core.utils.NetworkUtil;
 import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.screens.WorktableMenu;
 import forestry.worktable.tiles.WorktableTile;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 public record PacketWorktableRecipeRequest(BlockPos pos, MemorizedRecipe recipe) implements IForestryPacketServer {
 	@Override
@@ -21,8 +20,8 @@ public record PacketWorktableRecipeRequest(BlockPos pos, MemorizedRecipe recipe)
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		recipe.writeData(buffer);
+		buffer.writeBlockPos(this.pos);
+        this.recipe.writeData(buffer);
 	}
 
 	public static PacketWorktableRecipeRequest decode(FriendlyByteBuf buffer) {

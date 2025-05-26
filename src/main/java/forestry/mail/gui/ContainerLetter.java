@@ -10,27 +10,8 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import javax.annotation.Nullable;
-import java.util.Iterator;
-
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.Forestry;
-import forestry.api.mail.ILetter;
-import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostalCarrier;
-import forestry.api.mail.ITradeStation;
-import forestry.api.mail.ITradeStationInfo;
+import forestry.api.mail.*;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.utils.NetworkUtil;
@@ -43,6 +24,19 @@ import forestry.mail.inventory.ItemInventoryLetter;
 import forestry.mail.network.packets.PacketLetterInfoResponsePlayer;
 import forestry.mail.network.packets.PacketLetterInfoResponseTrader;
 import forestry.mail.network.packets.PacketLetterTextSet;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.Iterator;
 
 public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter> implements ILetterInfoReceiver {
 	private IPostalCarrier carrier = PostalCarriers.PLAYER.get();
@@ -91,20 +85,20 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 	@Override
 	public void removed(Player playerEntity) {
 		if (!playerEntity.level().isClientSide) {
-			ILetter letter = inventory.getLetter();
+			ILetter letter = this.inventory.getLetter();
 			if (!letter.isProcessed()) {
 				IMailAddress sender = new MailAddress(playerEntity.getGameProfile());
 				letter.setSender(sender);
 			}
 		}
 
-		inventory.onLetterClosed();
+        this.inventory.onLetterClosed();
 
 		super.removed(playerEntity);
 	}
 
 	public ILetter getLetter() {
-		return inventory.getLetter();
+		return this.inventory.getLetter();
 	}
 
 	public void setCarrier(IPostalCarrier carrier) {
@@ -118,7 +112,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 	public void advanceCarrierType() {
 		Iterator<IPostalCarrier> it = PostalCarriers.REGISTRY.get().iterator();
 		while (it.hasNext()) {
-			if (it.next().equals(carrier)) {
+			if (it.next().equals(this.carrier)) {
 				break;
 			}
 		}
@@ -151,15 +145,15 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 		// TODO: Move this to the carrier to make it more extensible
 		// Update info on client
 		if (carrier.equals(PostalCarriers.PLAYER.get())) {
-            NetworkUtil.sendToPlayer(new PacketLetterInfoResponsePlayer(recipient), (ServerPlayer) player);
-        } else {
-			NetworkUtil.sendToPlayer(new PacketLetterInfoResponseTrader(tradeInfo), (ServerPlayer) player);
+			NetworkUtil.sendToPlayer(new PacketLetterInfoResponsePlayer(recipient), (ServerPlayer) player);
+		} else {
+			NetworkUtil.sendToPlayer(new PacketLetterInfoResponseTrader(this.tradeInfo), (ServerPlayer) player);
 		}
 	}
 
 	private static IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName, IPostalCarrier carrier) {
-        return carrier.getRecipient(minecraftServer, recipientName);
-    }
+		return carrier.getRecipient(minecraftServer, recipientName);
+	}
 
 	@Nullable
 	public IMailAddress getRecipient() {
@@ -219,10 +213,10 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 
 	private void setTradeInfo(@Nullable ITradeStationInfo info) {
 		this.tradeInfo = info;
-		if (tradeInfo == null) {
+		if (this.tradeInfo == null) {
 			getLetter().setRecipient(null);
 		} else {
-			getLetter().setRecipient(tradeInfo.address());
+			getLetter().setRecipient(this.tradeInfo.address());
 		}
 	}
 }

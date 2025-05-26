@@ -1,13 +1,12 @@
 package forestry.sorting.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Inventory;
-
 import forestry.core.gui.ContainerTile;
 import forestry.core.tiles.TileUtil;
 import forestry.sorting.features.SortingMenuTypes;
 import forestry.sorting.network.packets.PacketGuiFilterUpdate;
 import forestry.sorting.tiles.TileGeneticFilter;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ContainerGeneticFilter extends ContainerTile<TileGeneticFilter> {
 	private boolean guiNeedsUpdate = true;
@@ -46,14 +45,14 @@ public class ContainerGeneticFilter extends ContainerTile<TileGeneticFilter> {
 	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
-		if (guiNeedsUpdate) {
-			PacketGuiFilterUpdate packet = tile.getLogic().createGuiUpdatePacket(tile.getBlockPos());
+		if (this.guiNeedsUpdate) {
+			PacketGuiFilterUpdate packet = this.tile.getLogic().createGuiUpdatePacket(this.tile.getBlockPos());
 			sendPacketToListeners(packet);
-			guiNeedsUpdate = false;
+            this.guiNeedsUpdate = false;
 		}
 	}
 
 	public boolean hasSameTile(ContainerGeneticFilter openContainer) {
-		return tile == openContainer.tile;
+		return this.tile == openContainer.tile;
 	}
 }

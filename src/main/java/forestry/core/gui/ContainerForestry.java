@@ -10,22 +10,21 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import javax.annotation.Nullable;
-
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.gui.slots.SlotForestry;
+import forestry.core.gui.slots.SlotLocked;
+import forestry.core.utils.NetworkUtil;
+import forestry.core.utils.SlotUtil;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.core.gui.slots.SlotForestry;
-import forestry.core.gui.slots.SlotLocked;
-import forestry.api.modules.IForestryPacketClient;
-import forestry.core.utils.NetworkUtil;
-import forestry.core.utils.SlotUtil;
+import javax.annotation.Nullable;
 
 public abstract class ContainerForestry extends AbstractContainerMenu {
 	public static final int PLAYER_HOTBAR_OFFSET = 27;
@@ -96,7 +95,7 @@ public abstract class ContainerForestry extends AbstractContainerMenu {
 			}
 		}
 
-		transferCount = 0;
+        this.transferCount = 0;
 		super.clicked(slotId, button, clickTypeIn, player);
 	}
 
@@ -110,9 +109,9 @@ public abstract class ContainerForestry extends AbstractContainerMenu {
 			return ItemStack.EMPTY;
 		}
 
-		if (transferCount < 64) {
-			transferCount++;
-			return SlotUtil.transferStackInSlot(slots, player, slotIndex);
+		if (this.transferCount < 64) {
+            this.transferCount++;
+			return SlotUtil.transferStackInSlot(this.slots, player, slotIndex);
 		}
 		return ItemStack.EMPTY;
 	}
@@ -120,8 +119,8 @@ public abstract class ContainerForestry extends AbstractContainerMenu {
 	protected abstract boolean canAccess(Player player);
 
 	protected final void sendPacketToListeners(IForestryPacketClient packet) {
-		if (player != null) {
-			NetworkUtil.sendToPlayer(packet, player);
+		if (this.player != null) {
+			NetworkUtil.sendToPlayer(packet, this.player);
 		}
 	}
 }

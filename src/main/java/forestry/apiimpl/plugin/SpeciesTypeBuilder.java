@@ -1,16 +1,6 @@
 package forestry.apiimpl.plugin;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Consumer;
-
-import net.minecraft.world.item.Item;
-
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.plugin.IKaryotypeBuilder;
@@ -19,8 +9,15 @@ import forestry.api.plugin.ISpeciesTypeFactory;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.core.genetics.Karyotype;
-
 import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
+import net.minecraft.world.item.Item;
+
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 	private final ISpeciesTypeFactory typeFactory;

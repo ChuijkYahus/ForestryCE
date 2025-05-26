@@ -1,29 +1,12 @@
 package forestry.apiculture.features;
 
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.EnumPollenCluster;
-import forestry.apiculture.items.EnumPropolis;
-import forestry.apiculture.items.ItemAmbrosia;
-import forestry.apiculture.items.ItemArmorApiarist;
-import forestry.apiculture.items.ItemBeeGE;
-import forestry.apiculture.items.ItemCreativeHiveFrame;
-import forestry.apiculture.items.ItemHiveFrame;
-import forestry.apiculture.items.ItemHoneyComb;
-import forestry.apiculture.items.ItemPollenCluster;
-import forestry.apiculture.items.ItemPropolis;
-import forestry.apiculture.items.ItemScoop;
-import forestry.apiculture.items.ItemSmoker;
+import forestry.apiculture.items.*;
 import forestry.core.items.ItemForestryFood;
-import forestry.modules.features.FeatureItem;
-import forestry.modules.features.FeatureItemGroup;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.modules.features.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 
 @FeatureProvider
 public class ApicultureItems {

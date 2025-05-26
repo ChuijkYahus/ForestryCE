@@ -10,11 +10,11 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Consumer;
-
+import forestry.api.apiculture.IBeeHousing;
+import forestry.api.genetics.IEffectData;
+import forestry.api.genetics.IGenome;
+import forestry.core.utils.EntityUtil;
+import forestry.core.utils.ItemStackUtil;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
@@ -23,11 +23,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
-import forestry.core.utils.EntityUtil;
-import forestry.core.utils.ItemStackUtil;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
 
 // Finds mob drops on the floor and resurrects them into their creature counterparts. Even works on the Dragon Egg!
 public class ResurrectionBeeEffect extends ThrottledBeeEffect {
@@ -45,7 +44,7 @@ public class ResurrectionBeeEffect extends ThrottledBeeEffect {
 			return storedData;
 		}
 
-		Collections.shuffle(resurrectables);
+		Collections.shuffle(this.resurrectables);
 
 		for (ItemEntity entity : entities) {
 			if (resurrectEntity(entity)) {
@@ -62,7 +61,7 @@ public class ResurrectionBeeEffect extends ThrottledBeeEffect {
 		}
 
 		ItemStack contained = entity.getItem();
-		for (Resurrectable<? extends Mob> entry : resurrectables) {
+		for (Resurrectable<? extends Mob> entry : this.resurrectables) {
 			if (ItemStackUtil.isIdenticalItem(entry.res, contained)) {
 				if (entry.spawnAndTransform(entity)) {
 					contained.shrink(1);

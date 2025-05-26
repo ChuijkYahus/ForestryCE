@@ -1,15 +1,14 @@
 package forestry.apiculture;
 
-import java.util.Locale;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.client.ForestrySprites;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.filter.FilterData;
 import forestry.api.genetics.filter.IFilterRuleType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Locale;
 
 public enum ApicultureFilterRuleType implements IFilterRuleType {
 	BEE(ForestrySprites.ANALYZER_BEE) {

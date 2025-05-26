@@ -1,7 +1,6 @@
 package forestry.api.farming;
 
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.world.item.Item;
 
 /**

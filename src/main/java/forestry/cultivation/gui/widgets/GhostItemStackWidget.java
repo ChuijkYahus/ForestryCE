@@ -1,7 +1,12 @@
 package forestry.cultivation.gui.widgets;
 
-import javax.annotation.Nullable;
-
+import com.mojang.blaze3d.systems.RenderSystem;
+import forestry.api.core.tooltips.ToolTip;
+import forestry.api.farming.HorizontalDirection;
+import forestry.core.gui.widgets.ItemStackWidget;
+import forestry.core.gui.widgets.WidgetManager;
+import forestry.core.render.ColourProperties;
+import forestry.cultivation.inventory.InventoryPlanter;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
@@ -9,14 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import forestry.api.core.tooltips.ToolTip;
-import forestry.api.farming.HorizontalDirection;
-import forestry.core.gui.widgets.ItemStackWidget;
-import forestry.core.gui.widgets.WidgetManager;
-import forestry.core.render.ColourProperties;
-import forestry.cultivation.inventory.InventoryPlanter;
+import javax.annotation.Nullable;
 
 public class GhostItemStackWidget extends ItemStackWidget {
 	private final Slot slot;
@@ -28,7 +26,7 @@ public class GhostItemStackWidget extends ItemStackWidget {
 
 	@Override
 	public void draw(GuiGraphics graphics, int startX, int startY) {
-		if (!slot.hasItem()) {
+		if (!this.slot.hasItem()) {
 			super.draw(graphics, startX, startY);
 		}
 		// RenderSystem.disableLighting();
@@ -37,13 +35,13 @@ public class GhostItemStackWidget extends ItemStackWidget {
 
 		Component directionString = getDirectionString();
 		if (directionString != null) {
-			Font font = manager.minecraft.font;
-			graphics.drawString(font, directionString, xPos + startX + 5, yPos + startY + 4, ColourProperties.INSTANCE.get("gui.screen"));
+			Font font = this.manager.minecraft.font;
+			graphics.drawString(font, directionString, this.xPos + startX + 5, this.yPos + startY + 4, ColourProperties.INSTANCE.get("gui.screen"));
 		}
 
 		graphics.setColor(1.0f, 1.0f, 1.0f, 0.5f);
 
-		graphics.blit(manager.gui.textureFile, xPos + startX, yPos + startY, 206, 0, 16, 16);
+		graphics.blit(this.manager.gui.textureFile, this.xPos + startX, this.yPos + startY, 206, 0, 16, 16);
 
 		RenderSystem.disableBlend();
 		RenderSystem.enableDepthTest();
@@ -52,11 +50,11 @@ public class GhostItemStackWidget extends ItemStackWidget {
 
 	@Nullable
 	private Component getDirectionString() {
-		if (slot.getSlotIndex() >= InventoryPlanter.CONFIG.productionStart
-				|| slot.getSlotIndex() < InventoryPlanter.CONFIG.productionStart + InventoryPlanter.CONFIG.productionCount) {
+		if (this.slot.getSlotIndex() >= InventoryPlanter.CONFIG.productionStart
+			|| this.slot.getSlotIndex() < InventoryPlanter.CONFIG.productionStart + InventoryPlanter.CONFIG.productionCount) {
 			return null;
 		}
-		int index = slot.getSlotIndex() % 4;
+		int index = this.slot.getSlotIndex() % 4;
 		Direction direction = HorizontalDirection.VALUES.get(index);
 		String directionString = direction.getSerializedName();
 		return Component.translatable("for.gui.planter." + directionString);

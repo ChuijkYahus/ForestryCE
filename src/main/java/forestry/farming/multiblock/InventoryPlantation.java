@@ -1,18 +1,5 @@
 package forestry.farming.multiblock;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Optional;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-
 import forestry.api.IForestryApi;
 import forestry.api.farming.IFarmHousing;
 import forestry.api.farming.IFarmLogic;
@@ -25,6 +12,17 @@ import forestry.core.inventory.wrappers.InventoryMapper;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.SlotUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+
+import java.util.ArrayDeque;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The basic class for the two plantation inventories. (Multiblock Farm / Cultivators)
@@ -82,32 +80,32 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		if (SlotUtil.isSlotInRange(slotIndex, config.fertilizerStart, config.fertilizerCount)) {
+		if (SlotUtil.isSlotInRange(slotIndex, this.config.fertilizerStart, this.config.fertilizerCount)) {
 			return acceptsAsFertilizer(stack);
-		} else if (SlotUtil.isSlotInRange(slotIndex, config.germlingsStart, config.germlingsCount)) {
+		} else if (SlotUtil.isSlotInRange(slotIndex, this.config.germlingsStart, this.config.germlingsCount)) {
 			return acceptsAsSeedling(stack);
-		} else if (SlotUtil.isSlotInRange(slotIndex, config.resourcesStart, config.productionCount)) {
+		} else if (SlotUtil.isSlotInRange(slotIndex, this.config.resourcesStart, this.config.productionCount)) {
 			return acceptsAsResource(stack);
-		} else if (SlotUtil.isSlotInRange(slotIndex, config.canStart, config.canCount)) {
+		} else if (SlotUtil.isSlotInRange(slotIndex, this.config.canStart, this.config.canCount)) {
 			Optional<FluidStack> fluid = FluidUtil.getFluidContained(stack);
-			return fluid.map(f -> housing.getTankManager().canFillFluidType(f)).orElse(false);
+			return fluid.map(f -> this.housing.getTankManager().canFillFluidType(f)).orElse(false);
 		}
 		return false;
 	}
 
 	@Override
 	public boolean canTakeItemThroughFace(int slotIndex, ItemStack stack, Direction side) {
-		return SlotUtil.isSlotInRange(slotIndex, config.productionStart, config.productionCount);
+		return SlotUtil.isSlotInRange(slotIndex, this.config.productionStart, this.config.productionCount);
 	}
 
 	@Override
 	public boolean hasResources(List<ItemStack> resources) {
-		return InventoryUtil.contains(resourcesInventory, resources);
+		return InventoryUtil.contains(this.resourcesInventory, resources);
 	}
 
 	@Override
 	public void removeResources(List<ItemStack> resources) {
-		InventoryUtil.removeSets(resourcesInventory, 1, resources, null, false, false, true);
+		InventoryUtil.removeSets(this.resourcesInventory, 1, resources, null, false, false, true);
 	}
 
 	@Override
@@ -116,7 +114,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 			return false;
 		}
 
-		for (IFarmLogic logic : housing.getFarmLogics()) {
+		for (IFarmLogic logic : this.housing.getFarmLogics()) {
 			if (logic.getType().isAcceptedSeedling(stack)) {
 				return true;
 			}
@@ -131,7 +129,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 			return false;
 		}
 
-		for (IFarmLogic logic : housing.getFarmLogics()) {
+		for (IFarmLogic logic : this.housing.getFarmLogics()) {
 			if (logic.getType().isAcceptedResource(stack)) {
 				return true;
 			}
@@ -151,26 +149,26 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 
 	@Override
 	public Container getProductInventory() {
-		return productInventory;
+		return this.productInventory;
 	}
 
 	@Override
 	public Container getGermlingsInventory() {
-		return germlingsInventory;
+		return this.germlingsInventory;
 	}
 
 	@Override
 	public Container getResourcesInventory() {
-		return resourcesInventory;
+		return this.resourcesInventory;
 	}
 
 	@Override
 	public Container getFertilizerInventory() {
-		return fertilizerInventory;
+		return this.fertilizerInventory;
 	}
 
 	public void drainCan(TankManager tankManager) {
-		FluidHelper.drainContainers(tankManager, this, config.canStart);
+		FluidHelper.drainContainers(tankManager, this, this.config.canStart);
 	}
 
 	/**
@@ -186,7 +184,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 	@Override
 	public void stowProducts(Iterable<ItemStack> harvested, ArrayDeque<ItemStack> pendingProduce) {
 		for (ItemStack harvest : harvested) {
-			int added = InventoryUtil.addStack(productInventory, harvest, true);
+			int added = InventoryUtil.addStack(this.productInventory, harvest, true);
 			harvest.shrink(added);
 			if (!harvest.isEmpty()) {
 				pendingProduce.push(harvest);
@@ -210,7 +208,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 
 	@Override
 	public int getFertilizerValue() {
-		ItemStack fertilizerStack = getItem(config.fertilizerStart);
+		ItemStack fertilizerStack = getItem(this.config.fertilizerStart);
 		if (fertilizerStack.isEmpty()) {
 			return 0;
 		}
@@ -224,9 +222,9 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 
 	@Override
 	public boolean useFertilizer() {
-		ItemStack fertilizer = getItem(config.fertilizerStart);
+		ItemStack fertilizer = getItem(this.config.fertilizerStart);
 		if (acceptsAsFertilizer(fertilizer)) {
-			removeItem(config.fertilizerStart, 1);
+			removeItem(this.config.fertilizerStart, 1);
 			return true;
 		}
 		return false;
@@ -255,11 +253,11 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 		public final int count;
 
 		public InventoryConfig(
-				int resourcesStart, int resourcesCount,
-				int germlingsStart, int germlingsCount,
-				int productionStart, int productionCount,
-				int fertilizerStart, int fertilizerCount,
-				int canStart, int canCount
+			int resourcesStart, int resourcesCount,
+			int germlingsStart, int germlingsCount,
+			int productionStart, int productionCount,
+			int fertilizerStart, int fertilizerCount,
+			int canStart, int canCount
 		) {
 			this.resourcesStart = resourcesStart;
 			this.resourcesCount = resourcesCount;

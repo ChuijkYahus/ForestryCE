@@ -2,13 +2,11 @@ package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
-import javax.annotation.Nullable;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.genetics.*;
+import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.plugin.ISpeciesTypeBuilder;
+import it.unimi.dsi.fastutil.objects.Reference2FloatOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,19 +15,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationManager;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.plugin.ISpeciesTypeBuilder;
-
-import it.unimi.dsi.fastutil.objects.Reference2FloatOpenHashMap;
+import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> implements ISpeciesType<S, I> {
 	protected final ResourceLocation id;

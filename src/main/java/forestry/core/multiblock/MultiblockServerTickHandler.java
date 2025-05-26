@@ -1,11 +1,9 @@
 package forestry.core.multiblock;
 
+import forestry.api.ForestryConstants;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-
 import net.minecraftforge.fml.common.Mod;
-
-import forestry.api.ForestryConstants;
 
 /**
  * This is a generic multiblock tick handler. If you are using this code on your own,

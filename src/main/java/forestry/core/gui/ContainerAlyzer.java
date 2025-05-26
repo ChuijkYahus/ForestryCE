@@ -1,13 +1,12 @@
 package forestry.core.gui;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.InteractionHand;
-
 import forestry.core.features.CoreMenuTypes;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.inventory.ItemInventoryAlyzer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 
 public class ContainerAlyzer extends ContainerItemInventory<ItemInventoryAlyzer> {
 

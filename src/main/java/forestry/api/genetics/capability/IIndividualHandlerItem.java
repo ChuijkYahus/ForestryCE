@@ -1,18 +1,17 @@
 package forestry.api.genetics.capability;
 
-import javax.annotation.Nullable;
-import java.util.function.BiConsumer;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
+import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * The individual handler manages an item's genetic information.

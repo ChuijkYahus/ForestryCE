@@ -10,11 +10,16 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.IdentityHashMap;
-import java.util.List;
-
+import forestry.api.IForestryApi;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.climate.IClimateManager;
+import forestry.api.core.HumidityType;
+import forestry.api.core.TemperatureType;
+import forestry.arboriculture.commands.TreeGenHelper;
+import forestry.core.config.ForestryConfig;
+import forestry.core.utils.BlockUtil;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -28,19 +33,12 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-
 import net.minecraftforge.common.IPlantable;
 
-import forestry.api.IForestryApi;
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.climate.IClimateManager;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
-import forestry.arboriculture.commands.TreeGenHelper;
-import forestry.core.config.ForestryConfig;
-import forestry.core.utils.BlockUtil;
-import forestry.core.utils.SpeciesUtil;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.List;
 
 public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 	private static final IdentityHashMap<ResourceKey<Biome>, List<ITree>> BIOME_CACHE = new IdentityHashMap<>();

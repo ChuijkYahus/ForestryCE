@@ -1,9 +1,7 @@
 package forestry.core;
 
-import javax.annotation.Nullable;
-
-import java.util.Optional;
-
+import forestry.core.genetics.root.ClientBreedingHandler;
+import forestry.core.genetics.root.ServerBreedingHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.BlockPos;
@@ -15,8 +13,8 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
 
-import forestry.core.genetics.root.ClientBreedingHandler;
-import forestry.core.genetics.root.ServerBreedingHandler;
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 // Rule of thumb for safely calling client code: client classes must be in the body of a static method
 // in another class (like this one), guarded by an if statement checking FMLEnvironment.dist == Dist.CLIENT

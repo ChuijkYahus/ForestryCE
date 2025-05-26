@@ -1,10 +1,10 @@
 package forestry.core.commands;
 
-import java.util.function.Predicate;
-
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+
+import java.util.function.Predicate;
 
 public class CommandHelpers {
 	public static final Predicate<CommandSourceStack> ADMIN = sender -> sender.hasPermission(2);

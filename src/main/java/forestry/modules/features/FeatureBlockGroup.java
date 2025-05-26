@@ -29,16 +29,16 @@ public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends
 
 	// todo use immutable collection?
 	public List<B> getList() {
-		ArrayList<B> blocks = new ArrayList<>(featureByType.size());
-		for (FeatureBlock<B, BlockItem> value : featureByType.values()) {
+		ArrayList<B> blocks = new ArrayList<>(this.featureByType.size());
+		for (FeatureBlock<B, BlockItem> value : this.featureByType.values()) {
 			blocks.add(value.block());
 		}
 		return blocks;
 	}
 
 	public Collection<BlockItem> getItems() {
-		ArrayList<BlockItem> items = new ArrayList<>(featureByType.size());
-		for (FeatureBlock<B, BlockItem> value : featureByType.values()) {
+		ArrayList<BlockItem> items = new ArrayList<>(this.featureByType.size());
+		for (FeatureBlock<B, BlockItem> value : this.featureByType.values()) {
 			items.add(value.item());
 		}
 		return items;

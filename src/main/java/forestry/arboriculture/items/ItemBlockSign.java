@@ -1,14 +1,13 @@
 package forestry.arboriculture.items;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SignItem;
-
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.WoodHelper;
 import forestry.arboriculture.blocks.BlockForestryStandingSign;
 import forestry.arboriculture.features.ArboricultureBlocks;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SignItem;
 
 public class ItemBlockSign extends SignItem {
 	private final ForestryWoodType type;

@@ -1,13 +1,11 @@
 package forestry.api.client.plugin;
 
-import java.awt.Color;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
-
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+import net.minecraft.resources.ResourceLocation;
+
+import java.awt.*;
 
 /**
  * Contains methods for creating instances of client-only objects using Forestry's built-in implementations.

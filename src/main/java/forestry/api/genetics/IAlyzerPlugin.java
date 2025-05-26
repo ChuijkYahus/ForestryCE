@@ -1,16 +1,11 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.genetics;
-
-import java.util.List;
-import java.util.Map;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Used to display information in the Portable Analyzer.

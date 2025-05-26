@@ -10,9 +10,12 @@
  ******************************************************************************/
 package forestry.arboriculture.blocks;
 
-import java.util.Collections;
-import java.util.List;
-
+import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.TreeLifeStage;
+import forestry.arboriculture.tiles.TileSapling;
+import forestry.arboriculture.tiles.TileTreeContainer;
+import forestry.core.tiles.TileUtil;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -33,12 +36,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.arboriculture.tiles.TileSapling;
-import forestry.arboriculture.tiles.TileTreeContainer;
-import forestry.core.tiles.TileUtil;
-import forestry.core.utils.SpeciesUtil;
+import java.util.Collections;
+import java.util.List;
 
 public class BlockSapling extends Block implements BonemealableBlock, EntityBlock {
 	protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);

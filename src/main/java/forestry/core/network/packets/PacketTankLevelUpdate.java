@@ -10,18 +10,16 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.fluids.ITankManager;
+import forestry.core.network.PacketIdClient;
+import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-
 import net.minecraftforge.fluids.FluidStack;
-
-import forestry.core.fluids.ITankManager;
-import forestry.api.modules.IForestryPacketClient;
-import forestry.core.network.PacketIdClient;
-import forestry.core.tiles.ILiquidTankTile;
-import forestry.core.tiles.TileUtil;
 
 public record PacketTankLevelUpdate(BlockPos pos, int tankIndex, FluidStack contents) implements IForestryPacketClient {
 	public PacketTankLevelUpdate(ILiquidTankTile tileEntity, int tankIndex, FluidStack contents) {
@@ -35,9 +33,9 @@ public record PacketTankLevelUpdate(BlockPos pos, int tankIndex, FluidStack cont
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		buffer.writeVarInt(tankIndex);
-		buffer.writeFluidStack(contents);
+		buffer.writeBlockPos(this.pos);
+		buffer.writeVarInt(this.tankIndex);
+		buffer.writeFluidStack(this.contents);
 	}
 
 	public static PacketTankLevelUpdate decode(FriendlyByteBuf buffer) {

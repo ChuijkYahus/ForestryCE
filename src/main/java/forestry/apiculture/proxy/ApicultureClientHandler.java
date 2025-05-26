@@ -10,35 +10,23 @@
  ******************************************************************************/
 package forestry.apiculture.proxy;
 
+import forestry.api.client.IClientModuleHandler;
+import forestry.apiculture.features.ApicultureBlocks;
+import forestry.apiculture.features.ApicultureMenuTypes;
+import forestry.apiculture.gui.*;
+import forestry.apiculture.models.ModelBee;
+import forestry.apiculture.particles.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
-import forestry.api.client.IClientModuleHandler;
-import forestry.apiculture.features.ApicultureBlocks;
-import forestry.apiculture.features.ApicultureMenuTypes;
-import forestry.apiculture.gui.ContainerBeeHousing;
-import forestry.apiculture.gui.GuiAlveary;
-import forestry.apiculture.gui.GuiAlvearyHygroregulator;
-import forestry.apiculture.gui.GuiAlvearySieve;
-import forestry.apiculture.gui.GuiAlvearySwarmer;
-import forestry.apiculture.gui.GuiBeeHousing;
-import forestry.apiculture.models.ModelBee;
-import forestry.apiculture.particles.ApicultureParticles;
-import forestry.apiculture.particles.BeeExploreParticle;
-import forestry.apiculture.particles.BeeRoundTripParticle;
-import forestry.apiculture.particles.BeeTargetEntityParticle;
-import forestry.apiculture.particles.ParticleSnow;
 
 public class ApicultureClientHandler implements IClientModuleHandler {
 	@Override

@@ -10,36 +10,29 @@
  ******************************************************************************/
 package forestry.core.commands;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import forestry.Forestry;
+import forestry.api.ForestryConstants;
+import forestry.api.genetics.IBreedingTracker;
+import forestry.api.genetics.ISpecies;
+import forestry.core.utils.StringUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-
-import com.mojang.brigadier.Command;
-import com.mojang.brigadier.builder.ArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraftforge.fml.ModList;
 
-import forestry.Forestry;
-import forestry.api.ForestryConstants;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.ISpecies;
-import forestry.core.utils.StringUtil;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public final class CommandSaveStats implements Command<CommandSourceStack> {
 	private static final Component discoveredSymbol = Component.translatable("for.chat.command.forestry.stats.save.key.discovered.symbol");
@@ -54,8 +47,8 @@ public final class CommandSaveStats implements Command<CommandSourceStack> {
 
 	public static ArgumentBuilder<CommandSourceStack, ?> register(IStatsSaveHelper saveHelper) {
 		return Commands.literal("save")
-				.then(Commands.argument("player", EntityArgument.player())
-						.executes(new CommandSaveStats(saveHelper)));
+			.then(Commands.argument("player", EntityArgument.player())
+				.executes(new CommandSaveStats(saveHelper)));
 
 	}
 
@@ -71,15 +64,15 @@ public final class CommandSaveStats implements Command<CommandSourceStack> {
 		Component emptyLiteral = Component.literal("");
 
 		// todo why tf are there empty components getting added?
-		statistics.add(Component.translatable(saveHelper.getTranslationKey(), player.getDisplayName(), date));
+		statistics.add(Component.translatable(this.saveHelper.getTranslationKey(), player.getDisplayName(), date));
 		statistics.add(emptyLiteral);
 		//statistics.add(Component.translatable("for.chat.command.forestry.stats.save.mode", modeHelper.getModeName(world)));
 		statistics.add(emptyLiteral);
 
-		IBreedingTracker tracker = saveHelper.getBreedingTracker(world, player.getGameProfile());
-		saveHelper.addExtraInfo(statistics, tracker);
+		IBreedingTracker tracker = this.saveHelper.getBreedingTracker(world, player.getGameProfile());
+        this.saveHelper.addExtraInfo(statistics, tracker);
 
-		Collection<? extends ISpecies<?>> species = saveHelper.getSpecies();
+		Collection<? extends ISpecies<?>> species = this.saveHelper.getSpecies();
 
 		String speciesCount = Component.translatable("for.gui.speciescount").getString();
 		String speciesCountLine = String.format("%s (%s):", speciesCount, species.size());
@@ -102,7 +95,7 @@ public final class CommandSaveStats implements Command<CommandSourceStack> {
 		}
 
 		// todo test
-		File file = new File("config/" + ForestryConstants.MOD_ID + "/stats/" + player.getDisplayName().getString() + '-' + saveHelper.getFileSuffix() + ".log");
+		File file = new File("config/" + ForestryConstants.MOD_ID + "/stats/" + player.getDisplayName().getString() + '-' + this.saveHelper.getFileSuffix() + ".log");
 		try {
 			File folder = file.getParentFile();
 			if (folder != null && !folder.exists()) {

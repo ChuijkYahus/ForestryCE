@@ -10,8 +10,9 @@
  ******************************************************************************/
 package forestry.storage.items;
 
-import java.util.function.Supplier;
-
+import forestry.core.items.ItemForestry;
+import forestry.core.items.definitions.IColoredItem;
+import forestry.core.utils.ItemStackUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.network.chat.Component;
@@ -20,13 +21,10 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.core.items.ItemForestry;
-import forestry.core.items.definitions.IColoredItem;
-import forestry.core.utils.ItemStackUtil;
+import java.util.function.Supplier;
 
 public class ItemCrated extends ItemForestry implements IColoredItem {
 	private final Supplier<ItemStack> contained;
@@ -36,7 +34,7 @@ public class ItemCrated extends ItemForestry implements IColoredItem {
 	}
 
 	public ItemStack getContained() {
-		return contained.get();
+		return this.contained.get();
 	}
 
 	@Override

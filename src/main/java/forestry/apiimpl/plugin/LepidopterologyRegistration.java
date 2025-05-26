@@ -1,16 +1,14 @@
 package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableMap;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.api.plugin.ILepidopterologyRegistration;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
 
 public class LepidopterologyRegistration extends SpeciesRegistration<IButterflySpeciesBuilder, IButterflySpecies, ButterflySpeciesBuilder> implements ILepidopterologyRegistration {
 	private final Registrar<ResourceLocation, IButterflyCocoon, IButterflyCocoon> cocoons = new Registrar<>(IButterflyCocoon.class);
@@ -23,9 +21,9 @@ public class LepidopterologyRegistration extends SpeciesRegistration<IButterflyS
 	@Override
 	public IButterflySpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor serumColor, float rarity) {
 		return register(id, genus, species)
-				.setDominant(dominant)
-				.setSerumColor(serumColor)
-				.setRarity(rarity);
+			.setDominant(dominant)
+			.setSerumColor(serumColor)
+			.setRarity(rarity);
 	}
 
 	@Override

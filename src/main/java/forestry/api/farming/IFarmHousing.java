@@ -1,21 +1,14 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.farming;
 
-import java.util.Collection;
-
+import forestry.api.core.IErrorLogicSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
 import net.minecraftforge.fluids.FluidStack;
 
-import forestry.api.core.IErrorLogicSource;
+import java.util.Collection;
 
 /**
  * The IFarmHousing describes a forestry farm handler.

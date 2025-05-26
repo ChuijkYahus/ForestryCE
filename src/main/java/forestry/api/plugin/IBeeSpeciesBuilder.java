@@ -1,16 +1,15 @@
 package forestry.api.plugin;
 
-import java.awt.Color;
-import java.util.List;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.core.Product;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.item.ItemStack;
+
+import java.awt.*;
+import java.util.List;
 
 /**
  * Builder used to register new bee species and configure already existing ones.

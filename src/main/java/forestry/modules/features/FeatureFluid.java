@@ -1,9 +1,8 @@
 package forestry.modules.features;
 
-import javax.annotation.Nullable;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
+import forestry.core.ForestryColors;
+import forestry.core.fluids.BlockForestryFluid;
+import forestry.core.items.definitions.DrinkProperties;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -13,7 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -21,9 +19,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import forestry.core.ForestryColors;
-import forestry.core.fluids.BlockForestryFluid;
-import forestry.core.items.definitions.DrinkProperties;
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class FeatureFluid extends ModFeature implements IFluidFeature {
 	private final IBlockFeature<BlockForestryFluid, BlockItem> block;
@@ -37,14 +35,14 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 		super(builder.moduleId, builder.identifier);
 		this.block = builder.registry.block(() -> new BlockForestryFluid(this), "fluid_" + builder.identifier);
 		this.properties = new FluidProperties(builder);
-		RegistryObject<FluidType> attributes = builder.registry.getRegistry(ForgeRegistries.Keys.FLUID_TYPES).register(name, () -> new ForestryFluidType(this.properties, FluidType.Properties.create()
-				.density(properties.density)
-				.viscosity(properties.viscosity)
-				.temperature(properties.temperature)));
+		RegistryObject<FluidType> attributes = builder.registry.getRegistry(ForgeRegistries.Keys.FLUID_TYPES).register(this.name, () -> new ForestryFluidType(this.properties, FluidType.Properties.create()
+			.density(this.properties.density)
+			.viscosity(this.properties.viscosity)
+			.temperature(this.properties.temperature)));
 		DeferredRegister<Fluid> fluidRegistry = builder.registry.getRegistry(Registries.FLUID);
-		this.internal = new ForgeFlowingFluid.Properties(attributes, this::fluid, this::flowing).block(block::block).bucket(properties().bucket);
-		this.fluidObject = fluidRegistry.register(name, () -> new ForgeFlowingFluid.Source(internal));
-		this.flowingFluidObject = fluidRegistry.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(internal));
+		this.internal = new ForgeFlowingFluid.Properties(attributes, this::fluid, this::flowing).block(this.block::block).bucket(properties().bucket);
+		this.fluidObject = fluidRegistry.register(this.name, () -> new ForgeFlowingFluid.Source(this.internal));
+		this.flowingFluidObject = fluidRegistry.register(this.name + "_flowing", () -> new ForgeFlowingFluid.Flowing(this.internal));
 	}
 
 	@Override
@@ -156,17 +154,17 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 			consumer.accept(new IClientFluidTypeExtensions() {
 				@Override
 				public ResourceLocation getStillTexture() {
-					return stillTexture;
+					return ForestryFluidType.this.stillTexture;
 				}
 
 				@Override
 				public ResourceLocation getFlowingTexture() {
-					return FluidProperties.resourceExists(flowingTexture) ? flowingTexture : stillTexture;
+					return FluidProperties.resourceExists(ForestryFluidType.this.flowingTexture) ? ForestryFluidType.this.flowingTexture : ForestryFluidType.this.stillTexture;
 				}
 
 				@Override
 				public int getTintColor() {
-					return color;
+					return ForestryFluidType.this.color;
 				}
 			});
 		}

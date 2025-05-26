@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.storage;
 
-import java.util.function.Predicate;
-
+import forestry.api.storage.IBackpackDefinition;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.storage.IBackpackDefinition;
+import java.util.function.Predicate;
 
 public class BackpackDefinition implements IBackpackDefinition {
 	private final int primaryColor;
@@ -32,7 +31,7 @@ public class BackpackDefinition implements IBackpackDefinition {
 
 	@Override
 	public Predicate<ItemStack> getFilter() {
-		return filter;
+		return this.filter;
 	}
 
 	@Override
@@ -54,11 +53,11 @@ public class BackpackDefinition implements IBackpackDefinition {
 
 	@Override
 	public int getPrimaryColour() {
-		return primaryColor;
+		return this.primaryColor;
 	}
 
 	@Override
 	public int getSecondaryColour() {
-		return secondaryColor;
+		return this.secondaryColor;
 	}
 }

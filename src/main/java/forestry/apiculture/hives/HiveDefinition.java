@@ -10,10 +10,19 @@
  ******************************************************************************/
 package forestry.apiculture.hives;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import forestry.api.ForestryTags;
+import forestry.api.apiculture.ForestryBeeSpecies;
+import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.hives.IHiveDefinition;
+import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.core.HumidityType;
+import forestry.api.core.TemperatureType;
+import forestry.api.core.ToleranceType;
+import forestry.api.genetics.ClimateHelper;
+import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.apiculture.blocks.BlockHiveType;
+import forestry.apiculture.features.ApicultureBlocks;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -29,22 +38,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-
 import net.minecraftforge.common.Tags;
 
-import forestry.api.ForestryTags;
-import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.apiculture.hives.IHiveDefinition;
-import forestry.api.apiculture.hives.IHiveGen;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
-import forestry.api.core.ToleranceType;
-import forestry.api.genetics.ClimateHelper;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.blocks.BlockHiveType;
-import forestry.apiculture.features.ApicultureBlocks;
-import forestry.core.utils.SpeciesUtil;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // todo this should be data driven
 public enum HiveDefinition implements IHiveDefinition {
@@ -184,12 +182,12 @@ public enum HiveDefinition implements IHiveDefinition {
 
 	@Override
 	public IHiveGen getHiveGen() {
-		return hiveGen;
+		return this.hiveGen;
 	}
 
 	@Override
 	public BlockState getBlockState() {
-		return blockState;
+		return this.blockState;
 	}
 
 	@Override
@@ -215,7 +213,7 @@ public enum HiveDefinition implements IHiveDefinition {
 
 	@Override
 	public float getGenChance() {
-		return genChance;
+		return this.genChance;
 	}
 
 	@Override

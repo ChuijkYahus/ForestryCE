@@ -10,12 +10,15 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
+import forestry.api.mail.ITradeStationInfo;
+import forestry.core.config.SessionVars;
+import forestry.core.gui.GuiForestry;
+import forestry.core.gui.widgets.ItemStackWidget;
+import forestry.core.gui.widgets.Widget;
+import forestry.core.network.packets.PacketGuiSelectRequest;
+import forestry.core.render.ColourProperties;
+import forestry.core.utils.NetworkUtil;
 import forestry.mail.carriers.PostalCarriers;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -28,14 +31,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.mail.ITradeStationInfo;
-import forestry.core.config.SessionVars;
-import forestry.core.gui.GuiForestry;
-import forestry.core.gui.widgets.ItemStackWidget;
-import forestry.core.gui.widgets.Widget;
-import forestry.core.network.packets.PacketGuiSelectRequest;
-import forestry.core.render.ColourProperties;
-import forestry.core.utils.NetworkUtil;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 	private static final String BOLD_UNDERLINE = ChatFormatting.BOLD.toString() + ChatFormatting.UNDERLINE;
@@ -60,8 +58,8 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 
 		this.renderables.clear();
 
-		addRenderableWidget(new Button.Builder(Component.literal(">"), b -> actionPerformed(2)).pos(width / 2 + 44, topPos + 150).size(12, 20).build());
-		addRenderableWidget(new Button.Builder(Component.literal("<"), b -> actionPerformed(3)).pos(width / 2 - 58, topPos + 150).size(12, 20).build());
+		addRenderableWidget(new Button.Builder(Component.literal(">"), b -> actionPerformed(2)).pos(this.width / 2 + 44, this.topPos + 150).size(12, 20).build());
+		addRenderableWidget(new Button.Builder(Component.literal("<"), b -> actionPerformed(3)).pos(this.width / 2 - 58, this.topPos + 150).size(12, 20).build());
 
 		this.buttonFilter = new Button.Builder(Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4)).pos(this.width / 2 - 44, this.topPos + 150).size(42, 20).build();
 		addRenderableWidget(this.buttonFilter);
@@ -74,24 +72,24 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
 		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
-		graphics.drawString(this.font, String.format("%s / %s", menu.getPageNumber(), menu.getPageCount()), leftPos + imageWidth - 72, topPos + 12, ColourProperties.INSTANCE.get("gui.book"), false);
+		graphics.drawString(this.font, String.format("%s / %s", this.menu.getPageNumber(), this.menu.getPageCount()), this.leftPos + this.imageWidth - 72, this.topPos + 12, ColourProperties.INSTANCE.get("gui.book"), false);
 
 		clearTradeInfoWidgets();
 
-		ITradeStationInfo tradeInfo = menu.getTradeInfo();
+		ITradeStationInfo tradeInfo = this.menu.getTradeInfo();
 
 		if (this.buttonUse != null) {
 			if (tradeInfo != null) {
-				drawTradePreview(graphics, tradeInfo, leftPos + 38, topPos + 30);
+				drawTradePreview(graphics, tradeInfo, this.leftPos + 38, this.topPos + 30);
 				this.buttonUse.visible = tradeInfo.state().isOk();
 			} else {
-				drawNoTrade(graphics, leftPos + 38, topPos + 30);
+				drawNoTrade(graphics, this.leftPos + 38, this.topPos + 30);
 				this.buttonUse.visible = false;
 			}
 		}
 
 		if (this.buttonFilter != null) {
-			this.buttonFilter.setMessage(Component.translatable("for.gui.mail.filter." + menu.getFilterIdent()));
+			this.buttonFilter.setMessage(Component.translatable("for.gui.mail.filter." + this.menu.getFilterIdent()));
 		}
 	}
 
@@ -105,13 +103,13 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 
 		graphics.drawString(font, Component.translatable("for.gui.mail.willtrade", tradeInfo.owner().getName()), x, y + 18, ColourProperties.INSTANCE.get("gui.book"), false);
 
-		addTradeInfoWidget(new ItemStackWidget(widgetManager, x - leftPos, y - topPos + 28, tradeInfo.tradegood()));
+		addTradeInfoWidget(new ItemStackWidget(this.widgetManager, x - this.leftPos, y - this.topPos + 28, tradeInfo.tradegood()));
 
 		graphics.drawString(font, Component.translatable("for.gui.mail.tradefor"), x, y + 46, ColourProperties.INSTANCE.get("gui.book"), false);
 
 		for (int i = 0; i < tradeInfo.required().size(); i++) {
 			ItemStack itemStack = tradeInfo.required().get(i);
-			addTradeInfoWidget(new ItemStackWidget(widgetManager, x - leftPos + i * 18, y - topPos + 56, itemStack));
+			addTradeInfoWidget(new ItemStackWidget(this.widgetManager, x - this.leftPos + i * 18, y - this.topPos + 56, itemStack));
 		}
 
 		//TODO: Fix later
@@ -123,15 +121,15 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 	}
 
 	private void addTradeInfoWidget(ItemStackWidget widget) {
-		tradeInfoWidgets.add(widget);
-		widgetManager.add(widget);
+        this.tradeInfoWidgets.add(widget);
+        this.widgetManager.add(widget);
 	}
 
 	private void clearTradeInfoWidgets() {
-		for (Widget widget : tradeInfoWidgets) {
-			widgetManager.remove(widget);
+		for (Widget widget : this.tradeInfoWidgets) {
+            this.widgetManager.remove(widget);
 		}
-		tradeInfoWidgets.clear();
+        this.tradeInfoWidgets.clear();
 	}
 
 	protected void actionPerformed(int id) {
@@ -139,13 +137,13 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		switch (id) {
 			case 0 -> player.closeContainer();
 			case 2 -> // next page
-					NetworkUtil.sendToServer(new PacketGuiSelectRequest(0, 0));
+				NetworkUtil.sendToServer(new PacketGuiSelectRequest(0, 0));
 			case 3 -> // previous page
-					NetworkUtil.sendToServer(new PacketGuiSelectRequest(1, 0));
+				NetworkUtil.sendToServer(new PacketGuiSelectRequest(1, 0));
 			case 4 -> // cycle filter
-					NetworkUtil.sendToServer(new PacketGuiSelectRequest(2, 0));
+				NetworkUtil.sendToServer(new PacketGuiSelectRequest(2, 0));
 			case 5 -> {
-				ITradeStationInfo info = menu.getTradeInfo();
+				ITradeStationInfo info = this.menu.getTradeInfo();
 				if (info != null) {
 					SessionVars.setStringVar("mail.letter.recipient", info.address().getName());
 					SessionVars.setStringVar("mail.letter.carrier", PostalCarriers.TRADER.getKey().location().toString());

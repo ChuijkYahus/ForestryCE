@@ -10,21 +10,18 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import org.apache.commons.lang3.StringUtils;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Inventory;
-
-import org.lwjgl.glfw.GLFW;
-
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
 import forestry.core.render.ColourProperties;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.network.packets.PacketTraderAddressRequest;
 import forestry.mail.tiles.TileTrader;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.glfw.GLFW;
 
 public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 	private final TileTrader tile;
@@ -41,16 +38,16 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 	public void init() {
 		super.init();
 
-		addressNameField = new EditBox(this.font, leftPos + 44, topPos + 39, 90, 14, null);
-		addressNameField.setCanLoseFocus(true);
-		addressNameField.setTextColor(-1);
-		addressNameField.setTextColorUneditable(-1);
-		addressNameField.setBordered(true);
-		addressNameField.setMaxLength(12);
-		addressNameField.setValue(menu.getAddress().getName());
+        this.addressNameField = new EditBox(this.font, this.leftPos + 44, this.topPos + 39, 90, 14, null);
+        this.addressNameField.setCanLoseFocus(true);
+        this.addressNameField.setTextColor(-1);
+        this.addressNameField.setTextColorUneditable(-1);
+        this.addressNameField.setBordered(true);
+        this.addressNameField.setMaxLength(12);
+        this.addressNameField.setValue(this.menu.getAddress().getName());
 		addWidget(this.addressNameField);
 		setInitialFocus(this.addressNameField);
-		addressNameField.setEditable(true);
+        this.addressNameField.setEditable(true);
 	}
 
 	@Override
@@ -65,27 +62,27 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 		}
 
 		return this.addressNameField.keyPressed(key, scanCode, modifiers)
-				|| this.addressNameField.canConsumeInput()
-				|| super.keyPressed(key, scanCode, modifiers);
+			|| this.addressNameField.canConsumeInput()
+			|| super.keyPressed(key, scanCode, modifiers);
 	}
 
 	@Override
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
 		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
-		textLayout.startPage(graphics);
-		textLayout.newLine();
-		textLayout.drawCenteredLine(graphics, Component.translatable("for.gui.mail.nametrader"), 0, ColourProperties.INSTANCE.get("gui.mail.text"));
-		textLayout.newLine(38);
-		textLayout.drawCenteredLine(graphics, Component.translatable("for.gui.mail.nametrader.finish"), 0, ColourProperties.INSTANCE.get("gui.mail.text"));
-		textLayout.endPage(graphics);
-		addressNameField.render(graphics, mouseY, mouseX, partialTicks);
+        this.textLayout.startPage(graphics);
+        this.textLayout.newLine();
+        this.textLayout.drawCenteredLine(graphics, Component.translatable("for.gui.mail.nametrader"), 0, ColourProperties.INSTANCE.get("gui.mail.text"));
+        this.textLayout.newLine(38);
+        this.textLayout.drawCenteredLine(graphics, Component.translatable("for.gui.mail.nametrader.finish"), 0, ColourProperties.INSTANCE.get("gui.mail.text"));
+        this.textLayout.endPage(graphics);
+        this.addressNameField.render(graphics, mouseY, mouseX, partialTicks);
 	}
 
 	private void setAddress() {
-		String address = addressNameField.getValue();
+		String address = this.addressNameField.getValue();
 		if (StringUtils.isNotBlank(address)) {
-			PacketTraderAddressRequest packet = new PacketTraderAddressRequest(tile, address);
+			PacketTraderAddressRequest packet = new PacketTraderAddressRequest(this.tile, address);
 			NetworkUtil.sendToServer(packet);
 		}
 	}

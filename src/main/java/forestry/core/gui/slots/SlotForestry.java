@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.gui.slots;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.world.entity.player.Player;
+import forestry.api.core.tooltips.IToolTipProvider;
+import forestry.api.core.tooltips.ToolTip;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.core.tooltips.IToolTipProvider;
-import forestry.api.core.tooltips.ToolTip;
+import javax.annotation.Nullable;
 
 public class SlotForestry extends Slot implements IToolTipProvider {
 
@@ -35,12 +34,12 @@ public class SlotForestry extends Slot implements IToolTipProvider {
 	}
 
 	public SlotForestry setPhantom() {
-		isPhantom = true;
+        this.isPhantom = true;
 		return this;
 	}
 
 	public SlotForestry blockShift() {
-		canShift = false;
+        this.canShift = false;
 		return this;
 	}
 
@@ -66,7 +65,7 @@ public class SlotForestry extends Slot implements IToolTipProvider {
 	}
 
 	public boolean canAdjustPhantom() {
-		return canAdjustPhantom;
+		return this.canAdjustPhantom;
 	}
 
 	@Override
@@ -75,15 +74,15 @@ public class SlotForestry extends Slot implements IToolTipProvider {
 	}
 
 	public boolean canShift() {
-		return canShift;
+		return this.canShift;
 	}
 
 	@Override
 	public int getMaxStackSize() {
-		if (stackLimit < 0) {
+		if (this.stackLimit < 0) {
 			return super.getMaxStackSize();
 		} else {
-			return stackLimit;
+			return this.stackLimit;
 		}
 	}
 
@@ -93,7 +92,7 @@ public class SlotForestry extends Slot implements IToolTipProvider {
 
 	@Override
 	public ToolTip getToolTip(int mouseX, int mouseY) {
-		return toolTips;
+		return this.toolTips;
 	}
 
 	@Override
@@ -103,6 +102,6 @@ public class SlotForestry extends Slot implements IToolTipProvider {
 
 	@Override
 	public boolean isHovering(double mouseX, double mouseY) {
-		return mouseX >= x && mouseX <= x + 16 && mouseY >= y && mouseY <= y + 16;
+		return mouseX >= this.x && mouseX <= this.x + 16 && mouseY >= this.y && mouseY <= this.y + 16;
 	}
 }

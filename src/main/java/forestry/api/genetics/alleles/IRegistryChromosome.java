@@ -1,11 +1,10 @@
 package forestry.api.genetics.alleles;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-
-import net.minecraft.resources.ResourceLocation;
 
 /**
  * A chromosome that is backed by a registry of alleles that needs to be populated after karyotypes are created.
@@ -23,8 +22,7 @@ public interface IRegistryChromosome<V extends IRegistryAlleleValue> extends IVa
 	/**
 	 * @return The value with the given ID from the registry this chromosome represents.
 	 * @throws IllegalStateException If the registry is not yet populated.
-	 * @throws RuntimeException If the registry does not contain an allele with the given ID.
-	 *
+	 * @throws RuntimeException      If the registry does not contain an allele with the given ID.
 	 */
 	V get(ResourceLocation id);
 

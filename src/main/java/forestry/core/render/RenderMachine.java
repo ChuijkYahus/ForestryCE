@@ -10,9 +10,14 @@
  ******************************************************************************/
 package forestry.core.render;
 
-import java.util.EnumMap;
-import java.util.Locale;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import forestry.api.ForestryConstants;
+import forestry.core.blocks.BlockBase;
+import forestry.core.tiles.IRenderableTile;
+import forestry.core.tiles.TileBase;
+import forestry.core.utils.RenderUtil;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -27,15 +32,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
-
-import forestry.api.ForestryConstants;
-import forestry.core.blocks.BlockBase;
-import forestry.core.tiles.IRenderableTile;
-import forestry.core.tiles.TileBase;
-import forestry.core.utils.RenderUtil;
+import java.util.EnumMap;
+import java.util.Locale;
 
 public class RenderMachine implements BlockEntityRenderer<TileBase> {
 	private static final String BASE_FRONT = "basefront";
@@ -57,21 +55,21 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 	public RenderMachine(BlockEntityRendererProvider.Context ctx, String baseTexture) {
 		ModelPart root = ctx.bakeLayer(ForestryModelLayers.MACHINE_LAYER);
 
-		basefront = root.getChild(BASE_FRONT);
-		baseback = root.getChild(BASE_BACK);
-		resourceTank = root.getChild(RESOURCE_TANK);
-		productTank = root.getChild(PRODUCT_TANK);
+        this.basefront = root.getChild(BASE_FRONT);
+        this.baseback = root.getChild(BASE_BACK);
+        this.resourceTank = root.getChild(RESOURCE_TANK);
+        this.productTank = root.getChild(PRODUCT_TANK);
 
-		textureBase = ForestryConstants.forestry(baseTexture + "base.png");
-		textureProductTank = ForestryConstants.forestry(baseTexture + "tank_product_empty.png");
-		textureResourceTank = ForestryConstants.forestry(baseTexture + "tank_resource_empty.png");
+        this.textureBase = ForestryConstants.forestry(baseTexture + "base.png");
+        this.textureProductTank = ForestryConstants.forestry(baseTexture + "tank_product_empty.png");
+        this.textureResourceTank = ForestryConstants.forestry(baseTexture + "tank_resource_empty.png");
 
 		for (EnumTankLevel tankLevel : EnumTankLevel.values()) {
 			if (tankLevel == EnumTankLevel.EMPTY) {
 				continue;
 			}
 			String tankLevelString = tankLevel.toString().toLowerCase(Locale.ENGLISH);
-			texturesTankLevels.put(tankLevel, ForestryConstants.forestry("textures/block/machine_tank_" + tankLevelString + ".png"));
+            this.texturesTankLevels.put(tankLevel, ForestryConstants.forestry("textures/block/machine_tank_" + tankLevelString + ".png"));
 		}
 	}
 
@@ -80,13 +78,13 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 		PartDefinition root = mesh.getRoot();
 
 		root.addOrReplaceChild(BASE_FRONT, CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f, 16, 4, 16), PartPose.offset(0, 0, 0));
+			.addBox(0f, 0f, 0f, 16, 4, 16), PartPose.offset(0, 0, 0));
 		root.addOrReplaceChild(BASE_BACK, CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f, 16, 4, 16), PartPose.offset(0, 12, 0));
+			.addBox(0f, 0f, 0f, 16, 4, 16), PartPose.offset(0, 12, 0));
 		root.addOrReplaceChild(RESOURCE_TANK, CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f, 12, 16, 6), PartPose.offset(2, 0, 2));
+			.addBox(0f, 0f, 0f, 12, 16, 6), PartPose.offset(2, 0, 2));
 		root.addOrReplaceChild(PRODUCT_TANK, CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f, 12, 16, 6), PartPose.offset(2, 0, 8));
+			.addBox(0f, 0f, 0f, 12, 16, 6), PartPose.offset(2, 0, 8));
 
 		return LayerDefinition.create(mesh, 64, 32);
 	}
@@ -118,7 +116,7 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 		stack.mulPose(Axis.XP.rotation(-Mth.HALF_PI));
 		stack.translate(-0.5, -0.5, -0.5);
 		// render bases
-		VertexConsumer base = buffers.getBuffer(RenderType.entityCutout(textureBase));
+		VertexConsumer base = buffers.getBuffer(RenderType.entityCutout(this.textureBase));
 		this.basefront.render(stack, base, light, overlay);
 		this.baseback.render(stack, base, light, overlay);
 
@@ -130,8 +128,8 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 		IRenderableTile tile = ((IRenderableTile) machine);
 		TankRenderInfo resourceTankInfo = tile.getResourceTankInfo();
 		TankRenderInfo productTankInfo = tile.getProductTankInfo();
-		renderTank(stack, resourceTank, buffers, textureResourceTank, resourceTankInfo, light, overlay);
-		renderTank(stack, productTank, buffers, textureProductTank, productTankInfo, light, overlay);
+		renderTank(stack, this.resourceTank, buffers, this.textureResourceTank, resourceTankInfo, light, overlay);
+		renderTank(stack, this.productTank, buffers, this.textureProductTank, productTankInfo, light, overlay);
 
 		stack.popPose();
 	}

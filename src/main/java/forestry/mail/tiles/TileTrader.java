@@ -11,23 +11,6 @@
 package forestry.mail.tiles;
 
 import com.google.common.base.Preconditions;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.mail.IMailAddress;
@@ -47,6 +30,20 @@ import forestry.mail.gui.ContainerTradeName;
 import forestry.mail.gui.ContainerTrader;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.network.packets.PacketTraderAddressResponse;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileTrader extends TileBase implements IOwnedTile {
 	private final OwnerHandler ownerHandler = new OwnerHandler();
@@ -54,19 +51,19 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	public TileTrader(BlockPos pos, BlockState state) {
 		super(MailTiles.TRADER.tileType(), pos, state);
-		address = MailAddress.INVALID;
+        this.address = MailAddress.INVALID;
 		setInternalInventory(new InventoryTradeStation());
 	}
 
 	@Override
 	public IOwnerHandler getOwnerHandler() {
-		return ownerHandler;
+		return this.ownerHandler;
 	}
 
 	@Override
 	public void onDropContents(ServerLevel level) {
 		if (isLinked()) {
-			TradeStationRegistry.getOrCreate((ServerLevel) this.level).deleteTradeStation(address);
+			TradeStationRegistry.getOrCreate((ServerLevel) this.level).deleteTradeStation(this.address);
 		}
 	}
 
@@ -76,10 +73,10 @@ public class TileTrader extends TileBase implements IOwnedTile {
 		super.saveAdditional(compoundNBT);
 
 		CompoundTag nbt = new CompoundTag();
-		address.write(nbt);
+        this.address.write(nbt);
 		compoundNBT.put("address", nbt);
 
-		ownerHandler.write(compoundNBT);
+        this.ownerHandler.write(compoundNBT);
 	}
 
 	@Override
@@ -87,9 +84,9 @@ public class TileTrader extends TileBase implements IOwnedTile {
 		super.load(compoundNBT);
 
 		if (compoundNBT.contains("address")) {
-			address = new MailAddress(compoundNBT.getCompound("address"));
+            this.address = new MailAddress(compoundNBT.getCompound("address"));
 		}
-		ownerHandler.read(compoundNBT);
+        this.ownerHandler.read(compoundNBT);
 	}
 
 	/* NETWORK */
@@ -97,8 +94,8 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
-		ownerHandler.writeData(data);
-		String addressName = address.getName();
+        this.ownerHandler.writeData(data);
+		String addressName = this.address.getName();
 		data.writeUtf(addressName);
 	}
 
@@ -106,10 +103,10 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		ownerHandler.readData(data);
+        this.ownerHandler.readData(data);
 		String addressName = data.readUtf();
 		if (!addressName.isEmpty()) {
-			address = new MailAddress(addressName);
+            this.address = new MailAddress(addressName);
 		}
 	}
 
@@ -151,7 +148,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	/* STATE INFORMATION */
 	public boolean isLinked() {
-		if (!address.isValid()) {
+		if (!this.address.isValid()) {
 			return false;
 		}
 
@@ -247,7 +244,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	/* ADDRESS */
 	public IMailAddress getAddress() {
-		return address;
+		return this.address;
 	}
 
 	public boolean handleSetAddressRequest(String addressName) {
@@ -255,8 +252,8 @@ public class TileTrader extends TileBase implements IOwnedTile {
 		boolean updated = setAddress(address);
 
 		if (updated) {
-			PacketTraderAddressResponse packetResponse = new PacketTraderAddressResponse(worldPosition, address);
-			NetworkUtil.sendNetworkPacket(packetResponse, worldPosition, level);
+			PacketTraderAddressResponse packetResponse = new PacketTraderAddressResponse(this.worldPosition, address);
+			NetworkUtil.sendNetworkPacket(packetResponse, this.worldPosition, this.level);
 		}
 
 		return updated;
@@ -269,7 +266,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 			return false;
 		}
 
-		if (!level.isClientSide) {
+		if (!this.level.isClientSide) {
 			ServerLevel world = (ServerLevel) this.level;
 			IErrorLogic errorLogic = getErrorLogic();
 
@@ -296,11 +293,11 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	@Override
 	public IInventoryAdapter getInternalInventory() {
 		// Handle client side
-		if (level.isClientSide || !address.isValid()) {
+		if (this.level.isClientSide || !this.address.isValid()) {
 			return super.getInternalInventory();
 		}
 
-		return TradeStationRegistry.getOrCreate((ServerLevel) level).getOrCreateTradeStation(getOwnerHandler().getOwner(), address);
+		return TradeStationRegistry.getOrCreate((ServerLevel) this.level).getOrCreateTradeStation(getOwnerHandler().getOwner(), this.address);
 	}
 
 	@Override

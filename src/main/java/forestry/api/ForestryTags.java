@@ -1,5 +1,6 @@
 package forestry.api;
 
+import forestry.arboriculture.ForestryWoodType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -10,9 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
-
-import forestry.arboriculture.ForestryWoodType;
-
 import org.jetbrains.annotations.ApiStatus;
 
 public class ForestryTags {

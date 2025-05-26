@@ -1,13 +1,12 @@
 package forestry.compat.kubejs.apiculture;
 
-import java.util.function.UnaryOperator;
-
 import com.mojang.datafixers.util.Function3;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
+
+import java.util.function.UnaryOperator;
 
 public record KubeBeeEffect(UnaryOperator<IEffectData> validateStorage, boolean combinable,
 							Function3<IGenome, IEffectData, IBeeHousing, IEffectData> doEffect,

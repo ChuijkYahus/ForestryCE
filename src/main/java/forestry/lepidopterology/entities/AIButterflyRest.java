@@ -10,18 +10,17 @@
  ******************************************************************************/
 package forestry.lepidopterology.entities;
 
-import java.util.EnumSet;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-
 import net.minecraftforge.common.IPlantable;
+
+import java.util.EnumSet;
 
 public class AIButterflyRest extends AIButterflyBase {
 	public AIButterflyRest(EntityButterfly entity) {
@@ -31,12 +30,12 @@ public class AIButterflyRest extends AIButterflyBase {
 
 	@Override
 	public boolean canUse() {
-		if (entity.getExhaustion() < EntityButterfly.EXHAUSTION_REST
-				&& entity.canFly()) {
+		if (this.entity.getExhaustion() < EntityButterfly.EXHAUSTION_REST
+			&& this.entity.canFly()) {
 			return false;
 		}
 
-		Vec3 entityPos = entity.position();
+		Vec3 entityPos = this.entity.position();
 		int x = (int) entityPos.x;
 		int y = (int) Math.floor(entityPos.y);
 		int z = (int) entityPos.z;
@@ -46,7 +45,7 @@ public class AIButterflyRest extends AIButterflyBase {
 			return false;
 		}
 
-		Level level = entity.level();
+		Level level = this.entity.level();
 		pos = pos.relative(Direction.DOWN);
 		if (level.isEmptyBlock(pos)) {
 			return false;
@@ -55,21 +54,21 @@ public class AIButterflyRest extends AIButterflyBase {
 		if (blockState.liquid()) {
 			return false;
 		}
-		if (!entity.getButterfly().isAcceptedEnvironment(level, x, pos.getY(), z)) {
+		if (!this.entity.getButterfly().isAcceptedEnvironment(level, x, pos.getY(), z)) {
 			return false;
 		}
 
-		entity.setDestination(null);
-		entity.setState(EnumButterflyState.RESTING);
+        this.entity.setDestination(null);
+        this.entity.setState(EnumButterflyState.RESTING);
 		return true;
 	}
 
 	@Override
 	public boolean canContinueToUse() {
-		if (entity.getExhaustion() <= 0 && entity.canFly()) {
+		if (this.entity.getExhaustion() <= 0 && this.entity.canFly()) {
 			return false;
 		}
-		return !entity.isInWater();
+		return !this.entity.isInWater();
 	}
 
 	@Override
@@ -82,11 +81,11 @@ public class AIButterflyRest extends AIButterflyBase {
 
 	@Override
 	public void tick() {
-		entity.changeExhaustion(-1);
+        this.entity.changeExhaustion(-1);
 	}
 
 	private boolean canLand(BlockPos pos) {
-		Level level = entity.level();
+		Level level = this.entity.level();
 		if (!level.hasChunkAt(pos)) {
 			return false;
 		}

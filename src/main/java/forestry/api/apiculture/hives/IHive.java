@@ -1,8 +1,7 @@
 package forestry.api.apiculture.hives;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.api.core.HumidityType;
+import forestry.api.core.TemperatureType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
@@ -10,8 +9,8 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public interface IHive {
 	IHiveDefinition getDefinition();
@@ -43,6 +42,7 @@ public interface IHive {
 
 	/**
 	 * Determines the position of a hive.
+	 *
 	 * @param level The level to generate the hive in.
 	 * @param rand  The world generation random. Use this instead of the level random.
 	 * @param posX  The X coordinate of the position where the hive should be generated.

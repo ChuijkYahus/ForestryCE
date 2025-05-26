@@ -1,8 +1,8 @@
 package forestry.api.plugin;
 
-import java.util.List;
-
 import forestry.api.genetics.alleles.IAllele;
+
+import java.util.List;
 
 /**
  * Interface for customizing a default chromosome in a karyotype.

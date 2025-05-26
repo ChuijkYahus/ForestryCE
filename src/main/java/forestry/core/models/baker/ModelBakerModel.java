@@ -10,15 +10,8 @@
  ******************************************************************************/
 package forestry.core.models.baker;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.tuple.Pair;
-
+import forestry.arboriculture.models.ModelLeaves;
+import forestry.core.utils.ResourceUtil;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -28,17 +21,17 @@ import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.commons.lang3.tuple.Pair;
 
-import forestry.arboriculture.models.ModelLeaves;
-import forestry.core.utils.ResourceUtil;
+import javax.annotation.Nullable;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelBakerModel implements BakedModel {
 
-	private boolean isGui3d;
+	private final boolean isGui3d;
 	private boolean isAmbientOcclusion;
 	private TextureAtlasSprite particleSprite;
 	@Nullable
@@ -54,17 +47,17 @@ public class ModelBakerModel implements BakedModel {
 	private float[] scale = getDefaultScale();
 
 	ModelBakerModel(ModelState modelState) {
-		models = new ArrayList<>();
-		modelsPost = new ArrayList<>();
-		faceQuads = new EnumMap<>(Direction.class);
-		generalQuads = new ArrayList<>();
-		particleSprite = ResourceUtil.getMissingTexture();
-		isGui3d = true;
-		isAmbientOcclusion = false;
+        this.models = new ArrayList<>();
+        this.modelsPost = new ArrayList<>();
+        this.faceQuads = new EnumMap<>(Direction.class);
+        this.generalQuads = new ArrayList<>();
+        this.particleSprite = ResourceUtil.getMissingTexture();
+        this.isGui3d = true;
+        this.isAmbientOcclusion = false;
 		setModelState(modelState);
 
 		for (Direction face : Direction.VALUES) {
-			faceQuads.put(face, new ArrayList<>());
+            this.faceQuads.put(face, new ArrayList<>());
 		}
 	}
 
@@ -84,7 +77,7 @@ public class ModelBakerModel implements BakedModel {
 
 	@Override
 	public boolean isGui3d() {
-		return isGui3d;
+		return this.isGui3d;
 	}
 
 	@Override
@@ -98,7 +91,7 @@ public class ModelBakerModel implements BakedModel {
 
 	@Override
 	public boolean useAmbientOcclusion() {
-		return isAmbientOcclusion;
+		return this.isAmbientOcclusion;
 	}
 
 	public void setParticleSprite(TextureAtlasSprite particleSprite) {
@@ -107,7 +100,7 @@ public class ModelBakerModel implements BakedModel {
 
 	@Override
 	public TextureAtlasSprite getParticleIcon() {
-		return particleSprite;
+		return this.particleSprite;
 	}
 
 	@Override
@@ -150,15 +143,15 @@ public class ModelBakerModel implements BakedModel {
 	}
 
 	public float[] getRotation() {
-		return rotation;
+		return this.rotation;
 	}
 
 	public float[] getTranslation() {
-		return translation;
+		return this.translation;
 	}
 
 	public float[] getScale() {
-		return scale;
+		return this.scale;
 	}
 
 	public void setModelState(ModelState modelState) {
@@ -167,9 +160,9 @@ public class ModelBakerModel implements BakedModel {
 
 	public void addQuad(@Nullable Direction facing, BakedQuad quad) {
 		if (facing != null) {
-			faceQuads.get(facing).add(quad);
+            this.faceQuads.get(facing).add(quad);
 		} else {
-			generalQuads.add(quad);
+            this.generalQuads.add(quad);
 		}
 	}
 
@@ -183,9 +176,9 @@ public class ModelBakerModel implements BakedModel {
 			}
 		}
 		if (side != null) {
-			quads.addAll(faceQuads.get(side));
+			quads.addAll(this.faceQuads.get(side));
 		}
-		quads.addAll(generalQuads);
+		quads.addAll(this.generalQuads);
 		for (Pair<BlockState, BakedModel> model : this.modelsPost) {
 			List<BakedQuad> modelQuads = model.getRight().getQuads(model.getLeft(), side, rand);
 			if (!modelQuads.isEmpty()) {

@@ -1,11 +1,10 @@
 package forestry.sorting.gui;
 
-import java.util.Collection;
-
+import forestry.core.gui.GuiForestry;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-import forestry.core.gui.GuiForestry;
+import java.util.Collection;
 
 public interface ISelectableProvider<S> {
 	Collection<S> getEntries();

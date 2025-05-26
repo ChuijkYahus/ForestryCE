@@ -10,11 +10,6 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.core.gui.ContainerSocketed;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotLocked;
@@ -23,6 +18,10 @@ import forestry.core.network.packets.PacketItemStackDisplay;
 import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.tiles.TileCentrifuge;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 public class ContainerCentrifuge extends ContainerSocketed<TileCentrifuge> {
 	private ItemStack oldCraftPreview = ItemStack.EMPTY;
@@ -53,13 +52,13 @@ public class ContainerCentrifuge extends ContainerSocketed<TileCentrifuge> {
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		Container craftPreviewInventory = tile.getCraftPreviewInventory();
+		Container craftPreviewInventory = this.tile.getCraftPreviewInventory();
 
 		ItemStack newCraftPreview = craftPreviewInventory.getItem(0);
-		if (!ItemStack.matches(oldCraftPreview, newCraftPreview)) {
-			oldCraftPreview = newCraftPreview;
+		if (!ItemStack.matches(this.oldCraftPreview, newCraftPreview)) {
+            this.oldCraftPreview = newCraftPreview;
 
-			PacketItemStackDisplay packet = new PacketItemStackDisplay(tile, newCraftPreview);
+			PacketItemStackDisplay packet = new PacketItemStackDisplay(this.tile, newCraftPreview);
 			sendPacketToListeners(packet);
 		}
 	}

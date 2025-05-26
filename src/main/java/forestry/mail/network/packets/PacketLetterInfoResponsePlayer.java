@@ -1,17 +1,15 @@
 package forestry.mail.network.packets;
 
-import forestry.mail.MailAddress;
-import forestry.mail.carriers.PostalCarriers;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
 import com.mojang.authlib.GameProfile;
-
 import forestry.api.mail.IMailAddress;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
+import forestry.mail.MailAddress;
+import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.gui.ILetterInfoReceiver;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
 public record PacketLetterInfoResponsePlayer(IMailAddress address) implements IForestryPacketClient {
 	@Override
@@ -21,7 +19,7 @@ public record PacketLetterInfoResponsePlayer(IMailAddress address) implements IF
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		GameProfile profile = address.getPlayerProfile();
+		GameProfile profile = this.address.getPlayerProfile();
 		buffer.writeUUID(profile.getId());
 		buffer.writeUtf(profile.getName());
 	}

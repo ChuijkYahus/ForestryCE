@@ -1,29 +1,27 @@
 package forestry.sorting.blocks;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
-
-import net.minecraftforge.network.NetworkHooks;
-
 import forestry.core.blocks.BlockForestry;
 import forestry.core.tiles.TileUtil;
 import forestry.sorting.tiles.TileGeneticFilter;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
+
+import javax.annotation.Nullable;
 
 public class BlockGeneticFilter extends BlockForestry implements EntityBlock {
 	public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -44,18 +42,18 @@ public class BlockGeneticFilter extends BlockForestry implements EntityBlock {
 
 	public BlockGeneticFilter() {
 		super(Block.Properties.of()
-						.strength(0.25f, 3.0f)
-						.dynamicShape()
-						.noOcclusion(),
-				false
+				.strength(0.25f, 3.0f)
+				.dynamicShape()
+				.noOcclusion(),
+			false
 		);
 		this.registerDefaultState(this.getStateDefinition().any()
-				.setValue(NORTH, false)
-				.setValue(EAST, false)
-				.setValue(SOUTH, false)
-				.setValue(WEST, false)
-				.setValue(UP, false)
-				.setValue(DOWN, false));
+			.setValue(NORTH, false)
+			.setValue(EAST, false)
+			.setValue(SOUTH, false)
+			.setValue(WEST, false)
+			.setValue(UP, false)
+			.setValue(DOWN, false));
 	}
 
 	public BlockState updateShape(BlockState state, Direction direction, BlockState changedState, LevelAccessor world, BlockPos pos, BlockPos changedPos) {
@@ -64,11 +62,11 @@ public class BlockGeneticFilter extends BlockForestry implements EntityBlock {
 			return defaultBlockState();
 		}
 		return state.setValue(NORTH, geneticFilter.isConnected(Direction.NORTH))
-				.setValue(EAST, geneticFilter.isConnected(Direction.EAST))
-				.setValue(SOUTH, geneticFilter.isConnected(Direction.SOUTH))
-				.setValue(WEST, geneticFilter.isConnected(Direction.WEST))
-				.setValue(UP, geneticFilter.isConnected(Direction.UP))
-				.setValue(DOWN, geneticFilter.isConnected(Direction.DOWN));
+			.setValue(EAST, geneticFilter.isConnected(Direction.EAST))
+			.setValue(SOUTH, geneticFilter.isConnected(Direction.SOUTH))
+			.setValue(WEST, geneticFilter.isConnected(Direction.WEST))
+			.setValue(UP, geneticFilter.isConnected(Direction.UP))
+			.setValue(DOWN, geneticFilter.isConnected(Direction.DOWN));
 	}
 
 	@Override

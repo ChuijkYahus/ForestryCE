@@ -1,5 +1,7 @@
 package forestry.compat.kubejs;
 
+import dev.latvian.mods.kubejs.KubeJSPlugin;
+import dev.latvian.mods.kubejs.script.BindingsEvent;
 import forestry.api.IForestryApi;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.core.HumidityType;
@@ -9,9 +11,6 @@ import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.compat.kubejs.event.ForestryClientEvents;
 import forestry.compat.kubejs.event.ForestryEvents;
-
-import dev.latvian.mods.kubejs.KubeJSPlugin;
-import dev.latvian.mods.kubejs.script.BindingsEvent;
 
 /**
  * A KubeJS plugin that registers Forestry-specific compatibility.

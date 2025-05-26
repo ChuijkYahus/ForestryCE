@@ -1,10 +1,9 @@
 package forestry.api.plugin;
 
-import java.util.function.Consumer;
-
+import forestry.api.client.plugin.IClientRegistration;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.client.plugin.IClientRegistration;
+import java.util.function.Consumer;
 
 /**
  * Entry point for registering things to the Forestry API. Forestry uses {@link java.util.ServiceLoader} to

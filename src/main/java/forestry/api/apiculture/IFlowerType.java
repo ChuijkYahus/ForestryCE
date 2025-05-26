@@ -1,14 +1,13 @@
 package forestry.api.apiculture;
 
-import java.util.List;
-
+import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.alleles.IRegistryAlleleValue;
+import java.util.List;
 
 public interface IFlowerType extends IRegistryAlleleValue {
 	/**

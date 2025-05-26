@@ -10,20 +10,14 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-
-import net.minecraftforge.items.IItemHandler;
-
 import forestry.core.tiles.AdjacentTileCache;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandler;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * @author CovertJaguar <http://www.railcraft.info/>
@@ -61,12 +55,12 @@ public final class AdjacentInventoryCache implements AdjacentTileCache.ICacheLis
 	@Nullable
 	public IItemHandler getAdjacentInventory(Direction side) {
 		checkChanged();
-		return sides[side.ordinal()];
+		return this.sides[side.ordinal()];
 	}
 
 	public Collection<IItemHandler> getAdjacentInventories() {
 		checkChanged();
-		return invs;
+		return this.invs;
 	}
 
 	public Collection<IItemHandler> getAdjacentInventoriesOtherThan(Direction side) {
@@ -78,32 +72,32 @@ public final class AdjacentInventoryCache implements AdjacentTileCache.ICacheLis
 
 	@Override
 	public void changed() {
-		changed = true;
+        this.changed = true;
 	}
 
 	@Override
 	public void purge() {
-		invs.clear();
-		Arrays.fill(sides, null);
+        this.invs.clear();
+		Arrays.fill(this.sides, null);
 	}
 
 	private void checkChanged() {
-		cache.refresh();
-		if (changed) {
-			changed = false;
+        this.cache.refresh();
+		if (this.changed) {
+            this.changed = false;
 			purge();
 			for (Direction side : Direction.values()) {
-				BlockEntity tile = cache.getTileOnSide(side);
-				if (tile != null && (filter == null || filter.matches(tile))) {
+				BlockEntity tile = this.cache.getTileOnSide(side);
+				if (tile != null && (this.filter == null || this.filter.matches(tile))) {
 					IItemHandler inv = TileUtil.getInventoryFromTile(tile, side.getOpposite());
 					if (inv != null) {
-						sides[side.ordinal()] = inv;
-						invs.add(inv);
+                        this.sides[side.ordinal()] = inv;
+                        this.invs.add(inv);
 					}
 				}
 			}
-			if (sorter != null) {
-				invs.sort(sorter);
+			if (this.sorter != null) {
+                this.invs.sort(this.sorter);
 			}
 		}
 	}

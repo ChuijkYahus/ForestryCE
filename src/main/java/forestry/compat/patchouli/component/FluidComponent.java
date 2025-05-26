@@ -1,26 +1,23 @@
 package forestry.compat.patchouli.component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.UnaryOperator;
-
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
-
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.UnaryOperator;
 
 @SuppressWarnings("unused")
 public class FluidComponent implements ICustomComponent {
@@ -43,20 +40,20 @@ public class FluidComponent implements ICustomComponent {
 	public void render(GuiGraphics graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
 		PoseStack stack = graphics.pose();
 		stack.pushPose();
-		IClientFluidTypeExtensions fluidAttributes = IClientFluidTypeExtensions.of(fluidStack.getFluid());
-		ResourceLocation fluidStill = fluidAttributes.getStillTexture(fluidStack);
+		IClientFluidTypeExtensions fluidAttributes = IClientFluidTypeExtensions.of(this.fluidStack.getFluid());
+		ResourceLocation fluidStill = fluidAttributes.getStillTexture(this.fluidStack);
 		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
 		ResourceLocation spriteLocation = sprite.contents().name();
 		ResourceLocation fluidTexture = new ResourceLocation(spriteLocation.getNamespace(), "textures/" + spriteLocation.getPath() + ".png");
-		setGLColorFromInt(fluidAttributes.getTintColor(fluidStack));
+		setGLColorFromInt(fluidAttributes.getTintColor(this.fluidStack));
 
 		// MatrixStack transform, int x, int y, float u, float v, int width, int height, int ?, int ?
-		graphics.blit(fluidTexture, x, (int) (y + h - Math.floor(h * ((float) level / maxLevel))), sprite.getU0(), sprite.getV0(), w, h * level / maxLevel, 8, 8);
+		graphics.blit(fluidTexture, this.x, (int) (this.y + this.h - Math.floor(this.h * ((float) this.level / this.maxLevel))), sprite.getU0(), sprite.getV0(), this.w, this.h * this.level / this.maxLevel, 8, 8);
 
-		if (context.isAreaHovered(mouseX, mouseY, x, y, w, h)) {
+		if (context.isAreaHovered(mouseX, mouseY, this.x, this.y, this.w, this.h)) {
 			List<Component> toolTips = new ArrayList<>();
-			toolTips.add(fluidStack.getDisplayName());
-			toolTips.add(Component.translatable("for.gui.tooltip.liquid.amount", level, maxLevel));
+			toolTips.add(this.fluidStack.getDisplayName());
+			toolTips.add(Component.translatable("for.gui.tooltip.liquid.amount", this.level, this.maxLevel));
 
 			context.setHoverTooltipComponents(toolTips);
 		}
@@ -66,8 +63,8 @@ public class FluidComponent implements ICustomComponent {
 
 	@Override
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		ResourceLocation id = new ResourceLocation(lookup.apply(fluid).asString());
-		int mb = lookup.apply(amount).asNumber().intValue();
+		ResourceLocation id = new ResourceLocation(lookup.apply(this.fluid).asString());
+		int mb = lookup.apply(this.amount).asNumber().intValue();
 
 		try {
 			this.fluidStack = new FluidStack(ForgeRegistries.FLUIDS.getValue(id), mb);
@@ -75,10 +72,10 @@ public class FluidComponent implements ICustomComponent {
 			this.fluidStack = FluidStack.EMPTY;
 		}
 
-		this.w = lookup.apply(width).asNumber().intValue();
-		this.h = lookup.apply(height).asNumber().intValue();
-		this.level = lookup.apply(amount).asNumber().intValue();
-		this.maxLevel = lookup.apply(max).asNumber().intValue();
+		this.w = lookup.apply(this.width).asNumber().intValue();
+		this.h = lookup.apply(this.height).asNumber().intValue();
+		this.level = lookup.apply(this.amount).asNumber().intValue();
+		this.maxLevel = lookup.apply(this.max).asNumber().intValue();
 	}
 
 	private static void setGLColorFromInt(int color) {

@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.farming.logic.crops;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.api.farming.ICrop;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import forestry.api.farming.ICrop;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class Crop implements ICrop {
 	private final Level world;
@@ -35,15 +34,15 @@ public abstract class Crop implements ICrop {
 	@Nullable
 	@Override
 	public List<ItemStack> harvest() {
-		if (!isCrop(world, position)) {
+		if (!isCrop(this.world, this.position)) {
 			return null;
 		}
 
-		return harvestBlock(world, position);
+		return harvestBlock(this.world, this.position);
 	}
 
 	@Override
 	public BlockPos getPosition() {
-		return position;
+		return this.position;
 	}
 }

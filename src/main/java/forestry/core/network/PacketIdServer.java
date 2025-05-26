@@ -10,9 +10,8 @@
  ******************************************************************************/
 package forestry.core.network;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Packets sent to the server from the client

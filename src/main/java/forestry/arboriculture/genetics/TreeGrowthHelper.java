@@ -1,34 +1,28 @@
 package forestry.arboriculture.genetics;
 
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
-import net.minecraft.world.level.LevelAccessor;
-
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.core.tiles.TileUtil;
-
-import forestry.api.genetics.IGenome;
-
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
 
 public class TreeGrowthHelper {
 	/**
 	 * Finds a valid growth position for a tree if it has all necessary saplings and at least one position has enough
 	 * room for the tree to grow. If no valid position is found, then {@code null} is returned.
 	 *
-	 *
-	 * @param level  The world to check for valid positions.
-	 * @param genome The genome of the sapling trying to grow.
-	 * @param pos The position of the sapling.
-	 * @param expectedGirth The expected girth of the tree according to genetics and variation.
+	 * @param level          The world to check for valid positions.
+	 * @param genome         The genome of the sapling trying to grow.
+	 * @param pos            The position of the sapling.
+	 * @param expectedGirth  The expected girth of the tree according to genetics and variation.
 	 * @param expectedHeight The expected height of the tree according to genetics and variation.
 	 * @return A valid growth position, or {@code null} if saplings were missing or if there's no room for the tree.
 	 */

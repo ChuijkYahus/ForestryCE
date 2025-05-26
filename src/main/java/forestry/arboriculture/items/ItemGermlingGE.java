@@ -10,8 +10,20 @@
  ******************************************************************************/
 package forestry.arboriculture.items;
 
-import javax.annotation.Nullable;
-
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.TreeLifeStage;
+import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.recipes.IVariableFermentable;
+import forestry.arboriculture.tiles.TileLeaves;
+import forestry.core.genetics.ItemGE;
+import forestry.core.items.definitions.IColoredItem;
+import forestry.core.utils.BlockUtil;
+import forestry.core.utils.SpeciesUtil;
+import forestry.core.utils.TreeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -27,20 +39,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.recipes.IVariableFermentable;
-import forestry.arboriculture.tiles.TileLeaves;
-import forestry.core.genetics.ItemGE;
-import forestry.core.items.definitions.IColoredItem;
-import forestry.core.utils.BlockUtil;
-import forestry.core.utils.SpeciesUtil;
-import forestry.core.utils.TreeUtil;
+import javax.annotation.Nullable;
 
 public class ItemGermlingGE extends ItemGE implements IVariableFermentable, IColoredItem {
 	public ItemGermlingGE(TreeLifeStage type) {

@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.core.errors;
 
-import java.util.Set;
-
 import forestry.api.core.IError;
 import forestry.api.core.IErrorSource;
+
+import java.util.Set;
 
 public enum FakeErrorSource implements IErrorSource {
 	INSTANCE;

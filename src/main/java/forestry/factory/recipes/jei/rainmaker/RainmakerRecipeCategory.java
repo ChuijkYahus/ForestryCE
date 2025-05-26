@@ -1,18 +1,11 @@
 package forestry.factory.recipes.jei.rainmaker;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.fuels.RainSubstrate;
 import forestry.core.ForestryColors;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -21,6 +14,11 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrate> {
 	private final IDrawable slot;
@@ -46,8 +44,8 @@ public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrat
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, RainSubstrate recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
-				.setBackground(slot, -1, -1)
-				.addItemStack(recipe.item());
+			.setBackground(this.slot, -1, -1)
+			.addItemStack(recipe.item());
 	}
 
 	@Override

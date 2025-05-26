@@ -23,21 +23,21 @@ public class BeeHousingListener implements IBeeListener {
 
 	@Override
 	public void wearOutEquipment(int amount) {
-		for (IBeeListener beeListener : beeHousing.getBeeListeners()) {
+		for (IBeeListener beeListener : this.beeHousing.getBeeListeners()) {
 			beeListener.wearOutEquipment(amount);
 		}
 	}
 
 	@Override
 	public void onQueenDeath() {
-		for (IBeeListener beeListener : beeHousing.getBeeListeners()) {
+		for (IBeeListener beeListener : this.beeHousing.getBeeListeners()) {
 			beeListener.onQueenDeath();
 		}
 	}
 
 	@Override
 	public boolean onPollenRetrieved(IPollen<?> pollen) {
-		for (IBeeListener beeListener : beeHousing.getBeeListeners()) {
+		for (IBeeListener beeListener : this.beeHousing.getBeeListeners()) {
 			if (beeListener.onPollenRetrieved(pollen)) {
 				return true;
 			}

@@ -1,10 +1,9 @@
 package forestry.core.tiles;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.core.features.CoreTiles;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class TileApiaristChest extends TileNaturalistChest {
 	public TileApiaristChest(BlockPos pos, BlockState state) {

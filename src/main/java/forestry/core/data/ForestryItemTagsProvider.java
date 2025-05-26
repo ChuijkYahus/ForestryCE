@@ -1,14 +1,5 @@
 package forestry.core.data;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-
-import net.minecraftforge.common.Tags;
-
 import forestry.api.ForestryTags;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.ForestryWoodType;
@@ -19,7 +10,12 @@ import forestry.core.features.CoreItems;
 import forestry.core.items.ItemFruit;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.mail.features.MailItems;
-
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.common.Tags;
 import thedarkcolour.modkit.data.MKTagsProvider;
 
 public class ForestryItemTagsProvider {
@@ -126,10 +122,10 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.SAWDUST).add(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP));
 
 		tags.tag(ForestryTags.Items.CRAFTING_TABLES)
-				.addOptionalTag(new ResourceLocation("c", "player_workstations/crafting_tables"))
-				.addOptionalTag(new ResourceLocation("c", "workbenches"))
-				.addOptionalTag(new ResourceLocation("c", "workbench"))
-				.add(Items.CRAFTING_TABLE);
+			.addOptionalTag(new ResourceLocation("c", "player_workstations/crafting_tables"))
+			.addOptionalTag(new ResourceLocation("c", "workbenches"))
+			.addOptionalTag(new ResourceLocation("c", "workbench"))
+			.add(Items.CRAFTING_TABLE);
 
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());
 

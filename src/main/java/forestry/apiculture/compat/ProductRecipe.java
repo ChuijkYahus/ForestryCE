@@ -1,21 +1,18 @@
 package forestry.apiculture.compat;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.core.IProduct;
 import forestry.api.core.IProductProducer;
 import forestry.api.core.ISpecialtyProducer;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.core.utils.ItemStackUtil;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 class ProductRecipe {
 	final ISpecies<?> species;

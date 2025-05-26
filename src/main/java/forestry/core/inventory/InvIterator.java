@@ -1,9 +1,9 @@
 package forestry.core.inventory;
 
+import net.minecraftforge.items.IItemHandler;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import net.minecraftforge.items.IItemHandler;
 
 public class InvIterator implements Iterator<IInvSlot> {
 	private final IItemHandler inv;
@@ -15,7 +15,7 @@ public class InvIterator implements Iterator<IInvSlot> {
 
 	@Override
 	public boolean hasNext() {
-		return slot < inv.getSlots();
+		return this.slot < this.inv.getSlots();
 	}
 
 	@Override
@@ -23,6 +23,6 @@ public class InvIterator implements Iterator<IInvSlot> {
 		if (!hasNext()) {
 			throw new NoSuchElementException();
 		}
-		return new InvSlot(inv, slot++);
+		return new InvSlot(this.inv, this.slot++);
 	}
 }

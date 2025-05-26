@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.core.gui.ledgers;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
 import forestry.core.gui.GuiUtil;
 import forestry.energy.ForestryEnergyStorage;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 
 public class PowerLedger extends Ledger {
 	private final ForestryEnergyStorage energyStorage;
@@ -24,7 +23,7 @@ public class PowerLedger extends Ledger {
 	public PowerLedger(LedgerManager manager, ForestryEnergyStorage energyStorage) {
 		super(manager, "power");
 		this.energyStorage = energyStorage;
-		maxHeight = 94;
+        this.maxHeight = 94;
 	}
 
 	@Override
@@ -45,18 +44,18 @@ public class PowerLedger extends Ledger {
 		drawHeader(graphics, Component.translatable("for.gui.energy"), xHeader, y + 8);
 
 		drawSubheader(graphics, Component.translatable("for.gui.stored").append(":"), xBody, y + 20);
-		drawText(graphics, GuiUtil.formatEnergyValue(energyStorage.getEnergyStored()), xBody, y + 32);
+		drawText(graphics, GuiUtil.formatEnergyValue(this.energyStorage.getEnergyStored()), xBody, y + 32);
 
 		drawSubheader(graphics, Component.translatable("for.gui.maxenergy").append(":"), xBody, y + 44);
-		drawText(graphics, GuiUtil.formatEnergyValue(energyStorage.getMaxEnergyStored()), xBody, y + 56);
+		drawText(graphics, GuiUtil.formatEnergyValue(this.energyStorage.getMaxEnergyStored()), xBody, y + 56);
 
 		drawSubheader(graphics, Component.translatable("for.gui.maxenergyreceive").append(":"), xBody, y + 68);
-		drawText(graphics, GuiUtil.formatEnergyValue(energyStorage.getMaxEnergyReceived()), xBody, y + 80);
+		drawText(graphics, GuiUtil.formatEnergyValue(this.energyStorage.getMaxEnergyReceived()), xBody, y + 80);
 	}
 
 	@Override
 	public Component getTooltip() {
-		return Component.literal(GuiUtil.formatEnergyValue(energyStorage.getEnergyStored()));
+		return Component.literal(GuiUtil.formatEnergyValue(this.energyStorage.getEnergyStored()));
 	}
 
 }

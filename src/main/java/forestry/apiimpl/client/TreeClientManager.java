@@ -1,20 +1,17 @@
 package forestry.apiimpl.client;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.datafixers.util.Pair;
-
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.client.arboriculture.ITreeClientManager;
-
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
 
 public class TreeClientManager implements ITreeClientManager {
 	private final IdentityHashMap<ITreeSpecies, ILeafSprite> sprites;

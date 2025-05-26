@@ -10,16 +10,13 @@
  ******************************************************************************/
 package forestry.arboriculture;
 
-import java.util.List;
-
+import forestry.api.core.IProduct;
+import forestry.api.genetics.IGenome;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockGetter;
 
-import net.minecraftforge.client.event.TextureStitchEvent;
-
-import forestry.api.core.IProduct;
-import forestry.api.genetics.IGenome;
+import java.util.List;
 
 // Fruits that grow unripe in tree leaves, then ripen over time.
 public class RipeningFruit extends Fruit {
@@ -40,11 +37,11 @@ public class RipeningFruit extends Fruit {
 	}
 
 	private float getRipeningStage(int ripeningTime) {
-		if (ripeningTime >= ripeningPeriod) {
+		if (ripeningTime >= this.ripeningPeriod) {
 			return 1.0f;
 		}
 
-		return (float) ripeningTime / ripeningPeriod;
+		return (float) ripeningTime / this.ripeningPeriod;
 	}
 
 	@Override
@@ -59,9 +56,9 @@ public class RipeningFruit extends Fruit {
 	}
 
 	private int getColour(float stage) {
-		int r = (colourCallow >> 16 & 255) + (int) (diffR * stage);
-		int g = (colourCallow >> 8 & 255) + (int) (diffG * stage);
-		int b = (colourCallow & 255) + (int) (diffB * stage);
+		int r = (this.colourCallow >> 16 & 255) + (int) (this.diffR * stage);
+		int g = (this.colourCallow >> 8 & 255) + (int) (this.diffG * stage);
+		int b = (this.colourCallow & 255) + (int) (this.diffB * stage);
 
 		return (r & 255) << 16 | (g & 255) << 8 | b & 255;
 	}

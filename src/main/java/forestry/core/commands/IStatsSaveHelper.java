@@ -10,15 +10,13 @@
  ******************************************************************************/
 package forestry.core.commands;
 
-import java.util.Collection;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.genetics.IBreedingTracker;
+import forestry.api.genetics.ISpecies;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.ISpecies;
+import java.util.Collection;
 
 public interface IStatsSaveHelper {
 	String getTranslationKey();

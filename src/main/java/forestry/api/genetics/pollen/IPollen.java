@@ -1,11 +1,11 @@
 package forestry.api.genetics.pollen;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
+
+import javax.annotation.Nullable;
 
 public interface IPollen<P> {
 	IPollenType<P> getType();

@@ -2,21 +2,18 @@ package forestry.core.data.builder;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.function.Consumer;
-
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-
 import net.minecraftforge.fluids.FluidStack;
 
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class SqueezerRecipeBuilder {
 	private int processingTime;
@@ -51,7 +48,7 @@ public class SqueezerRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, processingTime, resources, fluidOutput, remnants, remnantsChance));
+		consumer.accept(new Result(id, this.processingTime, this.resources, this.fluidOutput, this.remnants, this.remnantsChance));
 	}
 
 	private static class Result implements FinishedRecipe {
@@ -73,7 +70,7 @@ public class SqueezerRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.addProperty("time", processingTime);
+			json.addProperty("time", this.processingTime);
 
 			JsonArray resources = new JsonArray();
 
@@ -82,14 +79,14 @@ public class SqueezerRecipeBuilder {
 			}
 
 			json.add("resources", resources);
-			json.add("output", RecipeSerializers.serializeFluid(fluidOutput));
-			json.add("remnant", RecipeSerializers.item(remnants));
-			json.addProperty("chance", remnantsChance);
+			json.add("output", RecipeSerializers.serializeFluid(this.fluidOutput));
+			json.add("remnant", RecipeSerializers.item(this.remnants));
+			json.addProperty("chance", this.remnantsChance);
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

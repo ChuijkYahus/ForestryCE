@@ -10,6 +10,11 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.circuits.ISocketable;
+import forestry.core.network.PacketIdClient;
+import forestry.core.tiles.TileUtil;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
@@ -17,12 +22,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-
-import forestry.core.circuits.ISocketable;
-import forestry.api.modules.IForestryPacketClient;
-import forestry.core.network.PacketIdClient;
-import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
 
 public record PacketSocketUpdate(BlockPos pos, NonNullList<ItemStack> itemStacks) implements IForestryPacketClient {
 	public static <T extends BlockEntity & ISocketable> PacketSocketUpdate create(T tile) {
@@ -43,8 +42,8 @@ public record PacketSocketUpdate(BlockPos pos, NonNullList<ItemStack> itemStacks
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		NetworkUtil.writeItemStacks(buffer, itemStacks);
+		buffer.writeBlockPos(this.pos);
+		NetworkUtil.writeItemStacks(buffer, this.itemStacks);
 	}
 
 	public static PacketSocketUpdate decode(FriendlyByteBuf buffer) {

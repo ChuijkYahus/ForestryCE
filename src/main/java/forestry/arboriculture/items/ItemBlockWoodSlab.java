@@ -1,16 +1,15 @@
 package forestry.arboriculture.items;
 
-import javax.annotation.Nullable;
-
+import forestry.api.arboriculture.IWoodType;
+import forestry.arboriculture.WoodHelper;
+import forestry.arboriculture.blocks.BlockForestrySlab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 
-import forestry.api.arboriculture.IWoodType;
-import forestry.arboriculture.WoodHelper;
-import forestry.arboriculture.blocks.BlockForestrySlab;
+import javax.annotation.Nullable;
 
 public class ItemBlockWoodSlab extends BlockItem {
 	public ItemBlockWoodSlab(BlockForestrySlab block) {

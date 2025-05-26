@@ -1,21 +1,18 @@
 package forestry.core.commands;
 
 import com.google.common.collect.ImmutableList;
-
-import java.util.HashMap;
-import java.util.concurrent.CompletableFuture;
-
-import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.alleles.IChromosome;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 public class ChromosomeArgument implements ISpeciesArgumentType<IChromosome<?>> {
 	private final ISpeciesType<?, ?> type;

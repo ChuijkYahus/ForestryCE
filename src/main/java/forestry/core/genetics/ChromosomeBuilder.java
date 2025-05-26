@@ -1,13 +1,12 @@
 package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableSet;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.plugin.IChromosomeBuilder;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ChromosomeBuilder<A extends IAllele> implements IChromosomeBuilder<A> {
 	final IChromosome<A> chromosome;

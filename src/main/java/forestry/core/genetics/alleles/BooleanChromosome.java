@@ -1,10 +1,9 @@
 package forestry.core.genetics.alleles;
 
-import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.genetics.alleles.IBooleanAllele;
 import forestry.api.genetics.alleles.IBooleanChromosome;
+import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
 
 public record BooleanChromosome(ResourceLocation id, String translationKey) implements IBooleanChromosome {
 	public static BooleanChromosome create(ResourceLocation id) {

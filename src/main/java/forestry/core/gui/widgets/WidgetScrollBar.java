@@ -1,19 +1,17 @@
 package forestry.core.gui.widgets;
 
-import javax.annotation.Nullable;
-
+import com.mojang.blaze3d.systems.RenderSystem;
+import forestry.core.gui.Drawable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import forestry.core.gui.Drawable;
+import javax.annotation.Nullable;
 
 public class WidgetScrollBar extends Widget {
 	@Nullable
-	private Drawable background;
-	private WidgetSlider slider;
+	private final Drawable background;
+	private final WidgetSlider slider;
 	private boolean visible;
 
 	private int minValue;
@@ -36,10 +34,10 @@ public class WidgetScrollBar extends Widget {
 		this.width = width;
 		this.height = height;
 
-		isScrolling = false;
-		wasClicked = false;
-		visible = true;
-		slider = new WidgetSlider(manager, xPos, yPos, sliderTexture);
+        this.isScrolling = false;
+        this.wasClicked = false;
+        this.visible = true;
+        this.slider = new WidgetSlider(manager, xPos, yPos, sliderTexture);
 	}
 
 	public WidgetScrollBar(WidgetManager manager, int xPos, int yPos, Drawable backgroundTexture, boolean hasBorder, Drawable sliderTexture) {
@@ -51,10 +49,10 @@ public class WidgetScrollBar extends Widget {
 		this.width = backgroundTexture.uWidth;
 		this.height = backgroundTexture.vHeight;
 
-		isScrolling = false;
-		wasClicked = false;
-		visible = true;
-		slider = new WidgetSlider(manager, xPos + offset, yPos + offset, sliderTexture);
+        this.isScrolling = false;
+        this.wasClicked = false;
+        this.visible = true;
+        this.slider = new WidgetSlider(manager, xPos + offset, yPos + offset, sliderTexture);
 	}
 
 	public void setParameters(IScrollable listener, int minValue, int maxValue, int step) {
@@ -63,7 +61,7 @@ public class WidgetScrollBar extends Widget {
 		this.maxValue = maxValue;
 		this.step = step;
 
-		setValue(currentValue);
+		setValue(this.currentValue);
 	}
 
 	public void setVisible(boolean visible) {
@@ -71,28 +69,28 @@ public class WidgetScrollBar extends Widget {
 	}
 
 	public boolean isVisible() {
-		return visible;
+		return this.visible;
 	}
 
 	public int getValue() {
-		return Mth.clamp(currentValue, minValue, maxValue);
+		return Mth.clamp(this.currentValue, this.minValue, this.maxValue);
 	}
 
 	public int setValue(int value) {
-		currentValue = Mth.clamp(value, minValue, maxValue);
-		if (listener != null) {
-			listener.onScroll(currentValue);
+        this.currentValue = Mth.clamp(value, this.minValue, this.maxValue);
+		if (this.listener != null) {
+            this.listener.onScroll(this.currentValue);
 		}
 		int offset;
-		if (value >= maxValue) {
-			offset = height - slider.height;
-		} else if (value <= minValue) {
+		if (value >= this.maxValue) {
+			offset = this.height - this.slider.height;
+		} else if (value <= this.minValue) {
 			offset = 0;
 		} else {
-			offset = (int) (((float) (currentValue - minValue) / (maxValue - minValue)) * (float) (height - slider.height));
+			offset = (int) (((float) (this.currentValue - this.minValue) / (this.maxValue - this.minValue)) * (float) (this.height - this.slider.height));
 		}
-		slider.setOffset(0, offset);
-		return currentValue;
+        this.slider.setOffset(0, offset);
+		return this.currentValue;
 	}
 
 	@Override
@@ -101,10 +99,10 @@ public class WidgetScrollBar extends Widget {
 			return;
 		}
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		if (background != null) {
-			background.draw(graphics, startY + yPos, startX + xPos);
+		if (this.background != null) {
+            this.background.draw(graphics, startY + this.yPos, startX + this.xPos);
 		}
-		slider.draw(graphics, startX, startY);
+        this.slider.draw(graphics, startX, startY);
 	}
 
 	@Override
@@ -114,7 +112,7 @@ public class WidgetScrollBar extends Widget {
 		}
 		boolean mouseDown = Minecraft.getInstance().mouseHandler.isLeftPressed();
 
-		if (listener == null || listener.isFocused(mouseX, mouseY)) {
+		if (this.listener == null || this.listener.isFocused(mouseX, mouseY)) {
 			//			int wheel = Mouse.getDWheel();    //TODO - dwheel. Maybe need to hook into forge events now?
 			//			if (wheel > 0) {	//TODO I think this needs to be changed through the gui in mouseScrolled
 			//				setValue(currentValue - step);
@@ -126,50 +124,50 @@ public class WidgetScrollBar extends Widget {
 		}
 
 		//the position of the mouse relative to the position of the widget
-		int y = mouseY - yPos;
+		int y = mouseY - this.yPos;
 
-		if (!mouseDown && wasClicked) {
-			wasClicked = false;
+		if (!mouseDown && this.wasClicked) {
+            this.wasClicked = false;
 		}
 
 		//not clicked and scrolling -> stop scrolling
-		if (!mouseDown && isScrolling) {
+		if (!mouseDown && this.isScrolling) {
 			this.isScrolling = false;
 		}
 
 		//clicked on the slider and scrolling
 		if (this.isScrolling) {
-			float range = (float) (maxValue - minValue);
-			float value = (float) (y - initialMouseClickY) / (float) (height - slider.height);
+			float range = (float) (this.maxValue - this.minValue);
+			float value = (float) (y - this.initialMouseClickY) / (float) (this.height - this.slider.height);
 			value *= range;
-			if (value < (float) step / 2f) {
-				setValue(minValue);
-			} else if (value > maxValue - ((float) step / 2f)) {
-				setValue(maxValue);
+			if (value < (float) this.step / 2f) {
+				setValue(this.minValue);
+			} else if (value > this.maxValue - ((float) this.step / 2f)) {
+				setValue(this.maxValue);
 			} else {
-				setValue((int) (minValue + (float) step * Math.round(value)));
+				setValue((int) (this.minValue + (float) this.step * Math.round(value)));
 			}
 		}
 		//clicked on the slider
-		else if (slider.isMouseOver(mouseX, mouseY)) {
+		else if (this.slider.isMouseOver(mouseX, mouseY)) {
 			if (mouseDown) {
-				isScrolling = true;
-				initialMouseClickY = y - slider.getYOffset();
+                this.isScrolling = true;
+                this.initialMouseClickY = y - this.slider.getYOffset();
 			}
 		}
 		//clicked on the bar but not on the slider
-		else if (mouseDown && !wasClicked && isMouseOver(mouseX, mouseY)) {
-			float range = (float) (maxValue - minValue);
-			float value = (float) (y - slider.height / 2.0D) / (float) (height - slider.height);
+		else if (mouseDown && !this.wasClicked && isMouseOver(mouseX, mouseY)) {
+			float range = (float) (this.maxValue - this.minValue);
+			float value = (float) (y - this.slider.height / 2.0D) / (float) (this.height - this.slider.height);
 			value *= range;
-			if (value < (float) step / 2f) {
-				setValue(minValue);
-			} else if (value > maxValue - ((float) step / 2f)) {
-				setValue(maxValue);
+			if (value < (float) this.step / 2f) {
+				setValue(this.minValue);
+			} else if (value > this.maxValue - ((float) this.step / 2f)) {
+				setValue(this.maxValue);
 			} else {
-				setValue((int) (minValue + (float) step * Math.round(value)));
+				setValue((int) (this.minValue + (float) this.step * Math.round(value)));
 			}
-			wasClicked = true;
+            this.wasClicked = true;
 		}
 	}
 }

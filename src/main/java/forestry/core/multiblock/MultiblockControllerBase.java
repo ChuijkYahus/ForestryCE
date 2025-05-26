@@ -1,29 +1,21 @@
 package forestry.core.multiblock;
 
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.ChunkSource;
-import net.minecraft.world.level.chunk.LevelChunk;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.Forestry;
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.chunk.ChunkSource;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * This class contains the base logic for "multiblock controllers". Conceptually, they are
@@ -102,7 +94,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	@Override
 
 	public Collection<IMultiblockComponent> getComponents() {
-		return Collections.unmodifiableCollection(connectedParts);
+		return Collections.unmodifiableCollection(this.connectedParts);
 	}
 
 	/**
@@ -117,10 +109,10 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	public void attachBlock(IMultiblockComponent part) {
 		BlockPos coord = part.getCoordinates();
 
-		if (!connectedParts.add(part)) {
+		if (!this.connectedParts.add(part)) {
 			Forestry.LOGGER.warn("[{}] Controller {} is double-adding part {} @ {}. This is unusual. " +
-							"If you encounter odd behavior, please tear down the machine and rebuild it.",
-					level.isClientSide() ? "CLIENT" : "SERVER", hashCode(), part.hashCode(), coord);
+					"If you encounter odd behavior, please tear down the machine and rebuild it.",
+                    this.level.isClientSide() ? "CLIENT" : "SERVER", hashCode(), part.hashCode(), coord);
 		}
 
 		MultiblockLogic logic = (MultiblockLogic) part.getMultiblockLogic();
@@ -135,45 +127,45 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		}
 
 		if (this.referenceCoord == null) {
-			referenceCoord = coord;
+            this.referenceCoord = coord;
 			logic.becomeMultiblockSaveDelegate();
-		} else if (coord.compareTo(referenceCoord) < 0) {
-			TileUtil.actOnTile(level, referenceCoord, IMultiblockComponent.class, tile -> {
+		} else if (coord.compareTo(this.referenceCoord) < 0) {
+			TileUtil.actOnTile(this.level, this.referenceCoord, IMultiblockComponent.class, tile -> {
 				MultiblockLogic teLogic = (MultiblockLogic) tile.getMultiblockLogic();
 				teLogic.forfeitMultiblockSaveDelegate();
 			});
 
-			referenceCoord = coord;
+            this.referenceCoord = coord;
 			logic.becomeMultiblockSaveDelegate();
 		} else {
 			logic.forfeitMultiblockSaveDelegate();
 		}
 
-		if (minimumCoord != null) {
-			if (coord.getX() < minimumCoord.getX()) {
-				minimumCoord = new BlockPos(coord.getX(), minimumCoord.getY(), minimumCoord.getZ());
+		if (this.minimumCoord != null) {
+			if (coord.getX() < this.minimumCoord.getX()) {
+                this.minimumCoord = new BlockPos(coord.getX(), this.minimumCoord.getY(), this.minimumCoord.getZ());
 			}
-			if (coord.getY() < minimumCoord.getY()) {
-				minimumCoord = new BlockPos(minimumCoord.getX(), coord.getY(), minimumCoord.getZ());
+			if (coord.getY() < this.minimumCoord.getY()) {
+                this.minimumCoord = new BlockPos(this.minimumCoord.getX(), coord.getY(), this.minimumCoord.getZ());
 			}
-			if (coord.getZ() < minimumCoord.getZ()) {
-				minimumCoord = new BlockPos(minimumCoord.getX(), minimumCoord.getY(), coord.getZ());
-			}
-		}
-
-		if (maximumCoord != null) {
-			if (coord.getX() > maximumCoord.getX()) {
-				maximumCoord = new BlockPos(coord.getX(), maximumCoord.getY(), maximumCoord.getZ());
-			}
-			if (coord.getY() > maximumCoord.getY()) {
-				maximumCoord = new BlockPos(maximumCoord.getX(), coord.getY(), maximumCoord.getZ());
-			}
-			if (coord.getZ() > maximumCoord.getZ()) {
-				maximumCoord = new BlockPos(maximumCoord.getX(), maximumCoord.getY(), coord.getZ());
+			if (coord.getZ() < this.minimumCoord.getZ()) {
+                this.minimumCoord = new BlockPos(this.minimumCoord.getX(), this.minimumCoord.getY(), coord.getZ());
 			}
 		}
 
-		MultiblockRegistry.addDirtyController(level, this);
+		if (this.maximumCoord != null) {
+			if (coord.getX() > this.maximumCoord.getX()) {
+                this.maximumCoord = new BlockPos(coord.getX(), this.maximumCoord.getY(), this.maximumCoord.getZ());
+			}
+			if (coord.getY() > this.maximumCoord.getY()) {
+                this.maximumCoord = new BlockPos(this.maximumCoord.getX(), coord.getY(), this.maximumCoord.getZ());
+			}
+			if (coord.getZ() > this.maximumCoord.getZ()) {
+                this.maximumCoord = new BlockPos(this.maximumCoord.getX(), this.maximumCoord.getY(), coord.getZ());
+			}
+		}
+
+		MultiblockRegistry.addDirtyController(this.level, this);
 	}
 
 	/**
@@ -233,13 +225,13 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		this.onBlockRemoved(part);
 		logic.forfeitMultiblockSaveDelegate();
 
-		minimumCoord = maximumCoord = null;
+        this.minimumCoord = this.maximumCoord = null;
 
-		if (referenceCoord != null && referenceCoord.equals(part.getCoordinates())) {
-			referenceCoord = null;
+		if (this.referenceCoord != null && this.referenceCoord.equals(part.getCoordinates())) {
+            this.referenceCoord = null;
 		}
 
-		shouldCheckForDisconnections = true;
+        this.shouldCheckForDisconnections = true;
 	}
 
 	@Override
@@ -252,14 +244,14 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		BlockPos oldReference = this.referenceCoord;
 		// Strip out this part
 		onDetachBlock(part);
-		if (!connectedParts.remove(part)) {
+		if (!this.connectedParts.remove(part)) {
 			BlockPos partCoords = part.getCoordinates();
 			Forestry.LOGGER.warn("[{}] Double-removing part ({}) @ {}, {}, {}, this is unexpected and may cause problems. " +
-							"If you encounter anomalies, please tear down the reactor and rebuild it.",
-					level.isClientSide() ? "CLIENT" : "SERVER", part.hashCode(), partCoords.getX(), partCoords.getY(), partCoords.getZ());
+					"If you encounter anomalies, please tear down the reactor and rebuild it.",
+                    this.level.isClientSide() ? "CLIENT" : "SERVER", part.hashCode(), partCoords.getX(), partCoords.getY(), partCoords.getZ());
 		}
 
-		if (connectedParts.isEmpty()) {
+		if (this.connectedParts.isEmpty()) {
 			// Destroy/unregister
 			MultiblockRegistry.addDeadController(this.level, this);
 			// Save last known reference position so drops can be spawned
@@ -270,22 +262,22 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		MultiblockRegistry.addDirtyController(this.level, this);
 
 		// Find new save delegate if we need to.
-		if (referenceCoord == null) {
+		if (this.referenceCoord == null) {
 			selectNewReferenceCoord();
 		}
 	}
 
 	@Override
 	public String getLastValidationError() {
-		if (lastValidationException == null) {
+		if (this.lastValidationException == null) {
 			return null;
 		}
-		return lastValidationException.getMessage();
+		return this.lastValidationException.getMessage();
 	}
 
 	@Override
 	public void reassemble() {
-		MultiblockRegistry.addDirtyController(level, this);
+		MultiblockRegistry.addDirtyController(this.level, this);
 	}
 
 	/**
@@ -297,12 +289,12 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	public void checkIfMachineIsWhole() {
 		AssemblyState oldState = this.assemblyState;
 		boolean isWhole;
-		lastValidationException = null;
+        this.lastValidationException = null;
 		try {
 			isMachineWhole();
 			isWhole = true;
 		} catch (MultiblockValidationException e) {
-			lastValidationException = e;
+            this.lastValidationException = e;
 			isWhole = false;
 		}
 
@@ -324,7 +316,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	private void assembleMachine(AssemblyState oldState) {
 		this.assemblyState = AssemblyState.ASSEMBLED;
 
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			part.onMachineAssembled(this, getMinimumCoord(), getMaximumCoord());
 		}
 
@@ -344,7 +336,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	private void disassembleMachine() {
 		this.assemblyState = AssemblyState.DISASSEMBLED;
 
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			part.onMachineBroken();
 		}
 
@@ -370,7 +362,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 				continue;
 			}
 
-			connectedParts.add(acquiredPart);
+            this.connectedParts.add(acquiredPart);
 			MultiblockLogic logic = (MultiblockLogic) acquiredPart.getMultiblockLogic();
 			logic.setController(this);
 			this.onBlockAdded(acquiredPart);
@@ -388,9 +380,9 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	 */
 	@Override
 	public void _onAssimilated(IMultiblockControllerInternal otherController) {
-		if (referenceCoord != null) {
-			if (level.getChunkSource().hasChunk(referenceCoord.getX() >> 4, referenceCoord.getZ() >> 4)) {
-				TileUtil.actOnTile(level, referenceCoord, IMultiblockComponent.class, part -> {
+		if (this.referenceCoord != null) {
+			if (this.level.getChunkSource().hasChunk(this.referenceCoord.getX() >> 4, this.referenceCoord.getZ() >> 4)) {
+				TileUtil.actOnTile(this.level, this.referenceCoord, IMultiblockComponent.class, part -> {
 					MultiblockLogic logic = (MultiblockLogic) part.getMultiblockLogic();
 					logic.forfeitMultiblockSaveDelegate();
 				});
@@ -398,7 +390,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			this.referenceCoord = null;
 		}
 
-		connectedParts.clear();
+        this.connectedParts.clear();
 	}
 
 	/**
@@ -412,9 +404,9 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 
 	@Override
 	public final void updateMultiblockEntity() {
-		tickCount++;
+        this.tickCount++;
 
-		if (connectedParts.isEmpty()) {
+		if (this.connectedParts.isEmpty()) {
 			// This shouldn't happen, but just in case...
 			MultiblockRegistry.addDeadController(this.level, this);
 			return;
@@ -425,17 +417,17 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			return;
 		}
 
-		if (level.isClientSide) {
-			clientTick(tickCount);
-		} else if (serverTick(tickCount)) {
+		if (this.level.isClientSide) {
+			clientTick(this.tickCount);
+		} else if (serverTick(this.tickCount)) {
 			// If this returns true, the server has changed its internal data.
 			// If our chunks are loaded (they should be), we must mark our chunks as dirty.
-			if (minimumCoord != null && maximumCoord != null &&
-					level.hasChunksAt(minimumCoord, maximumCoord)) {
-				int minChunkX = minimumCoord.getX() >> 4;
-				int minChunkZ = minimumCoord.getZ() >> 4;
-				int maxChunkX = maximumCoord.getX() >> 4;
-				int maxChunkZ = maximumCoord.getZ() >> 4;
+			if (this.minimumCoord != null && this.maximumCoord != null &&
+                    this.level.hasChunksAt(this.minimumCoord, this.maximumCoord)) {
+				int minChunkX = this.minimumCoord.getX() >> 4;
+				int minChunkZ = this.minimumCoord.getZ() >> 4;
+				int maxChunkX = this.maximumCoord.getX() >> 4;
+				int maxChunkZ = this.maximumCoord.getZ() >> 4;
 
 				for (int x = minChunkX; x <= maxChunkX; x++) {
 					for (int z = minChunkZ; z <= maxChunkZ; z++) {
@@ -463,7 +455,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	protected abstract boolean serverTick(int tickCount);
 
 	protected int getTickCount() {
-		return tickCount;
+		return this.tickCount;
 	}
 
 	/**
@@ -474,7 +466,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	protected abstract void clientTick(int tickCount);
 
 	protected final boolean updateOnInterval(int tickInterval) {
-		return tickCount % tickInterval == 0;
+		return this.tickCount % tickInterval == 0;
 	}
 
 	// Validation helpers
@@ -505,52 +497,52 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	@Override
 	@Nullable
 	public BlockPos getReferenceCoord() {
-		if (referenceCoord == null) {
+		if (this.referenceCoord == null) {
 			return selectNewReferenceCoord();
 		}
-		return referenceCoord;
+		return this.referenceCoord;
 	}
 
 	/**
 	 * @return The number of blocks connected to this controller.
 	 */
 	public int getNumConnectedBlocks() {
-		return connectedParts.size();
+		return this.connectedParts.size();
 	}
 
 	@Override
 	public void recalculateMinMaxCoords() {
-		minimumCoord = new BlockPos(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-		maximumCoord = new BlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+        this.minimumCoord = new BlockPos(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        this.maximumCoord = new BlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			BlockPos partCoords = part.getCoordinates();
-			int minX = minimumCoord.getX();
-			int minY = minimumCoord.getY();
-			int minZ = minimumCoord.getZ();
-			int maxX = maximumCoord.getX();
-			int maxY = maximumCoord.getY();
-			int maxZ = maximumCoord.getZ();
-			if (partCoords.getX() < minimumCoord.getX()) {
+			int minX = this.minimumCoord.getX();
+			int minY = this.minimumCoord.getY();
+			int minZ = this.minimumCoord.getZ();
+			int maxX = this.maximumCoord.getX();
+			int maxY = this.maximumCoord.getY();
+			int maxZ = this.maximumCoord.getZ();
+			if (partCoords.getX() < this.minimumCoord.getX()) {
 				minX = partCoords.getX();
 			}
-			if (partCoords.getX() > maximumCoord.getX()) {
+			if (partCoords.getX() > this.maximumCoord.getX()) {
 				maxX = partCoords.getX();
 			}
-			if (partCoords.getY() < minimumCoord.getY()) {
+			if (partCoords.getY() < this.minimumCoord.getY()) {
 				minY = partCoords.getY();
 			}
-			if (partCoords.getY() > maximumCoord.getY()) {
+			if (partCoords.getY() > this.maximumCoord.getY()) {
 				maxY = partCoords.getY();
 			}
-			if (partCoords.getZ() < minimumCoord.getZ()) {
+			if (partCoords.getZ() < this.minimumCoord.getZ()) {
 				minZ = partCoords.getZ();
 			}
-			if (partCoords.getZ() > maximumCoord.getZ()) {
+			if (partCoords.getZ() > this.maximumCoord.getZ()) {
 				maxZ = partCoords.getZ();
 			}
-			minimumCoord = new BlockPos(minX, minY, minZ);
-			maximumCoord = new BlockPos(maxX, maxY, maxZ);
+            this.minimumCoord = new BlockPos(minX, minY, minZ);
+            this.maximumCoord = new BlockPos(maxX, maxY, maxZ);
 		}
 	}
 
@@ -558,20 +550,20 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	 * @return The minimum bounding-box coordinate containing this machine's blocks.
 	 */
 	protected BlockPos getMinimumCoord() {
-		if (minimumCoord == null) {
+		if (this.minimumCoord == null) {
 			recalculateMinMaxCoords();
 		}
-		return new BlockPos(minimumCoord);
+		return new BlockPos(this.minimumCoord);
 	}
 
 	/**
 	 * @return The maximum bounding-box coordinate containing this machine's blocks.
 	 */
 	protected BlockPos getMaximumCoord() {
-		if (maximumCoord == null) {
+		if (this.maximumCoord == null) {
 			recalculateMinMaxCoords();
 		}
-		return new BlockPos(maximumCoord);
+		return new BlockPos(this.maximumCoord);
 	}
 
 	protected final BlockPos getCenterCoord() {
@@ -597,15 +589,15 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	}
 
 	protected final boolean isCoordInMultiblock(int x, int y, int z) {
-		if (minimumCoord == null || maximumCoord == null) {
+		if (this.minimumCoord == null || this.maximumCoord == null) {
 			return false;
 		}
-		return x >= minimumCoord.getX() && x <= maximumCoord.getX() && y >= minimumCoord.getY() && y <= maximumCoord.getY() && z >= minimumCoord.getZ() && z <= maximumCoord.getZ();
+		return x >= this.minimumCoord.getX() && x <= this.maximumCoord.getX() && y >= this.minimumCoord.getY() && y <= this.maximumCoord.getY() && z >= this.minimumCoord.getZ() && z <= this.maximumCoord.getZ();
 	}
 
 	@Override
 	public boolean hasNoParts() {
-		return connectedParts.isEmpty();
+		return this.connectedParts.isEmpty();
 	}
 
 	@Override
@@ -625,7 +617,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			return false;
 		} else {
 			// Strip dead parts from both and retry
-			Forestry.LOGGER.warn("[{}] Encountered two controllers with the same reference coordinate. Auditing connected parts and retrying.", level.isClientSide ? "CLIENT" : "SERVER");
+			Forestry.LOGGER.warn("[{}] Encountered two controllers with the same reference coordinate. Auditing connected parts and retrying.", this.level.isClientSide ? "CLIENT" : "SERVER");
 			auditParts();
 			otherController.auditParts();
 
@@ -635,10 +627,10 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			} else if (res > 0) {
 				return false;
 			} else {
-				Forestry.LOGGER.error("My Controller ({}): size ({}), parts: {}", hashCode(), connectedParts.size(), getPartsListString());
+				Forestry.LOGGER.error("My Controller ({}): size ({}), parts: {}", hashCode(), this.connectedParts.size(), getPartsListString());
 				Forestry.LOGGER.error("Other Controller ({}): size ({}), coords: {}", otherController.hashCode(), otherController.getComponents().size(), otherController.getPartsListString());
-				throw new IllegalArgumentException("[" + (level.isClientSide ? "CLIENT" : "SERVER") + "] " +
-						"Two controllers with the same reference coord that somehow both have valid parts - this should never happen!");
+				throw new IllegalArgumentException("[" + (this.level.isClientSide ? "CLIENT" : "SERVER") + "] " +
+					"Two controllers with the same reference coord that somehow both have valid parts - this should never happen!");
 			}
 
 		}
@@ -660,7 +652,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	public String getPartsListString() {
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			if (!first) {
 				sb.append(", ");
 			}
@@ -675,16 +667,16 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	@Override
 	public void auditParts() {
 		HashSet<IMultiblockComponent> deadParts = new HashSet<>();
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			BlockPos partCoord = part.getCoordinates();
-			if (isInvalid(part) || TileUtil.getTile(level, partCoord) != part) {
+			if (isInvalid(part) || TileUtil.getTile(this.level, partCoord) != part) {
 				onDetachBlock(part);
 				deadParts.add(part);
 			}
 		}
 
-		connectedParts.removeAll(deadParts);
-		Forestry.LOGGER.warn("[{}] Controller found {} dead parts during an audit, {} parts remain attached", level.isClientSide ? "CLIENT" : "SERVER", deadParts.size(), connectedParts.size());
+        this.connectedParts.removeAll(deadParts);
+		Forestry.LOGGER.warn("[{}] Controller found {} dead parts during an audit, {} parts remain attached", this.level.isClientSide ? "CLIENT" : "SERVER", deadParts.size(), this.connectedParts.size());
 	}
 
 	@Override
@@ -695,23 +687,23 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		}
 
 		if (hasNoParts()) {
-			MultiblockRegistry.addDeadController(level, this);
+			MultiblockRegistry.addDeadController(this.level, this);
 			return Collections.emptySet();
 		}
 
-		ChunkSource chunkProvider = level.getChunkSource();
+		ChunkSource chunkProvider = this.level.getChunkSource();
 
 		// Invalidate our reference coord, we'll recalculate it shortly
-		referenceCoord = null;
+        this.referenceCoord = null;
 
 		// Reset visitations and find the minimum coordinate
 		Set<IMultiblockComponent> deadParts = new HashSet<>();
 		BlockPos c;
 		IMultiblockComponent referencePart = null;
 
-		int originalSize = connectedParts.size();
+		int originalSize = this.connectedParts.size();
 
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			// This happens during chunk unload.
 			BlockPos partCoord = part.getCoordinates();
 			if (chunkProvider.getChunkNow(partCoord.getX() >> 4, partCoord.getZ() >> 4) == null || isInvalid(part)) {
@@ -720,7 +712,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 				continue;
 			}
 
-			if (TileUtil.getTile(level, partCoord) != part) {
+			if (TileUtil.getTile(this.level, partCoord) != part) {
 				deadParts.add(part);
 				onDetachBlock(part);
 				continue;
@@ -732,22 +724,22 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			logic.forfeitMultiblockSaveDelegate();
 
 			c = part.getCoordinates();
-			if (referenceCoord == null) {
-				referenceCoord = c;
+			if (this.referenceCoord == null) {
+                this.referenceCoord = c;
 				referencePart = part;
-			} else if (c.compareTo(referenceCoord) < 0) {
-				referenceCoord = c;
+			} else if (c.compareTo(this.referenceCoord) < 0) {
+                this.referenceCoord = c;
 				referencePart = part;
 			}
 		}
 
-		connectedParts.removeAll(deadParts);
+        this.connectedParts.removeAll(deadParts);
 		deadParts.clear();
 
 		if (referencePart == null || hasNoParts()) {
 			// There are no valid parts remaining. The entire multiblock was unloaded during a chunk unload. Halt.
-			shouldCheckForDisconnections = false;
-			MultiblockRegistry.addDeadController(level, this);
+            this.shouldCheckForDisconnections = false;
+			MultiblockRegistry.addDeadController(this.level, this);
 			return Collections.emptySet();
 		} else {
 			MultiblockLogic logic = (MultiblockLogic) referencePart.getMultiblockLogic();
@@ -765,7 +757,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			MultiblockLogic partLogic = (MultiblockLogic) part.getMultiblockLogic();
 			partLogic.setVisited();
 
-			List<IMultiblockComponent> nearbyParts = MultiblockUtil.getNeighboringParts(level, part); // Chunk-safe on server, but not on client
+			List<IMultiblockComponent> nearbyParts = MultiblockUtil.getNeighboringParts(this.level, part); // Chunk-safe on server, but not on client
 			for (IMultiblockComponent nearbyPart : nearbyParts) {
 				// Ignore different machines
 				MultiblockLogic nearbyPartLogic = (MultiblockLogic) nearbyPart.getMultiblockLogic();
@@ -782,7 +774,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 
 		// Finally, remove all parts that remain disconnected.
 		Set<IMultiblockComponent> removedParts = new HashSet<>();
-		for (IMultiblockComponent orphanCandidate : connectedParts) {
+		for (IMultiblockComponent orphanCandidate : this.connectedParts) {
 			MultiblockLogic logic = (MultiblockLogic) orphanCandidate.getMultiblockLogic();
 			if (!logic.isVisited()) {
 				deadParts.add(orphanCandidate);
@@ -792,18 +784,18 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		}
 
 		// Trim any blocks that were invalid, or were removed.
-		connectedParts.removeAll(deadParts);
+        this.connectedParts.removeAll(deadParts);
 
 		// Cleanup. Not necessary, really.
 		deadParts.clear();
 
 		// Juuuust in case.
-		if (referenceCoord == null) {
+		if (this.referenceCoord == null) {
 			selectNewReferenceCoord();
 		}
 
 		// We've run the checks from here on out.
-		shouldCheckForDisconnections = false;
+        this.shouldCheckForDisconnections = false;
 
 		return removedParts;
 	}
@@ -811,16 +803,16 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	@Override
 
 	public Set<IMultiblockComponent> detachAllBlocks() {
-		ChunkSource chunkProvider = level.getChunkSource();
-		for (IMultiblockComponent part : connectedParts) {
+		ChunkSource chunkProvider = this.level.getChunkSource();
+		for (IMultiblockComponent part : this.connectedParts) {
 			BlockPos partCoord = part.getCoordinates();
 			if (chunkProvider.getChunkNow(partCoord.getX() >> 4, partCoord.getZ() >> 4) != null) {
 				onDetachBlock(part);
 			}
 		}
 
-		Set<IMultiblockComponent> detachedParts = connectedParts;
-		connectedParts = new HashSet<>();
+		Set<IMultiblockComponent> detachedParts = this.connectedParts;
+        this.connectedParts = new HashSet<>();
 		return detachedParts;
 	}
 
@@ -834,19 +826,19 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 
 	@Nullable
 	private BlockPos selectNewReferenceCoord() {
-		ChunkSource chunkProvider = level.getChunkSource();
+		ChunkSource chunkProvider = this.level.getChunkSource();
 		IMultiblockComponent theChosenOne = null;
-		referenceCoord = null;
+        this.referenceCoord = null;
 
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			BlockPos partCoord = part.getCoordinates();
 			if (isInvalid(part) || chunkProvider.getChunkNow(partCoord.getX() >> 4, partCoord.getZ() >> 4) == null) {
 				// Chunk is unloading, skip this coord to prevent chunk thrashing
 				continue;
 			}
 
-			if (referenceCoord == null || referenceCoord.compareTo(partCoord) > 0) {
-				referenceCoord = part.getCoordinates();
+			if (this.referenceCoord == null || this.referenceCoord.compareTo(partCoord) > 0) {
+                this.referenceCoord = part.getCoordinates();
 				theChosenOne = part;
 			}
 		}
@@ -856,7 +848,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			logic.becomeMultiblockSaveDelegate();
 		}
 
-		return referenceCoord;
+		return this.referenceCoord;
 	}
 
 	private static boolean isInvalid(IMultiblockComponent part) {

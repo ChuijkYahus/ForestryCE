@@ -12,22 +12,20 @@ package forestry.mail.inventory;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
-
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-
-import forestry.api.core.IErrorSource;
-import forestry.api.core.IError;
-import forestry.api.mail.ILetter;
 import forestry.api.core.ForestryError;
+import forestry.api.core.IError;
+import forestry.api.core.IErrorSource;
+import forestry.api.mail.ILetter;
 import forestry.core.inventory.ItemInventory;
 import forestry.core.items.ItemWithGui;
 import forestry.core.utils.SlotUtil;
 import forestry.mail.Letter;
 import forestry.mail.LetterProperties;
 import forestry.mail.items.ItemStamp;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 	private final ILetter letter;
@@ -36,16 +34,16 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 		super(player, 0, itemstack);
 		CompoundTag tagCompound = itemstack.getTag();
 		Preconditions.checkNotNull(tagCompound);
-		letter = new Letter(tagCompound);
+        this.letter = new Letter(tagCompound);
 	}
 
 	public ILetter getLetter() {
-		return letter;
+		return this.letter;
 	}
 
 	public void onLetterClosed() {
 		ItemStack parent = getParent();
-		setParent(LetterProperties.closeLetter(parent, letter));
+		setParent(LetterProperties.closeLetter(parent, this.letter));
 	}
 
 	public void onLetterOpened() {
@@ -55,49 +53,49 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 
 	@Override
 	public ItemStack removeItem(int index, int count) {
-		ItemStack result = letter.removeItem(index, count);
+		ItemStack result = this.letter.removeItem(index, count);
 		CompoundTag tagCompound = getParent().getTag();
 		Preconditions.checkNotNull(tagCompound);
-		letter.write(tagCompound);
+        this.letter.write(tagCompound);
 		return result;
 	}
 
 	@Override
 	public void setItem(int index, ItemStack itemstack) {
-		letter.setItem(index, itemstack);
+        this.letter.setItem(index, itemstack);
 		CompoundTag tagCompound = getParent().getTag();
 		Preconditions.checkNotNull(tagCompound);
-		letter.write(tagCompound);
+        this.letter.write(tagCompound);
 	}
 
 	@Override
 	public ItemStack getItem(int i) {
-		return letter.getItem(i);
+		return this.letter.getItem(i);
 	}
 
 	@Override
 	public int getContainerSize() {
-		return letter.getContainerSize();
+		return this.letter.getContainerSize();
 	}
 
 	@Override
 	public int getMaxStackSize() {
-		return letter.getMaxStackSize();
+		return this.letter.getMaxStackSize();
 	}
 
 	@Override
 	public boolean stillValid(Player player) {
-		return letter.stillValid(player);
+		return this.letter.stillValid(player);
 	}
 
 	@Override
 	public ItemStack removeItemNoUpdate(int slot) {
-		return letter.removeItemNoUpdate(slot);
+		return this.letter.removeItemNoUpdate(slot);
 	}
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		if (letter.isProcessed()) {
+		if (this.letter.isProcessed()) {
 			return false;
 		} else if (SlotUtil.isSlotInRange(slotIndex, Letter.SLOT_POSTAGE_1, Letter.SLOT_POSTAGE_COUNT)) {
 			Item item = stack.getItem();
@@ -114,11 +112,11 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 
 		ImmutableSet.Builder<IError> errorStates = ImmutableSet.builder();
 
-		if (!letter.hasRecipient()) {
+		if (!this.letter.hasRecipient()) {
 			errorStates.add(ForestryError.NO_RECIPIENT);
 		}
 
-		if (!letter.isProcessed() && !letter.isPostPaid()) {
+		if (!this.letter.isProcessed() && !this.letter.isPostPaid()) {
 			errorStates.add(ForestryError.NOT_POST_PAID);
 		}
 

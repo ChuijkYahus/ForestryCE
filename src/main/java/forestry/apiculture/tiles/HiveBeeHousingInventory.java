@@ -1,12 +1,11 @@
 package forestry.apiculture.tiles;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 class HiveBeeHousingInventory implements IBeeHousingInventory {
 	@Nullable

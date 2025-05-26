@@ -1,8 +1,7 @@
 package forestry.api.modules;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * All modules added by base Forestry.

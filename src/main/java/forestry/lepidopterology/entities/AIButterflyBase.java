@@ -10,14 +10,14 @@
  ******************************************************************************/
 package forestry.lepidopterology.entities;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 public abstract class AIButterflyBase extends Goal {
 
@@ -29,12 +29,12 @@ public abstract class AIButterflyBase extends Goal {
 
 	@Nullable
 	protected Vec3 getRandomDestination() {
-		if (entity.isInWater()) {
+		if (this.entity.isInWater()) {
 			return getRandomDestinationUpwards();
 		}
 
-		Vec3 entityPos = entity.position();
-		Vec3 randomTarget = DefaultRandomPos.getPosAway(entity, 16, 7, entityPos.add(new Vec3(0, -1, 1).yRot(entity.getYRot())));
+		Vec3 entityPos = this.entity.position();
+		Vec3 randomTarget = DefaultRandomPos.getPosAway(this.entity, 16, 7, entityPos.add(new Vec3(0, -1, 1).yRot(this.entity.getYRot())));
 
 		if (randomTarget != null && validateDestination(randomTarget, false)) {
 			return randomTarget;
@@ -44,8 +44,8 @@ public abstract class AIButterflyBase extends Goal {
 
 	@Nullable
 	protected Vec3 getRandomDestinationUpwards() {
-		Vec3 entityPos = entity.position();
-		Vec3 destination = entityPos.add(0, entity.getRandom().nextInt(10) + 2, 0);
+		Vec3 entityPos = this.entity.position();
+		Vec3 destination = entityPos.add(0, this.entity.getRandom().nextInt(10) + 2, 0);
 		if (validateDestination(destination, true)) {
 			return destination;
 		} else {
@@ -58,7 +58,7 @@ public abstract class AIButterflyBase extends Goal {
 			return false;
 		}
 		BlockPos pos = BlockPos.containing(dest);
-		Level level = entity.level();
+		Level level = this.entity.level();
 		if (!level.hasChunkAt(pos)) {
 			return false;
 		}
@@ -70,7 +70,7 @@ public abstract class AIButterflyBase extends Goal {
 		if (!blockState.isAir()) {    //TODO
 			return false;
 		}
-		return entity.getButterfly().isAcceptedEnvironment(level, dest.x, dest.y, dest.z);
+		return this.entity.getButterfly().isAcceptedEnvironment(level, dest.x, dest.y, dest.z);
 	}
 
 }

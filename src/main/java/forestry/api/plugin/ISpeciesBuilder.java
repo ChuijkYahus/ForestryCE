@@ -1,20 +1,18 @@
 package forestry.api.plugin;
 
 import com.google.common.collect.ImmutableMap;
-
-import java.awt.Color;
-import java.util.List;
-import java.util.function.Consumer;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+
+import java.awt.*;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Customize properties shared by all species types. Implement this class for your species type registration.

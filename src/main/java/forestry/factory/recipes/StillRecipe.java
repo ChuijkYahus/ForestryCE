@@ -12,7 +12,8 @@ package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
-
+import forestry.api.recipes.IStillRecipe;
+import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -20,11 +21,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-
 import net.minecraftforge.fluids.FluidStack;
-
-import forestry.api.recipes.IStillRecipe;
-import forestry.factory.features.FactoryRecipeTypes;
 
 public class StillRecipe implements IStillRecipe {
 	private final ResourceLocation id;
@@ -45,17 +42,17 @@ public class StillRecipe implements IStillRecipe {
 
 	@Override
 	public int getCyclesPerUnit() {
-		return timePerUnit;
+		return this.timePerUnit;
 	}
 
 	@Override
 	public FluidStack getInput() {
-		return input;
+		return this.input;
 	}
 
 	@Override
 	public FluidStack getOutput() {
-		return output;
+		return this.output;
 	}
 
 	@Override
@@ -70,7 +67,7 @@ public class StillRecipe implements IStillRecipe {
 
 	@Override
 	public ResourceLocation getId() {
-		return id;
+		return this.id;
 	}
 
 	@Override

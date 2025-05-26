@@ -10,6 +10,10 @@
  ******************************************************************************/
 package forestry.energy.tiles;
 
+import forestry.core.config.Constants;
+import forestry.core.damage.CoreDamageTypes;
+import forestry.core.tiles.TemperatureState;
+import forestry.energy.features.EnergyTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,14 +22,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.common.util.FakePlayer;
-
-import forestry.core.config.Constants;
-import forestry.core.damage.CoreDamageTypes;
-import forestry.core.tiles.TemperatureState;
-import forestry.energy.features.EnergyTiles;
-
 import org.jetbrains.annotations.Nullable;
 
 public class ClockworkEngineBlockEntity extends EngineBlockEntity {
@@ -51,20 +48,20 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 			return;
 		}
 
-		if (tension <= 0) {
-			tension = WIND_TENSION_BASE;
-		} else if (tension < ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE) {
-			tension += (ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE - tension) / (ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE) * WIND_TENSION_BASE;
+		if (this.tension <= 0) {
+            this.tension = WIND_TENSION_BASE;
+		} else if (this.tension < ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE) {
+            this.tension += (ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE - this.tension) / (ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE) * WIND_TENSION_BASE;
 		} else {
 			return;
 		}
 
 		player.causeFoodExhaustion(WIND_EXHAUSTION);
-		if (tension > ENGINE_CLOCKWORK_WIND_MAX + 0.1 * WIND_TENSION_BASE) {
+		if (this.tension > ENGINE_CLOCKWORK_WIND_MAX + 0.1 * WIND_TENSION_BASE) {
 			player.hurt(CoreDamageTypes.source(this.level, CoreDamageTypes.CLOCKWORK), 6);
 		}
-		tension = Math.min(tension, ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE);
-		delay = WIND_DELAY;
+        this.tension = Math.min(this.tension, ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE);
+        this.delay = WIND_DELAY;
 		sendNetworkUpdate();
 	}
 
@@ -73,7 +70,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
 
-		tension = nbt.getFloat("tension");
+        this.tension = nbt.getFloat("tension");
 	}
 
 
@@ -81,7 +78,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 
-		nbt.putFloat("tension", tension);
+		nbt.putFloat("tension", this.tension);
 	}
 
 	@Override
@@ -104,10 +101,10 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 	@Override
 	public void burn() {
-		heat = (int) (tension * 10000);
+        this.heat = (int) (this.tension * 10000);
 
-		if (delay > 0) {
-			delay--;
+		if (this.delay > 0) {
+            this.delay--;
 			return;
 		}
 
@@ -115,23 +112,23 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 			return;
 		}
 
-		if (tension > 0.01f) {
-			tension *= 0.9995f;
+		if (this.tension > 0.01f) {
+            this.tension *= 0.9995f;
 		} else {
-			tension = 0;
+            this.tension = 0;
 		}
-		energyStorage.generateEnergy(ENGINE_CLOCKWORK_ENERGY_PER_CYCLE * (int) tension);
-		level.updateNeighbourForOutputSignal(worldPosition, getBlockState().getBlock());
+        this.energyStorage.generateEnergy(ENGINE_CLOCKWORK_ENERGY_PER_CYCLE * (int) this.tension);
+        this.level.updateNeighbourForOutputSignal(this.worldPosition, getBlockState().getBlock());
 	}
 
 	@Override
 	protected boolean isBurning() {
-		return tension > 0;
+		return this.tension > 0;
 	}
 
 	@Override
 	public TemperatureState getTemperatureState() {
-		TemperatureState state = TemperatureState.getState(heat / 10000, ENGINE_CLOCKWORK_WIND_MAX);
+		TemperatureState state = TemperatureState.getState(this.heat / 10000, ENGINE_CLOCKWORK_WIND_MAX);
 		if (state == TemperatureState.MELTING) {
 			state = TemperatureState.OVERHEATING;
 		}
@@ -140,11 +137,11 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 	@Override
 	public float getPistonSpeed() {
-		if (delay > 0) {
+		if (this.delay > 0) {
 			return 0;
 		}
 
-		float fromClockwork = tension / ENGINE_CLOCKWORK_WIND_MAX * Constants.ENGINE_PISTON_SPEED_MAX;
+		float fromClockwork = this.tension / ENGINE_CLOCKWORK_WIND_MAX * Constants.ENGINE_PISTON_SPEED_MAX;
 
 		fromClockwork = Math.round(fromClockwork * 100f) / 100f;
 

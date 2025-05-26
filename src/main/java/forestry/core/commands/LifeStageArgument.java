@@ -1,22 +1,19 @@
 package forestry.core.commands;
 
 import com.google.common.collect.ImmutableMap;
-
-import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
-
-import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.network.chat.Component;
-
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpeciesType;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.Component;
+
+import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
 
 public class LifeStageArgument implements ISpeciesArgumentType<ILifeStage> {
 	static final DynamicCommandExceptionType INVALID_VALUE = new DynamicCommandExceptionType(found -> Component.translatable("argument.enum.invalid", found));

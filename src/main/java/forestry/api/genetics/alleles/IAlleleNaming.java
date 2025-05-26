@@ -1,12 +1,11 @@
 package forestry.api.genetics.alleles;
 
-import java.util.Locale;
-
+import forestry.api.ForestryConstants;
+import forestry.api.core.ToleranceType;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.ForestryConstants;
-import forestry.api.core.ToleranceType;
+import java.util.Locale;
 
 /**
  * Used to generate unique IDs for values when registering value alleles.

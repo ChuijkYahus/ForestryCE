@@ -12,6 +12,6 @@ package forestry.mail.carriers.players;
 
 public record POBoxInfo(int playerLetters, int tradeLetters) {
 	public boolean hasMail() {
-		return playerLetters > 0 || tradeLetters > 0;
+		return this.playerLetters > 0 || this.tradeLetters > 0;
 	}
 }

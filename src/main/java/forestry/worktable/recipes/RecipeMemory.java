@@ -1,9 +1,8 @@
 package forestry.worktable.recipes;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
+import forestry.api.core.INbtWritable;
+import forestry.core.network.IStreamable;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -12,9 +11,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.level.Level;
 
-import forestry.api.core.INbtWritable;
-import forestry.core.network.IStreamable;
-import forestry.core.utils.NetworkUtil;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeMemory implements INbtWritable, IStreamable {
 	private static final int CAPACITY = 9;
@@ -41,13 +40,13 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 			MemorizedRecipe recipe = new MemorizedRecipe(recipeNbt);
 
 			if (recipe.hasSelectedRecipe()) {
-				memorizedRecipes.add(recipe);
+                this.memorizedRecipes.add(recipe);
 			}
 		}
 	}
 
 	public long getLastUpdate() {
-		return lastUpdate;
+		return this.lastUpdate;
 	}
 
 	public void memorizeRecipe(long worldTime, MemorizedRecipe recipe, Level world) {
@@ -56,8 +55,8 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 			return;
 		}
 
-		lastUpdate = worldTime;
-		recipe.updateLastUse(lastUpdate);
+        this.lastUpdate = worldTime;
+		recipe.updateLastUse(this.lastUpdate);
 
 		if (recipe.hasRecipeConflict()) {
 			recipe.removeRecipeConflicts();
@@ -71,13 +70,13 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 		}
 
 		// add a new recipe
-		if (memorizedRecipes.size() < CAPACITY) {
-			memorizedRecipes.add(recipe);
+		if (this.memorizedRecipes.size() < CAPACITY) {
+            this.memorizedRecipes.add(recipe);
 		} else {
 			MemorizedRecipe oldest = getOldestUnlockedRecipe();
 			if (oldest != null) {
-				memorizedRecipes.remove(oldest);
-				memorizedRecipes.add(recipe);
+                this.memorizedRecipes.remove(oldest);
+                this.memorizedRecipes.add(recipe);
 			}
 		}
 	}
@@ -86,14 +85,14 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 		if (existingRecipe.isLocked() != updatedRecipe.isLocked()) {
 			updatedRecipe.toggleLock();
 		}
-		int index = memorizedRecipes.indexOf(existingRecipe);
-		memorizedRecipes.set(index, updatedRecipe);
+		int index = this.memorizedRecipes.indexOf(existingRecipe);
+        this.memorizedRecipes.set(index, updatedRecipe);
 	}
 
 	@Nullable
 	private MemorizedRecipe getOldestUnlockedRecipe() {
 		MemorizedRecipe oldest = null;
-		for (MemorizedRecipe existing : memorizedRecipes) {
+		for (MemorizedRecipe existing : this.memorizedRecipes) {
 			if (oldest != null && oldest.getLastUsed() < existing.getLastUsed()) {
 				continue;
 			}
@@ -107,10 +106,10 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 
 	@Nullable
 	public MemorizedRecipe getRecipe(int recipeIndex) {
-		if (recipeIndex < 0 || recipeIndex >= memorizedRecipes.size()) {
+		if (recipeIndex < 0 || recipeIndex >= this.memorizedRecipes.size()) {
 			return null;
 		}
-		return memorizedRecipes.get(recipeIndex);
+		return this.memorizedRecipes.get(recipeIndex);
 	}
 
 	//Client Only
@@ -128,16 +127,16 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 	}
 
 	public void toggleLock(long worldTime, int recipeIndex) {
-		lastUpdate = worldTime;
-		if (memorizedRecipes.size() > recipeIndex) {
-			memorizedRecipes.get(recipeIndex).toggleLock();
+        this.lastUpdate = worldTime;
+		if (this.memorizedRecipes.size() > recipeIndex) {
+            this.memorizedRecipes.get(recipeIndex).toggleLock();
 		}
 	}
 
 	@Nullable
 	private MemorizedRecipe getExistingMemorizedRecipe(@Nullable CraftingRecipe recipe) {
 		if (recipe != null) {
-			for (MemorizedRecipe memorizedRecipe : memorizedRecipes) {
+			for (MemorizedRecipe memorizedRecipe : this.memorizedRecipes) {
 				if (memorizedRecipe.hasRecipe(recipe)) {
 					return memorizedRecipe;
 				}
@@ -150,7 +149,7 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 	@Override
 	public CompoundTag write(CompoundTag compoundNBT) {
 		ListTag listNBT = new ListTag();
-		for (MemorizedRecipe recipe : memorizedRecipes) {
+		for (MemorizedRecipe recipe : this.memorizedRecipes) {
 			if (recipe != null && recipe.hasSelectedRecipe()) {
 				CompoundTag recipeNbt = new CompoundTag();
 				recipe.write(recipeNbt);
@@ -163,12 +162,12 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		NetworkUtil.writeStreamables(data, memorizedRecipes);
+		NetworkUtil.writeStreamables(data, this.memorizedRecipes);
 	}
 
 	@Override
 	public void readData(FriendlyByteBuf data) {
-		NetworkUtil.readStreamables(data, memorizedRecipes, MemorizedRecipe::new);
+		NetworkUtil.readStreamables(data, this.memorizedRecipes, MemorizedRecipe::new);
 	}
 
 	public void copy(RecipeMemory memory) {

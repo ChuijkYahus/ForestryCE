@@ -10,14 +10,16 @@
  ******************************************************************************/
 package forestry.mail.carriers.trading;
 
-import javax.annotation.Nullable;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.mail.*;
+import forestry.core.inventory.InventoryAdapter;
+import forestry.core.utils.InventoryUtil;
+import forestry.core.utils.ItemStackUtil;
 import forestry.mail.*;
 import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.MailItems;
+import forestry.mail.inventory.InventoryTradeStation;
+import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.postalstates.EnumDeliveryState;
 import forestry.mail.postalstates.ResponseNotMailable;
 import net.minecraft.core.Direction;
@@ -30,21 +32,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.mail.EnumPostage;
-import forestry.api.mail.EnumTradeStationState;
-import forestry.api.mail.ILetter;
-import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostalState;
-import forestry.api.mail.IStamps;
-import forestry.api.mail.ITradeStation;
-import forestry.core.inventory.InventoryAdapter;
-import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.ItemStackUtil;
-import forestry.mail.features.MailItems;
-import forestry.mail.inventory.InventoryTradeStation;
-import forestry.mail.items.EnumStampDefinition;
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TradeStation implements ITradeStation {
 	public static final short SLOT_TRADEGOOD = 0;
@@ -92,21 +83,21 @@ public class TradeStation implements ITradeStation {
 
 	// / SAVING & LOADING
 	public CompoundTag save(CompoundTag compoundNBT) {
-		if (owner != null) {
+		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
-			NbtUtils.writeGameProfile(nbt, owner);
+			NbtUtils.writeGameProfile(nbt, this.owner);
 			compoundNBT.put("owner", nbt);
 		}
 
-		if (address != null) {
+		if (this.address != null) {
 			CompoundTag nbt = new CompoundTag();
-			address.write(nbt);
+            this.address.write(nbt);
 			compoundNBT.put("address", nbt);
 		}
 
 		compoundNBT.putBoolean("VRT", this.isVirtual);
 		compoundNBT.putBoolean("IVL", this.isInvalid);
-		inventory.write(compoundNBT);
+        this.inventory.write(compoundNBT);
 		return compoundNBT;
 	}
 
@@ -118,16 +109,16 @@ public class TradeStation implements ITradeStation {
 	@Override
 	public void read(CompoundTag nbt) {
 		if (nbt.contains("owner")) {
-			owner = NbtUtils.readGameProfile(nbt.getCompound("owner"));
+            this.owner = NbtUtils.readGameProfile(nbt.getCompound("owner"));
 		}
 
 		if (nbt.contains("address")) {
-			address = new MailAddress(nbt.getCompound("address"));
+            this.address = new MailAddress(nbt.getCompound("address"));
 		}
 
 		this.isVirtual = nbt.getBoolean("VRT");
 		this.isInvalid = nbt.getBoolean("IVL");
-		inventory.read(nbt);
+        this.inventory.read(nbt);
 	}
 
 	/* INVALIDATING */
@@ -150,12 +141,12 @@ public class TradeStation implements ITradeStation {
 
 	@Override
 	public boolean isVirtual() {
-		return isVirtual;
+		return this.isVirtual;
 	}
 
 	@Override
 	public TradeStationInfo getTradeInfo() {
-		List<ItemStack> condensedRequired = ItemStackUtil.condenseStacks(InventoryUtil.getStacks(inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT));
+		List<ItemStack> condensedRequired = ItemStackUtil.condenseStacks(InventoryUtil.getStacks(this.inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT));
 
 		// Set current state
 		EnumTradeStationState state = EnumTradeStationState.OK;
@@ -171,18 +162,18 @@ public class TradeStation implements ITradeStation {
 				state = EnumTradeStationState.INSUFFICIENT_STAMPS;
 			}
 
-			if (countFillableOrders(1, inventory.getItem(SLOT_TRADEGOOD)) <= 0) {
+			if (countFillableOrders(1, this.inventory.getItem(SLOT_TRADEGOOD)) <= 0) {
 				state = EnumTradeStationState.INSUFFICIENT_TRADE_GOOD;
 			}
 		}
 
-		return new TradeStationInfo(address, owner, inventory.getItem(SLOT_TRADEGOOD), condensedRequired, state);
+		return new TradeStationInfo(this.address, this.owner, this.inventory.getItem(SLOT_TRADEGOOD), condensedRequired, state);
 	}
 
 	/* ILETTERHANDLER */
 	@Override
 	public IPostalState handleLetter(ServerLevel world, IMailAddress recipient, ItemStack letterstack, boolean doLodge) {
-		boolean sendOwnerNotice = doLodge && owner != null;
+		boolean sendOwnerNotice = doLodge && this.owner != null;
 
 		ILetter letter = LetterUtils.getLetter(letterstack);
 
@@ -190,7 +181,7 @@ public class TradeStation implements ITradeStation {
 			return EnumTradeStationState.INSUFFICIENT_PAPER;
 		}
 
-		int ordersToFillCount = ItemStackUtil.containsSets(InventoryUtil.getStacks(inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT), letter.getAttachments());
+		int ordersToFillCount = ItemStackUtil.containsSets(InventoryUtil.getStacks(this.inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT), letter.getAttachments());
 
 		// Not a single match.
 		if (ordersToFillCount <= 0) {
@@ -198,7 +189,7 @@ public class TradeStation implements ITradeStation {
 		}
 
 		if (!isVirtual()) {
-			int fillable = countFillableOrders(ordersToFillCount, inventory.getItem(SLOT_TRADEGOOD));
+			int fillable = countFillableOrders(ordersToFillCount, this.inventory.getItem(SLOT_TRADEGOOD));
 
 			// Nothing can be filled.
 			if (fillable <= 0) {
@@ -210,7 +201,7 @@ public class TradeStation implements ITradeStation {
 			}
 
 			// Check for sufficient output buffer
-			int storable = countStorablePayment(ordersToFillCount, InventoryUtil.getStacks(inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT));
+			int storable = countStorablePayment(ordersToFillCount, InventoryUtil.getStacks(this.inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT));
 
 			if (storable <= 0) {
 				return EnumTradeStationState.INSUFFICIENT_BUFFER;
@@ -225,7 +216,7 @@ public class TradeStation implements ITradeStation {
 		ILetter mail = new Letter(this.address, letter.getSender());
 		mail.setText(Component.translatable("for.gui.mail.order.attached").getString());
 		for (int i = 0; i < ordersToFillCount; i++) {
-			mail.addAttachment(inventory.getItem(SLOT_TRADEGOOD).copy());
+			mail.addAttachment(this.inventory.getItem(SLOT_TRADEGOOD).copy());
 		}
 		mail.addAttachments(getSurplusAttachments(ordersToFillCount, letter.getAttachments()));
 
@@ -263,12 +254,12 @@ public class TradeStation implements ITradeStation {
 
 		// Store received items
 		for (int i = 0; i < ordersToFillCount; i++) {
-			for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT)) {
+			for (ItemStack stack : InventoryUtil.getStacks(this.inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT)) {
 				if (stack == null) {
 					continue;
 				}
 
-				InventoryUtil.tryAddStack(inventory, stack.copy(), SLOT_RECEIVE_BUFFER, SLOT_RECEIVE_BUFFER_COUNT, false);
+				InventoryUtil.tryAddStack(this.inventory, stack.copy(), SLOT_RECEIVE_BUFFER, SLOT_RECEIVE_BUFFER_COUNT, false);
 			}
 		}
 
@@ -321,7 +312,7 @@ public class TradeStation implements ITradeStation {
 		// How many orders are fillable?
 		float orderCount = 0;
 
-		for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_SEND_BUFFER, SLOT_SEND_BUFFER_COUNT)) {
+		for (ItemStack stack : InventoryUtil.getStacks(this.inventory, SLOT_SEND_BUFFER, SLOT_SEND_BUFFER_COUNT)) {
 			if (stack != null && ItemStack.isSameItemSameTags(stack, tradegood)) {
 				orderCount += stack.getCount() / (float) tradegood.getCount();
 				if (orderCount >= max) {
@@ -334,15 +325,15 @@ public class TradeStation implements ITradeStation {
 	}
 
 	public boolean canReceivePayment() {
-		InventoryAdapter test = inventory.copy();
-		NonNullList<ItemStack> payment = InventoryUtil.getStacks(inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT);
+		InventoryAdapter test = this.inventory.copy();
+		NonNullList<ItemStack> payment = InventoryUtil.getStacks(this.inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT);
 
 		return InventoryUtil.tryAddStacksCopy(test, payment, SLOT_RECEIVE_BUFFER, SLOT_RECEIVE_BUFFER_COUNT, true);
 	}
 
 	private int countStorablePayment(int max, NonNullList<ItemStack> exchange) {
 
-		InventoryAdapter test = inventory.copy();
+		InventoryAdapter test = this.inventory.copy();
 		int count = 0;
 
 		for (int i = 0; i < max; i++) {
@@ -358,13 +349,13 @@ public class TradeStation implements ITradeStation {
 
 	private void removeTradegood(int filled) {
 		for (int j = 0; j < filled; j++) {
-			int toRemove = inventory.getItem(SLOT_TRADEGOOD).getCount();
+			int toRemove = this.inventory.getItem(SLOT_TRADEGOOD).getCount();
 
 			for (int i = SLOT_SEND_BUFFER; i < SLOT_SEND_BUFFER + SLOT_SEND_BUFFER_COUNT; i++) {
-				ItemStack buffer = inventory.getItem(i);
+				ItemStack buffer = this.inventory.getItem(i);
 
-				if (!buffer.isEmpty() && ItemStack.isSameItemSameTags(buffer, inventory.getItem(SLOT_TRADEGOOD))) {
-					ItemStack decrease = inventory.removeItem(i, toRemove);
+				if (!buffer.isEmpty() && ItemStack.isSameItemSameTags(buffer, this.inventory.getItem(SLOT_TRADEGOOD))) {
+					ItemStack decrease = this.inventory.removeItem(i, toRemove);
 					toRemove -= decrease.getCount();
 
 					if (toRemove <= 0) {
@@ -379,7 +370,7 @@ public class TradeStation implements ITradeStation {
 	private boolean hasPaper(int amountRequired) {
 		int amountFound = 0;
 
-		for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_LETTERS_1, SLOT_LETTERS_COUNT)) {
+		for (ItemStack stack : InventoryUtil.getStacks(this.inventory, SLOT_LETTERS_1, SLOT_LETTERS_COUNT)) {
 			if (stack != null) {
 				amountFound += stack.getCount();
 			}
@@ -395,9 +386,9 @@ public class TradeStation implements ITradeStation {
 	// Removes a single paper from the inventory
 	private void removePaper() {
 		for (int i = SLOT_LETTERS_1; i < SLOT_LETTERS_1 + SLOT_LETTERS_COUNT; i++) {
-			ItemStack stack = inventory.getItem(i);
+			ItemStack stack = this.inventory.getItem(i);
 			if (stack.getItem() == Items.PAPER) {
-				inventory.removeItem(i, 1);
+                this.inventory.removeItem(i, 1);
 				break;
 			}
 		}
@@ -406,7 +397,7 @@ public class TradeStation implements ITradeStation {
 	private boolean canPayPostage(int postage) {
 		int posted = 0;
 
-		for (ItemStack stamp : InventoryUtil.getStacks(inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT)) {
+		for (ItemStack stamp : InventoryUtil.getStacks(this.inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT)) {
 			if (stamp == null) {
 				continue;
 			}
@@ -490,7 +481,7 @@ public class TradeStation implements ITradeStation {
 
 	private int getNumStamps(EnumPostage postage) {
 		int count = 0;
-		for (ItemStack stamp : InventoryUtil.getStacks(inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT)) {
+		for (ItemStack stamp : InventoryUtil.getStacks(this.inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT)) {
 			if (stamp == null) {
 				continue;
 			}
@@ -519,7 +510,7 @@ public class TradeStation implements ITradeStation {
 					continue;
 				}
 
-				ItemStack stamp = inventory.getItem(j);
+				ItemStack stamp = this.inventory.getItem(j);
 				if (stamp.isEmpty()) {
 					continue;
 				}
@@ -529,7 +520,7 @@ public class TradeStation implements ITradeStation {
 				}
 
 				if (((IStamps) stamp.getItem()).getPostage(stamp) == EnumPostage.values()[i]) {
-					ItemStack decrease = inventory.removeItem(j, stampCount[i]);
+					ItemStack decrease = this.inventory.removeItem(j, stampCount[i]);
 					stampCount[i] -= decrease.getCount();
 				}
 			}
@@ -550,7 +541,7 @@ public class TradeStation implements ITradeStation {
 
 		// Remove stuff until we are only left with the remnants
 		for (int i = 0; i < filled; i++) {
-			NonNullList<ItemStack> required = InventoryUtil.getStacks(inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT);
+			NonNullList<ItemStack> required = InventoryUtil.getStacks(this.inventory, SLOT_EXCHANGE_1, SLOT_EXCHANGE_COUNT);
 			List<ItemStack> condensedRequired = ItemStackUtil.condenseStacks(required);
 			for (ItemStack req : condensedRequired) {
 				for (int j = 0; j < pool.size(); j++) {
@@ -586,43 +577,43 @@ public class TradeStation implements ITradeStation {
 
 	@Override
 	public boolean isEmpty() {
-		return inventory.isEmpty();
+		return this.inventory.isEmpty();
 	}
 
 	public void setDirty() {
-		updateWatchers.forEach(Watcher::onWatchableUpdate);
-		inventory.setChanged();
+        this.updateWatchers.forEach(Watcher::onWatchableUpdate);
+        this.inventory.setChanged();
 	}
 
 	@Override
 	public void setItem(int slot, ItemStack itemStack) {
 		this.setDirty();
-		inventory.setItem(slot, itemStack);
+        this.inventory.setItem(slot, itemStack);
 	}
 
 	@Override
 	public int getContainerSize() {
-		return inventory.getContainerSize();
+		return this.inventory.getContainerSize();
 	}
 
 	@Override
 	public ItemStack getItem(int var1) {
-		return inventory.getItem(var1);
+		return this.inventory.getItem(var1);
 	}
 
 	@Override
 	public ItemStack removeItem(int var1, int var2) {
-		return inventory.removeItem(var1, var2);
+		return this.inventory.removeItem(var1, var2);
 	}
 
 	@Override
 	public ItemStack removeItemNoUpdate(int index) {
-		return inventory.removeItemNoUpdate(index);
+		return this.inventory.removeItemNoUpdate(index);
 	}
 
 	@Override
 	public int getMaxStackSize() {
-		return inventory.getMaxStackSize();
+		return this.inventory.getMaxStackSize();
 	}
 
 	@Override
@@ -644,32 +635,32 @@ public class TradeStation implements ITradeStation {
 
 	@Override
 	public boolean canPlaceItem(int i, ItemStack itemStack) {
-		return inventory.canPlaceItem(i, itemStack);
+		return this.inventory.canPlaceItem(i, itemStack);
 	}
 
 	@Override
 	public int[] getSlotsForFace(Direction side) {
-		return inventory.getSlotsForFace(side);
+		return this.inventory.getSlotsForFace(side);
 	}
 
 	@Override
 	public boolean canPlaceItemThroughFace(int slot, ItemStack itemStack, Direction side) {
-		return inventory.canPlaceItemThroughFace(slot, itemStack, side);
+		return this.inventory.canPlaceItemThroughFace(slot, itemStack, side);
 	}
 
 	@Override
 	public boolean canTakeItemThroughFace(int slot, ItemStack itemStack, Direction side) {
-		return inventory.canTakeItemThroughFace(slot, itemStack, side);
+		return this.inventory.canTakeItemThroughFace(slot, itemStack, side);
 	}
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		return inventory.canSlotAccept(slotIndex, stack);
+		return this.inventory.canSlotAccept(slotIndex, stack);
 	}
 
 	@Override
 	public boolean isLocked(int slotIndex) {
-		return inventory.isLocked(slotIndex);
+		return this.inventory.isLocked(slotIndex);
 	}
 
 	@Override
@@ -677,10 +668,10 @@ public class TradeStation implements ITradeStation {
 	}
 
 	public boolean registerUpdateWatcher(Watcher updateWatcher) {
-		return updateWatchers.add(updateWatcher);
+		return this.updateWatchers.add(updateWatcher);
 	}
 
 	public boolean unregisterUpdateWatcher(Watcher updateWatcher) {
-		return updateWatchers.remove(updateWatcher);
+		return this.updateWatchers.remove(updateWatcher);
 	}
 }

@@ -11,17 +11,16 @@
 package forestry.core.utils;
 
 import com.google.common.collect.AbstractIterator;
-
-import javax.annotation.Nullable;
-import java.util.Comparator;
-import java.util.Iterator;
-
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
+
+import javax.annotation.Nullable;
+import java.util.Comparator;
+import java.util.Iterator;
 
 public final class VecUtil {
 	/**
@@ -141,40 +140,40 @@ public final class VecUtil {
 				int y = Math.min(this.maxY, this.level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, this.theBlockPos.getX(), this.theBlockPos.getZ()) - 1);
 				this.theBlockPos.setY(y);
 				return this.theBlockPos;
-			} else if (spiralLayer > maxSpiralLayers) {
+			} else if (this.spiralLayer > this.maxSpiralLayers) {
 				return this.endOfData();
 			} else {
 				int x = this.theBlockPos.getX();
 				int y = this.theBlockPos.getY();
 				int z = this.theBlockPos.getZ();
 
-				if (y > minY && y > this.minWorldHeight) {
+				if (y > this.minY && y > this.minWorldHeight) {
 					y--;
 				} else {
-					switch (direction) {
+					switch (this.direction) {
 						case 0 -> {
 							++x;
-							if (x == center.getX() + spiralLayer) {
-								++direction;
+							if (x == this.center.getX() + this.spiralLayer) {
+								++this.direction;
 							}
 						}
 						case 1 -> {
 							++z;
-							if (z == center.getZ() + spiralLayer) {
-								++direction;
+							if (z == this.center.getZ() + this.spiralLayer) {
+								++this.direction;
 							}
 						}
 						case 2 -> {
 							--x;
-							if (x == center.getX() - spiralLayer) {
-								++direction;
+							if (x == this.center.getX() - this.spiralLayer) {
+								++this.direction;
 							}
 						}
 						case 3 -> {
 							--z;
-							if (z == center.getZ() - spiralLayer) {
-								direction = 0;
-								++spiralLayer;
+							if (z == this.center.getZ() - this.spiralLayer) {
+                                this.direction = 0;
+								++this.spiralLayer;
 							}
 						}
 					}

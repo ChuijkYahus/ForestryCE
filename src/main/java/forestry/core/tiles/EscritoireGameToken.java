@@ -10,14 +10,6 @@
  ******************************************************************************/
 package forestry.core.tiles;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.IForestryApi;
 import forestry.api.client.ForestrySprites;
 import forestry.api.core.INbtWritable;
@@ -27,6 +19,13 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.ColourUtil;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public class EscritoireGameToken implements INbtWritable, IStreamable {
 	private enum State {
@@ -74,53 +73,53 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	public ItemStack getTokenStack() {
-		return tokenStack;
+		return this.tokenStack;
 	}
 
 	public boolean isVisible() {
-		return state != State.UNREVEALED;
+		return this.state != State.UNREVEALED;
 	}
 
 	public boolean isProbed() {
-		return state == State.PROBED;
+		return this.state == State.PROBED;
 	}
 
 	public boolean isMatched() {
-		return state == State.MATCHED;
+		return this.state == State.MATCHED;
 	}
 
 	public boolean isSelected() {
-		return state == State.SELECTED;
+		return this.state == State.SELECTED;
 	}
 
 	public void setFailed() {
-		state = State.FAILED;
+        this.state = State.FAILED;
 	}
 
 	public void setProbed(boolean probed) {
 		if (probed) {
-			state = State.PROBED;
+            this.state = State.PROBED;
 		} else {
-			state = State.UNREVEALED;
+            this.state = State.UNREVEALED;
 		}
 	}
 
 	public void setSelected() {
-		state = State.SELECTED;
+        this.state = State.SELECTED;
 	}
 
 	public void setMatched() {
-		state = State.MATCHED;
+        this.state = State.MATCHED;
 	}
 
 	public int getTokenColour() {
-		if (tokenIndividual == null || !isVisible()) {
+		if (this.tokenIndividual == null || !isVisible()) {
 			return 0xffffff;
 		}
 
-		int iconColor = tokenIndividual.getSpecies().getEscritoireColor();
+		int iconColor = this.tokenIndividual.getSpecies().getEscritoireColor();
 
-		if (state == State.MATCHED) {
+		if (this.state == State.MATCHED) {
 			return ColourUtil.multiplyRGBComponents(iconColor, 0.7f);
 		} else {
 			return iconColor;
@@ -129,12 +128,12 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 
 
 	public Component getTooltip() {
-		return !tokenStack.isEmpty() ? tokenStack.getHoverName() : Component.translatable("for.gui.unknown");
+		return !this.tokenStack.isEmpty() ? this.tokenStack.getHoverName() : Component.translatable("for.gui.unknown");
 	}
 
 	@Nullable
 	public ResourceLocation getOverlayToken() {
-		return switch (state) {
+		return switch (this.state) {
 			case FAILED -> ForestrySprites.ERROR_ERRORED;
 			case SELECTED -> ForestrySprites.ERROR_UNKNOWN;
 			default -> null;
@@ -142,7 +141,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	public boolean matches(EscritoireGameToken other) {
-		return ItemStack.matches(tokenStack, other.getTokenStack());
+		return ItemStack.matches(this.tokenStack, other.getTokenStack());
 	}
 
 	@Override
@@ -171,11 +170,11 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		NetworkUtil.writeEnum(data, state);
-		if (tokenIndividual != null && this.tokenType != null) {
+		NetworkUtil.writeEnum(data, this.state);
+		if (this.tokenIndividual != null && this.tokenType != null) {
 			data.writeBoolean(true);
-			data.writeResourceLocation(tokenIndividual.getSpecies().id());
-			data.writeResourceLocation(tokenType.id());
+			data.writeResourceLocation(this.tokenIndividual.getSpecies().id());
+			data.writeResourceLocation(this.tokenType.id());
 		} else {
 			data.writeBoolean(false);
 		}
@@ -183,7 +182,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 
 	@Override
 	public void readData(FriendlyByteBuf data) {
-		state = NetworkUtil.readEnum(data, State.VALUES);
+        this.state = NetworkUtil.readEnum(data, State.VALUES);
 		if (data.readBoolean()) {
 			ResourceLocation speciesId = data.readResourceLocation();
 			ResourceLocation typeId = data.readResourceLocation();

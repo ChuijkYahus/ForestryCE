@@ -10,17 +10,16 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-
 import forestry.api.mail.IMailAddress;
 import forestry.core.gui.ContainerTile;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.tiles.TileTrader;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 
 public class ContainerTradeName extends ContainerTile<TileTrader> {
 	public static ContainerTradeName fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
@@ -33,17 +32,17 @@ public class ContainerTradeName extends ContainerTile<TileTrader> {
 	}
 
 	public IMailAddress getAddress() {
-		return tile.getAddress();
+		return this.tile.getAddress();
 	}
 
 	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		if (tile.isLinked()) {
-			for (Object crafter : containerListeners) {
+		if (this.tile.isLinked()) {
+			for (Object crafter : this.containerListeners) {
 				if (crafter instanceof ServerPlayer player) {
-					tile.openGui(player, InteractionHand.MAIN_HAND, tile.getBlockPos());
+                    this.tile.openGui(player, InteractionHand.MAIN_HAND, this.tile.getBlockPos());
 				}
 			}
 		}

@@ -32,7 +32,7 @@ public class ItemForestryFood extends Item {
 
 	@Override
 	public UseAnim getUseAnimation(ItemStack itemstack) {
-		if (isDrink) {
+		if (this.isDrink) {
 			return UseAnim.DRINK;
 		} else {
 			return UseAnim.EAT;
@@ -40,7 +40,7 @@ public class ItemForestryFood extends Item {
 	}
 
 	public ItemForestryFood setIsDrink() {
-		isDrink = true;
+        this.isDrink = true;
 		return this;
 	}
 }

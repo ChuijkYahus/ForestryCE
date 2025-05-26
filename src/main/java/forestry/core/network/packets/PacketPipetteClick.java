@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
+import forestry.api.modules.IForestryPacketServer;
+import forestry.core.gui.IContainerLiquidTanks;
+import forestry.core.network.PacketIdServer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-
-import forestry.core.gui.IContainerLiquidTanks;
-import forestry.api.modules.IForestryPacketServer;
-import forestry.core.network.PacketIdServer;
 
 public record PacketPipetteClick(int slot) implements IForestryPacketServer {
 	public static void handle(PacketPipetteClick msg, ServerPlayer player) {
@@ -27,7 +26,7 @@ public record PacketPipetteClick(int slot) implements IForestryPacketServer {
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeVarInt(slot);
+		buffer.writeVarInt(this.slot);
 	}
 
 	@Override

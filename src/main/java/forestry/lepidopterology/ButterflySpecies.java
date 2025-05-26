@@ -1,15 +1,5 @@
 package forestry.lepidopterology;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
-
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
@@ -24,6 +14,15 @@ import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.core.genetics.GenericRatings;
 import forestry.core.genetics.Species;
 import forestry.lepidopterology.genetics.Butterfly;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ButterflySpecies extends Species<IButterflySpeciesType, IButterfly> implements IButterflySpecies {
 	private final TemperatureType temperature;

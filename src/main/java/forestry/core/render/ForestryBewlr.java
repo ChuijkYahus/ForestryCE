@@ -1,8 +1,20 @@
 package forestry.core.render;
 
-import java.util.IdentityHashMap;
-import java.util.function.BiFunction;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import forestry.apiculture.blocks.NaturalistChestBlockType;
+import forestry.core.blocks.BlockBase;
+import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.features.CoreBlocks;
+import forestry.core.tiles.*;
+import forestry.energy.blocks.EngineBlockType;
+import forestry.energy.features.EnergyBlocks;
+import forestry.energy.tiles.BiogasEngineBlockEntity;
+import forestry.energy.tiles.ClockworkEngineBlockEntity;
+import forestry.energy.tiles.PeatEngineBlockEntity;
+import forestry.factory.blocks.BlockTypeFactoryTesr;
+import forestry.factory.features.FactoryBlocks;
+import forestry.factory.tiles.*;
+import forestry.modules.features.FeatureBlock;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -14,33 +26,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import forestry.apiculture.blocks.NaturalistChestBlockType;
-import forestry.core.blocks.BlockBase;
-import forestry.core.blocks.BlockTypeCoreTesr;
-import forestry.core.features.CoreBlocks;
-import forestry.core.tiles.TileAnalyzer;
-import forestry.core.tiles.TileApiaristChest;
-import forestry.core.tiles.TileArboristChest;
-import forestry.core.tiles.TileEscritoire;
-import forestry.core.tiles.TileLepidopteristChest;
-import forestry.energy.blocks.EngineBlockType;
-import forestry.energy.features.EnergyBlocks;
-import forestry.energy.tiles.BiogasEngineBlockEntity;
-import forestry.energy.tiles.ClockworkEngineBlockEntity;
-import forestry.energy.tiles.PeatEngineBlockEntity;
-import forestry.factory.blocks.BlockTypeFactoryTesr;
-import forestry.factory.features.FactoryBlocks;
-import forestry.factory.tiles.TileBottler;
-import forestry.factory.tiles.TileCarpenter;
-import forestry.factory.tiles.TileCentrifuge;
-import forestry.factory.tiles.TileFermenter;
-import forestry.factory.tiles.TileMillRainmaker;
-import forestry.factory.tiles.TileMoistener;
-import forestry.factory.tiles.TileSqueezer;
-import forestry.factory.tiles.TileStill;
-import forestry.modules.features.FeatureBlock;
+import java.util.IdentityHashMap;
+import java.util.function.BiFunction;
 
 public class ForestryBewlr extends BlockEntityWithoutLevelRenderer {
 	private final BlockEntityRenderDispatcher dispatcher;

@@ -10,19 +10,17 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
-import java.util.Optional;
-
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.tiles.TileAnalyzer;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SlotUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+
+import java.util.Optional;
 
 public class InventoryAnalyzer extends InventoryAdapterTile<TileAnalyzer> {
 	public static final short SLOT_ANALYZE = 0;
@@ -42,7 +40,7 @@ public class InventoryAnalyzer extends InventoryAdapterTile<TileAnalyzer> {
 			return IIndividualHandlerItem.isIndividual(stack);
 		} else if (slotIndex == SLOT_CAN) {
 			Optional<FluidStack> fluid = FluidUtil.getFluidContained(stack);
-			return fluid.map(f -> tile.getTankManager().canFillFluidType(f)).orElse(false);
+			return fluid.map(f -> this.tile.getTankManager().canFillFluidType(f)).orElse(false);
 		}
 
 		return false;

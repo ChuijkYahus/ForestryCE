@@ -1,27 +1,19 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.arboriculture;
 
-import java.util.Locale;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.ForestryTags;
+import forestry.api.arboriculture.IWoodType;
+import forestry.api.genetics.IGenome;
+import forestry.arboriculture.blocks.ForestryLeafType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.ForestryTags;
-import forestry.api.arboriculture.IWoodType;
-import forestry.api.genetics.IGenome;
-import forestry.arboriculture.blocks.ForestryLeafType;
-
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Locale;
 
 // todo add Mangrove
 public enum VanillaWoodType implements IWoodType {

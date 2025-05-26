@@ -10,6 +10,12 @@
  ******************************************************************************/
 package forestry.core.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import forestry.api.ForestryConstants;
+import forestry.core.tiles.TileMill;
+import forestry.core.utils.RenderUtil;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -23,14 +29,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
-
-import forestry.api.ForestryConstants;
-import forestry.core.tiles.TileMill;
-import forestry.core.utils.RenderUtil;
 
 // This is called Mill because it used to be for the Forester and Treetap blocks in older versions of Forestry
 public class RenderMill implements BlockEntityRenderer<TileMill> {
@@ -66,13 +64,13 @@ public class RenderMill implements BlockEntityRenderer<TileMill> {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		partdefinition.addOrReplaceChild(Textures.PEDESTAL.name(), CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f, 16, 1, 16), PartPose.offset(0, 0, 0));
+			.addBox(0f, 0f, 0f, 16, 1, 16), PartPose.offset(0, 0, 0));
 		partdefinition.addOrReplaceChild(Textures.CHARGE.name(), CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f, 4, 15, 4), PartPose.offset(6, 1, 6));
+			.addBox(0f, 0f, 0f, 4, 15, 4), PartPose.offset(6, 1, 6));
 		partdefinition.addOrReplaceChild(Textures.EXTENSION.name(), CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f, 14, 2, 2), PartPose.offset(1, 8, 7));
+			.addBox(0f, 0f, 0f, 14, 2, 2), PartPose.offset(1, 8, 7));
 		partdefinition.addOrReplaceChild(Textures.BLADE.name(), CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f, 1, 12, 8), PartPose.offset(10, 3, 4));
+			.addBox(0f, 0f, 0f, 1, 12, 8), PartPose.offset(10, 3, 4));
 
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
@@ -85,12 +83,12 @@ public class RenderMill implements BlockEntityRenderer<TileMill> {
 		Direction orientation = Direction.SOUTH;//mill.getBlockState().getValue(BlockBase.FACING);
 		RenderUtil.rotateByHorizontalDirection(stack, orientation);
 
-		this.pedestal.render(stack, buffers.getBuffer(RenderType.entityCutout(textures[Textures.PEDESTAL.ordinal()])), light, overlay);
-		this.column.render(stack, buffers.getBuffer(RenderType.entityCutout(textures[Textures.CHARGE.ordinal() + mill.charge])), light, overlay);
-		this.extension.render(stack, buffers.getBuffer(RenderType.entityCutout(textures[Textures.EXTENSION.ordinal()])), light, overlay);
+		this.pedestal.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.PEDESTAL.ordinal()])), light, overlay);
+		this.column.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.CHARGE.ordinal() + mill.charge])), light, overlay);
+		this.extension.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.EXTENSION.ordinal()])), light, overlay);
 
 		float step = getBladeStep(mill, partialTick) / 16f;
-		VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(textures[Textures.BLADE.ordinal()]));
+		VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.BLADE.ordinal()]));
 		stack.pushPose();
 		stack.translate(step, 0, 0);
 		this.blade.render(stack, buffer, light, overlay);

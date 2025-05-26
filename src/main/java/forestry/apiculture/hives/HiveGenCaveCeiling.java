@@ -1,8 +1,7 @@
 package forestry.apiculture.hives;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-
+import forestry.api.apiculture.hives.IHiveGen;
+import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.TagKey;
@@ -12,8 +11,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-import forestry.api.apiculture.hives.IHiveGen;
-import forestry.core.utils.BlockUtil;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 
 public class HiveGenCaveCeiling implements IHiveGen {
 	private final TagKey<Block> blocks;
@@ -43,7 +42,7 @@ public class HiveGenCaveCeiling implements IHiveGen {
 
 		BlockState blockState = level.getBlockState(pos);
 		while (pos.getY() > minBuildHeight) {
-			if (blockState.is(blocks)) {
+			if (blockState.is(this.blocks)) {
 				BlockPos bellow = pos.below();
 				if (canReplace(level.getBlockState(bellow), level, bellow)) {
 					validPos.add(bellow);
@@ -58,11 +57,11 @@ public class HiveGenCaveCeiling implements IHiveGen {
 
 	@Override
 	public boolean isValidLocation(WorldGenLevel level, BlockPos pos) {
-		return level.getBlockState(pos.above()).is(blocks);
+		return level.getBlockState(pos.above()).is(this.blocks);
 	}
 
 	@Override
 	public boolean canReplace(BlockState blockState, WorldGenLevel level, BlockPos pos) {
-		return BlockUtil.canReplace(blockState, level, pos) || blockState.is(extraReplaceable);
+		return BlockUtil.canReplace(blockState, level, pos) || blockState.is(this.extraReplaceable);
 	}
 }

@@ -10,8 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.genetics;
 
-import net.minecraft.nbt.CompoundTag;
-
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.apiculture.genetics.IBee;
@@ -20,6 +18,7 @@ import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.ISpecies;
 import forestry.core.genetics.BreedingTracker;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.nbt.CompoundTag;
 
 public class ApiaristTracker extends BreedingTracker implements IApiaristTracker {
 	private int queensTotal = 0;

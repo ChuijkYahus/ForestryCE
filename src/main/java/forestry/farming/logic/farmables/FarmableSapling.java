@@ -11,9 +11,10 @@
 package forestry.farming.logic.farmables;
 
 import com.google.common.collect.ImmutableSet;
-
-import java.util.function.Consumer;
-
+import forestry.api.farming.ICrop;
+import forestry.api.farming.IFarmable;
+import forestry.core.utils.BlockUtil;
+import forestry.farming.logic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -30,10 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmable;
-import forestry.core.utils.BlockUtil;
-import forestry.farming.logic.crops.CropDestroy;
+import java.util.function.Consumer;
 
 public class FarmableSapling implements IFarmable {
 	protected final Item germling;

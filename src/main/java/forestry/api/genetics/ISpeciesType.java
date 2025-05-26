@@ -2,11 +2,14 @@ package forestry.api.genetics;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.List;
-
+import com.mojang.authlib.GameProfile;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.plugin.IApicultureRegistration;
+import forestry.api.plugin.IForestryPlugin;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -16,15 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
-
-import forestry.api.ForestryCapabilities;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.plugin.IApicultureRegistration;
-import forestry.api.plugin.IForestryPlugin;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents a type of species/individuals. Replaces the old ISpeciesRoot.

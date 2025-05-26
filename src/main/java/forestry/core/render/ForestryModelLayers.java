@@ -1,8 +1,7 @@
 package forestry.core.render;
 
-import net.minecraft.client.model.geom.ModelLayerLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 
 public class ForestryModelLayers {
 	public static final ModelLayerLocation BUTTERFLY_LAYER = register("butterfly");

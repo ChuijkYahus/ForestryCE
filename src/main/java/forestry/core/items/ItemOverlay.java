@@ -10,12 +10,11 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.core.IItemSubtype;
 import forestry.core.items.definitions.IColoredItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Base class for items with an overlay color and multiple layer models.
@@ -43,10 +42,10 @@ public class ItemOverlay extends ItemForestry implements IColoredItem {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-		if (tintIndex == 0 || overlay.getSecondaryColor() == 0) {
-			return overlay.getPrimaryColor();
+		if (tintIndex == 0 || this.overlay.getSecondaryColor() == 0) {
+			return this.overlay.getPrimaryColor();
 		} else {
-			return overlay.getSecondaryColor();
+			return this.overlay.getSecondaryColor();
 		}
 	}
 }

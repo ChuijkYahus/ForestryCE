@@ -10,8 +10,19 @@
  ******************************************************************************/
 package forestry.energy.tiles;
 
-import javax.annotation.Nullable;
-
+import forestry.api.core.ForestryError;
+import forestry.api.core.IErrorLogic;
+import forestry.core.config.Constants;
+import forestry.core.network.IStreamableGui;
+import forestry.core.network.packets.PacketActiveUpdate;
+import forestry.core.tiles.IActivatable;
+import forestry.core.tiles.TemperatureState;
+import forestry.core.tiles.TileBase;
+import forestry.core.utils.NetworkUtil;
+import forestry.energy.EnergyHelper;
+import forestry.energy.EnergyTransferMode;
+import forestry.energy.ForestryEnergyStorage;
+import forestry.energy.blocks.EngineBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -28,19 +38,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 
-import forestry.api.core.IErrorLogic;
-import forestry.core.config.Constants;
-import forestry.api.core.ForestryError;
-import forestry.core.network.IStreamableGui;
-import forestry.core.network.packets.PacketActiveUpdate;
-import forestry.core.tiles.IActivatable;
-import forestry.core.tiles.TemperatureState;
-import forestry.core.tiles.TileBase;
-import forestry.core.utils.NetworkUtil;
-import forestry.energy.EnergyHelper;
-import forestry.energy.ForestryEnergyStorage;
-import forestry.energy.EnergyTransferMode;
-import forestry.energy.blocks.EngineBlock;
+import javax.annotation.Nullable;
 
 public abstract class EngineBlockEntity extends TileBase implements IActivatable, IStreamableGui {
 	private static final int CANT_SEND_ENERGY_TIME = 20;
@@ -71,18 +69,18 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 		this.hintKey = hintKey;
 		this.maxHeat = maxHeat;
 		this.energyStorage = new ForestryEnergyStorage(2000, maxEnergy, EnergyTransferMode.EXTRACT);
-		this.energyCap = LazyOptional.of(() -> energyStorage);
+		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 	}
 
 	public String getHintKey() {
-		return hintKey;
+		return this.hintKey;
 	}
 
 	protected void addHeat(int i) {
-		heat += i;
+        this.heat += i;
 
-		if (heat > maxHeat) {
-			heat = maxHeat;
+		if (this.heat > this.maxHeat) {
+            this.heat = this.maxHeat;
 		}
 	}
 
@@ -91,7 +89,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	protected abstract void generateHeat();
 
 	protected boolean mayBurn() {
-		return !forceCooldown;
+		return !this.forceCooldown;
 	}
 
 	protected abstract void burn();
@@ -99,29 +97,29 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 
 	@Override
 	public void clientTick(Level level, BlockPos pos, BlockState state) {
-		if (stagePiston != 0) {
-			progress += pistonSpeedServer;
+		if (this.stagePiston != 0) {
+            this.progress += this.pistonSpeedServer;
 
-			if (progress > 1) {
-				stagePiston = 0;
-				progress = 0;
+			if (this.progress > 1) {
+                this.stagePiston = 0;
+                this.progress = 0;
 			}
 		} else if (this.active) {
-			stagePiston = 1;
+            this.stagePiston = 1;
 		}
 	}
 
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		TemperatureState energyState = getTemperatureState();
-		if (energyState == TemperatureState.MELTING && heat > 0) {
-			forceCooldown = true;
-		} else if (forceCooldown && heat <= 0) {
-			forceCooldown = false;
+		if (energyState == TemperatureState.MELTING && this.heat > 0) {
+            this.forceCooldown = true;
+		} else if (this.forceCooldown && this.heat <= 0) {
+            this.forceCooldown = false;
 		}
 
 		IErrorLogic errorLogic = getErrorLogic();
-		errorLogic.setCondition(forceCooldown, ForestryError.FORCED_COOLDOWN);
+		errorLogic.setCondition(this.forceCooldown, ForestryError.FORCED_COOLDOWN);
 
 		boolean enabledRedstone = isRedstoneActivated();
 		errorLogic.setCondition(!enabledRedstone, ForestryError.NO_REDSTONE);
@@ -132,31 +130,31 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 		BlockEntity tile = level.getBlockEntity(getBlockPos().relative(facing));
 
 		float newPistonSpeed = getPistonSpeed();
-		if (newPistonSpeed != pistonSpeedServer) {
-			pistonSpeedServer = newPistonSpeed;
+		if (newPistonSpeed != this.pistonSpeedServer) {
+            this.pistonSpeedServer = newPistonSpeed;
 			sendNetworkUpdate();
 		}
 
-		if (stagePiston != 0) {
-			progress += pistonSpeedServer;
+		if (this.stagePiston != 0) {
+            this.progress += this.pistonSpeedServer;
 
-			EnergyHelper.sendEnergy(energyStorage, facing, tile);
+			EnergyHelper.sendEnergy(this.energyStorage, facing, tile);
 
-			if (progress > 0.25 && stagePiston == 1) {
-				stagePiston = 2;
-			} else if (progress >= 0.5) {
-				progress = 0;
-				stagePiston = 0;
+			if (this.progress > 0.25 && this.stagePiston == 1) {
+                this.stagePiston = 2;
+			} else if (this.progress >= 0.5) {
+                this.progress = 0;
+                this.stagePiston = 0;
 			}
 		} else if (enabledRedstone && EnergyHelper.isEnergyReceiverOrEngine(facing.getOpposite(), tile)) {
-			if (EnergyHelper.canSendEnergy(energyStorage, facing, tile)) {
-				stagePiston = 1; // If we can transfer energy, start running
+			if (EnergyHelper.canSendEnergy(this.energyStorage, facing, tile)) {
+                this.stagePiston = 1; // If we can transfer energy, start running
 				setActive(true);
-				cantSendEnergyCountdown = CANT_SEND_ENERGY_TIME;
+                this.cantSendEnergyCountdown = CANT_SEND_ENERGY_TIME;
 			} else {
 				if (isActive()) {
-					cantSendEnergyCountdown--;
-					if (cantSendEnergyCountdown <= 0) {
+                    this.cantSendEnergyCountdown--;
+					if (this.cantSendEnergyCountdown <= 0) {
 						setActive(false);
 					}
 				}
@@ -171,13 +169,13 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 		if (mayBurn()) {
 			burn();
 		} else {
-			energyStorage.drainEnergy(20);
+            this.energyStorage.drainEnergy(20);
 		}
 	}
 
 	@Override
 	public boolean isActive() {
-		return active;
+		return this.active;
 	}
 
 	@Override
@@ -187,14 +185,14 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 		}
 		this.active = active;
 
-		if (!level.isClientSide) {
-			NetworkUtil.sendNetworkPacket(new PacketActiveUpdate(this), worldPosition, level);
+		if (!this.level.isClientSide) {
+			NetworkUtil.sendNetworkPacket(new PacketActiveUpdate(this), this.worldPosition, this.level);
 		}
 	}
 
 	// STATE INFORMATION
 	protected double getHeatLevel() {
-		return (double) heat / (double) maxHeat;
+		return (double) this.heat / (double) this.maxHeat;
 	}
 
 	protected abstract boolean isBurning();
@@ -209,21 +207,21 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 
 	public int getCurrentOutput() {
 		if (isBurning() && isRedstoneActivated()) {
-			return currentOutput;
+			return this.currentOutput;
 		} else {
 			return 0;
 		}
 	}
 
 	public int getHeat() {
-		return heat;
+		return this.heat;
 	}
 
 	/**
 	 * Returns the current energy state of the engine
 	 */
 	public TemperatureState getTemperatureState() {
-		return TemperatureState.getState(heat, maxHeat);
+		return TemperatureState.getState(this.heat, this.maxHeat);
 	}
 
 	protected float getPistonSpeed() {
@@ -241,70 +239,70 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	/* SAVING & LOADING */
 	@Override
 	public void load(CompoundTag nbt) {
-		super.load( nbt);
-		energyStorage.read(nbt);
+		super.load(nbt);
+        this.energyStorage.read(nbt);
 
-		heat = nbt.getInt("EngineHeat");
+        this.heat = nbt.getInt("EngineHeat");
 
-		progress = nbt.getFloat("EngineProgress");
-		forceCooldown = nbt.getBoolean("ForceCooldown");
+        this.progress = nbt.getFloat("EngineProgress");
+        this.forceCooldown = nbt.getBoolean("ForceCooldown");
 	}
 
 
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
-		energyStorage.write(nbt);
+        this.energyStorage.write(nbt);
 
-		nbt.putInt("EngineHeat", heat);
-		nbt.putFloat("EngineProgress", progress);
-		nbt.putBoolean("ForceCooldown", forceCooldown);
+		nbt.putInt("EngineHeat", this.heat);
+		nbt.putFloat("EngineProgress", this.progress);
+		nbt.putBoolean("ForceCooldown", this.forceCooldown);
 	}
 
 	/* NETWORK */
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
-		data.writeBoolean(active);
-		data.writeInt(heat);
-		data.writeFloat(pistonSpeedServer);
-		energyStorage.writeData(data);
+		data.writeBoolean(this.active);
+		data.writeInt(this.heat);
+		data.writeFloat(this.pistonSpeedServer);
+        this.energyStorage.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		active = data.readBoolean();
-		heat = data.readInt();
-		pistonSpeedServer = data.readFloat();
-		energyStorage.readData(data);
+        this.active = data.readBoolean();
+        this.heat = data.readInt();
+        this.pistonSpeedServer = data.readFloat();
+        this.energyStorage.readData(data);
 	}
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
-		data.writeInt(currentOutput);
-		data.writeInt(heat);
-		data.writeBoolean(forceCooldown);
-		energyStorage.writeData(data);
+		data.writeInt(this.currentOutput);
+		data.writeInt(this.heat);
+		data.writeBoolean(this.forceCooldown);
+        this.energyStorage.writeData(data);
 	}
 
 	@Override
 	public void readGuiData(FriendlyByteBuf data) {
-		currentOutput = data.readInt();
-		heat = data.readInt();
-		forceCooldown = data.readBoolean();
-		energyStorage.readData(data);
+        this.currentOutput = data.readInt();
+        this.heat = data.readInt();
+        this.forceCooldown = data.readBoolean();
+        this.energyStorage.readData(data);
 	}
 
 	public ForestryEnergyStorage getEnergyManager() {
-		return energyStorage;
+		return this.energyStorage;
 	}
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction side) {
-		if (!remove && capability == ForgeCapabilities.ENERGY && side == getBlockState().getValue(EngineBlock.VERTICAL_FACING)) {
-			return energyCap.cast();
+		if (!this.remove && capability == ForgeCapabilities.ENERGY && side == getBlockState().getValue(EngineBlock.VERTICAL_FACING)) {
+			return this.energyCap.cast();
 		}
 		return super.getCapability(capability, side);
 	}

@@ -10,19 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBee;
@@ -31,6 +18,18 @@ import forestry.api.core.INbtWritable;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.util.TickHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 // Cache used to determine if a beehive has a suitable flower nearby.
 // This passively checks one block a tick in a spiraling pattern centered on the hive,
@@ -74,48 +73,48 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 	}
 
 	public void update(IBee queen, IBeeHousing beeHousing) {
-		if (flowerData == null) {
+		if (this.flowerData == null) {
 			this.flowerData = new FlowerData(queen, beeHousing);
 			this.flowerCoords.clear();
 			this.flowers.clear();
 		}
 		Level level = beeHousing.getWorldObj();
-		tickHelper.onTick();
+        this.tickHelper.onTick();
 
-		if (!flowerCoords.isEmpty() && tickHelper.updateOnInterval(flowerCheckInterval)) {
-			Iterator<BlockPos> iterator = flowerCoords.iterator();
+		if (!this.flowerCoords.isEmpty() && this.tickHelper.updateOnInterval(this.flowerCheckInterval)) {
+			Iterator<BlockPos> iterator = this.flowerCoords.iterator();
 			while (iterator.hasNext()) {
 				BlockPos flowerPos = iterator.next();
-				if (level.hasChunkAt(flowerPos) && !flowerData.flowerType.isAcceptableFlower(level, flowerPos)) {
+				if (level.hasChunkAt(flowerPos) && !this.flowerData.flowerType.isAcceptableFlower(level, flowerPos)) {
 					iterator.remove();
-					flowers.clear();
-					needsSync = true;
+                    this.flowers.clear();
+                    this.needsSync = true;
 				}
 			}
 		}
 
-		final int flowerCount = flowerCoords.size();
+		final int flowerCount = this.flowerCoords.size();
 		final int ticksPerCheck = 1 + (flowerCount * flowerCount);
 
-		if (tickHelper.updateOnInterval(ticksPerCheck)) {
-			if (flowerData.areaIterator.hasNext()) {
-				BlockPos.MutableBlockPos blockPos = flowerData.areaIterator.next();
-				if (flowerData.flowerType.isAcceptableFlower(level, blockPos)) {
+		if (this.tickHelper.updateOnInterval(ticksPerCheck)) {
+			if (this.flowerData.areaIterator.hasNext()) {
+				BlockPos.MutableBlockPos blockPos = this.flowerData.areaIterator.next();
+				if (this.flowerData.flowerType.isAcceptableFlower(level, blockPos)) {
 					addFlowerPos(blockPos.immutable());
 				}
 			} else {
-				flowerData.resetIterator(queen, beeHousing);
+                this.flowerData.resetIterator(queen, beeHousing);
 			}
 		}
 	}
 
 	public boolean hasFlowers() {
-		return !flowerCoords.isEmpty();
+		return !this.flowerCoords.isEmpty();
 	}
 
 	public boolean needsSync() {
-		boolean returnVal = needsSync;
-		needsSync = false;
+		boolean returnVal = this.needsSync;
+        this.needsSync = false;
 		return returnVal;
 	}
 
@@ -124,42 +123,42 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 			IGenome genome = queen.getGenome();
 			IFlowerType flowerType = genome.getActiveValue(BeeChromosomes.FLOWER_TYPE);
 			if (this.flowerData.flowerType != flowerType || !this.flowerData.territory.equals(genome.getActiveValue(BeeChromosomes.TERRITORY))) {
-				flowerData = new FlowerData(queen, housing);
-				flowerCoords.clear();
-				flowers.clear();
+                this.flowerData = new FlowerData(queen, housing);
+                this.flowerCoords.clear();
+                this.flowers.clear();
 			}
 		}
 	}
 
 	public List<BlockPos> getFlowerCoords() {
-		return Collections.unmodifiableList(flowerCoords);
+		return Collections.unmodifiableList(this.flowerCoords);
 	}
 
 	public List<BlockState> getFlowers(Level level) {
-		if (flowers.isEmpty() && !flowerCoords.isEmpty()) {
-			for (BlockPos flowerCoord : flowerCoords) {
+		if (this.flowers.isEmpty() && !this.flowerCoords.isEmpty()) {
+			for (BlockPos flowerCoord : this.flowerCoords) {
 				BlockState blockState = level.getBlockState(flowerCoord);
-				flowers.add(blockState);
+                this.flowers.add(blockState);
 			}
 		}
-		return Collections.unmodifiableList(flowers);
+		return Collections.unmodifiableList(this.flowers);
 	}
 
 	public void addFlowerPos(BlockPos blockPos) {
-		flowerCoords.add(blockPos);
-		flowers.clear();
-		needsSync = true;
+        this.flowerCoords.add(blockPos);
+        this.flowers.clear();
+        this.needsSync = true;
 	}
 
 	public void forceLookForFlowers(IBee queen, IBeeHousing housing) {
-		if (flowerData != null) {
-			flowerCoords.clear();
-			flowers.clear();
-			flowerData.resetIterator(queen, housing);
+		if (this.flowerData != null) {
+            this.flowerCoords.clear();
+            this.flowers.clear();
+            this.flowerData.resetIterator(queen, housing);
 			Level level = housing.getWorldObj();
-			while (flowerData.areaIterator.hasNext()) {
-				BlockPos.MutableBlockPos blockPos = flowerData.areaIterator.next();
-				if (flowerData.flowerType.isAcceptableFlower(level, blockPos)) {
+			while (this.flowerData.areaIterator.hasNext()) {
+				BlockPos.MutableBlockPos blockPos = this.flowerData.areaIterator.next();
+				if (this.flowerData.flowerType.isAcceptableFlower(level, blockPos)) {
 					addFlowerPos(blockPos.immutable());
 				}
 			}
@@ -173,33 +172,33 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 		}
 
 		CompoundTag hasFlowerCacheNBT = compoundNBT.getCompound(NBT_KEY);
-		flowerCoords.clear();
+        this.flowerCoords.clear();
 		if (hasFlowerCacheNBT.contains(NBT_KEY_FLOWERS)) {
 			int[] flowersList = hasFlowerCacheNBT.getIntArray(NBT_KEY_FLOWERS);
 			if (flowersList.length % 3 == 0) {
 				int flowerCount = flowersList.length / 3;
 
-				flowerCoords.ensureCapacity(flowerCount);
+                this.flowerCoords.ensureCapacity(flowerCount);
 
 				for (int i = 0; i < flowerCount; i++) {
 					int index = i * 3;
 					BlockPos flowerPos = new BlockPos(flowersList[index], flowersList[index + 1], flowersList[index + 2]);
-					flowerCoords.add(flowerPos);
+                    this.flowerCoords.add(flowerPos);
 				}
-				needsSync = true;
+                this.needsSync = true;
 			}
 		}
-		flowers.clear();
+        this.flowers.clear();
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag CompoundNBT) {
 		CompoundTag hasFlowerCacheNBT = new CompoundTag();
 
-		if (!flowerCoords.isEmpty()) {
-			int[] flowersList = new int[flowerCoords.size() * 3];
+		if (!this.flowerCoords.isEmpty()) {
+			int[] flowersList = new int[this.flowerCoords.size() * 3];
 			int i = 0;
-			for (BlockPos flowerPos : flowerCoords) {
+			for (BlockPos flowerPos : this.flowerCoords) {
 				flowersList[i] = flowerPos.getX();
 				flowersList[i + 1] = flowerPos.getY();
 				flowersList[i + 2] = flowerPos.getZ();
@@ -214,10 +213,10 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 	}
 
 	public void writeData(FriendlyByteBuf data) {
-		int size = flowerCoords.size();
+		int size = this.flowerCoords.size();
 		data.writeVarInt(size);
 		if (size > 0) {
-			for (BlockPos pos : flowerCoords) {
+			for (BlockPos pos : this.flowerCoords) {
 				data.writeVarInt(pos.getX());
 				data.writeVarInt(pos.getY());
 				data.writeVarInt(pos.getZ());
@@ -226,13 +225,13 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 	}
 
 	public void readData(FriendlyByteBuf data) {
-		flowerCoords.clear();
-		flowers.clear();
+        this.flowerCoords.clear();
+        this.flowers.clear();
 
 		int size = data.readVarInt();
 		while (size > 0) {
 			BlockPos pos = new BlockPos(data.readVarInt(), data.readVarInt(), data.readVarInt());
-			flowerCoords.add(pos);
+            this.flowerCoords.add(pos);
 			size--;
 		}
 	}

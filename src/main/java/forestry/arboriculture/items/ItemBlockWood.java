@@ -10,18 +10,17 @@
  ******************************************************************************/
 package forestry.arboriculture.items;
 
-import javax.annotation.Nullable;
-
+import forestry.api.arboriculture.IWoodType;
+import forestry.arboriculture.IWoodTyped;
+import forestry.arboriculture.WoodHelper;
+import forestry.core.items.ItemBlockForestry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 
-import forestry.api.arboriculture.IWoodType;
-import forestry.arboriculture.IWoodTyped;
-import forestry.arboriculture.WoodHelper;
-import forestry.core.items.ItemBlockForestry;
+import javax.annotation.Nullable;
 
 public class ItemBlockWood<B extends Block & IWoodTyped> extends ItemBlockForestry<B> {
 	private final IWoodTyped wood;

@@ -1,34 +1,10 @@
 package forestry.core.worldgen;
 
 import com.google.common.collect.ImmutableList;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.properties.StructureMode;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
@@ -51,6 +27,27 @@ import forestry.apiculture.inventory.InventoryApiary;
 import forestry.apiculture.tiles.TileApiary;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.properties.StructureMode;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ApiaristPoolElement extends SinglePoolElement {
 	public static final Codec<ApiaristPoolElement> CODEC = RecordCodecBuilder.create(instance -> {
@@ -79,7 +76,7 @@ public class ApiaristPoolElement extends SinglePoolElement {
 	protected StructurePlaceSettings getSettings(Rotation rotation, BoundingBox bounds, boolean keepJigsaws) {
 		// data markers get wiped (ignored) if we don't remove the structure block processor
 		return super.getSettings(rotation, bounds, keepJigsaws)
-				.popProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+			.popProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 	}
 
 	private static void replaceWithApiary(LevelAccessor level, StructureTemplate.StructureBlockInfo info, RandomSource random) {
@@ -140,7 +137,7 @@ public class ApiaristPoolElement extends SinglePoolElement {
 
 			// check temperature and humidity
 			if (ClimateHelper.isWithinLimits(biomeState.temperature(), species.getTemperature(), defaultGenome.getActiveValue(BeeChromosomes.TEMPERATURE_TOLERANCE)) &&
-					ClimateHelper.isWithinLimits(biomeState.humidity(), species.getHumidity(), defaultGenome.getActiveValue(BeeChromosomes.HUMIDITY_TOLERANCE))) {
+				ClimateHelper.isWithinLimits(biomeState.humidity(), species.getHumidity(), defaultGenome.getActiveValue(BeeChromosomes.HUMIDITY_TOLERANCE))) {
 				candidates.add(Pair.of(species, hive.alleles()));
 			}
 		}

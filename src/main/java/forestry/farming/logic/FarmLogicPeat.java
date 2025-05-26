@@ -10,19 +10,18 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
-import java.util.ArrayDeque;
-import java.util.Collection;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.farming.ICrop;
 import forestry.api.farming.IFarmHousing;
 import forestry.api.farming.IFarmType;
 import forestry.core.features.CoreBlocks;
 import forestry.farming.logic.crops.CropPeat;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.ArrayDeque;
+import java.util.Collection;
 
 public class FarmLogicPeat extends FarmLogicWatered {
 	public FarmLogicPeat(IFarmType properties, boolean isManual) {

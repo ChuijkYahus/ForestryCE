@@ -11,18 +11,15 @@
 package forestry.core.errors;
 
 import com.google.common.collect.ImmutableMap;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.core.IError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorManager;
-
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ErrorManager implements IErrorManager {
 	// Numeric IDs should be used only for network synchronization

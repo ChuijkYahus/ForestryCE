@@ -10,15 +10,13 @@
  ******************************************************************************/
 package forestry.apiculture;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.ForestryCapabilities;
 import forestry.api.apiculture.IArmorApiaristHelper;
 import forestry.api.apiculture.genetics.IBeeEffect;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public class ArmorApiaristHelper implements IArmorApiaristHelper {
 	@Override
@@ -28,8 +26,8 @@ public class ArmorApiaristHelper implements IArmorApiaristHelper {
 		}
 
 		return stack.getCapability(ForestryCapabilities.ARMOR_APIARIST)
-				.map(armorApiarist -> armorApiarist.protectEntity(entity, stack, cause, doProtect))
-				.orElse(false);
+			.map(armorApiarist -> armorApiarist.protectEntity(entity, stack, cause, doProtect))
+			.orElse(false);
 	}
 
 	@Override

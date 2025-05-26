@@ -10,17 +10,16 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.IItemStackDisplay;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public record PacketItemStackDisplay(BlockPos pos, ItemStack itemStack) implements IForestryPacketClient {
 	public <T extends TileForestry & IItemStackDisplay> PacketItemStackDisplay(T tile, ItemStack itemStack) {
@@ -29,8 +28,8 @@ public record PacketItemStackDisplay(BlockPos pos, ItemStack itemStack) implemen
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		buffer.writeItem(itemStack);
+		buffer.writeBlockPos(this.pos);
+		buffer.writeItem(this.itemStack);
 	}
 
 	@Override

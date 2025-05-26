@@ -1,6 +1,11 @@
 package forestry.modules.features;
 
 import com.google.common.collect.ImmutableMap;
+import forestry.api.core.IFeatureSubtype;
+import forestry.api.core.IItemProvider;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,39 +13,31 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import org.apache.commons.lang3.StringUtils;
-
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
-import forestry.api.core.IFeatureSubtype;
-import forestry.api.core.IItemProvider;
-
 public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends FeatureGroup<B, F, S>>, F extends IModFeature, S extends IFeatureSubtype> {
 	protected final ImmutableMap<S, F> featureByType;
 
 	protected FeatureGroup(B builder) {
 		ImmutableMap.Builder<S, F> mapBuilder = new ImmutableMap.Builder<>();
 		builder.subTypes.forEach(subType -> mapBuilder.put(subType, createFeature(builder, subType)));
-		featureByType = mapBuilder.build();
+        this.featureByType = mapBuilder.build();
 	}
 
 	protected abstract F createFeature(B builder, S type);
 
 	public boolean has(S subType) {
-		return featureByType.containsKey(subType);
+		return this.featureByType.containsKey(subType);
 	}
 
 	public F get(S subType) {
-		return featureByType.get(subType);
+		return this.featureByType.get(subType);
 	}
 
 	public ImmutableMap<S, F> getFeatureByType() {
-		return featureByType;
+		return this.featureByType;
 	}
 
 	public Collection<F> getFeatures() {
-		return featureByType.values();
+		return this.featureByType.values();
 	}
 
 	public boolean itemEqual(ItemStack stack) {
@@ -68,7 +65,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 	}
 
 	public ItemStack stack(S subType, int amount) {
-		F featureBlock = featureByType.get(subType);
+		F featureBlock = this.featureByType.get(subType);
 		if (featureBlock instanceof IItemProvider<?> item) {
 			return item.stack(amount);
 		}
@@ -96,7 +93,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 		}
 
 		public Builder<S, G> type(S type) {
-			subTypes.add(type);
+            this.subTypes.add(type);
 			return this;
 		}
 
@@ -105,12 +102,12 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 		}
 
 		public Builder<S, G> types(Collection<S> types) {
-			subTypes.addAll(types);
+            this.subTypes.addAll(types);
 			return this;
 		}
 
 		protected String getIdentifier(IFeatureSubtype type) {
-			return this.identifierType.apply(identifier, type.getSerializedName());
+			return this.identifierType.apply(this.identifier, type.getSerializedName());
 		}
 
 		public abstract G create();

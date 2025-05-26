@@ -1,9 +1,8 @@
 package forestry.worktable.inventory;
 
+import forestry.core.gui.DummyMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.TransientCraftingContainer;
-
-import forestry.core.gui.DummyMenu;
 
 public class WorktableCraftingContainer extends TransientCraftingContainer {
 	private final AbstractContainerMenu menu;
@@ -18,7 +17,7 @@ public class WorktableCraftingContainer extends TransientCraftingContainer {
 	}
 
 	public WorktableCraftingContainer copy() {
-		WorktableCraftingContainer copy = new WorktableCraftingContainer(menu);
+		WorktableCraftingContainer copy = new WorktableCraftingContainer(this.menu);
 		for (int slot = 0; slot < getContainerSize(); slot++) {
 			copy.setItem(slot, getItem(slot).copy());
 		}

@@ -1,5 +1,6 @@
 package forestry.apiculture.genetics;
 
+import forestry.api.core.IProduct;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.RandomSource;
@@ -8,11 +9,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import forestry.api.core.IProduct;
-
 // used by secret Patriotic bee species
 public record FireworkProduct(float chance) implements IProduct {
-	private static DyeColor[] COLORS = {DyeColor.RED, DyeColor.WHITE, DyeColor.BLUE};
+	private static final DyeColor[] COLORS = {DyeColor.RED, DyeColor.WHITE, DyeColor.BLUE};
 
 	@Override
 	public Item item() {

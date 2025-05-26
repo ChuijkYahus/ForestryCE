@@ -11,13 +11,8 @@
 package forestry.farming.logic;
 
 import com.google.common.base.Predicate;
-
-import javax.annotation.Nullable;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import forestry.api.farming.*;
+import forestry.core.utils.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -30,13 +25,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
-import forestry.api.farming.Soil;
-import forestry.core.utils.VecUtil;
+import javax.annotation.Nullable;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public abstract class FarmLogic implements IFarmLogic {
 	private final EntitySelectorFarm entitySelectorFarm;
@@ -64,7 +57,7 @@ public abstract class FarmLogic implements IFarmLogic {
 
 	@Override
 	public boolean isManual() {
-		return isManual;
+		return this.isManual;
 	}
 
 	@Override
@@ -136,7 +129,7 @@ public abstract class FarmLogic implements IFarmLogic {
 	protected List<ItemStack> collectEntityItems(Level world, IFarmHousing farmHousing, boolean toWorldHeight) {
 		AABB harvestBox = getHarvestBox(world, farmHousing, toWorldHeight);
 
-		List<ItemEntity> entityItems = world.getEntitiesOfClass(ItemEntity.class, harvestBox, entitySelectorFarm);
+		List<ItemEntity> entityItems = world.getEntitiesOfClass(ItemEntity.class, harvestBox, this.entitySelectorFarm);
 		ArrayList<ItemStack> stacks = new ArrayList<>();
 		for (ItemEntity entity : entityItems) {
 			ItemStack contained = entity.getItem();
@@ -149,7 +142,7 @@ public abstract class FarmLogic implements IFarmLogic {
 	// for debugging
 	@Override
 	public String toString() {
-		return type.getTranslationKey();
+		return this.type.getTranslationKey();
 	}
 
 	private static class EntitySelectorFarm implements Predicate<ItemEntity> {

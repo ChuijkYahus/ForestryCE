@@ -10,18 +10,16 @@
  ******************************************************************************/
 package forestry.farming.gui;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.network.chat.Component;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.core.gui.ledgers.Ledger;
 import forestry.core.gui.ledgers.LedgerManager;
 import forestry.core.utils.ResourceUtil;
 import forestry.core.utils.StringUtil;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class FarmLedger extends Ledger {
 	private final IFarmLedgerDelegate delegate;
@@ -30,7 +28,7 @@ public class FarmLedger extends Ledger {
 		super(ledgerManager, "farm");
 		this.delegate = delegate;
 
-		int titleHeight = StringUtil.getLineHeight(maxTextWidth, getTooltip());
+		int titleHeight = StringUtil.getLineHeight(this.maxTextWidth, getTooltip());
 		this.maxHeight = titleHeight + 110;
 	}
 
@@ -60,27 +58,27 @@ public class FarmLedger extends Ledger {
 
 		y += drawSubheader(graphics, Component.translatable("for.gui.hydr.heat").append(":"), xBody, y);
 		y += 3;
-		y += drawText(graphics, StringUtil.floatAsPercent(delegate.getHydrationTempModifier()), xBody, y);
+		y += drawText(graphics, StringUtil.floatAsPercent(this.delegate.getHydrationTempModifier()), xBody, y);
 		y += 3;
 
 		y += drawSubheader(graphics, Component.translatable("for.gui.hydr.humid").append(":"), xBody, y);
 		y += 3;
-		y += drawText(graphics, StringUtil.floatAsPercent(delegate.getHydrationHumidModifier()), xBody, y);
+		y += drawText(graphics, StringUtil.floatAsPercent(this.delegate.getHydrationHumidModifier()), xBody, y);
 		y += 3;
 
 		y += drawSubheader(graphics, Component.translatable("for.gui.hydr.rainfall").append(":"), xBody, y);
 		y += 3;
-		y += drawText(graphics, StringUtil.floatAsPercent(delegate.getHydrationRainfallModifier()) + " (" + delegate.getDrought() + " d)", xBody, y);
+		y += drawText(graphics, StringUtil.floatAsPercent(this.delegate.getHydrationRainfallModifier()) + " (" + this.delegate.getDrought() + " d)", xBody, y);
 		y += 3;
 
 		y += drawSubheader(graphics, Component.translatable("for.gui.hydr.overall").append(":"), xBody, y);
 		y += 3;
-		drawText(graphics, StringUtil.floatAsPercent(delegate.getHydrationModifier()), xBody, y);
+		drawText(graphics, StringUtil.floatAsPercent(this.delegate.getHydrationModifier()), xBody, y);
 	}
 
 	@Override
 	public Component getTooltip() {
-		float hydrationModifier = delegate.getHydrationModifier();
+		float hydrationModifier = this.delegate.getHydrationModifier();
 		return Component.literal(StringUtil.floatAsPercent(hydrationModifier) + ' ')
 			.append(Component.translatable("for.gui.hydration"));
 	}

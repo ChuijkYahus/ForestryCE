@@ -1,8 +1,18 @@
 package forestry.arboriculture.loot;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import forestry.api.arboriculture.IToolGrafter;
+import forestry.api.arboriculture.genetics.IFruit;
+import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.ITreeSpeciesType;
+import forestry.api.arboriculture.genetics.TreeLifeStage;
+import forestry.api.genetics.IFruitBearer;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
+import forestry.core.utils.SpeciesUtil;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
@@ -19,27 +29,13 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.Vec3;
-
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.event.ForgeEventFactory;
-
-import forestry.api.arboriculture.IToolGrafter;
-import forestry.api.arboriculture.genetics.IFruit;
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.genetics.IFruitBearer;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
-import forestry.core.utils.SpeciesUtil;
-
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class GrafterLootModifier extends LootModifier {
 	public static final Codec<GrafterLootModifier> CODEC = RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, GrafterLootModifier::new));

@@ -1,9 +1,13 @@
 package forestry.arboriculture.worldgen;
 
 import com.google.common.base.Preconditions;
-
-import java.util.function.Function;
-
+import forestry.api.arboriculture.*;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.arboriculture.genetics.Tree;
+import forestry.arboriculture.tiles.TileLeaves;
+import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -17,17 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-import forestry.api.arboriculture.ITreeGenData;
-import forestry.api.arboriculture.ITreeGenerator;
-import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.TreeManager;
-import forestry.api.arboriculture.WoodBlockKind;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.genetics.Tree;
-import forestry.arboriculture.tiles.TileLeaves;
-import forestry.core.tiles.TileUtil;
+import java.util.function.Function;
 
 public class DefaultTreeGenerator implements ITreeGenerator {
 	private final Function<ITreeGenData, Feature<NoneFeatureConfiguration>> factory;
@@ -46,7 +40,7 @@ public class DefaultTreeGenerator implements ITreeGenerator {
 	@Override
 	public boolean setLogBlock(IGenome genome, LevelAccessor level, BlockPos pos, Direction facing) {
 		boolean fireproof = genome.getActiveValue(TreeChromosomes.FIREPROOF);
-		BlockState logBlock = TreeManager.woodAccess.getBlock(woodType, WoodBlockKind.LOG, fireproof);
+		BlockState logBlock = TreeManager.woodAccess.getBlock(this.woodType, WoodBlockKind.LOG, fireproof);
 
 		Direction.Axis axis = facing.getAxis();
 		return level.setBlock(pos, logBlock.setValue(RotatedPillarBlock.AXIS, axis), Block.UPDATE_KNOWN_SHAPE | Block.UPDATE_ALL);

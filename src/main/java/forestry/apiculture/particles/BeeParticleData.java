@@ -10,21 +10,19 @@
  ******************************************************************************/
 package forestry.apiculture.particles;
 
-import javax.annotation.Nonnull;
-import java.util.Locale;
-
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.BlockPos;
-
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import forestry.core.utils.ModUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import forestry.core.utils.ModUtil;
+import javax.annotation.Nonnull;
+import java.util.Locale;
 
 public class BeeParticleData implements ParticleOptions {
 
@@ -68,19 +66,19 @@ public class BeeParticleData implements ParticleOptions {
 	@Nonnull
 	@Override
 	public ParticleType<?> getType() {
-		return type;
+		return this.type;
 	}
 
 	@Override
 	public void writeToNetwork(@Nonnull FriendlyByteBuf buffer) {
-		buffer.writeRegistryId(ForgeRegistries.PARTICLE_TYPES, type);
-		buffer.writeLong(destination.asLong());
-		buffer.writeInt(color);
+		buffer.writeRegistryId(ForgeRegistries.PARTICLE_TYPES, this.type);
+		buffer.writeLong(this.destination.asLong());
+		buffer.writeInt(this.color);
 	}
 
 	@Nonnull
 	@Override
 	public String writeToString() {
-		return String.format(Locale.ROOT, "%s %d %d %d %d", ModUtil.getRegistryName(getType()), destination.getX(), destination.getY(), destination.getZ(), color);
+		return String.format(Locale.ROOT, "%s %d %d %d %d", ModUtil.getRegistryName(getType()), this.destination.getX(), this.destination.getY(), this.destination.getZ(), this.color);
 	}
 }

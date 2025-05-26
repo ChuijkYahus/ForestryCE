@@ -1,8 +1,5 @@
 package forestry.modules.features;
 
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -11,8 +8,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public class FeatureEntityType<T extends Entity> extends ModFeature implements IEntityTypeFeature<T> {
 	protected final Supplier<AttributeSupplier.Builder> attributes;
@@ -30,12 +29,12 @@ public class FeatureEntityType<T extends Entity> extends ModFeature implements I
 
 	@Override
 	public AttributeSupplier.Builder createAttributes() {
-		return attributes.get();
+		return this.attributes.get();
 	}
 
 	@Override
 	public EntityType<T> entityType() {
-		return entityTypeObject.get();
+		return this.entityTypeObject.get();
 	}
 
 	@Override

@@ -1,18 +1,16 @@
 package forestry.core.blocks;
 
+import forestry.core.network.NetworkHandler;
+import forestry.core.network.packets.PacketTileStream;
+import forestry.core.tiles.TileForestry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraftforge.network.PacketDistributor;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.chunk.LevelChunk;
-
-import net.minecraftforge.network.PacketDistributor;
-
-import forestry.core.network.NetworkHandler;
-import forestry.core.network.packets.PacketTileStream;
-import forestry.core.tiles.TileForestry;
 
 // Based on https://github.com/thedarkcolour/ExDeorum/blob/1.20.4/src/main/java/thedarkcolour/exdeorum/network/VisualUpdateTracker.java
 public class TileStreamUpdateTracker {

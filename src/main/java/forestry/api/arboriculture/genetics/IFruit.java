@@ -1,13 +1,11 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.arboriculture.genetics;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.api.core.IProduct;
+import forestry.api.core.IProductProducer;
+import forestry.api.core.ISpecialtyProducer;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.IRegistryAlleleValue;
+import forestry.api.genetics.alleles.TreeChromosomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -19,12 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 
-import forestry.api.core.IProduct;
-import forestry.api.core.IProductProducer;
-import forestry.api.core.ISpecialtyProducer;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.IRegistryAlleleValue;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Provides all information that is needed to spawn a fruit leaves / pod block in the world.

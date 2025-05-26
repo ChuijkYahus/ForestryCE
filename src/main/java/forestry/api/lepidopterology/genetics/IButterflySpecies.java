@@ -1,22 +1,14 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.lepidopterology.genetics;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
 
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ISpecies;
-import forestry.api.core.Product;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public interface IButterflySpecies extends ISpecies<IButterfly> {
 	@Override

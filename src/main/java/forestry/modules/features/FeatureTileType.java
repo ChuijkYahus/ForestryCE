@@ -1,8 +1,5 @@
 package forestry.modules.features;
 
-import java.util.Collection;
-import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -10,8 +7,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Collection;
+import java.util.function.Supplier;
 
 public class FeatureTileType<T extends BlockEntity> extends ModFeature implements ITileTypeFeature<T> {
 	private final RegistryObject<BlockEntityType<T>> blockEntityObject;
@@ -28,6 +27,6 @@ public class FeatureTileType<T extends BlockEntity> extends ModFeature implement
 
 	@Override
 	public BlockEntityType<T> tileType() {
-		return blockEntityObject.get();
+		return this.blockEntityObject.get();
 	}
 }

@@ -10,9 +10,9 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
 
 public class InventoryAdapterTile<T extends BlockEntity> extends InventoryAdapterRestricted {
 	protected final T tile;
@@ -29,7 +29,7 @@ public class InventoryAdapterTile<T extends BlockEntity> extends InventoryAdapte
 	@Override
 	public void setChanged() {
 		super.setChanged();
-		tile.setChanged();
+        this.tile.setChanged();
 	}
 
 	@Override

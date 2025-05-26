@@ -10,18 +10,16 @@
  ******************************************************************************/
 package forestry.core.gui.ledgers;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.network.chat.Component;
-
 import com.mojang.authlib.GameProfile;
-
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
 import forestry.core.owner.IOwnedTile;
 import forestry.core.utils.PlayerUtil;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.network.chat.Component;
+
+import javax.annotation.Nullable;
 
 /**
  * Ledger displaying ownership information
@@ -61,6 +59,6 @@ public class OwnerLedger extends Ledger {
 	@Override
 	public Component getTooltip() {
 		return Component.translatable("for.gui.owner")
-				.append(": " + PlayerUtil.getOwnerName(this.owner));
+			.append(": " + PlayerUtil.getOwnerName(this.owner));
 	}
 }

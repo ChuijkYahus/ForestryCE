@@ -1,9 +1,9 @@
 package forestry.api.plugin;
 
-import java.util.function.Consumer;
-
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
+
+import java.util.function.Consumer;
 
 /**
  * Builder for a taxon that allows defining subtaxa and adding species to a taxon.

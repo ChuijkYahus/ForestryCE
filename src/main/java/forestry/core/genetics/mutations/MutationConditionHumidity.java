@@ -10,17 +10,15 @@
  ******************************************************************************/
 package forestry.core.genetics.mutations;
 
+import forestry.api.climate.IClimateProvider;
+import forestry.api.core.HumidityType;
+import forestry.api.genetics.ClimateHelper;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.IMutation;
+import forestry.api.genetics.IMutationCondition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
-
-import forestry.api.climate.IClimateProvider;
-import forestry.api.genetics.ClimateHelper;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IGenome;
-
-import forestry.api.core.HumidityType;
-import forestry.api.genetics.IMutationCondition;
 
 public class MutationConditionHumidity implements IMutationCondition {
 	private final HumidityType minHumidity;
@@ -35,7 +33,7 @@ public class MutationConditionHumidity implements IMutationCondition {
 	public float modifyChance(Level level, BlockPos pos, IMutation<?> mutation, IGenome genome0, IGenome genome1, IClimateProvider climate, float currentChance) {
 		HumidityType biomeHumidity = climate.humidity();
 
-		if (biomeHumidity.ordinal() < minHumidity.ordinal() || biomeHumidity.ordinal() > maxHumidity.ordinal()) {
+		if (biomeHumidity.ordinal() < this.minHumidity.ordinal() || biomeHumidity.ordinal() > this.maxHumidity.ordinal()) {
 			return 0f;
 		}
 		return currentChance;
@@ -43,10 +41,10 @@ public class MutationConditionHumidity implements IMutationCondition {
 
 	@Override
 	public Component getDescription() {
-		Component minHumidityString = ClimateHelper.toDisplay(minHumidity);
+		Component minHumidityString = ClimateHelper.toDisplay(this.minHumidity);
 
-		if (minHumidity != maxHumidity) {
-			Component maxHumidityString = ClimateHelper.toDisplay(maxHumidity);
+		if (this.minHumidity != this.maxHumidity) {
+			Component maxHumidityString = ClimateHelper.toDisplay(this.maxHumidity);
 			return Component.translatable("for.mutation.condition.humidity.range", minHumidityString, maxHumidityString);
 		} else {
 			return Component.translatable("for.mutation.condition.humidity.single", minHumidityString);

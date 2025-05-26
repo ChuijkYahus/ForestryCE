@@ -10,6 +10,12 @@
  ******************************************************************************/
 package forestry.lepidopterology.blocks;
 
+import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
+import forestry.api.lepidopterology.genetics.IButterfly;
+import forestry.core.tiles.TileUtil;
+import forestry.core.utils.SpeciesUtil;
+import forestry.lepidopterology.items.ItemButterflyGE;
+import forestry.lepidopterology.tiles.TileCocoon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -29,13 +35,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
-import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.core.tiles.TileUtil;
-import forestry.core.utils.SpeciesUtil;
-import forestry.lepidopterology.items.ItemButterflyGE;
-import forestry.lepidopterology.tiles.TileCocoon;
 
 public class BlockCocoon extends Block implements EntityBlock {
 	public static final VoxelShape BOUNDING_BOX = Block.box(5f, 5f, 5f, 11f, 16F, 11f);

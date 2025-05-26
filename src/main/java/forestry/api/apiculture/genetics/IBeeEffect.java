@@ -1,13 +1,4 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.apiculture.genetics;
-
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
@@ -15,6 +6,9 @@ import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import forestry.core.render.ParticleRender;
+import net.minecraft.core.BlockPos;
+
+import java.util.List;
 
 public interface IBeeEffect extends IEffect, IRegistryAlleleValue {
 	@Override

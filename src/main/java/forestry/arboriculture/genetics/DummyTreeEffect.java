@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.arboriculture.genetics;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
-
 import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 
 public class DummyTreeEffect implements ITreeEffect {
 	private final boolean dominant;

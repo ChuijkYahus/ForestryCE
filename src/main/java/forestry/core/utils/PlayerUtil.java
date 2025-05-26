@@ -10,17 +10,15 @@
  ******************************************************************************/
 package forestry.core.utils;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
+import com.mojang.authlib.GameProfile;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-
-import com.mojang.authlib.GameProfile;
-
 import net.minecraftforge.common.util.FakePlayerFactory;
+
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 public abstract class PlayerUtil {
 	//TODO: use null everywhere instead of an emptyUUID

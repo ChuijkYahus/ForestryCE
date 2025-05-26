@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.apiculture;
 
+import forestry.api.apiculture.IBeekeepingLogic;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+
 import java.util.Collections;
 import java.util.List;
-
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.BlockPos;
-
-import forestry.api.apiculture.IBeekeepingLogic;
 
 public enum FakeBeekeepingLogic implements IBeekeepingLogic {
 	INSTANCE;

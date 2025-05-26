@@ -1,9 +1,5 @@
 package forestry.plugin.client;
 
-import java.util.function.Consumer;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
@@ -12,6 +8,9 @@ import forestry.api.client.arboriculture.ForestryLeafSprites;
 import forestry.api.client.plugin.IClientRegistration;
 import forestry.arboriculture.client.BiomeLeafTint;
 import forestry.arboriculture.client.FixedLeafTint;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.function.Consumer;
 
 public class DefaultForestryClientRegistration implements Consumer<IClientRegistration> {
 	@Override

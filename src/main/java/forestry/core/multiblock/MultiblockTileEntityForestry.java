@@ -10,8 +10,15 @@
  ******************************************************************************/
 package forestry.core.multiblock;
 
-import javax.annotation.Nullable;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.core.ILocationProvider;
+import forestry.api.core.ISpectacleBlock;
+import forestry.api.multiblock.IMultiblockLogic;
+import forestry.api.multiblock.MultiblockTileEntityBase;
+import forestry.core.config.Constants;
+import forestry.core.inventory.FakeInventoryAdapter;
+import forestry.core.inventory.IInventoryAdapter;
+import forestry.core.tiles.IFilterSlotDelegate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -24,19 +31,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import com.mojang.authlib.GameProfile;
-
 import net.minecraftforge.network.NetworkHooks;
 
-import forestry.api.core.ILocationProvider;
-import forestry.api.core.ISpectacleBlock;
-import forestry.api.multiblock.IMultiblockLogic;
-import forestry.api.multiblock.MultiblockTileEntityBase;
-import forestry.core.config.Constants;
-import forestry.core.inventory.FakeInventoryAdapter;
-import forestry.core.inventory.IInventoryAdapter;
-import forestry.core.tiles.IFilterSlotDelegate;
+import javax.annotation.Nullable;
 
 public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> extends MultiblockTileEntityBase<T> implements WorldlyContainer, IFilterSlotDelegate, ILocationProvider, MenuProvider, ISpectacleBlock {
 	@Nullable
@@ -71,7 +68,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 
 		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
-			NbtUtils.writeGameProfile(nbt, owner);
+			NbtUtils.writeGameProfile(nbt, this.owner);
 			data.put("owner", nbt);
 		}
 
@@ -174,7 +171,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 	/* ILocatable */
 	@Override
 	public final @Nullable Level getWorldObj() {
-		return level;
+		return this.level;
 	}
 
 	/* IMultiblockComponent */
@@ -182,7 +179,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 	@Override
 	@Nullable
 	public final GameProfile getOwner() {
-		return owner;
+		return this.owner;
 	}
 
 	public final void setOwner(GameProfile owner) {

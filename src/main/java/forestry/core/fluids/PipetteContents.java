@@ -10,16 +10,15 @@
  ******************************************************************************/
 package forestry.core.fluids;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class PipetteContents {
 	private final FluidStack contents;
@@ -38,14 +37,14 @@ public class PipetteContents {
 	}
 
 	public FluidStack getContents() {
-		return contents;
+		return this.contents;
 	}
 
 	public boolean isFull() {
-		return contents.getAmount() >= FluidType.BUCKET_VOLUME;
+		return this.contents.getAmount() >= FluidType.BUCKET_VOLUME;
 	}
 
 	public void addTooltip(List<Component> list) {
-		list.add(contents.getDisplayName().copy().append(" (" + contents.getAmount() + " mb)").withStyle(ChatFormatting.GRAY));
+		list.add(this.contents.getDisplayName().copy().append(" (" + this.contents.getAmount() + " mb)").withStyle(ChatFormatting.GRAY));
 	}
 }

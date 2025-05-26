@@ -1,11 +1,11 @@
 package forestry.api.genetics.pollen;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelAccessor;
+
+import javax.annotation.Nullable;
 
 /**
  * @param <P> The type of pollen

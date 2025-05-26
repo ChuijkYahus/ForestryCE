@@ -1,9 +1,15 @@
 package forestry.worktable.compat;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Optional;
-
+import forestry.core.utils.JeiUtil;
+import forestry.core.utils.RecipeUtils;
+import forestry.worktable.features.WorktableMenus;
+import forestry.worktable.recipes.MemorizedRecipe;
+import forestry.worktable.screens.WorktableMenu;
+import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.transfer.IRecipeTransferError;
+import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -12,17 +18,9 @@ import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 
-import forestry.core.utils.JeiUtil;
-import forestry.core.utils.RecipeUtils;
-import forestry.worktable.features.WorktableMenus;
-import forestry.worktable.recipes.MemorizedRecipe;
-import forestry.worktable.screens.WorktableMenu;
-
-import mezz.jei.api.constants.RecipeTypes;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.transfer.IRecipeTransferError;
-import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Optional;
 
 class WorktableRecipeTransferHandler implements IRecipeTransferHandler<WorktableMenu, CraftingRecipe> {
 	@Override

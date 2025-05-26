@@ -3,7 +3,6 @@ package forestry.apiimpl;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.hives.IHiveManager;
 import forestry.api.arboriculture.ITreeManager;
-import forestry.arboriculture.TreeManager;
 import forestry.api.circuits.ICircuitManager;
 import forestry.api.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
@@ -14,6 +13,7 @@ import forestry.api.genetics.filter.IFilterManager;
 import forestry.api.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
 import forestry.apiculture.hives.HiveManager;
+import forestry.arboriculture.TreeManager;
 import forestry.core.circuits.CircuitManager;
 import forestry.core.climate.ForestryClimateManager;
 import forestry.core.errors.ErrorManager;
@@ -21,7 +21,6 @@ import forestry.core.genetics.alleles.AlleleManager;
 import forestry.farming.FarmingManager;
 import forestry.modules.ForestryModuleManager;
 import forestry.sorting.FilterManager;
-
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 

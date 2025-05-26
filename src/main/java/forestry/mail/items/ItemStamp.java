@@ -10,12 +10,11 @@
  ******************************************************************************/
 package forestry.mail.items;
 
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.core.ItemGroups;
 import forestry.api.mail.EnumPostage;
 import forestry.api.mail.IStamps;
 import forestry.core.items.ItemOverlay;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemStamp extends ItemOverlay implements IStamps {
 	private final EnumStampDefinition def;
@@ -27,6 +26,6 @@ public class ItemStamp extends ItemOverlay implements IStamps {
 
 	@Override
 	public EnumPostage getPostage(ItemStack itemstack) {
-		return def.getPostage();
+		return this.def.getPostage();
 	}
 }

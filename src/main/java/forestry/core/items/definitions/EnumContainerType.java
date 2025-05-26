@@ -10,9 +10,9 @@
  ******************************************************************************/
 package forestry.core.items.definitions;
 
-import java.util.Locale;
-
 import forestry.api.core.IItemSubtype;
+
+import java.util.Locale;
 
 public enum EnumContainerType implements IItemSubtype {
 	CAN,
@@ -27,6 +27,6 @@ public enum EnumContainerType implements IItemSubtype {
 
 	@Override
 	public String getSerializedName() {
-		return name;
+		return this.name;
 	}
 }

@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ICircuitLayout;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.circuits.ContainerSolderingIron;
 import forestry.core.network.PacketIdClient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
 public record PacketGuiLayoutSelect(String layoutUid) implements IForestryPacketClient {
 	@Override
@@ -28,7 +27,7 @@ public record PacketGuiLayoutSelect(String layoutUid) implements IForestryPacket
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeUtf(layoutUid);
+		buffer.writeUtf(this.layoutUid);
 	}
 
 	public static PacketGuiLayoutSelect decode(FriendlyByteBuf buffer) {

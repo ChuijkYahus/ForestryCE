@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.apiculture.multiblock;
 
+import forestry.apiculture.blocks.BlockAlvearyType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
-
-import forestry.apiculture.blocks.BlockAlvearyType;
 
 public class TileAlvearyFan extends TileAlvearyClimatiser {
 	public TileAlvearyFan(BlockPos pos, BlockState state) {

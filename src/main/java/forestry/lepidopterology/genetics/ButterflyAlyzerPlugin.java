@@ -10,26 +10,13 @@
  ******************************************************************************/
 package forestry.lepidopterology.genetics;
 
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.core.IProduct;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.ClimateHelper;
 import forestry.api.genetics.IAlyzerPlugin;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.IIntegerAllele;
-import forestry.api.genetics.alleles.IValueAllele;
+import forestry.api.genetics.alleles.*;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
@@ -40,6 +27,14 @@ import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.WidgetManager;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
 
 public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 	INSTANCE;
@@ -80,8 +75,8 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 
 				textLayout.drawLine(graphics, ButterflyChromosomes.FERTILITY.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 				AllelePair<IIntegerAllele> fertilityPair = genome.getAllelePair(ButterflyChromosomes.FERTILITY);
-				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.active().value(), GuiAlyzer.COLUMN_1, guiAlyzer.getColorCoding(fertilityPair.active().dominant()), 8);
-				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.inactive().value(), GuiAlyzer.COLUMN_2, guiAlyzer.getColorCoding(fertilityPair.inactive().dominant()), 8);
+				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.active().value(), GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(fertilityPair.active().dominant()), 8);
+				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.inactive().value(), GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(fertilityPair.inactive().dominant()), 8);
 				textLayout.newLine();
 
 				guiAlyzer.drawChromosomeRow(graphics, butterfly, ButterflyChromosomes.FLOWER_TYPE);
@@ -114,8 +109,8 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				textLayout.newLine();
 
 				guiAlyzer.drawRow(graphics, ButterflyChromosomes.TEMPERATURE_TOLERANCE.getChromosomeDisplayName(),
-						ClimateHelper.toDisplay(primaryAllele.getTemperature()),
-						ClimateHelper.toDisplay(secondaryAllele.getTemperature()), individual, ButterflyChromosomes.SPECIES);
+					ClimateHelper.toDisplay(primaryAllele.getTemperature()),
+					ClimateHelper.toDisplay(secondaryAllele.getTemperature()), individual, ButterflyChromosomes.SPECIES);
 				textLayout.newLine();
 
 				Component indentedTolerance = Component.literal("  ").append(Component.translatable("for.gui.tolerance"));
@@ -129,8 +124,8 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				textLayout.newLine();
 
 				guiAlyzer.drawRow(graphics, ButterflyChromosomes.HUMIDITY_TOLERANCE.getChromosomeDisplayName(),
-						ClimateHelper.toDisplay(primaryAllele.getHumidity()),
-						ClimateHelper.toDisplay(secondaryAllele.getHumidity()), individual, ButterflyChromosomes.SPECIES);
+					ClimateHelper.toDisplay(primaryAllele.getHumidity()),
+					ClimateHelper.toDisplay(secondaryAllele.getHumidity()), individual, ButterflyChromosomes.SPECIES);
 				textLayout.newLine();
 
 				IValueAllele<ToleranceType> humidToleranceActive = genome.getActiveAllele(ButterflyChromosomes.HUMIDITY_TOLERANCE);
@@ -160,13 +155,13 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				}
 
 				textLayout.drawLine(graphics, Component.translatable("for.gui.diurnal"), GuiAlyzer.COLUMN_0);
-				textLayout.drawLine(graphics, diurnal0, GuiAlyzer.COLUMN_1, guiAlyzer.getColorCoding(false));
-				textLayout.drawLine(graphics, diurnal1, GuiAlyzer.COLUMN_2, guiAlyzer.getColorCoding(false));
+				textLayout.drawLine(graphics, diurnal0, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
+				textLayout.drawLine(graphics, diurnal1, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
 				textLayout.newLine();
 
 				textLayout.drawLine(graphics, Component.translatable("for.gui.nocturnal"), GuiAlyzer.COLUMN_0);
-				textLayout.drawLine(graphics, nocturnal0, GuiAlyzer.COLUMN_1, guiAlyzer.getColorCoding(false));
-				textLayout.drawLine(graphics, nocturnal1, GuiAlyzer.COLUMN_2, guiAlyzer.getColorCoding(false));
+				textLayout.drawLine(graphics, nocturnal0, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
+				textLayout.drawLine(graphics, nocturnal1, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
 				textLayout.newLine();
 
 				Component primary = genome.getActiveValue(ButterflyChromosomes.TOLERATES_RAIN) ? yes : no;

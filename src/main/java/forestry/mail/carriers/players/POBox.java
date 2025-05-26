@@ -11,11 +11,12 @@
 package forestry.mail.carriers.players;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
+import forestry.api.mail.ILetter;
+import forestry.api.mail.IMailAddress;
+import forestry.core.inventory.InventoryAdapter;
+import forestry.core.utils.InventoryUtil;
 import forestry.mail.IWatchable;
 import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
@@ -26,11 +27,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.mail.ILetter;
-import forestry.api.mail.IMailAddress;
-import forestry.core.inventory.InventoryAdapter;
-import forestry.core.utils.InventoryUtil;
-
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,7 +58,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 			this.address = new MailAddress(tag.getCompound("address"));
 		}
 
-		letters.read(tag);
+        this.letters.read(tag);
 	}
 
 	public CompoundTag write(CompoundTag compoundNBT) {
@@ -70,7 +67,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 			this.address.write(nbt);
 			compoundNBT.put("address", nbt);
 		}
-		letters.write(compoundNBT);
+        this.letters.write(compoundNBT);
 		return compoundNBT;
 	}
 
@@ -87,17 +84,17 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 		this.setDirty();
 
-		return InventoryUtil.tryAddStack(letters, letterstack, true);
+		return InventoryUtil.tryAddStack(this.letters, letterstack, true);
 	}
 
 	public POBoxInfo getPOBoxInfo() {
 		int playerLetters = 0;
 		int tradeLetters = 0;
-		for (int i = 0; i < letters.getContainerSize(); i++) {
-			if (letters.getItem(i).isEmpty()) {
+		for (int i = 0; i < this.letters.getContainerSize(); i++) {
+			if (this.letters.getItem(i).isEmpty()) {
 				continue;
 			}
-			CompoundTag tagCompound = letters.getItem(i).getTag();
+			CompoundTag tagCompound = this.letters.getItem(i).getTag();
 			if (tagCompound != null) {
 				ILetter letter = new Letter(tagCompound);
 				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.get())) {
@@ -115,49 +112,49 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 	@Override
 	public boolean isEmpty() {
-		return letters.isEmpty();
+		return this.letters.isEmpty();
 	}
 
 	@Override
 	public void setDirty() {
-		updateWatchers.forEach(Watcher::onWatchableUpdate);
-		letters.setChanged();
+        this.updateWatchers.forEach(Watcher::onWatchableUpdate);
+        this.letters.setChanged();
 	}
 
 	@Override
 	public boolean registerUpdateWatcher(Watcher updateWatcher) {
-		return updateWatchers.add(updateWatcher);
+		return this.updateWatchers.add(updateWatcher);
 	}
 
 	@Override
 	public boolean unregisterUpdateWatcher(Watcher updateWatcher) {
-		return updateWatchers.remove(updateWatcher);
+		return this.updateWatchers.remove(updateWatcher);
 	}
 
 	@Override
 	public void setItem(int var1, ItemStack var2) {
 		this.setDirty();
-		letters.setItem(var1, var2);
+        this.letters.setItem(var1, var2);
 	}
 
 	@Override
 	public int getContainerSize() {
-		return letters.getContainerSize();
+		return this.letters.getContainerSize();
 	}
 
 	@Override
 	public ItemStack getItem(int var1) {
-		return letters.getItem(var1);
+		return this.letters.getItem(var1);
 	}
 
 	@Override
 	public ItemStack removeItem(int var1, int var2) {
-		return letters.removeItem(var1, var2);
+		return this.letters.removeItem(var1, var2);
 	}
 
 	@Override
 	public ItemStack removeItemNoUpdate(int index) {
-		return letters.removeItemNoUpdate(index);
+		return this.letters.removeItemNoUpdate(index);
 	}
 
 	//	@Override
@@ -167,7 +164,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 	@Override
 	public int getMaxStackSize() {
-		return letters.getMaxStackSize();
+		return this.letters.getMaxStackSize();
 	}
 
 	@Override
@@ -177,7 +174,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 	@Override
 	public boolean stillValid(Player var1) {
-		return letters.stillValid(var1);
+		return this.letters.stillValid(var1);
 	}
 
 	@Override
@@ -190,7 +187,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 	@Override
 	public boolean canPlaceItem(int i, ItemStack itemstack) {
-		return letters.canPlaceItem(i, itemstack);
+		return this.letters.canPlaceItem(i, itemstack);
 	}
 
 	@Override

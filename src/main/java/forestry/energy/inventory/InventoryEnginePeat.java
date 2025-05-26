@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.energy.inventory;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.fuels.FuelManager;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.utils.SlotUtil;
 import forestry.energy.tiles.PeatEngineBlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
 
 public class InventoryEnginePeat extends InventoryAdapterTile<PeatEngineBlockEntity> {
 	public static final short SLOT_FUEL = 0;

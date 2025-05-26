@@ -10,15 +10,6 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
-
 import forestry.core.gui.ContainerTile;
 import forestry.core.gui.slots.SlotOutput;
 import forestry.core.tiles.TileUtil;
@@ -29,6 +20,14 @@ import forestry.mail.carriers.players.POBoxInfo;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
 import forestry.mail.tiles.TileMailbox;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
+
+import javax.annotation.Nullable;
 
 public class ContainerMailbox extends ContainerTile<TileMailbox> {
 
@@ -65,8 +64,8 @@ public class ContainerMailbox extends ContainerTile<TileMailbox> {
 		super.clicked(slotId, button, clickTypeIn, player);
 
 		if (SlotUtil.isSlotInRange(slotId, SLOT_LETTERS, SLOT_LETTERS_COUNT)) {
-			if (!player.level().isClientSide && mailInventory != null) {
-				POBoxInfo info = mailInventory.getPOBoxInfo();
+			if (!player.level().isClientSide && this.mailInventory != null) {
+				POBoxInfo info = this.mailInventory.getPOBoxInfo();
 				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(info, true), (ServerPlayer) player);
 			}
 		}

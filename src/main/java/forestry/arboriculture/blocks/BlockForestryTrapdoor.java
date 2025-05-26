@@ -1,14 +1,13 @@
 package forestry.arboriculture.blocks;
 
-import net.minecraft.world.level.block.TrapDoorBlock;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.material.MapColor;
-
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.IWoodTyped;
 import forestry.core.utils.BlockUtil;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 public class BlockForestryTrapdoor extends TrapDoorBlock implements IWoodTyped {
 	private final ForestryWoodType type;

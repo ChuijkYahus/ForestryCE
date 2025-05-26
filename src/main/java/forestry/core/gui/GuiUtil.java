@@ -10,20 +10,18 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import java.text.NumberFormat;
-import java.util.Collection;
-import java.util.Optional;
-
+import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.vertex.PoseStack;
+import forestry.api.core.tooltips.IToolTipProvider;
+import forestry.api.core.tooltips.ToolTip;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 
-import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import forestry.api.core.tooltips.IToolTipProvider;
-import forestry.api.core.tooltips.ToolTip;
+import java.text.NumberFormat;
+import java.util.Collection;
+import java.util.Optional;
 
 // todo this stuff should probably be yeeted
 public class GuiUtil {

@@ -11,10 +11,20 @@
 package forestry.storage.items;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.api.storage.BackpackStowEvent;
+import forestry.api.storage.EnumBackpackType;
+import forestry.api.storage.IBackpackDefinition;
+import forestry.core.config.ForestryConfig;
+import forestry.core.inventory.ItemHandlerInventoryManipulator;
+import forestry.core.inventory.ItemInventory;
+import forestry.core.inventory.StandardStackFilters;
+import forestry.core.items.ItemWithGui;
+import forestry.core.items.definitions.IColoredItem;
+import forestry.core.tiles.TileUtil;
+import forestry.core.utils.NetworkUtil;
+import forestry.storage.BackpackMode;
+import forestry.storage.gui.ContainerBackpack;
+import forestry.storage.inventory.ItemInventoryBackpack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,26 +43,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.items.IItemHandler;
 
-import forestry.api.storage.BackpackStowEvent;
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
-import forestry.core.config.ForestryConfig;
-import forestry.core.inventory.ItemHandlerInventoryManipulator;
-import forestry.core.inventory.ItemInventory;
-import forestry.core.inventory.StandardStackFilters;
-import forestry.core.items.ItemWithGui;
-import forestry.core.items.definitions.IColoredItem;
-import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
-import forestry.storage.BackpackMode;
-import forestry.storage.gui.ContainerBackpack;
-import forestry.storage.inventory.ItemInventoryBackpack;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	public static final int SLOTS_BACKPACK_DEFAULT = 15;
@@ -69,12 +66,12 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	}
 
 	public IBackpackDefinition getDefinition() {
-		return definition;
+		return this.definition;
 	}
 
 	@Override
 	protected void writeContainerData(ServerPlayer player, ItemStack stack, FriendlyByteBuf buffer) {
-		NetworkUtil.writeEnum(buffer, type == EnumBackpackType.WOVEN ? ContainerBackpack.Size.T2 : ContainerBackpack.Size.DEFAULT);
+		NetworkUtil.writeEnum(buffer, this.type == EnumBackpackType.WOVEN ? ContainerBackpack.Size.T2 : ContainerBackpack.Size.DEFAULT);
 		buffer.writeItem(stack);
 	}
 
@@ -185,11 +182,11 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 
 	private void receiveFromChest(ItemInventoryBackpack backpackInventory, IItemHandler target) {
 		ItemHandlerInventoryManipulator manipulator = new ItemHandlerInventoryManipulator(target);
-		manipulator.transferStacks(backpackInventory.getItemHandler(), definition.getFilter());
+		manipulator.transferStacks(backpackInventory.getItemHandler(), this.definition.getFilter());
 	}
 
 	public int getBackpackSize() {
-		return getSlotsForType(type);
+		return getSlotsForType(this.type);
 	}
 
 	@Override
@@ -209,15 +206,15 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 
 	@Override
 	public Component getName(ItemStack itemstack) {
-		return definition.getName(itemstack);
+		return this.definition.getName(itemstack);
 	}
 
 	@Override
 	public int getColorFromItemStack(ItemStack itemstack, int layer) {
 		if (layer == 0) {
-			return definition.getPrimaryColour();
+			return this.definition.getPrimaryColour();
 		} else if (layer == 1) {
-			return definition.getSecondaryColour();
+			return this.definition.getSecondaryColour();
 		} else {
 			return 0xffffff;
 		}

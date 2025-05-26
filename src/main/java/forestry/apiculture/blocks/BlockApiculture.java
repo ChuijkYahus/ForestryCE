@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.apiculture.blocks;
 
+import forestry.core.blocks.BlockBase;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-
-import forestry.core.blocks.BlockBase;
 
 public class BlockApiculture extends BlockBase<BlockTypeApiculture> {
 	public BlockApiculture(BlockTypeApiculture type) {

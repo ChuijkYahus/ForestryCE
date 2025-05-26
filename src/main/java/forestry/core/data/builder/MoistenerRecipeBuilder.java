@@ -1,19 +1,16 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
-
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
-
-import forestry.api.recipes.IMoistenerRecipe;
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
 
 public class MoistenerRecipeBuilder {
 
@@ -37,7 +34,7 @@ public class MoistenerRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, timePerItem, resource, product));
+		consumer.accept(new Result(id, this.timePerItem, this.resource, this.product));
 	}
 
 	private static class Result implements FinishedRecipe {
@@ -55,14 +52,14 @@ public class MoistenerRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.addProperty("time", timePerItem);
-			json.add("resource", resource.toJson());
-			json.add("product", RecipeSerializers.item(product));
+			json.addProperty("time", this.timePerItem);
+			json.add("resource", this.resource.toJson());
+			json.add("product", RecipeSerializers.item(this.product));
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

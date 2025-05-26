@@ -10,12 +10,6 @@
  ******************************************************************************/
 package forestry.core.circuits;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-
 import forestry.api.circuits.ICircuitLayout;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.api.modules.IForestryPacketServer;
@@ -28,6 +22,11 @@ import forestry.core.inventory.ItemInventorySolderingIron;
 import forestry.core.network.packets.PacketGuiLayoutSelect;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 
 public class ContainerSolderingIron extends ContainerItemInventory<ItemInventorySolderingIron> implements IGuiSelectable {
 	public static ContainerSolderingIron fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
@@ -54,7 +53,7 @@ public class ContainerSolderingIron extends ContainerItemInventory<ItemInventory
 	}
 
 	public ICircuitLayout getLayout() {
-		return inventory.getLayout();
+		return this.inventory.getLayout();
 	}
 
 	public static void advanceSelection(int index) {
@@ -74,17 +73,17 @@ public class ContainerSolderingIron extends ContainerItemInventory<ItemInventory
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
 		if (secondary == 0) {
 			if (primary == 0) {
-				inventory.advanceLayout();
+                this.inventory.advanceLayout();
 			}
 		} else if (primary == 0) {
-			inventory.regressLayout();
+            this.inventory.regressLayout();
 		}
 
-		IForestryPacketClient packetResponse = new PacketGuiLayoutSelect(inventory.getLayout().getId());
+		IForestryPacketClient packetResponse = new PacketGuiLayoutSelect(this.inventory.getLayout().getId());
 		NetworkUtil.sendToPlayer(packetResponse, player);
 	}
 
 	public void setLayout(ICircuitLayout layout) {
-		inventory.setLayout(layout);
+        this.inventory.setLayout(layout);
 	}
 }

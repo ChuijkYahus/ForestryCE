@@ -10,21 +10,20 @@
  ******************************************************************************/
 package forestry.core.tiles;
 
-import javax.annotation.Nullable;
-
+import forestry.api.core.INbtReadable;
+import forestry.api.core.INbtWritable;
+import forestry.api.genetics.ISpecies;
+import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.core.network.IStreamable;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.core.INbtReadable;
-import forestry.api.core.INbtWritable;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.core.network.IStreamable;
-import forestry.core.utils.NetworkUtil;
+import javax.annotation.Nullable;
 
 public class EscritoireGame implements INbtWritable, INbtReadable, IStreamable {
 	private static final RandomSource rand = RandomSource.create();
@@ -55,60 +54,60 @@ public class EscritoireGame implements INbtWritable, INbtReadable, IStreamable {
 	}
 
 	public long getLastUpdate() {
-		return lastUpdate;
+		return this.lastUpdate;
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag compoundNBT) {
-		compoundNBT.putInt("bountyLevel", bountyLevel);
-		compoundNBT.putLong("lastUpdate", lastUpdate);
-		gameBoard.write(compoundNBT);
+		compoundNBT.putInt("bountyLevel", this.bountyLevel);
+		compoundNBT.putLong("lastUpdate", this.lastUpdate);
+        this.gameBoard.write(compoundNBT);
 
-		compoundNBT.putInt("Status", status.ordinal());
+		compoundNBT.putInt("Status", this.status.ordinal());
 		return compoundNBT;
 	}
 
 	@Override
 	public void read(CompoundTag nbt) {
-		bountyLevel = nbt.getInt("bountyLevel");
-		lastUpdate = nbt.getLong("lastUpdate");
-		gameBoard = new EscritoireGameBoard(nbt);
+        this.bountyLevel = nbt.getInt("bountyLevel");
+        this.lastUpdate = nbt.getLong("lastUpdate");
+        this.gameBoard = new EscritoireGameBoard(nbt);
 
 		if (nbt.contains("Status")) {
 			int statusOrdinal = nbt.getInt("Status");
-			status = Status.values()[statusOrdinal];
+            this.status = Status.values()[statusOrdinal];
 		}
 
-		lastUpdate = System.currentTimeMillis();
+        this.lastUpdate = System.currentTimeMillis();
 	}
 
 	/* NETWORK */
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		data.writeInt(bountyLevel);
-		gameBoard.writeData(data);
-		NetworkUtil.writeEnum(data, status);
+		data.writeInt(this.bountyLevel);
+        this.gameBoard.writeData(data);
+		NetworkUtil.writeEnum(data, this.status);
 	}
 
 	@Override
 	public void readData(FriendlyByteBuf data) {
-		bountyLevel = data.readInt();
-		gameBoard.readData(data);
-		status = NetworkUtil.readEnum(data, Status.VALUES);
+        this.bountyLevel = data.readInt();
+        this.gameBoard.readData(data);
+        this.status = NetworkUtil.readEnum(data, Status.VALUES);
 	}
 
 	/* INTERACTION */
 	public void initialize(ItemStack specimen) {
 		reset();
-		if (gameBoard.initialize(specimen)) {
-			status = Status.PLAYING;
-			bountyLevel = BOUNTY_MAX;
-			lastUpdate = System.currentTimeMillis();
+		if (this.gameBoard.initialize(specimen)) {
+            this.status = Status.PLAYING;
+            this.bountyLevel = BOUNTY_MAX;
+            this.lastUpdate = System.currentTimeMillis();
 		}
 	}
 
 	public void probe(ItemStack specimen, Container inventory, int startSlot, int slotCount) {
-		if (status != Status.PLAYING) {
+		if (this.status != Status.PLAYING) {
 			return;
 		}
 
@@ -150,15 +149,15 @@ public class EscritoireGame implements INbtWritable, INbtReadable, IStreamable {
 			return;
 		}
 
-		EscritoireGameToken token = gameBoard.getToken(tokenIndex);
+		EscritoireGameToken token = this.gameBoard.getToken(tokenIndex);
 		if (token != null) {
-			this.status = gameBoard.choose(token);
+			this.status = this.gameBoard.choose(token);
 			this.lastUpdate = System.currentTimeMillis();
 		}
 	}
 
 	public int getBountyLevel() {
-		return bountyLevel;
+		return this.bountyLevel;
 	}
 
 	/* RETRIEVAL */

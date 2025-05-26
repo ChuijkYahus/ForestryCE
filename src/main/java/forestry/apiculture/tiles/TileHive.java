@@ -11,42 +11,9 @@
 package forestry.apiculture.tiles;
 
 import com.google.common.base.Predicate;
-
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.EnderMan;
-import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.monster.ZombifiedPiglin;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-
 import com.mojang.authlib.GameProfile;
-
 import forestry.api.IForestryApi;
-import forestry.api.apiculture.BeeManager;
-import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.IBeeHousingInventory;
-import forestry.api.apiculture.IBeeListener;
-import forestry.api.apiculture.IBeeModifier;
-import forestry.api.apiculture.IBeekeepingLogic;
+import forestry.api.apiculture.*;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveTile;
@@ -69,8 +36,31 @@ import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
+
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IBeeHousing, ISpectacleBlock {
 	private final InventoryAdapter contained = new InventoryAdapter(2, "Contained");
@@ -103,23 +93,23 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	public void tick(Level level) {
-		tickHelper.onTick();
+        this.tickHelper.onTick();
 
 		if (level.isClientSide) {
-			if (active && tickHelper.updateOnInterval(4)) {
-				if (beeLogic.canDoBeeFX()) {
-					beeLogic.doBeeFX();
+			if (this.active && this.tickHelper.updateOnInterval(4)) {
+				if (this.beeLogic.canDoBeeFX()) {
+                    this.beeLogic.doBeeFX();
 				}
 			}
 		} else {
-			boolean canWork = beeLogic.canWork(); // must be called every tick to stay updated
+			boolean canWork = this.beeLogic.canWork(); // must be called every tick to stay updated
 
-			if (tickHelper.updateOnInterval(angry ? 10 : 200)) {
-				if (calmTime == 0) {
+			if (this.tickHelper.updateOnInterval(this.angry ? 10 : 200)) {
+				if (this.calmTime == 0) {
 					if (canWork) {
-						if (angry && ModuleApiculture.hiveDamageOnAttack && (level.getLevelData().getDifficulty() != Difficulty.PEACEFUL || ModuleApiculture.hivesDamageOnPeaceful)) {
+						if (this.angry && ModuleApiculture.hiveDamageOnAttack && (level.getLevelData().getDifficulty() != Difficulty.PEACEFUL || ModuleApiculture.hivesDamageOnPeaceful)) {
 							AABB boundingBox = ThrottledBeeEffect.getBounding(this, getContainedBee().getGenome());
-							List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, boundingBox, beeTargetPredicate);
+							List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, boundingBox, this.beeTargetPredicate);
 							if (!entities.isEmpty()) {
 								Collections.shuffle(entities);
 								LivingEntity entity = entities.get(0);
@@ -128,20 +118,20 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 								}
 							}
 						}
-						beeLogic.doWork();
+                        this.beeLogic.doWork();
 					}
 				} else {
-					calmTime--;
+                    this.calmTime--;
 				}
 			}
 
-			setActive(calmTime == 0);
+			setActive(this.calmTime == 0);
 		}
 	}
 
 	public IBee getContainedBee() {
 		if (this.containedBee == null) {
-			ItemStack containedBee = contained.getItem(0);
+			ItemStack containedBee = this.contained.getItem(0);
 			if (!containedBee.isEmpty()) {
 				if (IIndividualHandlerItem.getIndividual(containedBee) instanceof IBee bee) {
 					return this.containedBee = bee;
@@ -159,52 +149,52 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 
 	public void setContained(List<ItemStack> bees) {
 		for (ItemStack itemstack : bees) {
-			InventoryUtil.addStack(contained, itemstack, true);
+			InventoryUtil.addStack(this.contained, itemstack, true);
 		}
 	}
 
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-		contained.read(compoundNBT);
-		beeLogic.read(compoundNBT);
+        this.contained.read(compoundNBT);
+        this.beeLogic.read(compoundNBT);
 	}
 
 
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-		contained.write(compoundNBT);
-		beeLogic.write(compoundNBT);
+        this.contained.write(compoundNBT);
+        this.beeLogic.write(compoundNBT);
 	}
 
 	@Override
 	public void calmBees() {
-		calmTime = 5;
-		angry = false;
+        this.calmTime = 5;
+        this.angry = false;
 		setActive(false);
 	}
 
 	@Override
 	public boolean isAngry() {
-		return angry;
+		return this.angry;
 	}
 
 	@Override
 	public void onAttack(Level world, BlockPos pos, Player player) {
-		if (calmTime == 0) {
-			angry = true;
+		if (this.calmTime == 0) {
+            this.angry = true;
 		}
 	}
 
 	@Override
 	public void onBroken(Level world, BlockPos pos, Player player, boolean canHarvest) {
-		if (calmTime == 0) {
+		if (this.calmTime == 0) {
 			attack(player, 10);
 		}
 
 		if (canHarvest) {
-			for (ItemStack beeStack : InventoryUtil.getStacks(contained)) {
+			for (ItemStack beeStack : InventoryUtil.getStacks(this.contained)) {
 				if (beeStack != null) {
 					ItemStackUtil.dropItemStackAsEntity(beeStack, world, pos);
 				}
@@ -250,7 +240,7 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	@Override
 	public CompoundTag getUpdateTag() {
 		CompoundTag nbt = super.getUpdateTag();
-		nbt.putBoolean("active", calmTime == 0);
+		nbt.putBoolean("active", this.calmTime == 0);
 		this.beeLogic.write(nbt);
 		return nbt;
 	}
@@ -339,7 +329,7 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 
 	@Override
 	public IErrorLogic getErrorLogic() {
-		return errorLogic;
+		return this.errorLogic;
 	}
 
 	@Override
@@ -353,7 +343,7 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 			if (input != null && input.isAlive() && !input.isInvisible()) {
 				if (input instanceof Player) {
 					return EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(input);
-				} else if (hive.isAngry()) {
+				} else if (this.hive.isAngry()) {
 					return true;
 				} else if (input instanceof Enemy) {
 					// don't attack semi-passive vanilla mobs

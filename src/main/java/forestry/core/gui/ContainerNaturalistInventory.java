@@ -10,6 +10,12 @@
  ******************************************************************************/
 package forestry.core.gui;
 
+import forestry.api.genetics.ISpeciesType;
+import forestry.core.features.CoreMenuTypes;
+import forestry.core.gui.slots.SlotFilteredInventory;
+import forestry.core.tiles.IFilterSlotDelegate;
+import forestry.core.tiles.TileNaturalistChest;
+import forestry.core.tiles.TileUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -17,13 +23,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerListener;
-
-import forestry.api.genetics.ISpeciesType;
-import forestry.core.features.CoreMenuTypes;
-import forestry.core.gui.slots.SlotFilteredInventory;
-import forestry.core.tiles.IFilterSlotDelegate;
-import forestry.core.tiles.TileNaturalistChest;
-import forestry.core.tiles.TileUtil;
 
 public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistChest> implements IGuiSelectable, INaturalistMenu {
 	public static final int MAX_PAGE = 5;
@@ -55,18 +54,18 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 
 	@Override
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
-		closing = false;
-		tile.flipPage(player, (short) primary);
+        this.closing = false;
+        this.tile.flipPage(player, (short) primary);
 	}
 
 	@Override
 	public ISpeciesType<?, ?> getSpeciesType() {
-		return tile.getSpeciesType();
+		return this.tile.getSpeciesType();
 	}
 
 	@Override
 	public int getCurrentPage() {
-		return page;
+		return this.page;
 	}
 
 	@Override
@@ -83,8 +82,8 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 		// a separate object that implements ContainerListener. Luckily, it's still declared as an anonymous class
 		// inside of ServerPlayer, so we can identify it by its nest host. Hack fix for chests staying open :)
 		if (listener.getClass().getNestHost() == ServerPlayer.class) {
-			if (page == 0) {
-				tile.increaseNumPlayersUsing();
+			if (this.page == 0) {
+                this.tile.increaseNumPlayersUsing();
 			}
 		}
 	}
@@ -93,8 +92,8 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 	public void removed(Player player) {
 		super.removed(player);
 
-		if (closing) {
-			tile.decreaseNumPlayersUsing();
+		if (this.closing) {
+            this.tile.decreaseNumPlayersUsing();
 		}
 	}
 }

@@ -10,21 +10,20 @@
  ******************************************************************************/
 package forestry.apiculture.items;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeModifier;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.hives.IHiveFrame;
 import forestry.api.genetics.IGenome;
 import forestry.core.items.ItemForestry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemHiveFrame extends ItemForestry implements IHiveFrame {
 	private final HiveFrameBeeModifier beeModifier;
@@ -51,13 +50,13 @@ public class ItemHiveFrame extends ItemForestry implements IHiveFrame {
 
 	@Override
 	public IBeeModifier getBeeModifier(ItemStack frame) {
-		return beeModifier;
+		return this.beeModifier;
 	}
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
 		super.appendHoverText(stack, world, tooltip, advanced);
-		beeModifier.addInformation(tooltip);
+        this.beeModifier.addInformation(tooltip);
 		if (!stack.isDamaged()) {
 			tooltip.add(Component.translatable("item.forestry.durability", stack.getMaxDamage()));
 		}
@@ -83,7 +82,7 @@ public class ItemHiveFrame extends ItemForestry implements IHiveFrame {
 
 		public void addInformation(List<Component> tooltip) {
 			tooltip.add(Component.translatable("item.forestry.bee.modifier.production", production));
-			tooltip.add(Component.translatable("item.forestry.bee.modifier.genetic.decay", geneticDecay));
+			tooltip.add(Component.translatable("item.forestry.bee.modifier.genetic.decay", this.geneticDecay));
 		}
 	}
 }

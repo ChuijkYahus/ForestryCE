@@ -24,10 +24,10 @@ public class DefaultBeeSpriteColourProvider implements IBeeSpriteColourProvider 
 	@Override
 	public int getSpriteColour(int renderPass) {
 		if (renderPass == 0) {
-			return primaryColour;
+			return this.primaryColour;
 		}
 		if (renderPass == 1) {
-			return secondaryColour;
+			return this.secondaryColour;
 		}
 		return 0xffffff;
 	}

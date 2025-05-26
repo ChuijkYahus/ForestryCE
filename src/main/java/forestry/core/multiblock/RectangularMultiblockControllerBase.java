@@ -1,12 +1,11 @@
 package forestry.core.multiblock;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public abstract class RectangularMultiblockControllerBase extends MultiblockControllerForestry {
 
@@ -19,11 +18,11 @@ public abstract class RectangularMultiblockControllerBase extends MultiblockCont
 
 	@Override
 	protected void isMachineWhole() throws MultiblockValidationException {
-		int minX = sizeLimits.getMinimumXSize();
-		int minY = sizeLimits.getMinimumYSize();
-		int minZ = sizeLimits.getMinimumZSize();
+		int minX = this.sizeLimits.getMinimumXSize();
+		int minY = this.sizeLimits.getMinimumYSize();
+		int minZ = this.sizeLimits.getMinimumZSize();
 
-		if (connectedParts.size() < sizeLimits.getMinimumNumberOfBlocksForAssembledMachine()) {
+		if (this.connectedParts.size() < this.sizeLimits.getMinimumNumberOfBlocksForAssembledMachine()) {
 			throw new MultiblockValidationException(Component.translatable("for.multiblock.error.small", minX, minY, minZ).getString());
 		}
 
@@ -35,9 +34,9 @@ public abstract class RectangularMultiblockControllerBase extends MultiblockCont
 		int deltaY = maximumCoord.getY() - minimumCoord.getY() + 1;
 		int deltaZ = maximumCoord.getZ() - minimumCoord.getZ() + 1;
 
-		int maxX = sizeLimits.getMaximumXSize();
-		int maxY = sizeLimits.getMaximumYSize();
-		int maxZ = sizeLimits.getMaximumZSize();
+		int maxX = this.sizeLimits.getMaximumXSize();
+		int maxY = this.sizeLimits.getMaximumYSize();
+		int maxZ = this.sizeLimits.getMaximumZSize();
 
 		if (maxX > 0 && deltaX > maxX) {
 			throw new MultiblockValidationException(Component.translatable("for.multiblock.error.large.x", maxX).getString());
@@ -69,7 +68,7 @@ public abstract class RectangularMultiblockControllerBase extends MultiblockCont
 				for (int z = minimumCoord.getZ(); z <= maximumCoord.getZ(); z++) {
 					// Okay, figure out what sort of block this should be.
 					BlockPos pos = new BlockPos(x, y, z);
-					te = TileUtil.getTile(level, pos);
+					te = TileUtil.getTile(this.level, pos);
 					if (te instanceof IMultiblockComponent) {
 						part = (IMultiblockComponent) te;
 
@@ -126,7 +125,7 @@ public abstract class RectangularMultiblockControllerBase extends MultiblockCont
 	}
 
 	protected IMultiblockSizeLimits getSizeLimits() {
-		return sizeLimits;
+		return this.sizeLimits;
 	}
 
 	protected abstract void isGoodForExteriorLevel(IMultiblockComponent part, int level) throws MultiblockValidationException;

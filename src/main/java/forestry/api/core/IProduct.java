@@ -1,12 +1,11 @@
 package forestry.api.core;
 
-import javax.annotation.Nullable;
-
+import it.unimi.dsi.fastutil.Hash;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import it.unimi.dsi.fastutil.Hash;
+import javax.annotation.Nullable;
 
 /**
  * Represents some item that has a set chance of being produced.
@@ -31,6 +30,7 @@ public interface IProduct {
 	};
 
 	// todo should this be replaced with is(ItemStack) and getIconStack() methods instead?
+
 	/**
 	 * Gets the item this product contains. In the case of a dynamic product, return an item that might
 	 * be used to display it in a screen or for equality purposes in {@link #ITEM_ONLY_STRATEGY}.

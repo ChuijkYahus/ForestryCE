@@ -1,23 +1,11 @@
 package forestry.core.commands;
 
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ItemStack;
-
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ISpeciesType;
@@ -27,6 +15,16 @@ import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.plugin.IGenomeBuilder;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class ModifyGenomeCommand {
 	private static final DynamicCommandExceptionType ERROR_NO_GENETICS = new DynamicCommandExceptionType(found -> {
@@ -35,16 +33,16 @@ public class ModifyGenomeCommand {
 
 	public static LiteralArgumentBuilder<CommandSourceStack> register(ISpeciesType<?, ?> type) {
 		return Commands.literal("modify").requires(CommandHelpers.ADMIN)
-				.then(Commands.argument("chromosome", new ChromosomeArgument(type))
-						.then(Commands.argument("allele", new AlleleArgument(type))
-								.suggests((ctx, builder) -> suggestAlleles(type, ctx, builder))
-								.executes(ctx -> ModifyGenomeCommand.execute(type, ctx, true, true))
-								.then(Commands.literal("both")
-										.executes(ctx -> ModifyGenomeCommand.execute(type, ctx, true, true)))
-								.then(Commands.literal("dominant")
-										.executes(ctx -> ModifyGenomeCommand.execute(type, ctx, true, false)))
-								.then(Commands.literal("recessive")
-										.executes(ctx -> ModifyGenomeCommand.execute(type, ctx, false, true)))));
+			.then(Commands.argument("chromosome", new ChromosomeArgument(type))
+				.then(Commands.argument("allele", new AlleleArgument(type))
+					.suggests((ctx, builder) -> suggestAlleles(type, ctx, builder))
+					.executes(ctx -> ModifyGenomeCommand.execute(type, ctx, true, true))
+					.then(Commands.literal("both")
+						.executes(ctx -> ModifyGenomeCommand.execute(type, ctx, true, true)))
+					.then(Commands.literal("dominant")
+						.executes(ctx -> ModifyGenomeCommand.execute(type, ctx, true, false)))
+					.then(Commands.literal("recessive")
+						.executes(ctx -> ModifyGenomeCommand.execute(type, ctx, false, true)))));
 	}
 
 	private static int execute(ISpeciesType<?, ?> type, CommandContext<CommandSourceStack> ctx, boolean active, boolean inactive) throws CommandSyntaxException {

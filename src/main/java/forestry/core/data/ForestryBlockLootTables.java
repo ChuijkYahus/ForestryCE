@@ -1,11 +1,18 @@
 package forestry.core.data;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-
+import forestry.api.ForestryConstants;
+import forestry.arboriculture.blocks.*;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.arboriculture.features.ArboricultureItems;
+import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.arboriculture.loot.CountBlockFunction;
+import forestry.core.features.CoreBlocks;
+import forestry.core.features.CoreItems;
+import forestry.core.loot.OrganismFunction;
+import forestry.core.utils.SpeciesUtil;
+import forestry.lepidopterology.features.LepidopterologyBlocks;
+import forestry.modules.features.FeatureBlock;
+import forestry.modules.features.FeatureBlockGroup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
@@ -26,26 +33,12 @@ import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableConditio
 import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-
-import forestry.api.ForestryConstants;
-import forestry.arboriculture.blocks.BlockDecorativeLeaves;
-import forestry.arboriculture.blocks.BlockDefaultLeaves;
-import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
-import forestry.arboriculture.blocks.BlockForestryDoor;
-import forestry.arboriculture.blocks.ForestryLeafType;
-import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.features.ArboricultureItems;
-import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.arboriculture.loot.CountBlockFunction;
-import forestry.core.features.CoreBlocks;
-import forestry.core.features.CoreItems;
-import forestry.core.loot.OrganismFunction;
-import forestry.core.utils.SpeciesUtil;
-import forestry.lepidopterology.features.LepidopterologyBlocks;
-import forestry.modules.features.FeatureBlock;
-import forestry.modules.features.FeatureBlockGroup;
-
 import thedarkcolour.modkit.MKUtils;
+
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 
 /**
  * Data generator class that generates the block drop loot tables for forestry blocks.
@@ -81,8 +74,8 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 			add(door, createDoorTable(door));
 		}
 		registerLootTable(CharcoalBlocks.ASH, (block) -> LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK)
-				.withPool(LootPool.lootPool().add(LootItem.lootTableItem(CoreItems.ASH)).apply(SetItemCountFunction.setCount(BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f))))
-				.withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL)).apply(CountBlockFunction.builder()).apply(ApplyBonusCount.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 23.0f / 40, 2))));
+			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(CoreItems.ASH)).apply(SetItemCountFunction.setCount(BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f))))
+			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL)).apply(CountBlockFunction.builder()).apply(ApplyBonusCount.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 23.0f / 40, 2))));
 		registerLootTable(CoreBlocks.PEAT, (block) -> LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(Blocks.DIRT))).withPool(LootPool.lootPool().apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))).add(LootItem.lootTableItem(CoreItems.PEAT.item()))));
 		registerDropping(CoreBlocks.HUMUS, Blocks.DIRT);
 
@@ -108,9 +101,9 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 
 	public LootTable.Builder droppingWithChances(Block block, ForestryLeafType definition, float... chances) {
 		return createSilkTouchOrShearsDispatchTable(block,
-				applyExplosionCondition(block, LootItem.lootTableItem(ArboricultureItems.SAPLING)
-						.apply(OrganismFunction.fromId(SpeciesUtil.TREE_TYPE.get().id(), definition.getSpeciesId())))
-						.when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, chances)));
+			applyExplosionCondition(block, LootItem.lootTableItem(ArboricultureItems.SAPLING)
+				.apply(OrganismFunction.fromId(SpeciesUtil.TREE_TYPE.get().id(), definition.getSpeciesId())))
+				.when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, chances)));
 	}
 
 	public void registerLootTable(FeatureBlock<?, ?> featureBlock, Function<Block, LootTable.Builder> builderFunction) {

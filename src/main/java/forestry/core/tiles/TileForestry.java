@@ -11,9 +11,16 @@
 package forestry.core.tiles;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-
+import forestry.api.core.IErrorLogic;
+import forestry.api.core.IErrorLogicSource;
+import forestry.api.core.ILocationProvider;
+import forestry.api.util.TickHelper;
+import forestry.core.blocks.TileStreamUpdateTracker;
+import forestry.core.errors.ErrorLogic;
+import forestry.core.inventory.FakeInventoryAdapter;
+import forestry.core.inventory.IInventoryAdapter;
+import forestry.core.network.IStreamable;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -29,23 +36,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-import forestry.api.core.IErrorLogic;
-import forestry.api.core.IErrorLogicSource;
-import forestry.api.core.ILocationProvider;
-import forestry.api.util.TickHelper;
-import forestry.core.blocks.TileStreamUpdateTracker;
-import forestry.core.errors.ErrorLogic;
-import forestry.core.inventory.FakeInventoryAdapter;
-import forestry.core.inventory.IInventoryAdapter;
-import forestry.core.network.IStreamable;
-import forestry.core.utils.NBTUtilForestry;
+import javax.annotation.Nullable;
 
 public abstract class TileForestry extends BlockEntity implements IStreamable, IErrorLogicSource, WorldlyContainer, IFilterSlotDelegate, ITitled, ILocationProvider, MenuProvider {
 	private final ErrorLogic errorHandler = new ErrorLogic();
@@ -63,22 +60,22 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	}
 
 	protected AdjacentTileCache getTileCache() {
-		return tileCache;
+		return this.tileCache;
 	}
 
 	public void onNeighborTileChange(Level world, BlockPos pos, BlockPos neighbor) {
-		tileCache.onNeighborChange();
+        this.tileCache.onNeighborChange();
 	}
 
 	@Override
 	public void setRemoved() {
-		tileCache.purge();
+        this.tileCache.purge();
 		super.setRemoved();
 	}
 
 	@Override
 	public void clearRemoved() {
-		tileCache.purge();
+        this.tileCache.purge();
 		super.clearRemoved();
 	}
 
@@ -90,20 +87,20 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	}
 
 	protected final boolean updateOnInterval(int tickInterval) {
-		return tickHelper.updateOnInterval(tickInterval);
+		return this.tickHelper.updateOnInterval(tickInterval);
 	}
 
 	// / SAVING & LOADING
 	@Override
 	public void load(CompoundTag data) {
 		super.load(data);
-		inventory.read(data);
+        this.inventory.read(data);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag data) {
 		super.saveAdditional(data);
-		inventory.write(data);
+        this.inventory.write(data);
 	}
 
 	@Nullable
@@ -150,12 +147,12 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	// / REDSTONE INFO
 	protected boolean isRedstoneActivated() {
-		return level.getBestNeighborSignal(getBlockPos()) > 0;
+		return this.level.getBestNeighborSignal(getBlockPos()) > 0;
 	}
 
 	@Override
 	public final IErrorLogic getErrorLogic() {
-		return errorHandler;
+		return this.errorHandler;
 	}
 
 	/* NAME */
@@ -170,7 +167,7 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	/* INVENTORY BASICS */
 	public IInventoryAdapter getInternalInventory() {
-		return inventory;
+		return this.inventory;
 	}
 
 	protected final void setInternalInventory(IInventoryAdapter inv) {

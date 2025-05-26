@@ -1,17 +1,15 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
-
-import javax.annotation.Nullable;
-import java.util.function.Consumer;
-
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class SqueezerContainerRecipeBuilder {
 	private ItemStack emptyContainer;
@@ -40,7 +38,7 @@ public class SqueezerContainerRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, emptyContainer, processingTime, remnants, remnantsChance));
+		consumer.accept(new Result(id, this.emptyContainer, this.processingTime, this.remnants, this.remnantsChance));
 	}
 
 	private static class Result implements FinishedRecipe {
@@ -60,15 +58,15 @@ public class SqueezerContainerRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.add("container", RecipeSerializers.item(emptyContainer));
-			json.addProperty("time", processingTime);
-			json.add("remnants", RecipeSerializers.item(remnants));
-			json.addProperty("remnantsChance", remnantsChance);
+			json.add("container", RecipeSerializers.item(this.emptyContainer));
+			json.addProperty("time", this.processingTime);
+			json.add("remnants", RecipeSerializers.item(this.remnants));
+			json.addProperty("remnantsChance", this.remnantsChance);
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

@@ -1,14 +1,13 @@
 package forestry.apiculture.genetics.effects;
 
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.IIndividualLiving;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 
 public class AgingBeeEffect extends NonStackingBeeEffect {
 	protected boolean aging;
@@ -34,7 +33,7 @@ public class AgingBeeEffect extends NonStackingBeeEffect {
 						// Ensure below normal lifespans are still affected, though to a lesser degree
 						life++;
 					}
-					if (aging) {
+					if (this.aging) {
 						queen.setHealth(Math.max(1, queen.getHealth() - life));
 					} else {
 						queen.setHealth((int) Math.min(queen.getMaxHealth(), Math.min(Integer.MAX_VALUE, queen.getHealth() + (long) life)));

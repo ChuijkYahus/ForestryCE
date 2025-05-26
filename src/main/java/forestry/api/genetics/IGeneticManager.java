@@ -1,9 +1,9 @@
 package forestry.api.genetics;
 
+import net.minecraft.resources.ResourceLocation;
+
 import javax.annotation.Nullable;
 import java.util.Collection;
-
-import net.minecraft.resources.ResourceLocation;
 
 /**
  * Home to all things genetics.

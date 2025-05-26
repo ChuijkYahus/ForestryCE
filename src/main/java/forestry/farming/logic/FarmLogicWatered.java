@@ -10,8 +10,10 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
-import org.apache.commons.lang3.tuple.Pair;
-
+import forestry.api.farming.IFarmHousing;
+import forestry.api.farming.IFarmType;
+import forestry.api.farming.Soil;
+import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -20,14 +22,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
-
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.Soil;
-import forestry.core.utils.BlockUtil;
+import org.apache.commons.lang3.tuple.Pair;
 
 public abstract class FarmLogicWatered extends FarmLogicSoil {
 	private static final FluidStack STACK_WATER = new FluidStack(Fluids.WATER, FluidType.BUCKET_VOLUME);
@@ -42,7 +39,7 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 			return true;
 		}
 
-		if (!isManual && maintainWater(level, farmHousing, pos, direction, extent)) {
+		if (!this.isManual && maintainWater(level, farmHousing, pos, direction, extent)) {
 			return true;
 		}
 
@@ -55,7 +52,7 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 	}
 
 	private boolean maintainSoil(Level world, IFarmHousing farmHousing, BlockPos pos, Direction direction, int extent) {
-		if (!farmHousing.canPlantSoil(isManual)) {
+		if (!farmHousing.canPlantSoil(this.isManual)) {
 			return false;
 		}
 
@@ -71,10 +68,10 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 
 				BlockState state = world.getBlockState(position);
 				if (!isValidPosition(farmHousing, direction, position, CultivationType.SOIL)
-						|| !BlockUtil.isBreakableBlock(state, world, pos)
-						|| isAcceptedSoil(state)
-						|| isWaterSourceBlock(world, position)
-						|| !farmHousing.getFarmInventory().hasResources(resources)) {
+					|| !BlockUtil.isBreakableBlock(state, world, pos)
+					|| isAcceptedSoil(state)
+					|| isWaterSourceBlock(world, position)
+					|| !farmHousing.getFarmInventory().hasResources(resources)) {
 					continue;
 				}
 
@@ -89,7 +86,7 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 					return FarmLogicCocoa.trySetSoil(world, farmHousing, position, soil.resource(), soil.soilState());
 				}
 
-				if (!isManual) {
+				if (!this.isManual) {
 					if (trySetWater(world, farmHousing, position)) {
 						return true;
 					}

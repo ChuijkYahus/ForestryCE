@@ -1,10 +1,10 @@
 package forestry.api.plugin;
 
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.Function;
-
+import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeGenerator;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.IWoodType;
+import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -12,11 +12,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-import forestry.api.arboriculture.ITreeGenData;
-import forestry.api.arboriculture.ITreeGenerator;
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.genetics.ITreeSpeciesType;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Function;
 
 public interface ITreeSpeciesBuilder extends ISpeciesBuilder<ITreeSpeciesType, ITreeSpecies, ITreeSpeciesBuilder> {
 	/**

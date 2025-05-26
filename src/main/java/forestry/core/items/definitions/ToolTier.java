@@ -1,12 +1,11 @@
 package forestry.core.items.definitions;
 
-import java.util.function.Supplier;
-
+import forestry.api.ForestryTags;
+import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.util.LazyLoadedValue;
 
-import forestry.api.ForestryTags;
+import java.util.function.Supplier;
 
 public enum ToolTier implements Tier {
 	SURVIVALIST(3, 200, 7.0F, 2.5F, 10, () -> {

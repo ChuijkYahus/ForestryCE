@@ -11,9 +11,8 @@
 package forestry.core.utils.datastructures;
 
 
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.resources.ResourceLocation;
-
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 

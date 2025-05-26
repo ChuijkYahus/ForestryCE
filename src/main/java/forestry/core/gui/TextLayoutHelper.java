@@ -10,11 +10,10 @@
  ******************************************************************************/
 package forestry.core.gui;
 
+import forestry.core.render.ColourProperties;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import forestry.core.render.ColourProperties;
 
 public class TextLayoutHelper {
 	private static final int LINE_HEIGHT = 12;
@@ -35,7 +34,7 @@ public class TextLayoutHelper {
 	}
 
 	public void startPage(GuiGraphics matrices) {
-		line = LINE_HEIGHT;
+        this.line = LINE_HEIGHT;
 		matrices.pose().pushPose();
 	}
 
@@ -48,19 +47,19 @@ public class TextLayoutHelper {
 	}
 
 	public int getLineY() {
-		return line;
+		return this.line;
 	}
 
 	public void newLine() {
-		line += LINE_HEIGHT;
+        this.line += LINE_HEIGHT;
 	}
 
 	public void newLineCompressed() {
-		line += LINE_HEIGHT - 2;
+        this.line += LINE_HEIGHT - 2;
 	}
 
 	public void newLine(int lineHeight) {
-		line += lineHeight;
+        this.line += lineHeight;
 	}
 
 	public void endPage(GuiGraphics graphics) {
@@ -68,22 +67,22 @@ public class TextLayoutHelper {
 	}
 
 	public void drawRow(GuiGraphics graphics, Component text0, Component text1, Component text2, int colour0, int colour1, int colour2) {
-		drawLine(graphics, text0, column0, colour0);
-		drawLine(graphics, text1, column1, colour1);
-		drawLine(graphics, text2, column2, colour2);
+		drawLine(graphics, text0, this.column0, colour0);
+		drawLine(graphics, text1, this.column1, colour1);
+		drawLine(graphics, text2, this.column2, colour2);
 	}
 
 	public void drawRow(GuiGraphics graphics, Component text0, Component text1, int colour0, int colour1) {
-		drawLine(graphics, text0, column0, colour0);
-		drawLine(graphics, text1, column1, colour1);
+		drawLine(graphics, text0, this.column0, colour0);
+		drawLine(graphics, text1, this.column1, colour1);
 	}
 
 	public void drawLine(GuiGraphics graphics, Component text, int x) {
-		drawLine(graphics, text, x, defaultFontColor);
+		drawLine(graphics, text, x, this.defaultFontColor);
 	}
 
 	public void drawCenteredLine(GuiGraphics graphics, Component text, int x, int color) {
-		drawCenteredLine(graphics, text, x, screen.getSizeX(), color);
+		drawCenteredLine(graphics, text, x, this.screen.getSizeX(), color);
 	}
 
 	public void drawCenteredLine(GuiGraphics graphics, Component text, int x, int width, int color) {

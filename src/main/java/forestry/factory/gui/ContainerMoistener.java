@@ -10,15 +10,6 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.world.inventory.SimpleContainerData;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotWatched;
@@ -27,6 +18,13 @@ import forestry.core.inventory.watchers.ISlotChangeWatcher;
 import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.tiles.TileMoistener;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ContainerMoistener extends ContainerLiquidTanks<TileMoistener> implements ISlotChangeWatcher {
 	public static ContainerMoistener fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
@@ -60,8 +58,8 @@ public class ContainerMoistener extends ContainerLiquidTanks<TileMoistener> impl
 
 	@Override
 	public void onSlotChanged(Container inventory, int slot) {
-		tile.setItem(slot, inventory.getItem(slot));
-		tile.checkRecipe();
+        this.tile.setItem(slot, inventory.getItem(slot));
+        this.tile.checkRecipe();
 	}
 
 	@Override
@@ -69,15 +67,15 @@ public class ContainerMoistener extends ContainerLiquidTanks<TileMoistener> impl
 	public void setData(int messageId, int data) {
 		super.setData(messageId, data);
 
-		tile.getGUINetworkData(messageId, data);
+        this.tile.getGUINetworkData(messageId, data);
 	}
 
 	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		for (ContainerListener crafter : containerListeners) {
-			tile.sendGUINetworkData(this, crafter);
+		for (ContainerListener crafter : this.containerListeners) {
+            this.tile.sendGUINetworkData(this, crafter);
 		}
 	}
 }

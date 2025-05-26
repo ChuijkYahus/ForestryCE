@@ -10,21 +10,7 @@
  ******************************************************************************/
 package forestry.apiculture.tiles;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
-
 import com.mojang.authlib.GameProfile;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
@@ -39,6 +25,17 @@ import forestry.core.owner.OwnerHandler;
 import forestry.core.render.ParticleRender;
 import forestry.core.tiles.TileBase;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing, IOwnedTile, IClimateProvider, IGuiBeeHousingDelegate, IStreamableGui {
 	private final String hintKey;
@@ -63,34 +60,34 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 
 	@Override
 	public String getHintKey() {
-		return hintKey;
+		return this.hintKey;
 	}
 
 	@Override
 	public IBeekeepingLogic getBeekeepingLogic() {
-		return beeLogic;
+		return this.beeLogic;
 	}
 
 	/* LOADING & SAVING */
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-		beeLogic.write(compoundNBT);
-		ownerHandler.write(compoundNBT);
+        this.beeLogic.write(compoundNBT);
+        this.ownerHandler.write(compoundNBT);
 	}
 
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-		beeLogic.read(compoundNBT);
-		ownerHandler.read(compoundNBT);
+        this.beeLogic.read(compoundNBT);
+        this.ownerHandler.read(compoundNBT);
 	}
 
 	@Override
 	public CompoundTag getUpdateTag() {
 		CompoundTag updateTag = super.getUpdateTag();
-		beeLogic.write(updateTag);
-		ownerHandler.write(updateTag);
+        this.beeLogic.write(updateTag);
+        this.ownerHandler.write(updateTag);
 		return updateTag;
 	}
 
@@ -98,31 +95,31 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 	@OnlyIn(Dist.CLIENT)
 	public void handleUpdateTag(CompoundTag tag) {
 		super.handleUpdateTag(tag);
-		beeLogic.read(tag);
-		ownerHandler.read(tag);
+        this.beeLogic.read(tag);
+        this.ownerHandler.read(tag);
 	}
 
 	@Override
 	public IOwnerHandler getOwnerHandler() {
-		return ownerHandler;
+		return this.ownerHandler;
 	}
 
 	/* ICLIMATISED */
 	@Override
 	public TemperatureType temperature() {
-		return climate.temperature();
+		return this.climate.temperature();
 	}
 
 	@Override
 	public HumidityType humidity() {
-		return climate.humidity();
+		return this.climate.humidity();
 	}
 
 	/* UPDATING */
 	@Override
 	public void clientTick(Level level, BlockPos pos, BlockState state) {
-		if (beeLogic.canDoBeeFX() && updateOnInterval(4)) {
-			beeLogic.doBeeFX();
+		if (this.beeLogic.canDoBeeFX() && updateOnInterval(4)) {
+            this.beeLogic.doBeeFX();
 
 			if (updateOnInterval(50)) {
 				doPollenFX(level, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
@@ -148,8 +145,8 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
-		if (beeLogic.canWork()) {
-			beeLogic.doWork();
+		if (this.beeLogic.canWork()) {
+            this.beeLogic.doWork();
 		}
 
 		// every 64 ticks, update the climate state in case of changed biome or climate (& is faster than modulus)
@@ -160,41 +157,41 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 
 	@Override
 	public int getHealthScaled(int i) {
-		return breedingProgressPercent * i / 100;
+		return this.breedingProgressPercent * i / 100;
 	}
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
-		data.writeVarInt(beeLogic.getBeeProgressPercent());
+		data.writeVarInt(this.beeLogic.getBeeProgressPercent());
 		NetworkUtil.writeClimateState(data, this.climate);
 	}
 
 	@Override
 	public void readGuiData(FriendlyByteBuf data) {
-		breedingProgressPercent = data.readVarInt();
+        this.breedingProgressPercent = data.readVarInt();
 		this.climate = NetworkUtil.readClimateState(data);
 	}
 
 	// / IBEEHOUSING
 	@Override
 	public Holder<Biome> getBiome() {
-		return level.getBiome(getBlockPos());
+		return this.level.getBiome(getBlockPos());
 	}
 
 	//TODO check this call
 	@Override
 	public int getBlockLightValue() {
-		return level.getMaxLocalRawBrightness(getBlockPos().above());
+		return this.level.getMaxLocalRawBrightness(getBlockPos().above());
 	}
 
 	@Override
 	public boolean canBlockSeeTheSky() {
-		return level.canSeeSky(getBlockPos().above());
+		return this.level.canSeeSky(getBlockPos().above());
 	}
 
 	@Override
 	public boolean isRaining() {
-		return level.isRainingAt(getBlockPos().above());
+		return this.level.isRainingAt(getBlockPos().above());
 	}
 
 	@Override

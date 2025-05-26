@@ -12,8 +12,6 @@ package forestry.lepidopterology.entities;
 
 import java.util.EnumSet;
 
-import net.minecraft.world.entity.ai.goal.Goal.Flag;
-
 public class AIButterflyWander extends AIButterflyMovement {
 	public AIButterflyWander(EntityButterfly entity) {
 		super(entity);
@@ -22,20 +20,20 @@ public class AIButterflyWander extends AIButterflyMovement {
 
 	@Override
 	public boolean canUse() {
-		if (entity.getDestination() != null) {
+		if (this.entity.getDestination() != null) {
 			return false;
 		}
 
-		flightTarget = getRandomDestination();
-		if (flightTarget == null) {
-			if (entity.getState().doesMovement) {
-				entity.setState(EnumButterflyState.HOVER);
+        this.flightTarget = getRandomDestination();
+		if (this.flightTarget == null) {
+			if (this.entity.getState().doesMovement) {
+                this.entity.setState(EnumButterflyState.HOVER);
 			}
 			return false;
 		}
 
-		entity.setDestination(flightTarget);
-		entity.setState(EnumButterflyState.FLYING);
+        this.entity.setDestination(this.flightTarget);
+        this.entity.setState(EnumButterflyState.FLYING);
 		return true;
 	}
 }

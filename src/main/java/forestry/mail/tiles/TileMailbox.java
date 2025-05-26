@@ -10,31 +10,31 @@
  ******************************************************************************/
 package forestry.mail.tiles;
 
-import forestry.mail.*;
-import forestry.mail.carriers.players.POBox;
-import forestry.mail.carriers.players.POBoxRegistry;
-import forestry.mail.postalstates.EnumDeliveryState;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.state.BlockState;
-
 import com.mojang.authlib.GameProfile;
-
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.tiles.TileBase;
+import forestry.mail.LetterUtils;
+import forestry.mail.MailAddress;
+import forestry.mail.PostOffice;
+import forestry.mail.carriers.players.POBox;
+import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.features.MailTiles;
 import forestry.mail.gui.ContainerMailbox;
+import forestry.mail.postalstates.EnumDeliveryState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class TileMailbox extends TileBase {
 
@@ -46,7 +46,7 @@ public class TileMailbox extends TileBase {
 	/* GUI */
 	@Override
 	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		if (level.isClientSide) {
+		if (this.level.isClientSide) {
 			return;
 		}
 

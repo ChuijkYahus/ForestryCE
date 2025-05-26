@@ -1,11 +1,11 @@
 package forestry.api.farming;
 
-import java.util.Collection;
-import java.util.List;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * An IFarmType describes a type of farm, defining rules for how the farm can operate.

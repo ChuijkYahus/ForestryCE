@@ -2,21 +2,9 @@ package forestry.storage.client;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockElement;
-import net.minecraft.client.renderer.block.model.BlockElementFace;
-import net.minecraft.client.renderer.block.model.BlockFaceUV;
-import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
+import com.mojang.datafixers.util.Either;
+import forestry.api.ForestryConstants;
+import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -28,16 +16,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-
-import com.mojang.datafixers.util.Either;
-
 import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
-
-import forestry.api.ForestryConstants;
-
 import org.joml.Vector3f;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 @SuppressWarnings("deprecation")
 public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
@@ -63,7 +52,7 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 			cachedQuads = cachedBaseModel.getQuads(null, null, RandomSource.create());
 		}
 
-		return new Baked(contents.bake(bakery, spriteGetter, modelState, modelLocation), cachedQuads, cachedTransforms);
+		return new Baked(this.contents.bake(bakery, spriteGetter, modelState, modelLocation), cachedQuads, cachedTransforms);
 	}
 
 	public static class Loader implements IGeometryLoader<FilledCrateModel> {
@@ -96,8 +85,8 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 
 	public static BlockElement make2dElement(int layer, float startX, float startY, float endX, float endY, float zOffset) {
 		Map<Direction, BlockElementFace> faces = Map.of(
-				Direction.SOUTH, new BlockElementFace(null, layer, "layer" + layer, new BlockFaceUV(new float[]{0.0F, 0.0F, 16.0F, 16.0F}, 0)),
-				Direction.NORTH, new BlockElementFace(null, layer, "layer" + layer, new BlockFaceUV(new float[]{16.0F, 0.0F, 0.0F, 16.0F}, 0))
+			Direction.SOUTH, new BlockElementFace(null, layer, "layer" + layer, new BlockFaceUV(new float[]{0.0F, 0.0F, 16.0F, 16.0F}, 0)),
+			Direction.NORTH, new BlockElementFace(null, layer, "layer" + layer, new BlockFaceUV(new float[]{16.0F, 0.0F, 0.0F, 16.0F}, 0))
 		);
 		// front and back 2d faces
 		// add the element, scaled down
@@ -122,7 +111,7 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 
 		@Override
 		public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction cullFace, RandomSource rand) {
-			return quads;
+			return this.quads;
 		}
 
 		@Override

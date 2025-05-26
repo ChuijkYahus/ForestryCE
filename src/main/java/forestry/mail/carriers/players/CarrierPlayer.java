@@ -12,10 +12,13 @@ package forestry.mail.carriers.players;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
-import forestry.api.mail.*;
+import forestry.api.mail.IMailAddress;
+import forestry.api.mail.IPostOffice;
+import forestry.api.mail.IPostalCarrier;
+import forestry.api.mail.IPostalState;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.PlayerUtil;
-import forestry.mail.*;
+import forestry.mail.MailAddress;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
 import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -43,7 +46,7 @@ public class CarrierPlayer implements IPostalCarrier {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public TextureAtlasSprite getSprite() {
-		return IForestryClientApi.INSTANCE.getTextureManager().getSprite(iconID);
+		return IForestryClientApi.INSTANCE.getTextureManager().getSprite(this.iconID);
 	}
 
 	@Override

@@ -10,14 +10,6 @@
  ******************************************************************************/
 package forestry.lepidopterology.proxy;
 
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.renderer.item.ItemPropertyFunction;
-import net.minecraft.core.registries.Registries;
-
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModuleIds;
@@ -29,6 +21,12 @@ import forestry.lepidopterology.render.ButterflyEntityRenderer;
 import forestry.lepidopterology.render.ButterflyItemModel;
 import forestry.lepidopterology.render.ButterflyModel;
 import forestry.modules.features.ModFeatureRegistry;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.renderer.item.ItemPropertyFunction;
+import net.minecraft.core.registries.Registries;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 public class LepidopterologyClientHandler implements IClientModuleHandler {
 	@Override

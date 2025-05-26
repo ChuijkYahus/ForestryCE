@@ -14,7 +14,6 @@ import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
 import forestry.core.features.CoreTiles;
-import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileNaturalistChest;
 import forestry.modules.features.FeatureTileType;
 
@@ -27,9 +26,9 @@ public enum NaturalistChestBlockType implements IBlockType {
 
 	NaturalistChestBlockType(String name, FeatureTileType<? extends TileNaturalistChest> tileType) {
 		this.machineProperties = new MachineProperties.Builder<>(tileType, name)
-				.setClientTicker(TileNaturalistChest::clientTick)
-				.setShape(TileNaturalistChest.CHEST_SHAPE)
-				.create();
+			.setClientTicker(TileNaturalistChest::clientTick)
+			.setShape(TileNaturalistChest.CHEST_SHAPE)
+			.create();
 	}
 
 	@Override

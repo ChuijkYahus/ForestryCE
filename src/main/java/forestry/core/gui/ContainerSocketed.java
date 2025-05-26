@@ -10,16 +10,14 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import net.minecraft.world.entity.player.Inventory;
+import forestry.core.circuits.ISocketable;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import forestry.core.circuits.ISocketable;
 
 public abstract class ContainerSocketed<T extends BlockEntity & ISocketable> extends ContainerTile<T> implements IContainerSocketed {
 
@@ -33,22 +31,22 @@ public abstract class ContainerSocketed<T extends BlockEntity & ISocketable> ext
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void handleChipsetClick(int slot) {
-		helper.handleChipsetClick(slot);
+        this.helper.handleChipsetClick(slot);
 	}
 
 	@Override
 	public void handleChipsetClickServer(int slot, ServerPlayer player, ItemStack itemstack) {
-		helper.handleChipsetClickServer(slot, player, itemstack);
+        this.helper.handleChipsetClickServer(slot, player, itemstack);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void handleSolderingIronClick(int slot) {
-		helper.handleSolderingIronClick(slot);
+        this.helper.handleSolderingIronClick(slot);
 	}
 
 	@Override
 	public void handleSolderingIronClickServer(int slot, ServerPlayer player, ItemStack itemstack) {
-		helper.handleSolderingIronClickServer(slot, player, itemstack);
+        this.helper.handleSolderingIronClickServer(slot, player, itemstack);
 	}
 }

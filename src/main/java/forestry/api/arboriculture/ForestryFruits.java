@@ -1,8 +1,7 @@
 package forestry.api.arboriculture;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 public class ForestryFruits {
 	public static final ResourceLocation NONE = ForestryConstants.forestry("fruit_none");

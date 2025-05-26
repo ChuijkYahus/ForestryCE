@@ -1,17 +1,16 @@
 package forestry.farming.logic.farmables;
 
-import java.util.function.Consumer;
-
+import forestry.api.farming.ICrop;
+import forestry.api.farming.IFarmable;
+import forestry.core.utils.BlockUtil;
+import forestry.farming.logic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmable;
-import forestry.core.utils.BlockUtil;
-import forestry.farming.logic.crops.CropDestroy;
+import java.util.function.Consumer;
 
 public abstract class FarmableBase implements IFarmable {
 	protected final ItemStack germling;
@@ -28,16 +27,16 @@ public abstract class FarmableBase implements IFarmable {
 
 	@Override
 	public boolean isSaplingAt(Level level, BlockPos pos, BlockState state) {
-		return state.getBlock() == plantedState.getBlock() && state != matureState;
+		return state.getBlock() == this.plantedState.getBlock() && state != this.matureState;
 	}
 
 	@Override
 	public ICrop getCropAt(Level level, BlockPos pos, BlockState state) {
-		if (state != matureState) {
+		if (state != this.matureState) {
 			return null;
 		}
 
-		BlockState replantState = replant ? plantedState : null;
+		BlockState replantState = this.replant ? this.plantedState : null;
 		return new CropDestroy(level, state, pos, replantState);
 	}
 
@@ -53,7 +52,7 @@ public abstract class FarmableBase implements IFarmable {
 
 	@Override
 	public boolean plantSaplingAt(Player player, ItemStack germling, Level level, BlockPos pos) {
-		return BlockUtil.setBlockWithPlaceSound(level, pos, plantedState);
+		return BlockUtil.setBlockWithPlaceSound(level, pos, this.plantedState);
 	}
 
 	@Override

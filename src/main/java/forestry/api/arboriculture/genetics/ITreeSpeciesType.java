@@ -1,13 +1,11 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.arboriculture.genetics;
 
-import javax.annotation.Nullable;
-import java.util.Collection;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.arboriculture.IArboristTracker;
+import forestry.api.arboriculture.ILeafTickHandler;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.ISpeciesType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -15,13 +13,8 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.arboriculture.IArboristTracker;
-import forestry.api.arboriculture.ILeafTickHandler;
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ISpeciesType;
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 public interface ITreeSpeciesType extends ISpeciesType<ITreeSpecies, ITree> {
 	@Override

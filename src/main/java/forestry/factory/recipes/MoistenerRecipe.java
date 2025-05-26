@@ -12,7 +12,8 @@ package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
-
+import forestry.api.recipes.IMoistenerRecipe;
+import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -21,9 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-
-import forestry.api.recipes.IMoistenerRecipe;
-import forestry.factory.features.FactoryRecipeTypes;
 
 public class MoistenerRecipe implements IMoistenerRecipe {
 	private final ResourceLocation id;

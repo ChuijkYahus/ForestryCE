@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
-import java.util.List;
-
-import net.minecraft.world.entity.monster.Monster;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.core.damage.CoreDamageTypes;
+import net.minecraft.world.entity.monster.Monster;
+
+import java.util.List;
 
 public class HeroicBeeEffect extends ThrottledBeeEffect {
 	public HeroicBeeEffect() {

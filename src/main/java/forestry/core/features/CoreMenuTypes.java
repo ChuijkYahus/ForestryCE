@@ -1,7 +1,6 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.ModuleCore;
 import forestry.core.circuits.ContainerSolderingIron;
 import forestry.core.gui.ContainerAlyzer;
 import forestry.core.gui.ContainerAnalyzer;

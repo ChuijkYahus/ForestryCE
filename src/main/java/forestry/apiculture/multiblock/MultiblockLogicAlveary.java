@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.apiculture.multiblock;
 
-import net.minecraft.world.level.Level;
-
 import forestry.api.multiblock.IMultiblockLogicAlveary;
 import forestry.core.multiblock.MultiblockLogic;
+import net.minecraft.world.level.Level;
 
 public class MultiblockLogicAlveary extends MultiblockLogic<IAlvearyControllerInternal> implements IMultiblockLogicAlveary {
 	public MultiblockLogicAlveary() {
@@ -23,7 +22,7 @@ public class MultiblockLogicAlveary extends MultiblockLogic<IAlvearyControllerIn
 	@Override
 	public IAlvearyControllerInternal getController() {
 		if (super.isConnected()) {
-			return controller;
+			return this.controller;
 		} else {
 			return FakeAlvearyController.INSTANCE;
 		}

@@ -10,8 +10,12 @@
  ******************************************************************************/
 package forestry.factory.tiles;
 
-import javax.annotation.Nullable;
-
+import forestry.api.fuels.FuelManager;
+import forestry.api.fuels.RainSubstrate;
+import forestry.core.render.ParticleRender;
+import forestry.core.tiles.TileMill;
+import forestry.factory.features.FactoryTiles;
+import forestry.factory.inventory.InventoryRainmaker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,12 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ServerLevelData;
 
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.RainSubstrate;
-import forestry.core.render.ParticleRender;
-import forestry.core.tiles.TileMill;
-import forestry.factory.features.FactoryTiles;
-import forestry.factory.inventory.InventoryRainmaker;
+import javax.annotation.Nullable;
 
 public class TileMillRainmaker extends TileMill {
 	private int duration;
@@ -39,7 +38,7 @@ public class TileMillRainmaker extends TileMill {
 
 	public TileMillRainmaker(BlockPos pos, BlockState state) {
 		super(FactoryTiles.RAINMAKER.tileType(), pos, state);
-		speed = 0.01f;
+        this.speed = 0.01f;
 		setInternalInventory(new InventoryRainmaker(this));
 	}
 
@@ -49,7 +48,7 @@ public class TileMillRainmaker extends TileMill {
 			ItemStack heldItem = player.getItemInHand(hand);
 
 			// We don't have a gui, but we can be activated
-			if (FuelManager.rainSubstrate.containsKey(heldItem) && charge == 0) {
+			if (FuelManager.rainSubstrate.containsKey(heldItem) && this.charge == 0) {
 				RainSubstrate substrate = FuelManager.rainSubstrate.get(heldItem);
 				if (ItemStack.isSameItem(substrate.item(), heldItem)) {
 					addCharge(substrate);
@@ -66,11 +65,11 @@ public class TileMillRainmaker extends TileMill {
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
 
-		charge = compoundNBT.getInt("Charge");
-		progress = compoundNBT.getFloat("Progress");
-		stage = compoundNBT.getInt("Stage");
-		duration = compoundNBT.getInt("Duration");
-		reverse = compoundNBT.getBoolean("Reverse");
+        this.charge = compoundNBT.getInt("Charge");
+        this.progress = compoundNBT.getFloat("Progress");
+        this.stage = compoundNBT.getInt("Stage");
+        this.duration = compoundNBT.getInt("Duration");
+        this.reverse = compoundNBT.getBoolean("Reverse");
 	}
 
 
@@ -78,18 +77,18 @@ public class TileMillRainmaker extends TileMill {
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
 
-		compoundNBT.putInt("Charge", charge);
-		compoundNBT.putFloat("Progress", progress);
-		compoundNBT.putInt("Stage", stage);
-		compoundNBT.putInt("Duration", duration);
-		compoundNBT.putBoolean("Reverse", reverse);
+		compoundNBT.putInt("Charge", this.charge);
+		compoundNBT.putFloat("Progress", this.progress);
+		compoundNBT.putInt("Stage", this.stage);
+		compoundNBT.putInt("Duration", this.duration);
+		compoundNBT.putBoolean("Reverse", this.reverse);
 	}
 
 	public void addCharge(RainSubstrate substrate) {
-		charge = 1;
-		speed = substrate.speed();
-		duration = substrate.duration();
-		reverse = substrate.reverse();
+        this.charge = 1;
+        this.speed = substrate.speed();
+        this.duration = substrate.duration();
+        this.reverse = substrate.reverse();
 		sendNetworkUpdate();
 	}
 
@@ -109,15 +108,15 @@ public class TileMillRainmaker extends TileMill {
 			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 - f3);
 			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 + f3);
 		} else {
-			if (reverse) {
+			if (this.reverse) {
 				level.getLevelData().setRaining(false);
 			} else {
 				level.getLevelData().setRaining(true);
-				((ServerLevelData) level.getLevelData()).setRainTime(duration);
+				((ServerLevelData) level.getLevelData()).setRainTime(this.duration);
 			}
-			charge = 0;
-			duration = 0;
-			reverse = false;
+            this.charge = 0;
+            this.duration = 0;
+            this.reverse = false;
 			sendNetworkUpdate();
 		}
 	}

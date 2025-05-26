@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.NonNullList;
-
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.core.utils.InventoryUtil;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 
@@ -33,12 +32,12 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		for (ItemStack stack : contents) {
+		for (ItemStack stack : this.contents) {
 			if (!stack.isEmpty()) {
 				return false;
 			}
@@ -47,22 +46,22 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 	}
 
 	public NonNullList<ItemStack> getContents() {
-		return contents;
+		return this.contents;
 	}
 
 	@Override
 	public int getContainerSize() {
-		return contents.size();
+		return this.contents.size();
 	}
 
 	@Override
 	public ItemStack getItem(int slotId) {
-		return contents.get(slotId);
+		return this.contents.get(slotId);
 	}
 
 	@Override
 	public ItemStack removeItem(int slotId, int count) {
-		ItemStack itemStack = contents.get(slotId);
+		ItemStack itemStack = this.contents.get(slotId);
 		if (itemStack.isEmpty()) {
 			return ItemStack.EMPTY;
 		}
@@ -71,12 +70,12 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 
 	@Override
 	public void setItem(int slotId, ItemStack itemstack) {
-		contents.set(slotId, itemstack);
+        this.contents.set(slotId, itemstack);
 	}
 
 	@Override
 	public int getMaxStackSize() {
-		return stackLimit;
+		return this.stackLimit;
 	}
 
 	@Override
@@ -101,18 +100,18 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 	/* INBTagable */
 	@Override
 	public void read(CompoundTag CompoundNBT) {
-		InventoryUtil.readFromNBT(this, name, CompoundNBT);
+		InventoryUtil.readFromNBT(this, this.name, CompoundNBT);
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag CompoundNBT) {
-		InventoryUtil.writeToNBT(this, name, CompoundNBT);
+		InventoryUtil.writeToNBT(this, this.name, CompoundNBT);
 		return CompoundNBT;
 	}
 
 	/* Fields */
 	@Override
 	public void clearContent() {
-		contents.clear();
+        this.contents.clear();
 	}
 }

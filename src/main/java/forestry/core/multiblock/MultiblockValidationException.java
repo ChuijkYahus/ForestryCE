@@ -1,8 +1,8 @@
 package forestry.core.multiblock;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
+
+import javax.annotation.Nullable;
 
 /**
  * An exception thrown when trying to validate a multiblock. Requires a string describing why the multiblock
@@ -26,6 +26,6 @@ public class MultiblockValidationException extends Exception {
 
 	@Nullable
 	public BlockPos getPosition() {
-		return position;
+		return this.position;
 	}
 }

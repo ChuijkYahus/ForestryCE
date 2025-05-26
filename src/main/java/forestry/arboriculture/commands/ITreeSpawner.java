@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.arboriculture.commands;
 
+import forestry.api.arboriculture.genetics.ITree;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.entity.player.Player;
-
-import forestry.api.arboriculture.genetics.ITree;
 
 @FunctionalInterface
 public interface ITreeSpawner {

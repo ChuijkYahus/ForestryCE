@@ -1,13 +1,11 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.arboriculture.genetics;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.core.IProductProducer;
+import forestry.api.core.ISpecialtyProducer;
+import forestry.api.genetics.IEffectData;
+import forestry.api.genetics.IIndividual;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -16,13 +14,8 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.core.IProductProducer;
-import forestry.api.core.ISpecialtyProducer;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IIndividual;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public interface ITree extends IIndividual, IProductProducer, ISpecialtyProducer {
 	IEffectData[] doEffect(IEffectData[] storedData, Level level, BlockPos pos);

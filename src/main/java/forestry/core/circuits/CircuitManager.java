@@ -2,20 +2,14 @@ package forestry.core.circuits;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
+import forestry.api.circuits.*;
+import forestry.core.features.CoreItems;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
-
-import forestry.api.circuits.CircuitHolder;
-import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitBoard;
-import forestry.api.circuits.ICircuitLayout;
-import forestry.api.circuits.ICircuitManager;
-import forestry.core.features.CoreItems;
 
 public class CircuitManager implements ICircuitManager {
 	private final ImmutableMultimap<ICircuitLayout, CircuitHolder> circuitHolders;

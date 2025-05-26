@@ -10,11 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
-import java.util.Objects;
-
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Inventory;
-
 import forestry.api.modules.IForestryPacketClient;
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.tiles.TileBeeHousingBase;
@@ -22,6 +17,10 @@ import forestry.core.gui.ContainerTile;
 import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+
+import java.util.Objects;
 
 public class ContainerBeeHousing extends ContainerTile<TileBeeHousingBase> implements IContainerBeeHousing {
 	private final IGuiBeeHousingDelegate delegate;

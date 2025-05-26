@@ -1,9 +1,8 @@
 package forestry.core.genetics.alleles;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
 import forestry.api.genetics.alleles.IFloatAllele;
+import net.minecraft.resources.ResourceLocation;
 
 record FloatAllele(ResourceLocation alleleId, float value, boolean dominant) implements IFloatAllele {
 	FloatAllele(float value, boolean dominant) {

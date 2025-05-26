@@ -1,10 +1,8 @@
 package forestry.api.client.lepidopterology;
 
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.datafixers.util.Pair;
-
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
+import net.minecraft.resources.ResourceLocation;
 
 public interface IButterflyClientManager {
 	/**

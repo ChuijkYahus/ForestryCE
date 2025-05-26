@@ -1,17 +1,11 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.apiculture.genetics;
-
-import java.util.Locale;
-
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.ItemLike;
 
 import forestry.api.genetics.ILifeStage;
 import forestry.apiculture.features.ApicultureItems;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+
+import java.util.Locale;
 
 public enum BeeLifeStage implements ILifeStage {
 	DRONE(ApicultureItems.BEE_DRONE),

@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.gui.ledgers;
 
-import javax.annotation.Nullable;
-
+import forestry.api.core.IError;
+import forestry.core.gui.GuiForestry;
+import forestry.core.utils.StringUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 
-import forestry.api.core.IError;
-import forestry.core.gui.GuiForestry;
-import forestry.core.utils.StringUtil;
+import javax.annotation.Nullable;
 
 /**
  * A ledger displaying error messages and help text.
@@ -30,26 +29,26 @@ public class ErrorLedger extends Ledger {
 
 	public ErrorLedger(LedgerManager manager) {
 		super(manager, "error", false);
-		maxHeight = 72;
+        this.maxHeight = 72;
 	}
 
 	public void setState(@Nullable IError state) {
 		this.state = state;
 		if (state != null) {
-			int lineHeight = StringUtil.getLineHeight(maxTextWidth, getTooltip(), Component.translatable(state.getHelpTranslationKey()));
-			maxHeight = lineHeight + 20;
+			int lineHeight = StringUtil.getLineHeight(this.maxTextWidth, getTooltip(), Component.translatable(state.getHelpTranslationKey()));
+            this.maxHeight = lineHeight + 20;
 		}
 	}
 
 	@Override
 	public Rect2i getArea() {
 		GuiForestry gui = this.manager.gui;
-		return new Rect2i(gui.getGuiLeft() - (int) this.currentWidth, gui.getGuiTop() + y, (int) this.currentWidth, (int) this.currentHeight);
+		return new Rect2i(gui.getGuiLeft() - (int) this.currentWidth, gui.getGuiTop() + this.y, (int) this.currentWidth, (int) this.currentHeight);
 	}
 
 	@Override
 	public void draw(GuiGraphics graphics, int y, int x) {
-		if (state == null) {
+		if (this.state == null) {
 			return;
 		}
 
@@ -62,7 +61,7 @@ public class ErrorLedger extends Ledger {
 		int xHeader = x + 24;
 
 		// Draw sprite
-		drawSprite(graphics, state.getSprite(), xIcon, y);
+		drawSprite(graphics, this.state.getSprite(), xIcon, y);
 		y += 4;
 
 		// Write description if fully opened
@@ -70,22 +69,22 @@ public class ErrorLedger extends Ledger {
 			y += drawHeader(graphics, getTooltip(), xHeader, y);
 			y += 4;
 
-			Component helpString = Component.translatable(state.getHelpTranslationKey());
-			drawSplitText(graphics, helpString, xBody, y, maxTextWidth);
+			Component helpString = Component.translatable(this.state.getHelpTranslationKey());
+			drawSplitText(graphics, helpString, xBody, y, this.maxTextWidth);
 		}
 	}
 
 	@Override
 	public boolean isVisible() {
-		return state != null;
+		return this.state != null;
 	}
 
 	@Override
 	public Component getTooltip() {
-		if (state == null) {
+		if (this.state == null) {
 			return Component.literal("");
 		}
-		return Component.translatable(state.getDescriptionTranslationKey());
+		return Component.translatable(this.state.getDescriptionTranslationKey());
 	}
 
 }

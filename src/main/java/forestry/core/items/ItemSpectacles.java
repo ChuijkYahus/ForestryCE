@@ -10,34 +10,24 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.api.ForestryCapabilities;
+import forestry.api.ForestryConstants;
+import forestry.arboriculture.capabilities.ArmorNaturalist;
+import forestry.core.config.Constants;
+import forestry.core.utils.ItemTooltipUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 
-import forestry.api.ForestryCapabilities;
-import forestry.api.ForestryConstants;
-import forestry.arboriculture.capabilities.ArmorNaturalist;
-import forestry.compat.curios.CuriosCompat;
-import forestry.core.config.Constants;
-import forestry.core.utils.ItemTooltipUtil;
-
-import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.type.capability.ICurio;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemSpectacles extends ArmorItem {
 	public static final String TEXTURE_NATURALIST_ARMOR_PRIMARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/naturalist_armor_1.png";

@@ -1,14 +1,12 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.resources.ResourceLocation;
-
 import net.minecraftforge.client.model.generators.CustomLoaderBuilder;
 import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
+import javax.annotation.Nullable;
 
 public class FilledCrateModelBuilder<T extends ModelBuilder<T>> extends CustomLoaderBuilder<T> {
 	private static final ResourceLocation ID = new ResourceLocation("forestry:filled_crate");
@@ -42,7 +40,7 @@ public class FilledCrateModelBuilder<T extends ModelBuilder<T>> extends CustomLo
 		json = super.toJson(json);
 		JsonObject textures = new JsonObject();
 		textures.addProperty("layer1", this.layer1.toString());
-		if (layer2 != null) {
+		if (this.layer2 != null) {
 			textures.addProperty("layer2", this.layer2.toString());
 		}
 		json.add("textures", textures);

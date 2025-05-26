@@ -1,20 +1,13 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.mail;
 
+import forestry.api.client.ITextureManager;
 import forestry.mail.LetterUtils;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.level.ServerLevel;
-
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import forestry.api.client.ITextureManager;
 
 /**
  * Postal Carriers are systems which can be hooked into Forestry's mail system to handle mail delivery.

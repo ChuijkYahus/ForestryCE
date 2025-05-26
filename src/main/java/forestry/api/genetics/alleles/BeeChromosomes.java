@@ -1,13 +1,12 @@
 package forestry.api.genetics.alleles;
 
-import net.minecraft.core.Vec3i;
-
 import forestry.api.apiculture.IActivityType;
-import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.ForestrySpeciesTypes;
+import net.minecraft.core.Vec3i;
 
 import static forestry.api.ForestryConstants.forestry;
 

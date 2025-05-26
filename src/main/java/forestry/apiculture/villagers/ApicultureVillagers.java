@@ -1,12 +1,23 @@
 package forestry.apiculture.villagers;
 
 import com.google.common.collect.ImmutableSet;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Predicate;
-
+import forestry.api.ForestryTags;
+import forestry.api.apiculture.ForestryBeeSpecies;
+import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.modules.ForestryModuleIds;
+import forestry.apiculture.blocks.BlockTypeApiculture;
+import forestry.apiculture.features.ApicultureBlocks;
+import forestry.apiculture.features.ApicultureItems;
+import forestry.apiculture.items.EnumPropolis;
+import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.features.CoreBlocks;
+import forestry.core.registration.VillagerTrade;
+import forestry.core.registration.VillagerTrade.*;
+import forestry.core.utils.SpeciesUtil;
+import forestry.modules.features.FeatureProvider;
+import forestry.modules.features.IFeatureRegistry;
+import forestry.modules.features.ModFeatureRegistry;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -21,34 +32,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
-
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
-import forestry.api.ForestryTags;
-import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.blocks.BlockTypeApiculture;
-import forestry.apiculture.features.ApicultureBlocks;
-import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.items.EnumPropolis;
-import forestry.core.blocks.BlockTypeCoreTesr;
-import forestry.core.features.CoreBlocks;
-import forestry.core.registration.VillagerTrade;
-import forestry.core.registration.VillagerTrade.GiveEmeraldForItem;
-import forestry.core.registration.VillagerTrade.GiveItemForEmeralds;
-import forestry.core.registration.VillagerTrade.GiveItemForItemAndEmerald;
-import forestry.core.registration.VillagerTrade.GiveItemForLogAndEmerald;
-import forestry.core.registration.VillagerTrade.GiveItemForTwoItems;
-import forestry.core.utils.SpeciesUtil;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Predicate;
 
 @FeatureProvider
 public class ApicultureVillagers {
@@ -68,8 +60,8 @@ public class ApicultureVillagers {
 		if (event.getType().equals(PROF_BEEKEEPER.get())) {
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
 			List<Item> combs = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(Registries.ITEM).getTag(ForestryTags.Items.VILLAGE_COMBS).get().stream()
-					.map(Holder::get)
-					.toList();
+				.map(Holder::get)
+				.toList();
 
 			trades.get(1).add(new GiveHoneyCombForItem(combs, Items.WHEAT, new VillagerTrade.PriceInterval(2, 4), new VillagerTrade.PriceInterval(8, 12), 8, 2, 0F));
 			trades.get(1).add(new GiveHoneyCombForItem(combs, Items.CARROT, new VillagerTrade.PriceInterval(2, 4), new VillagerTrade.PriceInterval(8, 12), 8, 2, 0F));
@@ -97,9 +89,9 @@ public class ApicultureVillagers {
 
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			ItemStack buy = new ItemStack(buying, buyingPriceInfo.getPrice(rand));
-			ItemStack sell = new ItemStack(itemHoneyCombs.get(rand.nextInt(itemHoneyCombs.size())), sellingPriceInfo.getPrice(rand));
-			return new MerchantOffer(buy, sell, maxUses, xp, priceMult);
+			ItemStack buy = new ItemStack(this.buying, this.buyingPriceInfo.getPrice(rand));
+			ItemStack sell = new ItemStack(this.itemHoneyCombs.get(rand.nextInt(this.itemHoneyCombs.size())), this.sellingPriceInfo.getPrice(rand));
+			return new MerchantOffer(buy, sell, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 
@@ -111,9 +103,9 @@ public class ApicultureVillagers {
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			ResourceLocation[] forestryMundane = new ResourceLocation[]{ForestryBeeSpecies.FOREST, ForestryBeeSpecies.MEADOWS, ForestryBeeSpecies.MODEST, ForestryBeeSpecies.WINTRY, ForestryBeeSpecies.TROPICAL, ForestryBeeSpecies.MARSHY};
 			ItemStack randomHiveDrone = SpeciesUtil.getBeeSpecies(forestryMundane[rand.nextInt(forestryMundane.length)]).createStack(BeeLifeStage.DRONE);
-			randomHiveDrone.setCount(sellingPriceInfo.getPrice(rand));
+			randomHiveDrone.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(buying, buyingPriceInfo.getPrice(rand)), randomHiveDrone, maxUses, xp, priceMult);
+			return new MerchantOffer(new ItemStack(this.buying, this.buyingPriceInfo.getPrice(rand)), randomHiveDrone, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 }

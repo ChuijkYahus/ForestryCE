@@ -10,6 +10,9 @@
  ******************************************************************************/
 package forestry.storage.items;
 
+import forestry.api.storage.EnumBackpackType;
+import forestry.api.storage.IBackpackDefinition;
+import forestry.storage.gui.ContainerNaturalistBackpack;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,10 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
-import forestry.storage.gui.ContainerNaturalistBackpack;
 
 public class ItemBackpackNaturalist extends ItemBackpack {
 	public final ResourceLocation typeId;

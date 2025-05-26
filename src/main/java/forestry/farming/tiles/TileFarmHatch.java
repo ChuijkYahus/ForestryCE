@@ -10,14 +10,16 @@
  ******************************************************************************/
 package forestry.farming.tiles;
 
-import javax.annotation.Nullable;
-
+import forestry.api.multiblock.IFarmComponent;
+import forestry.core.inventory.AdjacentInventoryCache;
+import forestry.core.tiles.AdjacentTileCache;
+import forestry.core.utils.InventoryUtil;
+import forestry.farming.features.FarmingTiles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -25,11 +27,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-import forestry.api.multiblock.IFarmComponent;
-import forestry.core.inventory.AdjacentInventoryCache;
-import forestry.core.tiles.AdjacentTileCache;
-import forestry.core.utils.InventoryUtil;
-import forestry.farming.features.FarmingTiles;
+import javax.annotation.Nullable;
 
 public class TileFarmHatch extends TileFarm implements WorldlyContainer, IFarmComponent.Active {
 
@@ -39,7 +37,7 @@ public class TileFarmHatch extends TileFarm implements WorldlyContainer, IFarmCo
 	public TileFarmHatch(BlockPos pos, BlockState state) {
 		super(FarmingTiles.HATCH.tileType(), pos, state);
 		this.tileCache = new AdjacentTileCache(this);
-		this.inventoryCache = new AdjacentInventoryCache(this, tileCache, tile -> !(tile instanceof TileFarm) && tile.getBlockPos().getY() < getBlockPos().getY());
+		this.inventoryCache = new AdjacentInventoryCache(this, this.tileCache, tile -> !(tile instanceof TileFarm) && tile.getBlockPos().getY() < getBlockPos().getY());
 	}
 
 	@Override
@@ -53,8 +51,8 @@ public class TileFarmHatch extends TileFarm implements WorldlyContainer, IFarmCo
 			Container productInventory = getMultiblockLogic().getController().getFarmInventory().getProductInventory();
 			IItemHandler productItemHandler = new InvWrapper(productInventory);
 
-            InventoryUtil.moveItemStack(productItemHandler, inventoryCache.getAdjacentInventories());
-        }
+			InventoryUtil.moveItemStack(productItemHandler, this.inventoryCache.getAdjacentInventories());
+		}
 	}
 
 	@Override

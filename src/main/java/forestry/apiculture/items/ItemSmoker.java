@@ -1,5 +1,9 @@
 package forestry.apiculture.items;
 
+import forestry.api.apiculture.hives.IHiveTile;
+import forestry.core.items.ItemForestry;
+import forestry.core.render.ParticleRender;
+import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,11 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-
-import forestry.api.apiculture.hives.IHiveTile;
-import forestry.core.items.ItemForestry;
-import forestry.core.render.ParticleRender;
-import forestry.core.tiles.TileUtil;
 
 public class ItemSmoker extends ItemForestry {
 	public ItemSmoker() {

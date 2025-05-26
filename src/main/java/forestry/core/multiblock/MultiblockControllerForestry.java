@@ -12,16 +12,7 @@ package forestry.core.multiblock;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
-
 import com.mojang.authlib.GameProfile;
-
 import forestry.api.IForestryApi;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorLogicSource;
@@ -32,6 +23,12 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.owner.IOwnedTile;
 import forestry.core.owner.IOwnerHandler;
 import forestry.core.owner.OwnerHandler;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public abstract class MultiblockControllerForestry extends MultiblockControllerBase implements WorldlyContainer, IOwnedTile, IErrorLogicSource, ILocationProvider {
 	private final OwnerHandler ownerHandler;
@@ -46,31 +43,31 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 
 	@Override
 	public IOwnerHandler getOwnerHandler() {
-		return ownerHandler;
+		return this.ownerHandler;
 	}
 
 	@Override
 	public IErrorLogic getErrorLogic() {
-		return errorLogic;
+		return this.errorLogic;
 	}
 
 	@Override
 	public Level getWorldObj() {
-		return level;
+		return this.level;
 	}
 
 	@Override
 	protected void onMachineAssembled() {
 		super.onMachineAssembled();
 
-		if (level.isClientSide) {
+		if (this.level.isClientSide) {
 			return;
 		}
 
 		// Figure out who owns the multiblock, by majority
 
 		Multiset<GameProfile> owners = HashMultiset.create();
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			GameProfile owner = part.getOwner();
 			if (owner != null) {
 				owners.add(owner);
@@ -95,13 +92,13 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 	/* INbtWritable */
 	@Override
 	public CompoundTag write(CompoundTag data) {
-		ownerHandler.write(data);
+        this.ownerHandler.write(data);
 		return data;
 	}
 
 	@Override
 	public void read(CompoundTag data) {
-		ownerHandler.read(data);
+        this.ownerHandler.read(data);
 	}
 
 	/* INVENTORY */

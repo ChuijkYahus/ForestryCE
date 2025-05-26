@@ -11,12 +11,8 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
-
-import javax.annotation.Nullable;
-import java.util.function.Consumer;
-
-import org.apache.commons.lang3.mutable.MutableObject;
-
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -25,11 +21,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.mutable.MutableObject;
 
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class CarpenterRecipeBuilder {
 	private int packagingTime = 5;
@@ -81,7 +77,7 @@ public class CarpenterRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, packagingTime, liquid, box, recipe, result));
+		consumer.accept(new Result(id, this.packagingTime, this.liquid, this.box, this.recipe, this.result));
 	}
 
 	public static class Result implements FinishedRecipe {
@@ -105,23 +101,23 @@ public class CarpenterRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.addProperty("time", packagingTime);
+			json.addProperty("time", this.packagingTime);
 
-			if (liquid != null) {
-				json.add("liquid", RecipeSerializers.serializeFluid(liquid));
+			if (this.liquid != null) {
+				json.add("liquid", RecipeSerializers.serializeFluid(this.liquid));
 			}
 
-			json.add("box", box.toJson());
-			json.add("recipe", recipe.serializeRecipe());
+			json.add("box", this.box.toJson());
+			json.add("recipe", this.recipe.serializeRecipe());
 
-			if (result != null) {
-				json.add("result", RecipeSerializers.item(result));
+			if (this.result != null) {
+				json.add("result", RecipeSerializers.item(this.result));
 			}
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

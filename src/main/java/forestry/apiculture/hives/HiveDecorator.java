@@ -10,6 +10,12 @@
  ******************************************************************************/
 package forestry.apiculture.hives;
 
+import forestry.api.IForestryApi;
+import forestry.api.apiculture.hives.IHive;
+import forestry.api.core.HumidityType;
+import forestry.api.core.TemperatureType;
+import forestry.core.config.ForestryConfig;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -21,14 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-
-import forestry.api.IForestryApi;
-import forestry.api.apiculture.hives.IHive;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
-import forestry.core.config.ForestryConfig;
-
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 	public HiveDecorator() {

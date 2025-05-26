@@ -12,23 +12,6 @@ package forestry.core.fluids;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.Level;
-
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
-
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
@@ -36,6 +19,20 @@ import forestry.core.network.packets.PacketTankLevelUpdate;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.IRenderableTile;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidTank;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TankManager implements ITankManager, ITankUpdateHandler, IStreamable, INbtWritable, INbtReadable {
 	private final List<StandardTank> tanks = new ArrayList<>();
@@ -69,8 +66,8 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	@Override
 	public CompoundTag write(CompoundTag data) {
 		ListTag tagList = new ListTag();
-		for (byte slot = 0; slot < tanks.size(); slot++) {
-			StandardTank tank = tanks.get(slot);
+		for (byte slot = 0; slot < this.tanks.size(); slot++) {
+			StandardTank tank = this.tanks.get(slot);
 			if (!tank.getFluid().isEmpty()) {
 				CompoundTag tag = new CompoundTag();
 				tag.putByte("tank", slot);
@@ -87,8 +84,8 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 		for (Tag tag : data.getList("tanks", Tag.TAG_COMPOUND)) {
 			CompoundTag compound = (CompoundTag) tag;
 			int slot = compound.getByte("tank");
-			if (slot >= 0 && slot < tanks.size()) {
-				StandardTank tank = tanks.get(slot);
+			if (slot >= 0 && slot < this.tanks.size()) {
+				StandardTank tank = this.tanks.get(slot);
 				tank.readFromNBT(compound);
 				updateTankLevels(tank);
 			}
@@ -97,47 +94,47 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		for (StandardTank tank : tanks) {
+		for (StandardTank tank : this.tanks) {
 			tank.writeData(data);
 		}
 	}
 
 	@Override
 	public void readData(FriendlyByteBuf data) {
-		for (StandardTank tank : tanks) {
+		for (StandardTank tank : this.tanks) {
 			tank.readData(data);
 		}
 	}
 
 	@Override
 	public void sendAllTanks(AbstractContainerMenu container, ServerPlayer player) {
-		for (StandardTank tank : tanks) {
+		for (StandardTank tank : this.tanks) {
 			sendTankUpdate(container, player, tank);
 		}
 	}
 
 	@Override
 	public void onClosed(AbstractContainerMenu container) {
-		for (StandardTank tank : tanks) {
-			prevFluidStacks.remove(container, tank.getTankIndex());
+		for (StandardTank tank : this.tanks) {
+            this.prevFluidStacks.remove(container, tank.getTankIndex());
 		}
 	}
 
 	@Override
 	public void broadcastChanges(AbstractContainerMenu container, ServerPlayer players) {
-		for (StandardTank tank : tanks) {
+		for (StandardTank tank : this.tanks) {
 			sendTankUpdate(container, players, tank.getTankIndex());
 		}
 	}
 
 	private void sendTankUpdate(AbstractContainerMenu container, ServerPlayer player, int tankIndex) {
-		StandardTank tank = tanks.get(tankIndex);
+		StandardTank tank = this.tanks.get(tankIndex);
 		if (tank == null) {
 			return;
 		}
 
 		FluidStack fluidStack = tank.getFluid();
-		FluidStack prev = prevFluidStacks.get(container, tankIndex);
+		FluidStack prev = this.prevFluidStacks.get(container, tankIndex);
 		if (prev == null) {
 			prev = FluidStack.EMPTY;
 		}
@@ -149,37 +146,37 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	private void sendTankUpdate(AbstractContainerMenu container, ServerPlayer player, StandardTank tank) {
-		if (tile != null) {
+		if (this.tile != null) {
 			int tankIndex = tank.getTankIndex();
 			FluidStack fluid = tank.getFluid();
-			NetworkUtil.sendToPlayer(new PacketTankLevelUpdate(tile, tankIndex, fluid), player);
+			NetworkUtil.sendToPlayer(new PacketTankLevelUpdate(this.tile, tankIndex, fluid), player);
 
 			if (fluid.isEmpty()) {
-				prevFluidStacks.remove(container, tankIndex);
+                this.prevFluidStacks.remove(container, tankIndex);
 			} else {
-				prevFluidStacks.put(container, tankIndex, fluid.copy());
+                this.prevFluidStacks.put(container, tankIndex, fluid.copy());
 			}
 		}
 	}
 
 	@Override
 	public void processTankUpdate(int tankIndex, @Nullable FluidStack contents) {
-		if (tankIndex < 0 || tankIndex > tanks.size()) {
+		if (tankIndex < 0 || tankIndex > this.tanks.size()) {
 			return;
 		}
-		StandardTank tank = tanks.get(tankIndex);
+		StandardTank tank = this.tanks.get(tankIndex);
 		tank.setFluid(contents);
 	}
 
 	@Nullable
 	@Override
 	public IFluidTank getTank(int tankIndex) {
-		return tanks.get(tankIndex);
+		return this.tanks.get(tankIndex);
 	}
 
 	@Override
 	public int getTanks() {
-		return tanks.size();
+		return this.tanks.size();
 	}
 
 	@Override
@@ -211,7 +208,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	@Override
 	public int fill(FluidStack resource, FluidAction action) {
-		for (StandardTank tank : tanks) {
+		for (StandardTank tank : this.tanks) {
 			if (tankAcceptsFluid(tank, resource)) {
 				return fill(tank.getTankIndex(), resource, action);
 			}
@@ -221,11 +218,11 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	public int fill(int tankIndex, FluidStack resource, FluidAction action) {
-		if (tankIndex < 0 || tankIndex >= tanks.size()) {
+		if (tankIndex < 0 || tankIndex >= this.tanks.size()) {
 			return 0;
 		}
 
-		StandardTank tank = tanks.get(tankIndex);
+		StandardTank tank = this.tanks.get(tankIndex);
 		if (!tank.canFill()) {
 			return 0;
 		}
@@ -235,22 +232,22 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	@Override
 	public void updateTankLevels(StandardTank tank) {
-		if (!(tile instanceof IRenderableTile)) {
+		if (!(this.tile instanceof IRenderableTile)) {
 			return;
 		}
 
-		Level world = tile.getWorldObj();
+		Level world = this.tile.getWorldObj();
 		if (world == null || world.isClientSide)
 			return;
 
 		int tankIndex = tank.getTankIndex();
-		PacketTankLevelUpdate tankLevelUpdate = new PacketTankLevelUpdate(tile, tankIndex, tank.getFluid());
-		NetworkUtil.sendNetworkPacket(tankLevelUpdate, tile.getCoordinates(), world);
+		PacketTankLevelUpdate tankLevelUpdate = new PacketTankLevelUpdate(this.tile, tankIndex, tank.getFluid());
+		NetworkUtil.sendNetworkPacket(tankLevelUpdate, this.tile.getCoordinates(), world);
 	}
 
 	@Override
 	public FluidStack drain(int maxDrain, FluidAction action) {
-		for (StandardTank tank : tanks) {
+		for (StandardTank tank : this.tanks) {
 			if (tankCanDrain(tank)) {
 				return drain(tank.getTankIndex(), maxDrain, action);
 			}
@@ -259,11 +256,11 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	public FluidStack drain(int tankIndex, int maxDrain, FluidAction action) {
-		if (tankIndex < 0 || tankIndex >= tanks.size()) {
+		if (tankIndex < 0 || tankIndex >= this.tanks.size()) {
 			return FluidStack.EMPTY;
 		}
 
-		StandardTank tank = tanks.get(tankIndex);
+		StandardTank tank = this.tanks.get(tankIndex);
 		if (!tank.canDrain()) {
 			return FluidStack.EMPTY;
 		}
@@ -273,7 +270,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	@Override
 	public FluidStack drain(FluidStack resource, FluidAction action) {
-		for (StandardTank tank : tanks) {
+		for (StandardTank tank : this.tanks) {
 			if (tankCanDrainFluid(tank, resource)) {
 				return drain(tank.getTankIndex(), resource.getAmount(), action);
 			}
@@ -283,12 +280,12 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	@Nullable
 	public FluidStack getFluid(int tankIndex) {
-		return tanks.get(tankIndex).getFluid();
+		return this.tanks.get(tankIndex).getFluid();
 	}
 
 	@Override
 	public boolean canFillFluidType(FluidStack fluidStack) {
-		for (StandardTank tank : tanks) {
+		for (StandardTank tank : this.tanks) {
 			if (tank.isFluidValid(fluidStack)) {
 				return true;
 			}
@@ -299,7 +296,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	private static boolean tankAcceptsFluid(StandardTank tank, FluidStack fluidStack) {
 		return tank.canFill() &&
-				tank.fill(fluidStack, FluidAction.SIMULATE) > 0;
+			tank.fill(fluidStack, FluidAction.SIMULATE) > 0;
 	}
 
 	private static boolean tankCanDrain(StandardTank tank) {
@@ -312,6 +309,6 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	private static boolean tankCanDrainFluid(StandardTank tank, FluidStack fluidStack) {
 		return ForestryFluids.areEqual(tank.getFluidType(), fluidStack) &&
-				tankCanDrain(tank);
+			tankCanDrain(tank);
 	}
 }

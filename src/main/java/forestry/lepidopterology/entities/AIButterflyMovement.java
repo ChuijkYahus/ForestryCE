@@ -10,9 +10,9 @@
  ******************************************************************************/
 package forestry.lepidopterology.entities;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 public abstract class AIButterflyMovement extends AIButterflyBase {
 	@Nullable
@@ -24,38 +24,38 @@ public abstract class AIButterflyMovement extends AIButterflyBase {
 
 	@Override
 	public boolean canContinueToUse() {
-		if (entity.getState() != EnumButterflyState.FLYING) {
+		if (this.entity.getState() != EnumButterflyState.FLYING) {
 			return false;
 		}
-		if (flightTarget == null) {
+		if (this.flightTarget == null) {
 			return false;
 		}
 		// Abort if the flight target changed on us.
-		if (entity.getDestination() == null || !entity.getDestination().equals(flightTarget)) {
+		if (this.entity.getDestination() == null || !this.entity.getDestination().equals(this.flightTarget)) {
 			return false;
 		}
 
 		// Continue if we have not yet reached the destination.
-		if (entity.getDestination().distanceToSqr(entity.position()) > 2.0f) {
+		if (this.entity.getDestination().distanceToSqr(this.entity.position()) > 2.0f) {
 			return true;
 		}
 
-		entity.setDestination(null);
+        this.entity.setDestination(null);
 		return false;
 	}
 
 	@Override
 	public void tick() {
 		// Reset destination if we did collide.
-		if (entity.isInWater()) {
-			flightTarget = getRandomDestinationUpwards();
-		} else if (entity.horizontalCollision || entity.verticalCollision) {
-			flightTarget = entity.getRandom().nextBoolean() ? getRandomDestination() : null;
-		} else if (entity.level().random.nextInt(300) == 0) {
-			flightTarget = getRandomDestination();
+		if (this.entity.isInWater()) {
+            this.flightTarget = getRandomDestinationUpwards();
+		} else if (this.entity.horizontalCollision || this.entity.verticalCollision) {
+            this.flightTarget = this.entity.getRandom().nextBoolean() ? getRandomDestination() : null;
+		} else if (this.entity.level().random.nextInt(300) == 0) {
+            this.flightTarget = getRandomDestination();
 		}
-		entity.setDestination(flightTarget);
-		entity.changeExhaustion(1);
+        this.entity.setDestination(this.flightTarget);
+        this.entity.changeExhaustion(1);
 	}
 
 	@Override
@@ -64,6 +64,6 @@ public abstract class AIButterflyMovement extends AIButterflyBase {
 
 	@Override
 	public void stop() {
-		flightTarget = null;
+        this.flightTarget = null;
 	}
 }

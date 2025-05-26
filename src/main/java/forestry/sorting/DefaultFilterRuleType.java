@@ -1,16 +1,15 @@
 package forestry.sorting;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.client.ForestrySprites;
 import forestry.api.genetics.filter.FilterData;
 import forestry.api.genetics.filter.IFilterRule;
 import forestry.api.genetics.filter.IFilterRuleType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 public enum DefaultFilterRuleType implements IFilterRuleType {
 	CLOSED(false, ForestrySprites.ANALYZER_CLOSED) {
@@ -58,7 +57,7 @@ public enum DefaultFilterRuleType implements IFilterRuleType {
 
 	@Override
 	public boolean isValid(ItemStack stack, FilterData data) {
-		for (IFilterRule logic : logic) {
+		for (IFilterRule logic : this.logic) {
 			if (logic.isValid(stack, data)) {
 				return true;
 			}

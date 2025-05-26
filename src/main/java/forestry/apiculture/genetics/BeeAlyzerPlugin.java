@@ -1,13 +1,5 @@
 package forestry.apiculture.genetics;
 
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -29,6 +21,13 @@ import forestry.core.gui.widgets.WidgetManager;
 import forestry.core.render.ColourProperties;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+import java.util.Map;
 
 public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 	INSTANCE;
@@ -136,7 +135,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						textLayout.newLine();
 
 						textLayout.drawRow(graphics, Component.translatable("for.gui.climate"), ClimateHelper.toDisplay(primaryAllele.getTemperature()),
-								ColourProperties.INSTANCE.get("gui.screen"), GuiAlyzer.getColorCoding(genome.getActiveAllele(BeeChromosomes.SPECIES).dominant()));
+							ColourProperties.INSTANCE.get("gui.screen"), GuiAlyzer.getColorCoding(genome.getActiveAllele(BeeChromosomes.SPECIES).dominant()));
 
 						textLayout.newLine();
 
@@ -147,7 +146,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						textLayout.newLine(16);
 
 						textLayout.drawRow(graphics, Component.translatable("for.gui.humidity"), ClimateHelper.toDisplay(primaryAllele.getHumidity()),
-								ColourProperties.INSTANCE.get("gui.screen"), GuiAlyzer.getColorCoding(individual.getGenome().getActiveAllele(BeeChromosomes.SPECIES).dominant()));
+							ColourProperties.INSTANCE.get("gui.screen"), GuiAlyzer.getColorCoding(individual.getGenome().getActiveAllele(BeeChromosomes.SPECIES).dominant()));
 
 						textLayout.newLine();
 
@@ -192,7 +191,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						textLayout.newLine();
 
 						guiAlyzer.drawRow(graphics, Component.translatable("for.gui.climate"), ClimateHelper.toDisplay(primaryAllele.getTemperature()),
-								ClimateHelper.toDisplay(secondaryAllele.getTemperature()), bee, BeeChromosomes.SPECIES);
+							ClimateHelper.toDisplay(secondaryAllele.getTemperature()), bee, BeeChromosomes.SPECIES);
 
 						textLayout.newLine();
 
@@ -205,7 +204,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						textLayout.newLine(16);
 
 						guiAlyzer.drawRow(graphics, Component.translatable("for.gui.humidity"), ClimateHelper.toDisplay(primaryAllele.getHumidity()),
-								ClimateHelper.toDisplay(secondaryAllele.getHumidity()), bee, BeeChromosomes.SPECIES);
+							ClimateHelper.toDisplay(secondaryAllele.getHumidity()), bee, BeeChromosomes.SPECIES);
 
 						textLayout.newLine();
 

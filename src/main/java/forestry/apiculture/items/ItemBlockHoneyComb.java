@@ -1,11 +1,10 @@
 package forestry.apiculture.items;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.apiculture.blocks.BlockHoneyComb;
 import forestry.core.items.ItemBlockForestry;
 import forestry.core.items.definitions.IColoredItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemBlockHoneyComb extends ItemBlockForestry<BlockHoneyComb> implements IColoredItem {
 	public ItemBlockHoneyComb(BlockHoneyComb block) {

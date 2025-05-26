@@ -1,20 +1,5 @@
 package forestry.apiculture.genetics.effects;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.SectionPos;
-import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeModifier;
@@ -29,6 +14,19 @@ import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.apiculture.genetics.Bee;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.VecUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 // An effect applied to other bee hives that shouldn't stack (ex. the Chronophage and Rejuvenation effects)
 public abstract class NonStackingBeeEffect implements IBeeEffect {

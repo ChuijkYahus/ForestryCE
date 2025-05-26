@@ -1,21 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
-
 package forestry.core.items;
 
-import java.util.Locale;
-
 import forestry.api.core.IItemSubtype;
-
 import net.minecraft.world.item.Item;
+
+import java.util.Locale;
 
 public class ItemFruit extends ItemForestryFood {
 
@@ -36,7 +24,7 @@ public class ItemFruit extends ItemForestryFood {
 
 		@Override
 		public String getSerializedName() {
-			return name;
+			return this.name;
 		}
 	}
 
@@ -48,7 +36,7 @@ public class ItemFruit extends ItemForestryFood {
 	}
 
 	public EnumFruit getType() {
-		return type;
+		return this.type;
 	}
 
 	@Override

@@ -1,18 +1,14 @@
 package forestry.storage;
 
-import javax.annotation.Nullable;
-
 import forestry.core.utils.TagUtil;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.function.Predicate;
-
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class BackpackFilter implements Predicate<ItemStack> {
 	private final TagKey<Item> acceptKey;
@@ -28,22 +24,22 @@ public class BackpackFilter implements Predicate<ItemStack> {
 	}
 
 	private HolderSet<Item> getAccept() {
-		if (cachedAccept == null) {
-			cachedAccept = getHolderSet(acceptKey);
+		if (this.cachedAccept == null) {
+            this.cachedAccept = getHolderSet(this.acceptKey);
 		}
-		return cachedAccept;
+		return this.cachedAccept;
 	}
 
 	private HolderSet<Item> getReject() {
-		if (cachedReject == null) {
-			cachedReject = getHolderSet(rejectKey);
+		if (this.cachedReject == null) {
+            this.cachedReject = getHolderSet(this.rejectKey);
 		}
-		return cachedReject;
+		return this.cachedReject;
 	}
 
 	private static HolderSet<Item> getHolderSet(TagKey<Item> tagKey) {
 		return BuiltInRegistries.ITEM.getTag(tagKey)
-				.orElseThrow(() -> new IllegalArgumentException("No tag holder set found for tag key: " + tagKey));
+			.orElseThrow(() -> new IllegalArgumentException("No tag holder set found for tag key: " + tagKey));
 	}
 
 	@Override

@@ -10,9 +10,8 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import net.minecraft.world.item.Item;
-
 import forestry.core.items.definitions.EnumCraftingMaterial;
+import net.minecraft.world.item.Item;
 
 public class ItemCraftingMaterial extends ItemForestry {
 	private final EnumCraftingMaterial type;

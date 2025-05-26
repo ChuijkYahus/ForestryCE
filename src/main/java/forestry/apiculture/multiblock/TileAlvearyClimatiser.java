@@ -10,17 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.multiblock;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-
 import forestry.api.climate.IClimateControlled;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
@@ -29,6 +18,15 @@ import forestry.core.tiles.IActivatable;
 import forestry.energy.EnergyHelper;
 import forestry.energy.EnergyTransferMode;
 import forestry.energy.ForestryEnergyStorage;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+
+import javax.annotation.Nullable;
 
 // Used by Heater and Fan, which increase and decrease Temperature, respectively
 public abstract class TileAlvearyClimatiser extends TileAlveary implements IActivatable, IAlvearyComponent.Climatiser<MultiblockLogicAlveary> {
@@ -52,32 +50,32 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 	/* UPDATING */
 	@Override
 	public void changeClimate(int tick, IClimateControlled climateControlled) {
-		if (workingTime < 20 && EnergyHelper.consumeEnergyToDoWork(energyStorage, TICKS_PER_CYCLE, FE_PER_OPERATION)) {
+		if (this.workingTime < 20 && EnergyHelper.consumeEnergyToDoWork(this.energyStorage, TICKS_PER_CYCLE, FE_PER_OPERATION)) {
 			// one tick of work for every 10 RF
-			workingTime += FE_PER_OPERATION / 10;
+            this.workingTime += FE_PER_OPERATION / 10;
 		}
 
-		if (workingTime > 0) {
-			workingTime--;
+		if (this.workingTime > 0) {
+            this.workingTime--;
 			climateControlled.addTemperatureChange(this.temperatureSteps);
 		}
 
-		setActive(workingTime > 0);
+		setActive(this.workingTime > 0);
 	}
 
 	/* LOADING & SAVING */
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-		energyStorage.read(compoundNBT);
-		workingTime = compoundNBT.getInt("Heating");
+        this.energyStorage.read(compoundNBT);
+        this.workingTime = compoundNBT.getInt("Heating");
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-		energyStorage.write(compoundNBT);
-		compoundNBT.putInt("Heating", workingTime);
+        this.energyStorage.write(compoundNBT);
+		compoundNBT.putInt("Heating", this.workingTime);
 	}
 
 	/* Network */
@@ -106,8 +104,8 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!remove && capability == ForgeCapabilities.ENERGY) {
-			return energyCap.cast();
+		if (!this.remove && capability == ForgeCapabilities.ENERGY) {
+			return this.energyCap.cast();
 		}
 		return super.getCapability(capability, facing);
 	}

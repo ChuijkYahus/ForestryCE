@@ -10,15 +10,7 @@
  ******************************************************************************/
 package forestry.farming.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.farming.IFarmLogic;
 import forestry.api.farming.IFarmType;
@@ -26,6 +18,12 @@ import forestry.core.gui.GuiUtil;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.gui.widgets.WidgetManager;
 import forestry.farming.multiblock.IFarmControllerInternal;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 public class FarmLogicSlot extends Widget {
 	private final IFarmControllerInternal farmController;
@@ -38,7 +36,7 @@ public class FarmLogicSlot extends Widget {
 	}
 
 	private IFarmLogic getLogic() {
-		return farmController.getFarmLogic(farmDirection);
+		return this.farmController.getFarmLogic(this.farmDirection);
 	}
 
 	private IFarmType getProperties() {
@@ -54,14 +52,14 @@ public class FarmLogicSlot extends Widget {
 		if (!getStackIndex().isEmpty()) {
 			Minecraft minecraft = Minecraft.getInstance();
 			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
-			GuiUtil.drawItemStack(graphics, minecraft.font, getStackIndex(), startX + xPos, startY + yPos);
+			GuiUtil.drawItemStack(graphics, minecraft.font, getStackIndex(), startX + this.xPos, startY + this.yPos);
 		}
 	}
 
 	@Override
 	public ToolTip getToolTip(int mouseX, int mouseY) {
 		if (isMouseOver(mouseX, mouseY)) {
-			return toolTip;
+			return this.toolTip;
 		} else {
 			return null;
 		}
@@ -70,10 +68,10 @@ public class FarmLogicSlot extends Widget {
 	protected final ToolTip toolTip = new ToolTip(250) {
 		@Override
 		public void refresh() {
-			toolTip.clear();
-			toolTip.add(getProperties().getDisplayName(getLogic().isManual()));
-			toolTip.add(Component.translatable("for.gui.farm.fertilizer", getProperties().getFertilizerConsumption(farmController)));
-			toolTip.add(Component.translatable("for.gui.farm.water", getProperties().getWaterConsumption(farmController, farmController.getFarmLedgerDelegate().getHydrationModifier())));
+            FarmLogicSlot.this.toolTip.clear();
+            FarmLogicSlot.this.toolTip.add(getProperties().getDisplayName(getLogic().isManual()));
+            FarmLogicSlot.this.toolTip.add(Component.translatable("for.gui.farm.fertilizer", getProperties().getFertilizerConsumption(FarmLogicSlot.this.farmController)));
+            FarmLogicSlot.this.toolTip.add(Component.translatable("for.gui.farm.water", getProperties().getWaterConsumption(FarmLogicSlot.this.farmController, FarmLogicSlot.this.farmController.getFarmLedgerDelegate().getHydrationModifier())));
 		}
 	};
 }

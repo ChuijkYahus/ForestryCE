@@ -10,8 +10,8 @@
  ******************************************************************************/
 package forestry.core.inventory.wrappers;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -32,71 +32,71 @@ public abstract class InvWrapperBase implements Container {
 	}
 
 	public Container getBaseInventory() {
-		return inv;
+		return this.inv;
 	}
 
 	@Override
 	public int getContainerSize() {
-		return inv.getContainerSize();
+		return this.inv.getContainerSize();
 	}
 
 	@Override
 	public ItemStack getItem(int slot) {
-		return inv.getItem(slot);
+		return this.inv.getItem(slot);
 	}
 
 	@Override
 	public ItemStack removeItem(int slot, int amount) {
-		return inv.removeItem(slot, amount);
+		return this.inv.removeItem(slot, amount);
 	}
 
 	@Override
 	public ItemStack removeItemNoUpdate(int slot) {
-		return inv.removeItemNoUpdate(slot);
+		return this.inv.removeItemNoUpdate(slot);
 	}
 
 	@Override
 	public void setItem(int slot, ItemStack itemstack) {
-		inv.setItem(slot, itemstack);
+        this.inv.setItem(slot, itemstack);
 	}
 
 	@Override
 	public int getMaxStackSize() {
-		return inv.getMaxStackSize();
+		return this.inv.getMaxStackSize();
 	}
 
 	@Override
 	public void setChanged() {
-		inv.setChanged();
+        this.inv.setChanged();
 	}
 
 	@Override
 	public boolean stillValid(Player PlayerEntity) {
-		return inv.stillValid(PlayerEntity);
+		return this.inv.stillValid(PlayerEntity);
 	}
 
 	@Override
 	public void startOpen(Player player) {
-		inv.startOpen(player);
+        this.inv.startOpen(player);
 	}
 
 	@Override
 	public void stopOpen(Player player) {
-		inv.stopOpen(player);
+        this.inv.stopOpen(player);
 	}
 
 	@Override
 	public boolean canPlaceItem(int slot, ItemStack stack) {
-		return !checkItems || inv.canPlaceItem(slot, stack);
+		return !this.checkItems || this.inv.canPlaceItem(slot, stack);
 	}
 
 	@Override
 	public void clearContent() {
-		inv.clearContent();
+        this.inv.clearContent();
 	}
 
 	public boolean checkItems() {
-		return checkItems;
+		return this.checkItems;
 	}
 }
 

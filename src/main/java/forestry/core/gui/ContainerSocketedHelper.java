@@ -10,13 +10,6 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ICircuitBoard;
 import forestry.core.circuits.ISocketable;
@@ -26,6 +19,11 @@ import forestry.core.network.packets.PacketSocketUpdate;
 import forestry.core.network.packets.PacketSolderingIronClick;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implements IContainerSocketed {
 
@@ -43,7 +41,7 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 
 	@Override
 	public void handleChipsetClickServer(int slot, ServerPlayer player, ItemStack itemstack) {
-		if (!tile.getSocket(slot).isEmpty()) {
+		if (!this.tile.getSocket(slot).isEmpty()) {
 			return;
 		}
 
@@ -56,19 +54,19 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 			return;
 		}
 
-		if (!tile.getSocketType().equals(circuitBoard.getSocketType())) {
+		if (!this.tile.getSocketType().equals(circuitBoard.getSocketType())) {
 			return;
 		}
 
 		ItemStack toSocket = itemstack.copy();
 		toSocket.setCount(1);
-		tile.setSocket(slot, toSocket);
+        this.tile.setSocket(slot, toSocket);
 
 		ItemStack stack = player.containerMenu.getCarried();
 		stack.shrink(1);
 		player.containerMenu.broadcastChanges();
 
-		PacketSocketUpdate packet = PacketSocketUpdate.create(tile);
+		PacketSocketUpdate packet = PacketSocketUpdate.create(this.tile);
 		NetworkUtil.sendToPlayer(packet, player);
 	}
 
@@ -80,7 +78,7 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 
 	@Override
 	public void handleSolderingIronClickServer(int slot, ServerPlayer player, ItemStack itemstack) {
-		ItemStack socket = tile.getSocket(slot);
+		ItemStack socket = this.tile.getSocket(slot);
 		if (socket.isEmpty() || !(itemstack.getItem() instanceof ISolderingIron)) {
 			return;
 		}
@@ -90,12 +88,12 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 			return;
 		}
 
-		tile.setSocket(slot, ItemStack.EMPTY);
+        this.tile.setSocket(slot, ItemStack.EMPTY);
 		InventoryUtil.stowInInventory(socket, player.getInventory(), true);
 		itemstack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));    //TODO onBreak
 		player.inventoryMenu.broadcastChanges();
 
-		PacketSocketUpdate packet = PacketSocketUpdate.create(tile);
+		PacketSocketUpdate packet = PacketSocketUpdate.create(this.tile);
 		NetworkUtil.sendToPlayer(packet, player);
 	}
 }

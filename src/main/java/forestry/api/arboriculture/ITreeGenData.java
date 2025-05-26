@@ -1,18 +1,12 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.arboriculture;
 
-import javax.annotation.Nullable;
-
+import forestry.api.genetics.IGenome;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import forestry.api.genetics.IGenome;
+import javax.annotation.Nullable;
 
 public interface ITreeGenData {
 	int getGirth(IGenome genome);

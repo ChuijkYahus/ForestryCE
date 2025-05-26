@@ -10,16 +10,15 @@
  ******************************************************************************/
 package forestry.core.gui.ledgers;
 
-import java.util.List;
-import java.util.Random;
-
+import forestry.api.client.ForestrySprites;
+import forestry.api.client.IForestryClientApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-import forestry.api.client.ForestrySprites;
-import forestry.api.client.IForestryClientApi;
+import java.util.List;
+import java.util.Random;
 
 public class HintLedger extends Ledger {
 	private final Component hintString;
@@ -30,14 +29,14 @@ public class HintLedger extends Ledger {
 		int position = new Random().nextInt(hints.size());
 		String hint = hints.get(position);
 
-		hintString = Component.translatable("for.hints." + hint + ".desc");
-		hintTooltip = Component.translatable("for.hints." + hint + ".tag");
+        this.hintString = Component.translatable("for.hints." + hint + ".desc");
+        this.hintTooltip = Component.translatable("for.hints." + hint + ".tag");
 
 		Minecraft minecraft = Minecraft.getInstance();
 		Font fontRenderer = minecraft.font;
 		//TODO text component
-		int lineCount = fontRenderer.split(hintString, maxTextWidth).size();
-		maxHeight = (lineCount + 1) * fontRenderer.lineHeight + 20;
+		int lineCount = fontRenderer.split(this.hintString, this.maxTextWidth).size();
+        this.maxHeight = (lineCount + 1) * fontRenderer.lineHeight + 20;
 	}
 
 	@Override
@@ -54,11 +53,11 @@ public class HintLedger extends Ledger {
 		}
 
 		drawHeader(graphics, Component.translatable("for.gui.didyouknow").append("?"), x + 22, y + 8);
-		drawSplitText(graphics, hintString, x + 12, y + 20, maxTextWidth);
+		drawSplitText(graphics, this.hintString, x + 12, y + 20, this.maxTextWidth);
 	}
 
 	@Override
 	public Component getTooltip() {
-		return hintTooltip;
+		return this.hintTooltip;
 	}
 }

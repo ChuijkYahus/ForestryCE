@@ -12,32 +12,30 @@
  */
 package forestry.mail.commands;
 
-import forestry.mail.carriers.trading.TradeStationRegistry;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Style;
-import net.minecraft.ChatFormatting;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import forestry.api.mail.ITradeStation;
 import forestry.api.mail.ITradeStationInfo;
 import forestry.core.commands.CommandHelpers;
 import forestry.core.utils.StringUtil;
 import forestry.mail.MailAddress;
+import forestry.mail.carriers.trading.TradeStationRegistry;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class CommandMail {
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
 		return Commands.literal("mail")
-				.then(CommandMailTrades.register())
-				.then(CommandMailVirtualize.register());
+			.then(CommandMailTrades.register())
+			.then(CommandMailVirtualize.register());
 	}
 
 	public static class CommandMailTrades {
@@ -77,8 +75,8 @@ public class CommandMail {
 
 	public static class CommandMailVirtualize {
 		public static ArgumentBuilder<CommandSourceStack, ?> register() {
-		    return Commands.literal("virtualize").requires(CommandHelpers.ADMIN).executes(CommandMailVirtualize::execute);
-        }
+			return Commands.literal("virtualize").requires(CommandHelpers.ADMIN).executes(CommandMailVirtualize::execute);
+		}
 
 		public static int execute(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 			ServerPlayer player = context.getSource().getPlayerOrException();

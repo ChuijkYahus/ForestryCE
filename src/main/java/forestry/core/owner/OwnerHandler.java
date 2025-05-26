@@ -10,18 +10,16 @@
  ******************************************************************************/
 package forestry.core.owner;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.core.INbtReadable;
+import forestry.api.core.INbtWritable;
+import forestry.core.network.IStreamable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.core.INbtReadable;
-import forestry.api.core.INbtWritable;
-import forestry.core.network.IStreamable;
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, INbtReadable {
 	@Nullable
@@ -30,7 +28,7 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	@Override
 	@Nullable
 	public GameProfile getOwner() {
-		return owner;
+		return this.owner;
 	}
 
 	@Override
@@ -40,13 +38,13 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		if (owner == null) {
+		if (this.owner == null) {
 			data.writeBoolean(false);
 		} else {
 			data.writeBoolean(true);
-			data.writeLong(owner.getId().getMostSignificantBits());
-			data.writeLong(owner.getId().getLeastSignificantBits());
-			data.writeUtf(owner.getName());
+			data.writeLong(this.owner.getId().getMostSignificantBits());
+			data.writeLong(this.owner.getId().getLeastSignificantBits());
+			data.writeUtf(this.owner.getName());
 		}
 	}
 
@@ -72,7 +70,7 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	public CompoundTag write(CompoundTag data) {
 		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
-			NbtUtils.writeGameProfile(nbt, owner);
+			NbtUtils.writeGameProfile(nbt, this.owner);
 			data.put("owner", nbt);
 		}
 		return data;

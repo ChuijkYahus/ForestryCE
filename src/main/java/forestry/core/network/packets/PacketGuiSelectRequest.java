@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
+import forestry.api.modules.IForestryPacketServer;
+import forestry.core.gui.IGuiSelectable;
+import forestry.core.network.PacketIdServer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-
-import forestry.core.gui.IGuiSelectable;
-import forestry.api.modules.IForestryPacketServer;
-import forestry.core.network.PacketIdServer;
 
 public record PacketGuiSelectRequest(int primaryIndex, int secondaryIndex) implements IForestryPacketServer {
 	public static void handle(PacketGuiSelectRequest msg, ServerPlayer player) {
@@ -35,8 +34,8 @@ public record PacketGuiSelectRequest(int primaryIndex, int secondaryIndex) imple
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeVarInt(primaryIndex);
-		buffer.writeVarInt(secondaryIndex);
+		buffer.writeVarInt(this.primaryIndex);
+		buffer.writeVarInt(this.secondaryIndex);
 	}
 
 	public static PacketGuiSelectRequest decode(FriendlyByteBuf buffer) {

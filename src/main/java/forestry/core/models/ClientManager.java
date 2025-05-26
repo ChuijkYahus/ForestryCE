@@ -10,12 +10,14 @@
  ******************************************************************************/
 package forestry.core.models;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
+import forestry.core.blocks.IColoredBlock;
+import forestry.core.items.definitions.IColoredItem;
+import forestry.core.utils.ModUtil;
+import forestry.core.utils.ResourceUtil;
+import forestry.modules.features.FeatureBlock;
+import forestry.modules.features.FeatureGroup;
+import forestry.modules.features.FeatureItem;
+import forestry.modules.features.FeatureTable;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.renderer.block.BlockModelShaper;
@@ -27,17 +29,13 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.client.event.ModelEvent;
 
-import forestry.core.blocks.IColoredBlock;
-import forestry.core.items.definitions.IColoredItem;
-import forestry.core.utils.ModUtil;
-import forestry.core.utils.ResourceUtil;
-import forestry.modules.features.FeatureBlock;
-import forestry.modules.features.FeatureGroup;
-import forestry.modules.features.FeatureItem;
-import forestry.modules.features.FeatureTable;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public enum ClientManager {
 	INSTANCE;
@@ -65,10 +63,10 @@ public enum ClientManager {
 	private ModelState defaultBlockState;
 
 	public ModelState getDefaultBlockState() {
-		if (defaultBlockState == null) {
-			defaultBlockState = ResourceUtil.loadTransform(new ResourceLocation("block/block"));
+		if (this.defaultBlockState == null) {
+            this.defaultBlockState = ResourceUtil.loadTransform(new ResourceLocation("block/block"));
 		}
-		return defaultBlockState;
+		return this.defaultBlockState;
 	}
 
 	public void registerModel(BakedModel model, Object feature) {
@@ -88,17 +86,17 @@ public enum ClientManager {
 	}
 
 	public void registerModel(BakedModel model, Block block, @Nullable BlockItem item, Collection<BlockState> states) {
-		customBlockModels.add(new BlockModelEntry(model, block, item, states));
+        this.customBlockModels.add(new BlockModelEntry(model, block, item, states));
 	}
 
 	public void registerModel(BakedModel model, Item item) {
-		customModels.add(new ModelEntry(new ModelResourceLocation(ModUtil.getRegistryName(item), "inventory"), model));
+        this.customModels.add(new ModelEntry(new ModelResourceLocation(ModUtil.getRegistryName(item), "inventory"), model));
 	}
 
 	public void onBakeModels(ModelEvent.ModifyBakingResult event) {
 		//register custom models
 		Map<ResourceLocation, BakedModel> registry = event.getModels();
-		for (final BlockModelEntry entry : customBlockModels) {
+		for (final BlockModelEntry entry : this.customBlockModels) {
 			for (BlockState state : entry.states) {
 				registry.put(BlockModelShaper.stateToModelLocation(state), entry.model);
 			}
@@ -111,7 +109,7 @@ public enum ClientManager {
 			}
 		}
 
-		for (final ModelEntry entry : customModels) {
+		for (final ModelEntry entry : this.customModels) {
 			registry.put(entry.modelLocation, entry.model);
 		}
 	}

@@ -11,9 +11,15 @@
 package forestry.arboriculture.models;
 
 import com.google.common.base.Preconditions;
-
-import java.util.Objects;
-
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.client.IForestryClientApi;
+import forestry.api.client.arboriculture.ILeafSprite;
+import forestry.arboriculture.blocks.BlockAbstractLeaves;
+import forestry.arboriculture.blocks.BlockDefaultLeaves;
+import forestry.core.models.ModelBlockCached;
+import forestry.core.models.baker.ModelBaker;
+import forestry.core.utils.ResourceUtil;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -22,20 +28,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
 
-import forestry.api.client.IForestryClientApi;
-import forestry.api.client.arboriculture.ILeafSprite;
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.arboriculture.blocks.BlockAbstractLeaves;
-import forestry.arboriculture.blocks.BlockDefaultLeaves;
-import forestry.core.models.ModelBlockCached;
-import forestry.core.models.baker.ModelBaker;
-import forestry.core.utils.ResourceUtil;
-import forestry.core.utils.SpeciesUtil;
+import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelDefaultLeaves extends ModelBlockCached<BlockDefaultLeaves, ModelDefaultLeaves.Key> {
@@ -112,9 +109,9 @@ public class ModelDefaultLeaves extends ModelBlockCached<BlockDefaultLeaves, Mod
 
 		bakeBlock(block, extraData, key, baker, false);
 
-		blockModel = baker.bake(false);
-		onCreateModel(blockModel);
-		return blockModel;
+        this.blockModel = baker.bake(false);
+		onCreateModel(this.blockModel);
+		return this.blockModel;
 	}
 
 	@Override

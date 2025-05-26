@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.farming.logic.crops;
 
-import javax.annotation.Nullable;
-import java.util.Iterator;
-import java.util.List;
-
+import forestry.core.utils.BlockUtil;
+import forestry.core.utils.ItemStackUtil;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -21,10 +20,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.core.utils.BlockUtil;
-import forestry.core.utils.ItemStackUtil;
-
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import javax.annotation.Nullable;
+import java.util.Iterator;
+import java.util.List;
 
 public class CropDestroy extends Crop {
 	protected final BlockState blockState;
@@ -45,22 +43,22 @@ public class CropDestroy extends Crop {
 
 	@Override
 	protected boolean isCrop(Level world, BlockPos pos) {
-		return world.getBlockState(pos) == blockState;
+		return world.getBlockState(pos) == this.blockState;
 	}
 
 	@Override
 	protected List<ItemStack> harvestBlock(Level level, BlockPos pos) {
-		List<ItemStack> harvested = Block.getDrops(blockState, (ServerLevel) level, pos, level.getBlockEntity(pos));
+		List<ItemStack> harvested = Block.getDrops(this.blockState, (ServerLevel) level, pos, level.getBlockEntity(pos));
 		if (!(harvested instanceof ObjectArrayList)) {
 			// Fix crash with mods that don't use ObjectArrayList like LootTable.getRandomItems does
 			harvested = ObjectArrayList.wrap(harvested.toArray(ItemStack[]::new));
 		}
-		boolean removedSeed = germling.isEmpty();
+		boolean removedSeed = this.germling.isEmpty();
 		Iterator<ItemStack> dropIterator = harvested.iterator();
 		while (dropIterator.hasNext()) {
 			ItemStack next = dropIterator.next();
 
-			if (!removedSeed && ItemStackUtil.isIdenticalItem(next, germling)) {
+			if (!removedSeed && ItemStackUtil.isIdenticalItem(next, this.germling)) {
 				next.shrink(1);
 				if (next.isEmpty()) {
 					dropIterator.remove();
@@ -69,10 +67,10 @@ public class CropDestroy extends Crop {
 			}
 		}
 
-		if (replantState != null) {
-			BlockUtil.sendDestroyEffects(level, pos, blockState);
+		if (this.replantState != null) {
+			BlockUtil.sendDestroyEffects(level, pos, this.blockState);
 
-			level.setBlock(pos, replantState, Block.UPDATE_CLIENTS);
+			level.setBlock(pos, this.replantState, Block.UPDATE_CLIENTS);
 		} else {
 			level.destroyBlock(pos, false);
 		}
@@ -82,6 +80,6 @@ public class CropDestroy extends Crop {
 
 	@Override
 	public String toString() {
-		return String.format("CropDestroy [ position: [ %s ]; block: %s ]", position, blockState);
+		return String.format("CropDestroy [ position: [ %s ]; block: %s ]", this.position, this.blockState);
 	}
 }

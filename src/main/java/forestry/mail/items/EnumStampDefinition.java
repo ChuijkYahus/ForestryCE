@@ -10,21 +10,19 @@
  ******************************************************************************/
 package forestry.mail.items;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
+import forestry.api.ForestryTags;
+import forestry.api.mail.EnumPostage;
+import forestry.core.items.ItemOverlay;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-
 import net.minecraftforge.common.Tags;
 
-import forestry.api.ForestryTags;
-import forestry.api.mail.EnumPostage;
-import forestry.core.items.ItemOverlay;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public enum EnumStampDefinition implements ItemOverlay.IOverlayInfo {
 	P_1("1n", EnumPostage.P_1, ForestryTags.Items.GEMS_APATITE, TextColor.fromRgb(0x4a8ca7), TextColor.fromRgb(0xffffff)),
@@ -77,17 +75,17 @@ public enum EnumStampDefinition implements ItemOverlay.IOverlayInfo {
 
 	@Override
 	public String getSerializedName() {
-		return name;
+		return this.name;
 	}
 
 	@Override
 	public int getPrimaryColor() {
-		return primaryColor;
+		return this.primaryColor;
 	}
 
 	@Override
 	public int getSecondaryColor() {
-		return secondaryColor;
+		return this.secondaryColor;
 	}
 
 	public static EnumStampDefinition getFromPostage(EnumPostage postage) {

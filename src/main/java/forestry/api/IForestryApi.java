@@ -1,7 +1,5 @@
 package forestry.api;
 
-import java.util.ServiceLoader;
-
 import forestry.api.apiculture.hives.IHiveManager;
 import forestry.api.arboriculture.ITreeManager;
 import forestry.api.circuits.ICircuitManager;
@@ -14,6 +12,8 @@ import forestry.api.genetics.filter.IFilterManager;
 import forestry.api.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
 import forestry.api.plugin.IGeneticRegistration;
+
+import java.util.ServiceLoader;
 
 /**
  * The Forestry API class is used to query all sorts of data used by Forestry.

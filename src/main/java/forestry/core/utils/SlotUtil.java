@@ -10,16 +10,15 @@
  ******************************************************************************/
 package forestry.core.utils;
 
-import java.util.List;
-
+import forestry.core.gui.slots.SlotForestry;
+import forestry.core.gui.slots.WorktableSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.core.gui.slots.WorktableSlot;
-import forestry.core.gui.slots.SlotForestry;
+import java.util.List;
 
 public abstract class SlotUtil {
 	public static boolean isSlotInRange(int slotIndex, int start, int count) {

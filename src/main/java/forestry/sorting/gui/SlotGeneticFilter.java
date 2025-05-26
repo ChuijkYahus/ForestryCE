@@ -16,6 +16,6 @@ public class SlotGeneticFilter extends Slot {
 
 	@Override
 	public boolean isActive() {
-		return enabled;
+		return this.enabled;
 	}
 }

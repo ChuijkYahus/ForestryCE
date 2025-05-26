@@ -1,8 +1,14 @@
 package forestry.arboriculture.blocks;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.arboriculture.genetics.IFruit;
+import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.TreeLifeStage;
+import forestry.api.client.IForestryClientApi;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -15,24 +21,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
-
-import com.mojang.authlib.GameProfile;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import forestry.api.client.IForestryClientApi;
-import forestry.api.arboriculture.genetics.IFruit;
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.core.utils.BlockUtil;
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Genetic leaves with no tile entity, used for worldgen trees.
@@ -60,9 +56,9 @@ public class BlockDefaultLeavesFruit extends BlockAbstractLeaves {
 			BlockUtil.sendDestroyEffects(level, pos, state);
 			IFruit fruitProvider = tree.getGenome().getActiveValue(TreeChromosomes.FRUIT);
 			List<ItemStack> products = tree.produceStacks(level, pos, fruitProvider.getRipeningPeriod());
-			level.setBlock(pos, ArboricultureBlocks.LEAVES_DEFAULT.get(type).defaultState()
-					.setValue(LeavesBlock.PERSISTENT, state.getValue(LeavesBlock.PERSISTENT))
-					.setValue(LeavesBlock.DISTANCE, state.getValue(LeavesBlock.DISTANCE)), Block.UPDATE_CLIENTS);
+			level.setBlock(pos, ArboricultureBlocks.LEAVES_DEFAULT.get(this.type).defaultState()
+				.setValue(LeavesBlock.PERSISTENT, state.getValue(LeavesBlock.PERSISTENT))
+				.setValue(LeavesBlock.DISTANCE, state.getValue(LeavesBlock.DISTANCE)), Block.UPDATE_CLIENTS);
 			for (ItemStack fruit : products) {
 				ItemHandlerHelper.giveItemToPlayer(player, fruit);
 			}
@@ -110,10 +106,10 @@ public class BlockDefaultLeavesFruit extends BlockAbstractLeaves {
 	@OnlyIn(Dist.CLIENT)
 	public int colorMultiplier(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
 		if (tintIndex == BlockAbstractLeaves.FRUIT_COLOR_INDEX) {
-			IFruit genome = type.getFruit();
+			IFruit genome = this.type.getFruit();
 			return genome.getDecorativeColor();
 		}
 
-		return IForestryClientApi.INSTANCE.getTreeManager().getTint(type.getIndividual().getSpecies()).get(level, pos);
+		return IForestryClientApi.INSTANCE.getTreeManager().getTint(this.type.getIndividual().getSpecies()).get(level, pos);
 	}
 }

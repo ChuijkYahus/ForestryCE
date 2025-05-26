@@ -10,16 +10,13 @@
  ******************************************************************************/
 package forestry.core.gui.widgets;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
+import forestry.core.gui.GuiForestry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import forestry.core.gui.GuiForestry;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WidgetManager {
 	public final GuiForestry gui;
@@ -44,12 +41,12 @@ public class WidgetManager {
 	}
 
 	public List<Widget> getWidgets() {
-		return widgets;
+		return this.widgets;
 	}
 
 	@Nullable
 	public Widget getAtPosition(double mX, double mY) {
-		for (Widget slot : widgets) {
+		for (Widget slot : this.widgets) {
 			if (slot.isMouseOver(mX, mY)) {
 				return slot;
 			}
@@ -59,19 +56,19 @@ public class WidgetManager {
 	}
 
 	public void drawWidgets(GuiGraphics graphics) {
-		for (Widget slot : widgets) {
+		for (Widget slot : this.widgets) {
 			slot.draw(graphics, 0, 0);
 		}
 	}
 
 	public void updateWidgets(int mouseX, int mouseY) {
-		for (Widget slot : widgets) {
+		for (Widget slot : this.widgets) {
 			slot.update(mouseX, mouseY);
 		}
 	}
 
 	public void handleMouseClicked(double mouseX, double mouseY, int mouseButton) {
-		Widget slot = getAtPosition(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
+		Widget slot = getAtPosition(mouseX - this.gui.getGuiLeft(), mouseY - this.gui.getGuiTop());
 		if (slot != null) {
 			slot.handleMouseClick(mouseX, mouseY, mouseButton);
 		}
@@ -79,8 +76,8 @@ public class WidgetManager {
 
 	public boolean handleMouseRelease(double mouseX, double mouseY, int eventType) {
 		boolean hasToStop = false;
-		for (Widget slot : widgets) {
-			hasToStop |= slot.handleMouseRelease(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop(), eventType);
+		for (Widget slot : this.widgets) {
+			hasToStop |= slot.handleMouseRelease(mouseX - this.gui.getGuiLeft(), mouseY - this.gui.getGuiTop(), eventType);
 		}
 		return hasToStop;
 	}

@@ -10,19 +10,18 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
-import java.util.List;
-
+import forestry.api.apiculture.BeeManager;
+import forestry.api.apiculture.IBeeHousing;
+import forestry.api.genetics.IEffectData;
+import forestry.api.genetics.IGenome;
+import forestry.core.genetics.EffectData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import forestry.api.apiculture.BeeManager;
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
-import forestry.core.genetics.EffectData;
+import java.util.List;
 
 public class CreeperBeeEffect extends ThrottledBeeEffect {
 	private static final int explosionChance = 50;

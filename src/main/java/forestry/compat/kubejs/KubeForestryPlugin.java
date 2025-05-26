@@ -1,21 +1,15 @@
 package forestry.compat.kubejs;
 
-import java.util.function.Consumer;
-
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraftforge.fml.ModList;
-
 import forestry.api.ForestryConstants;
 import forestry.api.client.plugin.IClientRegistration;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.IGeneticRegistration;
-import forestry.compat.kubejs.event.ApicultureEventJS;
-import forestry.compat.kubejs.event.ForestryClientEventJS;
-import forestry.compat.kubejs.event.ForestryClientEvents;
-import forestry.compat.kubejs.event.ForestryEvents;
-import forestry.compat.kubejs.event.GeneticsEventJS;
+import forestry.compat.kubejs.event.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fml.ModList;
+
+import java.util.function.Consumer;
 
 /**
  * A Forestry plugin that fires events for the KubeJS integration

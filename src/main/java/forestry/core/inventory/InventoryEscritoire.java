@@ -10,16 +10,15 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.tiles.EscritoireGame;
 import forestry.core.tiles.TileEscritoire;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SlotUtil;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class InventoryEscritoire extends InventoryAdapterTile<TileEscritoire> {
 	public static final short SLOT_ANALYZE = 0;
@@ -34,7 +33,7 @@ public class InventoryEscritoire extends InventoryAdapterTile<TileEscritoire> {
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		if (slotIndex >= SLOT_INPUT_1 && slotIndex < SLOT_INPUT_1 + tile.getGame().getSampleSize(SLOTS_INPUT_COUNT)) {
+		if (slotIndex >= SLOT_INPUT_1 && slotIndex < SLOT_INPUT_1 + this.tile.getGame().getSampleSize(SLOTS_INPUT_COUNT)) {
 			ItemStack specimen = getItem(SLOT_ANALYZE);
 			if (specimen.isEmpty()) {
 				return false;
@@ -60,7 +59,7 @@ public class InventoryEscritoire extends InventoryAdapterTile<TileEscritoire> {
 		}
 
 		if (SlotUtil.isSlotInRange(slotIndex, SLOT_INPUT_1, SLOTS_INPUT_COUNT)) {
-			return slotIndex >= SLOT_INPUT_1 + tile.getGame().getSampleSize(SLOTS_INPUT_COUNT);
+			return slotIndex >= SLOT_INPUT_1 + this.tile.getGame().getSampleSize(SLOTS_INPUT_COUNT);
 		}
 
 		return false;
@@ -83,9 +82,9 @@ public class InventoryEscritoire extends InventoryAdapterTile<TileEscritoire> {
 					super.setItem(SLOT_ANALYZE, specimen);
 				}
 			}
-			Level level = tile.getLevel();
+			Level level = this.tile.getLevel();
 			if (level != null && !level.isClientSide) {
-				EscritoireGame game = tile.getGame();
+				EscritoireGame game = this.tile.getGame();
 				game.initialize(specimen);
 			}
 		}

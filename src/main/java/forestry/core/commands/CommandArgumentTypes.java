@@ -1,14 +1,12 @@
 package forestry.core.commands;
 
-import net.minecraft.commands.synchronization.ArgumentTypeInfo;
-import net.minecraft.commands.synchronization.ArgumentTypeInfos;
-import net.minecraft.core.registries.Registries;
-
-import net.minecraftforge.registries.DeferredRegister;
-
 import forestry.api.modules.ForestryModuleIds;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.ModFeatureRegistry;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
+import net.minecraft.commands.synchronization.ArgumentTypeInfos;
+import net.minecraft.core.registries.Registries;
+import net.minecraftforge.registries.DeferredRegister;
 
 @FeatureProvider
 public class CommandArgumentTypes {

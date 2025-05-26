@@ -2,16 +2,13 @@ package forestry.api.genetics.alleles;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-import java.util.Collection;
-
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.serialization.Codec;
-
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpecies;
 import forestry.api.plugin.IGenomeBuilder;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Collection;
 
 /**
  * A karyotype is the set of all chromosomes that make up a species type's genome.
@@ -55,6 +52,7 @@ public interface IKaryotype {
 	/**
 	 * A weakly inherited chromosome is a chromosome whose default allele is always overridden by non-default alleles
 	 * during inheritance. For example, a bee's temperature tolerance
+	 *
 	 * @return Whether this chromosome is "weakly inherited" or "secondary."
 	 */
 	boolean isWeaklyInherited(IChromosome<?> chromosome);

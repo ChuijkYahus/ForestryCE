@@ -1,13 +1,8 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.core;
 
-import java.util.Set;
-
 import forestry.api.IForestryApi;
+
+import java.util.Set;
 
 /**
  * Keeps track of all errors for an object.
@@ -53,6 +48,7 @@ public interface IErrorLogic extends IErrorSource {
 
 	/**
 	 * Sets this logic's errors using the specified errors array. Unknown errors are discarded.
+	 *
 	 * @param errorArray An array of numeric IDs that correspond to different errors.
 	 */
 	default void fromArray(short[] errorArray) {

@@ -10,9 +10,6 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Inventory;
-
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.slots.SlotEmptyLiquidContainerIn;
 import forestry.core.gui.slots.SlotLiquidIn;
@@ -21,6 +18,8 @@ import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryBottler;
 import forestry.factory.tiles.TileBottler;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ContainerBottler extends ContainerLiquidTanks<TileBottler> {
 	public static ContainerBottler fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {

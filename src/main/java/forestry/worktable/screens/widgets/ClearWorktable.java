@@ -1,17 +1,16 @@
 package forestry.worktable.screens.widgets;
 
-import net.minecraft.client.gui.GuiGraphics;
-
 import forestry.core.gui.widgets.Widget;
 import forestry.core.gui.widgets.WidgetManager;
 import forestry.core.utils.SoundUtil;
 import forestry.worktable.screens.WorktableMenu;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class ClearWorktable extends Widget {
 	public ClearWorktable(WidgetManager manager, int xPos, int yPos) {
 		super(manager, xPos, yPos);
-		width = 7;
-		height = 7;
+        this.width = 7;
+        this.height = 7;
 	}
 
 	@Override

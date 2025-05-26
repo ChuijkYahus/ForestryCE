@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.mail.network.packets;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.mail.gui.ContainerLetter;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 public record PacketLetterTextSet(String string) implements IForestryPacketServer {
 	public static void handle(PacketLetterTextSet msg, ServerPlayer player) {
@@ -32,7 +31,7 @@ public record PacketLetterTextSet(String string) implements IForestryPacketServe
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeUtf(string);
+		buffer.writeUtf(this.string);
 	}
 
 	public static PacketLetterTextSet decode(FriendlyByteBuf buffer) {

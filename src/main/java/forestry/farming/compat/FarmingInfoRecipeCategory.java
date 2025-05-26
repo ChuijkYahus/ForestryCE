@@ -1,16 +1,5 @@
 package forestry.farming.compat;
 
-import java.util.List;
-
-import org.apache.commons.lang3.mutable.MutableInt;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.ForestryConstants;
 import forestry.api.circuits.ICircuit;
 import forestry.api.farming.IFarmType;
@@ -22,7 +11,6 @@ import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.utils.JeiUtil;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
@@ -32,6 +20,15 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import org.apache.commons.lang3.mutable.MutableInt;
+
+import java.util.List;
 
 public class FarmingInfoRecipeCategory extends ForestryRecipeCategory<FarmingInfoRecipe> {
 	public static final RecipeType<FarmingInfoRecipe> TYPE = RecipeType.create(ForestryConstants.MOD_ID, "farming", FarmingInfoRecipe.class);
@@ -44,8 +41,8 @@ public class FarmingInfoRecipeCategory extends ForestryRecipeCategory<FarmingInf
 		super(guiHelper.createBlankDrawable(144, 90), "for.jei.farming");
 		this.slotDrawable = guiHelper.getSlotDrawable();
 		ResourceLocation resourceLocation = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/jei/recipes.png");
-		addition = guiHelper.createDrawable(resourceLocation, 44, 0, 15, 15);
-		arrow = guiHelper.createDrawable(resourceLocation, 59, 0, 15, 15);
+        this.addition = guiHelper.createDrawable(resourceLocation, 44, 0, 15, 15);
+        this.arrow = guiHelper.createDrawable(resourceLocation, 59, 0, 15, 15);
 		ItemStack intricateCircuitboard = new ItemStack(CoreItems.CIRCUITBOARDS.get(EnumCircuitBoardType.INTRICATE));
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, intricateCircuitboard);
 	}
@@ -63,8 +60,8 @@ public class FarmingInfoRecipeCategory extends ForestryRecipeCategory<FarmingInf
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, FarmingInfoRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 64, 19)
-				.setBackground(this.slotDrawable, -1, -1)
-				.addItemStack(recipe.tube());
+			.setBackground(this.slotDrawable, -1, -1)
+			.addItemStack(recipe.tube());
 
 		IFarmType properties = recipe.properties();
 
@@ -88,20 +85,20 @@ public class FarmingInfoRecipeCategory extends ForestryRecipeCategory<FarmingInf
 		// item stacks are distributed to ezach slot using round robin
 		for (IFarmable farmable : properties.getFarmables()) {
 			farmable.addGermlings(germling -> germlingSlots.get(germlingSlotIndex.getAndIncrement() % germlingSlotsSize)
-					.addItemStack(germling));
+				.addItemStack(germling));
 			farmable.addProducts(product -> productSlots.get(productSlotIndex.getAndIncrement() % productSlotsSize)
-					.addItemStack(product));
+				.addItemStack(product));
 		}
 		for (Soil soil : properties.getSoils()) {
 			soilSlots.get(soilSlotIndex++ % soilSlotsSize)
-					.addItemStack(soil.resource());
+				.addItemStack(soil.resource());
 		}
 	}
 
 	@Override
 	public void draw(FarmingInfoRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
-		addition.draw(graphics, 37, 64);
-		arrow.draw(graphics, 91, 64);
+        this.addition.draw(graphics, 37, 64);
+        this.arrow.draw(graphics, 91, 64);
 		int recipeWidth = this.getBackground().getWidth();
 		Font font = Minecraft.getInstance().font;
 		ICircuit circuit = recipe.circuit();

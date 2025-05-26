@@ -1,11 +1,10 @@
 package forestry.api.apiculture;
 
+import forestry.api.core.IError;
+import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.storage.LevelData;
-
-import forestry.api.core.IError;
-import forestry.api.genetics.alleles.IRegistryAlleleValue;
 
 /**
  * Used to define the active hours of a bee.

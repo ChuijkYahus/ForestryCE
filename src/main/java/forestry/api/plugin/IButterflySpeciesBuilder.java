@@ -1,16 +1,15 @@
 package forestry.api.plugin;
 
-import javax.annotation.Nullable;
-import java.awt.Color;
-import java.util.List;
-
+import forestry.api.core.IProduct;
+import forestry.api.lepidopterology.genetics.IButterflySpecies;
+import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
-import forestry.api.core.IProduct;
-import forestry.api.lepidopterology.genetics.IButterflySpecies;
-import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
+import javax.annotation.Nullable;
+import java.awt.*;
+import java.util.List;
 
 /**
  * Builder used to register new butterfly and moth species and configure already existing ones.

@@ -10,26 +10,22 @@
  ******************************************************************************/
 package forestry.core.fluids;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.material.Fluid;
+import forestry.core.utils.ItemStackUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
-import forestry.core.utils.ItemStackUtil;
+import javax.annotation.Nullable;
 
 //TODO: Fix isFillable's
 public final class FluidHelper {
@@ -48,14 +44,14 @@ public final class FluidHelper {
 	public static boolean canAcceptFluid(Level world, BlockPos pos, Direction facing, FluidStack fluid, boolean checkSpace) {
 		LazyOptional<IFluidHandler> capability = FluidUtil.getFluidHandler(world, pos, facing);
 		return capability.filter((handler) -> {
-			for (int tank = 0; tank < handler.getTanks(); tank++) {
-				int amountFilled = handler.fill(fluid, IFluidHandler.FluidAction.SIMULATE);
-				if (amountFilled > 0 && (!checkSpace || amountFilled >= fluid.getAmount())) {
-					return true;
+				for (int tank = 0; tank < handler.getTanks(); tank++) {
+					int amountFilled = handler.fill(fluid, IFluidHandler.FluidAction.SIMULATE);
+					if (amountFilled > 0 && (!checkSpace || amountFilled >= fluid.getAmount())) {
+						return true;
+					}
 				}
-			}
-			return false;
-		})
+				return false;
+			})
 			.isPresent();
 	}
 

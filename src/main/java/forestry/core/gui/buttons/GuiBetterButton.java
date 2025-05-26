@@ -10,18 +10,16 @@
  ******************************************************************************/
 package forestry.core.gui.buttons;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import forestry.api.ForestryConstants;
+import forestry.core.config.Constants;
+import forestry.core.utils.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import forestry.api.ForestryConstants;
-import forestry.core.config.Constants;
-import forestry.core.utils.RenderUtil;
 
 public class GuiBetterButton extends Button {
 	public static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/buttons.png");

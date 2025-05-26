@@ -1,11 +1,5 @@
 package forestry.apiimpl.plugin;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
@@ -13,6 +7,11 @@ import forestry.api.core.IProduct;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.DefaultBeeJubilance;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BeeSpeciesBuilder extends SpeciesBuilder<IBeeSpeciesType, IBeeSpecies, IBeeSpeciesBuilder> implements IBeeSpeciesBuilder {
 	private final ArrayList<IProduct> products = new ArrayList<>();

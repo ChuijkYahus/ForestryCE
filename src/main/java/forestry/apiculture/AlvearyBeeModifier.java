@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.apiculture;
 
-import net.minecraft.core.Vec3i;
-
 import forestry.api.apiculture.IBeeModifier;
 import forestry.api.genetics.IGenome;
+import net.minecraft.core.Vec3i;
 
 public class AlvearyBeeModifier implements IBeeModifier {
 	@Override

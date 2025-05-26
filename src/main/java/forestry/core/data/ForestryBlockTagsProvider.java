@@ -1,16 +1,5 @@
 package forestry.core.data;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import net.minecraft.core.HolderLookup;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-
-import net.minecraftforge.common.Tags;
-
 import forestry.api.ForestryTags;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.ForestryWoodType;
@@ -28,8 +17,16 @@ import forestry.mail.features.MailBlocks;
 import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureBlockGroup;
 import forestry.worktable.features.WorktableBlocks;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
 import thedarkcolour.modkit.data.MKTagsProvider;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public final class ForestryBlockTagsProvider {
 	public static void addTags(MKTagsProvider<Block> tags, HolderLookup.Provider lookup) {
@@ -43,18 +40,18 @@ public final class ForestryBlockTagsProvider {
 
 
 		tags.tag(BlockTags.MINEABLE_WITH_AXE)
-				.add(CoreBlocks.NATURALIST_CHEST.blockArray())
-				.add(CharcoalBlocks.LOG_PILE.block())
-				.add(WorktableBlocks.WORKTABLE.block());
+			.add(CoreBlocks.NATURALIST_CHEST.blockArray())
+			.add(CharcoalBlocks.LOG_PILE.block())
+			.add(WorktableBlocks.WORKTABLE.block());
 
 		tags.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-				.add(CoreBlocks.APATITE_ORE.block())
-				.add(CoreBlocks.DEEPSLATE_APATITE_ORE.block())
-				.add(CoreBlocks.TIN_ORE.block())
-				.add(CoreBlocks.DEEPSLATE_TIN_ORE.block())
-				.add(CoreBlocks.RAW_TIN_BLOCK.block())
-				.add(CharcoalBlocks.CHARCOAL.block())
-				.add(EnergyBlocks.ENGINES.blockArray());
+			.add(CoreBlocks.APATITE_ORE.block())
+			.add(CoreBlocks.DEEPSLATE_APATITE_ORE.block())
+			.add(CoreBlocks.TIN_ORE.block())
+			.add(CoreBlocks.DEEPSLATE_TIN_ORE.block())
+			.add(CoreBlocks.RAW_TIN_BLOCK.block())
+			.add(CharcoalBlocks.CHARCOAL.block())
+			.add(EnergyBlocks.ENGINES.blockArray());
 
 		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
@@ -65,30 +62,30 @@ public final class ForestryBlockTagsProvider {
 		}
 
 		tags.tag(BlockTags.MINEABLE_WITH_SHOVEL)
-				.add(CoreBlocks.HUMUS.block())
-				.add(CoreBlocks.BOG_EARTH.block())
-				.add(CoreBlocks.PEAT.block());
+			.add(CoreBlocks.HUMUS.block())
+			.add(CoreBlocks.BOG_EARTH.block())
+			.add(CoreBlocks.PEAT.block());
 
 		for (Block block : union(
-				CoreBlocks.BASE,
-				ApicultureBlocks.ALVEARY, ApicultureBlocks.BASE,
-				ArboricultureBlocks.DOORS,
-				ArboricultureBlocks.PLANKS, ArboricultureBlocks.PLANKS_FIREPROOF, ArboricultureBlocks.PLANKS_VANILLA_FIREPROOF,
-				ArboricultureBlocks.LOGS, ArboricultureBlocks.LOGS_FIREPROOF, ArboricultureBlocks.LOGS_VANILLA_FIREPROOF,
-				ArboricultureBlocks.STRIPPED_LOGS, ArboricultureBlocks.STRIPPED_WOOD, ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF, ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF,
-				ArboricultureBlocks.FENCES, ArboricultureBlocks.FENCES_FIREPROOF, ArboricultureBlocks.FENCES_VANILLA_FIREPROOF)) {
+			CoreBlocks.BASE,
+			ApicultureBlocks.ALVEARY, ApicultureBlocks.BASE,
+			ArboricultureBlocks.DOORS,
+			ArboricultureBlocks.PLANKS, ArboricultureBlocks.PLANKS_FIREPROOF, ArboricultureBlocks.PLANKS_VANILLA_FIREPROOF,
+			ArboricultureBlocks.LOGS, ArboricultureBlocks.LOGS_FIREPROOF, ArboricultureBlocks.LOGS_VANILLA_FIREPROOF,
+			ArboricultureBlocks.STRIPPED_LOGS, ArboricultureBlocks.STRIPPED_WOOD, ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF, ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF,
+			ArboricultureBlocks.FENCES, ArboricultureBlocks.FENCES_FIREPROOF, ArboricultureBlocks.FENCES_VANILLA_FIREPROOF)) {
 			tags.tag(BlockTags.MINEABLE_WITH_AXE).add(block);
 		}
 
 
 		tags.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-				.addTag(ForestryTags.Blocks.ORES_TIN)
-				.addTag(ForestryTags.Blocks.ORES_APATITE)
-				.addTag(ForestryTags.Blocks.STORAGE_BLOCKS_RAW_TIN);
+			.addTag(ForestryTags.Blocks.ORES_TIN)
+			.addTag(ForestryTags.Blocks.ORES_APATITE)
+			.addTag(ForestryTags.Blocks.STORAGE_BLOCKS_RAW_TIN);
 		tags.tag(BlockTags.NEEDS_STONE_TOOL)
-				.addTag(ForestryTags.Blocks.ORES_TIN)
-				.addTag(ForestryTags.Blocks.ORES_APATITE)
-				.addTag(ForestryTags.Blocks.STORAGE_BLOCKS_RAW_TIN);
+			.addTag(ForestryTags.Blocks.ORES_TIN)
+			.addTag(ForestryTags.Blocks.ORES_APATITE)
+			.addTag(ForestryTags.Blocks.STORAGE_BLOCKS_RAW_TIN);
 
 		tags.tag(ForestryTags.Blocks.CHARCOAL_BLOCK).add(CharcoalBlocks.CHARCOAL.block());
 		tags.tag(Tags.Blocks.CHESTS).add(CoreBlocks.NATURALIST_CHEST.getBlocks().toArray(Block[]::new));
@@ -186,10 +183,10 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.SCULK_FLOWERS).add(Blocks.SCULK_SHRIEKER, Blocks.SCULK_CATALYST, Blocks.SCULK_SENSOR);
 
 		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS)
-				.addTag(BlockTags.FLOWERS)
-				.add(Blocks.RED_MUSHROOM, Blocks.BROWN_MUSHROOM)
-				.add(Blocks.FERN)
-				.add(Blocks.CRIMSON_FUNGUS, Blocks.WARPED_FUNGUS, Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS);
+			.addTag(BlockTags.FLOWERS)
+			.add(Blocks.RED_MUSHROOM, Blocks.BROWN_MUSHROOM)
+			.add(Blocks.FERN)
+			.add(Blocks.CRIMSON_FUNGUS, Blocks.WARPED_FUNGUS, Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS);
 
 		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND).add(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE);
 

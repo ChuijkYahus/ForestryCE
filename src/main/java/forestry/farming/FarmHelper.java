@@ -10,24 +10,14 @@
  ******************************************************************************/
 package forestry.farming;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.core.Direction;
+import forestry.api.farming.*;
+import forestry.core.utils.VecUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 
-import forestry.api.farming.HorizontalDirection;
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmListener;
-import forestry.api.farming.IFarmLogic;
-import forestry.core.utils.VecUtil;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class FarmHelper {
 	public static final Comparator<ICrop> TOP_DOWN_COMPARATOR = (o1, o2) -> VecUtil.TOP_DOWN_COMPARATOR.compare(o1.getPosition(), o2.getPosition());
@@ -50,13 +40,13 @@ public class FarmHelper {
 	private static BlockPos getFarmMultiblockEdge(BlockPos start, Direction direction, BlockPos maxFarmCoord, BlockPos minFarmCoord) {
 		return switch (direction) {
 			case NORTH -> // -z
-					new BlockPos(start.getX(), start.getY(), minFarmCoord.getZ());
+				new BlockPos(start.getX(), start.getY(), minFarmCoord.getZ());
 			case EAST -> // +x
-					new BlockPos(maxFarmCoord.getX(), start.getY(), start.getZ());
+				new BlockPos(maxFarmCoord.getX(), start.getY(), start.getZ());
 			case SOUTH -> // +z
-					new BlockPos(start.getX(), start.getY(), maxFarmCoord.getZ());
+				new BlockPos(start.getX(), start.getY(), maxFarmCoord.getZ());
 			case WEST -> // -x
-					new BlockPos(minFarmCoord.getX(), start.getY(), start.getZ());
+				new BlockPos(minFarmCoord.getX(), start.getY(), start.getZ());
 			default -> throw new IllegalArgumentException("Invalid farm direction: " + direction);
 		};
 	}

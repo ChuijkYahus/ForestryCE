@@ -1,14 +1,13 @@
 package forestry.arboriculture.blocks;
 
-import net.minecraft.world.level.block.PressurePlateBlock;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
-
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.IWoodTyped;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 
 public class BlockForestryPressurePlate extends PressurePlateBlock implements IWoodTyped {
 	private final ForestryWoodType type;

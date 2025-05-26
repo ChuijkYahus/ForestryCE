@@ -10,13 +10,6 @@
  ******************************************************************************/
 package forestry.storage.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.IForestryApi;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.gui.ContainerItemInventory;
@@ -26,6 +19,12 @@ import forestry.core.gui.INaturalistMenu;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.inventory.ItemInventoryBackpackPaged;
 import forestry.storage.items.ItemBackpack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class ContainerNaturalistBackpack extends ContainerItemInventory<ItemInventoryBackpackPaged> implements IGuiSelectable, INaturalistMenu {
 	private final int currentPage;
@@ -47,7 +46,7 @@ public class ContainerNaturalistBackpack extends ContainerItemInventory<ItemInve
 
 	@Override
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
-		inventory.flipPage(player, (short) primary);
+        this.inventory.flipPage(player, (short) primary);
 	}
 
 	@Override

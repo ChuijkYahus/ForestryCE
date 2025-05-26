@@ -10,6 +10,8 @@
  ******************************************************************************/
 package forestry.core.fluids;
 
+import forestry.modules.features.FeatureFluid;
+import forestry.modules.features.FluidProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -24,9 +26,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-
-import forestry.modules.features.FeatureFluid;
-import forestry.modules.features.FluidProperties;
 
 public class BlockForestryFluid extends LiquidBlock {
 	private final boolean spreadsFire;
@@ -67,7 +66,7 @@ public class BlockForestryFluid extends LiquidBlock {
 
 	@Override
 	public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		return flammability;
+		return this.flammability;
 	}
 
 	@Override
@@ -142,11 +141,11 @@ public class BlockForestryFluid extends LiquidBlock {
 
 	private static boolean isNeighborFlammable(Level world, int x, int y, int z) {
 		return isFlammable(world, new BlockPos(x - 1, y, z)) ||
-				isFlammable(world, new BlockPos(x + 1, y, z)) ||
-				isFlammable(world, new BlockPos(x, y, z - 1)) ||
-				isFlammable(world, new BlockPos(x, y, z + 1)) ||
-				isFlammable(world, new BlockPos(x, y - 1, z)) ||
-				isFlammable(world, new BlockPos(x, y + 1, z));
+			isFlammable(world, new BlockPos(x + 1, y, z)) ||
+			isFlammable(world, new BlockPos(x, y, z - 1)) ||
+			isFlammable(world, new BlockPos(x, y, z + 1)) ||
+			isFlammable(world, new BlockPos(x, y - 1, z)) ||
+			isFlammable(world, new BlockPos(x, y + 1, z));
 	}
 
 	private static boolean isNearFire(Level world, int x, int y, int z) {

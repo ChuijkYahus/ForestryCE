@@ -10,8 +10,17 @@
  ******************************************************************************/
 package forestry.core.gui.widgets;
 
-import javax.annotation.Nullable;
-
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import forestry.api.core.IToolPipette;
+import forestry.api.core.tooltips.ToolTip;
+import forestry.core.fluids.StandardTank;
+import forestry.core.gui.IContainerLiquidTanks;
+import forestry.core.utils.ResourceUtil;
+import forestry.farming.gui.ContainerFarm;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -24,27 +33,14 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
-
-import forestry.api.core.IToolPipette;
-import forestry.api.core.tooltips.ToolTip;
-import forestry.core.fluids.StandardTank;
-import forestry.core.gui.IContainerLiquidTanks;
-import forestry.core.utils.ResourceUtil;
-import forestry.farming.gui.ContainerFarm;
-
 import org.joml.Matrix4f;
+
+import javax.annotation.Nullable;
 
 /**
  * Slot for liquid tanks
@@ -54,7 +50,7 @@ public class TankWidget extends Widget {
 
 	private int overlayTexX = 176;
 	private int overlayTexY = 0;
-	private int slot;
+	private final int slot;
 	protected boolean drawOverlay = true;
 
 	public TankWidget(WidgetManager manager, int xPos, int yPos, int slot) {
@@ -64,18 +60,18 @@ public class TankWidget extends Widget {
 	}
 
 	public TankWidget setOverlayOrigin(int x, int y) {
-		overlayTexX = x;
-		overlayTexY = y;
+        this.overlayTexX = x;
+        this.overlayTexY = y;
 		return this;
 	}
 
 	@Nullable
 	public IFluidTank getTank() {
-		AbstractContainerMenu container = manager.gui.getMenu();
+		AbstractContainerMenu container = this.manager.gui.getMenu();
 		if (container instanceof IContainerLiquidTanks tanks) {
-			return tanks.getTank(slot);
+			return tanks.getTank(this.slot);
 		} else if (container instanceof ContainerFarm farm) {
-			return farm.getTank(slot);
+			return farm.getTank(this.slot);
 		}
 		return null;
 	}
@@ -108,24 +104,24 @@ public class TankWidget extends Widget {
 
 				int fluidColor = type.getTintColor(contents);
 
-				int scaledAmount = contents.getAmount() * height / tank.getCapacity();
+				int scaledAmount = contents.getAmount() * this.height / tank.getCapacity();
 				if (contents.getAmount() > 0 && scaledAmount < 1) {
 					scaledAmount = 1;
 				}
-				if (scaledAmount > height) {
-					scaledAmount = height;
+				if (scaledAmount > this.height) {
+					scaledAmount = this.height;
 				}
 
 				RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
 				RenderSystem.setShader(GameRenderer::getPositionTexShader);
 				setGLColorFromInt(fluidColor);
 
-				final int xTileCount = width / 16;
-				final int xRemainder = width - xTileCount * 16;
+				final int xTileCount = this.width / 16;
+				final int xRemainder = this.width - xTileCount * 16;
 				final int yTileCount = scaledAmount / 16;
 				final int yRemainder = scaledAmount - yTileCount * 16;
 
-				final int yStart = startY + height;
+				final int yStart = startY + this.height;
 
 				for (int xTile = 0; xTile <= xTileCount; xTile++) {
 					for (int yTile = 0; yTile <= yTileCount; yTile++) {
@@ -137,18 +133,18 @@ public class TankWidget extends Widget {
 							int maskTop = 16 - height;
 							int maskRight = 16 - width;
 
-							drawFluidTexture(graphics.pose().last().pose(), x + xPos, y + yPos, fluidStillSprite, maskTop, maskRight, 100);
+							drawFluidTexture(graphics.pose().last().pose(), x + this.xPos, y + this.yPos, fluidStillSprite, maskTop, maskRight, 100);
 						}
 					}
 				}
 			}
 		}
 
-		if (drawOverlay) {
+		if (this.drawOverlay) {
 			// RenderSystem.enableAlphaTest();
 			RenderSystem.disableDepthTest();
 			setGLColorFromInt(0xffffff);
-			graphics.blit(manager.gui.textureFile, startX + xPos, startY + yPos, overlayTexX, overlayTexY, 16, 60);
+			graphics.blit(this.manager.gui.textureFile, startX + this.xPos, startY + this.yPos, this.overlayTexX, this.overlayTexY, 16, 60);
 			RenderSystem.enableDepthTest();
 			// RenderSystem.disableAlphaTest();
 		}
@@ -194,16 +190,16 @@ public class TankWidget extends Widget {
 
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
-		Player player = manager.minecraft.player;
+		Player player = this.manager.minecraft.player;
 		ItemStack itemstack = player.containerMenu.getCarried();
 		if (itemstack.isEmpty()) {
 			return;
 		}
 
 		Item held = itemstack.getItem();
-		AbstractContainerMenu container = manager.gui.getMenu();
+		AbstractContainerMenu container = this.manager.gui.getMenu();
 		if (held instanceof IToolPipette && container instanceof IContainerLiquidTanks) {
-			((IContainerLiquidTanks) container).handlePipetteClickClient(slot, player);
+			((IContainerLiquidTanks) container).handlePipetteClickClient(this.slot, player);
 		}
 	}
 }

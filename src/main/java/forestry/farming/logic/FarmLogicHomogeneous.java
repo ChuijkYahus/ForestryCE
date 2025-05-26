@@ -10,18 +10,17 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
+import forestry.api.farming.IFarmHousing;
+import forestry.api.farming.IFarmType;
+import forestry.api.farming.IFarmable;
+import forestry.api.farming.Soil;
+import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
-import forestry.api.farming.Soil;
-import forestry.core.utils.BlockUtil;
 
 public abstract class FarmLogicHomogeneous extends FarmLogicSoil {
 	public FarmLogicHomogeneous(IFarmType properties, boolean isManual) {
@@ -44,7 +43,7 @@ public abstract class FarmLogicHomogeneous extends FarmLogicSoil {
 	}
 
 	private boolean maintainSoil(Level world, IFarmHousing farmHousing, BlockPos pos, Direction direction, int extent) {
-		if (!farmHousing.canPlantSoil(isManual)) {
+		if (!farmHousing.canPlantSoil(this.isManual)) {
 			return false;
 		}
 

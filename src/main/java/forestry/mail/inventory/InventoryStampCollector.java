@@ -10,11 +10,10 @@
  ******************************************************************************/
 package forestry.mail.inventory;
 
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.mail.IStamps;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.mail.tiles.TileStampCollector;
+import net.minecraft.world.item.ItemStack;
 
 public class InventoryStampCollector extends InventoryAdapterTile<TileStampCollector> {
 	public static final short SLOT_FILTER = 0;

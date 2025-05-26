@@ -10,12 +10,10 @@
  ******************************************************************************/
 package forestry.arboriculture;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
+import forestry.api.arboriculture.IWoodAccess;
+import forestry.api.arboriculture.IWoodType;
+import forestry.api.arboriculture.WoodBlockKind;
+import forestry.modules.features.FeatureBlockGroup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -26,10 +24,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.arboriculture.IWoodAccess;
-import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.WoodBlockKind;
-import forestry.modules.features.FeatureBlockGroup;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public enum WoodAccess implements IWoodAccess {
 	INSTANCE;
@@ -227,9 +226,9 @@ public enum WoodAccess implements IWoodAccess {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
-		WoodMap woodMap = woodMaps[woodBlockKind.ordinal()];
-		if (!registeredWoodTypes.contains(woodType)) {
-			registeredWoodTypes.add(woodType);
+		WoodMap woodMap = this.woodMaps[woodBlockKind.ordinal()];
+		if (!this.registeredWoodTypes.contains(woodType)) {
+            this.registeredWoodTypes.add(woodType);
 		}
 		woodMap.getItem(fireproof).put(woodType, itemStack);
 		woodMap.getBlock(fireproof).put(woodType, blockState);
@@ -251,7 +250,7 @@ public enum WoodAccess implements IWoodAccess {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
-		WoodMap woodMap = woodMaps[woodBlockKind.ordinal()];
+		WoodMap woodMap = this.woodMaps[woodBlockKind.ordinal()];
 		Supplier<Item> itemStack = woodMap.getItem(fireproof).get(woodType);
 		if (itemStack == null) {
 			String errMessage = String.format("No stack found for %s %s %s", woodType, woodMap.getName(), fireproof ? "fireproof" : "non-fireproof");
@@ -265,7 +264,7 @@ public enum WoodAccess implements IWoodAccess {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
-		WoodMap woodMap = woodMaps[woodBlockKind.ordinal()];
+		WoodMap woodMap = this.woodMaps[woodBlockKind.ordinal()];
 		BlockState blockState = woodMap.getBlock(fireproof).get(woodType);
 		if (blockState == null) {
 			String errMessage = String.format("No block found for %s %s %s", woodType, woodMap.getName(), fireproof ? "fireproof" : "non-fireproof");
@@ -286,18 +285,18 @@ public enum WoodAccess implements IWoodAccess {
 
 	private static boolean isNonBurning(WoodBlockKind kind) {
 		return kind == WoodBlockKind.DOOR
-				|| kind == WoodBlockKind.TRAPDOOR
-				|| kind == WoodBlockKind.BUTTON
-				|| kind == WoodBlockKind.PRESSURE_PLATE
-				|| kind == WoodBlockKind.SIGN
-				|| kind == WoodBlockKind.WALL_SIGN
-				|| kind == WoodBlockKind.HANGING_SIGN
-				|| kind == WoodBlockKind.WALL_HANGING_SIGN;
+			|| kind == WoodBlockKind.TRAPDOOR
+			|| kind == WoodBlockKind.BUTTON
+			|| kind == WoodBlockKind.PRESSURE_PLATE
+			|| kind == WoodBlockKind.SIGN
+			|| kind == WoodBlockKind.WALL_SIGN
+			|| kind == WoodBlockKind.HANGING_SIGN
+			|| kind == WoodBlockKind.WALL_HANGING_SIGN;
 	}
 
 	@Override
 	public List<IWoodType> getRegisteredWoodTypes() {
-		return registeredWoodTypes;
+		return this.registeredWoodTypes;
 	}
 
 	private static class WoodMap {
@@ -312,7 +311,7 @@ public enum WoodAccess implements IWoodAccess {
 		}
 
 		public String getName() {
-			return woodBlockKind.name();
+			return this.woodBlockKind.name();
 		}
 
 		public Map<IWoodType, Supplier<Item>> getItem(boolean fireproof) {

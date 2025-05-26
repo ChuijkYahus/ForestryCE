@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.apiculture.network.packets;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
 import forestry.api.modules.IForestryPacketClient;
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
 public record PacketAlvearyChange(BlockPos pos) implements IForestryPacketClient {
 	@Override
@@ -28,7 +27,7 @@ public record PacketAlvearyChange(BlockPos pos) implements IForestryPacketClient
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
+		buffer.writeBlockPos(this.pos);
 	}
 
 	public static PacketAlvearyChange decode(FriendlyByteBuf buffer) {

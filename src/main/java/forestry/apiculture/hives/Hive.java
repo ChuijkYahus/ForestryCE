@@ -10,9 +10,11 @@
  ******************************************************************************/
 package forestry.apiculture.hives;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.api.apiculture.hives.IHive;
+import forestry.api.apiculture.hives.IHiveDefinition;
+import forestry.api.apiculture.hives.IHiveDrop;
+import forestry.api.core.HumidityType;
+import forestry.api.core.TemperatureType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
@@ -20,11 +22,8 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.apiculture.hives.IHive;
-import forestry.api.apiculture.hives.IHiveDefinition;
-import forestry.api.apiculture.hives.IHiveDrop;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public final class Hive implements IHive {
 	private final IHiveDefinition hiveDescription;

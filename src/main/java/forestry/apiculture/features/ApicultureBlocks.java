@@ -1,15 +1,7 @@
 package forestry.apiculture.features;
 
-import net.minecraft.world.item.Item;
-
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockAlvearyType;
-import forestry.apiculture.blocks.BlockApiculture;
-import forestry.apiculture.blocks.BlockBeeHive;
-import forestry.apiculture.blocks.BlockHiveType;
-import forestry.apiculture.blocks.BlockHoneyComb;
-import forestry.apiculture.blocks.BlockTypeApiculture;
+import forestry.apiculture.blocks.*;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.ItemBlockHoneyComb;
 import forestry.core.items.ItemBlockForestry;
@@ -17,6 +9,7 @@ import forestry.modules.features.FeatureBlockGroup;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
+import net.minecraft.world.item.Item;
 
 @FeatureProvider
 public class ApicultureBlocks {

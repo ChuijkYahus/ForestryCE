@@ -1,11 +1,10 @@
 package forestry.api.client.apiculture;
 
-import java.util.Map;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.genetics.ILifeStage;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Map;
 
 /**
  * Tracks client-only data for bee species.

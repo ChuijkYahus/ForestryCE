@@ -10,14 +10,6 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.world.inventory.SimpleContainerData;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.slots.SlotEmptyLiquidContainerIn;
 import forestry.core.gui.slots.SlotFiltered;
@@ -27,6 +19,12 @@ import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryFermenter;
 import forestry.factory.tiles.TileFermenter;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ContainerFermenter extends ContainerLiquidTanks<TileFermenter> {
 	public static ContainerFermenter fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
@@ -50,15 +48,15 @@ public class ContainerFermenter extends ContainerLiquidTanks<TileFermenter> {
 	public void setData(int messageId, int data) {
 		super.setData(messageId, data);
 
-		tile.getGUINetworkData(messageId, data);
+        this.tile.getGUINetworkData(messageId, data);
 	}
 
 	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		for (ContainerListener crafter : containerListeners) {
-			tile.sendGUINetworkData(this, crafter);
+		for (ContainerListener crafter : this.containerListeners) {
+            this.tile.sendGUINetworkData(this, crafter);
 		}
 	}
 }

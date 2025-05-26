@@ -10,16 +10,13 @@
  ******************************************************************************/
 package forestry.core.gui.widgets;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import forestry.api.core.tooltips.ToolTip;
 import forestry.core.gui.GuiEscritoire;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SoundUtil;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 
 public class ProbeButton extends Widget {
 
@@ -29,14 +26,14 @@ public class ProbeButton extends Widget {
 	public ProbeButton(GuiEscritoire guiEscritoire, WidgetManager manager, int xPos, int yPos) {
 		super(manager, xPos, yPos);
 		this.guiEscritoire = guiEscritoire;
-		width = 22;
-		height = 25;
+        this.width = 22;
+        this.height = 25;
 	}
 
 	@Override
 	public void draw(GuiGraphics graphics, int startX, int startY) {
 		graphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		graphics.blit(manager.gui.textureFile, startX + xPos, startY + yPos, 228, pressed ? 47 : 22, width, height);
+		graphics.blit(this.manager.gui.textureFile, startX + this.xPos, startY + this.yPos, 228, this.pressed ? 47 : 22, this.width, this.height);
 	}
 
 	@Override
@@ -48,23 +45,23 @@ public class ProbeButton extends Widget {
 
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
-		pressed = true;
+        this.pressed = true;
 		NetworkUtil.sendToServer(new PacketGuiSelectRequest(-1, 0));
 		SoundUtil.playButtonClick();
 	}
 
 	@Override
 	public boolean handleMouseRelease(double mouseX, double mouseY, int eventType) {
-		if (pressed) {
-			pressed = false;
+		if (this.pressed) {
+            this.pressed = false;
 		}
 		return false;
 	}
 
 	@Override
 	public void handleMouseMove(int mouseX, int mouseY, int mouseButton, long time) {
-		if (manager.getAtPosition(mouseX - guiEscritoire.getGuiLeft(), mouseY - guiEscritoire.getGuiTop()) != this) {
-			pressed = false;
+		if (this.manager.getAtPosition(mouseX - this.guiEscritoire.getGuiLeft(), mouseY - this.guiEscritoire.getGuiTop()) != this) {
+            this.pressed = false;
 		}
 	}
 }

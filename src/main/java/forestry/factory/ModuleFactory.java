@@ -10,14 +10,6 @@
  ******************************************************************************/
 package forestry.factory;
 
-import java.util.function.Consumer;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-
-import net.minecraftforge.eventbus.api.IEventBus;
-
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.fuels.FermenterFuel;
 import forestry.api.fuels.FuelManager;
@@ -35,6 +27,12 @@ import forestry.factory.client.FactoryClientHandler;
 import forestry.factory.network.packets.PacketRecipeTransferRequest;
 import forestry.factory.network.packets.PacketRecipeTransferUpdate;
 import forestry.modules.BlankForestryModule;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.eventbus.api.IEventBus;
+
+import java.util.function.Consumer;
 
 @ForestryModule
 public class ModuleFactory extends BlankForestryModule {
@@ -61,7 +59,7 @@ public class ModuleFactory extends BlankForestryModule {
 		// Set fuels and resources for the fermenter
 		ItemStack fertilizerCompound = CoreItems.FERTILIZER_COMPOUND.stack();
 		FuelManager.fermenterFuel.put(fertilizerCompound, new FermenterFuel(fertilizerCompound,
-				Preference.FERMENTED_CYCLE_FERTILIZER, Preference.FERMENTATION_DURATION_FERTILIZER));
+			Preference.FERMENTED_CYCLE_FERTILIZER, Preference.FERMENTATION_DURATION_FERTILIZER));
 
 		int cyclesCompost = Preference.FERMENTATION_DURATION_COMPOST;
 		int valueCompost = Preference.FERMENTED_CYCLE_COMPOST;

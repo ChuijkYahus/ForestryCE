@@ -11,18 +11,6 @@
 package forestry.arboriculture.models;
 
 import com.google.common.base.Preconditions;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.client.model.data.ModelData;
-
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
@@ -33,6 +21,15 @@ import forestry.core.models.ModelBlockCached;
 import forestry.core.models.baker.ModelBaker;
 import forestry.core.utils.ResourceUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.ModelData;
 
 public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, ModelDefaultLeaves.Key> {
 	public ModelDecorativeLeaves(Class<B> blockClass) {
@@ -86,9 +83,9 @@ public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, 
 
 		bakeBlock(block, extraData, key, baker, false);
 
-		blockModel = baker.bake(false);
-		onCreateModel(blockModel);
-		return blockModel;
+        this.blockModel = baker.bake(false);
+		onCreateModel(this.blockModel);
+		return this.blockModel;
 	}
 
 	@Override

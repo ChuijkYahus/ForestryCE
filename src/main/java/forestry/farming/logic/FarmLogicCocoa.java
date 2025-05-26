@@ -10,13 +10,9 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import forestry.api.farming.*;
+import forestry.core.utils.BlockUtil;
+import forestry.farming.logic.farmables.FarmableCocoa;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -26,14 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.farming.HorizontalDirection;
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
-import forestry.api.farming.Soil;
-import forestry.core.utils.BlockUtil;
-import forestry.farming.logic.farmables.FarmableCocoa;
+import java.util.*;
 
 public class FarmLogicCocoa extends FarmLogicSoil {
 	private static final int[] LAYOUT_POSITIONS = new int[]{4, 1, 3, 0, 2};
@@ -57,7 +46,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 	}
 
 	protected boolean maintainSoil(Level world, IFarmHousing farmHousing, BlockPos pos, Direction direction, int extent) {
-		if (!farmHousing.canPlantSoil(isManual)) {
+		if (!farmHousing.canPlantSoil(this.isManual)) {
 			return false;
 		}
 		BlockPos cornerPos = farmHousing.getFarmCorner(direction);
@@ -74,7 +63,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 				}
 
 				if (!isValidPosition(direction, position, pos, layoutExtent)
-						|| !farmHousing.getFarmInventory().hasResources(resources)) {
+					|| !farmHousing.getFarmInventory().hasResources(resources)) {
 					continue;
 				}
 
@@ -88,8 +77,8 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 
 					BlockState state = world.getBlockState(location);
 					if (z == 0 && !world.isEmptyBlock(location)
-							|| z > 0 && isAcceptedSoil(state)
-							|| !BlockUtil.isBreakableBlock(state, world, pos)) {
+						|| z > 0 && isAcceptedSoil(state)
+						|| !BlockUtil.isBreakableBlock(state, world, pos)) {
 						continue;
 					}
 
@@ -99,7 +88,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 						return trySetSoil(world, farmHousing, location, soil.resource(), soil.soilState());
 					}
 
-					if (!isManual) {
+					if (!this.isManual) {
 						return trySetSoil(world, farmHousing, location, soil.resource(), soil.soilState());
 					}
 				}
@@ -154,7 +143,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 			for (Direction direction : HorizontalDirection.VALUES) {
 				BlockPos candidate = new BlockPos(current.getX() + direction.getStepX(), current.getY(), current.getZ() + direction.getStepZ());
 				if (world.hasChunkAt(candidate) && world.isEmptyBlock(candidate)) {
-					return farmHousing.plantGermling(cocoa, world, candidate, farmDirection);
+					return farmHousing.plantGermling(this.cocoa, world, candidate, farmDirection);
 				}
 			}
 
@@ -182,7 +171,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 
 		ICrop crop = null;
 		if (!blockState.is(BlockTags.LOGS)) {
-			crop = cocoa.getCropAt(world, position, blockState);
+			crop = this.cocoa.getCropAt(world, position, blockState);
 			if (crop == null) {
 				return crops;
 			}
@@ -234,7 +223,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 					}
 
 					BlockState blockState = world.getBlockState(candidate);
-					ICrop crop = cocoa.getCropAt(world, candidate, blockState);
+					ICrop crop = this.cocoa.getCropAt(world, candidate, blockState);
 					if (crop != null) {
 						crops.addFirst(crop);
 						candidates.add(candidate);

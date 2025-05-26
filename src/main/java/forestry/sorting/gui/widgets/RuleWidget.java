@@ -1,14 +1,6 @@
 package forestry.sorting.gui.widgets;
 
 import com.google.common.collect.ImmutableSet;
-
-import java.util.Collection;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-
 import forestry.api.IForestryApi;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.core.tooltips.ToolTip;
@@ -20,6 +12,12 @@ import forestry.core.gui.widgets.WidgetManager;
 import forestry.core.utils.SoundUtil;
 import forestry.sorting.gui.GuiGeneticFilter;
 import forestry.sorting.gui.ISelectableProvider;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+
+import java.util.Collection;
 
 public class RuleWidget extends Widget implements ISelectableProvider<IFilterRuleType> {
 	private static final ImmutableSet<IFilterRuleType> ENTRIES = createEntries();
@@ -35,11 +33,11 @@ public class RuleWidget extends Widget implements ISelectableProvider<IFilterRul
 
 	@Override
 	public void draw(GuiGraphics graphics, int startX, int startY) {
-		int x = xPos + startX;
-		int y = yPos + startY;
-		IFilterLogic logic = gui.getLogic();
-		IFilterRuleType rule = logic.getRule(facing);
-		draw(manager.gui, rule, graphics, y, x);
+		int x = this.xPos + startX;
+		int y = this.yPos + startY;
+		IFilterLogic logic = this.gui.getLogic();
+		IFilterRuleType rule = logic.getRule(this.facing);
+		draw(this.manager.gui, rule, graphics, y, x);
 
 		if (this.gui.selection.isSame(this)) {
 			graphics.blit(SelectionWidget.TEXTURE, x - 1, y - 1, 212, 0, 18, 18);
@@ -64,12 +62,12 @@ public class RuleWidget extends Widget implements ISelectableProvider<IFilterRul
 
 	@Override
 	public void onSelect(IFilterRuleType selectable) {
-		IFilterLogic logic = gui.getLogic();
-		if (logic.setRule(facing, selectable)) {
-			logic.sendToServer(facing, selectable);
+		IFilterLogic logic = this.gui.getLogic();
+		if (logic.setRule(this.facing, selectable)) {
+			logic.sendToServer(this.facing, selectable);
 		}
-		if (gui.selection.isSame(this)) {
-			gui.onModuleClick(this);
+		if (this.gui.selection.isSame(this)) {
+            this.gui.onModuleClick(this);
 		}
 		SoundUtil.playButtonClick();
 	}
@@ -80,14 +78,14 @@ public class RuleWidget extends Widget implements ISelectableProvider<IFilterRul
 			onSelect(IForestryApi.INSTANCE.getFilterManager().getDefaultRule());
 		} else {
 			SoundUtil.playButtonClick();
-			gui.onModuleClick(this);
+            this.gui.onModuleClick(this);
 		}
 	}
 
 	@Override
 	public ToolTip getToolTip(int mouseX, int mouseY) {
-		IFilterLogic logic = gui.getLogic();
-		IFilterRuleType rule = logic.getRule(facing);
+		IFilterLogic logic = this.gui.getLogic();
+		IFilterRuleType rule = logic.getRule(this.facing);
 		ToolTip tooltip = new ToolTip();
 		tooltip.add(getName(rule));
 		return tooltip;

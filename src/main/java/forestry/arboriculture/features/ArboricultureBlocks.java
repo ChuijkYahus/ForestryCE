@@ -1,14 +1,6 @@
 package forestry.arboriculture.features;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.block.Block;
-
 import com.mojang.datafixers.util.Function3;
-
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.modules.ForestryModuleIds;
@@ -16,41 +8,15 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.IWoodTyped;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.WoodAccess;
-import forestry.arboriculture.blocks.BlockDecorativeLeaves;
-import forestry.arboriculture.blocks.BlockDefaultLeaves;
-import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
-import forestry.arboriculture.blocks.BlockForestryButton;
-import forestry.arboriculture.blocks.BlockForestryDoor;
-import forestry.arboriculture.blocks.BlockForestryFence;
-import forestry.arboriculture.blocks.BlockForestryFenceGate;
-import forestry.arboriculture.blocks.BlockForestryHangingSign;
-import forestry.arboriculture.blocks.BlockForestryLeaves;
-import forestry.arboriculture.blocks.BlockForestryLog;
-import forestry.arboriculture.blocks.BlockForestryPlank;
-import forestry.arboriculture.blocks.BlockForestryPressurePlate;
-import forestry.arboriculture.blocks.BlockForestrySlab;
-import forestry.arboriculture.blocks.BlockForestryStairs;
-import forestry.arboriculture.blocks.BlockForestryStandingSign;
-import forestry.arboriculture.blocks.BlockForestryTrapdoor;
-import forestry.arboriculture.blocks.BlockForestryWallHangingSign;
-import forestry.arboriculture.blocks.BlockForestryWallSign;
-import forestry.arboriculture.blocks.BlockFruitPod;
-import forestry.arboriculture.blocks.BlockSapling;
-import forestry.arboriculture.blocks.ForestryLeafType;
-import forestry.arboriculture.blocks.ForestryPodType;
-import forestry.arboriculture.items.ItemBlockDecorativeLeaves;
-import forestry.arboriculture.items.ItemBlockHangingSign;
-import forestry.arboriculture.items.ItemBlockLeaves;
-import forestry.arboriculture.items.ItemBlockSign;
-import forestry.arboriculture.items.ItemBlockWood;
-import forestry.arboriculture.items.ItemBlockWoodDoor;
-import forestry.arboriculture.items.ItemBlockWoodSlab;
-import forestry.modules.features.FeatureBlock;
-import forestry.modules.features.FeatureBlockGroup;
-import forestry.modules.features.FeatureGroup;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.arboriculture.blocks.*;
+import forestry.arboriculture.items.*;
+import forestry.modules.features.*;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.block.Block;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @FeatureProvider
 public class ArboricultureBlocks {

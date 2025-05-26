@@ -10,19 +10,17 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
+import forestry.core.tiles.ILiquidTankTile;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.IFluidTank;
 
-import forestry.core.tiles.ILiquidTankTile;
+import javax.annotation.Nullable;
 
 public abstract class ContainerLiquidTanks<T extends BlockEntity & ILiquidTankTile> extends ContainerTile<T> implements IContainerLiquidTanks {
 	private final ContainerLiquidTanksHelper<T> helper;
@@ -40,12 +38,12 @@ public abstract class ContainerLiquidTanks<T extends BlockEntity & ILiquidTankTi
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void handlePipetteClickClient(int slot, Player player) {
-		helper.handlePipetteClickClient(slot, player);
+        this.helper.handlePipetteClickClient(slot, player);
 	}
 
 	@Override
 	public void handlePipetteClick(int slot, ServerPlayer player) {
-		helper.handlePipetteClick(slot, player);
+        this.helper.handlePipetteClick(slot, player);
 	}
 
 	@Override
@@ -53,19 +51,19 @@ public abstract class ContainerLiquidTanks<T extends BlockEntity & ILiquidTankTi
 		super.broadcastChanges();
 
 		if (this.player != null) {
-			tile.getTankManager().broadcastChanges(this, this.player);
+            this.tile.getTankManager().broadcastChanges(this, this.player);
 		}
 	}
 
 	@Override
 	public void removed(Player PlayerEntity) {
 		super.removed(PlayerEntity);
-		tile.getTankManager().onClosed(this);
+        this.tile.getTankManager().onClosed(this);
 	}
 
 	@Nullable
 	@Override
 	public IFluidTank getTank(int slot) {
-		return tile.getTankManager().getTank(slot);
+		return this.tile.getTankManager().getTank(slot);
 	}
 }

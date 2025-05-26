@@ -1,13 +1,5 @@
 package forestry.api.arboriculture;
 
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.HumidityType;
@@ -16,6 +8,13 @@ import forestry.api.core.ISpecialtyProducer;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.List;
 
 public interface ITreeSpecies extends ISpecies<ITree>, ITreeGenData, IProductProducer, ISpecialtyProducer {
 	@Override

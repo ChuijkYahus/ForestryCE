@@ -1,5 +1,11 @@
 package forestry.lepidopterology.recipe;
 
+import forestry.Forestry;
+import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
+import forestry.api.lepidopterology.genetics.IButterfly;
+import forestry.lepidopterology.features.LepidopterologyRecipes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -8,13 +14,6 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-
-import forestry.Forestry;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
-import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.lepidopterology.features.LepidopterologyRecipes;
 
 public class ButterflyMatingRecipe extends CustomRecipe {
 	public ButterflyMatingRecipe(ResourceLocation id, CraftingBookCategory category) {

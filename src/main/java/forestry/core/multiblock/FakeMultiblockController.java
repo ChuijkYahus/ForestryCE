@@ -10,23 +10,22 @@
  ******************************************************************************/
 package forestry.core.multiblock;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-
+import forestry.api.core.HumidityType;
+import forestry.api.core.IErrorLogic;
+import forestry.api.core.ILocationProvider;
+import forestry.api.core.TemperatureType;
+import forestry.api.multiblock.IMultiblockComponent;
+import forestry.core.errors.FakeErrorLogic;
+import forestry.core.owner.FakeOwnerHandler;
+import forestry.core.owner.IOwnerHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
 
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
-import forestry.api.core.IErrorLogic;
-import forestry.api.core.ILocationProvider;
-import forestry.api.multiblock.IMultiblockComponent;
-import forestry.core.errors.FakeErrorLogic;
-import forestry.core.owner.FakeOwnerHandler;
-import forestry.core.owner.IOwnerHandler;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
 public interface FakeMultiblockController extends IMultiblockControllerInternal, ILocationProvider {
 	@Override

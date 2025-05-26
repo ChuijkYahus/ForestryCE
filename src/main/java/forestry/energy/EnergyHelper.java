@@ -1,16 +1,14 @@
 package forestry.energy;
 
-import javax.annotation.Nullable;
-
+import forestry.core.config.Preference;
+import forestry.energy.tiles.EngineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
-
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 
-import forestry.core.config.Preference;
-import forestry.energy.tiles.EngineBlockEntity;
+import javax.annotation.Nullable;
 
 public class EnergyHelper {
 	public static int scaleForDifficulty(int energyValue) {

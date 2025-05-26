@@ -10,9 +10,9 @@
  ******************************************************************************/
 package forestry.core.utils;
 
-import java.util.Calendar;
-
 import net.minecraft.network.chat.Component;
+
+import java.util.Calendar;
 
 /**
  * Fed up with Date and Calendar and their shenanigans

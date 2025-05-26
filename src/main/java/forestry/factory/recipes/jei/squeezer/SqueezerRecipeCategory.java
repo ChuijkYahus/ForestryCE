@@ -1,11 +1,5 @@
 package forestry.factory.recipes.jei.squeezer;
 
-import java.util.List;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.ForestryConstants;
 import forestry.api.recipes.ISqueezerRecipe;
 import forestry.core.config.Constants;
@@ -15,7 +9,6 @@ import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -29,6 +22,11 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerRecipe> {
 	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/squeezersocket.png");
@@ -62,16 +60,16 @@ public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerReci
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, ISqueezerRecipe recipe, IFocusGroup focuses) {
 		List<IRecipeSlotBuilder> craftingSlots = JeiUtil.layoutSlotGrid(builder, RecipeIngredientRole.INPUT, 3, 3, 8, 5, 18);
-		JeiUtil.setCraftingItems(craftingSlots, recipe.getInputs(), 3, 3, craftingGridHelper);
+		JeiUtil.setCraftingItems(craftingSlots, recipe.getInputs(), 3, 3, this.craftingGridHelper);
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 88, 44)
-				.addTooltipCallback(new ChanceTooltipCallback(recipe.getRemnantsChance()))
-				.addItemStack(recipe.getRemnants());
+			.addTooltipCallback(new ChanceTooltipCallback(recipe.getRemnantsChance()))
+			.addItemStack(recipe.getRemnants());
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 2)
-				.setFluidRenderer(10000, false, 16, 58)
-				.setOverlay(tankOverlay, 0, 0)
-				.addIngredient(ForgeTypes.FLUID_STACK, recipe.getFluidOutput());
+			.setFluidRenderer(10000, false, 16, 58)
+			.setOverlay(this.tankOverlay, 0, 0)
+			.addIngredient(ForgeTypes.FLUID_STACK, recipe.getFluidOutput());
 	}
 
 	@Override

@@ -1,15 +1,14 @@
 package forestry.arboriculture.blocks;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.arboriculture.IWoodTyped;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockForestrySlab extends SlabBlock implements IWoodTyped {
 	private final boolean fireproof;
@@ -23,22 +22,22 @@ public class BlockForestrySlab extends SlabBlock implements IWoodTyped {
 
 	@Override
 	public boolean isFireproof() {
-		return fireproof;
+		return this.fireproof;
 	}
 
 	@Override
 	public IWoodType getWoodType() {
-		return woodType;
+		return this.woodType;
 	}
 
 	@Override
 	public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		return fireproof ? 0 : 20;
+		return this.fireproof ? 0 : 20;
 	}
 
 	@Override
 	public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		return fireproof ? 0 : 5;
+		return this.fireproof ? 0 : 5;
 	}
 
 	@Override

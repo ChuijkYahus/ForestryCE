@@ -26,7 +26,7 @@ public enum EnumTankLevel {
 	}
 
 	public int getLevelScaled(int scale) {
-		return level * scale / 100;
+		return this.level * scale / 100;
 	}
 
 	public static EnumTankLevel rateTankLevel(IFluidTank tank) {

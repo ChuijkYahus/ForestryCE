@@ -10,9 +10,9 @@
  ******************************************************************************/
 package forestry.farming.items;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.core.items.ItemBlockForestry;
+import forestry.core.utils.ItemTooltipUtil;
+import forestry.farming.blocks.FarmBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -21,9 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
-import forestry.core.items.ItemBlockForestry;
-import forestry.core.utils.ItemTooltipUtil;
-import forestry.farming.blocks.FarmBlock;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemBlockFarm extends ItemBlockForestry<FarmBlock> {
 	public ItemBlockFarm(FarmBlock block) {

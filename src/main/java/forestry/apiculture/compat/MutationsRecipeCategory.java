@@ -1,22 +1,9 @@
 package forestry.apiculture.compat;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.*;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
-
 import mezz.jei.api.gui.builder.IIngredientAcceptor;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -25,6 +12,12 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> {
 	private static final int SPECIES_SLOTS_Y = 16;
@@ -87,11 +80,11 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 
 		// display correct stages in GUI
 		builder.addSlot(RecipeIngredientRole.INPUT, SPECIES_SLOT_0_X, SPECIES_SLOTS_Y)
-				.addItemStack(recipe.firstParent);
+			.addItemStack(recipe.firstParent);
 		builder.addSlot(RecipeIngredientRole.INPUT, SPECIES_SLOT_1_X, SPECIES_SLOTS_Y)
-				.addItemStack(recipe.secondParent);
+			.addItemStack(recipe.secondParent);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, SPECIES_SLOT_2_X, SPECIES_SLOTS_Y)
-				.addItemStack(result);
+			.addItemStack(result);
 	}
 
 	static ItemStack createAnalyzedStack(ILifeStage stage, ISpecies<?> species, @Nullable IGenome genome) {

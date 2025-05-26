@@ -1,17 +1,10 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.multiblock;
 
-import javax.annotation.Nullable;
-
+import com.mojang.authlib.GameProfile;
+import forestry.core.inventory.IInventoryAdapter;
 import net.minecraft.core.BlockPos;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.core.inventory.IInventoryAdapter;
+import javax.annotation.Nullable;
 
 /**
  * Basic interface for a multiblock machine component.

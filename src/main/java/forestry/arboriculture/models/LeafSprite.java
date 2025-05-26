@@ -10,9 +10,8 @@
  ******************************************************************************/
 package forestry.arboriculture.models;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.client.arboriculture.ILeafSprite;
+import net.minecraft.resources.ResourceLocation;
 
 public class LeafSprite implements ILeafSprite {
 	private final ResourceLocation fast;
@@ -32,10 +31,10 @@ public class LeafSprite implements ILeafSprite {
 		String path = "block/leaves/" + id.getPath();
 
 		return new LeafSprite(
-				new ResourceLocation(namespace, path + "_fast"),
-				new ResourceLocation(namespace, path),
-				new ResourceLocation(namespace, path + "_pollinated_fast"),
-				new ResourceLocation(namespace, path + "_pollinated")
+			new ResourceLocation(namespace, path + "_fast"),
+			new ResourceLocation(namespace, path),
+			new ResourceLocation(namespace, path + "_pollinated_fast"),
+			new ResourceLocation(namespace, path + "_pollinated")
 		);
 	}
 

@@ -10,6 +10,13 @@
  ******************************************************************************/
 package forestry.core.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import forestry.api.ForestryConstants;
+import forestry.core.blocks.BlockBase;
+import forestry.core.config.Constants;
+import forestry.core.tiles.TileEscritoire;
+import forestry.core.utils.RenderUtil;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -24,15 +31,6 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import forestry.api.ForestryConstants;
-import forestry.core.blocks.BlockBase;
-import forestry.core.config.Constants;
-import forestry.core.tiles.TileEscritoire;
-import forestry.core.utils.RenderUtil;
 
 public class RenderEscritoire implements BlockEntityRenderer<TileEscritoire> {
 	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/escritoire.png");
@@ -50,25 +48,25 @@ public class RenderEscritoire implements BlockEntityRenderer<TileEscritoire> {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		partdefinition.addOrReplaceChild("desk", CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 16, 2, 15).mirror(), PartPose.offsetAndRotation(0, 9.5f, 0.4f, 0.0872665f, 0, 0));
+			.addBox(0, 0, 0, 16, 2, 15).mirror(), PartPose.offsetAndRotation(0, 9.5f, 0.4f, 0.0872665f, 0, 0));
 		partdefinition.addOrReplaceChild("standrb", CubeListBuilder.create().texOffs(38, 18)
-				.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(13, 4, 13));
+			.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(13, 4, 13));
 		partdefinition.addOrReplaceChild("standrf", CubeListBuilder.create().texOffs(38, 18)
-				.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(13, 4, 1));
+			.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(13, 4, 1));
 		partdefinition.addOrReplaceChild("standlb", CubeListBuilder.create().texOffs(38, 18)
-				.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(1, 4, 1));
+			.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(1, 4, 1));
 		partdefinition.addOrReplaceChild("standlf", CubeListBuilder.create().texOffs(38, 18)
-				.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(1, 4, 13));
+			.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(1, 4, 13));
 		partdefinition.addOrReplaceChild("drawers", CubeListBuilder.create().texOffs(0, 18)
-				.addBox(0f, 0f, 0f, 15, 5, 3).mirror(), PartPose.offset(0.5f, 11, 0.5f));
+			.addBox(0f, 0f, 0f, 15, 5, 3).mirror(), PartPose.offset(0.5f, 11, 0.5f));
 		partdefinition.addOrReplaceChild("standlowrb", CubeListBuilder.create().texOffs(0, 26)
-				.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(13.5f, 0, 13.5f));
+			.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(13.5f, 0, 13.5f));
 		partdefinition.addOrReplaceChild("standlowrf", CubeListBuilder.create().texOffs(0, 26)
-				.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(13.5f, 0, 1.5f));
+			.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(13.5f, 0, 1.5f));
 		partdefinition.addOrReplaceChild("standlowlb", CubeListBuilder.create().texOffs(0, 26)
-				.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(1.5f, 0, 1.5f));
+			.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(1.5f, 0, 1.5f));
 		partdefinition.addOrReplaceChild("standlowlf", CubeListBuilder.create().texOffs(0, 26)
-				.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(1.5f, 0, 13.5f));
+			.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(1.5f, 0, 13.5f));
 
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}

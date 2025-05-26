@@ -1,15 +1,11 @@
 package forestry.compat.curios;
 
+import forestry.core.utils.GeneticsUtil;
 import net.minecraft.world.entity.player.Player;
-
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
-
 import net.minecraftforge.fml.ModList;
-
-import forestry.core.utils.GeneticsUtil;
-
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 

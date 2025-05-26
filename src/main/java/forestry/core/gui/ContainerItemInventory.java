@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import net.minecraft.world.entity.player.Player;
+import forestry.core.gui.slots.SlotLocked;
+import forestry.core.inventory.ItemInventory;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-
-import forestry.core.gui.slots.SlotLocked;
-import forestry.core.inventory.ItemInventory;
 
 public abstract class ContainerItemInventory<I extends ItemInventory> extends ContainerForestry {
 
@@ -35,7 +34,7 @@ public abstract class ContainerItemInventory<I extends ItemInventory> extends Co
 	protected void addHotbarSlot(Inventory playerInventory, int slot, int x, int y) {
 		ItemStack stackInSlot = playerInventory.getItem(slot);
 
-		if (inventory.isParentItemInventory(stackInSlot)) {
+		if (this.inventory.isParentItemInventory(stackInSlot)) {
 			addSlot(new SlotLocked(playerInventory, slot, x, y));
 		} else {
 			addSlot(new Slot(playerInventory, slot, x, y));
@@ -49,7 +48,7 @@ public abstract class ContainerItemInventory<I extends ItemInventory> extends Co
 
 	@Override
 	public final boolean stillValid(Player PlayerEntity) {
-		return inventory.stillValid(PlayerEntity);
+		return this.inventory.stillValid(PlayerEntity);
 	}
 
 	@Override
@@ -57,12 +56,12 @@ public abstract class ContainerItemInventory<I extends ItemInventory> extends Co
 		super.clicked(slotId, button, clickTypeIn, player);
 
 		if (slotId > 0) {
-			inventory.onSlotClick(slots.get(slotId).getSlotIndex(), player);
+            this.inventory.onSlotClick(this.slots.get(slotId).getSlotIndex(), player);
 		}
 	}
 
 	public I getItemInventory() {
-		return inventory;
+		return this.inventory;
 	}
 
 }

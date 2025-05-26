@@ -1,15 +1,12 @@
 package forestry.core.data;
 
-import java.util.concurrent.CompletableFuture;
-
+import forestry.api.ForestryConstants;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-
 import net.minecraftforge.common.data.ExistingFileHelper;
-
-import forestry.api.ForestryConstants;
-
 import top.theillusivec4.curios.api.CuriosDataProvider;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ForestryCuriosProvider extends CuriosDataProvider {
 	public ForestryCuriosProvider(PackOutput output, ExistingFileHelper fileHelper, CompletableFuture<HolderLookup.Provider> registries) {

@@ -1,5 +1,9 @@
 package forestry.apiculture.items;
 
+import forestry.api.IForestryApi;
+import forestry.core.items.ItemForestry;
+import forestry.core.network.packets.PacketRefractoryWax;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,11 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-
-import forestry.api.IForestryApi;
-import forestry.core.items.ItemForestry;
-import forestry.core.network.packets.PacketRefractoryWax;
-import forestry.core.utils.NetworkUtil;
 
 public class ItemRefractoryWax extends ItemForestry {
 	public InteractionResult useOn(UseOnContext context) {

@@ -1,12 +1,11 @@
 package forestry.plugin;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 class DefaultWoods {
 	static void register(IArboricultureRegistration arboriculture) {

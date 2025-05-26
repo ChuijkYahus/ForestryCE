@@ -1,18 +1,5 @@
 package forestry.core.data.models;
 
-import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
-import net.minecraftforge.common.data.ExistingFileHelper;
-
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
 import forestry.apiculture.blocks.BlockBeeHive;
@@ -30,7 +17,16 @@ import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingBlocks;
-import forestry.modules.features.FeatureBlock;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.client.model.generators.BlockModelProvider;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -138,29 +134,29 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		// todo need to use reverse texture
 		getVariantBuilder(block)
-				.partialState().with(FarmBlock.BAND, false)
-				.modelForState().modelFile(farmPillar(path(block), base, modLoc("block/farm/top"), modLoc("block/farm/plain"))).addModel()
-				.partialState().with(FarmBlock.BAND, true)
-				.modelForState().modelFile(farmPillar(path(block) + "_band", base, modLoc("block/farm/top"), modLoc("block/farm/band"))).addModel();
+			.partialState().with(FarmBlock.BAND, false)
+			.modelForState().modelFile(farmPillar(path(block), base, modLoc("block/farm/top"), modLoc("block/farm/plain"))).addModel()
+			.partialState().with(FarmBlock.BAND, true)
+			.modelForState().modelFile(farmPillar(path(block) + "_band", base, modLoc("block/farm/top"), modLoc("block/farm/band"))).addModel();
 	}
 
 	private ModelFile farmPillar(String path, Block base, ResourceLocation top, ResourceLocation side) {
 		ModelFile baseModel = file(blockTexture(base));
 
 		return models().getBuilder(path).customLoader(CompositeModelBuilder::begin)
-				.child("base", models().nested()
-						.parent(baseModel)
-						.renderType("solid"))
-				.child("overlay", models().nested()
-						.parent(mcFile("cube_column"))
-						.texture("end", top)
-						.texture("side", side)
-						// should we use cutout_mipped?
-						.renderType("cutout"))
-				.itemRenderOrder("base", "overlay")
-				.end()
-				// reuse the particle
-				.parent(baseModel);
+			.child("base", models().nested()
+				.parent(baseModel)
+				.renderType("solid"))
+			.child("overlay", models().nested()
+				.parent(mcFile("cube_column"))
+				.texture("end", top)
+				.texture("side", side)
+				// should we use cutout_mipped?
+				.renderType("cutout"))
+			.itemRenderOrder("base", "overlay")
+			.end()
+			// reuse the particle
+			.parent(baseModel);
 	}
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {
@@ -235,7 +231,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		String path = itemId.getPath();
 
 		itemModels().getBuilder(path)
-				.parent(new ModelFile.UncheckedModelFile(parentName))
-				.texture("layer0", new ResourceLocation(itemId.getNamespace(), "item/" + path));
+			.parent(new ModelFile.UncheckedModelFile(parentName))
+			.texture("layer0", new ResourceLocation(itemId.getNamespace(), "item/" + path));
 	}
 }

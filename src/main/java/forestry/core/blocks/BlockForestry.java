@@ -10,6 +10,12 @@
  ******************************************************************************/
 package forestry.core.blocks;
 
+import com.mojang.authlib.GameProfile;
+import forestry.Forestry;
+import forestry.core.owner.IOwnedTile;
+import forestry.core.owner.IOwnerHandler;
+import forestry.core.tiles.TileForestry;
+import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,14 +25,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.Forestry;
-import forestry.core.owner.IOwnedTile;
-import forestry.core.owner.IOwnerHandler;
-import forestry.core.tiles.TileForestry;
-import forestry.core.tiles.TileUtil;
-
 public abstract class BlockForestry extends Block {
 	protected BlockForestry(Block.Properties properties) {
 		this(properties, false);
@@ -34,7 +32,7 @@ public abstract class BlockForestry extends Block {
 
 	protected BlockForestry(Block.Properties properties, boolean defaultStrength) {
 		super(defaultStrength ? properties
-				.strength(1.5f) : properties);
+			.strength(1.5f) : properties);
 	}
 
 	@Override

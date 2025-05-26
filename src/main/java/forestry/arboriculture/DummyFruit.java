@@ -10,9 +10,12 @@
  ******************************************************************************/
 package forestry.arboriculture;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.api.arboriculture.genetics.IFruit;
+import forestry.api.arboriculture.genetics.ITreeSpeciesType;
+import forestry.api.core.IProduct;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -21,12 +24,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 
-import forestry.api.arboriculture.genetics.IFruit;
-import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.core.IProduct;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.core.utils.SpeciesUtil;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class DummyFruit implements IFruit {
 	private final boolean dominant;

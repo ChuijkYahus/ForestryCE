@@ -1,21 +1,14 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.apiculture;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.world.phys.Vec3;
-
 import com.mojang.authlib.GameProfile;
-
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.climate.IBiomeProvider;
 import forestry.api.climate.IClimateProvider;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.ILocationProvider;
+import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 public interface IBeeHousing extends IErrorLogicSource, IClimateProvider, IBiomeProvider, ILocationProvider {
 

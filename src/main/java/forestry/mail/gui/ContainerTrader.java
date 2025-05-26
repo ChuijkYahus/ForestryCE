@@ -10,9 +10,6 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Inventory;
-
 import forestry.api.mail.IMailAddress;
 import forestry.core.gui.ContainerTile;
 import forestry.core.gui.slots.SlotFiltered;
@@ -22,6 +19,8 @@ import forestry.core.tiles.TileUtil;
 import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.tiles.TileTrader;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ContainerTrader extends ContainerTile<TileTrader> {
 	public static ContainerTrader fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
@@ -72,6 +71,6 @@ public class ContainerTrader extends ContainerTile<TileTrader> {
 	}
 
 	public IMailAddress getAddress() {
-		return tile.getAddress();
+		return this.tile.getAddress();
 	}
 }

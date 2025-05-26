@@ -1,20 +1,13 @@
 package forestry.apiimpl;
 
 import com.google.common.collect.ImmutableMap;
+import forestry.api.genetics.*;
+import forestry.core.genetics.Taxon;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-
-import net.minecraft.resources.ResourceLocation;
-
-import forestry.api.genetics.IGeneticManager;
-import forestry.api.genetics.IMutationManager;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.ITaxon;
-import forestry.core.genetics.Taxon;
-
-import org.jetbrains.annotations.ApiStatus;
 
 public class GeneticManager implements IGeneticManager {
 	private final ImmutableMap<String, ITaxon> taxa;
@@ -56,7 +49,7 @@ public class GeneticManager implements IGeneticManager {
 		if (this.mutationsByType == null) {
 			throw new IllegalStateException("Mutations have not been registered yet");
 		}
-		IMutationManager<?> manager =  this.mutationsByType.get(speciesType);
+		IMutationManager<?> manager = this.mutationsByType.get(speciesType);
 		if (manager == null) {
 			throw new IllegalStateException("Invalid or unregistered species type");
 		}

@@ -10,23 +10,6 @@
  ******************************************************************************/
 package forestry.core.genetics;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import org.apache.commons.lang3.mutable.MutableBoolean;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-
 import forestry.Forestry;
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.IIndividual;
@@ -39,6 +22,20 @@ import forestry.core.genetics.capability.SerializableIndividualHandlerItem;
 import forestry.core.items.ItemForestry;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import org.apache.commons.lang3.mutable.MutableBoolean;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class ItemGE extends ItemForestry {
 	protected final ILifeStage stage;
@@ -77,8 +74,8 @@ public abstract class ItemGE extends ItemForestry {
 	@Override
 	public Component getName(ItemStack stack) {
 		return stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM)
-				.map(handler -> GeneticsUtil.getItemName(handler.getStage(), handler.getIndividual().getSpecies()))
-				.orElseGet(() -> super.getName(stack));
+			.map(handler -> GeneticsUtil.getItemName(handler.getStage(), handler.getIndividual().getSpecies()))
+			.orElseGet(() -> super.getName(stack));
 	}
 
 	@Override

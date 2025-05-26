@@ -10,20 +10,18 @@
  ******************************************************************************/
 package forestry.mail.carriers.trading;
 
+import forestry.api.ForestryConstants;
+import forestry.api.client.IForestryClientApi;
 import forestry.api.mail.*;
-import forestry.mail.postalstates.EnumDeliveryState;
 import forestry.mail.MailAddress;
+import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import forestry.api.ForestryConstants;
-import forestry.api.client.IForestryClientApi;
 
 public class CarrierTrader implements IPostalCarrier {
 	private final ResourceLocation iconID;
@@ -40,7 +38,7 @@ public class CarrierTrader implements IPostalCarrier {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public TextureAtlasSprite getSprite() {
-		return IForestryClientApi.INSTANCE.getTextureManager().getSprite(iconID);
+		return IForestryClientApi.INSTANCE.getTextureManager().getSprite(this.iconID);
 	}
 
 	@Override

@@ -1,18 +1,7 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.apiculture.hives;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-import java.util.List;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
@@ -24,8 +13,11 @@ import forestry.apiculture.BeeHousingListener;
 import forestry.apiculture.BeeHousingModifier;
 import forestry.apiculture.BeekeepingLogic;
 import forestry.apiculture.VillageHive;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+
+import java.util.List;
 
 public class HiveManager implements IHiveManager {
 	private final ImmutableMap<ResourceLocation, IHive> registry;
@@ -48,12 +40,12 @@ public class HiveManager implements IHiveManager {
 
 	@Override
 	public ImmutableList<VillageHive> getCommonVillageHives() {
-		return commonVillageHives;
+		return this.commonVillageHives;
 	}
 
 	@Override
 	public ImmutableList<VillageHive> getRareVillageHives() {
-		return rareVillageHives;
+		return this.rareVillageHives;
 	}
 
 	@Override
@@ -68,7 +60,7 @@ public class HiveManager implements IHiveManager {
 
 	@Override
 	public float getSwarmingMaterialChance(Item swarmItem) {
-		return swarmerMaterials.getFloat(swarmItem);
+		return this.swarmerMaterials.getFloat(swarmItem);
 	}
 
 	@Override

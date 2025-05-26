@@ -1,8 +1,7 @@
 package forestry.api.apiculture;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Allele IDs of all flower types added by base Forestry.

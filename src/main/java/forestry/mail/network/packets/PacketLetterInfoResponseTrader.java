@@ -1,25 +1,23 @@
 package forestry.mail.network.packets;
 
-import javax.annotation.Nullable;
-
-import forestry.mail.MailAddress;
-import forestry.mail.carriers.PostalCarriers;
-import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
 import com.mojang.authlib.GameProfile;
-
 import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.ITradeStationInfo;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.utils.NetworkUtil;
+import forestry.mail.MailAddress;
+import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.carriers.trading.TradeStationInfo;
 import forestry.mail.gui.ILetterInfoReceiver;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) implements IForestryPacketClient {
 	@Override
@@ -29,20 +27,20 @@ public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) i
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		if (info == null) {
+		if (this.info == null) {
 			buffer.writeBoolean(false);
 		} else {
 			buffer.writeBoolean(true);
-			buffer.writeUtf(info.address().getName());
+			buffer.writeUtf(this.info.address().getName());
 
-			GameProfile profile = info.owner();
+			GameProfile profile = this.info.owner();
 			buffer.writeUUID(profile.getId());
 			buffer.writeUtf(profile.getName());
 
-			buffer.writeItem(info.tradegood());
-			NetworkUtil.writeItemStacks(buffer, info.required());
+			buffer.writeItem(this.info.tradegood());
+			NetworkUtil.writeItemStacks(buffer, this.info.required());
 
-			buffer.writeEnum(info.state());
+			buffer.writeEnum(this.info.state());
 		}
 	}
 

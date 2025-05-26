@@ -10,15 +10,13 @@
  ******************************************************************************/
 package forestry.lepidopterology.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import forestry.core.render.ForestryModelLayers;
+import forestry.lepidopterology.entities.EntityButterfly;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import forestry.core.render.ForestryModelLayers;
-import forestry.lepidopterology.entities.EntityButterfly;
 
 public class ButterflyEntityRenderer extends MobRenderer<EntityButterfly, ButterflyModel> {
 	public ButterflyEntityRenderer(EntityRendererProvider.Context context) {
@@ -33,7 +31,7 @@ public class ButterflyEntityRenderer extends MobRenderer<EntityButterfly, Butter
 
 		transform.pushPose();
 		transform.translate(0, 0.2, 0);
-		model.setScale(entity.getSize());
+        this.model.setScale(entity.getSize());
 		super.render(entity, entityYaw, partialTickTime, transform, buffer, packedLight);
 		transform.popPose();
 	}

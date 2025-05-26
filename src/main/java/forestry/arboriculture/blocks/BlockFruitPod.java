@@ -10,8 +10,9 @@
  ******************************************************************************/
 package forestry.arboriculture.blocks;
 
-import java.util.List;
-
+import forestry.arboriculture.tiles.TileFruitPod;
+import forestry.core.tiles.TileUtil;
+import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -26,14 +27,11 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 
-import forestry.arboriculture.tiles.TileFruitPod;
-import forestry.core.tiles.TileUtil;
-import forestry.core.utils.BlockUtil;
+import java.util.List;
 
 public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 	private final ForestryPodType podType;
@@ -84,7 +82,7 @@ public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 	@Override
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		Direction facing = state.getValue(FACING);
-		return BlockUtil.isValidPodLocation(level, pos, facing, podType.getFruit().getLogTag());
+		return BlockUtil.isValidPodLocation(level, pos, facing, this.podType.getFruit().getLogTag());
 	}
 
 	@Override

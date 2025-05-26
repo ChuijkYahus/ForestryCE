@@ -25,9 +25,9 @@ public enum BlockTypeApiculture implements IBlockType {
 
 	<T extends TileBeeHousingBase> BlockTypeApiculture(FeatureTileType<? extends T> teClass, String name) {
 		this.machineProperties = new MachineProperties.Builder<>(teClass, name)
-				.setClientTicker(TileBeeHousingBase::clientTick)
-				.setServerTicker(TileBeeHousingBase::serverTick)
-				.create();
+			.setClientTicker(TileBeeHousingBase::clientTick)
+			.setServerTicker(TileBeeHousingBase::serverTick)
+			.create();
 	}
 
 	@Override

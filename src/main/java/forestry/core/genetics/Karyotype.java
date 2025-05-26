@@ -4,31 +4,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Keyable;
-
 import forestry.api.IForestryApi;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.genetics.alleles.IRegistryChromosome;
+import forestry.api.genetics.alleles.*;
 import forestry.api.plugin.IChromosomeBuilder;
 import forestry.api.plugin.IGenomeBuilder;
 import forestry.api.plugin.IKaryotypeBuilder;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class Karyotype implements IKaryotype {
 	private final ImmutableMap<IChromosome<?>, ImmutableSet<? extends IAllele>> chromosomes;
@@ -48,7 +36,7 @@ public class Karyotype implements IKaryotype {
 
 		Keyable chromosomesKeyable = Keyable.forStrings(() -> this.chromosomes.keySet().stream().map(chromosome -> chromosome.id().toString()));
 		this.genomeCodec = Codec.simpleMap(IForestryApi.INSTANCE.getAlleleManager().chromosomeCodec(), AllelePair.CODEC, chromosomesKeyable)
-				.xmap(map -> Genome.sanitizeAlleles(this, map), IGenome::getChromosomes).codec();
+			.xmap(map -> Genome.sanitizeAlleles(this, map), IGenome::getChromosomes).codec();
 	}
 
 	@Override

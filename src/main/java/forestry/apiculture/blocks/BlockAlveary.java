@@ -10,11 +10,13 @@
  ******************************************************************************/
 package forestry.apiculture.blocks;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import forestry.apiculture.multiblock.*;
+import forestry.apiculture.network.packets.PacketAlvearyChange;
+import forestry.core.blocks.BlockStructure;
+import forestry.core.tiles.IActivatable;
+import forestry.core.tiles.TileUtil;
+import forestry.core.utils.ItemTooltipUtil;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,25 +34,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.apiculture.multiblock.IAlvearyControllerInternal;
-import forestry.apiculture.multiblock.TileAlveary;
-import forestry.apiculture.multiblock.TileAlvearyFan;
-import forestry.apiculture.multiblock.TileAlvearyHeater;
-import forestry.apiculture.multiblock.TileAlvearyHygroregulator;
-import forestry.apiculture.multiblock.TileAlvearyPlain;
-import forestry.apiculture.multiblock.TileAlvearySieve;
-import forestry.apiculture.multiblock.TileAlvearyStabiliser;
-import forestry.apiculture.multiblock.TileAlvearySwarmer;
-import forestry.apiculture.network.packets.PacketAlvearyChange;
-import forestry.core.blocks.BlockStructure;
-import forestry.core.tiles.IActivatable;
-import forestry.core.tiles.TileUtil;
-import forestry.core.utils.ItemTooltipUtil;
-import forestry.core.utils.NetworkUtil;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class BlockAlveary extends BlockStructure implements EntityBlock {
 	public static final EnumProperty<State> STATE = EnumProperty.create("state", State.class);
@@ -94,13 +84,13 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 	}
 
 	public BlockAlvearyType getType() {
-		return type;
+		return this.type;
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return switch (type) {
+		return switch (this.type) {
 			case SWARMER -> new TileAlvearySwarmer(pos, state);
 			case FAN -> new TileAlvearyFan(pos, state);
 			case HEATER -> new TileAlvearyHeater(pos, state);
@@ -132,7 +122,7 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 							break;
 						case 2:
 							if (blocksTouching.contains(Direction.SOUTH) && blocksTouching.contains(Direction.EAST) ||
-									blocksTouching.contains(Direction.NORTH) && blocksTouching.contains(Direction.WEST)) {
+								blocksTouching.contains(Direction.NORTH) && blocksTouching.contains(Direction.WEST)) {
 								state = state.setValue(PLAIN_TYPE, AlvearyPlainType.ENTRANCE_LEFT);
 							} else {
 								state = state.setValue(PLAIN_TYPE, AlvearyPlainType.ENTRANCE_RIGHT);

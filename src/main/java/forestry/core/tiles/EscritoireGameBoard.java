@@ -10,11 +10,13 @@
  ******************************************************************************/
 package forestry.core.tiles;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import forestry.api.core.INbtWritable;
+import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.ISpecies;
+import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.core.network.IStreamable;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -22,14 +24,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.core.INbtWritable;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.core.network.IStreamable;
-import forestry.core.utils.NetworkUtil;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	private static final RandomSource rand = RandomSource.create();
@@ -45,8 +43,8 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	public EscritoireGameBoard(CompoundTag nbt) {
 		this.tokenCount = nbt.getInt("TokenCount");
 
-		if (tokenCount > 0) {
-			EscritoireGameToken[] tokens = new EscritoireGameToken[tokenCount];
+		if (this.tokenCount > 0) {
+			EscritoireGameToken[] tokens = new EscritoireGameToken[this.tokenCount];
 			ListTag nbttaglist = nbt.getList("GameTokens", Tag.TAG_LIST);
 
 			for (int j = 0; j < nbttaglist.size(); ++j) {
@@ -55,7 +53,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 				tokens[index] = new EscritoireGameToken(CompoundNBT2);
 			}
 
-			Collections.addAll(gameTokens, tokens);
+			Collections.addAll(this.gameTokens, tokens);
 		}
 	}
 
@@ -69,10 +67,10 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 
 			for (int i = 0; i < this.tokenCount / 2; i++) {
 				ISpecies<?> randomSpecies = type.getRandomSpecies(rand);
-				gameTokens.add(new EscritoireGameToken(randomSpecies));
-				gameTokens.add(new EscritoireGameToken(randomSpecies));
+                this.gameTokens.add(new EscritoireGameToken(randomSpecies));
+                this.gameTokens.add(new EscritoireGameToken(randomSpecies));
 			}
-			Collections.shuffle(gameTokens);
+			Collections.shuffle(this.gameTokens);
 
 			return true;
 		}
@@ -82,18 +80,18 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	@Nullable
 	public EscritoireGameToken getToken(int index) {
 		// todo figure out why tokenCount is out of sync with gameTokens
-		if (index >= tokenCount || index >= gameTokens.size()) {
+		if (index >= this.tokenCount || index >= this.gameTokens.size()) {
 			return null;
 		}
-		return gameTokens.get(index);
+		return this.gameTokens.get(index);
 	}
 
 	public int getTokenCount() {
-		return tokenCount;
+		return this.tokenCount;
 	}
 
 	public void hideProbedTokens() {
-		for (EscritoireGameToken token : gameTokens) {
+		for (EscritoireGameToken token : this.gameTokens) {
 			if (token.isProbed()) {
 				token.setProbed(false);
 			}
@@ -102,7 +100,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 
 	private List<EscritoireGameToken> getUnrevealedTokens() {
 		List<EscritoireGameToken> unrevealed = new ArrayList<>();
-		for (EscritoireGameToken token : gameTokens) {
+		for (EscritoireGameToken token : this.gameTokens) {
 			if (!token.isVisible()) {
 				unrevealed.add(token);
 			}
@@ -113,7 +111,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 
 	@Nullable
 	private EscritoireGameToken getSelected() {
-		for (EscritoireGameToken token : gameTokens) {
+		for (EscritoireGameToken token : this.gameTokens) {
 			if (token.isSelected()) {
 				return token;
 			}
@@ -123,7 +121,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	}
 
 	private boolean isBoardCleared() {
-		for (EscritoireGameToken token : gameTokens) {
+		for (EscritoireGameToken token : this.gameTokens) {
 			if (!token.isMatched()) {
 				return false;
 			}
@@ -167,8 +165,8 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	}
 
 	public void reset() {
-		gameTokens.clear();
-		tokenCount = 0;
+        this.gameTokens.clear();
+        this.tokenCount = 0;
 	}
 
 	private static int getTokenCount(IIndividual individual) {
@@ -192,12 +190,12 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 
 	@Override
 	public CompoundTag write(CompoundTag compoundNBT) {
-		if (tokenCount > 0) {
-			compoundNBT.putInt("TokenCount", tokenCount);
+		if (this.tokenCount > 0) {
+			compoundNBT.putInt("TokenCount", this.tokenCount);
 			ListTag nbttaglist = new ListTag();
 
-			for (int i = 0; i < tokenCount; i++) {
-				EscritoireGameToken token = gameTokens.get(i);
+			for (int i = 0; i < this.tokenCount; i++) {
+				EscritoireGameToken token = this.gameTokens.get(i);
 				if (token == null) {
 					continue;
 				}

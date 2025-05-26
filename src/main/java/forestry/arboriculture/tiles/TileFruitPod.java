@@ -10,21 +10,6 @@
  ******************************************************************************/
 package forestry.arboriculture.tiles;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.CocoaBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.core.IProduct;
@@ -39,6 +24,20 @@ import forestry.core.network.IStreamable;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.CocoaBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamable {
 	private static final short MAX_MATURITY = 2;
@@ -68,9 +67,9 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	/* SAVING & LOADING */
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		if (fruit != null) {
+		if (this.fruit != null) {
 			data.writeBoolean(true);
-			data.writeResourceLocation(TreeChromosomes.FRUIT.getId(fruit));
+			data.writeResourceLocation(TreeChromosomes.FRUIT.getId(this.fruit));
 		} else {
 			data.writeBoolean(false);
 		}
@@ -92,7 +91,7 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
 		if (this.fruit != null) {
-			compoundNBT.putString(NBT_FRUIT, TreeChromosomes.FRUIT.getId(fruit).toString());
+			compoundNBT.putString(NBT_FRUIT, TreeChromosomes.FRUIT.getId(this.fruit).toString());
 		}
 		compoundNBT.putShort(NBT_MATURITY, this.maturity);
 		compoundNBT.putFloat(NBT_YIELD, this.yield);
@@ -116,24 +115,24 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 
 	/* UPDATING */
 	public void onBlockTick(RandomSource rand) {
-		if (canMature() && rand.nextFloat() <= yield) {
+		if (canMature() && rand.nextFloat() <= this.yield) {
 			addRipeness(0.5f);
 		}
 	}
 
 	public boolean canMature() {
-		return maturity < MAX_MATURITY;
+		return this.maturity < MAX_MATURITY;
 	}
 
 	public short getMaturity() {
-		return maturity;
+		return this.maturity;
 	}
 
 	public ItemStack getPickBlock() {
-		if (fruit == null) {
+		if (this.fruit == null) {
 			return ItemStack.EMPTY;
 		}
-		List<IProduct> products = fruit.getProducts();
+		List<IProduct> products = this.fruit.getProducts();
 
 		ItemStack pickBlock = ItemStack.EMPTY;
 		float maxChance = 0.0f;
@@ -186,33 +185,33 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	@Override
 	public List<ItemStack> pickFruit(ItemStack tool) {
 		List<ItemStack> fruits = getDrops();
-		maturity = 0;
+        this.maturity = 0;
 
 		BlockState oldState = getBlockState();
 		BlockState newState = oldState.setValue(CocoaBlock.AGE, 0);
-		BlockUtil.setBlockWithBreakSound(level, getBlockPos(), newState, oldState);
+		BlockUtil.setBlockWithBreakSound(this.level, getBlockPos(), newState, oldState);
 
 		return fruits;
 	}
 
 	@Override
 	public float getRipeness() {
-		return (float) maturity / MAX_MATURITY;
+		return (float) this.maturity / MAX_MATURITY;
 	}
 
 	@Override
 	public void addRipeness(float add) {
-		int previousAge = maturity;
+		int previousAge = this.maturity;
 
-		maturity += MAX_MATURITY * add;
-		if (maturity > MAX_MATURITY) {
-			maturity = MAX_MATURITY;
+        this.maturity += MAX_MATURITY * add;
+		if (this.maturity > MAX_MATURITY) {
+            this.maturity = MAX_MATURITY;
 		}
 
-		int age = maturity;
+		int age = this.maturity;
 		if (age - previousAge > 0) {
 			BlockState state = getBlockState().setValue(CocoaBlock.AGE, age);
-			level.setBlockAndUpdate(getBlockPos(), state);
+            this.level.setBlockAndUpdate(getBlockPos(), state);
 		}
 	}
 }

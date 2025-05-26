@@ -11,15 +11,15 @@
 package forestry.core.genetics;
 
 import com.google.common.collect.Iterables;
-
-import javax.annotation.Nullable;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Consumer;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.IForestryApi;
+import forestry.api.core.ForestryEvent;
+import forestry.api.genetics.IBreedingTracker;
+import forestry.api.genetics.IMutation;
+import forestry.api.genetics.ISpecies;
+import forestry.api.genetics.ISpeciesType;
+import forestry.core.network.packets.PacketGenomeTrackerSync;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -29,20 +29,16 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
-
-import com.mojang.authlib.GameProfile;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
 
-import forestry.api.IForestryApi;
-import forestry.api.core.ForestryEvent;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.core.network.packets.PacketGenomeTrackerSync;
-import forestry.core.utils.NetworkUtil;
+import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public abstract class BreedingTracker extends SavedData implements IBreedingTracker {
 	private static final String SPECIES_KEY = "SD";
@@ -87,8 +83,8 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 	// Sends the given species and mutations to client. Use to sync serverside breeding updates to the client.
 	private void sendUpdate(Collection<ResourceLocation> discoveredSpecies, Collection<String> discoveredMutations, Collection<String> researchedMutations) {
-		if (level != null && username != null && username.getName() != null) {
-			Player player = level.getPlayerByUUID(username.getId());
+		if (this.level != null && this.username != null && this.username.getName() != null) {
+			Player player = this.level.getPlayerByUUID(this.username.getId());
 
 			if (player instanceof ServerPlayer && !(player instanceof FakePlayer)) {
 				CompoundTag nbt = new CompoundTag();
@@ -165,12 +161,12 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	@Override
 	public void registerMutation(IMutation<?> mutation) {
 		String mutationString = getMutationString(mutation);
-		if (!discoveredMutations.contains(mutationString)) {
-			discoveredMutations.add(mutationString);
+		if (!this.discoveredMutations.contains(mutationString)) {
+            this.discoveredMutations.add(mutationString);
 			setDirty();
 
 			ISpeciesType<?, ?> speciesRoot = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
-			ForestryEvent event = new ForestryEvent.MutationDiscovered(speciesRoot, username, mutation, this);
+			ForestryEvent event = new ForestryEvent.MutationDiscovered(speciesRoot, this.username, mutation, this);
 			MinecraftForge.EVENT_BUS.post(event);
 
 			sendUpdate(List.of(), List.of(mutationString), List.of());
@@ -180,22 +176,22 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	@Override
 	public boolean isDiscovered(IMutation<?> mutation) {
 		String mutationString = getMutationString(mutation);
-		return discoveredMutations.contains(mutationString) || researchedMutations.contains(mutationString);
+		return this.discoveredMutations.contains(mutationString) || this.researchedMutations.contains(mutationString);
 	}
 
 	@Override
 	public boolean isDiscovered(ISpecies<?> species) {
-		return discoveredSpecies.contains(species.id());
+		return this.discoveredSpecies.contains(species.id());
 	}
 
 	@Override
 	public Set<ResourceLocation> getDiscoveredSpecies() {
-		return discoveredSpecies;
+		return this.discoveredSpecies;
 	}
 
 	@Override
 	public int getSpeciesBred() {
-		return discoveredSpecies.size();
+		return this.discoveredSpecies.size();
 	}
 
 	@Override
@@ -207,8 +203,8 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	public void registerSpecies(ISpecies<?> species) {
 		ResourceLocation speciesId = species.id();
 
-		if (!discoveredSpecies.contains(speciesId)) {
-			discoveredSpecies.add(speciesId);
+		if (!this.discoveredSpecies.contains(speciesId)) {
+            this.discoveredSpecies.add(speciesId);
 
 			ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
 			ForestryEvent event = new ForestryEvent.SpeciesDiscovered(speciesType, this.username, species, this);
@@ -221,8 +217,8 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	@Override
 	public void researchMutation(IMutation<?> mutation) {
 		String mutationString = getMutationString(mutation);
-		if (!researchedMutations.contains(mutationString)) {
-			researchedMutations.add(mutationString);
+		if (!this.researchedMutations.contains(mutationString)) {
+            this.researchedMutations.add(mutationString);
 			setDirty();
 
 			registerMutation(mutation);
@@ -234,6 +230,6 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	@Override
 	public boolean isResearched(IMutation<?> mutation) {
 		String mutationString = getMutationString(mutation);
-		return researchedMutations.contains(mutationString);
+		return this.researchedMutations.contains(mutationString);
 	}
 }

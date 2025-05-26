@@ -1,9 +1,9 @@
 package forestry.lepidopterology.genetics;
 
-import java.util.List;
-
 import forestry.api.core.IProduct;
 import forestry.api.lepidopterology.IButterflyCocoon;
+
+import java.util.List;
 
 public class DefaultCocoon implements IButterflyCocoon {
 	private final String texture;

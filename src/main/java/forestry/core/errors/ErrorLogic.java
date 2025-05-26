@@ -10,12 +10,12 @@
  ******************************************************************************/
 package forestry.core.errors;
 
+import forestry.api.core.IError;
+import forestry.api.core.IErrorLogic;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import forestry.api.core.IErrorLogic;
-import forestry.api.core.IError;
 
 public class ErrorLogic implements IErrorLogic {
 	private final Set<IError> errors = new HashSet<>();

@@ -1,12 +1,5 @@
 package forestry.worktable.screens;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.core.gui.ContainerTile;
 import forestry.core.gui.IContainerCrafting;
 import forestry.core.gui.IGuiSelectable;
@@ -26,6 +19,12 @@ import forestry.worktable.network.packets.PacketWorktableRecipeUpdate;
 import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.tiles.WorktableTile;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 public class WorktableMenu extends ContainerTile<WorktableTile> implements IContainerCrafting, IGuiSelectable {
 	private final WorktableCraftingContainer craftMatrix = new WorktableCraftingContainer(this);
@@ -58,31 +57,31 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 		}
 
 		// CraftResult display
-		addSlot(new WorktableSlot(inv.player, craftMatrix, craftingDisplay, tile, InventoryGhostCrafting.SLOT_CRAFTING_RESULT, 77, 38));
+		addSlot(new WorktableSlot(inv.player, this.craftMatrix, craftingDisplay, tile, InventoryGhostCrafting.SLOT_CRAFTING_RESULT, 77, 38));
 
-		for (int i = 0; i < craftMatrix.getContainerSize(); i++) {
+		for (int i = 0; i < this.craftMatrix.getContainerSize(); i++) {
 			onCraftMatrixChanged(tile.getCraftingDisplay(), i);
 		}
 	}
 
 	@Override
 	public void broadcastChanges() {
-		if (craftMatrixChanged) {
-			craftMatrixChanged = false;
-			tile.setCurrentRecipe(craftMatrix);
-			sendPacketToListeners(new PacketWorktableRecipeUpdate(tile));
+		if (this.craftMatrixChanged) {
+            this.craftMatrixChanged = false;
+            this.tile.setCurrentRecipe(this.craftMatrix);
+			sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 		}
 
 		super.broadcastChanges();
 
-		if (lastMemoryUpdate != tile.getMemory().getLastUpdate()) {
-			lastMemoryUpdate = tile.getMemory().getLastUpdate();
-			sendPacketToListeners(new PacketWorktableMemoryUpdate(tile));
+		if (this.lastMemoryUpdate != this.tile.getMemory().getLastUpdate()) {
+            this.lastMemoryUpdate = this.tile.getMemory().getLastUpdate();
+			sendPacketToListeners(new PacketWorktableMemoryUpdate(this.tile));
 		}
 	}
 
 	public void updateCraftMatrix() {
-		Container crafting = tile.getCraftingDisplay();
+		Container crafting = this.tile.getCraftingDisplay();
 		for (int i = 0; i < crafting.getContainerSize(); i++) {
 			onCraftMatrixChanged(crafting, i);
 		}
@@ -90,15 +89,15 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 
 	@Override
 	public void onCraftMatrixChanged(Container iinventory, int slot) {
-		if (slot >= craftMatrix.getContainerSize()) {
+		if (slot >= this.craftMatrix.getContainerSize()) {
 			return;
 		}
 
 		ItemStack stack = iinventory.getItem(slot);
-		ItemStack currentStack = craftMatrix.getItem(slot);
+		ItemStack currentStack = this.craftMatrix.getItem(slot);
 
 		if (!ItemStackUtil.isIdenticalItem(stack, currentStack)) {
-			craftMatrix.setItem(slot, stack.copy());
+            this.craftMatrix.setItem(slot, stack.copy());
 		}
 	}
 
@@ -106,7 +105,7 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 	// Direct changes to the underlying inventory are not detected, only slot changes.
 	@Override
 	public void slotsChanged(Container container) {
-		craftMatrixChanged = true;
+        this.craftMatrixChanged = true;
 	}
 
 	/* Gui Selection Handling */
@@ -122,37 +121,37 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
 		switch (primary) {
 			case -1: { // clicked clear button
-				tile.clearCraftMatrix();
+                this.tile.clearCraftMatrix();
 				updateCraftMatrix();
-				sendPacketToListeners(new PacketWorktableRecipeUpdate(tile));
+				sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 				break;
 			}
 			case 0: { // clicked a memorized recipe
-				tile.chooseRecipeMemory(secondary);
+                this.tile.chooseRecipeMemory(secondary);
 				updateCraftMatrix();
-				sendPacketToListeners(new PacketWorktableRecipeUpdate(tile));
+				sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 				break;
 			}
 			case 1: { // right clicked a memorized recipe
 				long time = player.level().getGameTime();
-				RecipeMemory memory = tile.getMemory();
+				RecipeMemory memory = this.tile.getMemory();
 				memory.toggleLock(time, secondary);
 				break;
 			}
 			case 100: { // clicked previous recipe conflict button
-				tile.choosePreviousConflictRecipe();
-				sendPacketToListeners(new PacketWorktableRecipeUpdate(tile));
+                this.tile.choosePreviousConflictRecipe();
+				sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 				break;
 			}
 			case 101: { // clicked next recipe conflict button
-				tile.chooseNextConflictRecipe();
-				sendPacketToListeners(new PacketWorktableRecipeUpdate(tile));
+                this.tile.chooseNextConflictRecipe();
+				sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 				break;
 			}
 		}
 	}
 
 	public void sendWorktableRecipeRequest(MemorizedRecipe recipe) {
-		NetworkUtil.sendToServer(new PacketWorktableRecipeRequest(tile.getBlockPos(), recipe));
+		NetworkUtil.sendToServer(new PacketWorktableRecipeRequest(this.tile.getBlockPos(), recipe));
 	}
 }

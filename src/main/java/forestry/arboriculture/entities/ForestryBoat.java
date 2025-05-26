@@ -1,5 +1,9 @@
 package forestry.arboriculture.entities;
 
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.arboriculture.features.ArboricultureEntities;
+import forestry.arboriculture.features.ArboricultureItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,11 +16,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.features.ArboricultureEntities;
-import forestry.arboriculture.features.ArboricultureItems;
 
 public class ForestryBoat extends Boat {
 	private static final EntityDataAccessor<Integer> DATA_ID_WOOD_TYPE = SynchedEntityData.defineId(ForestryBoat.class, EntityDataSerializers.INT);

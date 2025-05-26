@@ -10,21 +10,18 @@
  ******************************************************************************/
 package forestry.farming.circuits;
 
-import javax.annotation.Nullable;
-
-import java.util.function.Supplier;
-
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraftforge.common.util.Lazy;
-
 import forestry.api.IForestryApi;
 import forestry.api.farming.HorizontalDirection;
 import forestry.api.farming.IFarmCircuit;
 import forestry.api.farming.IFarmHousing;
 import forestry.api.farming.IFarmType;
 import forestry.core.circuits.Circuit;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.util.Lazy;
+
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class CircuitFarmLogic extends Circuit implements IFarmCircuit {
 	private final Supplier<IFarmType> farmType;

@@ -2,21 +2,15 @@ package forestry.core.genetics.alleles;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.Forestry;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IRegistryAllele;
 import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import forestry.api.genetics.alleles.IRegistryChromosome;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class RegistryChromosome<V extends IRegistryAlleleValue> extends ValueChromosome<V> implements IRegistryChromosome<V> {
 	private final HashMap<ResourceLocation, IRegistryAllele<V>> alleles = new HashMap<>();

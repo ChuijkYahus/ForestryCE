@@ -1,18 +1,16 @@
 package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableMap;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Set;
-
+import forestry.api.genetics.pollen.IPollen;
+import forestry.api.genetics.pollen.IPollenManager;
+import forestry.api.genetics.pollen.IPollenType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelAccessor;
 
-import forestry.api.genetics.pollen.IPollen;
-import forestry.api.genetics.pollen.IPollenManager;
-import forestry.api.genetics.pollen.IPollenType;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Set;
 
 
 public class PollenManager implements IPollenManager {

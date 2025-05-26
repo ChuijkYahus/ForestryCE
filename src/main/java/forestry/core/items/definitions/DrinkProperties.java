@@ -15,14 +15,14 @@ public class DrinkProperties {
 	}
 
 	public int getHealAmount() {
-		return healAmount;
+		return this.healAmount;
 	}
 
 	public float getSaturationModifier() {
-		return saturationModifier;
+		return this.saturationModifier;
 	}
 
 	public int getMaxItemUseDuration() {
-		return maxItemUseDuration;
+		return this.maxItemUseDuration;
 	}
 }

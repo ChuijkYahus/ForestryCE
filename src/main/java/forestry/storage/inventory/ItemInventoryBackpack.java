@@ -1,14 +1,12 @@
 package forestry.storage.inventory;
 
 import com.google.common.base.Preconditions;
-
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.storage.IBackpackDefinition;
 import forestry.core.inventory.ItemInventory;
 import forestry.storage.items.ItemBackpack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemInventoryBackpack extends ItemInventory {
 	private final IBackpackDefinition backpackDefinition;
@@ -24,6 +22,6 @@ public class ItemInventoryBackpack extends ItemInventory {
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		return backpackDefinition.getFilter().test(stack);
+		return this.backpackDefinition.getFilter().test(stack);
 	}
 }

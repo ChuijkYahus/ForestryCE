@@ -2,15 +2,6 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-
-import javax.annotation.Nullable;
-import java.awt.Color;
-import java.util.List;
-import java.util.function.Consumer;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IGenome;
@@ -20,6 +11,12 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.api.plugin.IGenomeBuilder;
 import forestry.api.plugin.IMutationsRegistration;
 import forestry.api.plugin.ISpeciesBuilder;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class SpeciesBuilder<T extends ISpeciesType<S, ?>, S extends ISpecies<?>, B extends ISpeciesBuilder<T, S, B>> implements ISpeciesBuilder<T, S, B> {
 	protected final ResourceLocation id;

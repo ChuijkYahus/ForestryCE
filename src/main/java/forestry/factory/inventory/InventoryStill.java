@@ -10,17 +10,15 @@
  ******************************************************************************/
 package forestry.factory.inventory;
 
-import java.util.Optional;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
-
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-
 import forestry.core.fluids.FluidHelper;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.factory.tiles.TileStill;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+
+import java.util.Optional;
 
 public class InventoryStill extends InventoryAdapterTile<TileStill> {
 	public static final short SLOT_PRODUCT = 0;
@@ -37,7 +35,7 @@ public class InventoryStill extends InventoryAdapterTile<TileStill> {
 			return FluidHelper.isFillableEmptyContainer(stack);
 		} else if (slotIndex == SLOT_CAN) {
 			Optional<FluidStack> fluid = FluidUtil.getFluidContained(stack);
-			return fluid.map(f -> tile.getTankManager().canFillFluidType(f)).orElse(false);
+			return fluid.map(f -> this.tile.getTankManager().canFillFluidType(f)).orElse(false);
 		}
 		return false;
 	}

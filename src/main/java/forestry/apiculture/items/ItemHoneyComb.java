@@ -10,11 +10,10 @@
  ******************************************************************************/
 package forestry.apiculture.items;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.IColoredItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemHoneyComb extends ItemForestry implements IColoredItem {
 	private final EnumHoneyComb type;

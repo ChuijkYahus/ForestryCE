@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.storage;
 
+import net.minecraft.util.StringRepresentable;
+
 import javax.annotation.Nullable;
 import java.util.Locale;
-
-import net.minecraft.util.StringRepresentable;
 
 public enum BackpackMode implements StringRepresentable {
 	NEUTRAL(null),

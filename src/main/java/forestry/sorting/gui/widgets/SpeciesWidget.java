@@ -1,19 +1,7 @@
 package forestry.sorting.gui.widgets;
 
 import com.google.common.collect.ImmutableSet;
-
-import javax.annotation.Nullable;
-import java.util.IdentityHashMap;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import forestry.api.IForestryApi;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.genetics.IBreedingTracker;
@@ -30,6 +18,14 @@ import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SoundUtil;
 import forestry.sorting.gui.GuiGeneticFilter;
 import forestry.sorting.gui.ISelectableProvider;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
+import java.util.IdentityHashMap;
 
 public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecies<?>> {
 	private final static IdentityHashMap<ISpecies<?>, ItemStack> ITEMS = createEntries();
@@ -64,12 +60,12 @@ public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecie
 
 	@Override
 	public void draw(GuiGraphics graphics, int startX, int startY) {
-		int x = xPos + startX;
-		int y = yPos + startY;
-		IFilterLogic logic = gui.getLogic();
-		ISpecies<?> allele = logic.getGenomeFilter(facing, index, active);
+		int x = this.xPos + startX;
+		int y = this.yPos + startY;
+		IFilterLogic logic = this.gui.getLogic();
+		ISpecies<?> allele = logic.getGenomeFilter(this.facing, this.index, this.active);
 		if (allele != null) {
-			GuiUtil.drawItemStack(graphics, manager.gui, ITEMS.getOrDefault(allele, ItemStack.EMPTY), x, y);
+			GuiUtil.drawItemStack(graphics, this.manager.gui, ITEMS.getOrDefault(allele, ItemStack.EMPTY), x, y);
 		}
 
 		if (this.gui.selection.isSame(this)) {
@@ -80,17 +76,17 @@ public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecie
 
 	@Override
 	public ImmutableSet<ISpecies<?>> getEntries() {
-		return entries;
+		return this.entries;
 	}
 
 	@Override
 	public void onSelect(@Nullable ISpecies<?> selectable) {
-		IFilterLogic logic = gui.getLogic();
-		if (logic.setGenomeFilter(facing, index, active, selectable)) {
-			logic.sendToServer(facing, (short) index, active, selectable);
+		IFilterLogic logic = this.gui.getLogic();
+		if (logic.setGenomeFilter(this.facing, this.index, this.active, selectable)) {
+			logic.sendToServer(this.facing, (short) this.index, this.active, selectable);
 		}
-		if (gui.selection.isSame(this)) {
-			gui.onModuleClick(this);
+		if (this.gui.selection.isSame(this)) {
+            this.gui.onModuleClick(this);
 		}
 		SoundUtil.playButtonClick();
 	}
@@ -108,8 +104,8 @@ public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecie
 	@Nullable
 	@Override
 	public ToolTip getToolTip(int mouseX, int mouseY) {
-		IFilterLogic logic = gui.getLogic();
-		ISpecies<?> allele = logic.getGenomeFilter(facing, index, active);
+		IFilterLogic logic = this.gui.getLogic();
+		ISpecies<?> allele = logic.getGenomeFilter(this.facing, this.index, this.active);
 		if (allele == null) {
 			return null;
 		}
@@ -120,7 +116,7 @@ public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecie
 
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
-		ItemStack stack = gui.getMinecraft().player.inventoryMenu.getCarried();
+		ItemStack stack = this.gui.getMinecraft().player.inventoryMenu.getCarried();
 		if (!stack.isEmpty()) {
 			IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
 
@@ -133,7 +129,7 @@ public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecie
 			onSelect(null);
 		} else {
 			SoundUtil.playButtonClick();
-			gui.onModuleClick(this);
+            this.gui.onModuleClick(this);
 		}
 	}
 

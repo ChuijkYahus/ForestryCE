@@ -10,15 +10,13 @@
  ******************************************************************************/
 package forestry.core.genetics.mutations;
 
+import forestry.api.climate.IClimateProvider;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.IMutation;
+import forestry.api.genetics.IMutationCondition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
-
-import forestry.api.climate.IClimateProvider;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationCondition;
-
-import forestry.api.genetics.IGenome;
 
 public class MutationConditionDaytime implements IMutationCondition {
 	private final boolean daytime;

@@ -1,7 +1,7 @@
 package forestry.apiculture;
 
-import java.util.List;
-
+import forestry.api.ForestryTags;
+import forestry.api.apiculture.IFlowerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
@@ -11,8 +11,7 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
-import forestry.api.ForestryTags;
-import forestry.api.apiculture.IFlowerType;
+import java.util.List;
 
 public class WaterFlowerType implements IFlowerType {
 	private final TagKey<Block> acceptableFlowers;
@@ -39,7 +38,7 @@ public class WaterFlowerType implements IFlowerType {
 
 							if (level.getBlockState(topPos).getBlock() == Blocks.WATER) {
 								return level.setBlockAndUpdate(pos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))
-										&& level.setBlockAndUpdate(topPos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
+									&& level.setBlockAndUpdate(topPos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
 							}
 						} else {
 							return level.setBlockAndUpdate(pos, state);

@@ -10,16 +10,6 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.world.inventory.SimpleContainerData;
-import net.minecraft.world.inventory.Slot;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.IContainerCrafting;
 import forestry.core.gui.slots.SlotCraftMatrix;
@@ -30,6 +20,12 @@ import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryFabricator;
 import forestry.factory.tiles.TileFabricator;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.inventory.Slot;
 
 public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> implements IContainerCrafting {
 	public static ContainerFabricator fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
@@ -73,19 +69,19 @@ public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> im
 	public void setData(int messageId, int data) {
 		super.setData(messageId, data);
 
-		tile.getGUINetworkData(messageId, data);
+        this.tile.getGUINetworkData(messageId, data);
 	}
 
 	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		for (ContainerListener crafter : containerListeners) {
-			tile.sendGUINetworkData(this, crafter);
+		for (ContainerListener crafter : this.containerListeners) {
+            this.tile.sendGUINetworkData(this, crafter);
 		}
 	}
 
 	public TileFabricator getFabricator() {
-		return tile;
+		return this.tile;
 	}
 }

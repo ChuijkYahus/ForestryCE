@@ -1,14 +1,9 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.storage;
 
-import java.util.function.Predicate;
-
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Predicate;
 
 /**
  * To make your own backpack, create a backpack definition and register it with

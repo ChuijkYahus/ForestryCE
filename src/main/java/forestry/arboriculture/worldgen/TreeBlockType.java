@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class TreeBlockType implements ITreeBlockType {
 
@@ -30,10 +30,10 @@ public class TreeBlockType implements ITreeBlockType {
 
 	@Override
 	public boolean setBlock(LevelAccessor level, BlockPos pos) {
-		return level.setBlock(pos, blockState, 18);
+		return level.setBlock(pos, this.blockState, 18);
 	}
 
 	public BlockState getBlockState() {
-		return blockState;
+		return this.blockState;
 	}
 }

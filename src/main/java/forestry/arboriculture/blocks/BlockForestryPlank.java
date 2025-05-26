@@ -1,15 +1,14 @@
 package forestry.arboriculture.blocks;
 
+import forestry.api.arboriculture.IWoodType;
+import forestry.api.arboriculture.WoodBlockKind;
+import forestry.arboriculture.IWoodTyped;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.WoodBlockKind;
-import forestry.arboriculture.IWoodTyped;
 
 public class BlockForestryPlank extends Block implements IWoodTyped {
 	public static Properties createWoodProperties(IWoodType woodType) {
@@ -26,12 +25,12 @@ public class BlockForestryPlank extends Block implements IWoodTyped {
 	}
 
 	public IWoodType getWoodType() {
-		return woodType;
+		return this.woodType;
 	}
 
 	@Override
 	public boolean isFireproof() {
-		return fireproof;
+		return this.fireproof;
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class BlockForestryPlank extends Block implements IWoodTyped {
 
 	@Override
 	public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		if (fireproof) {
+		if (this.fireproof) {
 			return 0;
 		}
 		return 20;
@@ -49,7 +48,7 @@ public class BlockForestryPlank extends Block implements IWoodTyped {
 
 	@Override
 	public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		if (fireproof) {
+		if (this.fireproof) {
 			return 0;
 		}
 		return 5;

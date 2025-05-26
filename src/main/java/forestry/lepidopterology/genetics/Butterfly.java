@@ -11,24 +11,8 @@
 package forestry.lepidopterology.genetics;
 
 import com.google.common.collect.ImmutableList;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import forestry.api.IForestryApi;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
@@ -49,6 +33,19 @@ import forestry.core.genetics.IndividualLiving;
 import forestry.core.genetics.mutations.Mutation;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.ModuleLepidopterology;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, IButterflySpeciesType> implements IButterfly {
 	private static final RandomSource rand = RandomSource.create();
@@ -100,8 +97,8 @@ public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, I
 		TemperatureType biomeTemperature = IForestryApi.INSTANCE.getClimateManager().getTemperature(biome);
 		HumidityType biomeHumidity = IForestryApi.INSTANCE.getClimateManager().getHumidity(biome);
 		return ClimateHelper.isWithinLimits(biomeTemperature, biomeHumidity,
-				getGenome().getActiveValue(ButterflyChromosomes.SPECIES).getTemperature(), getGenome().getActiveValue(ButterflyChromosomes.TEMPERATURE_TOLERANCE),
-				getGenome().getActiveValue(ButterflyChromosomes.SPECIES).getHumidity(), getGenome().getActiveValue(ButterflyChromosomes.HUMIDITY_TOLERANCE));
+			getGenome().getActiveValue(ButterflyChromosomes.SPECIES).getTemperature(), getGenome().getActiveValue(ButterflyChromosomes.TEMPERATURE_TOLERANCE),
+			getGenome().getActiveValue(ButterflyChromosomes.SPECIES).getHumidity(), getGenome().getActiveValue(ButterflyChromosomes.HUMIDITY_TOLERANCE));
 	}
 
 	@Nullable
@@ -140,7 +137,7 @@ public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, I
 
 		PathfinderMob creature = entity.getEntity();
 		float metabolism = (float) getGenome().getActiveValue(ButterflyChromosomes.METABOLISM) / 10;
-		List<IProduct> products = species.getButterflyLoot();
+		List<IProduct> products = this.species.getButterflyLoot();
 		RandomSource rand = creature.level().random;
 
 		for (IProduct product : products) {

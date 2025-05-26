@@ -1,19 +1,17 @@
 package forestry.core.data;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-
-import net.minecraftforge.common.data.GlobalLootModifierProvider;
-
 import forestry.api.ForestryConstants;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.loot.GrafterLootModifier;
 import forestry.core.loot.ConditionLootModifier;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraftforge.common.data.GlobalLootModifierProvider;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import static net.minecraft.advancements.critereon.ItemPredicate.Builder.item;
 import static net.minecraft.world.level.storage.loot.predicates.MatchTool.toolMatches;
@@ -35,7 +33,7 @@ public class ForestryLootModifierProvider extends GlobalLootModifierProvider {
 			add(mapEntry.getKey().getPath(), new ConditionLootModifier(mapEntry.getKey(), extensions));
 		}
 		add("grafter", new GrafterLootModifier(new LootItemCondition[]{
-				toolMatches(item().of(ArboricultureItems.GRAFTER.item())).or(toolMatches(item().of(ArboricultureItems.GRAFTER_PROVEN.item()))).build()
+			toolMatches(item().of(ArboricultureItems.GRAFTER.item())).or(toolMatches(item().of(ArboricultureItems.GRAFTER_PROVEN.item()))).build()
 		}));
 	}
 }

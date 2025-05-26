@@ -2,20 +2,16 @@ package forestry.core.loot;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import forestry.api.ForestryConstants;
-
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.common.loot.LootTableIdCondition;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,15 +22,16 @@ import java.util.function.Consumer;
  */
 public class ConditionLootModifier extends LootModifier {
 	public static final Codec<ConditionLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(lm -> lm.conditions),
-			ResourceLocation.CODEC.fieldOf("table").forGetter(lm -> lm.tableLocation),
-			Codec.list(Codec.STRING).fieldOf("extensions").forGetter(o -> o.extensions)
+		LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(lm -> lm.conditions),
+		ResourceLocation.CODEC.fieldOf("table").forGetter(lm -> lm.tableLocation),
+		Codec.list(Codec.STRING).fieldOf("extensions").forGetter(o -> o.extensions)
 	).apply(instance, ConditionLootModifier::new));
 
 	private final ResourceLocation tableLocation;
 	private final List<String> extensions;
 
-	/** todo is this still necessary?
+	/**
+	 * todo is this still necessary?
 	 * Helper field to prevent an endless method loop caused by forge in {@link LootTable#getRandomItems(LootContext, Consumer)}
 	 * which calls this method again, since it keeps the {@link LootContext#getQueriedLootTableId()} value, which causes
 	 * "getRandomItems" to calling this method again, because the conditions still met even that it is an other loot
@@ -44,7 +41,7 @@ public class ConditionLootModifier extends LootModifier {
 
 	public ConditionLootModifier(ResourceLocation location, List<String> extensions) {
 		super(new LootItemCondition[]{
-				LootTableIdCondition.builder(location).build()
+			LootTableIdCondition.builder(location).build()
 		});
 		this.tableLocation = location;
 		this.extensions = extensions;
@@ -64,14 +61,14 @@ public class ConditionLootModifier extends LootModifier {
 
 	@Override
 	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-		if (operates) {
+		if (this.operates) {
 			return generatedLoot;
 		}
 
-		operates = true;
+        this.operates = true;
 
-		for (String extension : extensions) {
-			ResourceLocation location = ForestryConstants.forestry(tableLocation.getPath() + "/" + extension);
+		for (String extension : this.extensions) {
+			ResourceLocation location = ForestryConstants.forestry(this.tableLocation.getPath() + "/" + extension);
 			LootTable table = context.getResolver().getLootTable(location);
 
 			if (table != LootTable.EMPTY) {
@@ -79,7 +76,7 @@ public class ConditionLootModifier extends LootModifier {
 			}
 		}
 
-		operates = false;
+        this.operates = false;
 		return generatedLoot;
 	}
 

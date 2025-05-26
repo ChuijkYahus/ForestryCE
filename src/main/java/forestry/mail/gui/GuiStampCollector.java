@@ -10,12 +10,11 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.chat.Component;
-
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
 import forestry.mail.tiles.TileStampCollector;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 public class GuiStampCollector extends GuiForestry<ContainerStampCollector> {
 	private final TileStampCollector tile;
@@ -29,7 +28,7 @@ public class GuiStampCollector extends GuiForestry<ContainerStampCollector> {
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(tile);
+		addErrorLedger(this.tile);
 		addHintLedger("philatelist");
 	}
 }

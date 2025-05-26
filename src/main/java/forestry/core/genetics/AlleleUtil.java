@@ -1,13 +1,12 @@
 package forestry.core.genetics;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
 
 public class AlleleUtil {
 	@Nullable

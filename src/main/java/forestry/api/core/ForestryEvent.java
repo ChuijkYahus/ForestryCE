@@ -1,24 +1,15 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.core;
 
-import net.minecraft.world.entity.player.Player;
-
 import com.mojang.authlib.GameProfile;
-
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.eventbus.api.Event;
 import org.jetbrains.annotations.ApiStatus;
 
 // todo move to forestry.api.event
@@ -41,6 +32,7 @@ public abstract class ForestryEvent extends Event {
 
 	/**
 	 * Fired before a queen is created as a result of breeding a princess and a drone.
+	 *
 	 * @since 2.4.4
 	 */
 	@Cancelable
@@ -56,15 +48,16 @@ public abstract class ForestryEvent extends Event {
 		}
 
 		public IBeeHousing getHousing() {
-			return housing;
+			return this.housing;
 		}
 
 		public IBee getPrincess() {
-			return princess;
+			return this.princess;
 		}
 
 		/**
 		 * Used to override the princess individual, which will become the queen individual.
+		 *
 		 * @param princess The new princess individual to replace the queen with.
 		 */
 		public void setPrincess(IBee princess) {
@@ -72,7 +65,7 @@ public abstract class ForestryEvent extends Event {
 		}
 
 		public IBee getDrone() {
-			return drone;
+			return this.drone;
 		}
 	}
 

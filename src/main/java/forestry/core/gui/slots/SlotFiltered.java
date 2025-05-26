@@ -10,17 +10,15 @@
  ******************************************************************************/
 package forestry.core.gui.slots;
 
-import javax.annotation.Nullable;
-
+import com.mojang.datafixers.util.Pair;
+import forestry.api.client.ForestrySprites;
+import forestry.core.tiles.IFilterSlotDelegate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 
-import com.mojang.datafixers.util.Pair;
-
-import forestry.api.client.ForestrySprites;
-import forestry.core.tiles.IFilterSlotDelegate;
+import javax.annotation.Nullable;
 
 /**
  * Slot which only takes specific items, specified by the IFilterSlotDelegate.
@@ -38,7 +36,7 @@ public class SlotFiltered extends SlotWatched {
 	public boolean mayPlace(ItemStack itemstack) {
 		int slotIndex = getSlotIndex();
 		return !this.filterSlotDelegate.isLocked(slotIndex) &&
-				(itemstack.isEmpty() || this.filterSlotDelegate.canSlotAccept(slotIndex, itemstack));
+			(itemstack.isEmpty() || this.filterSlotDelegate.canSlotAccept(slotIndex, itemstack));
 	}
 
 	public SlotFiltered setBlockedSprite(ResourceLocation sprite) {

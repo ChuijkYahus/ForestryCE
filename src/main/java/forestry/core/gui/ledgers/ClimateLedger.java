@@ -14,7 +14,6 @@ import forestry.api.client.IForestryClientApi;
 import forestry.api.climate.IClimateProvider;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ClimateHelper;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
@@ -27,12 +26,12 @@ public class ClimateLedger extends Ledger {
 	public ClimateLedger(LedgerManager manager, IClimateProvider climateProvider) {
 		super(manager, "climate");
 		this.climateProvider = climateProvider;
-		maxHeight = 72;
+        this.maxHeight = 72;
 	}
 
 	@Override
 	public void draw(GuiGraphics graphics, int y, int x) {
-		TemperatureType temperature = climateProvider.temperature();
+		TemperatureType temperature = this.climateProvider.temperature();
 
 		// Draw background
 		drawBackground(graphics, y, x);
@@ -50,15 +49,15 @@ public class ClimateLedger extends Ledger {
 		drawText(graphics, ClimateHelper.toDisplay(temperature).getString(), x + 22, y + 32);
 
 		drawSubheader(graphics, Component.translatable("for.gui.humidity").append(":"), x + 22, y + 44);
-		drawText(graphics, ClimateHelper.toDisplay(climateProvider.humidity()).getString(), x + 22, y + 56);
+		drawText(graphics, ClimateHelper.toDisplay(this.climateProvider.humidity()).getString(), x + 22, y + 56);
 	}
 
 	@Override
 	public Component getTooltip() {
 		return Component.literal("T: ")
-			.append(ClimateHelper.toDisplay(climateProvider.temperature()))
+			.append(ClimateHelper.toDisplay(this.climateProvider.temperature()))
 			.append(Component.literal(" / H: "))
-			.append(ClimateHelper.toDisplay(climateProvider.humidity()));
+			.append(ClimateHelper.toDisplay(this.climateProvider.humidity()));
 	}
 
 }

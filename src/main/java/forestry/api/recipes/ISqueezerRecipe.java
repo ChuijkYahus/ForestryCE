@@ -1,17 +1,10 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.recipes;
 
-import java.util.List;
-
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 public interface ISqueezerRecipe extends IForestryRecipe {
 	/**

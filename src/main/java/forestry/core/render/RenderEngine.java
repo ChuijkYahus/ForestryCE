@@ -1,5 +1,13 @@
 package forestry.core.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import forestry.api.ForestryConstants;
+import forestry.core.config.Constants;
+import forestry.core.tiles.TemperatureState;
+import forestry.energy.blocks.EngineBlock;
+import forestry.energy.tiles.EngineBlockEntity;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -13,16 +21,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
-
-import forestry.api.ForestryConstants;
-import forestry.core.config.Constants;
-import forestry.core.tiles.TemperatureState;
-import forestry.energy.blocks.EngineBlock;
-import forestry.energy.tiles.EngineBlockEntity;
 
 public class RenderEngine implements BlockEntityRenderer<EngineBlockEntity> {
 	private static final float[] ANGLE_MAP = new float[6];
@@ -55,14 +53,14 @@ public class RenderEngine implements BlockEntityRenderer<EngineBlockEntity> {
 		this.extension = root.getChild("extension");
 
 		this.textures = new ResourceLocation[]{
-				ForestryConstants.forestry(baseTexture + "base.png"),
-				ForestryConstants.forestry(baseTexture + "piston.png"),
-				ForestryConstants.forestry(baseTexture + "extension.png"),
-				ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_highest.png"),
-				ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_higher.png"),
-				ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_high.png"),
-				ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_medium.png"),
-				ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_low.png"),
+			ForestryConstants.forestry(baseTexture + "base.png"),
+			ForestryConstants.forestry(baseTexture + "piston.png"),
+			ForestryConstants.forestry(baseTexture + "extension.png"),
+			ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_highest.png"),
+			ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_higher.png"),
+			ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_high.png"),
+			ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_medium.png"),
+			ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/engine_trunk_low.png"),
 		};
 	}
 
@@ -71,13 +69,13 @@ public class RenderEngine implements BlockEntityRenderer<EngineBlockEntity> {
 		PartDefinition root = mesh.getRoot();
 
 		root.addOrReplaceChild("boiler", CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 16, 6, 16), PartPose.offset(0, 0, 0));
+			.addBox(0, 0, 0, 16, 6, 16), PartPose.offset(0, 0, 0));
 		root.addOrReplaceChild("trunk", CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 8, 12, 8), PartPose.offset(4, 4, 4));
+			.addBox(0, 0, 0, 8, 12, 8), PartPose.offset(4, 4, 4));
 		root.addOrReplaceChild("piston", CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 12, 4, 12), PartPose.offset(2, 6, 2));
+			.addBox(0, 0, 0, 12, 4, 12), PartPose.offset(2, 6, 2));
 		root.addOrReplaceChild("extension", CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 10, 2, 10), PartPose.offset(3, 5, 3));
+			.addBox(0, 0, 0, 10, 2, 10), PartPose.offset(3, 5, 3));
 
 		return LayerDefinition.create(mesh, 64, 32);
 	}
@@ -96,30 +94,30 @@ public class RenderEngine implements BlockEntityRenderer<EngineBlockEntity> {
 		stack.translate(-0.5, -0.5, -0.5);
 
 		// render base
-		this.boiler.render(stack, buffers.getBuffer(RenderType.entityCutout(textures[Textures.BASE.ordinal()])), light, overlay);
+		this.boiler.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.BASE.ordinal()])), light, overlay);
 
 		// render piston with smooth lerp
 		float step = getPistonStep(engine, partialTick);
 		float tfactor = step / 16;
 		stack.translate(0, tfactor, 0);
-		this.piston.render(stack, buffers.getBuffer(RenderType.entityCutout(textures[Textures.PISTON.ordinal()])), light, overlay);
+		this.piston.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.PISTON.ordinal()])), light, overlay);
 		stack.translate(0, -tfactor, 0);
 
 		// render trunk with color based on heat
 		TemperatureState state = engine.hasLevel() ? engine.getTemperatureState() : TemperatureState.COOL;
 		ResourceLocation texture = switch (state) {
-			case OVERHEATING -> textures[Textures.TRUNK_HIGHEST.ordinal()];
-			case RUNNING_HOT -> textures[Textures.TRUNK_HIGHER.ordinal()];
-			case OPERATING_TEMPERATURE -> textures[Textures.TRUNK_HIGH.ordinal()];
-			case WARMED_UP -> textures[Textures.TRUNK_MEDIUM.ordinal()];
-			default -> textures[Textures.TRUNK_LOW.ordinal()];
+			case OVERHEATING -> this.textures[Textures.TRUNK_HIGHEST.ordinal()];
+			case RUNNING_HOT -> this.textures[Textures.TRUNK_HIGHER.ordinal()];
+			case OPERATING_TEMPERATURE -> this.textures[Textures.TRUNK_HIGH.ordinal()];
+			case WARMED_UP -> this.textures[Textures.TRUNK_MEDIUM.ordinal()];
+			default -> this.textures[Textures.TRUNK_LOW.ordinal()];
 		};
 		this.trunk.render(stack, buffers.getBuffer(RenderType.entityCutout(texture)), light, overlay);
 
 		// render piston sleeve
 		float chamberf = 2F / 16F;
 		if (step > 0) {
-			VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(textures[Textures.EXTENSION.ordinal()]));
+			VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.EXTENSION.ordinal()]));
 
 			for (int i = 0; i <= step + 2; i += 2) {
 				this.extension.render(stack, buffer, light, overlay);

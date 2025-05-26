@@ -1,10 +1,9 @@
 package forestry.farming.multiblock;
 
-import java.util.ArrayDeque;
-
+import forestry.api.farming.IFarmInventory;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.farming.IFarmInventory;
+import java.util.ArrayDeque;
 
 public interface IFarmInventoryInternal extends IFarmInventory {
 	int getFertilizerValue();

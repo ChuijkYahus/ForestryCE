@@ -29,10 +29,10 @@ public class TankRenderInfo {
 	}
 
 	public FluidStack getFluidStack() {
-		return fluidStack;
+		return this.fluidStack;
 	}
 
 	public EnumTankLevel getLevel() {
-		return level;
+		return this.level;
 	}
 }

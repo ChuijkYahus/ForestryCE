@@ -1,17 +1,14 @@
 package forestry.farming;
 
 import com.google.common.collect.ImmutableMap;
-
-import javax.annotation.Nullable;
-
+import forestry.api.farming.IFarmType;
+import forestry.api.farming.IFarmingManager;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmingManager;
-
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import javax.annotation.Nullable;
 
 public class FarmingManager implements IFarmingManager {
 	private final Object2IntOpenHashMap<Item> fertilizers;

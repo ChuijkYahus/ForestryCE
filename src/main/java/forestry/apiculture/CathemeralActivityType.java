@@ -1,17 +1,15 @@
 package forestry.apiculture;
 
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.levelgen.synth.PerlinNoise;
-
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.LightPreference;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.levelgen.synth.PerlinNoise;
 import org.joml.Vector2i;
+
+import java.util.List;
 
 public class CathemeralActivityType implements IActivityType {
 	private static final PerlinNoise NOISE = PerlinNoise.create(RandomSource.create(13L), List.of(5, 3, 6));

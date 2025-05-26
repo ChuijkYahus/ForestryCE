@@ -8,6 +8,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 public interface IClientModuleHandler {
 	/**
 	 * Called during mod construction after {@link forestry.api.modules.IForestryModule#registerEvents(IEventBus)}.
+	 *
 	 * @param modBus Your mod's mod-specific event bus, for things like deferred registers and IModBus events.
 	 */
 	default void registerEvents(IEventBus modBus) {

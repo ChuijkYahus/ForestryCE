@@ -10,14 +10,12 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
-import java.util.List;
-
-import net.minecraft.world.entity.player.Player;
-
-import forestry.api.genetics.IGenome;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
+import forestry.api.genetics.IGenome;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.List;
 
 public class ExplorationBeeEffect extends ThrottledBeeEffect {
 

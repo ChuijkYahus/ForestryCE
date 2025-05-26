@@ -1,33 +1,17 @@
 package forestry.core.data.models;
 
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.VanillaWoodType;
+import forestry.arboriculture.blocks.*;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.modules.features.FeatureBlockGroup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
-
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
-import forestry.arboriculture.blocks.BlockForestryButton;
-import forestry.arboriculture.blocks.BlockForestryDoor;
-import forestry.arboriculture.blocks.BlockForestryFence;
-import forestry.arboriculture.blocks.BlockForestryFenceGate;
-import forestry.arboriculture.blocks.BlockForestryHangingSign;
-import forestry.arboriculture.blocks.BlockForestryLog;
-import forestry.arboriculture.blocks.BlockForestryPressurePlate;
-import forestry.arboriculture.blocks.BlockForestrySlab;
-import forestry.arboriculture.blocks.BlockForestryStairs;
-import forestry.arboriculture.blocks.BlockForestryStandingSign;
-import forestry.arboriculture.blocks.BlockForestryTrapdoor;
-import forestry.arboriculture.blocks.BlockForestryWallHangingSign;
-import forestry.arboriculture.blocks.BlockForestryWallSign;
-import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.modules.features.FeatureBlockGroup;
-
 import org.jetbrains.annotations.NotNull;
 
 public class ForestryWoodModelProvider extends ForestryBlockStateProvider {

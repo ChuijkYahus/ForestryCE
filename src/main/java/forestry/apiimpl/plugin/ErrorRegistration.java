@@ -1,9 +1,9 @@
 package forestry.apiimpl.plugin;
 
-import java.util.ArrayList;
-
 import forestry.api.core.IError;
 import forestry.api.plugin.IErrorRegistration;
+
+import java.util.ArrayList;
 
 public class ErrorRegistration implements IErrorRegistration {
 	private final ArrayList<IError> errors = new ArrayList<>();

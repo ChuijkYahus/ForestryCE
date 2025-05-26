@@ -11,23 +11,18 @@
 package forestry.mail;
 
 import com.google.common.base.Preconditions;
-
-import java.util.Locale;
-import java.util.UUID;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
+import forestry.core.utils.PlayerUtil;
 import forestry.mail.carriers.PostalCarriers;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.core.INbtWritable;
-import forestry.api.mail.IMailAddress;
-import forestry.core.utils.PlayerUtil;
+import java.util.Locale;
+import java.util.UUID;
 
 public class MailAddress implements IMailAddress {
 
@@ -75,17 +70,17 @@ public class MailAddress implements IMailAddress {
 
 	@Override
 	public IPostalCarrier getCarrier() {
-		return carrier;
+		return this.carrier;
 	}
 
 	@Override
 	public String getName() {
-		return gameProfile.getName();
+		return this.gameProfile.getName();
 	}
 
 	@Override
 	public boolean isValid() {
-		return gameProfile.getName() != null && !PlayerUtil.isSameGameProfile(gameProfile, invalidGameProfile);
+		return this.gameProfile.getName() != null && !PlayerUtil.isSameGameProfile(this.gameProfile, invalidGameProfile);
 	}
 
 	@Override
@@ -93,12 +88,12 @@ public class MailAddress implements IMailAddress {
 		if (!this.carrier.equals(PostalCarriers.PLAYER.get())) {
 			return invalidGameProfile;
 		}
-		return gameProfile;
+		return this.gameProfile;
 	}
 
 	@Override
 	public int hashCode() {
-		return gameProfile.getName().hashCode();
+		return this.gameProfile.getName().hashCode();
 	}
 
 	@Override
@@ -107,26 +102,26 @@ public class MailAddress implements IMailAddress {
 			return false;
 		}
 
-		return PlayerUtil.isSameGameProfile(address.gameProfile, gameProfile);
+		return PlayerUtil.isSameGameProfile(address.gameProfile, this.gameProfile);
 	}
 
 	@Override
 	public String toString() {
 		String name = getName().toLowerCase(Locale.ENGLISH);
 		if (getCarrier().equals(PostalCarriers.PLAYER.get())) {
-			return carrier + "-" + name + '-' + gameProfile.getId();
+			return this.carrier + "-" + name + '-' + this.gameProfile.getId();
 		} else {
-			return carrier + "-" + name;
+			return this.carrier + "-" + name;
 		}
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag compoundNBT) {
-		compoundNBT.putString("carrier", PostalCarriers.REGISTRY.get().getKey(carrier).toString());
+		compoundNBT.putString("carrier", PostalCarriers.REGISTRY.get().getKey(this.carrier).toString());
 
-		if (gameProfile != invalidGameProfile) {
+		if (this.gameProfile != invalidGameProfile) {
 			CompoundTag profileNbt = new CompoundTag();
-			NbtUtils.writeGameProfile(profileNbt, gameProfile);
+			NbtUtils.writeGameProfile(profileNbt, this.gameProfile);
 			compoundNBT.put("profile", profileNbt);
 		}
 		return compoundNBT;

@@ -1,9 +1,8 @@
 package forestry.api.plugin;
 
+import forestry.api.circuits.ICircuit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-
-import forestry.api.circuits.ICircuit;
 
 /**
  * Handles registration of all circuits-related data in Forestry.
@@ -25,7 +24,6 @@ public interface ICircuitRegistration {
 	 *
 	 * @param layoutId   The ID of the circuit layout.
 	 * @param socketType The socket type of the layout, which determines which machines will accept this layout.
-	 *
 	 * @see forestry.api.circuits.ForestryCircuitSocketTypes
 	 * @see forestry.api.circuits.ForestryCircuitLayouts
 	 */

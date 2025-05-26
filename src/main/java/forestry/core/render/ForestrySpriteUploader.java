@@ -1,12 +1,11 @@
 package forestry.core.render;
 
+import forestry.api.ForestryConstants;
+import forestry.api.client.ForestrySprites;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.TextureAtlasHolder;
 import net.minecraft.resources.ResourceLocation;
-
-import forestry.api.ForestryConstants;
-import forestry.api.client.ForestrySprites;
 
 /**
  * Uploads the forestry gui icon texture sprites to the forestry gui atlas texture.

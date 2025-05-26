@@ -1,11 +1,14 @@
 package forestry.arboriculture.blocks;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.arboriculture.ForestryTreeSpecies;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.core.blocks.IColoredBlock;
+import forestry.core.utils.BlockUtil;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -26,16 +29,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.core.blocks.IColoredBlock;
-import forestry.core.utils.BlockUtil;
-import forestry.core.utils.SpeciesUtil;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Parent class for shared behavior between {@link BlockDefaultLeaves} and {@link BlockForestryLeaves}
@@ -46,13 +44,13 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 
 	public BlockAbstractLeaves() {
 		super(Block.Properties.of()
-				.strength(0.2f)
-				.sound(SoundType.GRASS)
-				.randomTicks()
-				.noOcclusion()
-				.isValidSpawn(BlockUtil.IS_PARROT_OR_OCELOT)
-				.isSuffocating(BlockUtil.NEVER)
-				.isViewBlocking(BlockUtil.NEVER));
+			.strength(0.2f)
+			.sound(SoundType.GRASS)
+			.randomTicks()
+			.noOcclusion()
+			.isValidSpawn(BlockUtil.IS_PARROT_OR_OCELOT)
+			.isSuffocating(BlockUtil.NEVER)
+			.isViewBlocking(BlockUtil.NEVER));
 	}
 
 	@Nullable

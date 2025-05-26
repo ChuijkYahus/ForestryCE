@@ -11,16 +11,15 @@
 package forestry.mail.network.packets;
 
 import forestry.api.mail.IMailAddress;
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.network.PacketIdClient;
+import forestry.core.tiles.TileUtil;
 import forestry.mail.MailAddress;
+import forestry.mail.tiles.TileTrader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-
-import forestry.api.modules.IForestryPacketClient;
-import forestry.core.network.PacketIdClient;
-import forestry.core.tiles.TileUtil;
-import forestry.mail.tiles.TileTrader;
 
 public record PacketTraderAddressResponse(BlockPos pos, IMailAddress address) implements IForestryPacketClient {
 	@Override
@@ -30,8 +29,8 @@ public record PacketTraderAddressResponse(BlockPos pos, IMailAddress address) im
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		buffer.writeUtf(address.getName());
+		buffer.writeBlockPos(this.pos);
+		buffer.writeUtf(this.address.getName());
 	}
 
 	public static PacketTraderAddressResponse decode(FriendlyByteBuf buffer) {

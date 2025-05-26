@@ -1,15 +1,5 @@
 package forestry.factory.recipes.jei.fermenter;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraftforge.fluids.FluidStack;
-
 import forestry.api.ForestryConstants;
 import forestry.api.fuels.FermenterFuel;
 import forestry.api.fuels.FuelManager;
@@ -20,7 +10,6 @@ import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -33,6 +22,14 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRecipe> {
 	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/fermenter.png");
@@ -61,42 +58,42 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 
 	@Override
 	public IDrawable getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, IFermenterRecipe recipe, IFocusGroup focuses) {
 		IRecipeSlotBuilder ingredientInputSlot = builder.addSlot(RecipeIngredientRole.INPUT, 51, 5)
-				.addIngredients(recipe.getInputItem());
+			.addIngredients(recipe.getInputItem());
 
 		Collection<FermenterFuel> fuels = FuelManager.fermenterFuel.values();
 		List<ItemStack> fuelInputs = fuels.stream().map(FermenterFuel::item).toList();
 		builder.addSlot(RecipeIngredientRole.INPUT, 41, 39)
-				.addItemStacks(fuelInputs);
+			.addItemStacks(fuelInputs);
 
 		FluidStack fluidInput = recipe.getInputFluid().copy();
 		fluidInput.setAmount(recipe.getFermentationValue());
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
-				.setFluidRenderer(3000, false, 16, 58)
-				.setOverlay(tankOverlay, 0, 0)
-				.addIngredient(ForgeTypes.FLUID_STACK, fluidInput);
+			.setFluidRenderer(3000, false, 16, 58)
+			.setOverlay(this.tankOverlay, 0, 0)
+			.addIngredient(ForgeTypes.FLUID_STACK, fluidInput);
 
 		final int baseAmount = Math.round(recipe.getFermentationValue() * recipe.getModifier());
 		List<FluidStack> outputs =
-				Arrays.stream(recipe.getInputItem().getItems())
-						.map(fermentable -> {
-							int amount = baseAmount;
-							if (fermentable.getItem() instanceof IVariableFermentable variableFermentable) {
-								amount *= variableFermentable.getFermentationModifier(fermentable);
-							}
-							return new FluidStack(recipe.getOutput(), amount);
-						})
-						.toList();
+			Arrays.stream(recipe.getInputItem().getItems())
+				.map(fermentable -> {
+					int amount = baseAmount;
+					if (fermentable.getItem() instanceof IVariableFermentable variableFermentable) {
+						amount *= variableFermentable.getFermentationModifier(fermentable);
+					}
+					return new FluidStack(recipe.getOutput(), amount);
+				})
+				.toList();
 
 		IRecipeSlotBuilder fluidOutputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 91, 1)
-				.setFluidRenderer(3000, false, 16, 58)
-				.setOverlay(tankOverlay, 0, 0)
-				.addIngredients(ForgeTypes.FLUID_STACK, outputs);
+			.setFluidRenderer(3000, false, 16, 58)
+			.setOverlay(this.tankOverlay, 0, 0)
+			.addIngredients(ForgeTypes.FLUID_STACK, outputs);
 
 		builder.createFocusLink(ingredientInputSlot, fluidOutputSlot);
 	}

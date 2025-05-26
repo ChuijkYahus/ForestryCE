@@ -12,13 +12,21 @@ package forestry.core.gui;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.LinkedListMultimap;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Properties;
-
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import forestry.Forestry;
+import forestry.api.ForestryConstants;
+import forestry.api.climate.IClimateProvider;
+import forestry.api.core.IErrorLogicSource;
+import forestry.api.core.IErrorSource;
+import forestry.core.config.ForestryConfig;
+import forestry.core.gui.ledgers.*;
+import forestry.core.gui.widgets.TankWidget;
+import forestry.core.gui.widgets.Widget;
+import forestry.core.gui.widgets.WidgetManager;
+import forestry.core.owner.IOwnedTile;
+import forestry.core.render.ColourProperties;
+import forestry.energy.ForestryEnergyStorage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,26 +38,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import forestry.Forestry;
-import forestry.api.ForestryConstants;
-import forestry.api.climate.IClimateProvider;
-import forestry.api.core.IErrorLogicSource;
-import forestry.api.core.IErrorSource;
-import forestry.core.config.ForestryConfig;
-import forestry.core.gui.ledgers.ClimateLedger;
-import forestry.core.gui.ledgers.HintLedger;
-import forestry.core.gui.ledgers.LedgerManager;
-import forestry.core.gui.ledgers.OwnerLedger;
-import forestry.core.gui.ledgers.PowerLedger;
-import forestry.core.gui.widgets.TankWidget;
-import forestry.core.gui.widgets.Widget;
-import forestry.core.gui.widgets.WidgetManager;
-import forestry.core.owner.IOwnedTile;
-import forestry.core.render.ColourProperties;
-import forestry.energy.ForestryEnergyStorage;
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Properties;
 
 public abstract class GuiForestry<C extends AbstractContainerMenu> extends AbstractContainerScreen<C> implements IGuiSizable {
 	// Used to display "Did you know?" ledgers in GUI
@@ -108,19 +101,19 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	protected abstract void addLedgers();
 
 	protected final void addErrorLedger(IErrorSource errorSource) {
-		ledgerManager.add(errorSource);
+        this.ledgerManager.add(errorSource);
 	}
 
 	protected final void addErrorLedger(IErrorLogicSource errorSource) {
-		ledgerManager.add(errorSource.getErrorLogic());
+        this.ledgerManager.add(errorSource.getErrorLogic());
 	}
 
 	protected final void addClimateLedger(IClimateProvider climatised) {
-		ledgerManager.add(new ClimateLedger(ledgerManager, climatised));
+        this.ledgerManager.add(new ClimateLedger(this.ledgerManager, climatised));
 	}
 
 	protected final void addPowerLedger(ForestryEnergyStorage energyStorage) {
-		ledgerManager.add(new PowerLedger(ledgerManager, energyStorage));
+        this.ledgerManager.add(new PowerLedger(this.ledgerManager, energyStorage));
 	}
 
 	protected final void addHintLedger(String hintsKey) {
@@ -133,19 +126,19 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	protected final void addHintLedger(List<String> hints) {
 		if (ForestryConfig.CLIENT.enableHints.get()) {
 			if (!hints.isEmpty()) {
-				ledgerManager.add(new HintLedger(ledgerManager, hints));
+                this.ledgerManager.add(new HintLedger(this.ledgerManager, hints));
 			}
 		}
 	}
 
 	protected final void addOwnerLedger(IOwnedTile ownedTile) {
-		ledgerManager.add(new OwnerLedger(ledgerManager, ownedTile));
+        this.ledgerManager.add(new OwnerLedger(this.ledgerManager, ownedTile));
 	}
 
 	@Override
 	public void onClose() {
 		super.onClose();
-		ledgerManager.onClose();
+        this.ledgerManager.onClose();
 	}
 
 	public ColourProperties getFontColor() {
@@ -153,7 +146,7 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	}
 
 	public Font font() {
-		return font;
+		return this.font;
 	}
 
 	@Override
@@ -166,7 +159,7 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
-		if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
+		if (this.widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
 			return true;
 		}
 		return super.mouseReleased(mouseX, mouseY, mouseButton);
@@ -174,8 +167,8 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 
 	@Nullable
 	public TankWidget getTankAtPosition(double mouseX, double mouseY) {
-		for (Widget widget : widgetManager.getWidgets()) {
-			if (widget instanceof TankWidget tankWidget && widget.isMouseOver(mouseX - leftPos, mouseY - topPos)) {
+		for (Widget widget : this.widgetManager.getWidgets()) {
+			if (widget instanceof TankWidget tankWidget && widget.isMouseOver(mouseX - this.leftPos, mouseY - this.topPos)) {
 				return tankWidget;
 			}
 		}
@@ -201,28 +194,28 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 
 	@Override
 	protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-		ledgerManager.drawTooltips(graphics, mouseX, mouseY);
+        this.ledgerManager.drawTooltips(graphics, mouseX, mouseY);
 
 		if (this.menu.getCarried().isEmpty()) {
-			GuiUtil.drawToolTips(graphics, this, widgetManager.getWidgets(), mouseX, mouseY);
+			GuiUtil.drawToolTips(graphics, this, this.widgetManager.getWidgets(), mouseX, mouseY);
 			GuiUtil.drawToolTips(graphics, this, this.renderables, mouseX, mouseY);
-			GuiUtil.drawToolTips(graphics, this, menu.slots, mouseX, mouseY);
+			GuiUtil.drawToolTips(graphics, this, this.menu.slots, mouseX, mouseY);
 		}
 	}
 
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
 		drawBackground(graphics);
 
-		widgetManager.updateWidgets(mouseX - leftPos, mouseY - topPos);
+        this.widgetManager.updateWidgets(mouseX - this.leftPos, mouseY - this.topPos);
 
 		graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 		PoseStack transform = graphics.pose();
 		transform.pushPose();
-		transform.translate(leftPos, topPos, 0.0F);
+		transform.translate(this.leftPos, this.topPos, 0.0F);
 		drawWidgets(graphics);
 		transform.popPose();
 
-		bindTexture(textureFile);
+		bindTexture(this.textureFile);
 	}
 
 	protected void drawBackground(GuiGraphics transform) {
@@ -230,8 +223,8 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	}
 
 	protected void drawWidgets(GuiGraphics graphics) {
-		ledgerManager.drawLedgers(graphics);
-		widgetManager.drawWidgets(graphics);
+        this.ledgerManager.drawLedgers(graphics);
+        this.widgetManager.drawWidgets(graphics);
 	}
 
 	protected void bindTexture(ResourceLocation texturePath) {
@@ -241,25 +234,25 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 
 	@Override
 	public int getSizeX() {
-		return imageWidth;
+		return this.imageWidth;
 	}
 
 	@Override
 	public int getSizeY() {
-		return imageHeight;
+		return this.imageHeight;
 	}
 
 	@Override
 	public Minecraft getGameInstance() {
-		return Preconditions.checkNotNull(minecraft);
+		return Preconditions.checkNotNull(this.minecraft);
 	}
 
 	public List<Rect2i> getExtraGuiAreas() {
-		return ledgerManager.getLedgerAreas();
+		return this.ledgerManager.getLedgerAreas();
 	}
 
 	public TextLayoutHelper getTextLayout() {
-		return textLayout;
+		return this.textLayout;
 	}
 
 	private static LinkedListMultimap<String, String> readDefaultHints() {

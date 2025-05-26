@@ -1,15 +1,11 @@
 package forestry.core.utils;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import net.minecraft.client.Minecraft;
+import forestry.api.recipes.*;
+import forestry.core.ClientsideCode;
+import forestry.core.fluids.FluidHelper;
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.modules.features.FeatureRecipeType;
+import forestry.worktable.inventory.WorktableCraftingContainer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -19,35 +15,22 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
-import net.minecraftforge.fml.loading.FMLEnvironment;
-
-import forestry.api.recipes.ICarpenterRecipe;
-import forestry.api.recipes.ICentrifugeRecipe;
-import forestry.api.recipes.IFabricatorRecipe;
-import forestry.api.recipes.IFabricatorSmeltingRecipe;
-import forestry.api.recipes.IFermenterRecipe;
-import forestry.api.recipes.IHygroregulatorRecipe;
-import forestry.api.recipes.IMoistenerRecipe;
-import forestry.api.recipes.ISqueezerContainerRecipe;
-import forestry.api.recipes.ISqueezerRecipe;
-import forestry.api.recipes.IStillRecipe;
-import forestry.core.ClientsideCode;
-import forestry.core.fluids.FluidHelper;
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.modules.features.FeatureRecipeType;
-import forestry.worktable.inventory.WorktableCraftingContainer;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RecipeUtils {
 	/**
@@ -161,7 +144,7 @@ public class RecipeUtils {
 
 	public static boolean isFermenterInput(RecipeManager manager, ItemStack stack) {
 		return getRecipes(manager, FactoryRecipeTypes.FERMENTER)
-				.anyMatch(recipe -> recipe.getInputItem().test(stack));
+			.anyMatch(recipe -> recipe.getInputItem().test(stack));
 	}
 
 	@Nullable
@@ -230,9 +213,9 @@ public class RecipeUtils {
 	@Nullable
 	private static <R extends Recipe<C>, C extends Container> R getMatchingRecipe(RecipeManager manager, FeatureRecipeType<R> type, Predicate<R> matcher) {
 		return getRecipes(manager, type)
-				.filter(matcher)
-				.findFirst()
-				.orElse(null);
+			.filter(matcher)
+			.findFirst()
+			.orElse(null);
 	}
 
 	public static <R extends Recipe<C>, C extends Container> Stream<R> getRecipes(RecipeManager manager, FeatureRecipeType<R> type) {
@@ -245,14 +228,14 @@ public class RecipeUtils {
 
 	public static <R extends Recipe<C>, C extends Container> Set<ResourceLocation> getTargetFluids(RecipeManager manager, RecipeType<R> type, Function<R, Fluid> targetFluid) {
 		return manager.byType(type).values().stream()
-				.map(value -> ModUtil.getRegistryName(targetFluid.apply(value)))
-				.collect(Collectors.toSet());
+			.map(value -> ModUtil.getRegistryName(targetFluid.apply(value)))
+			.collect(Collectors.toSet());
 	}
 
 	public static <R extends Recipe<C>, C extends Container> R getRecipeByOutput(FeatureRecipeType<R> recipeType, RegistryAccess registryAccess, ItemStack output) {
 		return getRecipes(getRecipeManager(), recipeType)
-				.filter(recipe -> ItemStack.isSameItem(recipe.getResultItem(registryAccess), output))
-				.findFirst()
-				.orElseThrow(() -> new IllegalStateException("Couldn't find a recipe with output: " + output));
+			.filter(recipe -> ItemStack.isSameItem(recipe.getResultItem(registryAccess), output))
+			.findFirst()
+			.orElseThrow(() -> new IllegalStateException("Couldn't find a recipe with output: " + output));
 	}
 }

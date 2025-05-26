@@ -1,9 +1,9 @@
 package forestry.api.genetics.filter;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public interface IFilterRule {
 	boolean isValid(ItemStack stack, FilterData data);

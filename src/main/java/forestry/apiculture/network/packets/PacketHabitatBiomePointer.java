@@ -10,18 +10,17 @@
  ******************************************************************************/
 package forestry.apiculture.network.packets;
 
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.network.PacketIdClient;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import forestry.api.modules.IForestryPacketClient;
-import forestry.core.network.PacketIdClient;
-
 public record PacketHabitatBiomePointer(BlockPos pos) implements IForestryPacketClient {
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
+		buffer.writeBlockPos(this.pos);
 	}
 
 	@Override

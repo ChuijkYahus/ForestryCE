@@ -10,11 +10,11 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
-import java.util.function.Predicate;
-
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
+
+import java.util.function.Predicate;
 
 /**
  * This interface is used with several of the functions in IItemTransfer to

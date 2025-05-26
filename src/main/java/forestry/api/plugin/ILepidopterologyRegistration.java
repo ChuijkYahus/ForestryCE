@@ -1,12 +1,11 @@
 package forestry.api.plugin;
 
-import java.awt.Color;
-
+import forestry.api.lepidopterology.IButterflyCocoon;
+import forestry.api.lepidopterology.IButterflyEffect;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.lepidopterology.IButterflyCocoon;
-import forestry.api.lepidopterology.IButterflyEffect;
+import java.awt.*;
 
 public interface ILepidopterologyRegistration {
 	/**

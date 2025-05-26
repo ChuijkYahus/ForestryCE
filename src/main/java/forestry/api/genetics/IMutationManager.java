@@ -1,8 +1,8 @@
 package forestry.api.genetics;
 
-import java.util.List;
-
 import net.minecraft.util.RandomSource;
+
+import java.util.List;
 
 /**
  * Keeps track of mutations involving members of a certain species type.

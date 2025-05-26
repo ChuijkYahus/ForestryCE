@@ -10,30 +10,28 @@
  ******************************************************************************/
 package forestry.core.tiles;
 
-import javax.annotation.Nullable;
-
+import forestry.api.core.ForestryError;
+import forestry.api.core.IErrorLogic;
+import forestry.core.circuits.ISpeedUpgradable;
+import forestry.core.network.IStreamableGui;
+import forestry.core.render.TankRenderInfo;
+import forestry.energy.EnergyHelper;
+import forestry.energy.EnergyTransferMode;
+import forestry.energy.ForestryEnergyStorage;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
-
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 
-import forestry.api.core.IErrorLogic;
-import forestry.core.circuits.ISpeedUpgradable;
-import forestry.api.core.ForestryError;
-import forestry.core.network.IStreamableGui;
-import forestry.core.render.TankRenderInfo;
-import forestry.energy.EnergyHelper;
-import forestry.energy.ForestryEnergyStorage;
-import forestry.energy.EnergyTransferMode;
+import javax.annotation.Nullable;
 
 // todo rename "ticks" to "steps" in 1.21 to clarify they're different than actual ticks
 public abstract class TilePowered extends TileBase implements IRenderableTile, ISpeedUpgradable, IStreamableGui, IPowerHandler {
@@ -59,17 +57,17 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		super(type, pos, state);
 
 		this.energyStorage = new ForestryEnergyStorage(maxTransfer, capacity, EnergyTransferMode.RECEIVE);
-		this.energyCap = LazyOptional.of(() -> energyStorage);
+		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 
 		this.ticksPerWorkCycle = 4;
 	}
 
 	public ForestryEnergyStorage getEnergyManager() {
-		return energyStorage;
+		return this.energyStorage;
 	}
 
 	public int getWorkCounter() {
-		return workCounter;
+		return this.workCounter;
 	}
 
 	// A "tick" is actually 5 ticks. Yay!
@@ -79,10 +77,10 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	}
 
 	public int getTicksPerWorkCycle() {
-		if (level.isClientSide) {
-			return ticksPerWorkCycle;
+		if (this.level.isClientSide) {
+			return this.ticksPerWorkCycle;
 		}
-		return Math.round(ticksPerWorkCycle / speedMultiplier);
+		return Math.round(this.ticksPerWorkCycle / this.speedMultiplier);
 	}
 
 	// RF/t is energyPerWorkCycle / ticksPerWorkCycle
@@ -91,7 +89,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	}
 
 	public int getEnergyPerWorkCycle() {
-		return Math.round(energyPerWorkCycle * powerMultiplier);
+		return Math.round(this.energyPerWorkCycle * this.powerMultiplier);
 	}
 
 	/* STATE INFORMATION */
@@ -128,24 +126,24 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 
 		int ticksPerWorkCycle = getTicksPerWorkCycle();
 
-		if (workCounter < ticksPerWorkCycle) {
+		if (this.workCounter < ticksPerWorkCycle) {
 			int energyPerWorkCycle = getEnergyPerWorkCycle();
-			boolean consumedEnergy = EnergyHelper.consumeEnergyToDoWork(energyStorage, ticksPerWorkCycle, energyPerWorkCycle);
+			boolean consumedEnergy = EnergyHelper.consumeEnergyToDoWork(this.energyStorage, ticksPerWorkCycle, energyPerWorkCycle);
 			if (consumedEnergy) {
 				errorLogic.setCondition(false, ForestryError.NO_POWER);
-				workCounter++;
-				noPowerTime = 0;
+                this.workCounter++;
+                this.noPowerTime = 0;
 			} else {
-				noPowerTime++;
-				if (noPowerTime > 4) {
+                this.noPowerTime++;
+				if (this.noPowerTime > 4) {
 					errorLogic.setCondition(true, ForestryError.NO_POWER);
 				}
 			}
 		}
 
-		if (workCounter >= ticksPerWorkCycle) {
+		if (this.workCounter >= ticksPerWorkCycle) {
 			if (workCycle()) {
-				workCounter = 0;
+                this.workCounter = 0;
 			}
 		}
 	}
@@ -160,42 +158,42 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 			return 0;
 		}
 
-		return workCounter * pixels / ticksPerWorkCycle;
+		return this.workCounter * pixels / ticksPerWorkCycle;
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
-		energyStorage.write(nbt);
+        this.energyStorage.write(nbt);
 	}
 
 	@Override
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
-		energyStorage.read(nbt);
+        this.energyStorage.read(nbt);
 	}
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
-		energyStorage.writeData(data);
-		data.writeVarInt(workCounter);
+        this.energyStorage.writeData(data);
+		data.writeVarInt(this.workCounter);
 		data.writeVarInt(getTicksPerWorkCycle());
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readGuiData(FriendlyByteBuf data) {
-		energyStorage.readData(data);
-		workCounter = data.readVarInt();
-		ticksPerWorkCycle = data.readVarInt();
+        this.energyStorage.readData(data);
+        this.workCounter = data.readVarInt();
+        this.ticksPerWorkCycle = data.readVarInt();
 	}
 
 	/* ISpeedUpgradable */
 	@Override
 	public void applySpeedUpgrade(double speedChange, double powerChange) {
-		speedMultiplier += speedChange;
-		powerMultiplier += powerChange;
-		workCounter = 0;
+        this.speedMultiplier += speedChange;
+        this.powerMultiplier += powerChange;
+        this.workCounter = 0;
 	}
 
 	/* IRenderableTile */
@@ -211,8 +209,8 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!remove && capability == ForgeCapabilities.ENERGY) {
-			return energyCap.cast();
+		if (!this.remove && capability == ForgeCapabilities.ENERGY) {
+			return this.energyCap.cast();
 		}
 		return super.getCapability(capability, facing);
 	}

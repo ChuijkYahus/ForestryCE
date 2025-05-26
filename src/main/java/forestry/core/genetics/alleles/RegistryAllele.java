@@ -1,12 +1,11 @@
 package forestry.core.genetics.alleles;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.genetics.alleles.IRegistryAllele;
 import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import forestry.api.genetics.alleles.IRegistryChromosome;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
 
 public class RegistryAllele<V extends IRegistryAlleleValue> implements IRegistryAllele<V> {
 	private final ResourceLocation id;

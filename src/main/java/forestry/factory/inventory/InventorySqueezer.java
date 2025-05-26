@@ -10,17 +10,6 @@
  ******************************************************************************/
 package forestry.factory.inventory;
 
-import java.util.List;
-
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
-
-import net.minecraftforge.fluids.FluidStack;
-
 import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.InventoryAdapterTile;
@@ -28,6 +17,14 @@ import forestry.core.inventory.wrappers.InventoryMapper;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.RecipeUtils;
 import forestry.factory.tiles.TileSqueezer;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 public class InventorySqueezer extends InventoryAdapterTile<TileSqueezer> {
 	public static final short SLOT_RESOURCE_1 = 0;
@@ -52,7 +49,7 @@ public class InventorySqueezer extends InventoryAdapterTile<TileSqueezer> {
 				return false;
 			}
 
-			RecipeManager recipeManager = tile.getLevel().getRecipeManager();
+			RecipeManager recipeManager = this.tile.getLevel().getRecipeManager();
 			return RecipeUtils.isSqueezerIngredient(recipeManager, stack) || RecipeUtils.getSqueezerContainerRecipe(recipeManager, stack) != null;
 		}
 

@@ -10,23 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.tiles;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.Tuple;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.network.NetworkHooks;
-
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
@@ -40,6 +23,21 @@ import forestry.apiculture.gui.GuiBeeHousing;
 import forestry.apiculture.inventory.IApiaryInventory;
 import forestry.apiculture.inventory.InventoryApiary;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.network.NetworkHooks;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class TileApiary extends TileBeeHousingBase implements IApiary {
 	private final IBeeModifier beeModifier = new ApiaryBeeModifier();
@@ -48,26 +46,26 @@ public class TileApiary extends TileBeeHousingBase implements IApiary {
 
 	public TileApiary(BlockPos pos, BlockState state) {
 		super(ApicultureTiles.APIARY.tileType(), pos, state, "apiary");
-		setInternalInventory(inventory);
+		setInternalInventory(this.inventory);
 	}
 
 	@Override
 	public IBeeHousingInventory getBeeInventory() {
-		return inventory;
+		return this.inventory;
 	}
 
 	@Override
 	public IApiaryInventory getApiaryInventory() {
-		return inventory;
+		return this.inventory;
 	}
 
 	@Override
 	public Collection<IBeeModifier> getBeeModifiers() {
 		List<IBeeModifier> beeModifiers = new ArrayList<>();
 
-		beeModifiers.add(beeModifier);
+		beeModifiers.add(this.beeModifier);
 
-		for (Tuple<IHiveFrame, ItemStack> frame : inventory.getFrames()) {
+		for (Tuple<IHiveFrame, ItemStack> frame : this.inventory.getFrames()) {
 			IHiveFrame hiveFrame = frame.getA();
 			ItemStack stack = frame.getB();
 			IBeeModifier beeModifier = hiveFrame.getBeeModifier(stack);
@@ -79,7 +77,7 @@ public class TileApiary extends TileBeeHousingBase implements IApiary {
 
 	@Override
 	public Iterable<IBeeListener> getBeeListeners() {
-		return Collections.singleton(beeListener);
+		return Collections.singleton(this.beeListener);
 	}
 
 	@Override

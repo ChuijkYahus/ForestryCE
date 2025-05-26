@@ -3,20 +3,13 @@ package forestry.core.genetics;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.ISpecies;
+import forestry.api.genetics.alleles.*;
+import forestry.api.plugin.IGenomeBuilder;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
-
-import forestry.api.IForestryApi;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.genetics.alleles.IRegistryAllele;
-import forestry.api.plugin.IGenomeBuilder;
-import forestry.core.utils.SpeciesUtil;
 
 public final class Genome implements IGenome {
 	final ImmutableMap<IChromosome<?>, AllelePair<?>> chromosomes;
@@ -45,13 +38,13 @@ public final class Genome implements IGenome {
 					species = karyotype.getSpeciesChromosome().get(karyotype.getDefaultSpecies());
 				} else {
 					species = speciesPair.active()
-							.<IRegistryAllele<ISpecies<?>>>cast()
-							.value();
+						.<IRegistryAllele<ISpecies<?>>>cast()
+						.value();
 				}
 
 				pair = species
-						.getDefaultGenome()
-						.getAllelePair(chromosome);
+					.getDefaultGenome()
+					.getAllelePair(chromosome);
 			}
 
 			sorted.put(chromosome, pair);
@@ -141,16 +134,16 @@ public final class Genome implements IGenome {
 
 		Genome genome = (Genome) o;
 
-		if (!chromosomes.equals(genome.chromosomes)) {
+		if (!this.chromosomes.equals(genome.chromosomes)) {
 			return false;
 		}
-		return karyotype.equals(genome.karyotype);
+		return this.karyotype.equals(genome.karyotype);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = chromosomes.hashCode();
-		result = 31 * result + karyotype.hashCode();
+		int result = this.chromosomes.hashCode();
+		result = 31 * result + this.karyotype.hashCode();
 		return result;
 	}
 

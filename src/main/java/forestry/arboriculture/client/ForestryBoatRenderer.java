@@ -1,7 +1,8 @@
 package forestry.arboriculture.client;
 
-import java.util.EnumMap;
-
+import com.mojang.datafixers.util.Pair;
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.entities.ForestryBoat;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.model.ListModel;
@@ -12,10 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.vehicle.Boat;
 
-import com.mojang.datafixers.util.Pair;
-
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.entities.ForestryBoat;
+import java.util.EnumMap;
 
 import static forestry.api.ForestryConstants.forestry;
 

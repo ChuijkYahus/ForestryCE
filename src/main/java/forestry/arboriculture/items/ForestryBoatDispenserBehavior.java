@@ -1,5 +1,8 @@
 package forestry.arboriculture.items;
 
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.entities.ForestryBoat;
+import forestry.arboriculture.entities.ForestryChestBoat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
@@ -8,10 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
-
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.entities.ForestryBoat;
-import forestry.arboriculture.entities.ForestryChestBoat;
 
 public class ForestryBoatDispenserBehavior extends DefaultDispenseItemBehavior {
 	private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();

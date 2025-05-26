@@ -10,13 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.multiblock;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.genetics.pollen.IPollen;
 import forestry.api.multiblock.IAlvearyComponent;
@@ -25,6 +18,12 @@ import forestry.apiculture.gui.ContainerAlvearySieve;
 import forestry.apiculture.inventory.InventoryAlvearySieve;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.inventory.watchers.ISlotPickupWatcher;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class TileAlvearySieve extends TileAlveary implements IAlvearyComponent.BeeListener<MultiblockLogicAlveary>, IAlvearyComponent.HasInventory {
 	private final IBeeListener beeListener;
@@ -33,7 +32,7 @@ public class TileAlvearySieve extends TileAlveary implements IAlvearyComponent.B
 	public TileAlvearySieve(BlockPos pos, BlockState state) {
 		super(BlockAlvearyType.SIEVE, pos, state);
 		this.inventory = new InventoryAlvearySieve(this);
-		this.beeListener = new AlvearySieveBeeListener(inventory);
+		this.beeListener = new AlvearySieveBeeListener(this.inventory);
 	}
 
 	@Override

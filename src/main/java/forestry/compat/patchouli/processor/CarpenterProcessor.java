@@ -1,21 +1,18 @@
 package forestry.compat.patchouli.processor;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
-
 import forestry.api.recipes.ICarpenterRecipe;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
-
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
+
+import javax.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public class CarpenterProcessor implements IComponentProcessor {
@@ -31,7 +28,7 @@ public class CarpenterProcessor implements IComponentProcessor {
 
 	@Override
 	public IVariable process(Level level, String key) {
-		Preconditions.checkNotNull(recipe);
+		Preconditions.checkNotNull(this.recipe);
 		if (key.equals("output")) {
 			return IVariable.from(this.recipe.getResultItem(level.registryAccess()));
 		} else if (key.equals("fluid")) {

@@ -2,16 +2,14 @@ package forestry.sorting;
 
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
+import forestry.api.genetics.filter.IFilterManager;
+import forestry.api.genetics.filter.IFilterRuleType;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
-
-import forestry.api.genetics.filter.IFilterManager;
-import forestry.api.genetics.filter.IFilterRuleType;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 public class FilterManager implements IFilterManager {
 	private static final Comparator<IFilterRuleType> FILTER_COMPARATOR = (f, s) -> f.getId().compareToIgnoreCase(s.getId());

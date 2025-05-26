@@ -11,15 +11,13 @@
 package forestry.factory.inventory;
 
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraftforge.fluids.FluidUtil;
-
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.utils.RecipeUtils;
 import forestry.core.utils.SlotUtil;
 import forestry.factory.tiles.TileCarpenter;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidUtil;
 
 public class InventoryCarpenter extends InventoryAdapterTile<TileCarpenter> {
 	public final static int SLOT_BOX = 9;
@@ -36,9 +34,9 @@ public class InventoryCarpenter extends InventoryAdapterTile<TileCarpenter> {
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
 		if (slotIndex == SLOT_CAN_INPUT) {
-			return FluidUtil.getFluidContained(stack).filter(f -> tile.getTankManager().canFillFluidType(f)).isPresent();
+			return FluidUtil.getFluidContained(stack).filter(f -> this.tile.getTankManager().canFillFluidType(f)).isPresent();
 		} else if (slotIndex == SLOT_BOX) {
-			return RecipeUtils.isCarpenterBox(tile.getLevel().getRecipeManager(), stack);
+			return RecipeUtils.isCarpenterBox(this.tile.getLevel().getRecipeManager(), stack);
 		} else if (canSlotAccept(SLOT_CAN_INPUT, stack) || canSlotAccept(SLOT_BOX, stack)) {
 			return false;
 		}

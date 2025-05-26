@@ -12,9 +12,8 @@ package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
-
-import java.util.List;
-
+import forestry.api.recipes.ISqueezerContainerRecipe;
+import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -23,11 +22,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-
 import net.minecraftforge.fluids.FluidStack;
 
-import forestry.api.recipes.ISqueezerContainerRecipe;
-import forestry.factory.features.FactoryRecipeTypes;
+import java.util.List;
 
 public class SqueezerContainerRecipe implements ISqueezerContainerRecipe {
 	private final ResourceLocation id;
@@ -50,7 +47,7 @@ public class SqueezerContainerRecipe implements ISqueezerContainerRecipe {
 
 	@Override
 	public ItemStack getEmptyContainer() {
-		return emptyContainer;
+		return this.emptyContainer;
 	}
 
 	@Override
@@ -60,17 +57,17 @@ public class SqueezerContainerRecipe implements ISqueezerContainerRecipe {
 
 	@Override
 	public int getProcessingTime() {
-		return processingTime;
+		return this.processingTime;
 	}
 
 	@Override
 	public ItemStack getRemnants() {
-		return remnants;
+		return this.remnants;
 	}
 
 	@Override
 	public float getRemnantsChance() {
-		return remnantsChance;
+		return this.remnantsChance;
 	}
 
 	@Override
@@ -85,7 +82,7 @@ public class SqueezerContainerRecipe implements ISqueezerContainerRecipe {
 
 	@Override
 	public ResourceLocation getId() {
-		return id;
+		return this.id;
 	}
 
 	@Override

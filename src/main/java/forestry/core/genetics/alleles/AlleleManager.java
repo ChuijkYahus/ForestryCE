@@ -1,38 +1,20 @@
 package forestry.core.genetics.alleles;
 
 import com.google.common.base.Preconditions;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import forestry.Forestry;
+import forestry.api.IForestryApi;
+import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.alleles.*;
+import it.unimi.dsi.fastutil.floats.Float2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.function.BiFunction;
-
-import net.minecraft.resources.ResourceLocation;
-
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-
-import forestry.Forestry;
-import forestry.api.IForestryApi;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IAlleleManager;
-import forestry.api.genetics.alleles.IAlleleNaming;
-import forestry.api.genetics.alleles.IBooleanAllele;
-import forestry.api.genetics.alleles.IBooleanChromosome;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IFloatAllele;
-import forestry.api.genetics.alleles.IFloatChromosome;
-import forestry.api.genetics.alleles.IIntegerAllele;
-import forestry.api.genetics.alleles.IIntegerChromosome;
-import forestry.api.genetics.alleles.IRegistryAllele;
-import forestry.api.genetics.alleles.IRegistryAlleleValue;
-import forestry.api.genetics.alleles.IRegistryChromosome;
-import forestry.api.genetics.alleles.IValueAllele;
-import forestry.api.genetics.alleles.IValueChromosome;
-
-import it.unimi.dsi.fastutil.floats.Float2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 public class AlleleManager implements IAlleleManager {
 	// Default registration state. Both alleles and chromosomes can be registered.
@@ -91,7 +73,7 @@ public class AlleleManager implements IAlleleManager {
 		checkAlleleRegistration();
 		// 0 = F, 1 = Fd, 2 = T, 3 = Td
 		int index = (value ? (dominant ? 3 : 2) : (dominant ? 1 : 0));
-		IBooleanAllele allele = booleanAlleles[index];
+		IBooleanAllele allele = this.booleanAlleles[index];
 		if (allele == null) {
 			allele = new BooleanAllele(value, dominant);
 			this.booleanAlleles[index] = allele;

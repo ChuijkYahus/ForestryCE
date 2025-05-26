@@ -1,24 +1,8 @@
 package forestry.core.utils;
 
 import com.google.common.collect.ImmutableList;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.function.Function;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.Level;
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
-
-import net.minecraftforge.common.util.Lazy;
-
 import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -26,25 +10,24 @@ import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.climate.IClimateProvider;
-import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.genetics.alleles.IRegistryAllele;
-import forestry.api.genetics.alleles.IRegistryChromosome;
+import forestry.api.genetics.*;
+import forestry.api.genetics.alleles.*;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IGenomeBuilder;
 import forestry.core.config.ForestryConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.Lazy;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Function;
 
 public class SpeciesUtil {
 	public static final Lazy<IBeeSpeciesType> BEE_TYPE = Lazy.of(() -> IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(ForestrySpeciesTypes.BEE, IBeeSpeciesType.class));
@@ -86,7 +69,7 @@ public class SpeciesUtil {
 	/**
 	 * Adds all non-hidden species from the given species type to the creative tab.
 	 *
-	 * @param items The creative tab item output.
+	 * @param items         The creative tab item output.
 	 * @param speciesTypeId The ID of the species type to use.
 	 */
 	public static void addTypeToCreativeTab(CreativeModeTab.Output items, ResourceLocation speciesTypeId) {

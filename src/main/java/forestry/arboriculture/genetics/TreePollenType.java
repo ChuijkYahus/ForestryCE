@@ -1,15 +1,5 @@
 package forestry.arboriculture.genetics;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
@@ -21,6 +11,15 @@ import forestry.arboriculture.tiles.TileLeaves;
 import forestry.core.config.ForestryConfig;
 import forestry.core.utils.SpeciesUtil;
 import forestry.core.utils.TreeUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class TreePollenType implements IPollenType<ITree> {
 	@Override

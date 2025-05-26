@@ -11,22 +11,18 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
-
-import java.util.function.Consumer;
-
-import org.apache.commons.lang3.mutable.MutableObject;
-
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.mutable.MutableObject;
 
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import java.util.function.Consumer;
 
 public class FabricatorRecipeBuilder {
 	private Ingredient plan;
@@ -51,7 +47,7 @@ public class FabricatorRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, plan, molten, recipe));
+		consumer.accept(new Result(id, this.plan, this.molten, this.recipe));
 	}
 
 	public static class Result implements FinishedRecipe {
@@ -69,14 +65,14 @@ public class FabricatorRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.add("plan", plan.toJson());
-			json.add("molten", RecipeSerializers.serializeFluid(molten));
-			json.add("recipe", recipe.serializeRecipe());
+			json.add("plan", this.plan.toJson());
+			json.add("molten", RecipeSerializers.serializeFluid(this.molten));
+			json.add("recipe", this.recipe.serializeRecipe());
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

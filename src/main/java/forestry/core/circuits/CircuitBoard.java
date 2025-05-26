@@ -10,23 +10,21 @@
  ******************************************************************************/
 package forestry.core.circuits;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
+import forestry.api.IForestryApi;
+import forestry.api.circuits.ICircuit;
+import forestry.api.circuits.ICircuitBoard;
+import forestry.api.circuits.ICircuitLayout;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.api.IForestryApi;
-import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitBoard;
-import forestry.api.circuits.ICircuitLayout;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CircuitBoard implements ICircuitBoard {
 	private final EnumCircuitBoardType type;
@@ -41,7 +39,7 @@ public class CircuitBoard implements ICircuitBoard {
 	}
 
 	public CircuitBoard(CompoundTag compound) {
-		type = EnumCircuitBoardType.values()[compound.getShort("T")];
+        this.type = EnumCircuitBoardType.values()[compound.getShort("T")];
 
 		// Layout
 		ICircuitLayout layout = null;
@@ -50,7 +48,7 @@ public class CircuitBoard implements ICircuitBoard {
 		}
 		this.layout = layout;
 
-		circuits = new ICircuit[4];
+        this.circuits = new ICircuit[4];
 
 		for (int i = 0; i < 4; i++) {
 			if (!compound.contains("CA.I" + i)) {
@@ -58,7 +56,7 @@ public class CircuitBoard implements ICircuitBoard {
 			}
 			ICircuit circuit = IForestryApi.INSTANCE.getCircuitManager().getCircuit(compound.getString("CA.I" + i));
 			if (circuit != null) {
-				circuits[i] = circuit;
+                this.circuits[i] = circuit;
 			}
 		}
 	}
@@ -66,22 +64,22 @@ public class CircuitBoard implements ICircuitBoard {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public int getPrimaryColor() {
-		return type.getPrimaryColor();
+		return this.type.getPrimaryColor();
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public int getSecondaryColor() {
-		return type.getSecondaryColor();
+		return this.type.getSecondaryColor();
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addTooltip(List<Component> list) {
-		if (layout != null) {
-			list.add(Component.literal(layout.getUsage().getString() + ":").withStyle(ChatFormatting.GOLD));
+		if (this.layout != null) {
+			list.add(Component.literal(this.layout.getUsage().getString() + ":").withStyle(ChatFormatting.GOLD));
 			List<Component> extendedTooltip = new ArrayList<>();
-			for (ICircuit circuit : circuits) {
+			for (ICircuit circuit : this.circuits) {
 				if (circuit != null) {
 					circuit.addTooltip(extendedTooltip);
 				}
@@ -91,29 +89,29 @@ public class CircuitBoard implements ICircuitBoard {
 				list.addAll(extendedTooltip);
 			} else {
 				list.add(Component.literal("<").withStyle(ChatFormatting.UNDERLINE, ChatFormatting.GRAY)
-						.append(Component.translatable("for.gui.tooltip.tmi"))
-						.append(Component.literal(">")));
+					.append(Component.translatable("for.gui.tooltip.tmi"))
+					.append(Component.literal(">")));
 			}
 		} else {
-			int socketCount = type.getSockets();
+			int socketCount = this.type.getSockets();
 			String localizationKey = "item.forestry.circuit_board.tooltip." + (socketCount == 1 ? "singular" : "plural");
-			list.add(Component.translatable(localizationKey, type.getSockets()).withStyle(ChatFormatting.GRAY));
+			list.add(Component.translatable(localizationKey, this.type.getSockets()).withStyle(ChatFormatting.GRAY));
 		}
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag compound) {
 
-		compound.putShort("T", (short) type.ordinal());
+		compound.putShort("T", (short) this.type.ordinal());
 
 		// Layout
-		if (layout != null) {
-			compound.putString("LY", layout.getId());
+		if (this.layout != null) {
+			compound.putString("LY", this.layout.getId());
 		}
 
 		// Circuits
-		for (int i = 0; i < circuits.length; i++) {
-			ICircuit circuit = circuits[i];
+		for (int i = 0; i < this.circuits.length; i++) {
+			ICircuit circuit = this.circuits[i];
 			if (circuit == null) {
 				continue;
 			}
@@ -125,8 +123,8 @@ public class CircuitBoard implements ICircuitBoard {
 
 	@Override
 	public void onInsertion(Object tile) {
-		for (int i = 0; i < circuits.length; i++) {
-			ICircuit circuit = circuits[i];
+		for (int i = 0; i < this.circuits.length; i++) {
+			ICircuit circuit = this.circuits[i];
 			if (circuit == null) {
 				continue;
 			}
@@ -136,8 +134,8 @@ public class CircuitBoard implements ICircuitBoard {
 
 	@Override
 	public void onLoad(Object tile) {
-		for (int i = 0; i < circuits.length; i++) {
-			ICircuit circuit = circuits[i];
+		for (int i = 0; i < this.circuits.length; i++) {
+			ICircuit circuit = this.circuits[i];
 			if (circuit == null) {
 				continue;
 			}
@@ -147,8 +145,8 @@ public class CircuitBoard implements ICircuitBoard {
 
 	@Override
 	public void onRemoval(Object tile) {
-		for (int i = 0; i < circuits.length; i++) {
-			ICircuit circuit = circuits[i];
+		for (int i = 0; i < this.circuits.length; i++) {
+			ICircuit circuit = this.circuits[i];
 			if (circuit == null) {
 				continue;
 			}
@@ -158,8 +156,8 @@ public class CircuitBoard implements ICircuitBoard {
 
 	@Override
 	public void onTick(Object tile) {
-		for (int i = 0; i < circuits.length; i++) {
-			ICircuit circuit = circuits[i];
+		for (int i = 0; i < this.circuits.length; i++) {
+			ICircuit circuit = this.circuits[i];
 			if (circuit == null) {
 				continue;
 			}
@@ -169,7 +167,7 @@ public class CircuitBoard implements ICircuitBoard {
 
 	@Override
 	public ICircuit[] getCircuits() {
-		return circuits;
+		return this.circuits;
 	}
 
 	@Nullable

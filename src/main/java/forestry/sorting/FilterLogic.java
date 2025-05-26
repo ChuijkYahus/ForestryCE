@@ -1,14 +1,5 @@
 package forestry.sorting;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.IForestryApi;
 import forestry.api.core.ILocationProvider;
 import forestry.api.genetics.IIndividual;
@@ -23,6 +14,14 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.sorting.network.packets.PacketFilterChangeGenome;
 import forestry.sorting.network.packets.PacketFilterChangeRule;
 import forestry.sorting.network.packets.PacketGuiFilterUpdate;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public class FilterLogic implements IFilterLogic {
 	private final ILocationProvider locatable;
@@ -89,14 +88,14 @@ public class FilterLogic implements IFilterLogic {
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf buffer) {
-		writeFilterRules(buffer, filterRules);
-		writeGenomeFilters(buffer, genomeFilter);
+		writeFilterRules(buffer, this.filterRules);
+		writeGenomeFilters(buffer, this.genomeFilter);
 	}
 
 	@Override
 	public void readGuiData(FriendlyByteBuf buffer) {
-		filterRules = readFilterRules(buffer);
-		genomeFilter = readGenomeFilters(buffer);
+        this.filterRules = readFilterRules(buffer);
+        this.genomeFilter = readGenomeFilters(buffer);
 	}
 
 	public static void writeFilterRules(FriendlyByteBuf buffer, IFilterRuleType[] filterRules) {
@@ -206,12 +205,12 @@ public class FilterLogic implements IFilterLogic {
 	}
 
 	public IFilterRuleType getRule(Direction facing) {
-		return filterRules[facing.ordinal()];
+		return this.filterRules[facing.ordinal()];
 	}
 
 	public boolean setRule(Direction facing, IFilterRuleType rule) {
-		if (filterRules[facing.ordinal()] != rule) {
-			filterRules[facing.ordinal()] = rule;
+		if (this.filterRules[facing.ordinal()] != rule) {
+            this.filterRules[facing.ordinal()] = rule;
 			return true;
 		}
 		return false;
@@ -219,7 +218,7 @@ public class FilterLogic implements IFilterLogic {
 
 	@Nullable
 	public AlleleFilter getGenomeFilter(Direction facing, int index) {
-		return genomeFilter[facing.ordinal()][index];
+		return this.genomeFilter[facing.ordinal()][index];
 	}
 
 	@Nullable
@@ -232,9 +231,9 @@ public class FilterLogic implements IFilterLogic {
 	}
 
 	public boolean setGenomeFilter(Direction facing, int index, boolean active, @Nullable ISpecies<?> allele) {
-		AlleleFilter filter = genomeFilter[facing.ordinal()][index];
+		AlleleFilter filter = this.genomeFilter[facing.ordinal()][index];
 		if (filter == null) {
-			filter = genomeFilter[facing.ordinal()][index] = new AlleleFilter();
+			filter = this.genomeFilter[facing.ordinal()][index] = new AlleleFilter();
 		}
 		boolean set;
 		if (active) {
@@ -249,12 +248,12 @@ public class FilterLogic implements IFilterLogic {
 
 	@Override
 	public void sendToServer(Direction facing, int index, boolean active, @Nullable ISpecies<?> allele) {
-		NetworkUtil.sendToServer(new PacketFilterChangeGenome(locatable.getCoordinates(), facing, (short) index, active, allele));
+		NetworkUtil.sendToServer(new PacketFilterChangeGenome(this.locatable.getCoordinates(), facing, (short) index, active, allele));
 	}
 
 	@Override
 	public void sendToServer(Direction facing, IFilterRuleType rule) {
-		NetworkUtil.sendToServer(new PacketFilterChangeRule(locatable.getCoordinates(), facing, rule));
+		NetworkUtil.sendToServer(new PacketFilterChangeRule(this.locatable.getCoordinates(), facing, rule));
 	}
 
 	public PacketGuiFilterUpdate createGuiUpdatePacket(BlockPos pos) {

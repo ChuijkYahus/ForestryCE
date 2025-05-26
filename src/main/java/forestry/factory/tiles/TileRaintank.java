@@ -10,8 +10,15 @@
  ******************************************************************************/
 package forestry.factory.tiles;
 
-import javax.annotation.Nullable;
-
+import forestry.api.core.ForestryError;
+import forestry.api.core.IErrorLogic;
+import forestry.core.config.Constants;
+import forestry.core.fluids.*;
+import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.tiles.TileBase;
+import forestry.factory.features.FactoryTiles;
+import forestry.factory.gui.ContainerRaintank;
+import forestry.factory.inventory.InventoryRaintank;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -25,7 +32,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -36,20 +42,7 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-import forestry.api.core.ForestryError;
-import forestry.api.core.IErrorLogic;
-import forestry.core.config.Constants;
-import forestry.core.fluids.ContainerFiller;
-import forestry.core.fluids.DrainOnlyFluidHandlerWrapper;
-import forestry.core.fluids.FilteredTank;
-import forestry.core.fluids.FluidHelper;
-import forestry.core.fluids.FluidTagFilter;
-import forestry.core.fluids.TankManager;
-import forestry.core.tiles.ILiquidTankTile;
-import forestry.core.tiles.TileBase;
-import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerRaintank;
-import forestry.factory.inventory.InventoryRaintank;
+import javax.annotation.Nullable;
 
 public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidTankTile {
 	private static final FluidStack STACK_WATER = new FluidStack(Fluids.WATER, FluidType.BUCKET_VOLUME);
@@ -70,36 +63,36 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 		super(FactoryTiles.RAIN_TANK.tileType(), pos, state);
 		setInternalInventory(new InventoryRaintank(this));
 
-		resourceTank = new FilteredTank(Constants.RAINTANK_TANK_CAPACITY).setFilter(FluidTagFilter.WATER);
+        this.resourceTank = new FilteredTank(Constants.RAINTANK_TANK_CAPACITY).setFilter(FluidTagFilter.WATER);
 
-		tankManager = new TankManager(this, resourceTank);
+        this.tankManager = new TankManager(this, this.resourceTank);
 
-		containerFiller = new ContainerFiller(resourceTank, Constants.RAINTANK_FILLING_TIME, this, InventoryRaintank.SLOT_RESOURCE, InventoryRaintank.SLOT_PRODUCT);
+        this.containerFiller = new ContainerFiller(this.resourceTank, Constants.RAINTANK_FILLING_TIME, this, InventoryRaintank.SLOT_RESOURCE, InventoryRaintank.SLOT_PRODUCT);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-		tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT);
 	}
 
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-		tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT);
 	}
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
-		tankManager.writeData(data);
+        this.tankManager.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		tankManager.readData(data);
+        this.tankManager.readData(data);
 	}
 
 	@Override
@@ -117,55 +110,55 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 			errorLogic.setCondition(!level.isRainingAt(posAbove), ForestryError.NOT_RAINING);
 
 			if (!errorLogic.hasErrors()) {
-				resourceTank.fillInternal(WATER_PER_UPDATE, IFluidHandler.FluidAction.EXECUTE);
+                this.resourceTank.fillInternal(WATER_PER_UPDATE, IFluidHandler.FluidAction.EXECUTE);
 			}
 
-			containerFiller.updateServerSide();
+            this.containerFiller.updateServerSide();
 		}
 
-		if (canDumpBelow == null) {
-			canDumpBelow = FluidHelper.canAcceptFluid(level, getBlockPos().below(), Direction.UP, STACK_WATER);
+		if (this.canDumpBelow == null) {
+            this.canDumpBelow = FluidHelper.canAcceptFluid(level, getBlockPos().below(), Direction.UP, STACK_WATER);
 		}
 
-		if (canDumpBelow) {
-			if (dumpingFluid || updateOnInterval(20)) {
-				dumpingFluid = dumpFluidBelow();
+		if (this.canDumpBelow) {
+			if (this.dumpingFluid || updateOnInterval(20)) {
+                this.dumpingFluid = dumpFluidBelow();
 			}
 		}
 	}
 
 	private boolean dumpFluidBelow() {
-		if (!resourceTank.isEmpty()) {
-			LazyOptional<IFluidHandler> fluidCap = FluidUtil.getFluidHandler(level, worldPosition.below(), Direction.UP);
+		if (!this.resourceTank.isEmpty()) {
+			LazyOptional<IFluidHandler> fluidCap = FluidUtil.getFluidHandler(this.level, this.worldPosition.below(), Direction.UP);
 			if (fluidCap.isPresent()) {
-				return !FluidUtil.tryFluidTransfer(fluidCap.orElse(null), tankManager, FluidType.BUCKET_VOLUME / 20, true).isEmpty();
+				return !FluidUtil.tryFluidTransfer(fluidCap.orElse(null), this.tankManager, FluidType.BUCKET_VOLUME / 20, true).isEmpty();
 			}
 		}
 		return false;
 	}
 
 	public boolean isFilling() {
-		return fillingProgress > 0;
+		return this.fillingProgress > 0;
 	}
 
 	public int getFillProgressScaled(int i) {
-		return fillingProgress * i / Constants.RAINTANK_FILLING_TIME;
+		return this.fillingProgress * i / Constants.RAINTANK_FILLING_TIME;
 	}
 
 	/* SMP GUI */
 	public void getGUINetworkData(int i, int j) {
 		switch (i) {
-			case 0 -> fillingProgress = j;
+			case 0 -> this.fillingProgress = j;
 		}
 	}
 
 	public void sendGUINetworkData(AbstractContainerMenu container, ContainerListener iCrafting) {
-		iCrafting.dataChanged(container, 0, containerFiller.getFillingProgress());
+		iCrafting.dataChanged(container, 0, this.containerFiller.getFillingProgress());
 	}
 
 	@Override
 	public TankManager getTankManager() {
-		return tankManager;
+		return this.tankManager;
 	}
 
 	@Override
@@ -173,7 +166,7 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 		super.onNeighborTileChange(world, pos, neighbor);
 
 		if (neighbor.equals(pos.below())) {
-			canDumpBelow = FluidHelper.canAcceptFluid(world, neighbor, Direction.UP, STACK_WATER);
+            this.canDumpBelow = FluidHelper.canAcceptFluid(world, neighbor, Direction.UP, STACK_WATER);
 		}
 	}
 
@@ -182,9 +175,9 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 		if (capability == ForgeCapabilities.FLUID_HANDLER) {
 			return LazyOptional.of(() -> {
 				if (facing == Direction.DOWN) {
-					return new DrainOnlyFluidHandlerWrapper(tankManager);
+					return new DrainOnlyFluidHandlerWrapper(this.tankManager);
 				}
-				return tankManager;
+				return this.tankManager;
 			}).cast();
 		}
 		return super.getCapability(capability, facing);

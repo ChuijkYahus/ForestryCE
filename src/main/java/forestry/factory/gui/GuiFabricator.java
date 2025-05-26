@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.chat.Component;
-
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
 import forestry.core.gui.widgets.ReservoirWidget;
 import forestry.factory.tiles.TileFabricator;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 public class GuiFabricator extends GuiForestryTitled<ContainerFabricator> {
 	private final TileFabricator tile;
@@ -34,21 +33,21 @@ public class GuiFabricator extends GuiForestryTitled<ContainerFabricator> {
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
 		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
-		int heatScaled = tile.getHeatScaled(52);
+		int heatScaled = this.tile.getHeatScaled(52);
 		if (heatScaled > 0) {
-			graphics.blit(this.textureFile, leftPos + 55, topPos + 17 + 52 - heatScaled, 192, 52 - heatScaled, 4, heatScaled);
+			graphics.blit(this.textureFile, this.leftPos + 55, this.topPos + 17 + 52 - heatScaled, 192, 52 - heatScaled, 4, heatScaled);
 		}
 
-		int meltingPointScaled = tile.getMeltingPointScaled(52);
+		int meltingPointScaled = this.tile.getMeltingPointScaled(52);
 		if (meltingPointScaled > 0) {
-			graphics.blit(this.textureFile, leftPos + 52, topPos + 15 + 52 - meltingPointScaled, 196, 0, 10, 5);
+			graphics.blit(this.textureFile, this.leftPos + 52, this.topPos + 15 + 52 - meltingPointScaled, 196, 0, 10, 5);
 		}
 	}
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(tile);
-		addPowerLedger(tile.getEnergyManager());
+		addErrorLedger(this.tile);
+		addPowerLedger(this.tile.getEnergyManager());
 		addHintLedger("fabricator");
 	}
 }

@@ -1,5 +1,6 @@
 package forestry.arboriculture.blocks;
 
+import forestry.arboriculture.worldgen.FeatureArboriculture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -10,8 +11,6 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-
-import forestry.arboriculture.worldgen.FeatureArboriculture;
 
 public class BlockExtendedLeaves extends LeavesBlock {
 	private static final ThreadLocal<byte[]> SURROUNDINGS = ThreadLocal.withInitial(() -> new byte[32768]);

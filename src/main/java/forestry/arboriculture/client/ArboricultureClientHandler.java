@@ -10,6 +10,14 @@
  ******************************************************************************/
 package forestry.arboriculture.client;
 
+import forestry.api.client.IClientModuleHandler;
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.blocks.BlockDecorativeLeaves;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.arboriculture.features.ArboricultureEntities;
+import forestry.arboriculture.features.ArboricultureTiles;
+import forestry.arboriculture.models.*;
+import forestry.core.models.ClientManager;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -17,27 +25,11 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
-
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
-import forestry.api.client.IClientModuleHandler;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.blocks.BlockDecorativeLeaves;
-import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.features.ArboricultureEntities;
-import forestry.arboriculture.features.ArboricultureTiles;
-import forestry.arboriculture.models.ModelDecorativeLeaves;
-import forestry.arboriculture.models.ModelDefaultLeaves;
-import forestry.arboriculture.models.ModelDefaultLeavesFruit;
-import forestry.arboriculture.models.ModelLeaves;
-import forestry.arboriculture.models.SaplingModelLoader;
-import forestry.core.models.ClientManager;
 
 public class ArboricultureClientHandler implements IClientModuleHandler {
 	@Override

@@ -1,16 +1,12 @@
 package forestry.api.genetics;
 
 import com.google.common.collect.ImmutableList;
-
-import java.util.Collection;
-import java.util.List;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.genetics.alleles.AllelePair;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.genetics.alleles.AllelePair;
+import java.util.List;
 
 /**
  * Represents a mutation between two species (in any order) into a third species.

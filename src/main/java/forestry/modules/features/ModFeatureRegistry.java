@@ -2,20 +2,13 @@ package forestry.modules.features;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.LinkedListMultimap;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
-
+import forestry.api.core.IBlockSubtype;
+import forestry.api.core.IItemSubtype;
+import forestry.api.storage.EnumBackpackType;
+import forestry.api.storage.IBackpackDefinition;
+import forestry.core.utils.ModUtil;
+import forestry.modules.ModuleUtil;
+import forestry.storage.ModuleStorage;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,20 +26,15 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegisterEvent;
 
-import forestry.api.core.IBlockSubtype;
-import forestry.api.core.IItemSubtype;
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
-import forestry.core.utils.ModUtil;
-import forestry.modules.ModuleUtil;
-import forestry.storage.ModuleStorage;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.function.*;
 
 public class ModFeatureRegistry {
 	// Maps module id to feature (needed because of Binnie)
@@ -66,7 +54,7 @@ public class ModFeatureRegistry {
 	}
 
 	public void postRegistry(RegisterEvent event) {
-		for (ModuleFeatureRegistry features : modules.values()) {
+		for (ModuleFeatureRegistry features : this.modules.values()) {
 			features.postRegistry(event);
 		}
 	}
@@ -84,7 +72,7 @@ public class ModFeatureRegistry {
 	}
 
 	public Map<ResourceLocation, IFeatureRegistry> getModules() {
-		return Collections.unmodifiableMap(modules);
+		return Collections.unmodifiableMap(this.modules);
 	}
 
 	private static class ModuleFeatureRegistry implements IFeatureRegistry {
@@ -106,7 +94,7 @@ public class ModFeatureRegistry {
 		@SuppressWarnings("unchecked")
 		public <V> DeferredRegister<V> getRegistry(ResourceKey<? extends Registry<V>> registryKey) {
 			String modId = this.moduleId.getNamespace();
-			return registries.computeIfAbsent(registryKey, key -> {
+			return this.registries.computeIfAbsent(registryKey, key -> {
 				DeferredRegister<V> registry = DeferredRegister.create(key, modId);
 				registry.register(this.modBus);
 				return registry;
@@ -147,7 +135,7 @@ public class ModFeatureRegistry {
 
 		@Override
 		public <I extends Item> FeatureItem<I> item(Supplier<I> constructor, String name) {
-			return register(new FeatureItem<>(this, moduleId, name, constructor));
+			return register(new FeatureItem<>(this, this.moduleId, name, constructor));
 		}
 
 		@Override
@@ -187,7 +175,7 @@ public class ModFeatureRegistry {
 
 		@Override
 		public FeatureFluid.Builder fluid(String identifier) {
-			return new FeatureFluid.Builder(this, moduleId, identifier);
+			return new FeatureFluid.Builder(this, this.moduleId, identifier);
 		}
 
 		@Override
@@ -207,19 +195,19 @@ public class ModFeatureRegistry {
 		}
 
 		public <F extends IModFeature> F register(F feature) {
-			features.add(feature);
-			featureByRegistry.put(feature.getRegistry(), feature);
+            this.features.add(feature);
+            this.featureByRegistry.put(feature.getRegistry(), feature);
 			return feature;
 		}
 
 		@Override
 		public <T extends BlockEntity> FeatureTileType<T> tile(BlockEntityType.BlockEntitySupplier<T> constructor, String identifier, Supplier<Collection<? extends Block>> validBlocks) {
-			return register(new FeatureTileType<>(this, moduleId, identifier, constructor, validBlocks));
+			return register(new FeatureTileType<>(this, this.moduleId, identifier, constructor, validBlocks));
 		}
 
 		@Override
 		public <C extends AbstractContainerMenu> FeatureMenuType<C> menuType(IContainerFactory<C> factory, String identifier) {
-			return register(new FeatureMenuType<>(this, moduleId, identifier, factory));
+			return register(new FeatureMenuType<>(this, this.moduleId, identifier, factory));
 		}
 
 		@Override
@@ -234,22 +222,22 @@ public class ModFeatureRegistry {
 
 		@Override
 		public <E extends Entity> FeatureEntityType<E> entity(EntityType.EntityFactory<E> factory, MobCategory classification, String identifier, UnaryOperator<EntityType.Builder<E>> consumer, Supplier<AttributeSupplier.Builder> attributes) {
-			return register(new FeatureEntityType<>(this, moduleId, identifier, consumer, factory, classification, attributes));
+			return register(new FeatureEntityType<>(this, this.moduleId, identifier, consumer, factory, classification, attributes));
 		}
 
 		@Override
 		public FeatureCreativeTab creativeTab(String id, Consumer<CreativeModeTab.Builder> builder) {
-			return register(new FeatureCreativeTab(this, moduleId, id, builder));
+			return register(new FeatureCreativeTab(this, this.moduleId, id, builder));
 		}
 
 		@Override
 		public Collection<IModFeature> getFeatures() {
-			return features;
+			return this.features;
 		}
 
 		@Override
 		public Collection<IModFeature> getFeatures(ResourceKey<? extends Registry<?>> type) {
-			return featureByRegistry.get(type);
+			return this.featureByRegistry.get(type);
 		}
 
 		@Override
@@ -259,7 +247,7 @@ public class ModFeatureRegistry {
 
 		// this method is called at a LOW priority
 		public void postRegistry(RegisterEvent event) {
-			for (Consumer<RegisterEvent> listener : registryListeners.get(event.getRegistryKey())) {
+			for (Consumer<RegisterEvent> listener : this.registryListeners.get(event.getRegistryKey())) {
 				listener.accept(event);
 			}
 		}

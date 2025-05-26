@@ -1,9 +1,9 @@
 package forestry.api.core.tooltips;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+
+import javax.annotation.Nullable;
 
 /**
  * Helper class to allow simple appending of siblings to a text collection.
@@ -20,19 +20,19 @@ public class TextCompound implements ITextInstance<TextCompound, TextCompound, T
 	@Nullable
 	@Override
 	public Component lastComponent() {
-		return root;
+		return this.root;
 	}
 
 	@Override
 	public TextCompound add(Component line) {
-		if (root == null) {
+		if (this.root == null) {
 			if (!(line instanceof MutableComponent)) {
 				return this;
 			}
-			root = (MutableComponent) line;
+            this.root = (MutableComponent) line;
 			return this;
 		}
-		root.append(line);
+        this.root.append(line);
 		return this;
 	}
 
@@ -48,14 +48,14 @@ public class TextCompound implements ITextInstance<TextCompound, TextCompound, T
 
 	@Override
 	public TextCollection create() {
-		if (root != null) {
-			parent.add(root);
+		if (this.root != null) {
+            this.parent.add(this.root);
 		}
-		return parent;
+		return this.parent;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return root == null;
+		return this.root == null;
 	}
 }

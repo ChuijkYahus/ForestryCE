@@ -13,11 +13,7 @@
 package forestry.core.models;
 
 import com.google.common.collect.ImmutableList;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-
+import com.mojang.math.Transformation;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -28,15 +24,15 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-
-import com.mojang.math.Transformation;
-
 import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.util.TransformationHelper;
-
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 // for those wondering TRSR stands for Translation Rotation Scale Rotation
 public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
@@ -55,9 +51,9 @@ public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
 
 	public TRSRBakedModel(BakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ) {
 		this(original, new Transformation(new Vector3f(x, y, z),
-				null,
-				new Vector3f(scaleX, scaleY, scaleZ),
-				TransformationHelper.quatFromXYZ(rotX, rotY, rotZ, false)));
+			null,
+			new Vector3f(scaleX, scaleY, scaleZ),
+			TransformationHelper.quatFromXYZ(rotX, rotY, rotZ, false)));
 	}
 
 	public TRSRBakedModel(BakedModel original, Transformation transform) {

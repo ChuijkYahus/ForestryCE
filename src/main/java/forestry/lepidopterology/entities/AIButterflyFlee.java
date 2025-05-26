@@ -10,11 +10,10 @@
  ******************************************************************************/
 package forestry.lepidopterology.entities;
 
-import java.util.EnumSet;
-
+import forestry.api.genetics.alleles.ButterflyChromosomes;
 import net.minecraft.world.entity.player.Player;
 
-import forestry.api.genetics.alleles.ButterflyChromosomes;
+import java.util.EnumSet;
 
 public class AIButterflyFlee extends AIButterflyMovement {
 	public AIButterflyFlee(EntityButterfly entity) {
@@ -24,27 +23,27 @@ public class AIButterflyFlee extends AIButterflyMovement {
 
 	@Override
 	public boolean canUse() {
-		Player player = entity.level().getNearestPlayer(entity, entity.getButterfly().getGenome().getActiveValue(ButterflyChromosomes.SPECIES).getFlightDistance());
+		Player player = this.entity.level().getNearestPlayer(this.entity, this.entity.getButterfly().getGenome().getActiveValue(ButterflyChromosomes.SPECIES).getFlightDistance());
 
 		if (player == null || player.isShiftKeyDown()) {
 			return false;
 		}
 
-		if (!entity.getSensing().hasLineOfSight(player)) {
+		if (!this.entity.getSensing().hasLineOfSight(player)) {
 			return false;
 		}
 
-		flightTarget = getRandomDestination();
-		if (flightTarget == null) {
+        this.flightTarget = getRandomDestination();
+		if (this.flightTarget == null) {
 			return false;
 		}
 
-		if (player.distanceToSqr(flightTarget.x, flightTarget.y, flightTarget.z) < player.distanceTo(entity)) {
+		if (player.distanceToSqr(this.flightTarget.x, this.flightTarget.y, this.flightTarget.z) < player.distanceTo(this.entity)) {
 			return false;
 		}
 
-		entity.setDestination(flightTarget);
-		entity.setState(EnumButterflyState.FLYING);
+        this.entity.setDestination(this.flightTarget);
+        this.entity.setState(EnumButterflyState.FLYING);
 		return true;
 	}
 

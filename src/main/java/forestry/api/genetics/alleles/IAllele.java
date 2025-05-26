@@ -1,10 +1,8 @@
 package forestry.api.genetics.alleles;
 
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.serialization.Codec;
-
 import forestry.api.IForestryApi;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Alleles represent named values of a {@link IChromosome} in a genome.

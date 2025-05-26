@@ -1,9 +1,5 @@
 package forestry.arboriculture.features;
 
-import java.util.stream.Stream;
-
-import net.minecraft.world.level.block.entity.SignBlockEntity;
-
 import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.tiles.TileFruitPod;
 import forestry.arboriculture.tiles.TileLeaves;
@@ -12,6 +8,9 @@ import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
+
+import java.util.stream.Stream;
 
 @FeatureProvider
 public class ArboricultureTiles {

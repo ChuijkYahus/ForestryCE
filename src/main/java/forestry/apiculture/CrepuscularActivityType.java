@@ -1,11 +1,10 @@
 package forestry.apiculture;
 
-import net.minecraft.core.BlockPos;
-
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.LightPreference;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
+import net.minecraft.core.BlockPos;
 
 public class CrepuscularActivityType implements IActivityType {
 	@Override

@@ -28,13 +28,13 @@ public enum BlockTypeFactoryPlain implements IBlockType {
 
 	<T extends TileForestry> BlockTypeFactoryPlain(FeatureTileType<T> teClass, String name, IForestryTicker<T> serverTicker) {
 		this.machineProperties = new MachineProperties.Builder<>(teClass, name)
-				.setServerTicker(serverTicker)
-				.create();
+			.setServerTicker(serverTicker)
+			.create();
 	}
 
 	@Override
 	public IMachineProperties<?> getMachineProperties() {
-		return machineProperties;
+		return this.machineProperties;
 	}
 
 	@Override

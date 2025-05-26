@@ -1,14 +1,12 @@
 package forestry.modules;
 
-import java.util.List;
-
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import forestry.api.modules.ForestryModuleIds;
+import forestry.api.modules.IForestryModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
-import forestry.api.modules.ForestryModuleIds;
-import forestry.api.modules.IForestryModule;
+import java.util.List;
 
 public abstract class BlankForestryModule implements IForestryModule {
 	@Override

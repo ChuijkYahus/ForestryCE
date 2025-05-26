@@ -28,10 +28,10 @@ public class CommandTree {
 		ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
 
 		return Commands.literal("tree")
-				.then(CommandTreeSpawn.register("spawnTree", new TreeSpawner()))
-				.then(CommandTreeSpawn.register("spawnForest", new ForestSpawner()))
-				.then(CommandSaveStats.register(saveHelper))
-				.then(GiveSpeciesCommand.register(type))
-				.then(ModifyGenomeCommand.register(type));
+			.then(CommandTreeSpawn.register("spawnTree", new TreeSpawner()))
+			.then(CommandTreeSpawn.register("spawnForest", new ForestSpawner()))
+			.then(CommandSaveStats.register(saveHelper))
+			.then(GiveSpeciesCommand.register(type))
+			.then(ModifyGenomeCommand.register(type));
 	}
 }

@@ -1,13 +1,11 @@
 package forestry.core.commands;
 
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import forestry.api.IForestryApi;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.alleles.IAllele;
+import net.minecraft.resources.ResourceLocation;
 
 public record AlleleArgument(ISpeciesType<?, ?> type) implements ISpeciesArgumentType<IAllele> {
 	@Override

@@ -1,9 +1,8 @@
 package forestry.api.genetics.alleles;
 
-import net.minecraft.util.RandomSource;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.util.RandomSource;
 
 /**
  * A pair of an active allele and an inactive allele, for use in a {@link forestry.api.genetics.IGenome}.
@@ -14,8 +13,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
  */
 public record AllelePair<A extends IAllele>(A active, A inactive) {
 	public static final Codec<AllelePair<?>> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			IAllele.CODEC.fieldOf("active").forGetter(AllelePair::active),
-			IAllele.CODEC.fieldOf("inactive").forGetter(AllelePair::inactive)
+		IAllele.CODEC.fieldOf("active").forGetter(AllelePair::active),
+		IAllele.CODEC.fieldOf("inactive").forGetter(AllelePair::inactive)
 	).apply(instance, AllelePair::new));
 
 	/**

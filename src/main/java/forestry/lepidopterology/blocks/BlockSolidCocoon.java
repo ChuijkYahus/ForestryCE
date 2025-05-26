@@ -10,13 +10,10 @@
  ******************************************************************************/
 package forestry.lepidopterology.blocks;
 
-import javax.annotation.Nullable;
-
-import java.util.List;
-
+import forestry.core.utils.ItemStackUtil;
+import forestry.lepidopterology.tiles.TileCocoon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -32,15 +29,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import forestry.core.utils.ItemStackUtil;
-import forestry.lepidopterology.tiles.TileCocoon;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class BlockSolidCocoon extends Block implements EntityBlock {
 	public BlockSolidCocoon() {
 		super(Block.Properties.of()
-				.strength(0.5F)
-				.randomTicks()
-				.sound(SoundType.GRAVEL));
+			.strength(0.5F)
+			.randomTicks()
+			.sound(SoundType.GRAVEL));
 		registerDefaultState(getStateDefinition().any().setValue(BlockCocoon.AGE, 0));
 	}
 

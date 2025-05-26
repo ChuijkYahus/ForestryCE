@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.apiculture.items;
 
-import java.awt.Color;
-import java.util.Locale;
-
-import net.minecraft.util.StringRepresentable;
-
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
+import net.minecraft.util.StringRepresentable;
+
+import java.awt.*;
+import java.util.Locale;
 
 public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSubtype {
 	HONEY(new Color(0xe8d56a), new Color(0xffa12b)),
@@ -60,7 +59,7 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 
 	@Override
 	public String getSerializedName() {
-		return name;
+		return this.name;
 	}
 
 	public static EnumHoneyComb get(int meta) {

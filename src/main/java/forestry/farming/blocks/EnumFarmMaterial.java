@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.farming.blocks;
 
-import java.util.Locale;
-
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import forestry.api.core.IBlockSubtype;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
-import forestry.api.core.IBlockSubtype;
+import java.util.Locale;
 
 public enum EnumFarmMaterial implements IBlockSubtype {
 	STONE_BRICK(Blocks.STONE_BRICKS, ChatFormatting.DARK_GRAY),
@@ -42,7 +41,7 @@ public enum EnumFarmMaterial implements IBlockSubtype {
 	}
 
 	public ChatFormatting getFormatting() {
-		return formatting;
+		return this.formatting;
 	}
 
 	public void saveToCompound(CompoundTag compound) {
@@ -50,7 +49,7 @@ public enum EnumFarmMaterial implements IBlockSubtype {
 	}
 
 	public Component getDisplayName() {
-		return base.getName();
+		return this.base.getName();
 	}
 
 	@Override
@@ -59,6 +58,6 @@ public enum EnumFarmMaterial implements IBlockSubtype {
 	}
 
 	public Block getBase() {
-		return base;
+		return this.base;
 	}
 }

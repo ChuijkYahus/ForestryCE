@@ -1,15 +1,14 @@
 package forestry.api.plugin;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.apiculture.hives.IHiveDrop;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public interface IHiveBuilder {
 	default IHiveBuilder addDrop(double chance, ResourceLocation speciesId, Supplier<List<ItemStack>> extraItems) {
@@ -42,6 +41,7 @@ public interface IHiveBuilder {
 
 	/**
 	 * Changes the generation chance of the hive.
+	 *
 	 * @since 1.1.1
 	 */
 	void setGenerationChance(float generationChance);

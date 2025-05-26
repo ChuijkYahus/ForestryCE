@@ -10,40 +10,16 @@
  ******************************************************************************/
 package forestry.factory.tiles;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-
+import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.fuels.FermenterFuel;
 import forestry.api.fuels.FuelManager;
 import forestry.api.recipes.IFermenterRecipe;
 import forestry.api.recipes.IVariableFermentable;
-import forestry.core.fluids.FluidRecipeFilter;
 import forestry.core.config.Constants;
-import forestry.api.core.ForestryError;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidHelper;
+import forestry.core.fluids.FluidRecipeFilter;
 import forestry.core.fluids.TankManager;
 import forestry.core.render.TankRenderInfo;
 import forestry.core.tiles.ILiquidTankTile;
@@ -52,6 +28,28 @@ import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerFermenter;
 import forestry.factory.inventory.InventoryFermenter;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import javax.annotation.Nullable;
 
 public class TileFermenter extends TilePowered implements WorldlyContainer, ILiquidTankTile {
 	private final FilteredTank resourceTank;
@@ -81,39 +79,39 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
 
-		compoundNBT.putInt("FermentationTime", fermentationTime);
-		compoundNBT.putInt("FermentationTotalTime", fermentationTotalTime);
-		compoundNBT.putInt("FuelBurnTime", fuelBurnTime);
-		compoundNBT.putInt("FuelTotalTime", fuelTotalTime);
-		compoundNBT.putInt("FuelCurrentFerment", fuelCurrentFerment);
+		compoundNBT.putInt("FermentationTime", this.fermentationTime);
+		compoundNBT.putInt("FermentationTotalTime", this.fermentationTotalTime);
+		compoundNBT.putInt("FuelBurnTime", this.fuelBurnTime);
+		compoundNBT.putInt("FuelTotalTime", this.fuelTotalTime);
+		compoundNBT.putInt("FuelCurrentFerment", this.fuelCurrentFerment);
 
-		tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT);
 	}
 
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
 
-		fermentationTime = compoundNBT.getInt("FermentationTime");
-		fermentationTotalTime = compoundNBT.getInt("FermentationTotalTime");
-		fuelBurnTime = compoundNBT.getInt("FuelBurnTime");
-		fuelTotalTime = compoundNBT.getInt("FuelTotalTime");
-		fuelCurrentFerment = compoundNBT.getInt("FuelCurrentFerment");
+        this.fermentationTime = compoundNBT.getInt("FermentationTime");
+        this.fermentationTotalTime = compoundNBT.getInt("FermentationTotalTime");
+        this.fuelBurnTime = compoundNBT.getInt("FuelBurnTime");
+        this.fuelTotalTime = compoundNBT.getInt("FuelTotalTime");
+        this.fuelCurrentFerment = compoundNBT.getInt("FuelCurrentFerment");
 
-		tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT);
 	}
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
-		tankManager.writeData(data);
+        this.tankManager.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		tankManager.readData(data);
+        this.tankManager.readData(data);
 	}
 
 	@Override
@@ -121,66 +119,66 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		super.serverTick(level, pos, state);
 
 		if (updateOnInterval(20)) {
-			FluidHelper.drainContainers(tankManager, this, InventoryFermenter.SLOT_INPUT);
+			FluidHelper.drainContainers(this.tankManager, this, InventoryFermenter.SLOT_INPUT);
 
-			FluidStack fluidStack = productTank.getFluid();
+			FluidStack fluidStack = this.productTank.getFluid();
 			if (fluidStack != null) {
-				FluidHelper.fillContainers(tankManager, this, InventoryFermenter.SLOT_CAN_INPUT, InventoryFermenter.SLOT_CAN_OUTPUT, fluidStack.getFluid(), true);
+				FluidHelper.fillContainers(this.tankManager, this, InventoryFermenter.SLOT_CAN_INPUT, InventoryFermenter.SLOT_CAN_OUTPUT, fluidStack.getFluid(), true);
 			}
 		}
 	}
 
 	@Override
 	public boolean workCycle() {
-		if (currentRecipe == null) {
+		if (this.currentRecipe == null) {
 			return false;
 		}
 
-		int fermented = Math.min(fermentationTime, fuelCurrentFerment);
-		int productAmount = Math.round(fermented * currentRecipe.getModifier() * currentResourceModifier);
-		productTank.fillInternal(new FluidStack(currentRecipe.getOutput(), productAmount), IFluidHandler.FluidAction.EXECUTE);
+		int fermented = Math.min(this.fermentationTime, this.fuelCurrentFerment);
+		int productAmount = Math.round(fermented * this.currentRecipe.getModifier() * this.currentResourceModifier);
+        this.productTank.fillInternal(new FluidStack(this.currentRecipe.getOutput(), productAmount), IFluidHandler.FluidAction.EXECUTE);
 
-		fuelBurnTime--;
-		resourceTank.drain(fermented, IFluidHandler.FluidAction.EXECUTE);
-		fermentationTime -= fermented;
+        this.fuelBurnTime--;
+        this.resourceTank.drain(fermented, IFluidHandler.FluidAction.EXECUTE);
+        this.fermentationTime -= fermented;
 
 		// Not done yet
-		if (fermentationTime > 0) {
+		if (this.fermentationTime > 0) {
 			return false;
 		}
 
-		currentRecipe = null;
+        this.currentRecipe = null;
 		return true;
 	}
 
 	private void checkRecipe() {
-		if (currentRecipe != null) {
+		if (this.currentRecipe != null) {
 			return;
 		}
 
 		ItemStack resource = getItem(InventoryFermenter.SLOT_RESOURCE);
-		FluidStack fluid = resourceTank.getFluid();
+		FluidStack fluid = this.resourceTank.getFluid();
 
 		if (!fluid.isEmpty()) {
-			currentRecipe = RecipeUtils.getFermenterRecipe(this.level.getRecipeManager(), resource, fluid);
+            this.currentRecipe = RecipeUtils.getFermenterRecipe(this.level.getRecipeManager(), resource, fluid);
 		}
 
-		fermentationTotalTime = fermentationTime = currentRecipe == null ? 0 : currentRecipe.getFermentationValue();
+        this.fermentationTotalTime = this.fermentationTime = this.currentRecipe == null ? 0 : this.currentRecipe.getFermentationValue();
 
-		if (currentRecipe != null) {
-			currentResourceModifier = determineResourceMod(resource);
+		if (this.currentRecipe != null) {
+            this.currentResourceModifier = determineResourceMod(resource);
 			removeItem(InventoryFermenter.SLOT_RESOURCE, 1);
 		}
 	}
 
 	private void checkFuel() {
-		if (fuelBurnTime <= 0) {
+		if (this.fuelBurnTime <= 0) {
 			ItemStack fuel = getItem(InventoryFermenter.SLOT_FUEL);
 			if (!fuel.isEmpty()) {
 				FermenterFuel fermenterFuel = FuelManager.fermenterFuel.get(fuel);
 				if (fermenterFuel != null) {
-					fuelBurnTime = fuelTotalTime = fermenterFuel.burnDuration();
-					fuelCurrentFerment = fermenterFuel.fermentPerCycle();
+                    this.fuelBurnTime = this.fuelTotalTime = fermenterFuel.burnDuration();
+                    this.fuelCurrentFerment = fermenterFuel.fermentPerCycle();
 
 					removeItem(InventoryFermenter.SLOT_FUEL, 1);
 				}
@@ -220,20 +218,20 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		checkRecipe();
 		checkFuel();
 
-		int fermented = Math.min(fermentationTime, fuelCurrentFerment);
+		int fermented = Math.min(this.fermentationTime, this.fuelCurrentFerment);
 
-		boolean hasRecipe = currentRecipe != null;
-		boolean hasFuel = fuelBurnTime > 0;
-		boolean hasResource = fermentationTime > 0 || !getItem(InventoryFermenter.SLOT_RESOURCE).isEmpty();
-		FluidStack drained = resourceTank.drain(fermented, IFluidHandler.FluidAction.SIMULATE);
+		boolean hasRecipe = this.currentRecipe != null;
+		boolean hasFuel = this.fuelBurnTime > 0;
+		boolean hasResource = this.fermentationTime > 0 || !getItem(InventoryFermenter.SLOT_RESOURCE).isEmpty();
+		FluidStack drained = this.resourceTank.drain(fermented, IFluidHandler.FluidAction.SIMULATE);
 		boolean hasFluidResource = !drained.isEmpty() && drained.getAmount() == fermented;
 		boolean hasFluidSpace = true;
 
 		if (hasRecipe) {
-			int productAmount = Math.round(fermented * currentRecipe.getModifier() * currentResourceModifier);
-			Fluid output = currentRecipe.getOutput();
+			int productAmount = Math.round(fermented * this.currentRecipe.getModifier() * this.currentResourceModifier);
+			Fluid output = this.currentRecipe.getOutput();
 			FluidStack fluidStack = new FluidStack(output, productAmount);
-			hasFluidSpace = productTank.fillInternal(fluidStack, IFluidHandler.FluidAction.SIMULATE) == fluidStack.getAmount();
+			hasFluidSpace = this.productTank.fillInternal(fluidStack, IFluidHandler.FluidAction.SIMULATE) == fluidStack.getAmount();
 		}
 
 		IErrorLogic errorLogic = getErrorLogic();
@@ -247,52 +245,52 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 	}
 
 	public int getBurnTimeRemainingScaled(int i) {
-		if (fuelTotalTime == 0) {
+		if (this.fuelTotalTime == 0) {
 			return 0;
 		}
 
-		return fuelBurnTime * i / fuelTotalTime;
+		return this.fuelBurnTime * i / this.fuelTotalTime;
 	}
 
 	public int getFermentationProgressScaled(int i) {
-		if (fermentationTotalTime == 0) {
+		if (this.fermentationTotalTime == 0) {
 			return 0;
 		}
 
-		return fermentationTime * i / fermentationTotalTime;
+		return this.fermentationTime * i / this.fermentationTotalTime;
 	}
 
 	@Override
 	public TankRenderInfo getResourceTankInfo() {
-		return new TankRenderInfo(resourceTank);
+		return new TankRenderInfo(this.resourceTank);
 	}
 
 	@Override
 	public TankRenderInfo getProductTankInfo() {
-		return new TankRenderInfo(productTank);
+		return new TankRenderInfo(this.productTank);
 	}
 
 	/* SMP GUI */
 	public void getGUINetworkData(int i, int j) {
 		switch (i) {
-			case 0 -> fuelBurnTime = j;
-			case 1 -> fuelTotalTime = j;
-			case 2 -> fermentationTime = j;
-			case 3 -> fermentationTotalTime = j;
+			case 0 -> this.fuelBurnTime = j;
+			case 1 -> this.fuelTotalTime = j;
+			case 2 -> this.fermentationTime = j;
+			case 3 -> this.fermentationTotalTime = j;
 		}
 	}
 
 	public void sendGUINetworkData(AbstractContainerMenu container, ContainerListener iCrafting) {
-		iCrafting.dataChanged(container, 0, fuelBurnTime);
-		iCrafting.dataChanged(container, 1, fuelTotalTime);
-		iCrafting.dataChanged(container, 2, fermentationTime);
-		iCrafting.dataChanged(container, 3, fermentationTotalTime);
+		iCrafting.dataChanged(container, 0, this.fuelBurnTime);
+		iCrafting.dataChanged(container, 1, this.fuelTotalTime);
+		iCrafting.dataChanged(container, 2, this.fermentationTime);
+		iCrafting.dataChanged(container, 3, this.fermentationTotalTime);
 	}
 
 
 	@Override
 	public TankManager getTankManager() {
-		return tankManager;
+		return this.tankManager;
 	}
 
 	@Override
@@ -303,7 +301,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> tankManager).cast();
+			return LazyOptional.of(() -> this.tankManager).cast();
 		}
 		return super.getCapability(capability, facing);
 	}

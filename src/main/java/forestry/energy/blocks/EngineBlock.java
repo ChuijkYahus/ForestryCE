@@ -1,5 +1,10 @@
 package forestry.energy.blocks;
 
+import forestry.core.blocks.BlockBase;
+import forestry.core.tiles.TileUtil;
+import forestry.energy.EnergyHelper;
+import forestry.energy.ForestryEnergyStorage;
+import forestry.energy.tiles.EngineBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -16,13 +21,6 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import forestry.core.blocks.BlockBase;
-import forestry.core.tiles.TileUtil;
-import forestry.energy.EnergyHelper;
-import forestry.energy.ForestryEnergyStorage;
-import forestry.energy.tiles.EngineBlockEntity;
-
 import org.jetbrains.annotations.Nullable;
 
 public class EngineBlock extends BlockBase<EngineBlockType> {

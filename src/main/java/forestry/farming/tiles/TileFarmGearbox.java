@@ -10,23 +10,21 @@
  ******************************************************************************/
 package forestry.farming.tiles;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
-
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-
 import forestry.api.multiblock.IFarmComponent;
 import forestry.api.multiblock.IFarmController;
 import forestry.energy.EnergyHelper;
 import forestry.energy.ForestryEnergyStorage;
 import forestry.farming.features.FarmingTiles;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.IEnergyStorage;
+
+import javax.annotation.Nullable;
 
 public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	private static final int WORK_CYCLES = 4;
@@ -43,7 +41,7 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 		super(FarmingTiles.GEARBOX.tileType(), pos, state);
 
 		this.energyStorage = new ForestryEnergyStorage(200, 10000);
-		this.energyCap = LazyOptional.of(() -> energyStorage);
+		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 	}
 
 	/* SAVING & LOADING */
@@ -51,10 +49,10 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
 
-		energyStorage.read(compoundNBT);
+        this.energyStorage.read(compoundNBT);
 
-		activationDelay = compoundNBT.getInt("ActivationDelay");
-		previousDelays = compoundNBT.getInt("PrevDelays");
+        this.activationDelay = compoundNBT.getInt("ActivationDelay");
+        this.previousDelays = compoundNBT.getInt("PrevDelays");
 	}
 
 
@@ -62,37 +60,37 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
 
-		energyStorage.write(compoundNBT);
+        this.energyStorage.write(compoundNBT);
 
-		compoundNBT.putInt("ActivationDelay", activationDelay);
-		compoundNBT.putInt("PrevDelays", previousDelays);
+		compoundNBT.putInt("ActivationDelay", this.activationDelay);
+		compoundNBT.putInt("PrevDelays", this.previousDelays);
 	}
 
 	@Override
 	public void updateServer(int tickCount) {
-		if (energyStorage.getEnergyStored() <= 0) {
+		if (this.energyStorage.getEnergyStored() <= 0) {
 			return;
 		}
 
-		if (activationDelay > 0) {
-			activationDelay--;
+		if (this.activationDelay > 0) {
+            this.activationDelay--;
 			return;
 		}
 
 		// Hard limit to 4 cycles / second.
-		if (workCounter < WORK_CYCLES && EnergyHelper.consumeEnergyToDoWork(energyStorage, WORK_CYCLES, ENERGY_PER_OPERATION)) {
-			workCounter++;
+		if (this.workCounter < WORK_CYCLES && EnergyHelper.consumeEnergyToDoWork(this.energyStorage, WORK_CYCLES, ENERGY_PER_OPERATION)) {
+            this.workCounter++;
 		}
 
-		if (workCounter >= WORK_CYCLES && tickCount % 5 == 0) {
+		if (this.workCounter >= WORK_CYCLES && tickCount % 5 == 0) {
 			IFarmController farmController = getMultiblockLogic().getController();
 			if (farmController.doWork()) {
-				workCounter = 0;
-				previousDelays = 0;
+                this.workCounter = 0;
+                this.previousDelays = 0;
 			} else {
 				// If the central TE doesn't have work, we add to the activation delay to throttle the CPU usage.
-				activationDelay = Math.min(10 * previousDelays, 120);
-				previousDelays++; // First delay is free!
+                this.activationDelay = Math.min(10 * this.previousDelays, 120);
+                this.previousDelays++; // First delay is free!
 			}
 		}
 	}
@@ -103,13 +101,13 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	}
 
 	public ForestryEnergyStorage getEnergyManager() {
-		return energyStorage;
+		return this.energyStorage;
 	}
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction facing) {
-		if (!remove && cap == ForgeCapabilities.ENERGY) {
-			return energyCap.cast();
+		if (!this.remove && cap == ForgeCapabilities.ENERGY) {
+			return this.energyCap.cast();
 		}
 		return super.getCapability(cap, facing);
 	}
@@ -117,6 +115,6 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	@Override
 	public void invalidateCaps() {
 		super.invalidateCaps();
-		energyCap.invalidate();
+        this.energyCap.invalidate();
 	}
 }

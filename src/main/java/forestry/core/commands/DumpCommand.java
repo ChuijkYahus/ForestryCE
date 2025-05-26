@@ -3,23 +3,8 @@ package forestry.core.commands;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.biome.Biome;
-
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-
 import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -38,16 +23,28 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.modules.features.FeatureItem;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.items.ItemBackpack;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.Biome;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 // Used to dump currently registered Forestry data
 public class DumpCommand {
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
 		return Commands.literal("dump")
-				.then(Commands.literal("mutations").executes(DumpCommand::mutations))
-				.then(Commands.literal("climates").executes(DumpCommand::climates))
-				.then(Commands.literal("backpacks").executes(DumpCommand::backpacks))
-				.then(Commands.literal("bee_species").executes(DumpCommand::beeSpecies))
-				.then(Commands.literal("chromosomes").executes(DumpCommand::chromosomes));
+			.then(Commands.literal("mutations").executes(DumpCommand::mutations))
+			.then(Commands.literal("climates").executes(DumpCommand::climates))
+			.then(Commands.literal("backpacks").executes(DumpCommand::backpacks))
+			.then(Commands.literal("bee_species").executes(DumpCommand::beeSpecies))
+			.then(Commands.literal("chromosomes").executes(DumpCommand::chromosomes));
 	}
 
 	// Dumps all registered mutations
@@ -68,7 +65,7 @@ public class DumpCommand {
 
 	private static int climates(CommandContext<CommandSourceStack> ctx) {
 		List<Holder.Reference<Biome>> biomes = ctx.getSource().getLevel().registryAccess().registryOrThrow(Registries.BIOME).holders()
-				.toList();
+			.toList();
 		Forestry.LOGGER.debug("Listing Forestry climates for {} biomes", biomes.size());
 
 		Table<HumidityType, TemperatureType, List<ResourceLocation>> climates = createClimatesTable(ctx);
@@ -116,12 +113,12 @@ public class DumpCommand {
 		// is there a reason not to hardcode this?
 		@SuppressWarnings({"unchecked", "rawtypes"})
 		List<FeatureItem<ItemBackpack>> definitions = (List) List.of(
-				BackpackItems.MINER_BACKPACK,
-				BackpackItems.DIGGER_BACKPACK,
-				BackpackItems.FORESTER_BACKPACK,
-				BackpackItems.HUNTER_BACKPACK,
-				BackpackItems.ADVENTURER_BACKPACK,
-				BackpackItems.BUILDER_BACKPACK
+			BackpackItems.MINER_BACKPACK,
+			BackpackItems.DIGGER_BACKPACK,
+			BackpackItems.FORESTER_BACKPACK,
+			BackpackItems.HUNTER_BACKPACK,
+			BackpackItems.ADVENTURER_BACKPACK,
+			BackpackItems.BUILDER_BACKPACK
 		);
 
 		Forestry.LOGGER.debug("Listing Forestry backpack filters for {} backpack types (excluding Naturalist bags)", definitions.size());

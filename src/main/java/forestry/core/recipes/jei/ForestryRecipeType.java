@@ -2,14 +2,7 @@ package forestry.core.recipes.jei;
 
 import forestry.api.ForestryConstants;
 import forestry.api.fuels.RainSubstrate;
-import forestry.api.recipes.ICarpenterRecipe;
-import forestry.api.recipes.ICentrifugeRecipe;
-import forestry.api.recipes.IFabricatorRecipe;
-import forestry.api.recipes.IFermenterRecipe;
-import forestry.api.recipes.IMoistenerRecipe;
-import forestry.api.recipes.ISqueezerRecipe;
-import forestry.api.recipes.IStillRecipe;
-
+import forestry.api.recipes.*;
 import mezz.jei.api.recipe.RecipeType;
 
 public class ForestryRecipeType {

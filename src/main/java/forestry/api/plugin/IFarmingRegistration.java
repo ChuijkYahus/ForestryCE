@@ -1,14 +1,13 @@
 package forestry.api.plugin;
 
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-
+import forestry.api.farming.IFarmLogic;
+import forestry.api.farming.IFarmType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmType;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 /**
  * Register farm related data here.

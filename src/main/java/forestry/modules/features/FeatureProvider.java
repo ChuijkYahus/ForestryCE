@@ -1,13 +1,12 @@
 package forestry.modules.features;
 
+import forestry.modules.ModuleUtil;
+import net.minecraftforge.eventbus.api.IEventBus;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import net.minecraftforge.eventbus.api.IEventBus;
-
-import forestry.modules.ModuleUtil;
 
 /**
  * Annotated classes are loaded during mod construction after by {@link ModuleUtil#loadFeatureProviders}.

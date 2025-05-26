@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.farming.IFarmHousing;
 import forestry.api.farming.IFarmType;
 import forestry.api.farming.IFarmable;
 import forestry.core.utils.BlockUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class FarmLogicGourd extends FarmLogicWatered {
 	public FarmLogicGourd(IFarmType properties, boolean isManual) {
@@ -35,7 +34,7 @@ public class FarmLogicGourd extends FarmLogicWatered {
 
 			BlockState state = world.getBlockState(position);
 			if (!world.isEmptyBlock(position) && !BlockUtil.isReplaceableBlock(state, world, position)
-					|| !isValidPosition(farmHousing, direction, position, CultivationType.CROP)) {
+				|| !isValidPosition(farmHousing, direction, position, CultivationType.CROP)) {
 				continue;
 			}
 

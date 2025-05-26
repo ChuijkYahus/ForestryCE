@@ -1,21 +1,18 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
-
-import javax.annotation.Nullable;
-import java.util.function.Consumer;
-
+import forestry.core.utils.ModUtil;
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-
 import net.minecraftforge.fluids.FluidStack;
 
-import forestry.core.utils.ModUtil;
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class FermenterRecipeBuilder {
 	private Ingredient resource;
@@ -50,7 +47,7 @@ public class FermenterRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, resource, fermentationValue, modifier, output, fluidResource));
+		consumer.accept(new Result(id, this.resource, this.fermentationValue, this.modifier, this.output, this.fluidResource));
 	}
 
 	private static class Result implements FinishedRecipe {
@@ -72,16 +69,16 @@ public class FermenterRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.add("resource", resource.toJson());
-			json.addProperty("fermentationValue", fermentationValue);
-			json.addProperty("modifier", modifier);
-			json.addProperty("output", ModUtil.getRegistryName(output).toString());
-			json.add("fluidResource", RecipeSerializers.serializeFluid(fluidResource));
+			json.add("resource", this.resource.toJson());
+			json.addProperty("fermentationValue", this.fermentationValue);
+			json.addProperty("modifier", this.modifier);
+			json.addProperty("output", ModUtil.getRegistryName(this.output).toString());
+			json.add("fluidResource", RecipeSerializers.serializeFluid(this.fluidResource));
 		}
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

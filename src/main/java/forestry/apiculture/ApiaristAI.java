@@ -1,24 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
-
 package forestry.apiculture;
-
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
 
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.apiculture.blocks.BlockApiculture;
@@ -26,6 +6,14 @@ import forestry.apiculture.items.ItemBeeGE;
 import forestry.apiculture.tiles.TileBeeHouse;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.InventoryUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 
 public class ApiaristAI extends MoveToBlockGoal {
 	private final Villager villager;
@@ -41,7 +29,7 @@ public class ApiaristAI extends MoveToBlockGoal {
 	public ApiaristAI(Villager villager, double speed) {
 		super(villager, speed, 16);
 		this.villager = villager;
-		villagerInventory = villager.getInventory();
+        this.villagerInventory = villager.getInventory();
 	}
 
 	@Override
@@ -86,7 +74,7 @@ public class ApiaristAI extends MoveToBlockGoal {
 			if (inventory.getItem(SLOT_DRONE).isEmpty() || inventory.getItem(SLOT_QUEEN).isEmpty()) {
 				boolean princessAdded = false;
 				boolean droneAdded = false;
-				for (ItemStack stack : InventoryUtil.getStacks(villagerInventory)) {
+				for (ItemStack stack : InventoryUtil.getStacks(this.villagerInventory)) {
 					if (princessAdded && droneAdded) {
 						break;
 					}
@@ -106,7 +94,7 @@ public class ApiaristAI extends MoveToBlockGoal {
 			//add remaining bees to villager inventory
 			for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_PRODUCT_1, SLOT_PRODUCT_COUNT)) {
 				if (stack.getItem() instanceof ItemBeeGE) {
-					InventoryUtil.addStack(villagerInventory, stack, true);
+					InventoryUtil.addStack(this.villagerInventory, stack, true);
 				}
 			}
 		}
@@ -114,10 +102,10 @@ public class ApiaristAI extends MoveToBlockGoal {
 	}
 
 	public boolean hasBeeType(BeeLifeStage type) {
-		if (villagerInventory.isEmpty()) {
+		if (this.villagerInventory.isEmpty()) {
 			return false;
 		}
-		for (ItemStack stack : InventoryUtil.getStacks(villagerInventory)) {
+		for (ItemStack stack : InventoryUtil.getStacks(this.villagerInventory)) {
 			if (!stack.isEmpty() && stack.getItem() instanceof ItemBeeGE) {
 				if (((ItemBeeGE) stack.getItem()).getStage() == type) {
 					return true;
@@ -141,12 +129,12 @@ public class ApiaristAI extends MoveToBlockGoal {
 				if (type == BeeLifeStage.QUEEN) {
 					return false;
 				}
-				if (type == BeeLifeStage.PRINCESS && !inventory.getItem(SLOT_DRONE).isEmpty() && !hasDrone) {
+				if (type == BeeLifeStage.PRINCESS && !inventory.getItem(SLOT_DRONE).isEmpty() && !this.hasDrone) {
 					return false;
 				}
 			}
-			boolean foundPrincess = hasPrincess;
-			boolean foundDrone = hasDrone;
+			boolean foundPrincess = this.hasPrincess;
+			boolean foundDrone = this.hasDrone;
 			if (foundDrone && foundPrincess) {
 				return true;
 			}

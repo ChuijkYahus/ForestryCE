@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.FriendlyByteBuf;
-
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.multiblock.TileAlvearySwarmer;
 import forestry.core.gui.ContainerTile;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ContainerAlvearySwarmer extends ContainerTile<TileAlvearySwarmer> {
 	public static ContainerAlvearySwarmer fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {

@@ -10,6 +10,14 @@
  ******************************************************************************/
 package forestry.apiculture.items;
 
+import forestry.api.ForestryCapabilities;
+import forestry.api.ForestryConstants;
+import forestry.api.apiculture.IArmorApiarist;
+import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.apiculture.features.ApicultureItems;
+import forestry.core.config.Constants;
+import forestry.core.features.CoreItems;
+import forestry.core.items.definitions.EnumCraftingMaterial;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -22,20 +30,9 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-
-import forestry.api.ForestryCapabilities;
-import forestry.api.ForestryConstants;
-import forestry.api.apiculture.IArmorApiarist;
-import forestry.api.apiculture.genetics.IBeeEffect;
-import forestry.apiculture.features.ApicultureItems;
-import forestry.core.config.Constants;
-import forestry.core.features.CoreItems;
-import forestry.core.items.definitions.EnumCraftingMaterial;
-
 import org.jetbrains.annotations.Nullable;
 
 public class ItemArmorApiarist extends ArmorItem {
@@ -44,7 +41,7 @@ public class ItemArmorApiarist extends ArmorItem {
 
 	public static final class ApiaristArmorMaterial implements ArmorMaterial {
 		private static final int[] reductions = new int[]{1, 3, 2, 1};
-		private static final int[] DURABILITY = new int[]{11*3, 16*3, 15*3, 13*3};
+		private static final int[] DURABILITY = new int[]{11 * 3, 16 * 3, 15 * 3, 13 * 3};
 
 		@Override
 		public int getDurabilityForType(ArmorItem.Type type) {

@@ -1,15 +1,14 @@
 package forestry.core.genetics.mutations;
 
+import forestry.api.climate.IClimateProvider;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.IMutation;
+import forestry.api.genetics.IMutationCondition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-
-import forestry.api.climate.IClimateProvider;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationCondition;
 
 public class MutationConditionCave implements IMutationCondition {
 	@Override

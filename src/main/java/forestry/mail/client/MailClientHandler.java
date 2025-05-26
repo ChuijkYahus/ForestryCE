@@ -1,19 +1,11 @@
 package forestry.mail.client;
 
-import net.minecraft.client.gui.screens.MenuScreens;
-
-import net.minecraftforge.eventbus.api.IEventBus;
-
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
 import forestry.api.client.IClientModuleHandler;
 import forestry.mail.features.MailMenuTypes;
-import forestry.mail.gui.GuiCatalogue;
-import forestry.mail.gui.GuiLetter;
-import forestry.mail.gui.GuiMailbox;
-import forestry.mail.gui.GuiStampCollector;
-import forestry.mail.gui.GuiTradeName;
-import forestry.mail.gui.GuiTrader;
+import forestry.mail.gui.*;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class MailClientHandler implements IClientModuleHandler {
 	@Override

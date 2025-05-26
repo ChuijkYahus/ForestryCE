@@ -1,10 +1,9 @@
 package forestry.compat.kubejs.apiculture;
 
-import net.minecraft.core.BlockPos;
-
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.LightPreference;
 import forestry.api.core.IError;
+import net.minecraft.core.BlockPos;
 
 public record KubeActivityType(IsActiveFunction isActive, InactiveErrorFunction inactiveErrorFunction,
 							   LightPreference lightPreference, boolean dominant) implements IActivityType {

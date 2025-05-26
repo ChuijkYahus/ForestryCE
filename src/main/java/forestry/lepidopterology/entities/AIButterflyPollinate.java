@@ -21,23 +21,23 @@ public class AIButterflyPollinate extends AIButterflyInteract {
 
 	@Override
 	protected boolean canInteract() {
-		return this.rest != null && IForestryApi.INSTANCE.getPollenManager().canPollinate(entity.level(), rest, entity.getButterfly());
+		return this.rest != null && IForestryApi.INSTANCE.getPollenManager().canPollinate(this.entity.level(), this.rest, this.entity.getButterfly());
 	}
 
 	@Override
 	public void tick() {
-		if (canContinueToUse() && rest != null) {
+		if (canContinueToUse() && this.rest != null) {
 			IPollenManager pollens = IForestryApi.INSTANCE.getPollenManager();
-			IPollen<?> butterflyPollen = entity.getPollen();
+			IPollen<?> butterflyPollen = this.entity.getPollen();
 
 			if (butterflyPollen == null) {
-				entity.setPollen(pollens.getPollen(entity.level(), rest, entity.getButterfly()));
-				entity.changeExhaustion(-entity.getExhaustion());
-			} else if (butterflyPollen.tryPollinate(entity.level(), rest, entity.getPollen())) {
-				entity.setPollen(null);
+                this.entity.setPollen(pollens.getPollen(this.entity.level(), this.rest, this.entity.getButterfly()));
+                this.entity.changeExhaustion(-this.entity.getExhaustion());
+			} else if (butterflyPollen.tryPollinate(this.entity.level(), this.rest, this.entity.getPollen())) {
+                this.entity.setPollen(null);
 			}
 			setHasInteracted();
-			entity.cooldownPollination = EntityButterfly.COOLDOWNS;
+            this.entity.cooldownPollination = EntityButterfly.COOLDOWNS;
 		}
 	}
 

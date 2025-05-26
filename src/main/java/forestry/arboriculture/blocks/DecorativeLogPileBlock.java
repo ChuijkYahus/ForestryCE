@@ -15,9 +15,9 @@ public class DecorativeLogPileBlock extends RotatedPillarBlock {
 
 	public DecorativeLogPileBlock() {
 		super(Block.Properties.of()
-				.sound(SoundType.WOOD)
-				.strength(1.5f)
-				.noOcclusion());
+			.sound(SoundType.WOOD)
+			.strength(1.5f)
+			.noOcclusion());
 	}
 
 	@Override

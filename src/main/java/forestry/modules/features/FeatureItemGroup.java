@@ -1,11 +1,10 @@
 package forestry.modules.features;
 
-import java.util.ArrayList;
-import java.util.function.Function;
-
+import forestry.api.core.IItemSubtype;
 import net.minecraft.world.item.Item;
 
-import forestry.api.core.IItemSubtype;
+import java.util.ArrayList;
+import java.util.function.Function;
 
 public class FeatureItemGroup<I extends Item, S extends IItemSubtype> extends FeatureGroup<FeatureItemGroup.Builder<I, S>, FeatureItem<I>, S> {
 	public FeatureItemGroup(Builder<I, S> builder) {
@@ -13,8 +12,8 @@ public class FeatureItemGroup<I extends Item, S extends IItemSubtype> extends Fe
 	}
 
 	public ArrayList<I> getItems() {
-		ArrayList<I> items = new ArrayList<>(featureByType.size());
-		for (FeatureItem<I> value : featureByType.values()) {
+		ArrayList<I> items = new ArrayList<>(this.featureByType.size());
+		for (FeatureItem<I> value : this.featureByType.values()) {
 			items.add(value.item());
 		}
 		return items;

@@ -10,45 +10,11 @@
  ******************************************************************************/
 package forestry.core.client;
 
-import java.awt.Color;
-import java.util.Map;
-import java.util.OptionalDouble;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Unit;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.phys.Vec3;
-
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
-
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
-
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -65,31 +31,14 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.circuits.GuiSolderingIron;
 import forestry.core.config.Constants;
-import forestry.core.features.CoreBlocks;
-import forestry.core.features.CoreItems;
-import forestry.core.features.CoreMenuTypes;
-import forestry.core.features.CoreTiles;
-import forestry.core.features.FluidsItems;
+import forestry.core.features.*;
 import forestry.core.fluids.ForestryFluids;
-import forestry.core.gui.ContainerNaturalistInventory;
-import forestry.core.gui.GuiAlyzer;
-import forestry.core.gui.GuiAnalyzer;
-import forestry.core.gui.GuiEscritoire;
-import forestry.core.gui.GuiNaturalistInventory;
+import forestry.core.gui.*;
 import forestry.core.models.ClientManager;
 import forestry.core.models.FluidContainerModel;
 import forestry.core.models.ModelBlockCached;
 import forestry.core.particles.CoreParticles;
-import forestry.core.render.ColourProperties;
-import forestry.core.render.ForestryBewlr;
-import forestry.core.render.ForestryModelLayers;
-import forestry.core.render.ForestryTextureManager;
-import forestry.core.render.RenderAnalyzer;
-import forestry.core.render.RenderEngine;
-import forestry.core.render.RenderEscritoire;
-import forestry.core.render.RenderMachine;
-import forestry.core.render.RenderMill;
-import forestry.core.render.RenderNaturalistChest;
+import forestry.core.render.*;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;
 import forestry.core.utils.SpeciesUtil;
@@ -100,20 +49,40 @@ import forestry.mail.features.MailItems;
 import forestry.modules.ModuleUtil;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Unit;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.event.*;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import java.awt.*;
+import java.util.Map;
+import java.util.OptionalDouble;
 
 public class CoreClientHandler implements IClientModuleHandler {
 	public static BlockEntityWithoutLevelRenderer bewlr;
 	// Copied from RenderStateShard.java (just LINES but with NO_DEPTH_TEST)
 	public static final RenderType RENDER_TYPE_LINES_XRAY = RenderType.create("lines_xray", DefaultVertexFormat.POSITION_COLOR_NORMAL, VertexFormat.Mode.LINES, 256, false, false, RenderType.CompositeState.builder()
-			.setShaderState(RenderStateShard.RENDERTYPE_LINES_SHADER)
-			.setLineState(new RenderStateShard.LineStateShard(OptionalDouble.empty()))
-			.setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
-			.setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-			.setOutputState(RenderStateShard.OUTLINE_TARGET)
-			.setWriteMaskState(RenderStateShard.COLOR_WRITE)
-			.setCullState(RenderStateShard.NO_CULL)
-			.setDepthTestState(RenderStateShard.NO_DEPTH_TEST)
-			.createCompositeState(false));
+		.setShaderState(RenderStateShard.RENDERTYPE_LINES_SHADER)
+		.setLineState(new RenderStateShard.LineStateShard(OptionalDouble.empty()))
+		.setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
+		.setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+		.setOutputState(RenderStateShard.OUTLINE_TARGET)
+		.setWriteMaskState(RenderStateShard.COLOR_WRITE)
+		.setCullState(RenderStateShard.NO_CULL)
+		.setDepthTestState(RenderStateShard.NO_DEPTH_TEST)
+		.createCompositeState(false));
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
@@ -244,10 +213,10 @@ public class CoreClientHandler implements IClientModuleHandler {
 		// Apiculture
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureBlocks.BEE_COMB.blockArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR,
-				ApicultureItems.BEE_QUEEN.item(),
-				ApicultureItems.BEE_DRONE.item(),
-				ApicultureItems.BEE_PRINCESS.item(),
-				ApicultureItems.BEE_LARVAE.item()
+			ApicultureItems.BEE_QUEEN.item(),
+			ApicultureItems.BEE_DRONE.item(),
+			ApicultureItems.BEE_PRINCESS.item(),
+			ApicultureItems.BEE_LARVAE.item()
 		);
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.HONEY_DROP.item());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.PROPOLIS.itemArray());
@@ -268,30 +237,30 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 		// Backpacks
 		event.register(ClientManager.FORESTRY_ITEM_COLOR,
-				BackpackItems.APIARIST_BACKPACK.item(),
-				BackpackItems.ARBORIST_BACKPACK.item(),
-				BackpackItems.LEPIDOPTERIST_BACKPACK.item(),
-				BackpackItems.MINER_BACKPACK.item(),
-				BackpackItems.MINER_BACKPACK_T_2.item(),
-				BackpackItems.DIGGER_BACKPACK.item(),
-				BackpackItems.DIGGER_BACKPACK_T_2.item(),
-				BackpackItems.FORESTER_BACKPACK.item(),
-				BackpackItems.FORESTER_BACKPACK_T_2.item(),
-				BackpackItems.HUNTER_BACKPACK.item(),
-				BackpackItems.HUNTER_BACKPACK_T_2.item(),
-				BackpackItems.ADVENTURER_BACKPACK.item(),
-				BackpackItems.ADVENTURER_BACKPACK_T_2.item(),
-				BackpackItems.BUILDER_BACKPACK.item(),
-				BackpackItems.BUILDER_BACKPACK_T_2.item()
+			BackpackItems.APIARIST_BACKPACK.item(),
+			BackpackItems.ARBORIST_BACKPACK.item(),
+			BackpackItems.LEPIDOPTERIST_BACKPACK.item(),
+			BackpackItems.MINER_BACKPACK.item(),
+			BackpackItems.MINER_BACKPACK_T_2.item(),
+			BackpackItems.DIGGER_BACKPACK.item(),
+			BackpackItems.DIGGER_BACKPACK_T_2.item(),
+			BackpackItems.FORESTER_BACKPACK.item(),
+			BackpackItems.FORESTER_BACKPACK_T_2.item(),
+			BackpackItems.HUNTER_BACKPACK.item(),
+			BackpackItems.HUNTER_BACKPACK_T_2.item(),
+			BackpackItems.ADVENTURER_BACKPACK.item(),
+			BackpackItems.ADVENTURER_BACKPACK_T_2.item(),
+			BackpackItems.BUILDER_BACKPACK.item(),
+			BackpackItems.BUILDER_BACKPACK_T_2.item()
 		);
 
 		// Crates
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CrateItems.CRATED_BEE_COMBS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR,
-				CrateItems.CRATED_GRASS_BLOCK.item(),
-				CrateItems.CRATED_POLLEN_CLUSTER_NORMAL.item(),
-				CrateItems.CRATED_POLLEN_CLUSTER_CRYSTALLINE.item(),
-				CrateItems.CRATED_PROPOLIS.item());
+			CrateItems.CRATED_GRASS_BLOCK.item(),
+			CrateItems.CRATED_POLLEN_CLUSTER_NORMAL.item(),
+			CrateItems.CRATED_POLLEN_CLUSTER_CRYSTALLINE.item(),
+			CrateItems.CRATED_PROPOLIS.item());
 
 		// Mail
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, MailItems.STAMPS.itemArray());

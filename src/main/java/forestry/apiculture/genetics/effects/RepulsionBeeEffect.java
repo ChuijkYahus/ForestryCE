@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
-import java.util.List;
-
-import net.minecraft.world.entity.monster.Monster;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.apiculture.entities.AIAvoidPlayers;
+import net.minecraft.world.entity.monster.Monster;
+
+import java.util.List;
 
 public class RepulsionBeeEffect extends ThrottledBeeEffect {
 	public RepulsionBeeEffect() {

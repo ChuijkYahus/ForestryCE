@@ -1,16 +1,10 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.apiculture;
 
-import javax.annotation.Nullable;
-
+import forestry.api.apiculture.genetics.IBeeEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.apiculture.genetics.IBeeEffect;
+import javax.annotation.Nullable;
 
 /**
  * Helper class for checking whether an entity is wearing Apiarist Armor

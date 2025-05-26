@@ -10,11 +10,10 @@
  ******************************************************************************/
 package forestry.apiculture.particles;
 
-import javax.annotation.Nonnull;
-
+import com.mojang.serialization.Codec;
 import net.minecraft.core.particles.ParticleType;
 
-import com.mojang.serialization.Codec;
+import javax.annotation.Nonnull;
 
 public class BeeParticleType extends ParticleType<BeeParticleData> {
 	public BeeParticleType() {

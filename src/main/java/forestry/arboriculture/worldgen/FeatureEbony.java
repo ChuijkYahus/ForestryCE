@@ -10,16 +10,15 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import java.util.Collections;
-import java.util.Set;
-
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelAccessor;
-
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+
+import java.util.Collections;
+import java.util.Set;
 
 public class FeatureEbony extends FeatureTree {
 
@@ -31,12 +30,12 @@ public class FeatureEbony extends FeatureTree {
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		int trunksGenerated = 0;
 
-		for (int x = 0; x < girth; x++) {
-			for (int z = 0; z < girth; z++) {
+		for (int x = 0; x < this.girth; x++) {
+			for (int z = 0; z < this.girth; z++) {
 				if (rand.nextFloat() < 0.6f) {
-					for (int y = 0; y < height; y++) {
+					for (int y = 0; y < this.height; y++) {
 						FeatureHelper.addBlock(level, startPos.offset(x, y, z), wood, FeatureHelper.EnumReplaceMode.ALL);
-						if (y > height / 2 && rand.nextFloat() < 0.1f * (10 / height)) {
+						if (y > this.height / 2 && rand.nextFloat() < 0.1f * (10 / this.height)) {
 							break;
 						}
 					}
@@ -51,7 +50,7 @@ public class FeatureEbony extends FeatureTree {
 
 		// Generate backup trunk, if we failed to generate any.
 		if (trunksGenerated <= 0) {
-			FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, 1, 0, 0.6f, null, 0);
+			FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, 1, 0, 0.6f, null, 0);
 		}
 
 		return Collections.emptySet();
@@ -59,17 +58,17 @@ public class FeatureEbony extends FeatureTree {
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
-		for (int times = 0; times < 2 * height; times++) {
-			int h = 2 * girth + rand.nextInt(height - girth);
-			if (rand.nextBoolean() && h < height / 2) {
-				h = height / 2 + rand.nextInt(height / 2);
+		for (int times = 0; times < 2 * this.height; times++) {
+			int h = 2 * this.girth + rand.nextInt(this.height - this.girth);
+			if (rand.nextBoolean() && h < this.height / 2) {
+				h = this.height / 2 + rand.nextInt(this.height / 2);
 			}
 
-			int x_off = rand.nextInt(girth);
-			int y_off = rand.nextInt(girth);
+			int x_off = rand.nextInt(this.girth);
+			int y_off = rand.nextInt(this.girth);
 
 			BlockPos center = startPos.offset(x_off, h, y_off);
-			int radius = 1 + rand.nextInt(girth);
+			int radius = 1 + rand.nextInt(this.girth);
 			FeatureHelper.generateSphere(level, center, radius, leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 	}

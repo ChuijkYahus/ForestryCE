@@ -1,14 +1,12 @@
 package forestry.api.plugin;
 
+import forestry.api.genetics.ILifeStage;
+import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
+import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.List;
 import java.util.function.Consumer;
-
-import net.minecraft.world.item.Item;
-
-import forestry.api.genetics.ILifeStage;
-
-import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
-import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Used to define the karyotype, life stages, and research materials for a new type of species.

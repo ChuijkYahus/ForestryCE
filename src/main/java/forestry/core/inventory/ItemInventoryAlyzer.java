@@ -10,12 +10,6 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
-import java.util.Set;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.ForestryTags;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
@@ -23,8 +17,12 @@ import forestry.api.core.IErrorSource;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.apiculture.features.ApicultureItems;
 import forestry.core.utils.GeneticsUtil;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Set;
 
 public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 	public static final int SLOT_ENERGY = 0;
@@ -100,7 +98,7 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 				}
 
 				if (individual.analyze()) {
-					IBreedingTracker breedingTracker = individual.getType().getBreedingTracker(player.level(), player.getGameProfile());
+					IBreedingTracker breedingTracker = individual.getType().getBreedingTracker(this.player.level(), this.player.getGameProfile());
 					breedingTracker.registerSpecies(individual.getSpecies());
 					breedingTracker.registerSpecies(individual.getInactiveSpecies());
 

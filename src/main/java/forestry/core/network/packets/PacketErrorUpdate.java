@@ -10,17 +10,16 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
-
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public record PacketErrorUpdate(BlockPos pos, short[] errorStates) implements IForestryPacketClient {
 	public PacketErrorUpdate(BlockEntity tile, IErrorLogicSource errorLogicSource) {

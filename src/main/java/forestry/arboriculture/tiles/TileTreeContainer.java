@@ -10,8 +10,11 @@
  ******************************************************************************/
 package forestry.arboriculture.tiles;
 
-import javax.annotation.Nullable;
-
+import forestry.api.arboriculture.genetics.ITree;
+import forestry.core.ClientsideCode;
+import forestry.core.network.IStreamable;
+import forestry.core.utils.NBTUtilForestry;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -25,11 +28,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.core.ClientsideCode;
-import forestry.core.network.IStreamable;
-import forestry.core.utils.NBTUtilForestry;
-import forestry.core.utils.SpeciesUtil;
+import javax.annotation.Nullable;
 
 /**
  * This is the base TE class for any block that needs to contain tree genome information.
@@ -91,10 +90,9 @@ public abstract class TileTreeContainer extends BlockEntity implements IStreamab
 	public void setTree(ITree tree) {
 		this.containedTree = tree;
 
-		if (level != null && level.isClientSide) {
+		if (this.level != null && this.level.isClientSide) {
 			ClientsideCode.markForUpdate(this.worldPosition);
-			;
-		}
+        }
 	}
 
 	@Nullable

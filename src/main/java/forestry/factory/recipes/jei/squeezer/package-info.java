@@ -3,8 +3,7 @@
 @MethodsReturnNonnullByDefault
 package forestry.factory.recipes.jei.squeezer;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import forestry.core.utils.FieldsAreNonnullByDefault;
-
 import net.minecraft.MethodsReturnNonnullByDefault;
+
+import javax.annotation.ParametersAreNonnullByDefault;

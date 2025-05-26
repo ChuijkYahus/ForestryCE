@@ -10,6 +10,10 @@
  ******************************************************************************/
 package forestry.core.tiles;
 
+import forestry.api.genetics.ISpeciesType;
+import forestry.core.gui.ContainerNaturalistInventory;
+import forestry.core.gui.IPagedInventory;
+import forestry.core.inventory.InventoryNaturalistChest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -27,13 +31,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
 import net.minecraftforge.network.NetworkHooks;
-
-import forestry.api.genetics.ISpeciesType;
-import forestry.core.gui.ContainerNaturalistInventory;
-import forestry.core.gui.IPagedInventory;
-import forestry.core.inventory.InventoryNaturalistChest;
 
 public abstract class TileNaturalistChest extends TileBase implements IPagedInventory {
 	private static final float lidAngleVariationPerTick = 0.1F;
@@ -140,7 +138,7 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 		@Override
 		public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, Player player) {
-			return new ContainerNaturalistInventory(windowId, playerInv, TileNaturalistChest.this, page);
+			return new ContainerNaturalistInventory(windowId, playerInv, TileNaturalistChest.this, this.page);
 		}
 	}
 }

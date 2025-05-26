@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.inventory;
 
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
-
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraftforge.items.IItemHandler;
 
 /**
  * @author CovertJaguar <http://www.railcraft.info>
@@ -33,7 +32,7 @@ public class ItemHandlerInventoryManipulator implements Iterable<IInvSlot> {
 
 	@Override
 	public Iterator<IInvSlot> iterator() {
-		return new InvIterator(inv);
+		return new InvIterator(this.inv);
 	}
 
 	/**
@@ -80,8 +79,8 @@ public class ItemHandlerInventoryManipulator implements Iterable<IInvSlot> {
 	private boolean transferStacks(IItemHandler dest, Predicate<ItemStack> filter, boolean singleStack) {
 		ItemHandlerInventoryManipulator destManipulator = new ItemHandlerInventoryManipulator(dest);
 		boolean stacksMoved = false;
-		for (int slotIndex = 0; slotIndex < inv.getSlots(); slotIndex++) {
-			ItemStack targetStack = inv.extractItem(slotIndex, Integer.MAX_VALUE, true);
+		for (int slotIndex = 0; slotIndex < this.inv.getSlots(); slotIndex++) {
+			ItemStack targetStack = this.inv.extractItem(slotIndex, Integer.MAX_VALUE, true);
 			if (!targetStack.isEmpty() && filter.test(targetStack)) {
 				int extractStackSize = targetStack.getCount();
 				ItemStack remaining = destManipulator.tryAddStack(targetStack);
@@ -89,7 +88,7 @@ public class ItemHandlerInventoryManipulator implements Iterable<IInvSlot> {
 					extractStackSize -= remaining.getCount();
 				}
 				if (extractStackSize > 0) {
-					ItemStack extracted = inv.extractItem(slotIndex, extractStackSize, false);
+					ItemStack extracted = this.inv.extractItem(slotIndex, extractStackSize, false);
 					destManipulator.addStack(extracted);
 					stacksMoved = true;
 					if (singleStack) {
@@ -107,9 +106,9 @@ public class ItemHandlerInventoryManipulator implements Iterable<IInvSlot> {
 			return null;
 		}
 		stack = stack.copy();
-		List<IInvSlot> filledSlots = new ArrayList<>(inv.getSlots());
-		List<IInvSlot> emptySlots = new ArrayList<>(inv.getSlots());
-		for (IInvSlot slot : new ItemHandlerInventoryManipulator(inv)) {
+		List<IInvSlot> filledSlots = new ArrayList<>(this.inv.getSlots());
+		List<IInvSlot> emptySlots = new ArrayList<>(this.inv.getSlots());
+		for (IInvSlot slot : new ItemHandlerInventoryManipulator(this.inv)) {
 			if (slot.canPutStackInSlot(stack)) {
 				if (slot.getStackInSlot().isEmpty()) {
 					emptySlots.add(slot);
@@ -135,7 +134,7 @@ public class ItemHandlerInventoryManipulator implements Iterable<IInvSlot> {
 			final int stackToInsertSize = stack.getCount() - injected;
 			stackToInsert.setCount(stackToInsertSize);
 
-			final ItemStack remainder = inv.insertItem(slot.getIndex(), stackToInsert, !doAdd);
+			final ItemStack remainder = this.inv.insertItem(slot.getIndex(), stackToInsert, !doAdd);
 			if (remainder.isEmpty()) {
 				return stack.getCount();
 			}

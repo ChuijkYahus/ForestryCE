@@ -1,8 +1,8 @@
 package forestry.api.arboriculture;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.world.level.block.Block;
+
+import javax.annotation.Nullable;
 
 /**
  * @since 2.6.0

@@ -10,13 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.inventory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import net.minecraft.util.Tuple;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.hives.IHiveFrame;
@@ -24,6 +17,12 @@ import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.apiculture.InventoryBeeHousing;
 import forestry.core.utils.SlotUtil;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class InventoryApiary extends InventoryBeeHousing implements IApiaryInventory {
 	public static final int SLOT_FRAMES_1 = 9;
@@ -46,7 +45,7 @@ public class InventoryApiary extends InventoryBeeHousing implements IApiaryInven
 	@Override
 	public boolean canPlaceItem(int slotIndex, ItemStack itemStack) {
 		return !SlotUtil.isSlotInRange(slotIndex, SLOT_FRAMES_1, SLOT_FRAMES_COUNT) &&
-				super.canPlaceItem(slotIndex, itemStack);
+			super.canPlaceItem(slotIndex, itemStack);
 	}
 
 	public Collection<Tuple<IHiveFrame, ItemStack>> getFrames() {

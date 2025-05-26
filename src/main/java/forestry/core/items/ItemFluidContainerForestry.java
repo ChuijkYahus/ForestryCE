@@ -10,8 +10,15 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import javax.annotation.Nullable;
-
+import forestry.core.config.Constants;
+import forestry.core.fluids.ForestryFluids;
+import forestry.core.items.definitions.DrinkProperties;
+import forestry.core.items.definitions.EnumContainerType;
+import forestry.core.items.definitions.FluidHandlerItemForestry;
+import forestry.core.items.definitions.IColoredItem;
+import forestry.core.models.FluidContainerModel;
+import forestry.core.utils.ModUtil;
+import forestry.core.utils.Translator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -30,7 +37,6 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
@@ -38,15 +44,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import forestry.core.config.Constants;
-import forestry.core.fluids.ForestryFluids;
-import forestry.core.items.definitions.DrinkProperties;
-import forestry.core.items.definitions.EnumContainerType;
-import forestry.core.items.definitions.FluidHandlerItemForestry;
-import forestry.core.items.definitions.IColoredItem;
-import forestry.core.models.FluidContainerModel;
-import forestry.core.utils.ModUtil;
-import forestry.core.utils.Translator;
+import javax.annotation.Nullable;
 
 public class ItemFluidContainerForestry extends ItemForestry implements IColoredItem {
 	private final EnumContainerType type;
@@ -57,7 +55,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 	}
 
 	public EnumContainerType getType() {
-		return type;
+		return this.type;
 	}
 
 	protected FluidStack getContained(ItemStack itemStack) {
@@ -65,7 +63,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 			itemStack = itemStack.copy();
 			itemStack.setCount(1);
 		}
-		IFluidHandler fluidHandler = new FluidHandlerItemForestry(itemStack, type);
+		IFluidHandler fluidHandler = new FluidHandlerItemForestry(itemStack, this.type);
 		return fluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
 	}
 
@@ -75,13 +73,13 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 		if (item instanceof ItemFluidContainerForestry) {
 			FluidStack fluid = getContained(stack);
 			if (!fluid.isEmpty()) {
-				String exactTranslationKey = Constants.TRANSLATION_KEY_ITEM + type.getSerializedName() + '.' + ModUtil.getRegistryName(fluid.getFluid());
+				String exactTranslationKey = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + '.' + ModUtil.getRegistryName(fluid.getFluid());
 				return Translator.tryTranslate(exactTranslationKey, () -> {
-					String grammarKey = Constants.TRANSLATION_KEY_ITEM + type.getSerializedName() + ".grammar";
+					String grammarKey = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + ".grammar";
 					return Component.translatable(grammarKey, fluid.getDisplayName());
 				});
 			} else {
-				String unlocalizedname = Constants.TRANSLATION_KEY_ITEM + type.getSerializedName() + ".empty";
+				String unlocalizedname = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + ".empty";
 				return Component.translatable(unlocalizedname);
 			}
 		}
@@ -180,7 +178,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-		return new FluidHandlerItemForestry(stack, type);
+		return new FluidHandlerItemForestry(stack, this.type);
 	}
 
 	@Override

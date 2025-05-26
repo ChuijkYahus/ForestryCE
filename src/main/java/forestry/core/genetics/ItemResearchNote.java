@@ -10,11 +10,12 @@
  ******************************************************************************/
 package forestry.core.genetics;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.IForestryApi;
+import forestry.api.genetics.*;
+import forestry.core.features.CoreItems;
+import forestry.core.genetics.mutations.EnumMutateChance;
+import forestry.core.items.ItemForestry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -28,17 +29,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.IForestryApi;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationManager;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.core.features.CoreItems;
-import forestry.core.genetics.mutations.EnumMutateChance;
-import forestry.core.items.ItemForestry;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class ItemResearchNote extends ItemForestry {
 	private static final String PARENT_0_KEY = "P0";
@@ -170,9 +164,9 @@ public class ItemResearchNote extends ItemForestry {
 		player.sendSystemMessage(Component.translatable("for.chat.memorizednote"));
 
 		player.sendSystemMessage(Component.translatable("for.chat.memorizednote2",
-				speciesFirst.getDisplayName().withStyle(ChatFormatting.GRAY),
-				speciesSecond.getDisplayName().withStyle(ChatFormatting.GRAY),
-				speciesResult.getDisplayName().withStyle(ChatFormatting.GREEN)));
+			speciesFirst.getDisplayName().withStyle(ChatFormatting.GRAY),
+			speciesSecond.getDisplayName().withStyle(ChatFormatting.GRAY),
+			speciesResult.getDisplayName().withStyle(ChatFormatting.GREEN)));
 
 		return true;
 	}
@@ -222,15 +216,15 @@ public class ItemResearchNote extends ItemForestry {
 		public CompoundTag writeToNBT(CompoundTag compound) {
 			if (this.researcher != null) {
 				CompoundTag nbt = new CompoundTag();
-				NbtUtils.writeGameProfile(nbt, researcher);
+				NbtUtils.writeGameProfile(nbt, this.researcher);
 				compound.put(RESEARCHER_KEY, nbt);
 			}
-			compound.put(NBT_INNER, inner);
+			compound.put(NBT_INNER, this.inner);
 			return compound;
 		}
 
 		public void addTooltip(List<Component> list) {
-			List<Component> tooltips = getTooltip(inner);
+			List<Component> tooltips = getTooltip(this.inner);
 			if (tooltips.isEmpty()) {
 				list.add(Component.translatable("for.researchNote.error.0").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
 				list.add(Component.translatable("for.researchNote.error.1"));

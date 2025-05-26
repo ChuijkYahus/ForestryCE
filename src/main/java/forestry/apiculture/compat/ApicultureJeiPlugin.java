@@ -1,10 +1,5 @@
 package forestry.apiculture.compat;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 import forestry.api.core.IProductProducer;
@@ -16,7 +11,6 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.ItemCreativeHiveFrame;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.SpeciesUtil;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -24,6 +18,10 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @JeiPlugin
 public class ApicultureJeiPlugin implements IModPlugin {
@@ -40,7 +38,7 @@ public class ApicultureJeiPlugin implements IModPlugin {
 	public void registerCategories(IRecipeCategoryRegistration registration) {
 		IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
 		IDrawable productsBackground = helper.createDrawable(BACKGROUND, 0, 61 + 30, 162, 61);
-		IDrawable mutationsBackground = helper.createDrawable(BACKGROUND, 0, 0 + 30, 162, 61);
+		IDrawable mutationsBackground = helper.createDrawable(BACKGROUND, 0, 30, 162, 61);
 
 		for (ISpeciesType<?, ?> type : IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypes()) {
 			IDrawable icon = helper.createDrawableItemStack(type.createDefaultStack());
@@ -68,16 +66,16 @@ public class ApicultureJeiPlugin implements IModPlugin {
 	@Override
 	public void registerRecipes(IRecipeRegistration registry) {
 		JeiUtil.addDescription(registry, "frames",
-				ApicultureItems.FRAME_IMPREGNATED,
-				ApicultureItems.FRAME_PROVEN,
-				ApicultureItems.FRAME_UNTREATED
+			ApicultureItems.FRAME_IMPREGNATED,
+			ApicultureItems.FRAME_PROVEN,
+			ApicultureItems.FRAME_UNTREATED
 		);
 
 		JeiUtil.addDescription(registry, "apiarist.suit",
-				ApicultureItems.APIARIST_BOOTS,
-				ApicultureItems.APIARIST_CHEST,
-				ApicultureItems.APIARIST_HELMET,
-				ApicultureItems.APIARIST_LEGS
+			ApicultureItems.APIARIST_BOOTS,
+			ApicultureItems.APIARIST_CHEST,
+			ApicultureItems.APIARIST_HELMET,
+			ApicultureItems.APIARIST_LEGS
 		);
 
 		JeiUtil.addDescription(registry, ApicultureItems.SCOOP);
@@ -87,13 +85,13 @@ public class ApicultureJeiPlugin implements IModPlugin {
 		}
 		for (ProductsRecipeCategory category : productsCategories) {
 			registry.addRecipes(category.getRecipeType(), category.speciesType.getAllSpecies().stream()
-					.filter(species -> {
-						// filter out species with no products or specialties
-						return (species instanceof IProductProducer producer && !producer.getProducts().isEmpty())
-								|| (species instanceof ISpecialtyProducer specialtyProducer && !specialtyProducer.getSpecialties().isEmpty());
-					})
-					.map(species -> new ProductRecipe(species.cast()))
-					.toList());
+				.filter(species -> {
+					// filter out species with no products or specialties
+					return (species instanceof IProductProducer producer && !producer.getProducts().isEmpty())
+						|| (species instanceof ISpecialtyProducer specialtyProducer && !specialtyProducer.getSpecialties().isEmpty());
+				})
+				.map(species -> new ProductRecipe(species.cast()))
+				.toList());
 		}
 		mutationsCategories.clear();
 		productsCategories.clear();

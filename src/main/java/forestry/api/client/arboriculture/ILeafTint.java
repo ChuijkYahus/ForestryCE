@@ -1,10 +1,10 @@
 package forestry.api.client.arboriculture;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.FoliageColor;
+
+import javax.annotation.Nullable;
 
 /**
  * Responsible for tinting leaf colors according to their environment.

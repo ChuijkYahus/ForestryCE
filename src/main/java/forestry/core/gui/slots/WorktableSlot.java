@@ -1,13 +1,12 @@
 package forestry.core.gui.slots;
 
+import forestry.worktable.tiles.ICrafterWorktable;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.RecipeHolder;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-
-import forestry.worktable.tiles.ICrafterWorktable;
 
 public class WorktableSlot extends Slot {
 	private final CraftingContainer craftMatrix;
@@ -31,23 +30,23 @@ public class WorktableSlot extends Slot {
 	// Identical to ResultSlot
 	@Override
 	protected void onQuickCraft(ItemStack pStack, int pAmount) {
-		amountCrafted += pAmount;
+        this.amountCrafted += pAmount;
 		checkTakeAchievements(pStack);
 	}
 
 	// Identical to ResultSlot
 	@Override
 	protected void checkTakeAchievements(ItemStack stack) {
-		if (amountCrafted > 0) {
-			stack.onCraftedBy(player.level(), player, amountCrafted);
-			net.minecraftforge.event.ForgeEventFactory.firePlayerCraftingEvent(player, stack, craftMatrix);
+		if (this.amountCrafted > 0) {
+			stack.onCraftedBy(this.player.level(), this.player, this.amountCrafted);
+			net.minecraftforge.event.ForgeEventFactory.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
 		}
 
-		if (container instanceof RecipeHolder holder) {
+		if (this.container instanceof RecipeHolder holder) {
 			holder.awardUsedRecipes(this.player, this.craftMatrix.getItems());
 		}
 
-		amountCrafted = 0;
+        this.amountCrafted = 0;
 	}
 
 	// DIFFERENT
@@ -62,26 +61,26 @@ public class WorktableSlot extends Slot {
 
 	@Override
 	public boolean mayPickup(Player player) {
-		return crafter.mayPickup(getSlotIndex());
+		return this.crafter.mayPickup(getSlotIndex());
 	}
 
 	@Override
 	public ItemStack getItem() {
-		return crafter.getResult(craftMatrix, player.level());
+		return this.crafter.getResult(this.craftMatrix, this.player.level());
 	}
 
 	@Override
 	public boolean hasItem() {
-		return !getItem().isEmpty() && crafter.mayPickup(getSlotIndex());
+		return !getItem().isEmpty() && this.crafter.mayPickup(getSlotIndex());
 	}
 
 	// DIFFERENT
 	@Override
 	public void onTake(Player pPlayer, ItemStack stack) {
-		if (crafter.onCraftingStart(player)) {
+		if (this.crafter.onCraftingStart(this.player)) {
 			checkTakeAchievements(stack);
 
-			crafter.onCraftingComplete(player);
+            this.crafter.onCraftingComplete(this.player);
 		}
 	}
 }

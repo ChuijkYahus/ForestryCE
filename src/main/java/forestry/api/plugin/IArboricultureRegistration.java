@@ -1,15 +1,14 @@
 package forestry.api.plugin;
 
-import java.awt.Color;
-
+import forestry.api.arboriculture.IWoodType;
+import forestry.api.arboriculture.genetics.IFruit;
+import forestry.api.arboriculture.genetics.ITreeEffect;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.genetics.IFruit;
-import forestry.api.arboriculture.genetics.ITreeEffect;
+import java.awt.*;
 
 /**
  * Register your tree species, fruits, and effects here.

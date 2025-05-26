@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
+import forestry.api.modules.IForestryPacketServer;
+import forestry.core.gui.IContainerSocketed;
+import forestry.core.network.PacketIdServer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-
-import forestry.core.gui.IContainerSocketed;
-import forestry.api.modules.IForestryPacketServer;
-import forestry.core.network.PacketIdServer;
 
 public record PacketSolderingIronClick(int slot) implements IForestryPacketServer {
 	@Override
@@ -27,7 +26,7 @@ public record PacketSolderingIronClick(int slot) implements IForestryPacketServe
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeVarInt(slot);
+		buffer.writeVarInt(this.slot);
 	}
 
 	public static PacketSolderingIronClick decode(FriendlyByteBuf buffer) {

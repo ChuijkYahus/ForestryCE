@@ -1,14 +1,12 @@
 package forestry.sorting.inventory;
 
-import javax.annotation.Nonnull;
-
-import net.minecraft.world.item.ItemStack;
+import forestry.sorting.tiles.TileGeneticFilter;
 import net.minecraft.core.Direction;
-
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import forestry.sorting.tiles.TileGeneticFilter;
+import javax.annotation.Nonnull;
 
 public class ItemHandlerFilter implements IItemHandler {
 	private final TileGeneticFilter filter;
@@ -34,8 +32,8 @@ public class ItemHandlerFilter implements IItemHandler {
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
 		ItemStack remaining = stack;
-		for (Direction facing : filter.getValidDirections(stack, facing)) {
-			remaining = itemHandler.insertItem(facing.get3DDataValue(), stack, simulate);
+		for (Direction facing : this.filter.getValidDirections(stack, this.facing)) {
+			remaining = this.itemHandler.insertItem(facing.get3DDataValue(), stack, simulate);
 			if (remaining.isEmpty()) {
 				return ItemStack.EMPTY;
 			}
@@ -56,6 +54,6 @@ public class ItemHandlerFilter implements IItemHandler {
 	//TODO
 	@Override
 	public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-		return itemHandler.isItemValid(slot, stack);
+		return this.itemHandler.isItemValid(slot, stack);
 	}
 }

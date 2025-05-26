@@ -11,17 +11,6 @@
 package forestry.farming.logic.farmables;
 
 import com.google.common.collect.ImmutableSet;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
@@ -33,6 +22,15 @@ import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.core.utils.SpeciesUtil;
 import forestry.farming.logic.crops.CropDestroy;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
 
 public class FarmableGE implements IFarmable {
 	private final ImmutableSet<Item> windfall;

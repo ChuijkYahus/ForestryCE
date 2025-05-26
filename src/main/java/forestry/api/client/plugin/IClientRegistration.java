@@ -1,10 +1,9 @@
 package forestry.api.client.plugin;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.genetics.ILifeStage;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Handles client registration for Forestry plugins.

@@ -12,28 +12,25 @@ package forestry.core.fluids;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
+import forestry.api.core.tooltips.ToolTip;
+import forestry.core.utils.ModUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
-
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import forestry.api.core.tooltips.ToolTip;
-import forestry.core.utils.ModUtil;
 
 public class FilteredTank extends StandardTank {
 	private Supplier<Set<ResourceLocation>> filters = Suppliers.ofInstance(Set.of());
@@ -63,7 +60,7 @@ public class FilteredTank extends StandardTank {
 	}
 
 	private boolean fluidMatchesFilter(FluidStack resource) {
-		return resource.getFluid() != Fluids.EMPTY && filters.get().contains(ModUtil.getRegistryName(resource.getFluid()));
+		return resource.getFluid() != Fluids.EMPTY && this.filters.get().contains(ModUtil.getRegistryName(resource.getFluid()));
 	}
 
 	@Override
@@ -91,8 +88,8 @@ public class FilteredTank extends StandardTank {
 			}
 		} else {
 			Component tmiComponent = Component.literal("<")
-					.append(Component.translatable("for.gui.tooltip.tmi"))
-					.append(Component.literal(">"));
+				.append(Component.translatable("for.gui.tooltip.tmi"))
+				.append(Component.literal(">"));
 			toolTip.add(tmiComponent, ChatFormatting.ITALIC);
 		}
 		toolTip.add(Component.translatable("for.gui.tooltip.liquid.amount", getFluidAmount(), getCapacity()));

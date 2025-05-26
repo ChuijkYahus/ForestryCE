@@ -10,14 +10,11 @@
  ******************************************************************************/
 package forestry.core.gui.widgets;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.client.gui.GuiGraphics;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import forestry.api.core.tooltips.IToolTipProvider;
 import forestry.api.core.tooltips.ToolTip;
+import net.minecraft.client.gui.GuiGraphics;
+
+import javax.annotation.Nullable;
 
 /**
  * Basic non-ItemStack slot
@@ -36,19 +33,19 @@ public abstract class Widget implements IToolTipProvider {
 	}
 
 	public int getWidth() {
-		return width;
+		return this.width;
 	}
 
 	public int getHeight() {
-		return height;
+		return this.height;
 	}
 
 	public int getX() {
-		return xPos;
+		return this.xPos;
 	}
 
 	public int getY() {
-		return yPos;
+		return this.yPos;
 	}
 
 	public abstract void draw(GuiGraphics graphics, int startX, int startY);
@@ -63,7 +60,7 @@ public abstract class Widget implements IToolTipProvider {
 	}
 
 	public boolean isMouseOver(double mouseX, double mouseY) {
-		return mouseX >= xPos && mouseX <= xPos + this.width && mouseY >= yPos && mouseY <= yPos + this.height;
+		return mouseX >= this.xPos && mouseX <= this.xPos + this.width && mouseY >= this.yPos && mouseY <= this.yPos + this.height;
 	}
 
 	@Override

@@ -1,14 +1,12 @@
 package forestry.compat.kubejs.event;
 
-import java.util.function.Consumer;
-
-import net.minecraft.resources.ResourceLocation;
-
+import dev.latvian.mods.kubejs.event.EventJS;
 import forestry.api.plugin.IGeneticRegistration;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ITaxonBuilder;
+import net.minecraft.resources.ResourceLocation;
 
-import dev.latvian.mods.kubejs.event.EventJS;
+import java.util.function.Consumer;
 
 public class GeneticsEventJS extends EventJS {
 	private final IGeneticRegistration wrapped;

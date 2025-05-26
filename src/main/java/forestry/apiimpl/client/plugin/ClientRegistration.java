@@ -1,17 +1,15 @@
 package forestry.apiimpl.client.plugin;
 
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
-
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.datafixers.util.Pair;
-
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.client.plugin.IClientRegistration;
 import forestry.api.genetics.ILifeStage;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 public class ClientRegistration implements IClientRegistration {
 	// ID -> (life stage -> bee model)

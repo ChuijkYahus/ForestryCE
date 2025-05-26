@@ -1,8 +1,7 @@
 package forestry.api.farming;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 public class ForestryFarmTypes {
 	public static final ResourceLocation CROPS = ForestryConstants.forestry("crops");

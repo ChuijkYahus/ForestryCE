@@ -1,21 +1,21 @@
 package forestry.sorting.network.packets;
 
-import java.util.Objects;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-
 import forestry.api.ForestryCapabilities;
 import forestry.api.IForestryApi;
 import forestry.api.genetics.filter.IFilterRuleType;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
-public record PacketFilterChangeRule(BlockPos pos, Direction facing, IFilterRuleType rule) implements IForestryPacketServer {
+import java.util.Objects;
+
+public record PacketFilterChangeRule(BlockPos pos, Direction facing,
+									 IFilterRuleType rule) implements IForestryPacketServer {
 	@Override
 	public ResourceLocation id() {
 		return PacketIdServer.FILTER_CHANGE_RULE;
@@ -23,9 +23,9 @@ public record PacketFilterChangeRule(BlockPos pos, Direction facing, IFilterRule
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		buffer.writeShort(facing.get3DDataValue());
-		buffer.writeShort(IForestryApi.INSTANCE.getFilterManager().getId(rule));
+		buffer.writeBlockPos(this.pos);
+		buffer.writeShort(this.facing.get3DDataValue());
+		buffer.writeShort(IForestryApi.INSTANCE.getFilterManager().getId(this.rule));
 	}
 
 	public static PacketFilterChangeRule decode(FriendlyByteBuf buffer) {

@@ -1,18 +1,12 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.multiblock;
 
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.BlockPos;
-
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -36,7 +30,7 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 
 	@Override
 	public T getMultiblockLogic() {
-		return multiblockLogic;
+		return this.multiblockLogic;
 	}
 
 	@Override
@@ -48,31 +42,31 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	@Override
 	public void load(CompoundTag data) {
 		super.load(data);
-		multiblockLogic.readFromNBT(data);
+        this.multiblockLogic.readFromNBT(data);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag data) {
 		super.saveAdditional(data);
-		multiblockLogic.write(data);
+        this.multiblockLogic.write(data);
 	}
 
 	@Override
 	public void setRemoved() {
 		super.setRemoved();
-		multiblockLogic.invalidate(level, this);
+        this.multiblockLogic.invalidate(this.level, this);
 	}
 
 	@Override
 	public void onChunkUnloaded() {
 		super.onChunkUnloaded();
-		multiblockLogic.onChunkUnload(level, this);
+        this.multiblockLogic.onChunkUnload(this.level, this);
 	}
 
 	@Override
 	public void onLoad() {
 		super.onLoad();
-		multiblockLogic.validate(level, this);
+        this.multiblockLogic.validate(this.level, this);
 	}
 
 	/* Network Communication */
@@ -85,7 +79,7 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	@Override
 	public CompoundTag getUpdateTag() {
 		CompoundTag updateTag = super.getUpdateTag();
-		multiblockLogic.encodeDescriptionPacket(updateTag);
+        this.multiblockLogic.encodeDescriptionPacket(updateTag);
 		this.encodeDescriptionPacket(updateTag);
 		return updateTag;
 	}
@@ -96,7 +90,7 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 		super.onDataPacket(network, packet);
 		CompoundTag nbtData = packet.getTag();
 		if (nbtData != null) {
-			multiblockLogic.decodeDescriptionPacket(nbtData);
+            this.multiblockLogic.decodeDescriptionPacket(nbtData);
 			this.decodeDescriptionPacket(nbtData);
 		}
 	}
@@ -104,7 +98,7 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	@Override
 	public void handleUpdateTag(CompoundTag tag) {
 		super.handleUpdateTag(tag);
-		multiblockLogic.decodeDescriptionPacket(tag);
+        this.multiblockLogic.decodeDescriptionPacket(tag);
 		this.decodeDescriptionPacket(tag);
 	}
 

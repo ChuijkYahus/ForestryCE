@@ -1,23 +1,8 @@
 package forestry.plugin;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
-
 import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
-import forestry.api.apiculture.ForestryActivityTypes;
-import forestry.api.apiculture.ForestryBeeEffects;
-import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.ForestryFlowerTypes;
-import forestry.api.apiculture.LightPreference;
+import forestry.api.apiculture.*;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryFruits;
 import forestry.api.arboriculture.ForestryTreeSpecies;
@@ -36,50 +21,12 @@ import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
-import forestry.api.plugin.IApicultureRegistration;
-import forestry.api.plugin.IArboricultureRegistration;
-import forestry.api.plugin.ICircuitRegistration;
-import forestry.api.plugin.IErrorRegistration;
-import forestry.api.plugin.IFarmingRegistration;
-import forestry.api.plugin.IForestryPlugin;
-import forestry.api.plugin.IGeneticRegistration;
-import forestry.api.plugin.ILepidopterologyRegistration;
-import forestry.api.plugin.IPollenRegistration;
-import forestry.apiculture.ApicultureFilterRule;
-import forestry.apiculture.ApicultureFilterRuleType;
-import forestry.apiculture.CathemeralActivityType;
-import forestry.apiculture.CrepuscularActivityType;
-import forestry.apiculture.EndFlowerType;
-import forestry.apiculture.FlowerType;
-import forestry.apiculture.PhotosynthesisFlowerType;
-import forestry.apiculture.SingleActivityType;
-import forestry.apiculture.WaterFlowerType;
+import forestry.api.plugin.*;
+import forestry.apiculture.*;
 import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.genetics.BeeSpeciesType;
-import forestry.apiculture.genetics.effects.AggressiveBeeEffect;
-import forestry.apiculture.genetics.effects.AgingBeeEffect;
-import forestry.apiculture.genetics.effects.AscensionBeeEffect;
-import forestry.apiculture.genetics.effects.CreeperBeeEffect;
-import forestry.apiculture.genetics.effects.DummyBeeEffect;
-import forestry.apiculture.genetics.effects.ExplorationBeeEffect;
-import forestry.apiculture.genetics.effects.FertileBeeEffect;
-import forestry.apiculture.genetics.effects.FungificationBeeEffect;
-import forestry.apiculture.genetics.effects.GlacialBeeEffect;
-import forestry.apiculture.genetics.effects.GlowBerryGrowEffect;
-import forestry.apiculture.genetics.effects.GuardianBeeEffect;
-import forestry.apiculture.genetics.effects.HeroicBeeEffect;
-import forestry.apiculture.genetics.effects.IgnitionBeeEffect;
-import forestry.apiculture.genetics.effects.MisanthropeBeeEffect;
-import forestry.apiculture.genetics.effects.PhasingBeeEffect;
-import forestry.apiculture.genetics.effects.PotionBeeEffect;
-import forestry.apiculture.genetics.effects.PotionBeeEffectExclusive;
-import forestry.apiculture.genetics.effects.RadioactiveBeeEffect;
-import forestry.apiculture.genetics.effects.RepulsionBeeEffect;
-import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
-import forestry.apiculture.genetics.effects.SculkSpreadBeeEffect;
-import forestry.apiculture.genetics.effects.SifterBeeEffect;
-import forestry.apiculture.genetics.effects.SnowingBeeEffect;
+import forestry.apiculture.genetics.effects.*;
 import forestry.apiculture.hives.HiveDefinition;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.arboriculture.ArboricultureFilterRuleType;
@@ -104,6 +51,16 @@ import forestry.lepidopterology.genetics.ButterflySpeciesType;
 import forestry.lepidopterology.genetics.DefaultCocoon;
 import forestry.plugin.client.DefaultForestryClientRegistration;
 import forestry.sorting.DefaultFilterRuleType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class DefaultForestryPlugin implements IForestryPlugin {
 	public static final ResourceLocation ID = ForestryConstants.forestry("default");
@@ -112,91 +69,91 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 	public void registerGenetics(IGeneticRegistration genetics) {
 		// Bee type
 		genetics.registerSpeciesType(ForestrySpeciesTypes.BEE, BeeSpeciesType::new)
-				.setKaryotype(karyotype -> {
-					karyotype.setSpecies(BeeChromosomes.SPECIES, ForestryBeeSpecies.FOREST);
-					karyotype.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST)
-							.addAlleles(ForestryAlleles.DEFAULT_SPEEDS);
-					karyotype.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER)
-							.addAlleles(ForestryAlleles.DEFAULT_LIFESPANS);
-					karyotype.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_2)
-							.addAlleles(ForestryAlleles.DEFAULT_BEE_FERTILITIES);
-					karyotype.set(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-							.addAlleles(ForestryAlleles.DEFAULT_TEMPERATURE_TOLERANCES)
-							.setWeaklyInherited(true);
-					karyotype.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-							.addAlleles(ForestryAlleles.DEFAULT_HUMIDITY_TOLERANCES)
-							.setWeaklyInherited(true);
-					karyotype.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_DIURNAL)
-							.setWeaklyInherited(true);
-					karyotype.set(BeeChromosomes.CAVE_DWELLING, false)
-							.setWeaklyInherited(true);
-					karyotype.set(BeeChromosomes.TOLERATES_RAIN, false)
-							.setWeaklyInherited(true);
-					karyotype.set(BeeChromosomes.FLOWER_TYPE, ForestryAlleles.FLOWER_TYPE_VANILLA);
-					karyotype.set(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_AVERAGE)
-							.addAlleles(ForestryAlleles.DEFAULT_TERRITORIES);
-					karyotype.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_NONE);
-					karyotype.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWEST)
-							.addAlleles(ForestryAlleles.DEFAULT_POLLINATIONS);
-				})
-				.addStages(BeeLifeStage.DRONE, BeeLifeStage.PRINCESS, BeeLifeStage.QUEEN, BeeLifeStage.LARVAE)
-				.setDefaultStage(BeeLifeStage.DRONE);
+			.setKaryotype(karyotype -> {
+				karyotype.setSpecies(BeeChromosomes.SPECIES, ForestryBeeSpecies.FOREST);
+				karyotype.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST)
+					.addAlleles(ForestryAlleles.DEFAULT_SPEEDS);
+				karyotype.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER)
+					.addAlleles(ForestryAlleles.DEFAULT_LIFESPANS);
+				karyotype.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_2)
+					.addAlleles(ForestryAlleles.DEFAULT_BEE_FERTILITIES);
+				karyotype.set(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
+					.addAlleles(ForestryAlleles.DEFAULT_TEMPERATURE_TOLERANCES)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
+					.addAlleles(ForestryAlleles.DEFAULT_HUMIDITY_TOLERANCES)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_DIURNAL)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.CAVE_DWELLING, false)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.TOLERATES_RAIN, false)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.FLOWER_TYPE, ForestryAlleles.FLOWER_TYPE_VANILLA);
+				karyotype.set(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_AVERAGE)
+					.addAlleles(ForestryAlleles.DEFAULT_TERRITORIES);
+				karyotype.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_NONE);
+				karyotype.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWEST)
+					.addAlleles(ForestryAlleles.DEFAULT_POLLINATIONS);
+			})
+			.addStages(BeeLifeStage.DRONE, BeeLifeStage.PRINCESS, BeeLifeStage.QUEEN, BeeLifeStage.LARVAE)
+			.setDefaultStage(BeeLifeStage.DRONE);
 
 		// Tree type
 		genetics.registerSpeciesType(ForestrySpeciesTypes.TREE, TreeSpeciesType::new)
-				.setKaryotype(karyotype -> {
-					karyotype.setSpecies(TreeChromosomes.SPECIES, ForestryTreeSpecies.OAK);
-					karyotype.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL)
-							.addAlleles(ForestryAlleles.DEFAULT_HEIGHTS);
-					karyotype.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER)
-							.addAlleles(ForestryAlleles.DEFAULT_SAPLINGS);
-					karyotype.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_NONE);
-					karyotype.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWEST)
-							.addAlleles(ForestryAlleles.DEFAULT_YIELDS);
-					karyotype.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWEST)
-							.addAlleles(ForestryAlleles.DEFAULT_SAPPINESSES);
-					karyotype.set(TreeChromosomes.EFFECT, ForestryAlleles.TREE_EFFECT_NONE);
-					karyotype.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE)
-							.addAlleles(ForestryAlleles.DEFAULT_MATURATIONS);
-					karyotype.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_1)
-							.addAlleles(ForestryAlleles.DEFAULT_GIRTHS);
-					karyotype.set(TreeChromosomes.FIREPROOF, false);
-				})
-				.addStages(TreeLifeStage.SAPLING, TreeLifeStage.POLLEN)
-				.setDefaultStage(TreeLifeStage.SAPLING);
+			.setKaryotype(karyotype -> {
+				karyotype.setSpecies(TreeChromosomes.SPECIES, ForestryTreeSpecies.OAK);
+				karyotype.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL)
+					.addAlleles(ForestryAlleles.DEFAULT_HEIGHTS);
+				karyotype.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER)
+					.addAlleles(ForestryAlleles.DEFAULT_SAPLINGS);
+				karyotype.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_NONE);
+				karyotype.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWEST)
+					.addAlleles(ForestryAlleles.DEFAULT_YIELDS);
+				karyotype.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWEST)
+					.addAlleles(ForestryAlleles.DEFAULT_SAPPINESSES);
+				karyotype.set(TreeChromosomes.EFFECT, ForestryAlleles.TREE_EFFECT_NONE);
+				karyotype.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE)
+					.addAlleles(ForestryAlleles.DEFAULT_MATURATIONS);
+				karyotype.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_1)
+					.addAlleles(ForestryAlleles.DEFAULT_GIRTHS);
+				karyotype.set(TreeChromosomes.FIREPROOF, false);
+			})
+			.addStages(TreeLifeStage.SAPLING, TreeLifeStage.POLLEN)
+			.setDefaultStage(TreeLifeStage.SAPLING);
 
 		// Butterfly type
 		genetics.registerSpeciesType(ForestrySpeciesTypes.BUTTERFLY, ButterflySpeciesType::new)
-				.setKaryotype(karyotype -> {
-					karyotype.setSpecies(ButterflyChromosomes.SPECIES, ForestryButterflySpecies.MONARCH);
-					karyotype.set(ButterflyChromosomes.SIZE, ForestryAlleles.SIZE_SMALL)
-							.addAlleles(ForestryAlleles.DEFAULT_SIZES);
-					karyotype.set(ButterflyChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST)
-							.addAlleles(ForestryAlleles.DEFAULT_SPEEDS);
-					karyotype.set(ButterflyChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER)
-							.addAlleles(ForestryAlleles.DEFAULT_LIFESPANS);
-					karyotype.set(ButterflyChromosomes.METABOLISM, ForestryAlleles.METABOLISM_SLOWER)
-							.addAlleles(ForestryAlleles.DEFAULT_METABOLISMS);
-					karyotype.set(ButterflyChromosomes.FERTILITY, ForestryAlleles.FERTILITY_3)
-							.addAlleles(ForestryAlleles.DEFAULT_BUTTERFLY_FERTILITIES);
-					karyotype.set(ButterflyChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-							.addAlleles(ForestryAlleles.DEFAULT_TEMPERATURE_TOLERANCES)
-							.setWeaklyInherited(true);
-					karyotype.set(ButterflyChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-							.addAlleles(ForestryAlleles.DEFAULT_HUMIDITY_TOLERANCES)
-							.setWeaklyInherited(true);
-					karyotype.set(ButterflyChromosomes.NEVER_SLEEPS, false)
-							.setWeaklyInherited(true);
-					karyotype.set(ButterflyChromosomes.TOLERATES_RAIN, false)
-							.setWeaklyInherited(true);
-					karyotype.set(ButterflyChromosomes.FIREPROOF, false);
-					karyotype.set(ButterflyChromosomes.FLOWER_TYPE, ForestryAlleles.FLOWER_TYPE_VANILLA);
-					karyotype.set(ButterflyChromosomes.EFFECT, ForestryAlleles.BUTTERFLY_EFFECT_NONE);
-					karyotype.set(ButterflyChromosomes.COCOON, ForestryAlleles.COCOON_DEFAULT);
-				})
-				.addStages(ButterflyLifeStage.BUTTERFLY, ButterflyLifeStage.SERUM, ButterflyLifeStage.CATERPILLAR, ButterflyLifeStage.COCOON)
-				.setDefaultStage(ButterflyLifeStage.BUTTERFLY)
-				.addResearchMaterials(map -> map.put(Items.GLASS_BOTTLE, 0.9f));
+			.setKaryotype(karyotype -> {
+				karyotype.setSpecies(ButterflyChromosomes.SPECIES, ForestryButterflySpecies.MONARCH);
+				karyotype.set(ButterflyChromosomes.SIZE, ForestryAlleles.SIZE_SMALL)
+					.addAlleles(ForestryAlleles.DEFAULT_SIZES);
+				karyotype.set(ButterflyChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST)
+					.addAlleles(ForestryAlleles.DEFAULT_SPEEDS);
+				karyotype.set(ButterflyChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER)
+					.addAlleles(ForestryAlleles.DEFAULT_LIFESPANS);
+				karyotype.set(ButterflyChromosomes.METABOLISM, ForestryAlleles.METABOLISM_SLOWER)
+					.addAlleles(ForestryAlleles.DEFAULT_METABOLISMS);
+				karyotype.set(ButterflyChromosomes.FERTILITY, ForestryAlleles.FERTILITY_3)
+					.addAlleles(ForestryAlleles.DEFAULT_BUTTERFLY_FERTILITIES);
+				karyotype.set(ButterflyChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
+					.addAlleles(ForestryAlleles.DEFAULT_TEMPERATURE_TOLERANCES)
+					.setWeaklyInherited(true);
+				karyotype.set(ButterflyChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
+					.addAlleles(ForestryAlleles.DEFAULT_HUMIDITY_TOLERANCES)
+					.setWeaklyInherited(true);
+				karyotype.set(ButterflyChromosomes.NEVER_SLEEPS, false)
+					.setWeaklyInherited(true);
+				karyotype.set(ButterflyChromosomes.TOLERATES_RAIN, false)
+					.setWeaklyInherited(true);
+				karyotype.set(ButterflyChromosomes.FIREPROOF, false);
+				karyotype.set(ButterflyChromosomes.FLOWER_TYPE, ForestryAlleles.FLOWER_TYPE_VANILLA);
+				karyotype.set(ButterflyChromosomes.EFFECT, ForestryAlleles.BUTTERFLY_EFFECT_NONE);
+				karyotype.set(ButterflyChromosomes.COCOON, ForestryAlleles.COCOON_DEFAULT);
+			})
+			.addStages(ButterflyLifeStage.BUTTERFLY, ButterflyLifeStage.SERUM, ButterflyLifeStage.CATERPILLAR, ButterflyLifeStage.COCOON)
+			.setDefaultStage(ButterflyLifeStage.BUTTERFLY)
+			.addResearchMaterials(map -> map.put(Items.GLASS_BOTTLE, 0.9f));
 
 		// Taxonomy
 		BeeTaxonomy.defineTaxa(genetics);
@@ -227,48 +184,48 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		Supplier<List<ItemStack>> simmerComb = getHoneyComb(EnumHoneyComb.SIMMERING);
 
 		apiculture.registerHive(ForestryBeeSpecies.FOREST, HiveDefinition.FOREST)
-				.addDrop(0.80, ForestryBeeSpecies.FOREST, honeyComb, 0.7f)
-				.addDrop(0.08, ForestryBeeSpecies.FOREST, honeyComb, 0.0f, Map.of(BeeChromosomes.TOLERATES_RAIN, ForestryAlleles.TRUE))
-				.addDrop(0.08, ForestryBeeSpecies.VALIANT, honeyComb);
+			.addDrop(0.80, ForestryBeeSpecies.FOREST, honeyComb, 0.7f)
+			.addDrop(0.08, ForestryBeeSpecies.FOREST, honeyComb, 0.0f, Map.of(BeeChromosomes.TOLERATES_RAIN, ForestryAlleles.TRUE))
+			.addDrop(0.08, ForestryBeeSpecies.VALIANT, honeyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.MEADOWS, HiveDefinition.MEADOWS)
-				.addDrop(0.80, ForestryBeeSpecies.MEADOWS, honeyComb, 0.7f)
-				.addDrop(0.03, ForestryBeeSpecies.VALIANT, honeyComb);
+			.addDrop(0.80, ForestryBeeSpecies.MEADOWS, honeyComb, 0.7f)
+			.addDrop(0.03, ForestryBeeSpecies.VALIANT, honeyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.MODEST, HiveDefinition.DESERT)
-				.addDrop(0.80, ForestryBeeSpecies.MODEST, parchedComb, 0.7f)
-				.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
+			.addDrop(0.80, ForestryBeeSpecies.MODEST, parchedComb, 0.7f)
+			.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.TROPICAL, HiveDefinition.JUNGLE)
-				.addDrop(0.80, ForestryBeeSpecies.TROPICAL, silkyComb, 0.7f)
-				.addDrop(0.03, ForestryBeeSpecies.VALIANT, silkyComb);
+			.addDrop(0.80, ForestryBeeSpecies.TROPICAL, silkyComb, 0.7f)
+			.addDrop(0.03, ForestryBeeSpecies.VALIANT, silkyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.ENDED, HiveDefinition.END)
-				.addDrop(0.90, ForestryBeeSpecies.ENDED, mysteriousComb);
+			.addDrop(0.90, ForestryBeeSpecies.ENDED, mysteriousComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.WINTRY, HiveDefinition.SNOW)
-				.addDrop(0.80, ForestryBeeSpecies.WINTRY, frozenComb, 0.5f)
-				.addDrop(0.03, ForestryBeeSpecies.VALIANT, frozenComb);
+			.addDrop(0.80, ForestryBeeSpecies.WINTRY, frozenComb, 0.5f)
+			.addDrop(0.03, ForestryBeeSpecies.VALIANT, frozenComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.MARSHY, HiveDefinition.SWAMP)
-				.addDrop(0.80, ForestryBeeSpecies.MARSHY, mossyComb, 0.4f)
-				.addDrop(0.03, ForestryBeeSpecies.VALIANT, mossyComb);
+			.addDrop(0.80, ForestryBeeSpecies.MARSHY, mossyComb, 0.4f)
+			.addDrop(0.03, ForestryBeeSpecies.VALIANT, mossyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.SAVANNA, HiveDefinition.SAVANNA)
-				.addDrop(0.80, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f)
-				.addDrop(0.35, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_AGGRESSIVE))
-				.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
+			.addDrop(0.80, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f)
+			.addDrop(0.35, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_AGGRESSIVE))
+			.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.LUSH, HiveDefinition.LUSH)
-				.addDrop(0.80, ForestryBeeSpecies.LUSH, honeyComb, 0.5F)
-				.addDrop(0.08, ForestryBeeSpecies.VALIANT, honeyComb);
+			.addDrop(0.80, ForestryBeeSpecies.LUSH, honeyComb, 0.5F)
+			.addDrop(0.08, ForestryBeeSpecies.VALIANT, honeyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.AQUATIC, HiveDefinition.AQUATIC)
-				.addDrop(0.80, ForestryBeeSpecies.AQUATIC, spongeComb, 0.4F)
-				.addDrop(0.03, ForestryBeeSpecies.VALIANT, spongeComb);
+			.addDrop(0.80, ForestryBeeSpecies.AQUATIC, spongeComb, 0.4F)
+			.addDrop(0.03, ForestryBeeSpecies.VALIANT, spongeComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.EMBITTERED, HiveDefinition.NETHER)
-				.addDrop(0.80, ForestryBeeSpecies.EMBITTERED, simmerComb, 0.7F);
+			.addDrop(0.80, ForestryBeeSpecies.EMBITTERED, simmerComb, 0.7F);
 
 		// Common village bees
 		apiculture.addVillageBee(ForestryBeeSpecies.FOREST, false);
@@ -282,8 +239,8 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		// Rare village bees
 		apiculture.addVillageBee(ForestryBeeSpecies.FOREST, true, Map.of(BeeChromosomes.TOLERATES_RAIN, ForestryAlleles.TRUE));
 		apiculture.addVillageBee(ForestryBeeSpecies.COMMON, true, Map.of(
-				BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_BOTH_1,
-				BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_BOTH_1
+			BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_BOTH_1,
+			BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_BOTH_1
 		));
 		apiculture.addVillageBee(ForestryBeeSpecies.VALIANT, true);
 
@@ -387,14 +344,14 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		DefaultButterflySpecies.register(lepidopterology);
 
 		lepidopterology.registerCocoon(ForestryAlleles.COCOON_DEFAULT.alleleId(), new DefaultCocoon("default", List.of(
-				Product.of(Items.STRING, 2, 1f),
-				Product.of(Items.STRING, 1, 0.75f),
-				Product.of(Items.STRING, 3, 0.25f)
+			Product.of(Items.STRING, 2, 1f),
+			Product.of(Items.STRING, 1, 0.75f),
+			Product.of(Items.STRING, 3, 0.25f)
 		)));
 
 		lepidopterology.registerCocoon(ForestryAlleles.COCOON_SILK.alleleId(), new DefaultCocoon("silk", List.of(
-				Product.of(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.SILK_WISP), 3, 0.75f),
-				Product.of(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.SILK_WISP), 2, 0.25f)
+			Product.of(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.SILK_WISP), 3, 0.75f),
+			Product.of(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.SILK_WISP), 2, 0.25f)
 		)));
 
 		lepidopterology.registerEffect(ForestryAlleles.BUTTERFLY_EFFECT_NONE.alleleId(), new DummyButterflyEffect());

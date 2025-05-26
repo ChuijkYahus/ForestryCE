@@ -1,8 +1,8 @@
 package forestry.api.genetics;
 
-import java.util.List;
-
 import net.minecraft.util.Mth;
+
+import java.util.List;
 
 /**
  * Represents taxonomic ranks, sometimes called levels of classification, for an {@link ITaxon}.
@@ -34,14 +34,14 @@ public enum TaxonomicRank {
 	 * @return Colour to use for displaying this classification.
 	 */
 	public int getColour() {
-		return colour;
+		return this.colour;
 	}
 
 	/**
 	 * @return Whether display of this classification level can be omitted in case of space constraints.
 	 */
 	public boolean isDroppable() {
-		return isDroppable;
+		return this.isDroppable;
 	}
 
 	/**

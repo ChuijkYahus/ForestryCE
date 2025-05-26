@@ -10,22 +10,20 @@
  ******************************************************************************/
 package forestry.storage;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.NonNullList;
-
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.Event;
-
 import forestry.api.storage.BackpackResupplyEvent;
 import forestry.core.inventory.ItemInventory;
 import forestry.storage.inventory.ItemInventoryBackpack;
 import forestry.storage.items.ItemBackpack;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Event;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class BackpackResupplyHandler {
 	private static NonNullList<ItemStack> getBackpacks(Inventory playerInventory) {

@@ -11,25 +11,21 @@
 package forestry.core.gui.ledgers;
 
 import com.google.common.collect.Iterables;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.Rect2i;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.core.IError;
 import forestry.api.core.IErrorSource;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.core.config.SessionVars;
 import forestry.core.gui.GuiForestry;
 import forestry.core.gui.GuiUtil;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.Rect2i;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class LedgerManager {
@@ -52,9 +48,9 @@ public class LedgerManager {
 
 	public void add(IErrorSource errorSource) {
 		this.errorSource = errorSource;
-		int maxErrorLedgerCount = (gui.getSizeY() - 10) / Ledger.minHeight;
+		int maxErrorLedgerCount = (this.gui.getSizeY() - 10) / Ledger.minHeight;
 		for (int i = 0; i < maxErrorLedgerCount; i++) {
-			errorLedgers.add(new ErrorLedger(this));
+            this.errorLedgers.add(new ErrorLedger(this));
 		}
 	}
 
@@ -70,7 +66,7 @@ public class LedgerManager {
 	}
 
 	public void onClose() {
-		for (Ledger ledger : ledgers) {
+		for (Ledger ledger : this.ledgers) {
 			ledger.onGuiClosed();
 		}
 	}
@@ -79,16 +75,16 @@ public class LedgerManager {
 	 * Inserts a ledger into the next-to-last position.
 	 */
 	public void insert(Ledger ledger) {
-		this.ledgers.add(ledgers.size() - 1, ledger);
+		this.ledgers.add(this.ledgers.size() - 1, ledger);
 	}
 
 	@Nullable
 	private Ledger getAtPosition(double mX, double mY) {
-		if (!ledgers.isEmpty()) {
-			final int xShift = gui.getGuiLeft() + gui.getSizeX();
-			int yShift = gui.getGuiTop() + 8;
+		if (!this.ledgers.isEmpty()) {
+			final int xShift = this.gui.getGuiLeft() + this.gui.getSizeX();
+			int yShift = this.gui.getGuiTop() + 8;
 
-			for (Ledger ledger : ledgers) {
+			for (Ledger ledger : this.ledgers) {
 				if (!ledger.isVisible()) {
 					continue;
 				}
@@ -103,10 +99,10 @@ public class LedgerManager {
 			}
 		}
 
-		final int xShiftError = gui.getGuiLeft();
-		int yShiftError = gui.getGuiTop() + 8;
+		final int xShiftError = this.gui.getGuiLeft();
+		int yShiftError = this.gui.getGuiTop() + 8;
 
-		for (ErrorLedger errorLedger : errorLedgers) {
+		for (ErrorLedger errorLedger : this.errorLedgers) {
 			if (!errorLedger.isVisible()) {
 				continue;
 			}
@@ -137,7 +133,7 @@ public class LedgerManager {
 
 	public void drawLedgers(GuiGraphics transform) {
 		int yPos = 8;
-		for (Ledger ledger : ledgers) {
+		for (Ledger ledger : this.ledgers) {
 
 			ledger.update();
 			if (!ledger.isVisible()) {
@@ -145,16 +141,16 @@ public class LedgerManager {
 			}
 
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			ledger.setPosition(gui.getSizeX(), yPos);
+			ledger.setPosition(this.gui.getSizeX(), yPos);
 			ledger.draw(transform);
 			yPos += ledger.getHeight();
 		}
 
-		List<IError> errorStates = new ArrayList<>(errorSource.getErrors());
+		List<IError> errorStates = new ArrayList<>(this.errorSource.getErrors());
 
 		yPos = 8;
 		int index = 0;
-		for (ErrorLedger errorLedger : errorLedgers) {
+		for (ErrorLedger errorLedger : this.errorLedgers) {
 			if (index >= errorStates.size()) {
 				errorLedger.setState(null);
 				continue;
@@ -179,7 +175,7 @@ public class LedgerManager {
 		if (ledger != null) {
 			ToolTip toolTip = new ToolTip();
 			toolTip.add(ledger.getTooltip());
-			GuiUtil.drawToolTips(graphics, gui, null, toolTip, mouseX, mouseY);
+			GuiUtil.drawToolTips(graphics, this.gui, null, toolTip, mouseX, mouseY);
 		}
 	}
 
@@ -194,10 +190,10 @@ public class LedgerManager {
 			if (ledger != null && !ledger.handleMouseClicked(x, y, mouseButton)) {
 
 				List<? extends Ledger> toggleLedgers;
-				if (ledgers.contains(ledger)) {
-					toggleLedgers = ledgers;
+				if (this.ledgers.contains(ledger)) {
+					toggleLedgers = this.ledgers;
 				} else {
-					toggleLedgers = errorLedgers;
+					toggleLedgers = this.errorLedgers;
 				}
 
 				for (Ledger other : toggleLedgers) {
@@ -212,7 +208,7 @@ public class LedgerManager {
 	}
 
 	public boolean hasOpenedLedger() {
-		for (Ledger ledger : ledgers) {
+		for (Ledger ledger : this.ledgers) {
 			if (ledger.isOpen()) {
 				return true;
 			}
@@ -221,6 +217,6 @@ public class LedgerManager {
 	}
 
 	public int getMaxWidth() {
-		return maxWidth;
+		return this.maxWidth;
 	}
 }

@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.storage.gui;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
-
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFilteredInventory;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.inventory.ItemInventoryBackpack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackpack> {
 	public enum Size {
@@ -38,7 +37,7 @@ public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackp
 		}
 
 		public int getSize() {
-			return rows * columns;
+			return this.rows * this.columns;
 		}
 	}
 
@@ -57,12 +56,12 @@ public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackp
 		for (int j = 0; j < size.rows; j++) {
 			for (int k = 0; k < size.columns; k++) {
 				int slot = k + j * size.columns;
-				addSlot(new SlotFilteredInventory(inventory, slot, size.startX + k * 18, size.startY + j * 18));
+				addSlot(new SlotFilteredInventory(this.inventory, slot, size.startX + k * 18, size.startY + j * 18));
 			}
 		}
 	}
 
 	public Size getSize() {
-		return size;
+		return this.size;
 	}
 }

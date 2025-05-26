@@ -10,6 +10,13 @@
  ******************************************************************************/
 package forestry.core.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import forestry.api.ForestryConstants;
+import forestry.core.blocks.BlockBase;
+import forestry.core.config.Constants;
+import forestry.core.tiles.TileAnalyzer;
+import forestry.core.utils.RenderUtil;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -25,15 +32,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import forestry.api.ForestryConstants;
-import forestry.core.blocks.BlockBase;
-import forestry.core.config.Constants;
-import forestry.core.tiles.TileAnalyzer;
-import forestry.core.utils.RenderUtil;
 
 // todo replace with static block model and just render the item
 public class RenderAnalyzer implements BlockEntityRenderer<TileAnalyzer> {
@@ -67,13 +65,13 @@ public class RenderAnalyzer implements BlockEntityRenderer<TileAnalyzer> {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		partdefinition.addOrReplaceChild(PEDESTAL, CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 16, 1, 16), PartPose.offset(0, 0, 0));
+			.addBox(0, 0, 0, 16, 1, 16), PartPose.offset(0, 0, 0));
 		partdefinition.addOrReplaceChild(COVER, CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 16, 1, 16), PartPose.offsetAndRotation(16, 16, 0, 0, 0, Mth.PI));
+			.addBox(0, 0, 0, 16, 1, 16), PartPose.offsetAndRotation(16, 16, 0, 0, 0, Mth.PI));
 		partdefinition.addOrReplaceChild(TOWER1, CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 2, 14, 14), PartPose.offset(0, 1, 1));
+			.addBox(0, 0, 0, 2, 14, 14), PartPose.offset(0, 1, 1));
 		partdefinition.addOrReplaceChild(TOWER2, CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0, 0, 0, 2, 14, 14), PartPose.offset(14, 1, 1));
+			.addBox(0, 0, 0, 2, 14, 14), PartPose.offset(14, 1, 1));
 
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}

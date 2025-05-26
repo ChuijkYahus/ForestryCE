@@ -1,8 +1,7 @@
 package forestry.farming.logic;
 
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.farming.IFarmType;
+import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class FarmLogicSoil extends FarmLogic {
 	public FarmLogicSoil(IFarmType properties, boolean isManual) {
@@ -10,6 +9,6 @@ public abstract class FarmLogicSoil extends FarmLogic {
 	}
 
 	protected boolean isAcceptedSoil(BlockState blockState) {
-		return type.isAcceptedSoil(blockState);
+		return this.type.isAcceptedSoil(blockState);
 	}
 }

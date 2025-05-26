@@ -1,20 +1,6 @@
 package forestry.farming.logic;
 
 import com.google.common.collect.ImmutableSet;
-
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.farming.ICrop;
 import forestry.api.farming.IFarmHousing;
 import forestry.api.farming.IFarmType;
@@ -22,6 +8,14 @@ import forestry.api.farming.IFarmable;
 import forestry.core.utils.BlockUtil;
 import forestry.farming.logic.crops.CropDestroy;
 import forestry.farming.logic.farmables.FarmableChorus;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.*;
 
 public class FarmLogicEnder extends FarmLogicHomogeneous {
 	private static final Set<Direction> VALID_DIRECTIONS = ImmutableSet.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
@@ -69,7 +63,7 @@ public class FarmLogicEnder extends FarmLogicHomogeneous {
 	private boolean harvestBlock(Level world, BlockPos pos, Direction from, ArrayDeque<ICrop> plants, ArrayDeque<ICrop> flowers) {
 		BlockState blockState = world.getBlockState(pos);
 		if (blockState.getBlock() == Blocks.CHORUS_FLOWER) {
-			ICrop crop = chorusFarmable.getCropAt(world, pos, blockState);
+			ICrop crop = this.chorusFarmable.getCropAt(world, pos, blockState);
 			if (crop != null) {
 				flowers.addFirst(crop);
 				return false;

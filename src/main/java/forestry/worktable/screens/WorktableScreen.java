@@ -1,8 +1,5 @@
 package forestry.worktable.screens;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Inventory;
-
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
 import forestry.core.gui.buttons.GuiBetterButton;
@@ -14,6 +11,8 @@ import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.screens.widgets.ClearWorktable;
 import forestry.worktable.screens.widgets.MemorizedRecipeSlot;
 import forestry.worktable.tiles.WorktableTile;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 public class WorktableScreen extends GuiForestryTitled<WorktableMenu> {
 	private static final int SPACING = 18;
@@ -27,7 +26,7 @@ public class WorktableScreen extends GuiForestryTitled<WorktableMenu> {
 		this.worktable = container.getTile();
 		this.imageHeight = 218;
 
-		RecipeMemory memory = worktable.getMemory();
+		RecipeMemory memory = this.worktable.getMemory();
 
 		int slot = 0;
 		for (int y = 0; y < 3; y++) {
@@ -36,43 +35,42 @@ public class WorktableScreen extends GuiForestryTitled<WorktableMenu> {
 			for (int x = 0; x < 3; x++) {
 				int xPos = 110 + x * SPACING;
 
-				widgetManager.add(new MemorizedRecipeSlot(widgetManager, xPos, yPos, memory, slot++));
+                this.widgetManager.add(new MemorizedRecipeSlot(this.widgetManager, xPos, yPos, memory, slot++));
 			}
 		}
 
-		widgetManager.add(new ClearWorktable(widgetManager, 66, 19));
+        this.widgetManager.add(new ClearWorktable(this.widgetManager, 66, 19));
 	}
 
 	@Override
 	public void containerTick() {
 		super.containerTick();
 
-		if (hasRecipeConflict != worktable.hasRecipeConflict()) {
-			hasRecipeConflict = worktable.hasRecipeConflict();
-			if (hasRecipeConflict) {
+		if (this.hasRecipeConflict != this.worktable.hasRecipeConflict()) {
+            this.hasRecipeConflict = this.worktable.hasRecipeConflict();
+			if (this.hasRecipeConflict) {
 				addButtons();
 			} else {
-				renderables.clear();
+                this.renderables.clear();
 			}
 		}
 	}
 
 	private void addButtons() {
-		addRenderableWidget(new GuiBetterButton(leftPos + 76, topPos + 56, StandardButtonTextureSets.LEFT_BUTTON_SMALL, b -> {
+		addRenderableWidget(new GuiBetterButton(this.leftPos + 76, this.topPos + 56, StandardButtonTextureSets.LEFT_BUTTON_SMALL, b -> {
 			NetworkUtil.sendToServer(new PacketGuiSelectRequest(100, 0));
 			SoundUtil.playButtonClick();
 		}));
-		addRenderableWidget(new GuiBetterButton(leftPos + 85, topPos + 56, StandardButtonTextureSets.RIGHT_BUTTON_SMALL, b -> {
+		addRenderableWidget(new GuiBetterButton(this.leftPos + 85, this.topPos + 56, StandardButtonTextureSets.RIGHT_BUTTON_SMALL, b -> {
 			NetworkUtil.sendToServer(new PacketGuiSelectRequest(101, 0));
 			SoundUtil.playButtonClick();
 		}));
 	}
 
 
-
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(worktable);
+		addErrorLedger(this.worktable);
 		addHintLedger("worktable");
 	}
 }

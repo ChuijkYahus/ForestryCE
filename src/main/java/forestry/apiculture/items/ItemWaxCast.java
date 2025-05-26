@@ -10,12 +10,10 @@
  ******************************************************************************/
 package forestry.apiculture.items;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
-import forestry.api.core.ItemGroups;
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.ICraftingPlan;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 // todo figure out what this is supposed to be used for
 public class ItemWaxCast extends ItemForestry implements ICraftingPlan {

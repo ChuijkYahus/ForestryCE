@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.chat.Component;
-
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
 import forestry.core.gui.widgets.TankWidget;
 import forestry.factory.tiles.TileFermenter;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 public class GuiFermenter extends GuiForestryTitled<ContainerFermenter> {
 	private final TileFermenter tile;
@@ -25,8 +24,8 @@ public class GuiFermenter extends GuiForestryTitled<ContainerFermenter> {
 	public GuiFermenter(ContainerFermenter container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/fermenter.png", container, inventory, title);
 		this.tile = container.getTile();
-		widgetManager.add(new TankWidget(this.widgetManager, 35, 19, 0));
-		widgetManager.add(new TankWidget(this.widgetManager, 125, 19, 1));
+        this.widgetManager.add(new TankWidget(this.widgetManager, 35, 19, 0));
+        this.widgetManager.add(new TankWidget(this.widgetManager, 125, 19, 1));
 	}
 
 	@Override
@@ -34,22 +33,22 @@ public class GuiFermenter extends GuiForestryTitled<ContainerFermenter> {
 		super.renderBg(graphics, partialTicks, mX, mY);
 
 		// Fuel remaining
-		int fuelRemain = tile.getBurnTimeRemainingScaled(16);
+		int fuelRemain = this.tile.getBurnTimeRemainingScaled(16);
 		if (fuelRemain > 0) {
-			graphics.blit(this.textureFile, leftPos + 98, topPos + 46 + 17 - fuelRemain, 176, 78 + 17 - fuelRemain, 4, fuelRemain);
+			graphics.blit(this.textureFile, this.leftPos + 98, this.topPos + 46 + 17 - fuelRemain, 176, 78 + 17 - fuelRemain, 4, fuelRemain);
 		}
 
 		// Raw bio mush remaining
-		int bioRemain = tile.getFermentationProgressScaled(16);
+		int bioRemain = this.tile.getFermentationProgressScaled(16);
 		if (bioRemain > 0) {
-			graphics.blit(this.textureFile, leftPos + 74, topPos + 32 + 17 - bioRemain, 176, 60 + 17 - bioRemain, 4, bioRemain);
+			graphics.blit(this.textureFile, this.leftPos + 74, this.topPos + 32 + 17 - bioRemain, 176, 60 + 17 - bioRemain, 4, bioRemain);
 		}
 	}
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(tile);
+		addErrorLedger(this.tile);
 		addHintLedger("fermenter");
-		addPowerLedger(tile.getEnergyManager());
+		addPowerLedger(this.tile.getEnergyManager());
 	}
 }

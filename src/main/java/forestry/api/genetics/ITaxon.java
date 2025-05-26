@@ -1,11 +1,11 @@
 package forestry.api.genetics;
 
+import forestry.api.genetics.alleles.IAllele;
+import forestry.api.genetics.alleles.IChromosome;
+
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
-
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IChromosome;
 
 /**
  * Biological classifications from domain down to genus.

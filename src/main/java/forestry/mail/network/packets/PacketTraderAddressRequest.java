@@ -10,17 +10,15 @@
  ******************************************************************************/
 package forestry.mail.network.packets;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-
-import net.minecraftforge.network.NetworkHooks;
-
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.tiles.TileTrader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkHooks;
 
 public record PacketTraderAddressRequest(BlockPos pos, String addressName) implements IForestryPacketServer {
 	public PacketTraderAddressRequest(TileTrader tile, String addressName) {
@@ -42,8 +40,8 @@ public record PacketTraderAddressRequest(BlockPos pos, String addressName) imple
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		buffer.writeUtf(addressName);
+		buffer.writeBlockPos(this.pos);
+		buffer.writeUtf(this.addressName);
 	}
 
 	public static PacketTraderAddressRequest decode(FriendlyByteBuf buffer) {

@@ -25,7 +25,7 @@ public class InventoryMapper extends InvWrapperBase implements Container {
 	private final Container inv;
 	private final int start;
 	private final int size;
-	private int stackSizeLimit = -1;
+	private final int stackSizeLimit = -1;
 
 	public InventoryMapper(Container inv) {
 		this(inv, 0, inv.getContainerSize(), true);
@@ -56,37 +56,37 @@ public class InventoryMapper extends InvWrapperBase implements Container {
 
 	@Override
 	public boolean isEmpty() {
-		return inv.isEmpty();
+		return this.inv.isEmpty();
 	}
 
 	@Override
 	public int getContainerSize() {
-		return size;
+		return this.size;
 	}
 
 	@Override
 	public ItemStack getItem(int slot) {
-		return inv.getItem(start + slot);
+		return this.inv.getItem(this.start + slot);
 	}
 
 	@Override
 	public ItemStack removeItem(int slot, int amount) {
-		return inv.removeItem(start + slot, amount);
+		return this.inv.removeItem(this.start + slot, amount);
 	}
 
 	@Override
 	public void setItem(int slot, ItemStack itemstack) {
-		inv.setItem(start + slot, itemstack);
+        this.inv.setItem(this.start + slot, itemstack);
 	}
 
 	@Override
 	public int getMaxStackSize() {
-		return stackSizeLimit > 0 ? stackSizeLimit : inv.getMaxStackSize();
+		return this.stackSizeLimit > 0 ? this.stackSizeLimit : this.inv.getMaxStackSize();
 	}
 
 	@Override
 	public boolean canPlaceItem(int slot, ItemStack stack) {
-		return !checkItems() || inv.canPlaceItem(start + slot, stack);
+		return !checkItems() || this.inv.canPlaceItem(this.start + slot, stack);
 	}
 
 }

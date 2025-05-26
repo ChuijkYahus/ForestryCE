@@ -10,23 +10,21 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
+import forestry.api.IForestryApi;
+import forestry.api.circuits.ICircuit;
+import forestry.api.circuits.ICircuitLayout;
+import forestry.api.circuits.ICircuitManager;
+import forestry.api.core.ItemGroups;
+import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
-import forestry.api.IForestryApi;
-import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitLayout;
-import forestry.api.circuits.ICircuitManager;
-import forestry.api.core.ItemGroups;
-
-import it.unimi.dsi.fastutil.Pair;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemElectronTube extends ItemOverlay {
 	public ItemElectronTube(ItemOverlay.IOverlayInfo type) {
@@ -44,8 +42,8 @@ public class ItemElectronTube extends ItemOverlay {
 			}
 		} else {
 			list.add(Component.literal("<")
-					.append(Component.translatable("for.gui.noeffect")
-							.append(">").withStyle(ChatFormatting.GRAY)));
+				.append(Component.translatable("for.gui.noeffect")
+					.append(">").withStyle(ChatFormatting.GRAY)));
 		}
 	}
 

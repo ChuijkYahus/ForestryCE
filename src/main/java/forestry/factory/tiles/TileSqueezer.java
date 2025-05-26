@@ -10,31 +10,6 @@
  ******************************************************************************/
 package forestry.factory.tiles;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ForestryCircuitSocketTypes;
 import forestry.api.circuits.ICircuitBoard;
@@ -56,6 +31,29 @@ import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerSqueezer;
 import forestry.factory.inventory.InventorySqueezer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class TileSqueezer extends TilePowered implements ISocketable, WorldlyContainer, ILiquidTankTile, ISpeedUpgradable {
 	private static final int TICKS_PER_RECIPE_TIME = 1;
@@ -75,7 +73,7 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 		this.inventory = new InventorySqueezer(this);
 		setInternalInventory(this.inventory);
 		this.productTank = new StandardTank(Constants.PROCESSOR_TANK_CAPACITY, false, true);
-		this.tankManager = new TankManager(this, productTank);
+		this.tankManager = new TankManager(this, this.productTank);
 	}
 
 	/* LOADING & SAVING */
@@ -83,17 +81,17 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-		tankManager.write(compoundNBT);
-		sockets.write(compoundNBT);
+        this.tankManager.write(compoundNBT);
+        this.sockets.write(compoundNBT);
 	}
 
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-		tankManager.read(compoundNBT);
-		sockets.read(compoundNBT);
+        this.tankManager.read(compoundNBT);
+        this.sockets.read(compoundNBT);
 
-		ItemStack chip = sockets.getItem(0);
+		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
 			ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(chip);
 			if (chipset != null) {
@@ -105,27 +103,27 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
-		tankManager.writeData(data);
+        this.tankManager.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		tankManager.readData(data);
+        this.tankManager.readData(data);
 	}
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
 		super.writeGuiData(data);
-		sockets.writeData(data);
+        this.sockets.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readGuiData(FriendlyByteBuf data) {
 		super.readGuiData(data);
-		sockets.readData(data);
+        this.sockets.readData(data);
 	}
 
 	// / WORKING
@@ -134,28 +132,28 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 		super.serverTick(level, pos, state);
 
 		if (updateOnInterval(20)) {
-			FluidStack fluid = productTank.getFluid();
+			FluidStack fluid = this.productTank.getFluid();
 			if (!fluid.isEmpty()) {
-				inventory.fillContainers(fluid, tankManager);
+                this.inventory.fillContainers(fluid, this.tankManager);
 			}
 		}
 	}
 
 	@Override
 	public boolean workCycle() {
-		if (currentRecipe == null) {
+		if (this.currentRecipe == null) {
 			return false;
 		}
-		if (!inventory.removeResources(currentRecipe.getInputs())) {
+		if (!this.inventory.removeResources(this.currentRecipe.getInputs())) {
 			return false;
 		}
 
-		FluidStack resultFluid = currentRecipe.getFluidOutput();
-		productTank.fillInternal(resultFluid, IFluidHandler.FluidAction.EXECUTE);
+		FluidStack resultFluid = this.currentRecipe.getFluidOutput();
+        this.productTank.fillInternal(resultFluid, IFluidHandler.FluidAction.EXECUTE);
 
-		if (!currentRecipe.getRemnants().isEmpty() && level.random.nextFloat() < currentRecipe.getRemnantsChance()) {
-			ItemStack remnant = currentRecipe.getRemnants().copy();
-			inventory.addRemnant(remnant, true);
+		if (!this.currentRecipe.getRemnants().isEmpty() && this.level.random.nextFloat() < this.currentRecipe.getRemnantsChance()) {
+			ItemStack remnant = this.currentRecipe.getRemnants().copy();
+            this.inventory.addRemnant(remnant, true);
 		}
 
 		return true;
@@ -164,18 +162,18 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	private boolean checkRecipe() {
 		ISqueezerRecipe matchingRecipe = null;
 
-		if (inventory.hasResources()) {
-			List<ItemStack> resources = inventory.getResources();
+		if (this.inventory.hasResources()) {
+			List<ItemStack> resources = this.inventory.getResources();
 
 			boolean containsSets = false;
 
-			if (currentRecipe != null) {
+			if (this.currentRecipe != null) {
 				Container inventory = new InventoryMapper(this, InventorySqueezer.SLOT_RESOURCE_1, InventorySqueezer.SLOTS_RESOURCE_COUNT);
-				containsSets = InventoryUtil.consumeIngredients(inventory, currentRecipe.getInputs(), null, false, false, false);
+				containsSets = InventoryUtil.consumeIngredients(inventory, this.currentRecipe.getInputs(), null, false, false, false);
 			}
 
-			if (currentRecipe != null && containsSets) {
-				matchingRecipe = currentRecipe;
+			if (this.currentRecipe != null && containsSets) {
+				matchingRecipe = this.currentRecipe;
 			} else {
 				matchingRecipe = RecipeUtils.getSqueezerRecipe(getLevel().getRecipeManager(), resources);
 			}
@@ -189,37 +187,37 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 			}
 		}
 
-		if (currentRecipe != matchingRecipe) {
-			currentRecipe = matchingRecipe;
+		if (this.currentRecipe != matchingRecipe) {
+            this.currentRecipe = matchingRecipe;
 
-			if (currentRecipe != null) {
-				int recipeTime = currentRecipe.getProcessingTime();
+			if (this.currentRecipe != null) {
+				int recipeTime = this.currentRecipe.getProcessingTime();
 				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
 				setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
 			}
 		}
 
-		getErrorLogic().setCondition(currentRecipe == null, ForestryError.NO_RECIPE);
-		return currentRecipe != null;
+		getErrorLogic().setCondition(this.currentRecipe == null, ForestryError.NO_RECIPE);
+		return this.currentRecipe != null;
 	}
 
 	@Override
 	public boolean hasWork() {
 		checkRecipe();
 
-		boolean hasResources = inventory.hasResources();
+		boolean hasResources = this.inventory.hasResources();
 		boolean hasRecipe = true;
 		boolean canFill = true;
 		boolean canAdd = true;
 
 		if (hasResources) {
-			hasRecipe = currentRecipe != null;
+			hasRecipe = this.currentRecipe != null;
 			if (hasRecipe) {
-				FluidStack resultFluid = currentRecipe.getFluidOutput();
-				canFill = productTank.fillInternal(resultFluid, IFluidHandler.FluidAction.SIMULATE) == resultFluid.getAmount();
+				FluidStack resultFluid = this.currentRecipe.getFluidOutput();
+				canFill = this.productTank.fillInternal(resultFluid, IFluidHandler.FluidAction.SIMULATE) == resultFluid.getAmount();
 
-				if (!currentRecipe.getRemnants().isEmpty()) {
-					canAdd = inventory.addRemnant(currentRecipe.getRemnants(), false);
+				if (!this.currentRecipe.getRemnants().isEmpty()) {
+					canAdd = this.inventory.addRemnant(this.currentRecipe.getRemnants(), false);
 				}
 			}
 		}
@@ -235,40 +233,40 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 
 	@Override
 	public TankRenderInfo getProductTankInfo() {
-		return new TankRenderInfo(productTank);
+		return new TankRenderInfo(this.productTank);
 	}
 
 
 	@Override
 	public TankManager getTankManager() {
-		return tankManager;
+		return this.tankManager;
 	}
 
 	/* ISocketable */
 	@Override
 	public int getSocketCount() {
-		return sockets.getContainerSize();
+		return this.sockets.getContainerSize();
 	}
 
 	@Override
 	public ItemStack getSocket(int slot) {
-		return sockets.getItem(slot);
+		return this.sockets.getItem(slot);
 	}
 
 	@Override
 	public void setSocket(int slot, ItemStack stack) {
 		if (stack.isEmpty() || IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(stack)) {
 			// Dispose correctly of old chipsets
-			if (!sockets.getItem(slot).isEmpty()) {
-				if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(sockets.getItem(slot))) {
-					ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(sockets.getItem(slot));
+			if (!this.sockets.getItem(slot).isEmpty()) {
+				if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(this.sockets.getItem(slot))) {
+					ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(this.sockets.getItem(slot));
 					if (chipset != null) {
 						chipset.onRemoval(this);
 					}
 				}
 			}
 
-			sockets.setItem(slot, stack);
+            this.sockets.setItem(slot, stack);
 			if (!stack.isEmpty()) {
 				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(stack);
 				if (chipset != null) {
@@ -286,7 +284,7 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> tankManager).cast();
+			return LazyOptional.of(() -> this.tankManager).cast();
 		}
 		return super.getCapability(capability, facing);
 	}

@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.arboriculture.blocks;
 
+import forestry.api.arboriculture.IWoodType;
+import forestry.api.arboriculture.WoodBlockKind;
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.IWoodTyped;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.SoundType;
-
-import forestry.arboriculture.ForestryWoodType;
-import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.WoodBlockKind;
-import forestry.arboriculture.IWoodTyped;
 
 public class BlockForestryDoor extends DoorBlock implements IWoodTyped {
 	private final ForestryWoodType woodType;
@@ -39,6 +38,6 @@ public class BlockForestryDoor extends DoorBlock implements IWoodTyped {
 
 	@Override
 	public IWoodType getWoodType() {
-		return woodType;
+		return this.woodType;
 	}
 }

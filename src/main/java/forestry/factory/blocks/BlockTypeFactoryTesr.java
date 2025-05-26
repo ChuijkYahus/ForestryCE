@@ -10,14 +10,6 @@
  ******************************************************************************/
 package forestry.factory.blocks;
 
-import javax.annotation.Nullable;
-import java.util.function.Supplier;
-
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
-
 import forestry.core.blocks.BlockBase;
 import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
@@ -27,14 +19,14 @@ import forestry.core.tiles.IForestryTicker;
 import forestry.core.tiles.TileBase;
 import forestry.core.tiles.TileMill;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.tiles.TileBottler;
-import forestry.factory.tiles.TileCarpenter;
-import forestry.factory.tiles.TileCentrifuge;
-import forestry.factory.tiles.TileFermenter;
-import forestry.factory.tiles.TileMoistener;
-import forestry.factory.tiles.TileSqueezer;
-import forestry.factory.tiles.TileStill;
+import forestry.factory.tiles.*;
 import forestry.modules.features.FeatureTileType;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
 
 public enum BlockTypeFactoryTesr implements IBlockType {
 	BOTTLER(FactoryTiles.BOTTLER, "bottler", TileBottler::serverTick),
@@ -59,12 +51,12 @@ public enum BlockTypeFactoryTesr implements IBlockType {
 		final VoxelShape ew = Shapes.or(ewBase, ewFront, ewBack);
 
 		this.machineProperties = new MachineProperties.Builder<>(teClass, name)
-				.setServerTicker(serverTicker)
-				.setShape((state, reader, pos, context) -> {
-					Direction direction = state.getValue(BlockBase.FACING);
-					return (direction == Direction.NORTH || direction == Direction.SOUTH) ? ns : ew;
-				})
-				.create();
+			.setServerTicker(serverTicker)
+			.setShape((state, reader, pos, context) -> {
+				Direction direction = state.getValue(BlockBase.FACING);
+				return (direction == Direction.NORTH || direction == Direction.SOUTH) ? ns : ew;
+			})
+			.create();
 	}
 
 	<T extends TileMill> BlockTypeFactoryTesr(FeatureTileType<T> teClass, String name, String renderMillTexture) {
@@ -73,15 +65,15 @@ public enum BlockTypeFactoryTesr implements IBlockType {
 		final VoxelShape extension = Block.box(1D, 8D, 7D, 15, 10, 9);
 
 		this.machineProperties = new MachineProperties.Builder<>(teClass, name)
-				.setShape(() -> Shapes.or(pedestal, column, extension))
-				.setClientTicker(TileMill::clientTick)
-				.setServerTicker(TileMill::serverTick)
-				.create();
+			.setShape(() -> Shapes.or(pedestal, column, extension))
+			.setClientTicker(TileMill::clientTick)
+			.setServerTicker(TileMill::serverTick)
+			.create();
 	}
 
 	@Override
 	public IMachineProperties<?> getMachineProperties() {
-		return machineProperties;
+		return this.machineProperties;
 	}
 
 	@Override

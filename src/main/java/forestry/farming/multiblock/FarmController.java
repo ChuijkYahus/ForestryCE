@@ -12,34 +12,6 @@ package forestry.farming.multiblock;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Containers;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.registries.ForgeRegistries;
-
 import forestry.api.ForestryTags;
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ForestryCircuitSocketTypes;
@@ -69,6 +41,27 @@ import forestry.farming.FarmTarget;
 import forestry.farming.gui.IFarmLedgerDelegate;
 import forestry.farming.tiles.TileFarmGearbox;
 import forestry.farming.tiles.TileFarmPlain;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Containers;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class FarmController extends RectangularMultiblockControllerBase implements IFarmControllerInternal, ILiquidTankTile {
 	private int allowedExtent = 0;
@@ -102,13 +95,13 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public IFarmLedgerDelegate getFarmLedgerDelegate() {
-		return manager.getHydrationManager();
+		return this.manager.getHydrationManager();
 	}
 
 	@Override
 	public IInventoryAdapter getInternalInventory() {
 		if (isAssembled()) {
-			return inventory;
+			return this.inventory;
 		} else {
 			return FakeInventoryAdapter.INSTANCE;
 		}
@@ -116,7 +109,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public TankManager getTankManager() {
-		return manager.getTankManager();
+		return this.manager.getTankManager();
 	}
 
 	@Override
@@ -127,22 +120,22 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	@Override
 	protected void onBlockAdded(IMultiblockComponent newPart) {
 		if (newPart instanceof IFarmComponent.Listener listenerPart) {
-			manager.addListener(listenerPart.getFarmListener());
+            this.manager.addListener(listenerPart.getFarmListener());
 		}
 
 		if (newPart instanceof IFarmComponent.Active) {
-			farmActiveComponents.put((IFarmComponent.Active) newPart, level.random.nextInt(256));
+            this.farmActiveComponents.put((IFarmComponent.Active) newPart, this.level.random.nextInt(256));
 		}
 	}
 
 	@Override
 	protected void onBlockRemoved(IMultiblockComponent oldPart) {
 		if (oldPart instanceof IFarmComponent.Listener listenerPart) {
-			manager.removeListener(listenerPart.getFarmListener());
+            this.manager.removeListener(listenerPart.getFarmListener());
 		}
 
 		if (oldPart instanceof IFarmComponent.Active) {
-			farmActiveComponents.remove(oldPart);
+            this.farmActiveComponents.remove(oldPart);
 		}
 	}
 
@@ -151,7 +144,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		super.isMachineWhole();
 
 		boolean hasGearbox = false;
-		for (IMultiblockComponent part : connectedParts) {
+		for (IMultiblockComponent part : this.connectedParts) {
 			if (part instanceof TileFarmGearbox) {
 				hasGearbox = true;
 				break;
@@ -166,7 +159,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	@Override
 	protected void onMachineDisassembled() {
 		super.onMachineDisassembled();
-		manager.clearTargets();
+        this.manager.clearTargets();
 	}
 
 	@Override
@@ -201,14 +194,14 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	protected boolean serverTick(int tickCount) {
-		manager.getHydrationManager().updateServer();
+        this.manager.getHydrationManager().updateServer();
 
 		if (updateOnInterval(20)) {
-			inventory.drainCan(manager.getTankManager());
+            this.inventory.drainCan(this.manager.getTankManager());
 		}
 
 		boolean hasPower = false;
-		for (Map.Entry<IFarmComponent.Active, Integer> entry : farmActiveComponents.entrySet()) {
+		for (Map.Entry<IFarmComponent.Active, Integer> entry : this.farmActiveComponents.entrySet()) {
 			IFarmComponent.Active farmComponent = entry.getKey();
 			if (farmComponent instanceof TileFarmGearbox gearbox) {
 				hasPower |= gearbox.getEnergyManager().getEnergyStored() > 0;
@@ -219,11 +212,11 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		}
 
 		if (hasPower) {
-			noPowerTime = 0;
+            this.noPowerTime = 0;
 			getErrorLogic().setCondition(false, ForestryError.NO_POWER);
 		} else {
-			if (noPowerTime <= 4) {
-				noPowerTime++;
+			if (this.noPowerTime <= 4) {
+                this.noPowerTime++;
 			} else {
 				getErrorLogic().setCondition(true, ForestryError.NO_POWER);
 			}
@@ -235,7 +228,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	protected void clientTick(int tickCount) {
-		for (Map.Entry<IFarmComponent.Active, Integer> entry : farmActiveComponents.entrySet()) {
+		for (Map.Entry<IFarmComponent.Active, Integer> entry : this.farmActiveComponents.entrySet()) {
 			IFarmComponent.Active farmComponent = entry.getKey();
 			int tickOffset = entry.getValue();
 			farmComponent.updateClient(tickCount + tickOffset);
@@ -245,32 +238,32 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	@Override
 	public CompoundTag write(CompoundTag data) {
 		data = super.write(data);
-		sockets.write(data);
-		manager.write(data);
-		inventory.write(data);
+        this.sockets.write(data);
+        this.manager.write(data);
+        this.inventory.write(data);
 		return data;
 	}
 
 	@Override
 	public void read(CompoundTag data) {
 		super.read(data);
-		sockets.read(data);
-		manager.read(data);
-		inventory.read(data);
+        this.sockets.read(data);
+        this.manager.read(data);
+        this.inventory.read(data);
 
 		refreshFarmLogics();
 	}
 
 	@Override
 	public void formatDescriptionPacket(CompoundTag data) {
-		sockets.write(data);
-		manager.write(data);
+        this.sockets.write(data);
+        this.manager.write(data);
 	}
 
 	@Override
 	public void decodeDescriptionPacket(CompoundTag data) {
-		sockets.read(data);
-		manager.read(data);
+        this.sockets.read(data);
+        this.manager.read(data);
 
 		refreshFarmLogics();
 	}
@@ -287,14 +280,14 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
-		manager.writeData(data);
-		sockets.writeData(data);
+        this.manager.writeData(data);
+        this.sockets.writeData(data);
 	}
 
 	@Override
 	public void readGuiData(FriendlyByteBuf data) {
-		manager.readData(data);
-		sockets.readData(data);
+        this.manager.readData(data);
+        this.sockets.readData(data);
 
 		refreshFarmLogics();
 	}
@@ -305,7 +298,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		}
 
 		// See whether we have socketed stuff.
-		ItemStack chip = sockets.getItem(0);
+		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
 			ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(chip);
 			if (chipset != null) {
@@ -329,7 +322,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		if (coords == null) {
 			return ForgeRegistries.BIOMES.getDelegateOrThrow(Biomes.PLAINS);
 		}
-		return level.getBiome(coords);
+		return this.level.getBiome(coords);
 	}
 
 	@Override
@@ -339,19 +332,19 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public Vec3i getOffset() {
-		if (offset == null) {
+		if (this.offset == null) {
 			Vec3i area = getArea();
-			offset = new Vec3i(-area.getX() / 2, -2, -area.getZ() / 2);
+            this.offset = new Vec3i(-area.getX() / 2, -2, -area.getZ() / 2);
 		}
-		return offset;
+		return this.offset;
 	}
 
 	@Override
 	public Vec3i getArea() {
-		if (area == null) {
-			area = new Vec3i(7 + allowedExtent * 2, 13, 7 + allowedExtent * 2);
+		if (this.area == null) {
+            this.area = new Vec3i(7 + this.allowedExtent * 2, 13, 7 + this.allowedExtent * 2);
 		}
-		return area;
+		return this.area;
 	}
 
 	@Override
@@ -361,7 +354,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public boolean doWork() {
-		return manager.doWork();
+		return this.manager.doWork();
 	}
 
 	@Override
@@ -375,54 +368,54 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		int sizeEastWest = Math.abs(max.getX() - min.getX()) + 1;
 
 		// Set the maximum allowed extent.
-		allowedExtent = Math.max(sizeNorthSouth, sizeEastWest) * ForestryConfig.SERVER.multiFarmSize.get() + 1;
+        this.allowedExtent = Math.max(sizeNorthSouth, sizeEastWest) * ForestryConfig.SERVER.multiFarmSize.get() + 1;
 
-		FarmHelper.createTargets(level, this, targets, targetStart, allowedExtent, sizeNorthSouth, sizeEastWest, min, max);
-		FarmHelper.setExtents(level, this, targets);
+		FarmHelper.createTargets(this.level, this, targets, targetStart, this.allowedExtent, sizeNorthSouth, sizeEastWest, min, max);
+		FarmHelper.setExtents(this.level, this, targets);
 	}
 
 	@Override
 	public int getStoredFertilizerScaled(int scale) {
-		return manager.getFertilizerManager().getStoredFertilizerScaled(inventory, scale);
+		return this.manager.getFertilizerManager().getStoredFertilizerScaled(this.inventory, scale);
 	}
 
 	@Override
 	public BlockPos getFarmCorner(Direction direction) {
-		return manager.getFarmCorner(direction);
+		return this.manager.getFarmCorner(direction);
 	}
 
 	@Override
 	public boolean hasLiquid(FluidStack liquid) {
-		FluidStack drained = manager.getResourceTank().drainInternal(liquid, IFluidHandler.FluidAction.SIMULATE);
+		FluidStack drained = this.manager.getResourceTank().drainInternal(liquid, IFluidHandler.FluidAction.SIMULATE);
 		return liquid.isFluidStackIdentical(drained);
 	}
 
 	@Override
 	public void removeLiquid(FluidStack liquid) {
-		manager.getResourceTank().drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
+        this.manager.getResourceTank().drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
 	}
 
 	@Override
 	public boolean plantGermling(IFarmable germling, Level world, BlockPos pos, Direction direction) {
 		Player player = PlayerUtil.getFakePlayer(world, getOwnerHandler().getOwner());
-		return player != null && inventory.plantGermling(germling, player, pos);
+		return player != null && this.inventory.plantGermling(germling, player, pos);
 	}
 
 	@Override
 	public IFarmInventoryInternal getFarmInventory() {
-		return inventory;
+		return this.inventory;
 	}
 
 	@Override
 	public void addPendingProduct(ItemStack stack) {
-		manager.addPendingProduct(stack);
+        this.manager.addPendingProduct(stack);
 	}
 
 	@Override
 	public void setFarmLogic(Direction direction, IFarmLogic logic) {
 		Preconditions.checkNotNull(direction);
 		Preconditions.checkNotNull(logic, "logic must not be null");
-		farmLogics.put(direction, logic);
+        this.farmLogics.put(direction, logic);
 		cleanExtents(direction);
 	}
 
@@ -433,38 +426,38 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public IFarmLogic getFarmLogic(Direction direction) {
-		return farmLogics.get(direction);
+		return this.farmLogics.get(direction);
 	}
 
 	@Override
 	public Collection<IFarmLogic> getFarmLogics() {
-		return farmLogics.values();
+		return this.farmLogics.values();
 	}
 
 	@Override
 	public int getSocketCount() {
-		return sockets.getContainerSize();
+		return this.sockets.getContainerSize();
 	}
 
 	@Override
 	public ItemStack getSocket(int slot) {
-		return sockets.getItem(slot);
+		return this.sockets.getItem(slot);
 	}
 
 	@Override
 	public void setSocket(int slot, ItemStack stack) {
 		if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(stack) || stack.isEmpty()) {
 			// Dispose old chipsets correctly
-			if (!sockets.getItem(slot).isEmpty()) {
-				if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(sockets.getItem(slot))) {
-					ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(sockets.getItem(slot));
+			if (!this.sockets.getItem(slot).isEmpty()) {
+				if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(this.sockets.getItem(slot))) {
+					ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(this.sockets.getItem(slot));
 					if (chipset != null) {
 						chipset.onRemoval(this);
 					}
 				}
 			}
 
-			sockets.setItem(slot, stack);
+            this.sockets.setItem(slot, stack);
 			refreshFarmLogics();
 
 			if (!stack.isEmpty()) {
@@ -499,22 +492,22 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public int getExtents(Direction direction, BlockPos pos) {
-		return manager.getExtents(direction, pos);
+		return this.manager.getExtents(direction, pos);
 	}
 
 	@Override
 	public void setExtents(Direction direction, BlockPos pos, int extend) {
-		manager.setExtents(direction, pos, extend);
+        this.manager.setExtents(direction, pos, extend);
 	}
 
 	@Override
 	public void cleanExtents(Direction direction) {
-		manager.cleanExtents(direction);
+        this.manager.cleanExtents(direction);
 	}
 
 	// for debugging
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).add("logic", farmLogics.toString()).toString();
+		return MoreObjects.toStringHelper(this).add("logic", this.farmLogics.toString()).toString();
 	}
 }

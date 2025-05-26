@@ -23,7 +23,7 @@ public class ToolTip extends TextCollection {
 	}
 
 	public void onTick(boolean mouseOver) {
-		if (delay == 0) {
+		if (this.delay == 0) {
 			return;
 		}
 		if (mouseOver) {

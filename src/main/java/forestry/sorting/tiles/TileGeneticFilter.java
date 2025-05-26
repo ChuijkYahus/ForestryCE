@@ -1,30 +1,5 @@
 package forestry.sorting.tiles;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.filter.FilterData;
@@ -38,6 +13,29 @@ import forestry.sorting.FilterLogic;
 import forestry.sorting.features.SortingTiles;
 import forestry.sorting.gui.ContainerGeneticFilter;
 import forestry.sorting.inventory.ItemHandlerFilter;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	private static final int TRANSFER_DELAY = 5;
@@ -56,25 +54,25 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	public void saveAdditional(CompoundTag data) {
 		super.saveAdditional(data);
 
-		data.put("Logic", logic.write(new CompoundTag()));
+		data.put("Logic", this.logic.write(new CompoundTag()));
 	}
 
 	@Override
 	public void load(CompoundTag data) {
 		super.load(data);
 
-		logic.read(data.getCompound("Logic"));
+        this.logic.read(data.getCompound("Logic"));
 	}
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
-		logic.writeGuiData(data);
+        this.logic.writeGuiData(data);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void readGuiData(FriendlyByteBuf data) {
-		logic.readGuiData(data);
+        this.logic.readGuiData(data);
 	}
 
 	private void sendToPlayers(ServerLevel server, Player filterChanger) {
@@ -100,7 +98,7 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 				if (remaining > 0) {
 					stack = stack.copy();
 					stack.setCount(remaining);
-					ItemStackUtil.dropItemStackAsEntity(stack.copy(), level, worldPosition.getX(), worldPosition.getY() + 0.5F, worldPosition.getZ());
+					ItemStackUtil.dropItemStackAsEntity(stack.copy(), level, this.worldPosition.getX(), this.worldPosition.getY() + 0.5F, this.worldPosition.getZ());
 				}
 				setItem(facing.get3DDataValue(), ItemStack.EMPTY);
 			}
@@ -108,15 +106,15 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	}
 
 	public boolean isConnected(Direction facing) {
-		if (inventoryCache.getAdjacentInventory(facing) != null) {
+		if (this.inventoryCache.getAdjacentInventory(facing) != null) {
 			return true;
 		}
-		BlockEntity tileEntity = level.getBlockEntity(worldPosition.relative(facing));
+		BlockEntity tileEntity = this.level.getBlockEntity(this.worldPosition.relative(facing));
 		return TileUtil.getInventoryFromTile(tileEntity, facing.getOpposite()) != null;
 	}
 
 	private ItemStack transferItem(ItemStack itemStack, Direction facing) {
-		IItemHandler itemHandler = inventoryCache.getAdjacentInventory(facing);
+		IItemHandler itemHandler = this.inventoryCache.getAdjacentInventory(facing);
 		if (itemHandler == null) {
 			return ItemStack.EMPTY;
 		}
@@ -156,7 +154,7 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	}
 
 	private boolean isValidFacing(Direction facing, ItemStack itemStack, FilterData filterData) {
-		return inventoryCache.getAdjacentInventory(facing) != null && logic.isValid(facing, itemStack, filterData);
+		return this.inventoryCache.getAdjacentInventory(facing) != null && this.logic.isValid(facing, itemStack, filterData);
 	}
 
 	public FilterLogic getLogic() {
@@ -174,7 +172,7 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 		if (capability == ForgeCapabilities.ITEM_HANDLER && facing != null) {
 			return LazyOptional.of(() -> new ItemHandlerFilter(this, facing)).cast();
 		} else if (capability == ForestryCapabilities.FILTER_LOGIC) {
-			return LazyOptional.of(() -> logic).cast();
+			return LazyOptional.of(() -> this.logic).cast();
 		}
 		return super.getCapability(capability, facing);
 	}

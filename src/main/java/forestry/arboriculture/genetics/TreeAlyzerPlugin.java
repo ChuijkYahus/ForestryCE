@@ -10,14 +10,6 @@
  ******************************************************************************/
 package forestry.arboriculture.genetics;
 
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
@@ -34,6 +26,13 @@ import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.WidgetManager;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+import java.util.Map;
 
 public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 	INSTANCE;
@@ -108,8 +107,8 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 
 					textLayout.startPage(graphics, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
 
-					int speciesDominance0 = guiAlyzer.getColorCoding(primary.isDominant());
-					int speciesDominance1 = guiAlyzer.getColorCoding(secondary.isDominant());
+					int speciesDominance0 = GuiAlyzer.getColorCoding(primary.isDominant());
+					int speciesDominance1 = GuiAlyzer.getColorCoding(secondary.isDominant());
 
 					textLayout.drawLine(graphics, Component.translatable("for.gui.active"), GuiAlyzer.COLUMN_1);
 					textLayout.drawLine(graphics, Component.translatable("for.gui.inactive"), GuiAlyzer.COLUMN_2);

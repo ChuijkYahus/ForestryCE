@@ -10,8 +10,13 @@
  ******************************************************************************/
 package forestry.lepidopterology.tiles;
 
-import java.util.List;
-
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.ButterflyChromosomes;
+import forestry.api.lepidopterology.genetics.IButterfly;
+import forestry.core.utils.ItemStackUtil;
+import forestry.core.utils.SpeciesUtil;
+import forestry.lepidopterology.blocks.BlockCocoon;
+import forestry.lepidopterology.features.LepidopterologyTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -22,13 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.SpeciesUtil;
-import forestry.lepidopterology.blocks.BlockCocoon;
-import forestry.lepidopterology.features.LepidopterologyTiles;
+import java.util.List;
 
 public class TileCocoon extends BlockEntity {
 	private int maturationTime;
@@ -46,7 +45,7 @@ public class TileCocoon extends BlockEntity {
 		super.load(compoundNBT);
 
 		if (compoundNBT.contains("Caterpillar")) {
-			caterpillar = SpeciesUtil.deserializeIndividual(SpeciesUtil.BUTTERFLY_TYPE.get(), compoundNBT.getCompound("Caterpillar"));
+            this.caterpillar = SpeciesUtil.deserializeIndividual(SpeciesUtil.BUTTERFLY_TYPE.get(), compoundNBT.getCompound("Caterpillar"));
 		}
 		this.maturationTime = compoundNBT.getInt("CATMAT");
 		this.isSolid = compoundNBT.getBoolean("isSolid");
@@ -66,25 +65,25 @@ public class TileCocoon extends BlockEntity {
 	}
 
 	public void onBlockTick() {
-		maturationTime++;
+        this.maturationTime++;
 
 		IGenome caterpillarGenome = this.caterpillar.getGenome();
 		int caterpillarMatureTime = Math
-				.round((float) caterpillarGenome.getActiveValue(ButterflyChromosomes.LIFESPAN) / (caterpillarGenome.getActiveValue(ButterflyChromosomes.FERTILITY) * 2));
+			.round((float) caterpillarGenome.getActiveValue(ButterflyChromosomes.LIFESPAN) / (caterpillarGenome.getActiveValue(ButterflyChromosomes.FERTILITY) * 2));
 
-		if (maturationTime >= caterpillarMatureTime) {
+		if (this.maturationTime >= caterpillarMatureTime) {
 			int age = getBlockState().getValue(BlockCocoon.AGE);
 			if (age < 2) {
-				maturationTime = 0;
+                this.maturationTime = 0;
 				BlockState blockState = getBlockState().setValue(BlockCocoon.AGE, age + 1);
-				level.setBlock(worldPosition, blockState, Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS);
-			} else if (this.caterpillar.canTakeFlight(level, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ())) {
+                this.level.setBlock(this.worldPosition, blockState, Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS);
+			} else if (this.caterpillar.canTakeFlight(this.level, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ())) {
 				List<ItemStack> cocoonDrops = this.caterpillar.getCocoonDrop(this.isSolid, this.caterpillar.getGenome().getActiveValue(ButterflyChromosomes.COCOON));
 				for (ItemStack drop : cocoonDrops) {
-					ItemStackUtil.dropItemStackAsEntity(drop, level, worldPosition);
+					ItemStackUtil.dropItemStackAsEntity(drop, this.level, this.worldPosition);
 				}
-				level.setBlockAndUpdate(getBlockPos(), Blocks.AIR.defaultBlockState());
-				attemptButterflySpawn(level, this.caterpillar, getBlockPos());
+                this.level.setBlockAndUpdate(getBlockPos(), Blocks.AIR.defaultBlockState());
+				attemptButterflySpawn(this.level, this.caterpillar, getBlockPos());
 			}
 		}
 	}

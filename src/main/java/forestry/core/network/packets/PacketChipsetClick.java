@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.core.network.packets;
 
+import forestry.api.modules.IForestryPacketServer;
+import forestry.core.circuits.ItemCircuitBoard;
+import forestry.core.gui.IContainerSocketed;
+import forestry.core.network.PacketIdServer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-
-import forestry.core.circuits.ItemCircuitBoard;
-import forestry.core.gui.IContainerSocketed;
-import forestry.api.modules.IForestryPacketServer;
-import forestry.core.network.PacketIdServer;
 
 public record PacketChipsetClick(int slot) implements IForestryPacketServer {
 	public static void handle(PacketChipsetClick msg, ServerPlayer player) {
@@ -33,7 +32,7 @@ public record PacketChipsetClick(int slot) implements IForestryPacketServer {
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeVarInt(slot);
+		buffer.writeVarInt(this.slot);
 	}
 
 	@Override

@@ -10,9 +10,7 @@
  ******************************************************************************/
 package forestry.core.utils;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -35,7 +33,8 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
-import forestry.core.tiles.TileUtil;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class BlockUtil {
 	public static final BlockBehaviour.StatePredicate ALWAYS = (state, level, pos) -> true;
@@ -90,7 +89,7 @@ public abstract class BlockUtil {
 
 	public static boolean isReplaceableBlock(BlockState blockState, Level world, BlockPos pos) {
 		Block block = blockState.getBlock();
-		return world.getBlockState(pos).canBeReplaced() && true;//!(block instanceof BlockStaticLiquid);
+		return world.getBlockState(pos).canBeReplaced();//!(block instanceof BlockStaticLiquid);
 	}
 
 	/* CHUNKS */
@@ -103,8 +102,8 @@ public abstract class BlockUtil {
 		BlockPos downPos = pos.below();
 		BlockState belowState = world.getBlockState(downPos);
 		return !(world.getBlockState(pos).canBeReplaced() && state.liquid()) &&
-				!belowState.is(BlockTags.LEAVES) &&
-				!belowState.is(BlockTags.LOGS);
+			!belowState.is(BlockTags.LEAVES) &&
+			!belowState.is(BlockTags.LOGS);
 	}
 
 	public static BlockPos getNextReplaceableUpPos(Level world, BlockPos pos) {

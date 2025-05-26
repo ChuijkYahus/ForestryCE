@@ -11,30 +11,9 @@
 package forestry.arboriculture.genetics;
 
 import com.google.common.collect.ImmutableList;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
-
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeEffect;
@@ -47,6 +26,23 @@ import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.core.genetics.Individual;
 import forestry.core.genetics.mutations.Mutation;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> implements ITree, IPlantable {
 	public static final Codec<Tree> CODEC = RecordCodecBuilder.create(instance -> {
@@ -138,10 +134,10 @@ public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> impl
 	public List<ITree> getSaplings(Level level, BlockPos pos, @Nullable GameProfile playerProfile, float modifier) {
 		List<ITree> prod = new ArrayList<>();
 
-		float chance = genome.getActiveValue(TreeChromosomes.SAPLINGS) * modifier;
+		float chance = this.genome.getActiveValue(TreeChromosomes.SAPLINGS) * modifier;
 
 		if (level.random.nextFloat() <= chance) {
-			if (mate == null) {
+			if (this.mate == null) {
 				prod.add(copy());
 			} else {
 				SpeciesUtil.ISpeciesMutator mutator = (p1, p2) -> mutateSpecies(level, playerProfile, pos, p1, p2);

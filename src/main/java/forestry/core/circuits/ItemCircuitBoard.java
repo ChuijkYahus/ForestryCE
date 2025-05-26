@@ -10,18 +10,6 @@
  ******************************************************************************/
 package forestry.core.circuits;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ICircuit;
 import forestry.api.circuits.ICircuitBoard;
@@ -29,6 +17,16 @@ import forestry.api.circuits.ICircuitLayout;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.IColoredItem;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 	private final EnumCircuitBoardType type;
@@ -38,16 +36,16 @@ public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 	}
 
 	public EnumCircuitBoardType getType() {
-		return type;
+		return this.type;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public int getColorFromItemStack(ItemStack itemstack, int tintIndex) {
 		if (tintIndex == 0) {
-			return type.getPrimaryColor();
+			return this.type.getPrimaryColor();
 		} else {
-			return type.getSecondaryColor();
+			return this.type.getSecondaryColor();
 		}
 	}
 

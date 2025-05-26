@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.farming;
 
-import javax.annotation.Nullable;
-
+import forestry.api.farming.IFarmHousing;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 
-import forestry.api.farming.IFarmHousing;
+import javax.annotation.Nullable;
 
 public class FarmTarget {
 	private final BlockPos start;
@@ -33,7 +32,7 @@ public class FarmTarget {
 	}
 
 	public BlockPos getStart() {
-		return start;
+		return this.start;
 	}
 
 	public int getYOffset() {
@@ -41,22 +40,22 @@ public class FarmTarget {
 	}
 
 	public int getExtent() {
-		return extent;
+		return this.extent;
 	}
 
 	public Direction getDirection() {
-		return direction;
+		return this.direction;
 	}
 
 	public void setExtentAndYOffset(Level level, @Nullable BlockPos platformPosition, IFarmHousing housing) {
 		if (platformPosition == null) {
-			extent = 0;
+            this.extent = 0;
 			return;
 		}
 
 		BlockPos.MutableBlockPos position = new BlockPos.MutableBlockPos();
 		position.set(platformPosition);
-		for (extent = 0; extent < limit; extent++) {
+		for (this.extent = 0; this.extent < this.limit; this.extent++) {
 			if (!level.hasChunkAt(position)) {
 				break;
 			}
@@ -66,6 +65,6 @@ public class FarmTarget {
 			position.move(this.direction);
 		}
 
-		yOffset = platformPosition.getY() + 1 - getStart().getY();
+        this.yOffset = platformPosition.getY() + 1 - getStart().getY();
 	}
 }

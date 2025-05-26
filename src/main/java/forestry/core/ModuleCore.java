@@ -10,33 +10,7 @@
  ******************************************************************************/
 package forestry.core;
 
-import java.util.List;
-import java.util.function.Consumer;
-
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Unit;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.ComposterBlock;
-
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
-
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 import forestry.api.client.IClientModuleHandler;
@@ -60,22 +34,7 @@ import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.loot.ConditionLootModifier;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
-import forestry.core.network.packets.PacketActiveUpdate;
-import forestry.core.network.packets.PacketChipsetClick;
-import forestry.core.network.packets.PacketErrorUpdate;
-import forestry.core.network.packets.PacketGenomeTrackerSync;
-import forestry.core.network.packets.PacketGuiEnergy;
-import forestry.core.network.packets.PacketGuiLayoutSelect;
-import forestry.core.network.packets.PacketGuiSelectRequest;
-import forestry.core.network.packets.PacketGuiStream;
-import forestry.core.network.packets.PacketItemStackDisplay;
-import forestry.core.network.packets.PacketPipetteClick;
-import forestry.core.network.packets.PacketRefractoryWax;
-import forestry.core.network.packets.PacketSocketUpdate;
-import forestry.core.network.packets.PacketSolderingIronClick;
-import forestry.core.network.packets.PacketTankLevelUpdate;
-import forestry.core.network.packets.PacketTileStream;
-import forestry.core.network.packets.RecipeCachePacket;
+import forestry.core.network.packets.*;
 import forestry.core.owner.GameProfileDataSerializer;
 import forestry.core.recipes.RecipeManagers;
 import forestry.core.utils.ModUtil;
@@ -85,8 +44,29 @@ import forestry.modules.BlankForestryModule;
 import forestry.modules.ForestryModuleManager;
 import forestry.modules.ModuleUtil;
 import forestry.modules.features.FeatureItem;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Unit;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 @ForestryModule
 public class ModuleCore extends BlankForestryModule {

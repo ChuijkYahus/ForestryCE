@@ -1,14 +1,8 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.multiblock;
 
+import forestry.api.core.INbtWritable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
-
-import forestry.api.core.INbtWritable;
 
 /**
  * Multiblock Logic implements the basic logic for IMultiblockComponent tile entities.

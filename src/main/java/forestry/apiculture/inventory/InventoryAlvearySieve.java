@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.apiculture.inventory;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.apiculture.multiblock.TileAlvearySieve;
 import forestry.core.features.CoreItems;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.inventory.watchers.ISlotPickupWatcher;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.utils.ItemStackUtil;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class InventoryAlvearySieve extends InventoryAdapterTile<TileAlvearySieve> implements ISlotPickupWatcher {
 	public static final int SLOT_POLLEN_1 = 0;

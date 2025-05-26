@@ -10,10 +10,16 @@
  ******************************************************************************/
 package forestry.apiculture.blocks;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
+import forestry.api.ForestryTags;
+import forestry.api.IForestryApi;
+import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.hives.IHiveDrop;
+import forestry.api.apiculture.hives.IHiveTile;
+import forestry.apiculture.features.ApicultureTiles;
+import forestry.apiculture.tiles.TileHive;
+import forestry.core.tiles.TileUtil;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -36,17 +42,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
-import forestry.api.ForestryTags;
-import forestry.api.IForestryApi;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBee;
-import forestry.api.apiculture.hives.IHiveDrop;
-import forestry.api.apiculture.hives.IHiveTile;
-import forestry.apiculture.features.ApicultureTiles;
-import forestry.apiculture.tiles.TileHive;
-import forestry.core.tiles.TileUtil;
-
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 // Hives where wild bees live
 public class BlockBeeHive extends Block implements EntityBlock {

@@ -1,22 +1,19 @@
 package forestry.arboriculture.blocks;
 
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
-
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.IWoodTyped;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockForestryLog extends RotatedPillarBlock implements IWoodTyped {
@@ -38,17 +35,17 @@ public class BlockForestryLog extends RotatedPillarBlock implements IWoodTyped {
 
 	@Override
 	public final boolean isFireproof() {
-		return fireproof;
+		return this.fireproof;
 	}
 
 	@Override
 	public IWoodType getWoodType() {
-		return woodType;
+		return this.woodType;
 	}
 
 	@Override
 	public final int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		if (fireproof) {
+		if (this.fireproof) {
 			return 0;
 		} else if (face == Direction.DOWN) {
 			return 20;
@@ -61,7 +58,7 @@ public class BlockForestryLog extends RotatedPillarBlock implements IWoodTyped {
 
 	@Override
 	public final int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		if (fireproof) {
+		if (this.fireproof) {
 			return 0;
 		}
 		return 5;
@@ -73,19 +70,19 @@ public class BlockForestryLog extends RotatedPillarBlock implements IWoodTyped {
 			if (this.woodType instanceof ForestryWoodType type) {
 				if (this.kind == WoodBlockKind.LOG) {
 					return (this.fireproof ? ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF : ArboricultureBlocks.STRIPPED_LOGS)
-							.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
+						.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
 				} else if (this.kind == WoodBlockKind.WOOD) {
 					return (this.fireproof ? ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF : ArboricultureBlocks.STRIPPED_WOOD)
-							.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
+						.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
 				}
 			} else if (this.woodType instanceof VanillaWoodType type) {
 				// Only case could be that we're fireproof log or fireproof wood
 				if (this.kind == WoodBlockKind.LOG) {
 					return ArboricultureBlocks.STRIPPED_LOGS_VANILLA_FIREPROOF
-							.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
+						.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
 				} else if (this.kind == WoodBlockKind.WOOD) {
 					return ArboricultureBlocks.STRIPPED_WOOD_VANILLA_FIREPROOF
-							.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
+						.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
 				}
 			}
 		}

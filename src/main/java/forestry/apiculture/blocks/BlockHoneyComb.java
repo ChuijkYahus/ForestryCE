@@ -1,18 +1,16 @@
 package forestry.apiculture.blocks;
 
-import javax.annotation.Nullable;
-
+import forestry.apiculture.items.EnumHoneyComb;
+import forestry.core.blocks.IColoredBlock;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.apiculture.items.EnumHoneyComb;
-import forestry.core.blocks.IColoredBlock;
+import javax.annotation.Nullable;
 
 public class BlockHoneyComb extends Block implements IColoredBlock {
 	public final EnumHoneyComb type;
@@ -23,13 +21,13 @@ public class BlockHoneyComb extends Block implements IColoredBlock {
 	}
 
 	public EnumHoneyComb getType() {
-		return type;
+		return this.type;
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public int colorMultiplier(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
-		EnumHoneyComb honeyComb = type;
+		EnumHoneyComb honeyComb = this.type;
 		if (tintIndex == 1) {
 			return honeyComb.primaryColor;
 		} else {

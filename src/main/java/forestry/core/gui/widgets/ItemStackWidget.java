@@ -22,6 +22,6 @@ public class ItemStackWidget extends ItemStackWidgetBase {
 
 	@Override
 	public ItemStack getItemStack() {
-		return itemStack;
+		return this.itemStack;
 	}
 }

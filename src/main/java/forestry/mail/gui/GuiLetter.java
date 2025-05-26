@@ -10,23 +10,6 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
-import org.apache.commons.lang3.StringUtils;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import org.lwjgl.glfw.GLFW;
-
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
 import forestry.core.config.Constants;
@@ -40,6 +23,19 @@ import forestry.core.utils.NetworkUtil;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.inventory.ItemInventoryLetter;
 import forestry.mail.network.packets.PacketLetterInfoRequest;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class GuiLetter extends GuiForestry<ContainerLetter> {
 	private final ItemInventoryLetter itemInventory;
@@ -63,7 +59,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		this.imageHeight = 227;
 
 		this.isProcessedLetter = container.getLetter().isProcessed();
-		this.widgetManager.add(new AddresseeSlot(widgetManager, 16, 12, container));
+		this.widgetManager.add(new AddresseeSlot(this.widgetManager, 16, 12, container));
 		this.tradeInfoWidgets = new ArrayList<>();
 	}
 
@@ -71,27 +67,27 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 	public void init() {
 		super.init();
 
-		address = new EditBox(this.minecraft.font, leftPos + 46, topPos + 13, 93, 13, null);
-		address.setEditable(!isProcessedLetter);
-		IMailAddress recipient = menu.getRecipient();
+        this.address = new EditBox(this.minecraft.font, this.leftPos + 46, this.topPos + 13, 93, 13, null);
+        this.address.setEditable(!this.isProcessedLetter);
+		IMailAddress recipient = this.menu.getRecipient();
 		if (recipient != null) {
-			address.setValue(recipient.getName());
+            this.address.setValue(recipient.getName());
 		}
 
-		text = new GuiTextBox(this.minecraft.font, leftPos + 17, topPos + 31, 122, 57);
-		text.setMaxLength(128);
-		text.setEditable(!isProcessedLetter);
-		if (!menu.getText().isEmpty()) {
-			text.setValue(menu.getText());
+        this.text = new GuiTextBox(this.minecraft.font, this.leftPos + 17, this.topPos + 31, 122, 57);
+        this.text.setMaxLength(128);
+        this.text.setEditable(!this.isProcessedLetter);
+		if (!this.menu.getText().isEmpty()) {
+            this.text.setValue(this.menu.getText());
 		}
 
-		addWidget(address);
-		addWidget(text);
+		addWidget(this.address);
+		addWidget(this.text);
 	}
 
 	@Override
 	public boolean keyPressed(int key, int scanCode, int modifiers) {
-		if (isProcessedLetter) {
+		if (this.isProcessedLetter) {
 			return super.keyPressed(key, scanCode, modifiers);
 		}
 
@@ -103,10 +99,10 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 				// Name autocomplete
 				String currentValue = this.address.getValue().toLowerCase(Locale.ENGLISH);
 				Minecraft.getInstance().getConnection().getOnlinePlayers().stream()
-						.map(info -> info.getProfile().getName())
-						.filter(name -> name.toLowerCase(Locale.ENGLISH).contains(currentValue))
-						.findFirst()
-						.ifPresent(name -> this.address.setValue(name));
+					.map(info -> info.getProfile().getName())
+					.filter(name -> name.toLowerCase(Locale.ENGLISH).contains(currentValue))
+					.findFirst()
+					.ifPresent(name -> this.address.setValue(name));
 			} else {
 				this.address.keyPressed(key, scanCode, modifiers);
 			}
@@ -116,15 +112,15 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		if (this.text.isFocused()) {
 			if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_ESCAPE) {
 				if (hasShiftDown() && key != GLFW.GLFW_KEY_ESCAPE) {
-					text.setValue(text.getValue() + "\n");
+                    this.text.setValue(this.text.getValue() + "\n");
 				} else {
 					this.text.setFocused(false);
 				}
 			} else if (key == GLFW.GLFW_KEY_DOWN) {
-				text.advanceLine();
+                this.text.advanceLine();
 			} else if (key == GLFW.GLFW_KEY_UP) {
-				text.regressLine();
-			} else if (text.moreLinesAllowed() || key == GLFW.GLFW_KEY_DELETE || key == GLFW.GLFW_KEY_BACKSLASH) {
+                this.text.regressLine();
+			} else if (this.text.moreLinesAllowed() || key == GLFW.GLFW_KEY_DELETE || key == GLFW.GLFW_KEY_BACKSLASH) {
 				this.text.keyPressed(key, scanCode, modifiers);
 			}
 			return true;
@@ -146,40 +142,40 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 	@Override
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
 
-		if (!isProcessedLetter && !checkedSessionVars) {
-			checkedSessionVars = true;
+		if (!this.isProcessedLetter && !this.checkedSessionVars) {
+            this.checkedSessionVars = true;
 			setFromSessionVars();
 			String recipient = this.address.getValue();
-			IPostalCarrier carrier = menu.getCarrier();
+			IPostalCarrier carrier = this.menu.getCarrier();
 			setRecipient(recipient, carrier);
 		}
 
 		// Check for focus changes
-		if (addressFocus != address.isFocused()) {
+		if (this.addressFocus != this.address.isFocused()) {
 			String recipient = this.address.getValue();
-			IPostalCarrier carrier = menu.getCarrier();
+			IPostalCarrier carrier = this.menu.getCarrier();
 			if (StringUtils.isNotBlank(recipient)) {
 				setRecipient(recipient, carrier);
 			}
 		}
-		addressFocus = address.isFocused();
-		if (textFocus != text.isFocused()) {
+        this.addressFocus = this.address.isFocused();
+		if (this.textFocus != this.text.isFocused()) {
 			setText();
 		}
-		textFocus = text.isFocused();
+        this.textFocus = this.text.isFocused();
 
 		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		if (this.isProcessedLetter) {
-			graphics.drawString(this.font, address.getValue(), leftPos + 49, topPos + 16, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
-			graphics.drawWordWrap(this.font, Component.literal(text.getValue()), leftPos + 20, topPos + 34, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+			graphics.drawString(this.font, this.address.getValue(), this.leftPos + 49, this.topPos + 16, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+			graphics.drawWordWrap(this.font, Component.literal(this.text.getValue()), this.leftPos + 20, this.topPos + 34, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 		} else {
 			clearTradeInfoWidgets();
-			address.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
-			if (menu.getCarrier().equals(PostalCarriers.TRADER.get())) {
+            this.address.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
+			if (this.menu.getCarrier().equals(PostalCarriers.TRADER.get())) {
 				drawTradePreview(graphics, 18, 32);
 			} else {
-				text.render(graphics, mouseX, mouseY, partialTicks);
+                this.text.render(graphics, mouseX, mouseY, partialTicks);
 			}
 		}
 	}
@@ -187,46 +183,46 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 	private void drawTradePreview(GuiGraphics graphics, int x, int y) {
 
 		Component infoString = null;
-		if (menu.getTradeInfo() == null) {
+		if (this.menu.getTradeInfo() == null) {
 			infoString = Component.translatable("for.gui.mail.no.trader");
-		} else if (menu.getTradeInfo().tradegood().isEmpty()) {
+		} else if (this.menu.getTradeInfo().tradegood().isEmpty()) {
 			infoString = Component.translatable("for.gui.mail.nothing.to.trade");
-		} else if (!menu.getTradeInfo().state().isOk()) {
-			infoString = menu.getTradeInfo().state().getDescription();
+		} else if (!this.menu.getTradeInfo().state().isOk()) {
+			infoString = this.menu.getTradeInfo().state().getDescription();
 		}
 
 		if (infoString != null) {
-			graphics.drawWordWrap(this.font, infoString, leftPos + x, topPos + y, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+			graphics.drawWordWrap(this.font, infoString, this.leftPos + x, this.topPos + y, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 			return;
 		}
 
-		graphics.drawString(this.font, Component.translatable("for.gui.mail.pleasesend"), leftPos + x, topPos + y, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+		graphics.drawString(this.font, Component.translatable("for.gui.mail.pleasesend"), this.leftPos + x, this.topPos + y, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 
-		addTradeInfoWidget(new ItemStackWidget(widgetManager, x, y + 10, menu.getTradeInfo().tradegood()));
+		addTradeInfoWidget(new ItemStackWidget(this.widgetManager, x, y + 10, this.menu.getTradeInfo().tradegood()));
 
-		graphics.drawString(this.font, Component.translatable("for.gui.mail.foreveryattached"), leftPos + x, topPos + y + 28, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+		graphics.drawString(this.font, Component.translatable("for.gui.mail.foreveryattached"), this.leftPos + x, this.topPos + y + 28, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 
-		for (int i = 0; i < menu.getTradeInfo().required().size(); i++) {
-			addTradeInfoWidget(new ItemStackWidget(widgetManager, x + i * 18, y + 38, menu.getTradeInfo().required().get(i)));
+		for (int i = 0; i < this.menu.getTradeInfo().required().size(); i++) {
+			addTradeInfoWidget(new ItemStackWidget(this.widgetManager, x + i * 18, y + 38, this.menu.getTradeInfo().required().get(i)));
 		}
 	}
 
 	private void addTradeInfoWidget(Widget widget) {
-		tradeInfoWidgets.add(widget);
-		widgetManager.add(widget);
+        this.tradeInfoWidgets.add(widget);
+        this.widgetManager.add(widget);
 	}
 
 	private void clearTradeInfoWidgets() {
-		for (Widget widget : tradeInfoWidgets) {
-			widgetManager.remove(widget);
+		for (Widget widget : this.tradeInfoWidgets) {
+            this.widgetManager.remove(widget);
 		}
-		tradeInfoWidgets.clear();
+        this.tradeInfoWidgets.clear();
 	}
 
 	@Override
 	public void onClose() {
 		String recipientName = this.address.getValue();
-		IPostalCarrier carrier = menu.getCarrier();
+		IPostalCarrier carrier = this.menu.getCarrier();
 		setRecipient(recipientName, carrier);
 		setText();
 		super.onClose();
@@ -243,9 +239,9 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		IPostalCarrier carrier = PostalCarriers.REGISTRY.get().getValue(carrierId);
 
 		if (StringUtils.isNotBlank(recipient) && carrier != null) {
-			address.setValue(recipient);
+            this.address.setValue(recipient);
 
-			menu.setCarrier(carrier);
+            this.menu.setCarrier(carrier);
 		}
 
 		SessionVars.clearStringVar("mail.letter.recipient");
@@ -267,12 +263,12 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 			return;
 		}
 
-		menu.setText(this.text.getValue());
+        this.menu.setText(this.text.getValue());
 	}
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(itemInventory);
+		addErrorLedger(this.itemInventory);
 		addHintLedger("letter");
 	}
 }

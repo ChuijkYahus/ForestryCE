@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.core.blocks;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
-
 import forestry.core.features.CoreTiles;
 import forestry.core.tiles.TileAnalyzer;
 import forestry.core.tiles.TileEscritoire;
 import forestry.modules.features.FeatureTileType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public enum BlockTypeCoreTesr implements IBlockType {
 	ANALYZER(createAnalyzerProperties(CoreTiles.ANALYZER, "analyzer")),
@@ -27,9 +26,9 @@ public enum BlockTypeCoreTesr implements IBlockType {
 
 	private static IMachineProperties<? extends TileAnalyzer> createAnalyzerProperties(FeatureTileType<TileAnalyzer> teClass, String name) {
 		return new MachineProperties.Builder<>(teClass, name)
-				.setShape(Shapes::block)
-				.setServerTicker(TileAnalyzer::serverTick)
-				.create();
+			.setShape(Shapes::block)
+			.setServerTicker(TileAnalyzer::serverTick)
+			.create();
 	}
 
 	private static MachineProperties<? extends TileEscritoire> createEscritoireProperties(FeatureTileType<TileEscritoire> teClass, String name) {
@@ -42,15 +41,15 @@ public enum BlockTypeCoreTesr implements IBlockType {
 
 		// Order: S-W-N-E (according to Direction.get2DDataValue)
 		VoxelShape[] shapes = {
-				Shapes.or(commonShape, Block.box(0, 10, 0, 16, 16, 3.5)),
-				Shapes.or(commonShape, Block.box(12.5, 10, 0, 16, 16, 16)),
-				Shapes.or(commonShape, Block.box(0, 10, 12.5, 16, 16, 16)),
-				Shapes.or(commonShape, Block.box(0, 10, 0, 3.5, 16, 16)),
+			Shapes.or(commonShape, Block.box(0, 10, 0, 16, 16, 3.5)),
+			Shapes.or(commonShape, Block.box(12.5, 10, 0, 16, 16, 16)),
+			Shapes.or(commonShape, Block.box(0, 10, 12.5, 16, 16, 16)),
+			Shapes.or(commonShape, Block.box(0, 10, 0, 3.5, 16, 16)),
 		};
 
 		return new MachineProperties.Builder<>(teClass, name)
-				.setShape((state, level, pos, context) -> shapes[state.getValue(BlockBase.FACING).get2DDataValue()])
-				.create();
+			.setShape((state, level, pos, context) -> shapes[state.getValue(BlockBase.FACING).get2DDataValue()])
+			.create();
 	}
 
 	BlockTypeCoreTesr(IMachineProperties<?> machineProperties) {

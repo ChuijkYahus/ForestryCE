@@ -1,12 +1,6 @@
 package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableMap;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
@@ -17,6 +11,10 @@ import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.TreeManager;
 import forestry.arboriculture.charcoal.CharcoalManager;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesBuilder, ITreeSpecies, TreeSpeciesBuilder> implements IArboricultureRegistration {
 	private final Registrar<ResourceLocation, IFruit, IFruit> fruits = new Registrar<>(IFruit.class);
@@ -36,9 +34,9 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 	@Override
 	public ITreeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor escritoireColor, IWoodType woodType) {
 		return register(id, genus, species)
-				.setDominant(dominant)
-				.setEscritoireColor(escritoireColor)
-				.setWoodType(woodType);
+			.setDominant(dominant)
+			.setEscritoireColor(escritoireColor)
+			.setWoodType(woodType);
 	}
 
 	@Override

@@ -1,7 +1,11 @@
 package forestry.arboriculture.blocks;
 
-import javax.annotation.Nullable;
-
+import forestry.api.arboriculture.genetics.IFruit;
+import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.client.IForestryClientApi;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.core.blocks.IColoredBlock;
+import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -16,30 +20,24 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IForgeShearable;
 
-import forestry.api.arboriculture.genetics.IFruit;
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.client.IForestryClientApi;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.core.blocks.IColoredBlock;
-import forestry.core.utils.BlockUtil;
+import javax.annotation.Nullable;
 
 public class BlockDecorativeLeaves extends Block implements IColoredBlock, IForgeShearable {
 	private final ForestryLeafType type;
 
 	public BlockDecorativeLeaves(ForestryLeafType type) {
 		super(Properties.of()
-				.strength(0.2f)
-				.sound(SoundType.GRASS)
-				.noOcclusion()
-				.isValidSpawn(BlockUtil.IS_PARROT_OR_OCELOT)
-				.isSuffocating(BlockUtil.ALWAYS)
-				.isRedstoneConductor(BlockUtil.NEVER)
-				.isViewBlocking(BlockUtil.NEVER));
+			.strength(0.2f)
+			.sound(SoundType.GRASS)
+			.noOcclusion()
+			.isValidSpawn(BlockUtil.IS_PARROT_OR_OCELOT)
+			.isSuffocating(BlockUtil.ALWAYS)
+			.isRedstoneConductor(BlockUtil.NEVER)
+			.isViewBlocking(BlockUtil.NEVER));
 		this.type = type;
 	}
 
@@ -95,7 +93,7 @@ public class BlockDecorativeLeaves extends Block implements IColoredBlock, IForg
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public int colorMultiplier(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
-		ITree individual = type.getIndividual();
+		ITree individual = this.type.getIndividual();
 
 		if (tintIndex == BlockAbstractLeaves.FRUIT_COLOR_INDEX) {
 			IFruit fruitProvider = individual.getGenome().getActiveValue(TreeChromosomes.FRUIT);

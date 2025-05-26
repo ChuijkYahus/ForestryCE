@@ -1,19 +1,13 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 
 package forestry.api.storage;
 
-import java.util.function.Predicate;
-
+import forestry.api.genetics.ISpeciesType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.genetics.ISpeciesType;
+import java.util.function.Predicate;
 
 /**
  * The Backpack Interface allows you to add items to Forestry backpacks or create your own backpacks.

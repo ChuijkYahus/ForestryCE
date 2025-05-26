@@ -11,12 +11,15 @@
 package forestry.core.utils;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
+import forestry.api.IForestryApi;
+import forestry.api.climate.ClimateState;
+import forestry.api.climate.IClimateProvider;
+import forestry.api.core.HumidityType;
+import forestry.api.core.TemperatureType;
+import forestry.api.modules.IForestryPacketClient;
+import forestry.api.modules.IForestryPacketServer;
+import forestry.core.network.IStreamable;
+import forestry.core.network.NetworkHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -27,20 +30,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
-import forestry.api.IForestryApi;
-import forestry.api.climate.ClimateState;
-import forestry.api.climate.IClimateProvider;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
-import forestry.api.modules.IForestryPacketClient;
-import forestry.api.modules.IForestryPacketServer;
-import forestry.core.network.IStreamable;
-import forestry.core.network.NetworkHandler;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class NetworkUtil {
 	public static void sendNetworkPacket(IForestryPacketClient packet, BlockPos pos, Level level) {

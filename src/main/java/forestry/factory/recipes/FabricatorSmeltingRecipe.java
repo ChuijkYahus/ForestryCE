@@ -12,20 +12,17 @@ package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
-
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeType;
-
-import net.minecraftforge.fluids.FluidStack;
-
 import forestry.api.recipes.IFabricatorSmeltingRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.fluids.FluidStack;
 
 public class FabricatorSmeltingRecipe implements IFabricatorSmeltingRecipe {
 	private final ResourceLocation id;
@@ -47,17 +44,17 @@ public class FabricatorSmeltingRecipe implements IFabricatorSmeltingRecipe {
 
 	@Override
 	public Ingredient getInput() {
-		return resource;
+		return this.resource;
 	}
 
 	@Override
 	public FluidStack getResultFluid() {
-		return product;
+		return this.product;
 	}
 
 	@Override
 	public int getMeltingPoint() {
-		return meltingPoint;
+		return this.meltingPoint;
 	}
 
 	@Override
@@ -67,7 +64,7 @@ public class FabricatorSmeltingRecipe implements IFabricatorSmeltingRecipe {
 
 	@Override
 	public ResourceLocation getId() {
-		return id;
+		return this.id;
 	}
 
 	@Override

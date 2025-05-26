@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.mail;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.mail.features.MailItems;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public class LetterUtils {
 	public static ILetter createLetter(IMailAddress sender, IMailAddress recipient) {

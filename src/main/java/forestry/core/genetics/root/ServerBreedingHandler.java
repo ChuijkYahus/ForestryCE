@@ -1,16 +1,14 @@
 package forestry.core.genetics.root;
 
-import javax.annotation.Nullable;
-
+import com.mojang.authlib.GameProfile;
+import forestry.api.genetics.IBreedingTracker;
+import forestry.api.genetics.ISpeciesType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.ISpeciesType;
+import javax.annotation.Nullable;
 
 public class ServerBreedingHandler implements BreedingTrackerManager.SidedHandler {
 	@Override

@@ -1,8 +1,7 @@
 package forestry.api.genetics;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.ForestryConstants;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * The three types of species registered by base Forestry.

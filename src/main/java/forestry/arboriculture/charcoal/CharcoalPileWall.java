@@ -11,15 +11,13 @@
 package forestry.arboriculture.charcoal;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-
+import forestry.api.arboriculture.ICharcoalPileWall;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.NonNullList;
 
-import forestry.api.arboriculture.ICharcoalPileWall;
+import javax.annotation.Nullable;
 
 public class CharcoalPileWall implements ICharcoalPileWall {
 
@@ -43,22 +41,22 @@ public class CharcoalPileWall implements ICharcoalPileWall {
 
 	@Override
 	public int getCharcoalAmount() {
-		return charcoalAmount;
+		return this.charcoalAmount;
 	}
 
 	@Override
 	public boolean matches(BlockState state) {
-		return block == state.getBlock() || blockState == state;
+		return this.block == state.getBlock() || this.blockState == state;
 	}
 
 	@Override
 	public NonNullList<ItemStack> getDisplayItems() {
-		if (block == null) {
-			Preconditions.checkNotNull(blockState);
-			return NonNullList.withSize(1, new ItemStack(blockState.getBlock()));    //TODO loss of properties?
-		} else if (blockState == null) {
-			Preconditions.checkNotNull(block);
-			return NonNullList.withSize(1, new ItemStack(block));
+		if (this.block == null) {
+			Preconditions.checkNotNull(this.blockState);
+			return NonNullList.withSize(1, new ItemStack(this.blockState.getBlock()));    //TODO loss of properties?
+		} else if (this.blockState == null) {
+			Preconditions.checkNotNull(this.block);
+			return NonNullList.withSize(1, new ItemStack(this.block));
 		}
 		return NonNullList.create();
 	}

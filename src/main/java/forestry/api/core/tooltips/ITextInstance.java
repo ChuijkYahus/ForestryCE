@@ -1,14 +1,14 @@
 package forestry.api.core.tooltips;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
-
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.ChatFormatting;
 
 public interface ITextInstance<I extends ITextInstance<?, ?, ?>, S, R> {
 	default I text(String text) {

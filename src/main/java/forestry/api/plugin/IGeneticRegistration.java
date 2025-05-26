@@ -1,10 +1,9 @@
 package forestry.api.plugin;
 
-import java.util.function.Consumer;
-
+import forestry.api.genetics.filter.IFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.genetics.filter.IFilterRuleType;
+import java.util.function.Consumer;
 
 /**
  * Handles registration of genetic-related data. Accessed from {@link IForestryPlugin#registerGenetics(IGeneticRegistration)}.

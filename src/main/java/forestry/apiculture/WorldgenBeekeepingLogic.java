@@ -10,18 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture;
 
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.apiculture.genetics.IBee;
@@ -32,6 +20,16 @@ import forestry.api.util.TickHelper;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.tiles.TileHive;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.List;
 
 public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 	private final TileHive housing;
@@ -51,22 +49,22 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 	@Override
 	public void read(CompoundTag CompoundNBT) {
 		setActive(CompoundNBT.getBoolean("Active"));
-		hasFlowersCache.read(CompoundNBT);
+        this.hasFlowersCache.read(CompoundNBT);
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag CompoundNBT) {
-		CompoundNBT.putBoolean("Active", active);
-		hasFlowersCache.write(CompoundNBT);
+		CompoundNBT.putBoolean("Active", this.active);
+        this.hasFlowersCache.write(CompoundNBT);
 
 		return CompoundNBT;
 	}
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-		data.writeBoolean(active);
-		if (active) {
-			hasFlowersCache.writeData(data);
+		data.writeBoolean(this.active);
+		if (this.active) {
+            this.hasFlowersCache.writeData(data);
 		}
 	}
 
@@ -75,7 +73,7 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 		boolean active = data.readBoolean();
 		setActive(active);
 		if (active) {
-			hasFlowersCache.readData(data);
+            this.hasFlowersCache.readData(data);
 		}
 	}
 
@@ -93,25 +91,25 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 
 	@Override
 	public boolean canWork() {
-		tickHelper.onTick();
+        this.tickHelper.onTick();
 
-		if (tickHelper.updateOnInterval(200)) {
-			IBee queen = housing.getContainedBee();
-			hasFlowersCache.update(queen, housing);
-			Level level = housing.getWorldObj();
+		if (this.tickHelper.updateOnInterval(200)) {
+			IBee queen = this.housing.getContainedBee();
+            this.hasFlowersCache.update(queen, this.housing);
+			Level level = this.housing.getWorldObj();
 			IGenome genome = queen.getGenome();
-			boolean canWork = genome.getActiveValue(BeeChromosomes.ACTIVITY).isActive(level.getGameTime(), IActivityType.getBeeDayTime(level), housing.getBlockPos()) &&
-					(!housing.isRaining() || genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN));
-			boolean flowerCacheNeedsSync = hasFlowersCache.needsSync();
+			boolean canWork = genome.getActiveValue(BeeChromosomes.ACTIVITY).isActive(level.getGameTime(), IActivityType.getBeeDayTime(level), this.housing.getBlockPos()) &&
+				(!this.housing.isRaining() || genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN));
+			boolean flowerCacheNeedsSync = this.hasFlowersCache.needsSync();
 
-			if (active != canWork) {
+			if (this.active != canWork) {
 				setActive(canWork);
 			} else if (flowerCacheNeedsSync) {
 				syncToClient();
 			}
 		}
 
-		return active;
+		return this.active;
 	}
 
 	@Override
@@ -128,17 +126,17 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 
 	@Override
 	public void syncToClient() {
-		Level world = housing.getWorldObj();
+		Level world = this.housing.getWorldObj();
 		if (world != null && !world.isClientSide) {
-			NetworkUtil.sendNetworkPacket(new PacketBeeLogicActive(housing), housing.getCoordinates(), world);
+			NetworkUtil.sendNetworkPacket(new PacketBeeLogicActive(this.housing), this.housing.getCoordinates(), world);
 		}
 	}
 
 	@Override
 	public void syncToClient(ServerPlayer player) {
-		Level world = housing.getWorldObj();
+		Level world = this.housing.getWorldObj();
 		if (world != null && !world.isClientSide) {
-			NetworkUtil.sendToPlayer(new PacketBeeLogicActive(housing), player);
+			NetworkUtil.sendToPlayer(new PacketBeeLogicActive(this.housing), player);
 		}
 	}
 
@@ -150,19 +148,19 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean canDoBeeFX() {
-		return !Minecraft.getInstance().isPaused() && active;
+		return !Minecraft.getInstance().isPaused() && this.active;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void doBeeFX() {
-		IBee queen = housing.getContainedBee();
-		queen.doFX(effectData, housing);
+		IBee queen = this.housing.getContainedBee();
+		queen.doFX(this.effectData, this.housing);
 	}
 
 	@Override
 	public List<BlockPos> getFlowerPositions() {
-		return hasFlowersCache.getFlowerCoords();
+		return this.hasFlowersCache.getFlowerCoords();
 	}
 
 }

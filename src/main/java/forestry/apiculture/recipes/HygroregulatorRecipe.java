@@ -12,7 +12,9 @@ package forestry.apiculture.recipes;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
-
+import forestry.api.recipes.IHygroregulatorRecipe;
+import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.RecipeSerializers;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -20,12 +22,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-
 import net.minecraftforge.fluids.FluidStack;
-
-import forestry.api.recipes.IHygroregulatorRecipe;
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
 
 // recipes used by Alveary Hygroregulator
 public class HygroregulatorRecipe implements IHygroregulatorRecipe {
@@ -47,7 +44,7 @@ public class HygroregulatorRecipe implements IHygroregulatorRecipe {
 
 	@Override
 	public FluidStack getInputFluid() {
-		return liquid;
+		return this.liquid;
 	}
 
 	@Override
@@ -57,12 +54,12 @@ public class HygroregulatorRecipe implements IHygroregulatorRecipe {
 
 	@Override
 	public byte getHumiditySteps() {
-		return humiditySteps;
+		return this.humiditySteps;
 	}
 
 	@Override
 	public byte getTemperatureSteps() {
-		return temperatureSteps;
+		return this.temperatureSteps;
 	}
 
 	@Override
@@ -72,7 +69,7 @@ public class HygroregulatorRecipe implements IHygroregulatorRecipe {
 
 	@Override
 	public ResourceLocation getId() {
-		return id;
+		return this.id;
 	}
 
 	@Override

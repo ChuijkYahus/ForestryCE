@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.farming.tiles;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.multiblock.IMultiblockController;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingTiles;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class TileFarmPlain extends TileFarm {
 	public TileFarmPlain(BlockPos pos, BlockState state) {

@@ -1,23 +1,6 @@
 package forestry.core.data.models;
 
 import com.google.common.collect.Iterables;
-
-import java.util.Map;
-
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemNameBlockItem;
-import net.minecraft.world.level.block.Block;
-
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
-
 import forestry.api.ForestryConstants;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.features.ApicultureItems;
@@ -34,6 +17,20 @@ import forestry.modules.features.ModFeatureRegistry;
 import forestry.storage.features.CrateItems;
 import forestry.storage.items.ItemBackpack;
 import forestry.storage.items.ItemCrated;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Map;
 
 import static forestry.core.data.models.ForestryBlockStateProvider.file;
 
@@ -45,11 +42,11 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 	@Override
 	protected void registerModels() {
 		withExistingParent(LepidopterologyItems.CATERPILLAR_GE.getName(), mcLoc("item/generated"))
-				.texture("layer0", ForestryConstants.forestry("item/caterpillar.body2"))
-				.texture("layer1", ForestryConstants.forestry("item/caterpillar.body"));
+			.texture("layer0", ForestryConstants.forestry("item/caterpillar.body2"))
+			.texture("layer1", ForestryConstants.forestry("item/caterpillar.body"));
 		withExistingParent(LepidopterologyItems.SERUM_GE.getName(), mcLoc("item/generated"))
-				.texture("layer0", ForestryConstants.forestry("item/liquids/jar.bottle"))
-				.texture("layer1", ForestryConstants.forestry("item/liquids/jar.contents"));
+			.texture("layer0", ForestryConstants.forestry("item/liquids/jar.bottle"))
+			.texture("layer1", ForestryConstants.forestry("item/liquids/jar.contents"));
 
 		for (FeatureItem<ItemCrated> featureCrated : CrateItems.getCrates()) {
 			Item containedItem = featureCrated.get().getContained().getItem();
@@ -93,10 +90,10 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 			BucketItem item = fluid.getBucket();
 			if (item != null) {
 				getBuilder(path(item))
-						.customLoader(DynamicFluidContainerModelBuilder::begin)
-						.fluid(fluid.getFluid())
-						.end()
-						.parent(getExistingFile(new ResourceLocation("forge:item/bucket")));
+					.customLoader(DynamicFluidContainerModelBuilder::begin)
+					.fluid(fluid.getFluid())
+					.end()
+					.parent(getExistingFile(new ResourceLocation("forge:item/bucket")));
 			}
 		}
 
@@ -107,9 +104,9 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 				boolean woven = path.endsWith("woven");
 
 				withExistingParent(path, woven ? modLoc("item/backpack/woven_neutral") : modLoc("item/backpack/normal_neutral"))
-						.override().predicate(mcLoc("mode"), 1).model(file(woven ? modLoc("item/backpack/woven_locked") : modLoc("item/backpack/normal_locked"))).end()
-						.override().predicate(mcLoc("mode"), 2).model(file(woven ? modLoc("item/backpack/woven_receive") : modLoc("item/backpack/normal_receive"))).end()
-						.override().predicate(mcLoc("mode"), 3).model(file(woven ? modLoc("item/backpack/woven_resupply") : modLoc("item/backpack/normal_resupply"))).end();
+					.override().predicate(mcLoc("mode"), 1).model(file(woven ? modLoc("item/backpack/woven_locked") : modLoc("item/backpack/normal_locked"))).end()
+					.override().predicate(mcLoc("mode"), 2).model(file(woven ? modLoc("item/backpack/woven_receive") : modLoc("item/backpack/normal_receive"))).end()
+					.override().predicate(mcLoc("mode"), 3).model(file(woven ? modLoc("item/backpack/woven_resupply") : modLoc("item/backpack/normal_resupply"))).end();
 			}
 		}
 	}
@@ -120,16 +117,16 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 
 	private void filledCrateModel(String id, ResourceLocation texture) {
 		getBuilder(id)
-				.customLoader(FilledCrateModelBuilder::begin)
-				.layer1(texture)
-				.end();
+			.customLoader(FilledCrateModelBuilder::begin)
+			.layer1(texture)
+			.end();
 	}
 
 	private void filledCrateModelLayered(String id, ResourceLocation layer1, ResourceLocation layer2) {
 		getBuilder(id)
-				.customLoader(FilledCrateModelBuilder::begin)
-				.layer1(layer1)
-				.layer2(layer2)
-				.end();
+			.customLoader(FilledCrateModelBuilder::begin)
+			.layer1(layer1)
+			.layer2(layer2)
+			.end();
 	}
 }

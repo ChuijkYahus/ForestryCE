@@ -1,14 +1,13 @@
 package forestry.cultivation.blocks;
 
+import forestry.core.blocks.BlockBase;
+import forestry.core.render.ParticleRender;
+import forestry.cultivation.tiles.TilePlanter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-
-import forestry.core.blocks.BlockBase;
-import forestry.core.render.ParticleRender;
-import forestry.cultivation.tiles.TilePlanter;
 
 public class BlockPlanter extends BlockBase<BlockTypePlanter> {
 	private final boolean manual;
@@ -24,7 +23,7 @@ public class BlockPlanter extends BlockBase<BlockTypePlanter> {
 
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
-		if (blockType == BlockTypePlanter.FARM_ENDER) {
+		if (this.blockType == BlockTypePlanter.FARM_ENDER) {
 			for (int i = 0; i < 3; ++i) {
 				ParticleRender.addPortalFx(level, pos, rand);
 			}

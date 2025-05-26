@@ -1,5 +1,8 @@
 package forestry.core.network.packets;
 
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.network.PacketIdClient;
+import forestry.core.particles.CoreParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -9,10 +12,6 @@ import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-
-import forestry.api.modules.IForestryPacketClient;
-import forestry.core.network.PacketIdClient;
-import forestry.core.particles.CoreParticles;
 
 public record PacketRefractoryWax(BlockPos pos) implements IForestryPacketClient {
 	@Override

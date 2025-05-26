@@ -7,7 +7,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
-
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class VillagerTrade {
@@ -15,7 +14,7 @@ public class VillagerTrade {
 									  int maxUses, int xp) implements VillagerTrades.ItemListing {
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), new ItemStack(this.sellingItem, this.sellingAmounts.getPrice(rand)), maxUses, xp, 0.05f);
+			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), new ItemStack(this.sellingItem, this.sellingAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
 		}
 	}
 
@@ -23,7 +22,7 @@ public class VillagerTrade {
 									 int maxUses, int xp) implements VillagerTrades.ItemListing {
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			return new MerchantOffer(new ItemStack(this.buyingItem, this.buyingAmounts.getPrice(rand)), new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), maxUses, xp, 0.05f);
+			return new MerchantOffer(new ItemStack(this.buyingItem, this.buyingAmounts.getPrice(rand)), new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
 		}
 	}
 
@@ -35,7 +34,7 @@ public class VillagerTrade {
 			ItemStack buy1 = new ItemStack(this.buyingItem, this.buyAmounts.getPrice(rand));
 			ItemStack buy2 = new ItemStack(Items.EMERALD, this.emeralsAmounts.getPrice(rand));
 			ItemStack sell = ItemHandlerHelper.copyStackWithSize(this.sellingItem, this.sellingAmounts.getPrice(rand));
-			return new MerchantOffer(buy1, buy2, sell, maxUses, xp, 0.05f);
+			return new MerchantOffer(buy1, buy2, sell, this.maxUses, this.xp, 0.05f);
 		}
 	}
 
@@ -46,18 +45,18 @@ public class VillagerTrade {
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
 			// should this give forestry logs too?
 			Item[] logsBlock = new Item[]{
-					Items.ACACIA_LOG,
-					Items.BIRCH_LOG,
-					Items.DARK_OAK_LOG,
-					Items.JUNGLE_LOG,
-					Items.OAK_LOG,
-					Items.SPRUCE_LOG,
-					Items.MANGROVE_LOG,
-					// todo 1.20
-					//Items.CHERRY_LOG,
+				Items.ACACIA_LOG,
+				Items.BIRCH_LOG,
+				Items.DARK_OAK_LOG,
+				Items.JUNGLE_LOG,
+				Items.OAK_LOG,
+				Items.SPRUCE_LOG,
+				Items.MANGROVE_LOG,
+				// todo 1.20
+				//Items.CHERRY_LOG,
 			};
 
-			return new MerchantOffer(new ItemStack(logsBlock[rand.nextInt(logsBlock.length)], this.buyAmounts.getPrice(rand)), new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), new ItemStack(this.sellingItem, this.sellingAmounts.getPrice(rand)), maxUses, xp, 0.05f);
+			return new MerchantOffer(new ItemStack(logsBlock[rand.nextInt(logsBlock.length)], this.buyAmounts.getPrice(rand)), new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), new ItemStack(this.sellingItem, this.sellingAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
 		}
 	}
 
@@ -69,13 +68,13 @@ public class VillagerTrade {
 			ItemStack buy1 = new ItemStack(this.buyingItem, this.buyAmounts.getPrice(rand));
 			ItemStack buy2 = new ItemStack(this.buyingItem2, this.buyAmounts2.getPrice(rand));
 			ItemStack sell = ItemHandlerHelper.copyStackWithSize(this.sellingItem, this.sellingAmounts.getPrice(rand));
-			return new MerchantOffer(buy1, buy2, sell, maxUses, xp, 0.05f);
+			return new MerchantOffer(buy1, buy2, sell, this.maxUses, this.xp, 0.05f);
 		}
 	}
 
 	public record PriceInterval(int min, int max) {
 		public int getPrice(RandomSource rand) {
-			return min >= max ? min : min + rand.nextInt(max - min + 1);
+			return this.min >= this.max ? this.min : this.min + rand.nextInt(this.max - this.min + 1);
 		}
 	}
 }

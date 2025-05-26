@@ -10,23 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.multiblock;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-
 import forestry.api.climate.IClimateControlled;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.api.recipes.IHygroregulatorRecipe;
@@ -41,6 +24,21 @@ import forestry.core.fluids.TankManager;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.utils.RecipeUtils;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import javax.annotation.Nullable;
 
 public class TileAlvearyHygroregulator extends TileAlveary implements Container, ILiquidTankTile, IAlvearyComponent.Climatiser<MultiblockLogicAlveary>, IAlvearyComponent.HasInventory {
 	private final TankManager tankManager;
@@ -57,12 +55,12 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 
 		this.inventory = new InventoryHygroregulator(this);
 		this.liquidTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY).setFilter(FluidRecipeFilter.HYGROREGULATOR_INPUT);
-		this.tankManager = new TankManager(this, liquidTank);
+		this.tankManager = new TankManager(this, this.liquidTank);
 	}
 
 	@Override
 	public IInventoryAdapter getInternalInventory() {
-		return inventory;
+		return this.inventory;
 	}
 
 	@Override
@@ -106,13 +104,13 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-		tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT);
 
-		heatTicks = compoundNBT.getInt("TransferTime");
+        this.heatTicks = compoundNBT.getInt("TransferTime");
 
 		if (compoundNBT.contains("CurrentLiquid")) {
 			FluidStack liquid = FluidStack.loadFluidStackFromNBT(compoundNBT.getCompound("CurrentLiquid"));
-			currentRecipe = RecipeUtils.getHygroRegulatorRecipe(RecipeUtils.getRecipeManager(), liquid);
+            this.currentRecipe = RecipeUtils.getHygroRegulatorRecipe(RecipeUtils.getRecipeManager(), liquid);
 		}
 	}
 
@@ -120,12 +118,12 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-		tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT);
 
-		compoundNBT.putInt("TransferTime", heatTicks);
-		if (currentRecipe != null) {
+		compoundNBT.putInt("TransferTime", this.heatTicks);
+		if (this.currentRecipe != null) {
 			CompoundTag subcompound = new CompoundTag();
-			currentRecipe.getInputFluid().writeToNBT(subcompound);
+            this.currentRecipe.getInputFluid().writeToNBT(subcompound);
 			compoundNBT.put("CurrentLiquid", subcompound);
 		}
 	}
@@ -133,7 +131,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 	/* ILIQUIDTANKCONTAINER */
 	@Override
 	public TankManager getTankManager() {
-		return tankManager;
+		return this.tankManager;
 	}
 
 	@Override
@@ -143,7 +141,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 			return superCap;
 		}
 		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> tankManager).cast();
+			return LazyOptional.of(() -> this.tankManager).cast();
 		}
 		return LazyOptional.empty();
 	}

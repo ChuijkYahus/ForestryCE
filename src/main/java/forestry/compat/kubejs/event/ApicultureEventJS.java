@@ -1,22 +1,7 @@
 package forestry.compat.kubejs.event;
 
-import java.util.Map;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.state.BlockState;
-
 import com.mojang.datafixers.util.Function3;
-
+import dev.latvian.mods.kubejs.event.EventJS;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.LightPreference;
 import forestry.api.apiculture.hives.IHiveGen;
@@ -33,8 +18,20 @@ import forestry.compat.kubejs.apiculture.KubeActivityType;
 import forestry.compat.kubejs.apiculture.KubeBeeEffect;
 import forestry.compat.kubejs.apiculture.KubeFlowerType;
 import forestry.compat.kubejs.apiculture.KubeHiveDefinition;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 
-import dev.latvian.mods.kubejs.event.EventJS;
+import java.util.Map;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public class ApicultureEventJS extends EventJS {
 	private final IApicultureRegistration wrapped;
@@ -84,9 +81,9 @@ public class ApicultureEventJS extends EventJS {
 	}
 
 	public void registerBeeEffect(ResourceLocation id, UnaryOperator<IEffectData> validateStorage, boolean combinable,
-			Function3<IGenome, IEffectData, IBeeHousing, IEffectData> doEffect,
-			Function3<IGenome, IEffectData, IBeeHousing, IEffectData> doClientEffect,
-			boolean dominant) {
+								  Function3<IGenome, IEffectData, IBeeHousing, IEffectData> doEffect,
+								  Function3<IGenome, IEffectData, IBeeHousing, IEffectData> doClientEffect,
+								  boolean dominant) {
 		this.wrapped.registerBeeEffect(id, new KubeBeeEffect(validateStorage, combinable, doEffect, doClientEffect, dominant));
 	}
 

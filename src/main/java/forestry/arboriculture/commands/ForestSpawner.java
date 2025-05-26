@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.arboriculture.commands;
 
+import forestry.api.arboriculture.genetics.ITree;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-
-import forestry.api.arboriculture.genetics.ITree;
 
 public class ForestSpawner implements ITreeSpawner {
 	@Override

@@ -1,17 +1,16 @@
 package forestry.core.genetics;
 
+import forestry.api.genetics.ISpecies;
+import forestry.api.genetics.ITaxon;
+import forestry.api.genetics.TaxonomicRank;
+import forestry.api.genetics.alleles.IChromosome;
+import org.jetbrains.annotations.ApiStatus;
+
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
-
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ITaxon;
-import forestry.api.genetics.TaxonomicRank;
-import forestry.api.genetics.alleles.IChromosome;
-
-import org.jetbrains.annotations.ApiStatus;
 
 public final class Taxon implements ITaxon {
 	private final String name;
@@ -116,8 +115,8 @@ public final class Taxon implements ITaxon {
 	@Override
 	public String toString() {
 		return "Taxon{" +
-				"name='" + name + '\'' +
-				", rank=" + rank +
-				'}';
+			"name='" + this.name + '\'' +
+			", rank=" + this.rank +
+			'}';
 	}
 }

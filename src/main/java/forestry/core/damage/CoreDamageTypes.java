@@ -1,12 +1,11 @@
 package forestry.core.damage;
 
+import forestry.api.ForestryConstants;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.level.LevelReader;
-
-import forestry.api.ForestryConstants;
 
 public class CoreDamageTypes {
 	public static final ResourceKey<DamageType> AGGRESSIVE = ResourceKey.create(Registries.DAMAGE_TYPE, ForestryConstants.forestry("aggressive"));

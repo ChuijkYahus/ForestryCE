@@ -1,20 +1,20 @@
 package forestry.worktable.network.packets;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.tiles.WorktableTile;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
-public record PacketWorktableRecipeUpdate(BlockPos pos, @Nullable MemorizedRecipe recipe) implements IForestryPacketClient {
+import javax.annotation.Nullable;
+
+public record PacketWorktableRecipeUpdate(BlockPos pos,
+										  @Nullable MemorizedRecipe recipe) implements IForestryPacketClient {
 	public PacketWorktableRecipeUpdate(WorktableTile tile) {
 		this(tile.getBlockPos(), tile.getCurrentRecipe());
 	}
@@ -26,8 +26,8 @@ public record PacketWorktableRecipeUpdate(BlockPos pos, @Nullable MemorizedRecip
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		NetworkUtil.writeStreamable(buffer, recipe);
+		buffer.writeBlockPos(this.pos);
+		NetworkUtil.writeStreamable(buffer, this.recipe);
 	}
 
 	public static PacketWorktableRecipeUpdate decode(FriendlyByteBuf buffer) {

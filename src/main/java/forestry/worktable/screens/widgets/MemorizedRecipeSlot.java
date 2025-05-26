@@ -1,12 +1,6 @@
 package forestry.worktable.screens.widgets;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.item.ItemStack;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
 import forestry.core.gui.widgets.ItemStackWidgetBase;
@@ -14,6 +8,10 @@ import forestry.core.gui.widgets.WidgetManager;
 import forestry.core.utils.SoundUtil;
 import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.screens.WorktableMenu;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.world.item.ItemStack;
 
 public class MemorizedRecipeSlot extends ItemStackWidgetBase {
 	private final RecipeMemory memory;
@@ -27,7 +25,7 @@ public class MemorizedRecipeSlot extends ItemStackWidgetBase {
 
 	@Override
 	protected ItemStack getItemStack() {
-		return memory.getRecipeDisplayOutput(Minecraft.getInstance().level, slotIndex);
+		return this.memory.getRecipeDisplayOutput(Minecraft.getInstance().level, this.slotIndex);
 	}
 
 	@Override
@@ -36,10 +34,10 @@ public class MemorizedRecipeSlot extends ItemStackWidgetBase {
 
 		RenderSystem.disableDepthTest();
 
-		if (memory.isLocked(slotIndex)) {
+		if (this.memory.isLocked(this.slotIndex)) {
 			RenderSystem.setShaderTexture(0, ForestrySprites.TEXTURE_ATLAS);
 			TextureAtlasSprite lockedSprite = IForestryClientApi.INSTANCE.getTextureManager().getSprite(ForestrySprites.SLOT_LOCKED);
-			graphics.blit(startX + xPos, startY + yPos, 0, 16, 16, lockedSprite);
+			graphics.blit(startX + this.xPos, startY + this.yPos, 0, 16, 16, lockedSprite);
 		}
 
 		RenderSystem.enableDepthTest();
@@ -48,7 +46,7 @@ public class MemorizedRecipeSlot extends ItemStackWidgetBase {
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
 		if (!getItemStack().isEmpty()) {
-			WorktableMenu.sendRecipeClick(mouseButton, slotIndex);
+			WorktableMenu.sendRecipeClick(mouseButton, this.slotIndex);
 			SoundUtil.playButtonClick();
 		}
 	}

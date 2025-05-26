@@ -10,9 +10,7 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.core.utils.ItemTooltipUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -21,11 +19,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.core.utils.ItemTooltipUtil;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemBlockForestry<B extends Block> extends BlockItem {
 	private final int burnTime;
@@ -36,7 +34,7 @@ public class ItemBlockForestry<B extends Block> extends BlockItem {
 		if (builder instanceof ItemProperties properties) {
 			this.burnTime = properties.burnTime;
 		} else {
-			burnTime = -1;
+            this.burnTime = -1;
 		}
 	}
 
@@ -52,7 +50,7 @@ public class ItemBlockForestry<B extends Block> extends BlockItem {
 
 	@Override
 	public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
-		return burnTime;
+		return this.burnTime;
 	}
 
 	@Override

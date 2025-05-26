@@ -1,23 +1,16 @@
 package forestry.api.plugin;
 
-import java.util.Collection;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.ToIntFunction;
-
+import forestry.api.farming.*;
+import it.unimi.dsi.fastutil.floats.Float2IntFunction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
-import forestry.api.farming.IFarmableFactory;
-import forestry.api.farming.IWaterConsumption;
-
-import it.unimi.dsi.fastutil.floats.Float2IntFunction;
+import java.util.Collection;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.ToIntFunction;
 
 /**
  * Configures a new farm type.

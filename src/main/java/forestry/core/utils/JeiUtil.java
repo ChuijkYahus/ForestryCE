@@ -1,9 +1,23 @@
 package forestry.core.utils;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
+import forestry.Forestry;
+import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.ILifeStage;
+import forestry.api.genetics.ISpecies;
+import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.alleles.IRegistryChromosome;
+import forestry.modules.features.FeatureItem;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
+import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.ingredients.ITypedIngredient;
+import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -17,28 +31,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
-
 import net.minecraftforge.common.crafting.IShapedRecipe;
 
-import forestry.Forestry;
-import forestry.api.ForestryCapabilities;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.IRegistryChromosome;
-import forestry.modules.features.FeatureItem;
-
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
-import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
-import mezz.jei.api.gui.ingredient.IRecipeSlotView;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
-import mezz.jei.api.ingredients.ITypedIngredient;
-import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
-import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.ISubtypeRegistration;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JeiUtil {
 	public static final String DESCRIPTION_KEY = "for.jei.description.";
@@ -116,8 +113,8 @@ public class JeiUtil {
 
 	public static void setCraftingItems(List<IRecipeSlotBuilder> craftingSlots, List<Ingredient> ingredients, int width, int height, ICraftingGridHelper craftingGridHelper) {
 		List<List<ItemStack>> itemStacks = ingredients.stream()
-				.map(ingredient -> List.of(ingredient.getItems()))
-				.toList();
+			.map(ingredient -> List.of(ingredient.getItems()))
+			.toList();
 		craftingGridHelper.setInputs(craftingSlots, VanillaTypes.ITEM_STACK, itemStacks, width, height);
 	}
 
@@ -130,8 +127,8 @@ public class JeiUtil {
 				result.add(ItemStack.EMPTY);
 			} else {
 				slot.getDisplayedIngredient()
-						.filter(ingredient -> ingredient.getType() == VanillaTypes.ITEM_STACK)
-						.ifPresent(ingredient -> result.add(((ITypedIngredient<ItemStack>) ingredient).getIngredient().copy()));
+					.filter(ingredient -> ingredient.getType() == VanillaTypes.ITEM_STACK)
+					.ifPresent(ingredient -> result.add(((ITypedIngredient<ItemStack>) ingredient).getIngredient().copy()));
 			}
 		}
 		return result;
@@ -139,8 +136,8 @@ public class JeiUtil {
 
 	public static <S extends ISpecies<?>> void registerItemSubtypes(ISubtypeRegistration registry, IRegistryChromosome<S> species, ISpeciesType<S, ?> type) {
 		IIngredientSubtypeInterpreter<ItemStack> interpreter = (stack, context) -> stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM)
-				.map(individual -> individual.getIndividual().getGenome().getActiveValue(species).getBinomial())
-				.orElse(IIngredientSubtypeInterpreter.NONE);
+			.map(individual -> individual.getIndividual().getGenome().getActiveValue(species).getBinomial())
+			.orElse(IIngredientSubtypeInterpreter.NONE);
 
 		for (ILifeStage stage : type.getLifeStages()) {
 			registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, stage.getItemForm(), interpreter);

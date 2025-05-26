@@ -10,14 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SnowLayerBlock;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IEffectData;
@@ -25,6 +17,13 @@ import forestry.api.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;
 import forestry.core.render.ParticleRender;
 import forestry.core.utils.VecUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class SnowingBeeEffect extends ThrottledBeeEffect {
 	public SnowingBeeEffect() {

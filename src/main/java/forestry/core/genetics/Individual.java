@@ -1,23 +1,17 @@
 package forestry.core.genetics;
 
-import javax.annotation.Nullable;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.Optional;
-
+import com.mojang.datafixers.Products;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import forestry.api.genetics.*;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 
-import com.mojang.datafixers.Products;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.Optional;
 
 public abstract class Individual<S extends ISpecies<I>, I extends IIndividual, T extends ISpeciesType<S, I>> implements IIndividual {
 	protected final S species;
@@ -45,9 +39,9 @@ public abstract class Individual<S extends ISpecies<I>, I extends IIndividual, T
 	// For "inheritance" in codecs
 	protected static <I extends IIndividual> Products.P3<RecordCodecBuilder.Mu<I>, IGenome, Optional<IGenome>, Boolean> fields(RecordCodecBuilder.Instance<I> instance, Codec<IGenome> genomeCodec) {
 		return instance.group(
-				genomeCodec.fieldOf("genome").forGetter(I::getGenome),
-				genomeCodec.optionalFieldOf("mate").forGetter(I::getMateOptional),
-				Codec.BOOL.fieldOf("analyzed").forGetter(I::isAnalyzed)
+			genomeCodec.fieldOf("genome").forGetter(I::getGenome),
+			genomeCodec.optionalFieldOf("mate").forGetter(I::getMateOptional),
+			Codec.BOOL.fieldOf("analyzed").forGetter(I::isAnalyzed)
 		);
 	}
 

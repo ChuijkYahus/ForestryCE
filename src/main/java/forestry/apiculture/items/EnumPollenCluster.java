@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.apiculture.items;
 
-import java.awt.Color;
-import java.util.Locale;
-
 import forestry.core.items.ItemOverlay;
+
+import java.awt.*;
+import java.util.Locale;
 
 public enum EnumPollenCluster implements ItemOverlay.IOverlayInfo {
 	NORMAL(new Color(0xa28a25), new Color(0xa28a25)),
@@ -31,16 +31,16 @@ public enum EnumPollenCluster implements ItemOverlay.IOverlayInfo {
 
 	@Override
 	public String getSerializedName() {
-		return name;
+		return this.name;
 	}
 
 	@Override
 	public int getPrimaryColor() {
-		return primaryColor;
+		return this.primaryColor;
 	}
 
 	@Override
 	public int getSecondaryColor() {
-		return secondaryColor;
+		return this.secondaryColor;
 	}
 }

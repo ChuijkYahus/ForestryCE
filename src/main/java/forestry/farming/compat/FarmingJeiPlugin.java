@@ -1,25 +1,22 @@
 package forestry.farming.compat;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.IForestryApi;
 import forestry.api.circuits.CircuitHolder;
 import forestry.api.farming.IFarmCircuit;
-import forestry.api.farming.IFarmLogic;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.features.CoreItems;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @JeiPlugin
 public class FarmingJeiPlugin implements IModPlugin {

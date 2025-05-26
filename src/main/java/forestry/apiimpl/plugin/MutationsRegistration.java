@@ -2,16 +2,6 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.state.BlockState;
-
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IMutation;
@@ -22,13 +12,15 @@ import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.plugin.IMutationBuilder;
 import forestry.api.plugin.IMutationsRegistration;
-import forestry.core.genetics.mutations.Mutation;
-import forestry.core.genetics.mutations.MutationConditionBiome;
-import forestry.core.genetics.mutations.MutationConditionDaytime;
-import forestry.core.genetics.mutations.MutationConditionHumidity;
-import forestry.core.genetics.mutations.MutationConditionRequiresResource;
-import forestry.core.genetics.mutations.MutationConditionTemperature;
-import forestry.core.genetics.mutations.MutationConditionTimeLimited;
+import forestry.core.genetics.mutations.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MutationsRegistration implements IMutationsRegistration {
 	private final HashMap<MutationPair, MutationBuilder> mutations = new HashMap<>();

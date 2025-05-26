@@ -10,23 +10,21 @@
  ******************************************************************************/
 package forestry.apiculture.genetics;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveDrop;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.core.utils.SpeciesUtil;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class HiveDrop implements IHiveDrop {
 	private final ResourceLocation speciesId;
@@ -49,7 +47,7 @@ public class HiveDrop implements IHiveDrop {
 	@Override
 	public IBee createIndividual(BlockGetter level, BlockPos pos) {
 		if (this.species == null) {
-			this.species = SpeciesUtil.getBeeSpecies(speciesId);
+			this.species = SpeciesUtil.getBeeSpecies(this.speciesId);
 		}
 		return this.species.createIndividual(this.alleles);
 	}

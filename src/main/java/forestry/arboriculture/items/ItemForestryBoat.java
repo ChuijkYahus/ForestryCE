@@ -1,8 +1,9 @@
 package forestry.arboriculture.items;
 
-import java.util.List;
-import java.util.function.Predicate;
-
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.entities.ForestryBoat;
+import forestry.arboriculture.entities.ForestryChestBoat;
+import forestry.core.items.ItemForestry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -18,10 +19,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.entities.ForestryBoat;
-import forestry.arboriculture.entities.ForestryChestBoat;
-import forestry.core.items.ItemForestry;
+import java.util.List;
+import java.util.function.Predicate;
 
 // BoatItem
 public class ItemForestryBoat extends ItemForestry {

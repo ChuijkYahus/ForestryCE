@@ -1,20 +1,17 @@
 package forestry.modules.features;
 
 import com.google.common.collect.ImmutableTable;
+import forestry.api.core.IFeatureSubtype;
+import forestry.api.core.IItemProvider;
+import forestry.modules.features.FeatureGroup.IdentifierType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
-
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
-import forestry.api.core.IFeatureSubtype;
-import forestry.api.core.IItemProvider;
-import forestry.modules.features.FeatureGroup.IdentifierType;
 
 public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extends FeatureTable<B, F, R, C>>, F extends IModFeature, R extends IFeatureSubtype, C extends IFeatureSubtype> {
 	protected final ImmutableTable<R, C, F> featureByTypes;
@@ -26,33 +23,33 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 				mapBuilder.put(row, column, createFeature(builder, row, column));
 			}
 		}
-		featureByTypes = mapBuilder.build();
+        this.featureByTypes = mapBuilder.build();
 	}
 
 	protected abstract F createFeature(B builder, R rowType, C columnType);
 
 	public boolean has(R rowType, C columnType) {
-		return featureByTypes.contains(rowType, columnType);
+		return this.featureByTypes.contains(rowType, columnType);
 	}
 
 	public F get(R rowType, C columnType) {
-		return featureByTypes.get(rowType, columnType);
+		return this.featureByTypes.get(rowType, columnType);
 	}
 
 	public ImmutableTable<R, C, F> getFeatureByTypes() {
-		return featureByTypes;
+		return this.featureByTypes;
 	}
 
 	public Collection<F> getRowFeatures(R rowType) {
-		return featureByTypes.row(rowType).values();
+		return this.featureByTypes.row(rowType).values();
 	}
 
 	public Collection<F> getColumnFeatures(C rowType) {
-		return featureByTypes.column(rowType).values();
+		return this.featureByTypes.column(rowType).values();
 	}
 
 	public Collection<F> getFeatures() {
-		return featureByTypes.values();
+		return this.featureByTypes.values();
 	}
 
 	public boolean itemEqual(ItemStack stack) {
@@ -80,7 +77,7 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 	}
 
 	public ItemStack stack(R rowType, C columnType, int amount) {
-		if (featureByTypes.get(rowType, columnType) instanceof IItemProvider<?> provider) {
+		if (this.featureByTypes.get(rowType, columnType) instanceof IItemProvider<?> provider) {
 			return provider.stack(amount);
 		} else {
 			throw new IllegalStateException("This feature group has no item registered for the given sub type to create a stack for.");
@@ -109,7 +106,7 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 		}
 
 		public Builder<R, C, G> rowType(R type) {
-			rowTypes.add(type);
+            this.rowTypes.add(type);
 			return this;
 		}
 
@@ -118,12 +115,12 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 		}
 
 		public Builder<R, C, G> rowTypes(Collection<R> types) {
-			rowTypes.addAll(types);
+            this.rowTypes.addAll(types);
 			return this;
 		}
 
 		public Builder<R, C, G> columnType(C type) {
-			columnTypes.add(type);
+            this.columnTypes.add(type);
 			return this;
 		}
 
@@ -132,12 +129,12 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 		}
 
 		public Builder<R, C, G> columnTypes(Collection<C> types) {
-			columnTypes.addAll(types);
+            this.columnTypes.addAll(types);
 			return this;
 		}
 
 		protected String getIdentifier(IFeatureSubtype rowType, IFeatureSubtype columnType) {
-			return identifierType.apply(identifier, rowType.getSerializedName() + "_" + columnType.getSerializedName());
+			return this.identifierType.apply(this.identifier, rowType.getSerializedName() + "_" + columnType.getSerializedName());
 		}
 
 		public abstract G create();

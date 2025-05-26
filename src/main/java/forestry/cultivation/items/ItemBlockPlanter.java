@@ -1,10 +1,9 @@
 package forestry.cultivation.items;
 
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
-
 import forestry.core.items.ItemBlockForestry;
 import forestry.cultivation.blocks.BlockPlanter;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemBlockPlanter extends ItemBlockForestry<BlockPlanter> {
 	public ItemBlockPlanter(BlockPlanter block) {

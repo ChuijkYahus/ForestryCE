@@ -10,27 +10,6 @@
  ******************************************************************************/
 package forestry.factory.tiles;
 
-import javax.annotation.Nullable;
-import java.util.ArrayDeque;
-import java.util.Collection;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ResultContainer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ForestryCircuitSocketTypes;
 import forestry.api.circuits.ICircuitBoard;
@@ -48,6 +27,25 @@ import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerCentrifuge;
 import forestry.factory.inventory.InventoryCentrifuge;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ResultContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.ArrayDeque;
+import java.util.Collection;
 
 public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyContainer, IItemStackDisplay {
 	private static final int TICKS_PER_RECIPE_TIME = 1;
@@ -64,7 +62,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	public TileCentrifuge(BlockPos pos, BlockState state) {
 		super(FactoryTiles.CENTRIFUGE.tileType(), pos, state, 800, Constants.MACHINE_MAX_ENERGY);
 		setInternalInventory(new InventoryCentrifuge(this));
-		craftPreviewInventory = new ResultContainer();
+        this.craftPreviewInventory = new ResultContainer();
 	}
 
 	/* LOADING & SAVING */
@@ -73,10 +71,10 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	public void saveAdditional(CompoundTag compound) {
 		super.saveAdditional(compound);
 
-		sockets.write(compound);
+        this.sockets.write(compound);
 
 		ListTag nbttaglist = new ListTag();
-		ItemStack[] offspring = pendingProducts.toArray(new ItemStack[0]);
+		ItemStack[] offspring = this.pendingProducts.toArray(new ItemStack[0]);
 		for (int i = 0; i < offspring.length; i++) {
 			if (offspring[i] != null) {
 				CompoundTag products = new CompoundTag();
@@ -95,11 +93,11 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		ListTag nbttaglist = compound.getList("PendingProducts", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag CompoundNBT1 = nbttaglist.getCompound(i);
-			pendingProducts.add(ItemStack.of(CompoundNBT1));
+            this.pendingProducts.add(ItemStack.of(CompoundNBT1));
 		}
-		sockets.read(compound);
+        this.sockets.read(compound);
 
-		ItemStack chip = sockets.getItem(0);
+		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
 			ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(chip);
 			if (chipset != null) {
@@ -111,14 +109,14 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
 		super.writeGuiData(data);
-		sockets.writeData(data);
+        this.sockets.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readGuiData(FriendlyByteBuf data) {
 		super.readGuiData(data);
-		sockets.readData(data);
+        this.sockets.readData(data);
 	}
 
 	@Override
@@ -127,23 +125,23 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 			return true;
 		}
 
-		if (!pendingProducts.isEmpty()) {
-			craftPreviewInventory.setItem(0, ItemStack.EMPTY);
+		if (!this.pendingProducts.isEmpty()) {
+            this.craftPreviewInventory.setItem(0, ItemStack.EMPTY);
 			return false;
 		}
 
-		if (currentRecipe == null) {
+		if (this.currentRecipe == null) {
 			return false;
 		}
 
 		// We are done, add products to queue
-		Collection<ItemStack> products = currentRecipe.getProducts(level.random);
-		pendingProducts.addAll(products);
+		Collection<ItemStack> products = this.currentRecipe.getProducts(this.level.random);
+        this.pendingProducts.addAll(products);
 
 		//Add Item to preview slot.
 		ItemStack previewStack = getInternalInventory().getItem(InventoryCentrifuge.SLOT_RESOURCE).copy();
 		previewStack.setCount(1);
-		craftPreviewInventory.setItem(0, previewStack);
+        this.craftPreviewInventory.setItem(0, previewStack);
 
 		getInternalInventory().removeItem(InventoryCentrifuge.SLOT_RESOURCE, 1);
 		return true;
@@ -153,10 +151,10 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		ItemStack resource = getItem(InventoryCentrifuge.SLOT_RESOURCE);
 		ICentrifugeRecipe matchingRecipe = RecipeUtils.getCentrifugeRecipe(getLevel().getRecipeManager(), resource);
 
-		if (currentRecipe != matchingRecipe) {
-			currentRecipe = matchingRecipe;
-			if (currentRecipe != null) {
-				int recipeTime = currentRecipe.getProcessingTime();
+		if (this.currentRecipe != matchingRecipe) {
+            this.currentRecipe = matchingRecipe;
+			if (this.currentRecipe != null) {
+				int recipeTime = this.currentRecipe.getProcessingTime();
 				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
 				setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
 			}
@@ -164,18 +162,18 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	}
 
 	private boolean tryAddPending() {
-		if (pendingProducts.isEmpty()) {
+		if (this.pendingProducts.isEmpty()) {
 			return false;
 		}
 
-		ItemStack next = pendingProducts.peekFirst();
+		ItemStack next = this.pendingProducts.peekFirst();
 
 		boolean added = InventoryUtil.tryAddStack(this, next, InventoryCentrifuge.SLOT_PRODUCT_1, InventoryCentrifuge.SLOT_PRODUCT_COUNT, true);
 
 		if (added) {
-			pendingProducts.removeFirst();
-			if (pendingProducts.isEmpty()) {
-				craftPreviewInventory.setItem(0, ItemStack.EMPTY);
+            this.pendingProducts.removeFirst();
+			if (this.pendingProducts.isEmpty()) {
+                this.craftPreviewInventory.setItem(0, ItemStack.EMPTY);
 			}
 		}
 
@@ -195,7 +193,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 
 	@Override
 	public boolean hasWork() {
-		if (!pendingProducts.isEmpty()) {
+		if (!this.pendingProducts.isEmpty()) {
 			return true;
 		}
 		checkRecipe();
@@ -211,12 +209,12 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	/* ISocketable */
 	@Override
 	public int getSocketCount() {
-		return sockets.getContainerSize();
+		return this.sockets.getContainerSize();
 	}
 
 	@Override
 	public ItemStack getSocket(int slot) {
-		return sockets.getItem(slot);
+		return this.sockets.getItem(slot);
 	}
 
 	@Override
@@ -227,16 +225,16 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		}
 
 		// Dispose correctly of old chipsets
-		if (!sockets.getItem(slot).isEmpty()) {
-			if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(sockets.getItem(slot))) {
-				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(sockets.getItem(slot));
+		if (!this.sockets.getItem(slot).isEmpty()) {
+			if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(this.sockets.getItem(slot))) {
+				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(this.sockets.getItem(slot));
 				if (chipset != null) {
 					chipset.onRemoval(this);
 				}
 			}
 		}
 
-		sockets.setItem(slot, stack);
+        this.sockets.setItem(slot, stack);
 		if (stack.isEmpty()) {
 			return;
 		}
@@ -258,11 +256,11 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	}
 
 	public Container getCraftPreviewInventory() {
-		return craftPreviewInventory;
+		return this.craftPreviewInventory;
 	}
 
 	@Override
 	public void handleItemStackForDisplay(ItemStack itemStack) {
-		craftPreviewInventory.setItem(0, itemStack);
+        this.craftPreviewInventory.setItem(0, itemStack);
 	}
 }

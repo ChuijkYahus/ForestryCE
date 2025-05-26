@@ -10,18 +10,6 @@
  ******************************************************************************/
 package forestry.apiculture.tiles;
 
-import java.util.List;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraftforge.network.NetworkHooks;
-
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
@@ -31,6 +19,16 @@ import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.gui.ContainerBeeHousing;
 import forestry.apiculture.gui.GuiBeeHousing;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.network.NetworkHooks;
+
+import java.util.List;
 
 public class TileBeeHouse extends TileBeeHousingBase {
 	private static final IBeeModifier beeModifier = new BeehouseBeeModifier();
@@ -40,14 +38,14 @@ public class TileBeeHouse extends TileBeeHousingBase {
 	public TileBeeHouse(BlockPos pos, BlockState state) {
 		super(ApicultureTiles.BEE_HOUSE.tileType(), pos, state, "bee.house");
 
-		beeInventory = new InventoryBeeHousing(12);
-		beeInventory.disableAutomation();
-		setInternalInventory(beeInventory);
+        this.beeInventory = new InventoryBeeHousing(12);
+        this.beeInventory.disableAutomation();
+		setInternalInventory(this.beeInventory);
 	}
 
 	@Override
 	public IBeeHousingInventory getBeeInventory() {
-		return beeInventory;
+		return this.beeInventory;
 	}
 
 	@Override

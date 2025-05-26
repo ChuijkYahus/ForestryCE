@@ -10,13 +10,11 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.OptionalInt;
-import java.util.Set;
-
+import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
+import forestry.arboriculture.blocks.BlockSapling;
+import forestry.core.utils.VecUtil;
+import forestry.core.worldgen.FeatureBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -31,11 +29,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
 import net.minecraft.world.phys.shapes.DiscreteVoxelShape;
 
-import forestry.api.arboriculture.ITreeGenData;
-import forestry.api.genetics.IGenome;
-import forestry.arboriculture.blocks.BlockSapling;
-import forestry.core.utils.VecUtil;
-import forestry.core.worldgen.FeatureBase;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * Base logic for tree generation. Tree generation generally follows these steps:

@@ -1,12 +1,11 @@
 package forestry.core.data;
 
-import java.util.function.BiConsumer;
-
+import forestry.api.ForestryConstants;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-import forestry.api.ForestryConstants;
+import java.util.function.BiConsumer;
 
 public class ForestryChestLootTables implements LootTableSubProvider {
 	@Override

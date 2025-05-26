@@ -1,17 +1,9 @@
 package forestry.apiculture.compat;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -21,6 +13,12 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Comparator;
+import java.util.LinkedList;
 
 public class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 	private static final int SPECIES_SLOT_X = 19 + 11;
@@ -71,7 +69,7 @@ public class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 
 		// input (try to display queen or equivalent)
 		builder.addSlot(RecipeIngredientRole.INPUT, SPECIES_SLOT_X, SPECIES_SLOT_Y)
-				.addItemStack(MutationsRecipeCategory.createAnalyzedStack(speciesType.getTypeForMutation(2), recipe.species, null));
+			.addItemStack(MutationsRecipeCategory.createAnalyzedStack(this.speciesType.getTypeForMutation(2), recipe.species, null));
 
 		// products
 		if (recipe.products != null) {
@@ -100,15 +98,15 @@ public class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 		if (products <= 3) {
 			for (int i = 0; i < products; i++) {
 				builder.addSlot(RecipeIngredientRole.OUTPUT, ProductsRecipeCategory.PRODUCT_SLOTS_X + i * 22, slotsY)
-						.addItemStack(productsList.get(i))
-						.addTooltipCallback(callback);
+					.addItemStack(productsList.get(i))
+					.addTooltipCallback(callback);
 			}
 		} else {
 			// Three copies of the product list, each offset by 0, 1, and 2, should look like a scrolling list in JEI
 			for (int i = 0; i < 3; i++) {
 				builder.addSlot(RecipeIngredientRole.OUTPUT, ProductsRecipeCategory.PRODUCT_SLOTS_X + i * 22, slotsY)
-						.addItemStacks(productsList)
-						.addTooltipCallback(callback);
+					.addItemStacks(productsList)
+					.addTooltipCallback(callback);
 
 				// rotate the list (no need to copy because JEI just iterates once)
 				productsList.addLast(productsList.removeFirst());

@@ -2,16 +2,6 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.function.Consumer;
-
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
@@ -25,8 +15,14 @@ import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.api.plugin.IHiveBuilder;
 import forestry.apiculture.VillageHive;
 import forestry.apiculture.hives.HiveManager;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuilder, IBeeSpecies, BeeSpeciesBuilder> implements IApicultureRegistration {
 	private final ModifiableRegistrar<ResourceLocation, IHiveBuilder, HiveBuilder> hives = new ModifiableRegistrar<>(IHiveBuilder.class);
@@ -49,8 +45,8 @@ public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuild
 	@Override
 	public IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor outline) {
 		return register(id, genus, species)
-				.setDominant(dominant)
-				.setOutline(outline);
+			.setDominant(dominant)
+			.setOutline(outline);
 	}
 
 	@Override

@@ -1,19 +1,17 @@
 package forestry.core.genetics.capability;
 
-import javax.annotation.Nullable;
-
+import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.ILifeStage;
+import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 
-import forestry.api.ForestryCapabilities;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpeciesType;
+import javax.annotation.Nullable;
 
 // Used for Vanilla sapling items.
 public class IndividualHandlerItem implements ICapabilityProvider, IIndividualHandlerItem {

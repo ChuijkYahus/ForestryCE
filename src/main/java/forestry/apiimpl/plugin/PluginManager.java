@@ -2,27 +2,7 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ServiceLoader;
-
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.datafixers.util.Pair;
-
-import net.minecraftforge.eventbus.api.IEventBus;
-
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-
 import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -59,10 +39,15 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.farming.FarmingManager;
 import forestry.plugin.DefaultForestryPlugin;
 import forestry.sorting.FilterManager;
-
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class PluginManager {
 	private static final ArrayList<IForestryPlugin> LOADED_PLUGINS = new ArrayList<>();
@@ -324,8 +309,8 @@ public class PluginManager {
 				// default sapling block and item models (removes the "tree_" prefix)
 				String path = id.getPath().replace("tree_", "");
 				models.put(species, Pair.of(
-						new ResourceLocation(id.getNamespace(), "block/sapling/" + path),
-						new ResourceLocation(id.getNamespace(), "item/sapling/" + path)
+					new ResourceLocation(id.getNamespace(), "block/sapling/" + path),
+					new ResourceLocation(id.getNamespace(), "item/sapling/" + path)
 				));
 			}
 		}
@@ -347,8 +332,8 @@ public class PluginManager {
 				// default butterfly item and entity textures
 				String path = id.getPath().replace("butterfly_", "");
 				butterflyTextures.put(species, butterflyTexturesById.getOrDefault(id, Pair.of(
-						new ResourceLocation(id.getNamespace(), "item/butterfly/" + path),
-						new ResourceLocation(id.getNamespace(), "textures/entity/butterfly/" + path + ".png")
+					new ResourceLocation(id.getNamespace(), "item/butterfly/" + path),
+					new ResourceLocation(id.getNamespace(), "textures/entity/butterfly/" + path + ".png")
 				)));
 			}
 		}

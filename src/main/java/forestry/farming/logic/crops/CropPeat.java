@@ -10,8 +10,9 @@
  ******************************************************************************/
 package forestry.farming.logic.crops;
 
-import java.util.List;
-
+import forestry.core.features.CoreBlocks;
+import forestry.core.features.CoreItems;
+import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
@@ -20,9 +21,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.core.features.CoreBlocks;
-import forestry.core.features.CoreItems;
-import forestry.core.utils.BlockUtil;
+import java.util.List;
 
 public class CropPeat extends Crop {
 	public CropPeat(Level world, BlockPos position) {

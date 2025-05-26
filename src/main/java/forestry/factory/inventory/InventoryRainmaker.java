@@ -10,12 +10,11 @@
  ******************************************************************************/
 package forestry.factory.inventory;
 
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.RainSubstrate;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.factory.tiles.TileMillRainmaker;
+import net.minecraft.world.item.ItemStack;
 
 public class InventoryRainmaker extends InventoryAdapterTile<TileMillRainmaker> {
 	private static final int SLOT_SUBSTRATE = 0;
@@ -27,12 +26,12 @@ public class InventoryRainmaker extends InventoryAdapterTile<TileMillRainmaker> 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
 		if (slotIndex == SLOT_SUBSTRATE) {
-			if (FuelManager.rainSubstrate.containsKey(stack) && tile.charge == 0 && tile.progress == 0) {
+			if (FuelManager.rainSubstrate.containsKey(stack) && this.tile.charge == 0 && this.tile.progress == 0) {
 				RainSubstrate substrate = FuelManager.rainSubstrate.get(stack);
-				if (tile.getLevel().isRaining() && substrate.reverse()) {
+				if (this.tile.getLevel().isRaining() && substrate.reverse()) {
 					return true;
 				} else {
-					return !tile.getLevel().isRaining() && !substrate.reverse();
+					return !this.tile.getLevel().isRaining() && !substrate.reverse();
 				}
 			}
 		}
@@ -45,7 +44,7 @@ public class InventoryRainmaker extends InventoryAdapterTile<TileMillRainmaker> 
 		if (slotIndex == SLOT_SUBSTRATE) {
 			RainSubstrate substrate = FuelManager.rainSubstrate.get(itemStack);
 			if (substrate != null && ItemStack.isSameItem(substrate.item(), itemStack)) {
-				tile.addCharge(substrate);
+                this.tile.addCharge(substrate);
 			}
 		}
 	}

@@ -1,17 +1,15 @@
 package forestry.arboriculture.compat;
 
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.SpeciesUtil;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
+import net.minecraft.resources.ResourceLocation;
 
 @JeiPlugin
 public class ArboricultureJeiPlugin implements IModPlugin {

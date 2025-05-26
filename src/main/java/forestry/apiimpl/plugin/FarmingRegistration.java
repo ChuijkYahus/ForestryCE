@@ -1,20 +1,17 @@
 package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableMap;
-
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.farming.IFarmLogic;
 import forestry.api.farming.IFarmType;
 import forestry.api.plugin.IFarmTypeBuilder;
 import forestry.api.plugin.IFarmingRegistration;
-
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public class FarmingRegistration implements IFarmingRegistration {
 	private final ModifiableRegistrar<ResourceLocation, IFarmTypeBuilder, FarmTypeBuilder> farmTypes = new ModifiableRegistrar<>(IFarmTypeBuilder.class);

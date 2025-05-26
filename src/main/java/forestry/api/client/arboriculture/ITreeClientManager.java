@@ -1,14 +1,11 @@
 package forestry.api.client.arboriculture;
 
-import java.util.Collection;
-
-import net.minecraft.resources.ResourceLocation;
-
 import com.mojang.datafixers.util.Pair;
-
 import forestry.api.arboriculture.ITreeSpecies;
-
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 /**
  * Tracks client-only data for tree species.

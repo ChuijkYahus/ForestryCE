@@ -1,12 +1,10 @@
 package forestry.core.data;
 
+import forestry.apiculture.villagers.ApicultureVillagers;
+import forestry.arboriculture.villagers.ArboricultureVillagers;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
-
-import forestry.apiculture.villagers.ApicultureVillagers;
-import forestry.arboriculture.villagers.ArboricultureVillagers;
-
 import thedarkcolour.modkit.data.MKTagsProvider;
 
 public class ForestryPoiTypeTagProvider {

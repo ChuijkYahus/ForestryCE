@@ -10,6 +10,11 @@
  ******************************************************************************/
 package forestry.core.blocks;
 
+import com.mojang.authlib.GameProfile;
+import forestry.api.multiblock.IMultiblockComponent;
+import forestry.api.multiblock.IMultiblockController;
+import forestry.core.multiblock.MultiblockTileEntityForestry;
+import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,13 +28,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-
-import com.mojang.authlib.GameProfile;
-
-import forestry.api.multiblock.IMultiblockComponent;
-import forestry.api.multiblock.IMultiblockController;
-import forestry.core.multiblock.MultiblockTileEntityForestry;
-import forestry.core.tiles.TileUtil;
 
 public abstract class BlockStructure extends BlockForestry {
 	protected BlockStructure(Block.Properties properties) {
@@ -58,9 +56,9 @@ public abstract class BlockStructure extends BlockForestry {
 				String validationError = controller.getLastValidationError();
 				if (validationError != null) {
 					long tick = worldIn.getGameTime();
-					if (tick > previousMessageTick + 20) {
+					if (tick > this.previousMessageTick + 20) {
 						playerIn.sendSystemMessage(Component.literal(validationError));
-						previousMessageTick = tick;
+                        this.previousMessageTick = tick;
 					}
 					return InteractionResult.SUCCESS;
 				}

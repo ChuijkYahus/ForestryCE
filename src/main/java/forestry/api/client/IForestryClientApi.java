@@ -1,11 +1,11 @@
 package forestry.api.client;
 
-import java.util.ServiceLoader;
-
 import forestry.api.client.apiculture.IBeeClientManager;
 import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.client.lepidopterology.IButterflyClientManager;
 import forestry.api.client.plugin.IClientHelper;
+
+import java.util.ServiceLoader;
 
 /**
  * The Forestry Client API manages client-only data related to Forestry.

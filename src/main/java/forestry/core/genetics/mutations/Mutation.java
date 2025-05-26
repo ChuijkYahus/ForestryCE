@@ -11,29 +11,21 @@
 package forestry.core.genetics.mutations;
 
 import com.google.common.collect.ImmutableList;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-
 import com.mojang.authlib.GameProfile;
-
 import forestry.api.climate.IClimateProvider;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationCondition;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.*;
 import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.ItemResearchNote;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
+import java.util.List;
+import java.util.Map;
 
 public class Mutation<S extends ISpecies<?>> implements IMutation<S> {
 	private final ISpeciesType<S, ?> type;

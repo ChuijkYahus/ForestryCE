@@ -10,17 +10,6 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import javax.annotation.Nullable;
-import java.util.Set;
-
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.level.block.entity.BlockEntity;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.core.IError;
 import forestry.api.core.IErrorLogicSource;
 import forestry.core.network.packets.PacketErrorUpdate;
@@ -30,6 +19,15 @@ import forestry.core.tiles.IPowerHandler;
 import forestry.core.tiles.TilePowered;
 import forestry.core.tiles.TileUtil;
 import forestry.energy.ForestryEnergyStorage;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.Set;
 
 public abstract class ContainerTile<T extends BlockEntity> extends ContainerForestry {
 	protected final T tile;
@@ -63,48 +61,48 @@ public abstract class ContainerTile<T extends BlockEntity> extends ContainerFore
 
 	@Override
 	public final boolean stillValid(Player player) {
-		return TileUtil.isUsableByPlayer(player, tile);
+		return TileUtil.isUsableByPlayer(player, this.tile);
 	}
 
 	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		if (tile instanceof IErrorLogicSource errorLogicSource) {
+		if (this.tile instanceof IErrorLogicSource errorLogicSource) {
 			Set<IError> errorStates = errorLogicSource.getErrorLogic().getErrors();
 
-			if (!errorStates.equals(previousErrorStates)) {
-				PacketErrorUpdate packet = new PacketErrorUpdate(tile, errorLogicSource);
+			if (!errorStates.equals(this.previousErrorStates)) {
+				PacketErrorUpdate packet = new PacketErrorUpdate(this.tile, errorLogicSource);
 				sendPacketToListeners(packet);
 			}
 
-			previousErrorStates = Set.copyOf(errorStates);
+            this.previousErrorStates = Set.copyOf(errorStates);
 		}
 
-		if (tile instanceof IPowerHandler) {
-			ForestryEnergyStorage energyStorage = ((IPowerHandler) tile).getEnergyManager();
+		if (this.tile instanceof IPowerHandler) {
+			ForestryEnergyStorage energyStorage = ((IPowerHandler) this.tile).getEnergyManager();
 			int energyManagerData = energyStorage.getEnergyStored();
-			if (energyManagerData != previousEnergyManagerData) {
-				PacketGuiEnergy packet = new PacketGuiEnergy(containerId, energyManagerData);
+			if (energyManagerData != this.previousEnergyManagerData) {
+				PacketGuiEnergy packet = new PacketGuiEnergy(this.containerId, energyManagerData);
 				sendPacketToListeners(packet);
 
-				previousEnergyManagerData = energyManagerData;
+                this.previousEnergyManagerData = energyManagerData;
 			}
 		}
 
-		if (tile instanceof TilePowered tilePowered) {
+		if (this.tile instanceof TilePowered tilePowered) {
 			boolean guiNeedsUpdate = false;
 
 			int workCounter = tilePowered.getWorkCounter();
-			if (workCounter != previousWorkCounter) {
+			if (workCounter != this.previousWorkCounter) {
 				guiNeedsUpdate = true;
-				previousWorkCounter = workCounter;
+                this.previousWorkCounter = workCounter;
 			}
 
 			int ticksPerWorkCycle = tilePowered.getTicksPerWorkCycle();
-			if (ticksPerWorkCycle != previousTicksPerWorkCycle) {
+			if (ticksPerWorkCycle != this.previousTicksPerWorkCycle) {
 				guiNeedsUpdate = true;
-				previousTicksPerWorkCycle = ticksPerWorkCycle;
+                this.previousTicksPerWorkCycle = ticksPerWorkCycle;
 			}
 
 			if (guiNeedsUpdate) {
@@ -116,13 +114,13 @@ public abstract class ContainerTile<T extends BlockEntity> extends ContainerFore
 
 	@OnlyIn(Dist.CLIENT)
 	public void onGuiEnergy(int energyStored) {
-		if (tile instanceof IPowerHandler handler) {
+		if (this.tile instanceof IPowerHandler handler) {
 			ForestryEnergyStorage energyStorage = handler.getEnergyManager();
 			energyStorage.setEnergyStored(energyStored);
 		}
 	}
 
 	public T getTile() {
-		return tile;
+		return this.tile;
 	}
 }

@@ -13,19 +13,17 @@ package forestry.core.data.builder;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
-import java.util.function.Consumer;
-
+import forestry.api.core.Product;
+import forestry.core.utils.JsonUtil;
+import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
-import forestry.api.core.Product;
-import forestry.core.utils.JsonUtil;
-import forestry.factory.features.FactoryRecipeTypes;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class CentrifugeRecipeBuilder {
 	private int processingTime;
@@ -43,13 +41,13 @@ public class CentrifugeRecipeBuilder {
 	}
 
 	public CentrifugeRecipeBuilder product(float chance, ItemStack stack) {
-		outputs.add(new Product(stack.getItem(), stack.getCount(), stack.getTag(), chance));
+        this.outputs.add(new Product(stack.getItem(), stack.getCount(), stack.getTag(), chance));
 		return this;
 	}
 
 	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
 		Preconditions.checkState(!this.outputs.isEmpty(), "Empty centrifuge recipes are not allowed");
-		consumer.accept(new Result(id, processingTime, input, outputs));
+		consumer.accept(new Result(id, this.processingTime, this.input, this.outputs));
 	}
 
 	public static class Result implements FinishedRecipe {
@@ -67,12 +65,12 @@ public class CentrifugeRecipeBuilder {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.addProperty("time", processingTime);
-			json.add("input", input.toJson());
+			json.addProperty("time", this.processingTime);
+			json.add("input", this.input.toJson());
 
 			JsonArray products = new JsonArray();
 
-			for (Product product : outputs) {
+			for (Product product : this.outputs) {
 				products.add(JsonUtil.serialize(Product.CODEC, product));
 			}
 
@@ -81,7 +79,7 @@ public class CentrifugeRecipeBuilder {
 
 		@Override
 		public ResourceLocation getId() {
-			return id;
+			return this.id;
 		}
 
 		@Override

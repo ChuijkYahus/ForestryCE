@@ -1,8 +1,7 @@
 package forestry.apiculture.tiles;
 
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.apiculture.IBeeHousingInventory;
+import net.minecraft.world.item.ItemStack;
 
 public enum FakeBeeHousingInventory implements IBeeHousingInventory {
 	INSTANCE;

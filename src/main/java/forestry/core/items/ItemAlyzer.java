@@ -10,9 +10,8 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+import forestry.core.gui.ContainerAlyzer;
+import forestry.core.inventory.ItemInventoryAlyzer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,8 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
-import forestry.core.gui.ContainerAlyzer;
-import forestry.core.inventory.ItemInventoryAlyzer;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemAlyzer extends ItemWithGui {
 	public ItemAlyzer() {

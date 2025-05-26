@@ -1,9 +1,9 @@
 package forestry.core.blocks;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-
+import forestry.core.tiles.IForestryTicker;
+import forestry.core.tiles.TileForestry;
+import forestry.modules.features.FeatureTileType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -14,9 +14,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import forestry.core.tiles.IForestryTicker;
-import forestry.core.tiles.TileForestry;
-import forestry.modules.features.FeatureTileType;
+import javax.annotation.Nullable;
 
 public class MachineProperties<T extends TileForestry> implements IMachineProperties<T> {
 	private static final ISimpleShapeProvider FULL_CUBE = Shapes::block;
@@ -47,12 +45,12 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	@Nullable
 	@Override
 	public Block getBlock() {
-		return block;
+		return this.block;
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return shape.getShape(state, level, pos, context);
+		return this.shape.getShape(state, level, pos, context);
 	}
 
 	@Override
@@ -63,13 +61,13 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	@Nullable
 	@Override
 	public IForestryTicker<? extends T> getClientTicker() {
-		return clientTicker;
+		return this.clientTicker;
 	}
 
 	@Nullable
 	@Override
 	public IForestryTicker<? extends T> getServerTicker() {
-		return serverTicker;
+		return this.serverTicker;
 	}
 
 	@Override
@@ -79,7 +77,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 
 	@Override
 	public String getSerializedName() {
-		return name;
+		return this.name;
 	}
 
 	public static class Builder<T extends TileForestry, B extends Builder<T, ?>> {
@@ -125,8 +123,8 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 		}
 
 		public MachineProperties<T> create() {
-			Preconditions.checkNotNull(shape);
-			return new MachineProperties<>(type, name, shape, clientTicker, serverTicker);
+			Preconditions.checkNotNull(this.shape);
+			return new MachineProperties<>(this.type, this.name, this.shape, this.clientTicker, this.serverTicker);
 		}
 	}
 }

@@ -10,8 +10,9 @@
  ******************************************************************************/
 package forestry.farming.logic.farmables;
 
-import java.util.function.Consumer;
-
+import forestry.api.farming.ICrop;
+import forestry.core.utils.BlockUtil;
+import forestry.farming.logic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,9 +23,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.api.farming.ICrop;
-import forestry.core.utils.BlockUtil;
-import forestry.farming.logic.crops.CropDestroy;
+import java.util.function.Consumer;
 
 public class FarmableMushroom extends FarmableBase {
 	public FarmableMushroom(ItemStack mushroom, BlockState plantedMushroom) {
