@@ -139,7 +139,7 @@ public class FilterLogic implements IFilterLogic {
 	}
 
 	public static AlleleFilter[][] readGenomeFilters(FriendlyByteBuf buffer) {
-		AlleleFilter[][] genomeFilters = new AlleleFilter[6][32023];
+		AlleleFilter[][] genomeFilters = new AlleleFilter[6][3];
 		IAlleleManager alleles = IForestryApi.INSTANCE.getAlleleManager();
 
 		for (int i = 0; i < 6; i++) {
