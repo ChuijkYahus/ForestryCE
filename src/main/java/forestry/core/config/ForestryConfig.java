@@ -85,6 +85,7 @@ public class ForestryConfig {
 		public final ForgeConfigSpec.BooleanValue enableBackpackResupply;
 		public final ForgeConfigSpec.BooleanValue spawnTinOre;
 		public final ForgeConfigSpec.BooleanValue spawnApatiteOre;
+		public final ForgeConfigSpec.DoubleValue escritoireBountyMultiplier;
 
 		public Server(ForgeConfigSpec.Builder builder) {
 			// Genetics
@@ -162,6 +163,9 @@ public class ForestryConfig {
 			this.spawnApatiteOre = builder
 				.comment("Whether Apatite Ore veins generate naturally in the Overworld.")
 				.define("spawn_apatite_ore", true);
+			this.escritoireBountyMultiplier = builder
+				.comment("Multiplies the chance of a reward from winning escritoire game(does not affect mutation notes)")
+				.defineInRange("escritoire_bounty_multiplier", 1f, 0.0f, 1000f);
 		}
 	}
 
