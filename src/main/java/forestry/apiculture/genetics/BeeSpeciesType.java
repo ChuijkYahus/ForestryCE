@@ -29,11 +29,12 @@ import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
 import forestry.apiimpl.plugin.ApicultureRegistration;
+import forestry.core.config.ForestryConfig;
 import forestry.core.genetics.BreedingTracker;
 import forestry.core.genetics.SpeciesType;
 import forestry.core.genetics.root.BreedingTrackerManager;
-import forestry.core.utils.ItemStackUtil;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -126,14 +127,15 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		List<ItemStack> bounty = super.getResearchBounty(species, level, researcher, individual, bountyLevel);
 		if (bountyLevel > 10) {
 			for (IProduct stack : species.getSpecialties()) {
-				bounty.add(ItemStackUtil.copyWithRandomSize(stack, (int) ((float) bountyLevel / 2), level.random));
+				bounty.add(formBountyStack(stack, bountyLevel, level.random));
 			}
 		}
 		for (IProduct stack : species.getProducts()) {
-			bounty.add(ItemStackUtil.copyWithRandomSize(stack, (int) ((float) bountyLevel / 2), level.random));
+			bounty.add(formBountyStack(stack, bountyLevel, level.random));
 		}
 		return bounty;
 	}
+
 
 	@Override
 	public Pair<ImmutableMap<ResourceLocation, IBeeSpecies>, IMutationManager<IBeeSpecies>> handleSpeciesRegistration(List<IForestryPlugin> plugins) {
@@ -152,5 +154,20 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		((ForestryApiImpl) IForestryApi.INSTANCE).setHiveManager(registration.buildHiveManager());
 
 		return registration.buildAll();
+	}
+
+	private ItemStack formBountyStack(IProduct product, int bountyLevel, RandomSource rand) {
+		double productGenChance = product.chance() * ForestryConfig.SERVER.escritoireBountyMultiplier.get();
+		int productGenSuccessCounter = 0;
+		for(int i = 0; i < bountyLevel; i++) {
+			double randVal = rand.nextDouble();
+			if(randVal < productGenChance){
+				productGenSuccessCounter++;
+			}
+		}
+		ItemStack copy = product.createRandomStack(rand);
+		int stackMaxSize = copy.getMaxStackSize();
+		copy.setCount(Math.min(productGenSuccessCounter, stackMaxSize));
+		return copy;
 	}
 }
