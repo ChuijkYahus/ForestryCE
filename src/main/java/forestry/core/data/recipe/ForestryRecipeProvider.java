@@ -872,7 +872,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
-			recipe.define('X', Items.COPPER_INGOT);
+			recipe.define('X', Tags.Items.INGOTS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
 			recipe.pattern("XYX");
@@ -948,7 +948,7 @@ public class ForestryRecipeProvider {
 		for (EnumFarmMaterial material : EnumFarmMaterial.values()) {
 			Item base = material.getBase().asItem();
 			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.PLAIN, material), recipe -> {
-				recipe.define('I', Items.COPPER_INGOT);
+				recipe.define('I', Tags.Items.INGOTS_COPPER);
 				recipe.define('#', base);
 				recipe.define('C', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.TIN));
 				recipe.define('W', ItemTags.WOODEN_SLABS);
@@ -1414,7 +1414,7 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_PHOSPHOR.get(), Ingredient.of(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.PHOSPHOR)));
 		crate(consumer, CrateItems.CRATED_ASH.get(), Ingredient.of(CoreItems.ASH));
 		crate(consumer, CrateItems.CRATED_TIN.get(), Ingredient.of(ForestryTags.Items.INGOTS_TIN));
-		crate(consumer, CrateItems.CRATED_COPPER.get(), Ingredient.of(Items.COPPER_INGOT));
+		crate(consumer, CrateItems.CRATED_COPPER.get(), Ingredient.of(Tags.Items.INGOTS_COPPER));
 		crate(consumer, CrateItems.CRATED_BRONZE.get(), Ingredient.of(ForestryTags.Items.INGOTS_BRONZE));
 
 		crate(consumer, CrateItems.CRATED_HUMUS.get(), Ingredient.of(CoreBlocks.HUMUS));
@@ -1749,7 +1749,7 @@ public class ForestryRecipeProvider {
 				.pattern("#X#")
 				.pattern("XXX")
 				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Items.COPPER_INGOT))
+				.define('X', Tags.Items.INGOTS_COPPER))
 			.build(consumer, id("fabricator", "electron_tubes", "copper"));
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
