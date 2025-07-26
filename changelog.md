@@ -1,3 +1,8 @@
+## Forestry 2.6.2
+- Fix egregious typo in FilterLogic
+- Change Escritoire reward calculation for Bees (#253) thanks to bnorax
+- Fix certain recipes being hardcoded to use ingot items instead of ingot tags (#256) thanks to dmdinnc
+ 
 ## Forestry 2.6.1
 - Fixed Research Notes voiding items when used in the offhand (#222)
 - Fix tags for Survivalist tools (#221)
