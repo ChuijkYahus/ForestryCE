@@ -1,21 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.utils;
+
+import com.google.common.base.Preconditions;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
@@ -29,7 +23,6 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-
 
 public abstract class ModUtil {
 	public static boolean isModLoaded(String modname) {
@@ -72,6 +65,16 @@ public abstract class ModUtil {
 
 	public static ResourceLocation getRegistryName(ParticleType<?> o) {
 		return ForgeRegistries.PARTICLE_TYPES.getKey(o);
+	}
+
+	// todo use in more parts of the mod
+	public static void checkNotEmpty(@Nullable Item item) {
+		Preconditions.checkArgument(item != null && item != Items.AIR);
+	}
+
+	// todo use in more parts of the mod
+	public static void checkNotEmpty(@Nullable Block block) {
+		Preconditions.checkArgument(block != null && block != Blocks.AIR);
 	}
 
 	public static ResourceLocation withSuffix(ResourceLocation id, String suffix) {

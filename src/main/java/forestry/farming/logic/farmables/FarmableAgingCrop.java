@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import forestry.api.farming.ICrop;
 import forestry.api.farming.IFarmable;
 import forestry.core.utils.BlockUtil;
+import forestry.core.utils.ModUtil;
 import forestry.farming.logic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -50,8 +51,8 @@ public class FarmableAgingCrop implements IFarmable {
 	}
 
 	public FarmableAgingCrop(Item germling, Block cropBlock, ItemStack[] products, Property<Integer> ageProperty, int minHarvestAge, @Nullable Integer replantAge) {
-		Preconditions.checkNotNull(germling);
-		Preconditions.checkNotNull(cropBlock);
+		ModUtil.checkNotEmpty(germling);
+		ModUtil.checkNotEmpty(cropBlock);
 		Preconditions.checkNotNull(ageProperty);
 		Preconditions.checkNotNull(products);
 
