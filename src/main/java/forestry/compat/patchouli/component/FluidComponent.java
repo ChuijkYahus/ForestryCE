@@ -1,23 +1,26 @@
 package forestry.compat.patchouli.component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.UnaryOperator;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.UnaryOperator;
 
 @SuppressWarnings("unused")
 public class FluidComponent implements ICustomComponent {
@@ -42,20 +45,22 @@ public class FluidComponent implements ICustomComponent {
 		stack.pushPose();
 		IClientFluidTypeExtensions fluidAttributes = IClientFluidTypeExtensions.of(this.fluidStack.getFluid());
 		ResourceLocation fluidStill = fluidAttributes.getStillTexture(this.fluidStack);
-		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
-		ResourceLocation spriteLocation = sprite.contents().name();
-		ResourceLocation fluidTexture = new ResourceLocation(spriteLocation.getNamespace(), "textures/" + spriteLocation.getPath() + ".png");
-		setGLColorFromInt(fluidAttributes.getTintColor(this.fluidStack));
+		if (fluidStill != null) {
+			TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
+			ResourceLocation spriteLocation = sprite.contents().name();
+			ResourceLocation fluidTexture = new ResourceLocation(spriteLocation.getNamespace(), "textures/" + spriteLocation.getPath() + ".png");
+			setGLColorFromInt(fluidAttributes.getTintColor(this.fluidStack));
 
-		// MatrixStack transform, int x, int y, float u, float v, int width, int height, int ?, int ?
-		graphics.blit(fluidTexture, this.x, (int) (this.y + this.h - Math.floor(this.h * ((float) this.level / this.maxLevel))), sprite.getU0(), sprite.getV0(), this.w, this.h * this.level / this.maxLevel, 8, 8);
+			// MatrixStack transform, int x, int y, float u, float v, int width, int height, int ?, int ?
+			graphics.blit(fluidTexture, this.x, (int) (this.y + this.h - Math.floor(this.h * ((float) this.level / this.maxLevel))), sprite.getU0(), sprite.getV0(), this.w, this.h * this.level / this.maxLevel, 8, 8);
 
-		if (context.isAreaHovered(mouseX, mouseY, this.x, this.y, this.w, this.h)) {
-			List<Component> toolTips = new ArrayList<>();
-			toolTips.add(this.fluidStack.getDisplayName());
-			toolTips.add(Component.translatable("for.gui.tooltip.liquid.amount", this.level, this.maxLevel));
+			if (context.isAreaHovered(mouseX, mouseY, this.x, this.y, this.w, this.h)) {
+				List<Component> toolTips = new ArrayList<>();
+				toolTips.add(this.fluidStack.getDisplayName());
+				toolTips.add(Component.translatable("for.gui.tooltip.liquid.amount", this.level, this.maxLevel));
 
-			context.setHoverTooltipComponents(toolTips);
+				context.setHoverTooltipComponents(toolTips);
+			}
 		}
 
 		stack.popPose();
