@@ -2,6 +2,7 @@ package forestry.core.utils;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.authlib.GameProfile;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import forestry.Forestry;
 import forestry.api.IForestryApi;
@@ -91,7 +92,11 @@ public class SpeciesUtil {
 
 
 	public static <I extends IIndividual> I deserializeIndividual(ISpeciesType<?, I> type, Tag nbt) {
-		return type.getIndividualCodec().decode(NbtOps.INSTANCE, nbt).resultOrPartial(Forestry.LOGGER::error).orElseThrow().getFirst();
+		return type.getIndividualCodec()
+			.decode(NbtOps.INSTANCE, nbt)
+			.resultOrPartial(Forestry.LOGGER::error)
+			.orElseGet(() -> Pair.of(type.getDefaultSpecies().createIndividual().cast(), nbt))
+			.getFirst();
 	}
 
 	@Nullable

@@ -4,6 +4,7 @@
 - Update Japanese translation, thanks to code-onigiri (#269)
 - Update Ukrainian translation, thanks to yevgmikh (#268)
 - Add translations for deaths from bee effects, thanks to ACCBDD (#273)
+- Fix individual deserialization errors causing a crash (#275)
 
 ## Forestry 2.6.2
 - Fix egregious typo in FilterLogic
