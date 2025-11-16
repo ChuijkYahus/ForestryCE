@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.gui;
 
 import forestry.api.genetics.ISpeciesType;
@@ -27,12 +17,13 @@ import net.minecraft.world.inventory.ContainerListener;
 public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistChest> implements IGuiSelectable, INaturalistMenu {
 	public static final int MAX_PAGE = 5;
 	private final int page;
-	public boolean closing = true;
+	private boolean isFlipPage;
 
-	public ContainerNaturalistInventory(int windowId, Inventory player, TileNaturalistChest tile, int page) {
+	public ContainerNaturalistInventory(int windowId, Inventory player, TileNaturalistChest tile, int page, boolean isFlipPage) {
 		super(windowId, CoreMenuTypes.NATURALIST_INVENTORY.menuType(), player, tile, 18, 120);
 
 		this.page = page;
+		this.isFlipPage = isFlipPage;
 		addInventory(this, tile, page);
 	}
 
@@ -49,12 +40,12 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 
 	public static ContainerNaturalistInventory fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		TileNaturalistChest tile = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), TileNaturalistChest.class);
-		return new ContainerNaturalistInventory(windowId, playerInv, tile, extraData.readVarInt());
+		return new ContainerNaturalistInventory(windowId, playerInv, tile, extraData.readVarInt(), extraData.readBoolean());
 	}
 
 	@Override
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
-        this.closing = false;
+        this.isFlipPage = true;
         this.tile.flipPage(player, (short) primary);
 	}
 
@@ -71,7 +62,7 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 	@Override
 	public void onFlipPage() {
 		// stop chest from playing closing animation and sound
-		this.closing = false;
+		this.isFlipPage = true;
 	}
 
 	@Override
@@ -82,8 +73,11 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 		// a separate object that implements ContainerListener. Luckily, it's still declared as an anonymous class
 		// inside of ServerPlayer, so we can identify it by its nest host. Hack fix for chests staying open :)
 		if (listener.getClass().getNestHost() == ServerPlayer.class) {
-			if (this.page == 0) {
+			if (!this.isFlipPage) {
                 this.tile.increaseNumPlayersUsing();
+			} else {
+				// set to false after flip is done
+				this.isFlipPage = false;
 			}
 		}
 	}
@@ -92,7 +86,7 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 	public void removed(Player player) {
 		super.removed(player);
 
-		if (this.closing) {
+		if (!this.isFlipPage && player instanceof ServerPlayer) {
             this.tile.decreaseNumPlayersUsing();
 		}
 	}

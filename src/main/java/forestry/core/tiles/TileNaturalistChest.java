@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
 import forestry.api.genetics.ISpeciesType;
@@ -89,21 +79,22 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 	@Override
 	public void flipPage(ServerPlayer player, short page) {
-		NetworkHooks.openScreen(player, new PagedMenuProvider(page), p -> {
-			p.writeBlockPos(this.worldPosition);
-			p.writeVarInt(page);
-		});
+		openMenu(player, page, true);
 	}
 
 	@Override
 	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		NetworkHooks.openScreen(player, new PagedMenuProvider(0), p -> {
+		openMenu(player, 0, false);
+	}
+
+	private void openMenu(ServerPlayer player, int page, boolean isFlipPage) {
+		NetworkHooks.openScreen(player, new PagedMenuProvider(page, isFlipPage), p -> {
 			p.writeBlockPos(this.worldPosition);
-			p.writeVarInt(0);
+			p.writeVarInt(page);
+			p.writeBoolean(isFlipPage);
 		});
 	}
 
-	/* IStreamable */
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		data.writeInt(this.numPlayersUsing);
@@ -116,7 +107,8 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerNaturalistInventory(windowId, inv, this, 5);
+		// this is unused but return a default just in case
+		return new ContainerNaturalistInventory(windowId, inv, this, 0, false);
 	}
 
 	public ISpeciesType<?, ?> getSpeciesType() {
@@ -126,9 +118,11 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 	// ensures ContainerNaturalistInventory.page is correct on the server side
 	private class PagedMenuProvider implements MenuProvider {
 		private final int page;
+		private final boolean isFlipPage;
 
-		private PagedMenuProvider(int page) {
+		private PagedMenuProvider(int page, boolean isFlipPage) {
 			this.page = page;
+			this.isFlipPage = isFlipPage;
 		}
 
 		@Override
@@ -138,7 +132,7 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 		@Override
 		public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, Player player) {
-			return new ContainerNaturalistInventory(windowId, playerInv, TileNaturalistChest.this, this.page);
+			return new ContainerNaturalistInventory(windowId, playerInv, TileNaturalistChest.this, this.page, this.isFlipPage);
 		}
 	}
 }

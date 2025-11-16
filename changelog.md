@@ -1,3 +1,10 @@
+## Forestry 2.7.0
+- Fixed Apiarist/Arborist/Lepidopterist chest not always closing lid (#257)
+- Fix crash with Bog Earth page in Forester's Manual (#279)
+- Update Japanese translation, thanks to code-onigiri (#269)
+- Update Ukrainian translation, thanks to yevgmikh (#268)
+- Add translations for deaths from bee effects, thanks to ACCBDD (#273)
+
 ## Forestry 2.6.2
 - Fix egregious typo in FilterLogic
 - Change Escritoire reward calculation for Bees (#253) thanks to bnorax
