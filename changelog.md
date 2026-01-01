@@ -2,6 +2,7 @@
 - Fix incorrect bee particle positioning (#247)
 - Added tooltips to bee flower types in the portable analyzer (still missing Photosynth)
 - Changed Ipe leaves from Jungle to Acacia
+- Fix Cathemeral sleep periods not working when daylight cycle is frozen (or in Nether)
 
 ## Forestry 2.8.0
 - Added Survivalist's Axe, Sword, and Hoe (#117)
