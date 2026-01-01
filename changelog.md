@@ -1,5 +1,7 @@
-## Forestry 2.8.1
+## Forestry 2.9.0
 - Fix incorrect bee particle positioning (#247)
+- Added tooltips to bee flower types in the portable analyzer (still missing Photosynth)
+- Changed Ipe leaves from Jungle to Acacia
 
 ## Forestry 2.8.0
 - Added Survivalist's Axe, Sword, and Hoe (#117)
