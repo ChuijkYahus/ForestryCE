@@ -1,3 +1,4 @@
 @javax.annotation.ParametersAreNonnullByDefault
+@forestry.core.utils.FieldsAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
-package forestry.api.client;
+package forestry.apiimpl.client.genetics;
