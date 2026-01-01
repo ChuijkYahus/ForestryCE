@@ -10,8 +10,8 @@
  ******************************************************************************/
 package forestry.farming.items;
 
+import forestry.core.TranslationKeys;
 import forestry.core.items.ItemBlockForestry;
-import forestry.core.utils.ItemTooltipUtil;
 import forestry.farming.blocks.FarmBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -34,7 +34,7 @@ public class ItemBlockFarm extends ItemBlockForestry<FarmBlock> {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("block.forestry.farm.tooltip").withStyle(ChatFormatting.GRAY));
 		} else {
-			ItemTooltipUtil.addShiftInformation(stack, world, tooltip, flag);
+			tooltip.add(Component.translatable(TranslationKeys.HOLD_SHIFT_FOR_DETAILS).withStyle(ChatFormatting.GRAY));
 		}
 	}
 

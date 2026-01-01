@@ -2,6 +2,7 @@ package forestry.core;
 
 public class ForestryColors {
 	public static final int WHITE = 0xffffff;
+	// ChatFormatting.GRAY
 	public static final int LIGHT_GRAY = 0xaaaaaa;
 	public static final int GRAY = 0x808080;
 	public static final int DARK_GRAY = 0x404040;

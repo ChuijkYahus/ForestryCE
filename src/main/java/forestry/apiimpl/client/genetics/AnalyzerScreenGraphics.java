@@ -299,8 +299,12 @@ public class AnalyzerScreenGraphics<S extends ISpecies<I>, I extends IIndividual
 		ArrayList<Component> styledTooltip = new ArrayList<>(lineCount);
 
 		for (int i = 0; i < lineCount; i++) {
-			TextOptions lineOptions = options.get(i);
-			styledTooltip.add(lineOptions == null ? tooltip.get(i) : tooltip.get(i).plainCopy().withStyle(lineOptions::applyStyle));
+			if (i >= options.size()) {
+				styledTooltip.add(tooltip.get(i));
+			} else {
+				TextOptions lineOptions = options.get(i);
+				styledTooltip.add(lineOptions == null ? tooltip.get(i) : tooltip.get(i).plainCopy().withStyle(lineOptions::applyStyle));
+			}
 		}
 
 		this.graphics.renderTooltip(this.font, styledTooltip, Optional.empty(), x, y);
@@ -354,7 +358,7 @@ public class AnalyzerScreenGraphics<S extends ISpecies<I>, I extends IIndividual
 				continue;
 			}
 
-			drawMutation(col, mutation, tracker, iconGetter);
+			drawMutation(mutation, tracker, iconGetter);
 			addHorizontalSpacing(50);
 
 			if (++col >= 4) {
@@ -365,8 +369,7 @@ public class AnalyzerScreenGraphics<S extends ISpecies<I>, I extends IIndividual
 		}
 	}
 
-	@Override
-	public void drawMutation(int x, IMutation<?> mutation, IBreedingTracker tracker, Function<S, ItemStack> iconGetter) {
+	private void drawMutation(IMutation<?> mutation, IBreedingTracker tracker, Function<S, ItemStack> iconGetter) {
 		boolean discovered = tracker.isDiscovered(mutation);
 		boolean researched = tracker.isResearched(mutation);
 

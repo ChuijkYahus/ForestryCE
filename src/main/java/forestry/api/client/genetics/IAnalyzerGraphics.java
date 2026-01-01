@@ -1,16 +1,5 @@
 package forestry.api.client.genetics;
 
-import java.util.List;
-import java.util.function.Function;
-
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.IMutation;
-import net.minecraft.client.gui.Font;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.world.item.ItemStack;
-
 import forestry.api.client.InteractableTextOptions;
 import forestry.api.client.TextOptions;
 import forestry.api.core.IClimateSensitive;
@@ -22,14 +11,17 @@ import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IIntegerChromosome;
 import forestry.api.genetics.alleles.IValueChromosome;
+import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+import java.util.function.Function;
+
 public interface IAnalyzerGraphics<S extends ISpecies<I>, I extends IIndividual> {
-	/**
-	 * Draws a row starting with the name of the chromosome, then the active allele followed by the inactive allele.
-	 *
-	 * @param chromosome The chromosome to display.
-	 */
 	default <C extends IChromosome<A>, A extends IAllele> void drawChromosomeRow(C chromosome) {
 		drawChromosomeRow(chromosome, null);
 	}
@@ -96,10 +88,33 @@ public interface IAnalyzerGraphics<S extends ISpecies<I>, I extends IIndividual>
 		drawText(text, x, null);
 	}
 
+	/**
+	 * Draws text at the current coordinates.
+	 *
+	 * @param text    The text.
+	 * @param x       The number of pixels to horizontally offset by.
+	 * @param options Options specifying styling (color, bold/italic/underline, drop shadow) and hover behavior.
+	 */
 	void drawText(FormattedCharSequence text, int x, @Nullable InteractableTextOptions options);
 
+	/**
+	 * Draws wrapped text. Currently, does not support x offset.
+	 *
+	 * @param text    The text to draw, which will be split across multiple lines if longer than 200 pixels.
+	 * @param options Options specifying styling.
+	 */
 	void drawTextWrapped(Component text, @Nullable InteractableTextOptions options);
 
+	/**
+	 * Draws a line in a 3-column table split format. Used in the analyzer to control individual styling/behavior
+	 * for active/inactive alleles.
+	 *
+	 * @param label     The label for the row to display on the left side.
+	 * @param left      The text to display in the middle.
+	 * @param right     The text to display on the right.
+	 * @param showRight Whether the right text should be rendered. Used by haploid mode to hide the unused set of alleles.
+	 * @param options   Controls styling and interaction behavior for the left and right text.
+	 */
 	void drawSplitLine(Component label, Component left, Component right, boolean showRight, @Nullable ISplitLineOptions options);
 
 	/**
@@ -140,17 +155,18 @@ public interface IAnalyzerGraphics<S extends ISpecies<I>, I extends IIndividual>
 		drawTooltip(x, y, tooltip, null);
 	}
 
-	/**
-	 *
-	 * @param x
-	 * @param y
-	 * @param tooltip
-	 * @param options Text styling options. Note that "on hover" and "on click" behaviors aren't supported.
-	 */
 	default void drawTooltip(int x, int y, Component tooltip, @Nullable TextOptions options) {
 		drawTooltip(x, y, List.of(tooltip), options == null ? List.of() : List.of(options));
 	}
 
+	/**
+	 * Draws a tooltip.
+	 *
+	 * @param x       The cursor X position to draw the tooltip at.
+	 * @param y       The cursor Y position to draw the tooltip at.
+	 * @param tooltip The list of tooltip lines to draw.
+	 * @param options Text styling options. Each element corresponds to styling for the line at the same index in tooltip. {@code null} indicates no styling.
+	 */
 	void drawTooltip(int x, int y, List<Component> tooltip, List<@Nullable TextOptions> options);
 
 	/**
@@ -163,10 +179,16 @@ public interface IAnalyzerGraphics<S extends ISpecies<I>, I extends IIndividual>
 
 	Font font();
 
-	void drawMutation(int x, IMutation<?> mutation, IBreedingTracker tracker, Function<S, ItemStack> iconGetter);
-
+	/**
+	 * Draws the built-in Mutations page used in Page 4 of the analyzer.
+	 *
+	 * @param iconGetter The function used to retrieve item stacks to display each mutation icon.
+	 */
 	void drawMutationsPage(Function<S, ItemStack> iconGetter);
 
+	/**
+	 * Draws the built-in Taxonomy page used in Page 5 of the analyzer.
+	 */
 	void drawTaxonomyPage();
 
 	interface IChromosomeRowOptions<C extends IChromosome<A>, A extends IAllele> {

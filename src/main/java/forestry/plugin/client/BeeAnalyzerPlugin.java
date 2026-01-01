@@ -19,15 +19,21 @@ import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IValueAllele;
 import forestry.apiculture.FlowerType;
 import forestry.core.ForestryColors;
+import forestry.core.TranslationKeys;
 import forestry.core.config.ForestryConfig;
 import forestry.core.gui.GuiForestry;
 import forestry.core.gui.PortableAnalyzerScreen;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
 import forestry.core.utils.Translator;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,13 +56,33 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 	private static <A extends IAllele> Component addFlowerTypeTooltip(IAnalyzerGraphics<?, ?> graphics, IChromosome<A> chromosome, A allele, InteractableTextOptions options, Component text) {
 		if (allele instanceof IValueAllele<?> valueAllele && valueAllele.value() instanceof FlowerType type) {
 			options.setOnHover((x, y) -> {
-				graphics.drawTooltip(x, y, List.of(
-					Component.literal("Accepts the following:"),
-					Component.literal("#" + type.getAcceptableFlowers().location())
-				), Lists.newArrayList(
-					null,
-					new TextOptions().setColor(ForestryColors.LIGHT_GRAY)
-				));
+				ArrayList<Component> lines = Lists.newArrayList(Component.literal("Accepts the following:"), Component.literal("#" + type.getAcceptableFlowers().location()));
+				ArrayList<TextOptions> lineOptions = Lists.newArrayList(null, new TextOptions().setColor(ForestryColors.LIGHT_GRAY));
+				TextOptions gray = new TextOptions().setColor(ForestryColors.GRAY);
+
+				if (Screen.hasShiftDown()) {
+					ClientLevel level = Minecraft.getInstance().level;
+					level.registryAccess().registryOrThrow(Registries.BLOCK).getTag(type.getAcceptableFlowers()).ifPresent(list -> {
+						int length = list.size();
+						int entries = Math.min(5, length);
+						boolean cycle = length > 5;
+						int offset = cycle ? (int) (level.getGameTime() / 40L) % length : 0;
+
+						for (int i = 0; i < entries; i++) {
+							lines.add(list.get((offset + i) % length).get().getName());
+							lineOptions.add(gray);
+						}
+						if (cycle) {
+							lines.add(Component.literal("..."));
+							lineOptions.add(gray);
+						}
+					});
+				} else {
+					lines.add(Component.translatable(TranslationKeys.HOLD_SHIFT_FOR_DETAILS));
+					lineOptions.add(gray);
+				}
+
+				graphics.drawTooltip(x, y, lines, lineOptions);
 				options.setUnderlined(true);
 			});
 		} else {
