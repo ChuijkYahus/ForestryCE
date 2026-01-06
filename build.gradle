@@ -1,4 +1,4 @@
-import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 plugins {
@@ -137,6 +137,40 @@ var generateModMetadata = tasks.register('generateModMetadata', ProcessResources
 	into 'build/generated/sources/modMetadata'
 }
 
+// Helper function to extract JSON entries while preserving duplicate keys
+static def extractJsonEntries(File jsonFile) {
+	def entries = []
+	def lines = jsonFile.readLines()
+	def slurper = new JsonSlurper()
+
+	lines.each { line ->
+		// Match lines like: "key": "value" or "key": value
+		def matcher = line =~ /^\s*"([^"]+)"\s*:\s*(.+?)\s*,?\s*$/
+		if (matcher.find()) {
+			def key = matcher.group(1)
+			def valueStr = matcher.group(2)
+
+			// Remove trailing comma if present
+			if (valueStr.endsWith(',')) {
+				valueStr = valueStr.substring(0, valueStr.length() - 1).trim()
+			}
+
+			// Parse the value properly
+			def value
+			try {
+				value = slurper.parseText(valueStr)
+			} catch (Exception e) {
+				// If parsing fails, keep as string (shouldn't happen for valid JSON)
+				value = valueStr.replaceAll('^"|"$', '')
+			}
+
+			entries.add([key: key, value: value])
+		}
+	}
+
+	return entries
+}
+
 // merge generated JSON into main JSON
 var generateEnUsLang = tasks.register('generateEnUsLang', DefaultTask) {
 	var manualFile = project.file('src/main/resources/assets/forestry/lang/en_us.json')
@@ -151,17 +185,32 @@ var generateEnUsLang = tasks.register('generateEnUsLang', DefaultTask) {
 		mergedFile.parentFile.mkdirs()
 
 		if (manualFile.exists() && generatedFile.exists()) {
-			def slurper = new JsonSlurper()
-			def builder = new JsonBuilder()
+			// Read main file and extract all entries (including duplicate _comment fields)
+			def mainEntries = extractJsonEntries(manualFile)
+			def generatedEntries = extractJsonEntries(generatedFile)
 
-			def mainData = slurper.parse(manualFile)
-			def generatedData = slurper.parse(generatedFile)
+			// Track which non-comment keys we've already seen
+			def seenKeys = new HashSet()
+			mainEntries.each { entry ->
+				if (entry.key != "_comment") {
+					seenKeys.add(entry.key)
+				}
+			}
 
-			// Merge: manual data overwrites main data for duplicate keys
-			def merged = generatedData + mainData
-			builder.call(merged)
+			// Filter generated entries to only include new keys (but keep all _comment fields)
+			def filteredGeneratedEntries = generatedEntries.findAll { entry ->
+				entry.key == "_comment" || !seenKeys.contains(entry.key)
+			}
 
-			mergedFile.text = builder.toPrettyString()
+			// Combine: main entries first, then new generated entries
+			def allEntries = mainEntries + filteredGeneratedEntries
+
+			// Write JSON using JsonOutput for proper formatting
+			def lines = allEntries.collect { entry ->
+				"  ${JsonOutput.toJson(entry.key)}: ${JsonOutput.toJson(entry.value)}"
+			}
+
+			mergedFile.text = "{\n${lines.join(',\n')}\n}"
 		} else if (manualFile.exists()) {
 			copy {
 				from manualFile
