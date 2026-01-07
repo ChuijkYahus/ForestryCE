@@ -228,6 +228,8 @@ var generateEnUsLang = tasks.register('generateEnUsLang', DefaultTask) {
 tasks.named('processResources', ProcessResources) {
 	dependsOn(generateEnUsLang)
 
+	exclude 'assets/forestry/lang/check_translations.py'
+
 	filesMatching('assets/forestry/lang/en_us.json') { fileCopyDetails ->
 		def file = fileCopyDetails.file
 		if (!file.absolutePath.contains('mergedAssets')) {

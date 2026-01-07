@@ -6,10 +6,6 @@ Forestry: Community Edition is a fork of the classic [Forestry](https://github.c
 known for its bees, trees, and automatic farms. This fork began after all of Forestry's maintainers eventually
 went inactive after the 1.13+ flattening.
 
-### Building
-To build a mod JAR, open a command line and type "gradlew build".
-The finished JAR will be under `./build/libs`.
-
 ### Reporting Bugs
 Please make sure the bug has not already been reported by [searching the issues](https://github.com/ForestryMC/ForestryMC/issues?q=is%3Aissue).
 
@@ -19,7 +15,17 @@ Full crash reports are located in [the minecraft data folder](http://hopper.mine
 
 Thank you for reporting bugs!
 
-### Contributing
+### Translators
+
+Translations are always welcome. For your convenience, there is a Python script, `check_translations.py` in the lang folder
+that you can use to quickly check for missing translations in your language.
+Refer to the translation guide [HERE](https://github.com/thedarkcolour/ForestryCE/blob/1.20.1/src/main/resources/assets/forestry/lang/README.md).
+
+### Building
+To build a mod JAR, open a command line and type "gradlew build".
+The finished JAR will be under `./build/libs`.
+
+### Contributing Code
 Forestry is a large and complex project that I spent hundreds of hours working on, so I am always open to contributions.
 
 To set up your environment, clone from GitHub, and make sure to run the following command:
