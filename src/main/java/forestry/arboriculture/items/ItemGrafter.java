@@ -29,7 +29,7 @@ public class ItemGrafter extends ItemForestry implements IToolGrafter {
 	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
 		super.appendHoverText(stack, world, tooltip, advanced);
 		if (!stack.isDamaged()) {
-			tooltip.add(Component.translatable("item.forestry.uses", stack.getMaxDamage() + 1).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable("item.forestry.uses", stack.getMaxDamage()).withStyle(ChatFormatting.GRAY));
 		}
 	}
 

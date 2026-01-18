@@ -16,8 +16,8 @@ public class ArboricultureItems {
 	public static final FeatureItem<ItemGermlingGE> SAPLING = REGISTRY.item(() -> new ItemGermlingGE(TreeLifeStage.SAPLING), "sapling");
 	// todo rename to "pollen"
 	public static final FeatureItem<ItemGermlingGE> POLLEN_FERTILE = REGISTRY.item(() -> new ItemGermlingGE(TreeLifeStage.POLLEN), "pollen_fertile");
-	public static final FeatureItem<ItemGrafter> GRAFTER = REGISTRY.item(() -> new ItemGrafter(15), "grafter");
-	public static final FeatureItem<ItemGrafter> GRAFTER_PROVEN = REGISTRY.item(() -> new ItemGrafter(159), "grafter_proven");
+	public static final FeatureItem<ItemGrafter> GRAFTER = REGISTRY.item(() -> new ItemGrafter(16), "grafter");
+	public static final FeatureItem<ItemGrafter> GRAFTER_PROVEN = REGISTRY.item(() -> new ItemGrafter(160), "grafter_proven");
 	// If you want to implement boats in your addon, look at ItemForestryBoat, ForestryBoat, ForestryChestBoat, and ForestryBoatRenderer
 	public static final FeatureItemGroup<ItemForestryBoat, ForestryWoodType> BOAT = REGISTRY.itemGroup(type -> new ItemForestryBoat(type, false), ForestryWoodType.VALUES).identifier("boat", FeatureGroup.IdentifierType.SUFFIX).create();
 	public static final FeatureItemGroup<ItemForestryBoat, ForestryWoodType> CHEST_BOAT = REGISTRY.itemGroup(type -> new ItemForestryBoat(type, true), ForestryWoodType.VALUES).identifier("chest_boat", FeatureGroup.IdentifierType.SUFFIX).create();
