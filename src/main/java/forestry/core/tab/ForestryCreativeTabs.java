@@ -112,6 +112,7 @@ public class ForestryCreativeTabs {
 		addGeneticBasics(items);
 		items.accept(CoreItems.FORESTERS_MANUAL);
 		items.accept(ApicultureItems.SCOOP);
+		items.accept(ApicultureItems.PROVEN_SCOOP);
 		items.accept(ApicultureItems.SMOKER);
 		items.accept(ArboricultureItems.GRAFTER);
 		items.accept(ArboricultureItems.GRAFTER_PROVEN);
@@ -201,6 +202,7 @@ public class ForestryCreativeTabs {
 
 		// Gear
 		items.accept(ApicultureItems.SCOOP);
+		items.accept(ApicultureItems.PROVEN_SCOOP);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(ApicultureItems.APIARIST_HELMET);
 		items.accept(ApicultureItems.APIARIST_CHEST);
@@ -290,6 +292,7 @@ public class ForestryCreativeTabs {
 
 		// Gear
 		items.accept(ApicultureItems.SCOOP);
+		items.accept(ApicultureItems.PROVEN_SCOOP);
 
 		// Specimens
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.BUTTERFLY);

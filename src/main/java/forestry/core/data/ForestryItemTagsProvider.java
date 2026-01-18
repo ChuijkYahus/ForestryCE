@@ -135,6 +135,7 @@ public class ForestryItemTagsProvider {
 			.add(Items.CRAFTING_TABLE);
 
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());
+		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.PROVEN_SCOOP.item());
 
 		tags.tag(ForestryTags.Items.BEES).add(ApicultureItems.BEE_DRONE.get(), ApicultureItems.BEE_PRINCESS.get(), ApicultureItems.BEE_QUEEN.get(), ApicultureItems.BEE_LARVAE.get());
 		tags.tag(ItemTags.BOATS).add(ArboricultureItems.BOAT.itemArray());

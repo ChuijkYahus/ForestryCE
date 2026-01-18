@@ -48,7 +48,8 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemArmorApiarist> APIARIST_BOOTS = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.BOOTS), "apiarist_boots");
 
 	// TOOLS
-	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(ItemScoop::new, "scoop");
+	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(() -> new ItemScoop(15), "scoop");
+	public static final FeatureItem<ItemScoop> PROVEN_SCOOP = REGISTRY.item(() -> new ItemScoop(159), "proven_scoop");
 	public static final FeatureItem<ItemSmoker> SMOKER = REGISTRY.item(ItemSmoker::new, "smoker");
 
 	// MISC

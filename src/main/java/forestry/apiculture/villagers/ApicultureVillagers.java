@@ -9,6 +9,7 @@ import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumPropolis;
+import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;
 import forestry.core.registration.VillagerTrade;
@@ -68,6 +69,7 @@ public class ApicultureVillagers {
 			trades.get(1).add(new GiveHoneyCombForItem(combs, Items.POTATO, new VillagerTrade.PriceInterval(2, 4), new VillagerTrade.PriceInterval(8, 12), 8, 2, 0F));
 
 			trades.get(2).add(new GiveItemForEmeralds(ApicultureItems.SMOKER.item(), new VillagerTrade.PriceInterval(1, 1), new VillagerTrade.PriceInterval(1, 4), 8, 6));
+			trades.get(2).add(new VillagerTrade.GiveItemForEmeralds(ApicultureItems.PROVEN_SCOOP.item(), new VillagerTrade.PriceInterval(1, 1), new VillagerTrade.PriceInterval(1, 4), 8, 6));
 			trades.get(2).add(new GiveDroneForItems(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL).getItem(), new VillagerTrade.PriceInterval(2, 4), new VillagerTrade.PriceInterval(1, 1), 8, 6, 0F));
 
 			trades.get(3).add(new GiveEmeraldForItem(ApicultureItems.BEE_PRINCESS.item(), new VillagerTrade.PriceInterval(1, 1), new VillagerTrade.PriceInterval(1, 1), 8, 10));
