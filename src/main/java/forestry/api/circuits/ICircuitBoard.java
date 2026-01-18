@@ -10,11 +10,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public interface ICircuitBoard extends INbtWritable {
-	@OnlyIn(Dist.CLIENT)
-	int getPrimaryColor();
-
-	@OnlyIn(Dist.CLIENT)
-	int getSecondaryColor();
 
 	@OnlyIn(Dist.CLIENT)
 	void addTooltip(List<Component> list);

@@ -29,14 +29,4 @@ public enum EnumCircuitBoardType implements IItemSubtype {
 	public String getSerializedName() {
 		return this.name;
 	}
-
-	@OnlyIn(Dist.CLIENT)
-	public int getPrimaryColor() {
-		return ColourProperties.INSTANCE.get("item.circuit." + name().toLowerCase(Locale.ENGLISH) + ".primary");
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public int getSecondaryColor() {
-		return ColourProperties.INSTANCE.get("item.circuit." + name().toLowerCase(Locale.ENGLISH) + ".secondary");
-	}
 }

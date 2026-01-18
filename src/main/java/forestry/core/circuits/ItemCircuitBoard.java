@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
+public class ItemCircuitBoard extends ItemForestry {
 	private final EnumCircuitBoardType type;
 
 	public ItemCircuitBoard(EnumCircuitBoardType type) {
@@ -27,16 +27,6 @@ public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 
 	public EnumCircuitBoardType getType() {
 		return this.type;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getColorFromItemStack(ItemStack itemstack, int tintIndex) {
-		if (tintIndex == 0) {
-			return this.type.getPrimaryColor();
-		} else {
-			return this.type.getSecondaryColor();
-		}
 	}
 
 	@Override
