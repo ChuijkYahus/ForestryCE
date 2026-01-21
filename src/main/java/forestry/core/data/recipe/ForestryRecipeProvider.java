@@ -45,7 +45,7 @@ import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
 import forestry.energy.blocks.EngineBlockType;
 import forestry.energy.features.EnergyBlocks;
-import forestry.factory.blocks.BlockTypeFactoryBarrel;
+import forestry.factory.blocks.BlockTypeFactoryRaintank;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
@@ -953,7 +953,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.BARREL.get(BlockTypeFactoryBarrel.RAINTANK).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.RAINTANK.get(BlockTypeFactoryRaintank.RAINTANK).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
 			recipe.define('X', Tags.Items.INGOTS_IRON);
 			recipe.define('Y', CoreItems.STURDY_CASING);

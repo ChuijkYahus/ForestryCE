@@ -90,7 +90,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());
 		registry.addRecipes(ForestryRecipeType.STILL, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.STILL).toList());
 
-		BlockFactoryBarrel rainTank = FactoryBlocks.BARREL.get(BlockTypeFactoryBarrel.RAINTANK).block();
+		BlockFactoryRaintank rainTank = FactoryBlocks.RAINTANK.get(BlockTypeFactoryRaintank.RAINTANK).block();
 		JeiUtil.addDescription(registry, rainTank);
 		JeiUtil.addDescription(registry, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.BOTTLER).block());
 	}

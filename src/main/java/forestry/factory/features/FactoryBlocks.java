@@ -15,5 +15,5 @@ public class FactoryBlocks {
 
 	public static final FeatureBlockGroup<BlockFactoryTESR, BlockTypeFactoryTesr> TESR = REGISTRY.blockGroup(BlockFactoryTESR::new, BlockTypeFactoryTesr.values()).item(ItemBlockTesr::new).create();
 	public static final FeatureBlockGroup<BlockFactoryPlain, BlockTypeFactoryPlain> PLAIN = REGISTRY.blockGroup(BlockFactoryPlain::new, BlockTypeFactoryPlain.values()).item(ItemBlockForestry::new).create();
-	public static final FeatureBlockGroup<BlockFactoryBarrel, BlockTypeFactoryBarrel> BARREL = REGISTRY.blockGroup(BlockFactoryBarrel::new, BlockTypeFactoryBarrel.values()).item(ItemBlockForestry::new).create();
+	public static final FeatureBlockGroup<BlockFactoryRaintank, BlockTypeFactoryRaintank> RAINTANK = REGISTRY.blockGroup(BlockFactoryRaintank::new, BlockTypeFactoryRaintank.values()).item(ItemBlockForestry::new).create();
 }

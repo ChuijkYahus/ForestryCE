@@ -128,6 +128,7 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 		if (updated && !level.isClientSide) {
 			setChanged();
 			level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
+			level.updateNeighbourForOutputSignal(this.getBlockPos(), this.getBlockState().getBlock());
 		}
 
 	}
