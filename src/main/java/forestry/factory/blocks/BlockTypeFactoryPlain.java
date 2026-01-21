@@ -11,8 +11,7 @@ import forestry.factory.tiles.TileRaintank;
 import forestry.modules.features.FeatureTileType;
 
 public enum BlockTypeFactoryPlain implements IBlockType {
-	FABRICATOR(FactoryTiles.FABRICATOR, "fabricator", TileFabricator::serverTick),
-	RAINTANK(FactoryTiles.RAIN_TANK, "raintank", TileRaintank::serverTick);
+	FABRICATOR(FactoryTiles.FABRICATOR, "fabricator", TileFabricator::serverTick);
 
 	private final IMachineProperties<?> machineProperties;
 

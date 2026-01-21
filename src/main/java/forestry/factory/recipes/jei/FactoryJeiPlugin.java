@@ -11,9 +11,7 @@ import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtils;
-import forestry.factory.blocks.BlockFactoryPlain;
-import forestry.factory.blocks.BlockTypeFactoryPlain;
-import forestry.factory.blocks.BlockTypeFactoryTesr;
+import forestry.factory.blocks.*;
 import forestry.factory.features.FactoryBlocks;
 import forestry.factory.features.FactoryRecipeTypes;
 import forestry.factory.gui.*;
@@ -92,7 +90,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());
 		registry.addRecipes(ForestryRecipeType.STILL, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.STILL).toList());
 
-		BlockFactoryPlain rainTank = FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.RAINTANK).block();
+		BlockFactoryBarrel rainTank = FactoryBlocks.BARREL.get(BlockTypeFactoryBarrel.RAINTANK).block();
 		JeiUtil.addDescription(registry, rainTank);
 		JeiUtil.addDescription(registry, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.BOTTLER).block());
 	}

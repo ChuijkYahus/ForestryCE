@@ -11,6 +11,7 @@ public class ForestryModelLayers {
 	public static final ModelLayerLocation ESCRITOIRE_LAYER = register("escritoire");
 	public static final ModelLayerLocation ENGINE_LAYER = register("engine");
 	public static final ModelLayerLocation ANALYZER_LAYER = register("analyzer");
+	public static final ModelLayerLocation RAINTANK_LAYER = register("raintank");
 
 	public static ModelLayerLocation register(String name) {
 		return new ModelLayerLocation(ForestryConstants.forestry(name), "main");

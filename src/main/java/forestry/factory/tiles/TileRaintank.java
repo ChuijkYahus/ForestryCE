@@ -6,13 +6,16 @@ import forestry.core.config.Constants;
 import forestry.core.fluids.*;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TileBase;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerRaintank;
 import forestry.factory.inventory.InventoryRaintank;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +23,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.api.distmarker.Dist;
@@ -87,6 +91,9 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
+
+		boolean updated = false;
+
 		if (updateOnInterval(20)) {
 			IErrorLogic errorLogic = getErrorLogic();
 
@@ -100,7 +107,8 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 			errorLogic.setCondition(!level.isRainingAt(posAbove), ForestryError.NOT_RAINING);
 
 			if (!errorLogic.hasErrors()) {
-                this.resourceTank.fillInternal(WATER_PER_UPDATE, IFluidHandler.FluidAction.EXECUTE);
+                int amt = this.resourceTank.fillInternal(WATER_PER_UPDATE, IFluidHandler.FluidAction.EXECUTE);
+				if (amt != 0) updated = true;
 			}
 
             this.containerFiller.updateServerSide();
@@ -113,8 +121,20 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 		if (this.canDumpBelow) {
 			if (this.dumpingFluid || updateOnInterval(20)) {
                 this.dumpingFluid = dumpFluidBelow();
+				if (this.dumpingFluid) updated = true;
 			}
 		}
+
+		if (updated && !level.isClientSide) {
+			setChanged();
+			level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
+		}
+
+	}
+
+	@Override
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+		NBTUtilForestry.readStreamableFromNbt(this, packet.getTag());
 	}
 
 	private boolean dumpFluidBelow() {
