@@ -21,7 +21,6 @@ public class FactoryClientHandler implements IClientModuleHandler {
 			MenuScreens.register(FactoryMenuTypes.FABRICATOR.menuType(), GuiFabricator::new);
 			MenuScreens.register(FactoryMenuTypes.FERMENTER.menuType(), GuiFermenter::new);
 			MenuScreens.register(FactoryMenuTypes.MOISTENER.menuType(), GuiMoistener::new);
-			MenuScreens.register(FactoryMenuTypes.RAINTANK.menuType(), GuiRaintank::new);
 			MenuScreens.register(FactoryMenuTypes.SQUEEZER.menuType(), GuiSqueezer::new);
 			MenuScreens.register(FactoryMenuTypes.STILL.menuType(), GuiStill::new);
 		});

@@ -7,7 +7,6 @@ import forestry.core.tiles.IForestryTicker;
 import forestry.core.tiles.TileForestry;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.tiles.TileFabricator;
-import forestry.factory.tiles.TileRaintank;
 import forestry.modules.features.FeatureTileType;
 
 public enum BlockTypeFactoryPlain implements IBlockType {

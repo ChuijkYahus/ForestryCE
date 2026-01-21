@@ -33,7 +33,6 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
 import forestry.energy.features.EnergyBlocks;
-import forestry.factory.blocks.BlockTypeFactoryRaintank;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
@@ -318,7 +317,6 @@ public class ForestryCreativeTabs {
 		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER));
 		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER));
 		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL));
-		items.accept(FactoryBlocks.RAINTANK.get(BlockTypeFactoryRaintank.RAINTANK));
 
 		// Rainmaker
 		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER));

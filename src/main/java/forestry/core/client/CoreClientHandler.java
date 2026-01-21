@@ -146,7 +146,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.registerLayerDefinition(ForestryModelLayers.ESCRITOIRE_LAYER, RenderEscritoire::createBodyLayer);
 		event.registerLayerDefinition(ForestryModelLayers.MILL_LAYER, RenderMill::createBodyLayer);
 		event.registerLayerDefinition(ForestryModelLayers.ENGINE_LAYER, RenderEngine::createBodyLayer);
-		event.registerLayerDefinition(ForestryModelLayers.RAINTANK_LAYER, RenderRaintank::createBodyLayer);
 	}
 
 	private static void clientSetupRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -170,7 +169,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.registerBlockEntityRenderer(FactoryTiles.SQUEEZER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/squeezer_"));
 		event.registerBlockEntityRenderer(FactoryTiles.STILL.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/still_"));
 		event.registerBlockEntityRenderer(FactoryTiles.RAINMAKER.tileType(), ctx -> new RenderMill(ctx, Constants.TEXTURE_PATH_BLOCK + "/rainmaker_"));
-		event.registerBlockEntityRenderer(FactoryTiles.RAIN_TANK.tileType(), RenderRaintank::new);
 	}
 
 	private static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
