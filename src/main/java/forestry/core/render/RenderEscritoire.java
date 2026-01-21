@@ -33,47 +33,25 @@ public class RenderEscritoire implements BlockEntityRenderer<TileEscritoire> {
 		this.root = ctx.bakeLayer(ForestryModelLayers.ESCRITOIRE_LAYER);
 	}
 
+	//TODO: Figure out if I need this? I'm sorta in a world I don't understand with this.
 	public static LayerDefinition createBodyLayer() {
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
-
-		partdefinition.addOrReplaceChild("desk", CubeListBuilder.create().texOffs(0, 0)
-			.addBox(0, 0, 0, 16, 2, 15).mirror(), PartPose.offsetAndRotation(0, 9.5f, 0.4f, 0.0872665f, 0, 0));
-		partdefinition.addOrReplaceChild("standrb", CubeListBuilder.create().texOffs(38, 18)
-			.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(13, 4, 13));
-		partdefinition.addOrReplaceChild("standrf", CubeListBuilder.create().texOffs(38, 18)
-			.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(13, 4, 1));
-		partdefinition.addOrReplaceChild("standlb", CubeListBuilder.create().texOffs(38, 18)
-			.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(1, 4, 1));
-		partdefinition.addOrReplaceChild("standlf", CubeListBuilder.create().texOffs(38, 18)
-			.addBox(0f, 0f, 0f, 2, 6, 2).mirror(), PartPose.offset(1, 4, 13));
-		partdefinition.addOrReplaceChild("drawers", CubeListBuilder.create().texOffs(0, 18)
-			.addBox(0f, 0f, 0f, 15, 5, 3).mirror(), PartPose.offset(0.5f, 11, 0.5f));
-		partdefinition.addOrReplaceChild("standlowrb", CubeListBuilder.create().texOffs(0, 26)
-			.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(13.5f, 0, 13.5f));
-		partdefinition.addOrReplaceChild("standlowrf", CubeListBuilder.create().texOffs(0, 26)
-			.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(13.5f, 0, 1.5f));
-		partdefinition.addOrReplaceChild("standlowlb", CubeListBuilder.create().texOffs(0, 26)
-			.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(1.5f, 0, 1.5f));
-		partdefinition.addOrReplaceChild("standlowlf", CubeListBuilder.create().texOffs(0, 26)
-			.addBox(0f, 0f, 0f, 1, 4, 1).mirror(), PartPose.offset(1.5f, 0, 13.5f));
-
-		return LayerDefinition.create(meshdefinition, 64, 32);
+		return LayerDefinition.create(new MeshDefinition(), 64, 64);
 	}
 
 	@Override
 	public void render(TileEscritoire escritoire, float partialTick, PoseStack stack, MultiBufferSource buffers, int light, int overlay) {
-		stack.pushPose();
-		Direction facing = escritoire.getBlockState().getValue(BlockBase.FACING);
-		RenderUtil.rotateByHorizontalDirection(stack, facing);
-		VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(TEXTURE));
 
-		this.root.render(stack, buffer, light, overlay);
+		stack.pushPose();
+		//Direction facing = escritoire.getBlockState().getValue(BlockBase.FACING);
+		//RenderUtil.rotateByHorizontalDirection(stack, facing);
+		//VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(TEXTURE));
+
+		//this.root.render(stack, buffer, light, overlay);
 
 		ItemStack displayStack = escritoire.getIndividualOnDisplay();
 		if (!displayStack.isEmpty()) {
 			stack.pushPose();
-			stack.translate(0.5, 0.65, 0.5);
+			stack.translate(0.5, 0.9, 0.5);
 			stack.scale(0.75f, 0.75f, 0.75f);
 			RenderUtil.renderDisplayStack(stack, this.itemRenderer, displayStack, escritoire.getLevel(), partialTick, buffers, light);
 			stack.popPose();
