@@ -82,6 +82,8 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 		filledCrateModel(CrateItems.CRATED_MYCELIUM.getName(), mcLoc("block/mycelium_side"));
 		filledCrateModel(CrateItems.CRATED_GRASS_BLOCK.getName(), mcLoc("block/grass_block_top"));
 		filledCrateModel(CrateItems.CRATED_PROPOLIS.getName(), modLoc("item/propolis.0"));
+		filledCrateModel(CrateItems.CRATED_BOG_EARTH.getName(), modLoc("block/bog_earth.0"));
+		filledCrateModel(CrateItems.CRATED_HUMUS.getName(), modLoc("block/humus.0"));
 
 		for (Map.Entry<BlockTypePlanter, FeatureBlock<BlockPlanter, BlockItem>> cell : Iterables.concat(CultivationBlocks.MANAGED_PLANTER.getFeatureByType().entrySet(), CultivationBlocks.MANUAL_PLANTER.getFeatureByType().entrySet())) {
 			Block block = cell.getValue().block();
