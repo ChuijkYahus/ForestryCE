@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "degrade=0": [
+      { "model": "forestry:block/humus.0", "y": 0 },
+      { "model": "forestry:block/humus.0", "y": 90 },
+      { "model": "forestry:block/humus.0", "y": 180 },
+      { "model": "forestry:block/humus.0", "y": 270 }
+    ],
+    "degrade=1": [
+      { "model": "forestry:block/humus.1", "y": 0 },
+      { "model": "forestry:block/humus.1", "y": 90 },
+      { "model": "forestry:block/humus.1", "y": 180 },
+      { "model": "forestry:block/humus.1", "y": 270 }
+    ],
+    "degrade=2": [
+      { "model": "forestry:block/humus.2", "y": 0 },
+      { "model": "forestry:block/humus.2", "y": 90 },
+      { "model": "forestry:block/humus.2", "y": 180 },
+      { "model": "forestry:block/humus.2", "y": 270 }
+    ],
+    "degrade=3": [
+      { "model": "forestry:block/humus.3", "y": 0 },
+      { "model": "forestry:block/humus.3", "y": 90 },
+      { "model": "forestry:block/humus.3", "y": 180 },
+      { "model": "forestry:block/humus.3", "y": 270 }
+    ]
+  }
+}

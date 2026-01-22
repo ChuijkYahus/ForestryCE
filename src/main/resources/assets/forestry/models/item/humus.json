@@ -1,5 +1,5 @@
 {
-  "parent": "forestry:block/humus",
+  "parent": "forestry:block/humus.0",
   "display": {
     "thirdperson": {
       "rotation": [

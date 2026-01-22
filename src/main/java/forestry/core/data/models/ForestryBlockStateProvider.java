@@ -53,8 +53,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		}
 
 		// Resources
-		simpleBlock(CoreBlocks.BOG_EARTH.block());
-		simpleBlock(CoreBlocks.HUMUS.block());
+		//simpleBlock(CoreBlocks.BOG_EARTH.block());
+		//simpleBlock(CoreBlocks.HUMUS.block());
 
 		simpleBlock(CoreBlocks.APATITE_ORE.block());
 		simpleBlock(CoreBlocks.DEEPSLATE_APATITE_ORE.block());

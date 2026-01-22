@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "maturity=0": [
+      { "model": "forestry:block/bog_earth.0", "y": 0 },
+      { "model": "forestry:block/bog_earth.0", "y": 90 },
+      { "model": "forestry:block/bog_earth.0", "y": 180 },
+      { "model": "forestry:block/bog_earth.0", "y": 270 }
+    ],
+    "maturity=1": [
+      { "model": "forestry:block/bog_earth.1", "y": 0 },
+      { "model": "forestry:block/bog_earth.1", "y": 90 },
+      { "model": "forestry:block/bog_earth.1", "y": 180 },
+      { "model": "forestry:block/bog_earth.1", "y": 270 }
+    ],
+    "maturity=2": [
+      { "model": "forestry:block/bog_earth.2", "y": 0 },
+      { "model": "forestry:block/bog_earth.2", "y": 90 },
+      { "model": "forestry:block/bog_earth.2", "y": 180 },
+      { "model": "forestry:block/bog_earth.2", "y": 270 }
+    ],
+    "maturity=3": [
+      { "model": "forestry:block/peat", "y": 0 },
+      { "model": "forestry:block/peat", "y": 90 },
+      { "model": "forestry:block/peat", "y": 180 },
+      { "model": "forestry:block/peat", "y": 270 }
+    ]
+  }
+}

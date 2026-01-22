@@ -1,5 +1,5 @@
 {
-  "parent": "forestry:block/bog_earth",
+  "parent": "forestry:block/bog_earth.0",
   "display": {
     "thirdperson": {
       "rotation": [
