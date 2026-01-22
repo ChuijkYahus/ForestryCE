@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
-      "model": "forestry:block/peat"
-    }
+    "": [
+      { "model": "forestry:block/peat", "y": 0 },
+      { "model": "forestry:block/peat", "y": 90 },
+      { "model": "forestry:block/peat", "y": 180 },
+      { "model": "forestry:block/peat", "y": 270 }
+    ]
   }
 }
