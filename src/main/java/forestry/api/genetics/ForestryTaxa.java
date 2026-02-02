@@ -220,6 +220,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_AUTOTROPHIC = "solaris";
 	public static final String SPECIES_PRIMEVAL = "antiqua";
 	public static final String SPECIES_ANACHRONE = "tempuraptor";
+	// todo change to "chronofuge" in 1.21
 	public static final String SPECIES_RELIC = "elizabethii";
 	public static final String SPECIES_AQUATIC = "squarepantsii";//a real species name
 	public static final String SPECIES_PIRATE = "pirata";

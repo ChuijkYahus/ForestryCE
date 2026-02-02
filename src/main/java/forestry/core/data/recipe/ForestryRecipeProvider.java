@@ -359,6 +359,9 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
+
+		// todo remove in 1.21.1 when volcanic propolis is removed
+		recipes.shapelessCrafting("volcanic_propolis_to_phosphor", RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR), 1, ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC));
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
@@ -2072,7 +2075,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.SAND, Items.RED_SAND));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 500))
@@ -2081,7 +2084,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(30)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.COBBLESTONE));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 500))
@@ -2090,7 +2093,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.MAGMA_BLOCK));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 1000))
