@@ -20,5 +20,6 @@ public class CoreJeiPlugin implements IModPlugin {
 		JeiUtil.addDescription(registration, CoreItems.COMPOST);
 		JeiUtil.addDescription(registration, CoreItems.MULCH);
 		JeiUtil.addDescription(registration, CoreItems.FERTILIZER_COMPOUND);
+		JeiUtil.addDescription(registration, CoreItems.BITUMINOUS_PEAT);
 	}
 }

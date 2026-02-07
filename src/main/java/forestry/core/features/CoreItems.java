@@ -87,6 +87,7 @@ public class CoreItems {
 	/* Peat */
 	public static final FeatureItem<ItemForestry> PEAT = REGISTRY.item(() -> new ItemForestry(new ItemProperties().burnTime(2000)), "peat");
 	public static final FeatureItem<ItemForestry> ASH = REGISTRY.item(ItemForestry::new, "ash");
+	//TODO: This, I think, should be renamed to "Treated Peat", as I don't know if peat containing asphalt would burn better? - I have updated en_us.json but am keeping it here for not destroying registries and corrupting worlds.
 	public static final FeatureItem<ItemForestry> BITUMINOUS_PEAT = REGISTRY.item(() -> new ItemForestry(new ItemProperties().burnTime(4200)), "bituminous_peat");
 
 	/* Moistener */
