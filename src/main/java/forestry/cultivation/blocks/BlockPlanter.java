@@ -22,15 +22,6 @@ public class BlockPlanter extends BlockBase<BlockTypePlanter> {
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
-		if (this.blockType == BlockTypePlanter.FARM_ENDER) {
-			for (int i = 0; i < 3; ++i) {
-				ParticleRender.addPortalFx(level, pos, rand);
-			}
-		}
-	}
-
-	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		BlockEntity tile = super.newBlockEntity(pos, state);
 
