@@ -5,17 +5,7 @@ import forestry.api.lepidopterology.IButterflyEffect;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 
-import java.awt.*;
-
 public interface ILepidopterologyRegistration {
-	/**
-	 * @deprecated Use the variant that accepts a TextColor
-	 */
-	@Deprecated(forRemoval = true)
-	default IButterflySpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color serumColor, float rarity) {
-		return registerSpecies(id, genus, species, dominant, TextColor.fromRgb(serumColor.getRGB()), rarity);
-	}
-
 	/**
 	 * Register a new butterfly species.
 	 *

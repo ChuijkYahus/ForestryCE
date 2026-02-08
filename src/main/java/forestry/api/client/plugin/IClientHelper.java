@@ -3,9 +3,8 @@ package forestry.api.client.plugin;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
-
-import java.awt.*;
 
 /**
  * Contains methods for creating instances of client-only objects using Forestry's built-in implementations.
@@ -16,10 +15,7 @@ public interface IClientHelper {
 	 */
 	ILeafTint createNoneTint();
 
-	/**
-	 * @return A leaf tint that always uses the same color.
-	 */
-	ILeafTint createFixedTint(Color color);
+	ILeafTint createFixedTint(TextColor color);
 
 	/**
 	 * @return A tint that changes based on the biome. Used for vanilla Oak trees.

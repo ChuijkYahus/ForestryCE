@@ -2,6 +2,7 @@ package forestry.arboriculture.client;
 
 import forestry.api.client.arboriculture.ILeafTint;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.level.BlockAndTintGetter;
 
 import javax.annotation.Nullable;
@@ -11,8 +12,8 @@ public record FixedLeafTint(int color) implements ILeafTint {
 	// TODO use for Azalea and Cherry trees
 	public static final FixedLeafTint NONE = new FixedLeafTint(0xffffff);
 
-	public FixedLeafTint(Color color) {
-		this(color.getRGB());
+	public FixedLeafTint(TextColor color) {
+		this(color.getValue());
 	}
 
 	@Override

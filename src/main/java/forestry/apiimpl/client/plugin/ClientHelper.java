@@ -8,6 +8,7 @@ import forestry.arboriculture.client.FixedLeafTint;
 import forestry.arboriculture.models.LeafSprite;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockAndTintGetter;
 
@@ -21,7 +22,7 @@ public class ClientHelper implements IClientHelper {
 	}
 
 	@Override
-	public ILeafTint createFixedTint(Color color) {
+	public ILeafTint createFixedTint(TextColor color) {
 		return new FixedLeafTint(color);
 	}
 

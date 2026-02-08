@@ -8,7 +8,6 @@ import forestry.api.core.Product;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -70,30 +69,6 @@ public interface IBeeSpeciesBuilder extends ISpeciesBuilder<IBeeSpeciesType, IBe
 	 * @since 2.3.3 Now accepts TextColor instead of java.awt.Color
 	 */
 	IBeeSpeciesBuilder setOutline(TextColor color);
-
-	/**
-	 * @deprecated Use variant that accepts TextColor
-	 */
-	@Deprecated(forRemoval = true)
-	default IBeeSpeciesBuilder setBody(Color color) {
-		return setBody(TextColor.fromRgb(color.getRGB()));
-	}
-
-	/**
-	 * @deprecated Use variant that accepts TextColor
-	 */
-	@Deprecated(forRemoval = true)
-	default IBeeSpeciesBuilder setStripes(Color color) {
-		return setStripes(TextColor.fromRgb(color.getRGB()));
-	}
-
-	/**
-	 * @deprecated Use variant that accepts TextColor
-	 */
-	@Deprecated(forRemoval = true)
-	default IBeeSpeciesBuilder setOutline(Color color) {
-		return setOutline(TextColor.fromRgb(color.getRGB()));
-	}
 
 	/**
 	 * Specify the jubilance conditions for this bee species. The default returns true if the bee's ideal temperature and humidity are met.

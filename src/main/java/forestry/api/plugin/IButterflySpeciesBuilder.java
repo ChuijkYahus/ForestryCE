@@ -8,7 +8,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -16,14 +15,6 @@ import java.util.List;
  * Use {@link ILepidopterologyRegistration#registerSpecies} to obtain instances of this class.
  */
 public interface IButterflySpeciesBuilder extends ISpeciesBuilder<IButterflySpeciesType, IButterflySpecies, IButterflySpeciesBuilder> {
-	/**
-	 * @deprecated Use the variant that accepts a TextColor
-	 */
-	@Deprecated(forRemoval = true)
-	default IButterflySpeciesBuilder setSerumColor(Color color) {
-		return setSerumColor(TextColor.fromRgb(color.getRGB()));
-	}
-
 	/**
 	 * Overrides the serum color set in {@link ILepidopterologyRegistration#registerSpecies}.
 	 */

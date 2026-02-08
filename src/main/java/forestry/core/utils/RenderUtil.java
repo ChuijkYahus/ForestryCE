@@ -59,6 +59,7 @@ public class RenderUtil {
 		return color;
 	}
 
+	// this usage of Color is fine since it's client-only
 	public static Color getRainbowColor(long time, float partialTicks) {
 		return Color.getHSBColor((180 * Mth.sin((time + partialTicks) / 30.0f) - 180) / 360.0f, 0.5f, 0.8f);
 	}

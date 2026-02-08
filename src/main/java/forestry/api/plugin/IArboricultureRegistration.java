@@ -8,8 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.awt.*;
-
 /**
  * Register your tree species, fruits, and effects here.
  */
@@ -25,14 +23,6 @@ public interface IArboricultureRegistration {
 	 * @param woodType        The wood type of this tree species.
 	 */
 	ITreeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor escritoireColor, IWoodType woodType);
-
-	/**
-	 * @deprecated Use the variant that accepts a TextColor
-	 */
-	@Deprecated(forRemoval = true)
-	default ITreeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color escritoireColor, IWoodType woodType) {
-		return registerSpecies(id, genus, species, dominant, TextColor.fromRgb(escritoireColor.getRGB()), woodType);
-	}
 
 	/**
 	 * Register a new type of fruit.
