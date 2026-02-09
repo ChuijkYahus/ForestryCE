@@ -6,10 +6,10 @@ import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IModuleManager;
 import forestry.core.utils.ModUtil;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLEnvironment;
 import org.objectweb.asm.Type;
 
 import java.util.*;

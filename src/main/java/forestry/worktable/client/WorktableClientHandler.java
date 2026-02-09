@@ -4,8 +4,8 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.worktable.features.WorktableMenus;
 import forestry.worktable.screens.WorktableScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class WorktableClientHandler implements IClientModuleHandler {
 	@Override

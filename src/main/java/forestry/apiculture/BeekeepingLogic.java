@@ -26,9 +26,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -347,7 +347,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		ForestryEvent.BeeMatingEvent event = new ForestryEvent.BeeMatingEvent(this.housing, princess, drone);
 
-		if (MinecraftForge.EVENT_BUS.post(event)) {
+		if (NeoForge.EVENT_BUS.post(event)) {
 			princess.setMate(originalMate);
 			this.beeProgress = 0;
 			return;

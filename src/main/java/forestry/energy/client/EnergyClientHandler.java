@@ -4,8 +4,8 @@ import forestry.energy.features.EnergyMenus;
 import forestry.energy.screen.BiogasEngineScreen;
 import forestry.energy.screen.PeatEngineScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class EnergyClientHandler implements forestry.api.client.IClientModuleHandler {
 	@Override

@@ -11,7 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
 
@@ -38,7 +38,7 @@ public record PacketGenomeTrackerSync(@Nullable CompoundTag nbt) implements IFor
 			if (root != null) {
 				IBreedingTracker tracker = root.getBreedingTracker(player.getCommandSenderWorld(), player.getGameProfile());
 				tracker.readFromNbt(msg.nbt);
-				MinecraftForge.EVENT_BUS.post(new ForestryEvent.SyncedBreedingTracker(tracker, player));
+				NeoForge.EVENT_BUS.post(new ForestryEvent.SyncedBreedingTracker(tracker, player));
 			}
 		}
 	}

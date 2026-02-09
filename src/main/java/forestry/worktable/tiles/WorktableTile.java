@@ -27,7 +27,7 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -157,10 +157,10 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 	public void onCraftingComplete(Player player) {
 		CraftingRecipe selectedRecipe = this.currentRecipe.getSelectedRecipe();
 
-		ForgeHooks.setCraftingPlayer(player);
+		CommonHooks.setCraftingPlayer(player);
 		WorktableCraftingContainer craftMatrix = this.currentRecipe.getCraftMatrix();
 		NonNullList<ItemStack> remainingItems = selectedRecipe.getRemainingItems(craftMatrix.copy());
-		ForgeHooks.setCraftingPlayer(null);
+		CommonHooks.setCraftingPlayer(null);
 
 		for (ItemStack remainingItem : remainingItems) {
 			if (remainingItem != null && !remainingItem.isEmpty()) {

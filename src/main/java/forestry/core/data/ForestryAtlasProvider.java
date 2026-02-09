@@ -4,8 +4,8 @@ import forestry.api.ForestryConstants;
 import forestry.core.render.ForestrySpriteUploader;
 import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.SpriteSourceProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 
 public class ForestryAtlasProvider extends SpriteSourceProvider {
 	public ForestryAtlasProvider(PackOutput output, ExistingFileHelper fileHelper) {

@@ -19,8 +19,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.FakePlayer;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -157,7 +157,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 			ISpeciesType<?, ?> speciesRoot = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
 			ForestryEvent event = new ForestryEvent.MutationDiscovered(speciesRoot, this.username, mutation, this);
-			MinecraftForge.EVENT_BUS.post(event);
+			NeoForge.EVENT_BUS.post(event);
 
 			sendUpdate(List.of(), List.of(mutationString), List.of());
 		}
@@ -198,7 +198,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 			ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
 			ForestryEvent event = new ForestryEvent.SpeciesDiscovered(speciesType, this.username, species, this);
-			MinecraftForge.EVENT_BUS.post(event);
+			NeoForge.EVENT_BUS.post(event);
 
 			sendUpdate(List.of(speciesId), List.of(), List.of());
 		}

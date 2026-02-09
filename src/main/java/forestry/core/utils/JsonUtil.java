@@ -9,7 +9,7 @@ import forestry.Forestry;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.JsonUtils;
+import net.neoforged.neoforge.common.util.JsonUtils;
 
 public class JsonUtil {
 	public static ItemStack deserializeItemStack(JsonObject object, ItemStack fallback) {

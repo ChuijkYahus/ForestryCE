@@ -11,7 +11,7 @@ import forestry.farming.multiblock.InventoryFarm;
 import forestry.farming.tiles.TileFarm;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.fluids.IFluidTank;
+import net.neoforged.neoforge.fluids.IFluidTank;
 
 public class ContainerFarm extends ContainerSocketed<TileFarm> {
 	public static ContainerFarm fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {

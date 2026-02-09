@@ -2,7 +2,7 @@ package forestry.api.modules;
 
 import forestry.api.client.IClientModuleHandler;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.IEventBus;
 
 import java.util.List;
 import java.util.function.Consumer;

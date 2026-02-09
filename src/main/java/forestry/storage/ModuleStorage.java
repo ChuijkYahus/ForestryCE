@@ -12,11 +12,11 @@ import forestry.modules.BlankForestryModule;
 import forestry.storage.client.StorageClientHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.IEventBus;
 
 import java.util.function.Consumer;
 
@@ -41,8 +41,8 @@ public class ModuleStorage extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
-		MinecraftForge.EVENT_BUS.addListener(ModuleStorage::onItemPickup);
-		MinecraftForge.EVENT_BUS.addListener(ModuleStorage::onLevelTick);
+		NeoForge.EVENT_BUS.addListener(ModuleStorage::onItemPickup);
+		NeoForge.EVENT_BUS.addListener(ModuleStorage::onLevelTick);
 	}
 
 	private static void onLevelTick(TickEvent.LevelTickEvent event) {

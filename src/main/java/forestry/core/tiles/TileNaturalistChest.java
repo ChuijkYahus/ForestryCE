@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 
 public abstract class TileNaturalistChest extends TileBase implements IPagedInventory {
 	private static final float lidAngleVariationPerTick = 0.1F;
@@ -88,7 +87,7 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 	}
 
 	private void openMenu(ServerPlayer player, int page, boolean isFlipPage) {
-		NetworkHooks.openScreen(player, new PagedMenuProvider(page, isFlipPage), p -> {
+		player.openMenu(new PagedMenuProvider(page, isFlipPage), p -> {
 			p.writeBlockPos(this.worldPosition);
 			p.writeVarInt(page);
 			p.writeBoolean(isFlipPage);

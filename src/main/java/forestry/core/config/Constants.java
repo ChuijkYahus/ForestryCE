@@ -1,6 +1,6 @@
 package forestry.core.config;
 
-import net.minecraftforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.FluidType;
 
 public class Constants {
 	// System

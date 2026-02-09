@@ -5,7 +5,7 @@ import forestry.core.features.CoreItems;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import thedarkcolour.modkit.data.MKTagsProvider;
 
 public class ForestryBackpackTagProvider {

@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
@@ -389,7 +389,7 @@ public abstract class InventoryUtil {
 			return;
 		}
 
-		ItemStack container = ForgeHooks.getCraftingRemainingItem(itemstack);
+		ItemStack container = CommonHooks.getCraftingRemainingItem(itemstack);
 		if (!container.isEmpty()) {
 			if (!tryAddStack(stowing, container, slotIndex, 1, true)) {
 				if (!tryAddStack(stowing, container, true) && player != null) {

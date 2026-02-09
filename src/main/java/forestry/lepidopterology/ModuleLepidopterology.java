@@ -12,10 +12,10 @@ import forestry.modules.BlankForestryModule;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
+import net.neoforged.bus.api.IEventBus;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -33,7 +33,7 @@ public class ModuleLepidopterology extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
-		MinecraftForge.EVENT_BUS.addListener(ModuleLepidopterology::onEntityTravelToDimension);
+		NeoForge.EVENT_BUS.addListener(ModuleLepidopterology::onEntityTravelToDimension);
 		modBus.addListener(ModuleLepidopterology::onAttributeCreate);
 	}
 

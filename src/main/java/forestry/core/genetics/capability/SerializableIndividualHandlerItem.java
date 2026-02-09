@@ -6,7 +6,7 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class SerializableIndividualHandlerItem extends IndividualHandlerItem implements INBTSerializable<Tag> {
 	public SerializableIndividualHandlerItem(ISpeciesType<?, ?> type, ItemStack container, IIndividual individual, ILifeStage stage) {

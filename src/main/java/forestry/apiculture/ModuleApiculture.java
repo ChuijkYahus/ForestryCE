@@ -33,12 +33,12 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.brewing.BrewingRecipeRegistry;
+import net.neoforged.neoforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.function.Consumer;
 
@@ -102,9 +102,9 @@ public class ModuleApiculture extends BlankForestryModule {
 		modBus.addListener(ModuleApiculture::registerCapabilities);
 		modBus.addListener(ModuleApiculture::onCommonSetup);
 
-		MinecraftForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
-		MinecraftForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
-		MinecraftForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
+		NeoForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
+		NeoForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
+		NeoForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
 	}
 
 	@Override

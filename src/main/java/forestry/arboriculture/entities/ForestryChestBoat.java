@@ -24,8 +24,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.common.util.LazyOptional;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
@@ -206,10 +206,10 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 	// </editor-fold>
 
 	// <editor-fold desc="Forge Start">
-	private net.minecraftforge.common.util.LazyOptional<?> itemHandler = LazyOptional.of(() -> new InvWrapper(this));
+	private net.neoforged.neoforge.common.util.LazyOptional<?> itemHandler = LazyOptional.of(() -> new InvWrapper(this));
 
 	@Override
-	public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.core.Direction facing) {
+	public <T> net.neoforged.neoforge.common.util.LazyOptional<T> getCapability(net.neoforged.neoforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.core.Direction facing) {
 		if (capability == ForgeCapabilities.ITEM_HANDLER && isAlive()) {
 			return this.itemHandler.cast();
 		}

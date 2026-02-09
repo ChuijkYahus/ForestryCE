@@ -4,15 +4,15 @@ import forestry.api.apiculture.IArmorApiarist;
 import forestry.api.core.IArmorNaturalist;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.filter.IFilterLogic;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.neoforged.neoforge.common.capabilities.Capability;
+import net.neoforged.neoforge.common.capabilities.CapabilityManager;
+import net.neoforged.neoforge.common.capabilities.CapabilityToken;
 
 /**
  * All capabilities added by base Forestry.
  * <p>
  * If your mod does not require a dependency on Forestry, it is recommended to use your own CapabilityTokens instead
- * of the ones below, as recommended by {@link net.minecraftforge.common.capabilities.ForgeCapabilities}.
+ * of the ones below, as recommended by {@link net.neoforged.neoforge.common.capabilities.ForgeCapabilities}.
  */
 public class ForestryCapabilities {
 	// Apiculture

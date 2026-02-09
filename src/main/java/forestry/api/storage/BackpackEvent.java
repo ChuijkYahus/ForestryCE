@@ -2,7 +2,7 @@ package forestry.api.storage;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 public abstract class BackpackEvent extends Event {
 

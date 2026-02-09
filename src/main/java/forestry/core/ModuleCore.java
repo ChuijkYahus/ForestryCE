@@ -43,17 +43,17 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -72,11 +72,11 @@ public class ModuleCore extends BlankForestryModule {
 		ModUtil.addRegistryListener(Registries.ITEM, ModuleCore::postItemRegistry);
 
 		ModuleUtil.loadFeatureProviders();
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onLevelTick);
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onTagsUpdated);
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::onLevelTick);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::onTagsUpdated);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
 
 		PluginManager.registerAsyncException(modBus);
 	}

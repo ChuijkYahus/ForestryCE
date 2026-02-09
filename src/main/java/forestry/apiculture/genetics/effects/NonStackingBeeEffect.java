@@ -20,8 +20,8 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.TickEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,7 +37,7 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 		this.dominant = dominant;
 		this.trackedOwners = new HashMap<>();
 
-		MinecraftForge.EVENT_BUS.addListener(this::performGlobalEffect);
+		NeoForge.EVENT_BUS.addListener(this::performGlobalEffect);
 	}
 
 	@Override
