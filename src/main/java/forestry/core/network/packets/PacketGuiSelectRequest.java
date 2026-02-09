@@ -1,14 +1,13 @@
 package forestry.core.network.packets;
 
-import forestry.api.modules.IForestryPacketServer;
 import forestry.core.gui.IGuiSelectable;
 import forestry.core.network.PacketIdServer;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
-public record PacketGuiSelectRequest(int primaryIndex, int secondaryIndex) implements IForestryPacketServer {
+public record PacketGuiSelectRequest(int primaryIndex, int secondaryIndex) implements CustomPacketPayload {
 	public static void handle(PacketGuiSelectRequest msg, ServerPlayer player) {
 		AbstractContainerMenu container = player.containerMenu;
 
@@ -18,17 +17,16 @@ public record PacketGuiSelectRequest(int primaryIndex, int secondaryIndex) imple
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdServer.GUI_SELECTION_REQUEST;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeVarInt(this.primaryIndex);
-		buffer.writeVarInt(this.secondaryIndex);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketGuiSelectRequest msg) {
+		buffer.writeVarInt(msg.primaryIndex);
+		buffer.writeVarInt(msg.secondaryIndex);
 	}
 
-	public static PacketGuiSelectRequest decode(FriendlyByteBuf buffer) {
+	public static PacketGuiSelectRequest decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketGuiSelectRequest(buffer.readVarInt(), buffer.readVarInt());
 	}
 }

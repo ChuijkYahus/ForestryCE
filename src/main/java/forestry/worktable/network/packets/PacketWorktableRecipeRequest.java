@@ -1,6 +1,5 @@
 package forestry.worktable.network.packets;
 
-import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
@@ -8,23 +7,22 @@ import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.screens.WorktableMenu;
 import forestry.worktable.tiles.WorktableTile;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
-public record PacketWorktableRecipeRequest(BlockPos pos, MemorizedRecipe recipe) implements IForestryPacketServer {
+public record PacketWorktableRecipeRequest(BlockPos pos, MemorizedRecipe recipe) implements CustomPacketPayload {
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdServer.WORKTABLE_RECIPE_REQUEST;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-        this.recipe.writeData(buffer);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketWorktableRecipeRequest msg) {
+		buffer.writeBlockPos(msg.pos);
+		msg.recipe.writeData(buffer);
 	}
 
-	public static PacketWorktableRecipeRequest decode(FriendlyByteBuf buffer) {
+	public static PacketWorktableRecipeRequest decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketWorktableRecipeRequest(buffer.readBlockPos(), new MemorizedRecipe(buffer));
 	}
 

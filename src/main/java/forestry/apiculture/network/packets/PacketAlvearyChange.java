@@ -1,26 +1,24 @@
 package forestry.apiculture.network.packets;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
-public record PacketAlvearyChange(BlockPos pos) implements IForestryPacketClient {
+public record PacketAlvearyChange(BlockPos pos) implements CustomPacketPayload {
 	@Override
-	public ResourceLocation id() {
-		return PacketIdClient.ALVERAY_CONTROLLER_CHANGE;
+	public Type<? extends CustomPacketPayload> type() {
+		return PacketIdClient.ALVEARY_CONTROLLER_CHANGE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketAlvearyChange msg) {
+		buffer.writeBlockPos(msg.pos);
 	}
 
-	public static PacketAlvearyChange decode(FriendlyByteBuf buffer) {
+	public static PacketAlvearyChange decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketAlvearyChange(buffer.readBlockPos());
 	}
 

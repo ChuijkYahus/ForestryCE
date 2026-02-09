@@ -24,10 +24,10 @@ public class ModuleWorktable extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.serverbound(PacketIdServer.WORKTABLE_RECIPE_REQUEST, PacketWorktableRecipeRequest.class, PacketWorktableRecipeRequest::decode, PacketWorktableRecipeRequest::handle);
+		registry.serverbound(PacketIdServer.WORKTABLE_RECIPE_REQUEST, PacketWorktableRecipeRequest::encode, PacketWorktableRecipeRequest::decode, PacketWorktableRecipeRequest::handle);
 
-		registry.clientbound(PacketIdClient.WORKTABLE_MEMORY_UPDATE, PacketWorktableMemoryUpdate.class, PacketWorktableMemoryUpdate::decode, PacketWorktableMemoryUpdate::handle);
-		registry.clientbound(PacketIdClient.WORKTABLE_CRAFTING_UPDATE, PacketWorktableRecipeUpdate.class, PacketWorktableRecipeUpdate::decode, PacketWorktableRecipeUpdate::handle);
+		registry.clientbound(PacketIdClient.WORKTABLE_MEMORY_UPDATE, PacketWorktableMemoryUpdate::encode, PacketWorktableMemoryUpdate::decode, PacketWorktableMemoryUpdate::handle);
+		registry.clientbound(PacketIdClient.WORKTABLE_CRAFTING_UPDATE, PacketWorktableRecipeUpdate::encode, PacketWorktableRecipeUpdate::decode, PacketWorktableRecipeUpdate::handle);
 	}
 
 	@Override

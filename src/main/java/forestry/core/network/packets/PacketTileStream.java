@@ -1,19 +1,19 @@
 package forestry.core.network.packets;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.IStreamable;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.annotation.Nullable;
 
-public class PacketTileStream implements IForestryPacketClient {
+public class PacketTileStream implements CustomPacketPayload {
 	protected final BlockPos pos;
 	@Nullable
 	protected final IStreamable streamable;
@@ -33,17 +33,16 @@ public class PacketTileStream implements IForestryPacketClient {
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.TILE_FORESTRY_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		NetworkUtil.writePayloadBuffer(buffer, this.streamable::writeData);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketTileStream msg) {
+		buffer.writeBlockPos(msg.pos);
+		NetworkUtil.writePayloadBuffer(buffer, msg.streamable::writeData);
 	}
 
-	public static PacketTileStream decode(FriendlyByteBuf data) {
+	public static PacketTileStream decode(RegistryFriendlyByteBuf data) {
 		return new PacketTileStream(data.readBlockPos(), NetworkUtil.readPayloadBuffer(data));
 	}
 

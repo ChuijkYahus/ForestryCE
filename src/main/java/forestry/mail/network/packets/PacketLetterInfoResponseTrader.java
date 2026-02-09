@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.ITradeStationInfo;
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.MailAddress;
@@ -12,39 +11,38 @@ import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.carriers.trading.TradeStationInfo;
 import forestry.mail.gui.ILetterInfoReceiver;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 
-public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) implements IForestryPacketClient {
+public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) implements CustomPacketPayload {
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.LETTER_INFO_RESPONSE_TRADER;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		if (this.info == null) {
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketLetterInfoResponseTrader msg) {
+		if (msg.info == null) {
 			buffer.writeBoolean(false);
 		} else {
 			buffer.writeBoolean(true);
-			buffer.writeUtf(this.info.address().getName());
+			buffer.writeUtf(msg.info.address().getName());
 
-			GameProfile profile = this.info.owner();
+			GameProfile profile = msg.info.owner();
 			buffer.writeUUID(profile.getId());
 			buffer.writeUtf(profile.getName());
 
-			buffer.writeItem(this.info.tradegood());
-			NetworkUtil.writeItemStacks(buffer, this.info.required());
+			buffer.writeItem(msg.info.tradegood());
+			NetworkUtil.writeItemStacks(buffer, msg.info.required());
 
-			buffer.writeEnum(this.info.state());
+			buffer.writeEnum(msg.info.state());
 		}
 	}
 
-	public static PacketLetterInfoResponseTrader decode(FriendlyByteBuf buffer) {
+	public static PacketLetterInfoResponseTrader decode(RegistryFriendlyByteBuf buffer) {
 		if (buffer.readBoolean()) {
 			IMailAddress address = new MailAddress(buffer.readUtf());
 			GameProfile owner = new GameProfile(buffer.readUUID(), buffer.readUtf());

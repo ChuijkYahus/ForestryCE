@@ -1,34 +1,32 @@
 package forestry.mail.network.packets;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.config.ForestryConfig;
 import forestry.core.network.PacketIdClient;
 import forestry.mail.carriers.players.POBoxInfo;
 import forestry.mail.gui.ToastMailboxInfo;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters,
-									  boolean silent) implements IForestryPacketClient {
+									  boolean silent) implements CustomPacketPayload {
 	public PacketPOBoxInfoResponse(POBoxInfo info, boolean silent) {
 		this(info.playerLetters(), info.tradeLetters(), silent);
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.POBOX_INFO_RESPONSE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.playerLetters);
-		buffer.writeInt(this.tradeLetters);
-		buffer.writeBoolean(this.silent);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketPOBoxInfoResponse msg) {
+		buffer.writeInt(msg.playerLetters);
+		buffer.writeInt(msg.tradeLetters);
+		buffer.writeBoolean(msg.silent);
 	}
 
-	public static PacketPOBoxInfoResponse decode(FriendlyByteBuf buffer) {
+	public static PacketPOBoxInfoResponse decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketPOBoxInfoResponse(buffer.readInt(), buffer.readInt(), buffer.readBoolean());
 	}
 

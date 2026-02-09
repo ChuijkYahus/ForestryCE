@@ -2,21 +2,20 @@ package forestry.sorting.network.packets;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.ISpecies;
-import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
 import javax.annotation.Nullable;
 
 public record PacketFilterChangeGenome(BlockPos pos, Direction facing, short index, boolean active,
-									   @Nullable ISpecies<?> species) implements IForestryPacketServer {
+									   @Nullable ISpecies<?> species) implements CustomPacketPayload {
 	public static void handle(PacketFilterChangeGenome msg, ServerPlayer player) {
 		TileUtil.getInterface(player.level(), msg.pos(), ForestryCapabilities.FILTER_LOGIC, null).ifPresent(logic -> {
 			if (logic.setGenomeFilter(msg.facing(), msg.index(), msg.active(), msg.species())) {
@@ -26,25 +25,24 @@ public record PacketFilterChangeGenome(BlockPos pos, Direction facing, short ind
 	}
 
 	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		NetworkUtil.writeDirection(buffer, this.facing);
-		buffer.writeShort(this.index);
-		buffer.writeBoolean(this.active);
-		if (this.species != null) {
+	public Type<? extends CustomPacketPayload> type() {
+		return PacketIdServer.FILTER_CHANGE_GENOME;
+	}
+
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketFilterChangeGenome msg) {
+		buffer.writeBlockPos(msg.pos);
+		NetworkUtil.writeDirection(buffer, msg.facing);
+		buffer.writeShort(msg.index);
+		buffer.writeBoolean(msg.active);
+		if (msg.species != null) {
 			buffer.writeBoolean(true);
-			buffer.writeResourceLocation(this.species.id());
+			buffer.writeResourceLocation(msg.species.id());
 		} else {
 			buffer.writeBoolean(false);
 		}
 	}
 
-	@Override
-	public ResourceLocation id() {
-		return PacketIdServer.FILTER_CHANGE_GENOME;
-	}
-
-	public static PacketFilterChangeGenome decode(FriendlyByteBuf buffer) {
+	public static PacketFilterChangeGenome decode(RegistryFriendlyByteBuf buffer) {
 		BlockPos pos = buffer.readBlockPos();
 		Direction facing = NetworkUtil.readDirection(buffer);
 		short index = buffer.readShort();

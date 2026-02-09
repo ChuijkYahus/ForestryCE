@@ -32,10 +32,10 @@ public class ModuleSorting extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.serverbound(PacketIdServer.FILTER_CHANGE_RULE, PacketFilterChangeRule.class, PacketFilterChangeRule::decode, PacketFilterChangeRule::handle);
-		registry.serverbound(PacketIdServer.FILTER_CHANGE_GENOME, PacketFilterChangeGenome.class, PacketFilterChangeGenome::decode, PacketFilterChangeGenome::handle);
+		registry.serverbound(PacketIdServer.FILTER_CHANGE_RULE, PacketFilterChangeRule::encode, PacketFilterChangeRule::decode, PacketFilterChangeRule::handle);
+		registry.serverbound(PacketIdServer.FILTER_CHANGE_GENOME, PacketFilterChangeGenome::encode, PacketFilterChangeGenome::decode, PacketFilterChangeGenome::handle);
 
-		registry.clientbound(PacketIdClient.GUI_UPDATE_FILTER, PacketGuiFilterUpdate.class, PacketGuiFilterUpdate::decode, PacketGuiFilterUpdate::handle);
+		registry.clientbound(PacketIdClient.GUI_UPDATE_FILTER, PacketGuiFilterUpdate::encode, PacketGuiFilterUpdate::decode, PacketGuiFilterUpdate::handle);
 	}
 
 	public static void registerCapabilities(RegisterCapabilitiesEvent consumer) {

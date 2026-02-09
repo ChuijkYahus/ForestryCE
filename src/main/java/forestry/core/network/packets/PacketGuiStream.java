@@ -1,14 +1,14 @@
 package forestry.core.network.packets;
 
 import forestry.api.core.ILocationProvider;
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.IStreamableGui;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 // Streamable is used on the server side to serialize the packet data (payload is null)
@@ -19,24 +19,23 @@ public record PacketGuiStream(
 	IStreamableGui guiStreamable,
 	// null on server side
 	FriendlyByteBuf payload
-) implements IForestryPacketClient {
+) implements CustomPacketPayload {
 	public <T extends IStreamableGui & ILocationProvider> PacketGuiStream(T guiStreamable) {
 		this(guiStreamable.getCoordinates(), guiStreamable, null);
 	}
 
 	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		NetworkUtil.writePayloadBuffer(buffer, this.guiStreamable::writeGuiData);
-	}
-
-	public static PacketGuiStream decode(FriendlyByteBuf data) {
-		return new PacketGuiStream(data.readBlockPos(), null, NetworkUtil.readPayloadBuffer(data));
-	}
-
-	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.GUI_UPDATE;
+	}
+
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketGuiStream msg) {
+		buffer.writeBlockPos(msg.pos);
+		NetworkUtil.writePayloadBuffer(buffer, msg.guiStreamable::writeGuiData);
+	}
+
+	public static PacketGuiStream decode(RegistryFriendlyByteBuf data) {
+		return new PacketGuiStream(data.readBlockPos(), null, NetworkUtil.readPayloadBuffer(data));
 	}
 
 	public static void handle(PacketGuiStream msg, Player player) {

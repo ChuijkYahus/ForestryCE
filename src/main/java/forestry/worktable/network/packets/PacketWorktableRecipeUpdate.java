@@ -1,36 +1,34 @@
 package forestry.worktable.network.packets;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.tiles.WorktableTile;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 import javax.annotation.Nullable;
 
 public record PacketWorktableRecipeUpdate(BlockPos pos,
-										  @Nullable MemorizedRecipe recipe) implements IForestryPacketClient {
+										  @Nullable MemorizedRecipe recipe) implements CustomPacketPayload {
 	public PacketWorktableRecipeUpdate(WorktableTile tile) {
 		this(tile.getBlockPos(), tile.getCurrentRecipe());
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.WORKTABLE_CRAFTING_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		NetworkUtil.writeStreamable(buffer, this.recipe);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketWorktableRecipeUpdate msg) {
+		buffer.writeBlockPos(msg.pos);
+		NetworkUtil.writeStreamable(buffer, msg.recipe);
 	}
 
-	public static PacketWorktableRecipeUpdate decode(FriendlyByteBuf buffer) {
+	public static PacketWorktableRecipeUpdate decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketWorktableRecipeUpdate(buffer.readBlockPos(), NetworkUtil.readStreamable(buffer, MemorizedRecipe::new));
 	}
 

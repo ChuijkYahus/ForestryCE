@@ -4,12 +4,15 @@ import forestry.Forestry;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IModuleManager;
+import forestry.core.network.PacketRegistry;
 import forestry.core.utils.ModUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.objectweb.asm.Type;
 
 import java.util.*;
@@ -99,10 +102,13 @@ public class ForestryModuleManager implements IModuleManager {
 		loadModules();
 
 		for (Map.Entry<ResourceLocation, IForestryModule> entry : this.loadedModules.entrySet()) {
-			IEventBus modBus = ModuleUtil.getModBus(entry.getKey().getNamespace());
+			String modId = entry.getKey().getNamespace();
+			IEventBus modBus = ModuleUtil.getModBus(modId);
+			ModContainer mod = ModList.get().getModContainerById(modId).orElseThrow();
 			IForestryModule module = entry.getValue();
 
 			module.registerEvents(modBus);
+			modBus.addListener((RegisterPayloadHandlersEvent event) -> module.registerPackets(new PacketRegistry(event.registrar(mod.getModInfo().getVersion().toString()))));
 
 			if (FMLEnvironment.dist == Dist.CLIENT) {
 				module.registerClientHandler(handler -> handler.registerEvents(modBus));

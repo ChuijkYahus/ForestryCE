@@ -1,15 +1,14 @@
 package forestry.core.network.packets;
 
-import forestry.api.modules.IForestryPacketServer;
 import forestry.core.circuits.ItemCircuitBoard;
 import forestry.core.gui.IContainerSocketed;
 import forestry.core.network.PacketIdServer;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
-public record PacketChipsetClick(int slot) implements IForestryPacketServer {
+public record PacketChipsetClick(int slot) implements CustomPacketPayload {
 	public static void handle(PacketChipsetClick msg, ServerPlayer player) {
 		if (player.containerMenu instanceof IContainerSocketed socketMenu) {
 			ItemStack itemstack = player.containerMenu.getCarried();
@@ -21,16 +20,15 @@ public record PacketChipsetClick(int slot) implements IForestryPacketServer {
 	}
 
 	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeVarInt(this.slot);
-	}
-
-	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdServer.CHIPSET_CLICK;
 	}
 
-	public static PacketChipsetClick decode(FriendlyByteBuf buffer) {
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketChipsetClick msg) {
+		buffer.writeVarInt(msg.slot);
+	}
+
+	public static PacketChipsetClick decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketChipsetClick(buffer.readVarInt());
 	}
 }

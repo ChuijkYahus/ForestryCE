@@ -1,29 +1,27 @@
 package forestry.mail.network.packets;
 
 import forestry.api.mail.IMailAddress;
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.MailAddress;
 import forestry.mail.tiles.TileTrader;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
-public record PacketTraderAddressResponse(BlockPos pos, IMailAddress address) implements IForestryPacketClient {
+public record PacketTraderAddressResponse(BlockPos pos, IMailAddress address) implements CustomPacketPayload {
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.TRADING_ADDRESS_RESPONSE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		buffer.writeUtf(this.address.getName());
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketTraderAddressResponse msg) {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeUtf(msg.address.getName());
 	}
 
-	public static PacketTraderAddressResponse decode(FriendlyByteBuf buffer) {
+	public static PacketTraderAddressResponse decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketTraderAddressResponse(buffer.readBlockPos(), new MailAddress(buffer.readUtf()));
 	}
 

@@ -2,25 +2,23 @@ package forestry.core.network.packets;
 
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ICircuitLayout;
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.circuits.ContainerSolderingIron;
 import forestry.core.network.PacketIdClient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
-public record PacketGuiLayoutSelect(String layoutUid) implements IForestryPacketClient {
+public record PacketGuiLayoutSelect(String layoutUid) implements CustomPacketPayload {
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.GUI_LAYOUT_SELECT;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeUtf(this.layoutUid);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketGuiLayoutSelect msg) {
+		buffer.writeUtf(msg.layoutUid);
 	}
 
-	public static PacketGuiLayoutSelect decode(FriendlyByteBuf buffer) {
+	public static PacketGuiLayoutSelect decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketGuiLayoutSelect(buffer.readUtf());
 	}
 

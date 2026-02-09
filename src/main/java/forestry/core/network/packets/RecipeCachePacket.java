@@ -1,23 +1,21 @@
 package forestry.core.network.packets;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.recipes.RecipeManagers;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
-public class RecipeCachePacket implements IForestryPacketClient {
+public class RecipeCachePacket implements CustomPacketPayload {
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.RECIPE_CACHE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
+	public static void encode(RegistryFriendlyByteBuf buffer, RecipeCachePacket msg) {
 	}
 
-	public static RecipeCachePacket decode(FriendlyByteBuf buffer) {
+	public static RecipeCachePacket decode(RegistryFriendlyByteBuf buffer) {
 		return new RecipeCachePacket();
 	}
 

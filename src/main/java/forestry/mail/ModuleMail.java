@@ -59,14 +59,14 @@ public class ModuleMail extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.serverbound(PacketIdServer.LETTER_INFO_REQUEST, PacketLetterInfoRequest.class, PacketLetterInfoRequest::decode, PacketLetterInfoRequest::handle);
-		registry.serverbound(PacketIdServer.TRADING_ADDRESS_REQUEST, PacketTraderAddressRequest.class, PacketTraderAddressRequest::decode, PacketTraderAddressRequest::handle);
-		registry.serverbound(PacketIdServer.LETTER_TEXT_SET, PacketLetterTextSet.class, PacketLetterTextSet::decode, PacketLetterTextSet::handle);
+		registry.serverbound(PacketIdServer.LETTER_INFO_REQUEST, PacketLetterInfoRequest::encode, PacketLetterInfoRequest::decode, PacketLetterInfoRequest::handle);
+		registry.serverbound(PacketIdServer.TRADING_ADDRESS_REQUEST, PacketTraderAddressRequest::encode, PacketTraderAddressRequest::decode, PacketTraderAddressRequest::handle);
+		registry.serverbound(PacketIdServer.LETTER_TEXT_SET, PacketLetterTextSet::encode, PacketLetterTextSet::decode, PacketLetterTextSet::handle);
 
-		registry.clientbound(PacketIdClient.LETTER_INFO_RESPONSE_PLAYER, PacketLetterInfoResponsePlayer.class, PacketLetterInfoResponsePlayer::decode, PacketLetterInfoResponsePlayer::handle);
-		registry.clientbound(PacketIdClient.LETTER_INFO_RESPONSE_TRADER, PacketLetterInfoResponseTrader.class, PacketLetterInfoResponseTrader::decode, PacketLetterInfoResponseTrader::handle);
-		registry.clientbound(PacketIdClient.TRADING_ADDRESS_RESPONSE, PacketTraderAddressResponse.class, PacketTraderAddressResponse::decode, PacketTraderAddressResponse::handle);
-		registry.clientbound(PacketIdClient.POBOX_INFO_RESPONSE, PacketPOBoxInfoResponse.class, PacketPOBoxInfoResponse::decode, PacketPOBoxInfoResponse::handle);
+		registry.clientbound(PacketIdClient.LETTER_INFO_RESPONSE_PLAYER, PacketLetterInfoResponsePlayer::encode, PacketLetterInfoResponsePlayer::decode, PacketLetterInfoResponsePlayer::handle);
+		registry.clientbound(PacketIdClient.LETTER_INFO_RESPONSE_TRADER, PacketLetterInfoResponseTrader::encode, PacketLetterInfoResponseTrader::decode, PacketLetterInfoResponseTrader::handle);
+		registry.clientbound(PacketIdClient.TRADING_ADDRESS_RESPONSE, PacketTraderAddressResponse::encode, PacketTraderAddressResponse::decode, PacketTraderAddressResponse::handle);
+		registry.clientbound(PacketIdClient.POBOX_INFO_RESPONSE, PacketPOBoxInfoResponse::encode, PacketPOBoxInfoResponse::decode, PacketPOBoxInfoResponse::handle);
 	}
 
 	@Override

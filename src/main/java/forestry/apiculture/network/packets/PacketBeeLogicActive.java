@@ -2,13 +2,13 @@ package forestry.apiculture.network.packets;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 // Similar to PacketGuiStream
@@ -18,23 +18,22 @@ public record PacketBeeLogicActive(
 	IBeekeepingLogic logic,
 	// null on server side
 	FriendlyByteBuf payload
-) implements IForestryPacketClient {
+) implements CustomPacketPayload {
 	public PacketBeeLogicActive(IBeeHousing tile) {
 		this(tile.getCoordinates(), tile.getBeekeepingLogic(), null);
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.BEE_LOGIC_ACTIVE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		NetworkUtil.writePayloadBuffer(buffer, this.logic::writeData);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketBeeLogicActive msg) {
+		buffer.writeBlockPos(msg.pos);
+		NetworkUtil.writePayloadBuffer(buffer, msg.logic::writeData);
 	}
 
-	public static PacketBeeLogicActive decode(FriendlyByteBuf buffer) {
+	public static PacketBeeLogicActive decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketBeeLogicActive(buffer.readBlockPos(), null, NetworkUtil.readPayloadBuffer(buffer));
 	}
 

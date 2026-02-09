@@ -1,16 +1,14 @@
 package forestry.mail.network.packets;
 
-import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.tiles.TileTrader;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkHooks;
 
-public record PacketTraderAddressRequest(BlockPos pos, String addressName) implements IForestryPacketServer {
+public record PacketTraderAddressRequest(BlockPos pos, String addressName) implements CustomPacketPayload {
 	public PacketTraderAddressRequest(TileTrader tile, String addressName) {
 		this(tile.getBlockPos(), addressName);
 	}
@@ -18,23 +16,22 @@ public record PacketTraderAddressRequest(BlockPos pos, String addressName) imple
 	public static void handle(PacketTraderAddressRequest msg, ServerPlayer player) {
 		TileUtil.actOnTile(player.level(), msg.pos(), TileTrader.class, tile -> {
 			if (tile.handleSetAddressRequest(msg.addressName())) {
-				NetworkHooks.openScreen(player, tile, msg.pos());
+				player.openMenu(tile, msg.pos());
 			}
 		});
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdServer.TRADING_ADDRESS_REQUEST;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		buffer.writeUtf(this.addressName);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketTraderAddressRequest msg) {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeUtf(msg.addressName);
 	}
 
-	public static PacketTraderAddressRequest decode(FriendlyByteBuf buffer) {
+	public static PacketTraderAddressRequest decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketTraderAddressRequest(buffer.readBlockPos(), buffer.readUtf());
 	}
 }

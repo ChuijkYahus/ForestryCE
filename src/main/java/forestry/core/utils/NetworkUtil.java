@@ -6,14 +6,12 @@ import forestry.api.climate.ClimateState;
 import forestry.api.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.modules.IForestryPacketClient;
-import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.IStreamable;
-import forestry.core.network.NetworkHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -30,15 +28,15 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class NetworkUtil {
-	public static void sendNetworkPacket(IForestryPacketClient packet, BlockPos pos, Level level) {
+	public static void sendNetworkPacket(CustomPacketPayload packet, BlockPos pos, Level level) {
 		NetworkHandler.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(pos)), packet);
 	}
 
-	public static void sendToPlayer(IForestryPacketClient packet, ServerPlayer player) {
+	public static void sendToPlayer(CustomPacketPayload packet, ServerPlayer player) {
 		NetworkHandler.CHANNEL.sendTo(packet, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
 	}
 
-	public static void sendToAllPlayers(IForestryPacketClient packet) {
+	public static void sendToAllPlayers(CustomPacketPayload packet) {
 		if (ServerLifecycleHooks.getCurrentServer() != null) {
 			NetworkHandler.CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
 		}
@@ -61,7 +59,7 @@ public class NetworkUtil {
 		return new FriendlyByteBuf(buffer.readBytes(buffer.readInt()));
 	}
 
-	public static void sendToServer(IForestryPacketServer packet) {
+	public static void sendToServer(CustomPacketPayload packet) {
 		NetworkHandler.CHANNEL.sendToServer(packet);
 	}
 

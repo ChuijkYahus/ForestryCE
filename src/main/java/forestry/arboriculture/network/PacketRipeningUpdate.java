@@ -1,31 +1,29 @@
 package forestry.arboriculture.network;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.arboriculture.tiles.TileLeaves;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
-public record PacketRipeningUpdate(BlockPos pos, int value) implements IForestryPacketClient {
+public record PacketRipeningUpdate(BlockPos pos, int value) implements CustomPacketPayload {
 	public PacketRipeningUpdate(TileLeaves leaves) {
 		this(leaves.getBlockPos(), leaves.getFruitColour());
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.RIPENING_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		buffer.writeVarInt(this.value);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketRipeningUpdate msg) {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeVarInt(msg.value);
 	}
 
-	public static PacketRipeningUpdate decode(FriendlyByteBuf buffer) {
+	public static PacketRipeningUpdate decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketRipeningUpdate(buffer.readBlockPos(), buffer.readVarInt());
 	}
 

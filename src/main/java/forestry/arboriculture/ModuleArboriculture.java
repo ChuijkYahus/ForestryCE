@@ -109,7 +109,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.clientbound(PacketIdClient.RIPENING_UPDATE, PacketRipeningUpdate.class, PacketRipeningUpdate::decode, PacketRipeningUpdate::handle);
+		registry.clientbound(PacketIdClient.RIPENING_UPDATE, PacketRipeningUpdate::encode, PacketRipeningUpdate::decode, PacketRipeningUpdate::handle);
 	}
 
 	@Override

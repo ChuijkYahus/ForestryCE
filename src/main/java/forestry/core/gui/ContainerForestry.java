@@ -1,10 +1,10 @@
 package forestry.core.gui;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.gui.slots.SlotForestry;
 import forestry.core.gui.slots.SlotLocked;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SlotUtil;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -108,7 +108,7 @@ public abstract class ContainerForestry extends AbstractContainerMenu {
 
 	protected abstract boolean canAccess(Player player);
 
-	protected final void sendPacketToListeners(IForestryPacketClient packet) {
+	protected final void sendPacketToListeners(CustomPacketPayload packet) {
 		if (this.player != null) {
 			NetworkUtil.sendToPlayer(packet, this.player);
 		}

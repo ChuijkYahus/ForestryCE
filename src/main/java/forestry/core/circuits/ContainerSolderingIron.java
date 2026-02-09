@@ -1,8 +1,6 @@
 package forestry.core.circuits;
 
 import forestry.api.circuits.ICircuitLayout;
-import forestry.api.modules.IForestryPacketClient;
-import forestry.api.modules.IForestryPacketServer;
 import forestry.core.features.CoreMenuTypes;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.IGuiSelectable;
@@ -55,7 +53,7 @@ public class ContainerSolderingIron extends ContainerItemInventory<ItemInventory
 	}
 
 	private static void sendSelectionChange(int index, int advance) {
-		IForestryPacketServer packet = new PacketGuiSelectRequest(index, advance);
+		PacketGuiSelectRequest packet = new PacketGuiSelectRequest(index, advance);
 		NetworkUtil.sendToServer(packet);
 	}
 
@@ -69,7 +67,7 @@ public class ContainerSolderingIron extends ContainerItemInventory<ItemInventory
             this.inventory.regressLayout();
 		}
 
-		IForestryPacketClient packetResponse = new PacketGuiLayoutSelect(this.inventory.getLayout().getId());
+		PacketGuiLayoutSelect packetResponse = new PacketGuiLayoutSelect(this.inventory.getLayout().getId());
 		NetworkUtil.sendToPlayer(packetResponse, player);
 	}
 

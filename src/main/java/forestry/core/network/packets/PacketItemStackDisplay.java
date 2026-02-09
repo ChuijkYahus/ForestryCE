@@ -1,33 +1,31 @@
 package forestry.core.network.packets;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.IItemStackDisplay;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public record PacketItemStackDisplay(BlockPos pos, ItemStack itemStack) implements IForestryPacketClient {
+public record PacketItemStackDisplay(BlockPos pos, ItemStack itemStack) implements CustomPacketPayload {
 	public <T extends TileForestry & IItemStackDisplay> PacketItemStackDisplay(T tile, ItemStack itemStack) {
 		this(tile.getBlockPos(), itemStack);
 	}
 
 	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		buffer.writeItem(this.itemStack);
-	}
-
-	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.ITEMSTACK_DISPLAY;
 	}
 
-	public static PacketItemStackDisplay decode(FriendlyByteBuf buffer) {
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketItemStackDisplay msg) {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeItem(msg.itemStack);
+	}
+
+	public static PacketItemStackDisplay decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketItemStackDisplay(buffer.readBlockPos(), buffer.readItem());
 	}
 

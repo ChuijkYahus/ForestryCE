@@ -1,6 +1,5 @@
 package forestry.apiculture.gui;
 
-import forestry.api.modules.IForestryPacketClient;
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.multiblock.TileAlveary;
 import forestry.core.gui.ContainerTile;
@@ -31,7 +30,7 @@ public class ContainerAlveary extends ContainerTile<TileAlveary> {
 		int beeProgress = this.tile.getBeekeepingLogic().getBeeProgressPercent();
 		if (this.beeProgress != beeProgress) {
 			this.beeProgress = beeProgress;
-			IForestryPacketClient packet = new PacketGuiStream(this.tile);
+			PacketGuiStream packet = new PacketGuiStream(this.tile);
 			sendPacketToListeners(packet);
 		}
 	}

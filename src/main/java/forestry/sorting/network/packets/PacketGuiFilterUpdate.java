@@ -2,31 +2,29 @@ package forestry.sorting.network.packets;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.filter.IFilterRuleType;
-import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.sorting.AlleleFilter;
 import forestry.sorting.FilterLogic;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 public record PacketGuiFilterUpdate(BlockPos pos, IFilterRuleType[] filterRules,
-									AlleleFilter[][] genomeFilter) implements IForestryPacketClient {
+									AlleleFilter[][] genomeFilter) implements CustomPacketPayload {
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PacketIdClient.GUI_UPDATE_FILTER;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		FilterLogic.writeFilterRules(buffer, this.filterRules);
-		FilterLogic.writeGenomeFilters(buffer, this.genomeFilter);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketGuiFilterUpdate msg) {
+		buffer.writeBlockPos(msg.pos);
+		FilterLogic.writeFilterRules(buffer, msg.filterRules);
+		FilterLogic.writeGenomeFilters(buffer, msg.genomeFilter);
 	}
 
-	public static PacketGuiFilterUpdate decode(FriendlyByteBuf buffer) {
+	public static PacketGuiFilterUpdate decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketGuiFilterUpdate(buffer.readBlockPos(), FilterLogic.readFilterRules(buffer), FilterLogic.readGenomeFilters(buffer));
 	}
 
