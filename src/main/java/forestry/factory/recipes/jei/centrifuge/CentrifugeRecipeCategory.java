@@ -8,6 +8,7 @@ import forestry.core.recipes.jei.ChanceTooltipCallback;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
+import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
@@ -39,7 +40,7 @@ public class CentrifugeRecipeCategory extends ForestryRecipeCategory<ICentrifuge
 
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(TEXTURE, 176, 0, 4, 17);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 80, IDrawableAnimated.StartDirection.BOTTOM, false);
-		ItemStack centrifuge = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE).block());
+		ItemStack centrifuge = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, centrifuge);
 	}
 

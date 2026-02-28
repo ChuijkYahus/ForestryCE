@@ -11,6 +11,7 @@ import forestry.energy.features.EnergyBlocks;
 import forestry.energy.tiles.BiogasEngineBlockEntity;
 import forestry.energy.tiles.ClockworkEngineBlockEntity;
 import forestry.energy.tiles.PeatEngineBlockEntity;
+import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import forestry.factory.tiles.*;
@@ -47,13 +48,6 @@ public class ForestryBewlr extends BlockEntityWithoutLevelRenderer {
 		addTile(tiles, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.ARBORIST_CHEST), TileArboristChest::new);
 		addTile(tiles, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST), TileLepidopteristChest::new);
 
-		addTile(tiles, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.BOTTLER), TileBottler::new);
-		addTile(tiles, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER), TileCarpenter::new);
-		addTile(tiles, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE), TileCentrifuge::new);
-		addTile(tiles, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.FERMENTER), TileFermenter::new);
-		addTile(tiles, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER), TileMoistener::new);
-		addTile(tiles, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER), TileSqueezer::new);
-		addTile(tiles, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL), TileStill::new);
 		addTile(tiles, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER), TileMillRainmaker::new);
 
 		addTile(tiles, EnergyBlocks.ENGINES.get(EngineBlockType.PEAT), PeatEngineBlockEntity::new);

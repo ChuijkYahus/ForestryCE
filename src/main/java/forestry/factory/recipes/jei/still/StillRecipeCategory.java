@@ -5,6 +5,7 @@ import forestry.api.recipes.IStillRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
+import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
@@ -35,7 +36,7 @@ public class StillRecipeCategory extends ForestryRecipeCategory<IStillRecipe> {
 
 		IDrawableStatic progressBarDrawable0 = guiHelper.createDrawable(guiTexture, 176, 74, 4, 18);
 		this.progressBar = guiHelper.createAnimatedDrawable(progressBarDrawable0, 20, IDrawableAnimated.StartDirection.BOTTOM, false);
-		ItemStack still = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL).block());
+		ItemStack still = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, still);
 	}
 

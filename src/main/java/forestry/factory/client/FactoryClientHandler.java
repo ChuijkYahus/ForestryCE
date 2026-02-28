@@ -1,9 +1,13 @@
 package forestry.factory.client;
 
 import forestry.api.client.IClientModuleHandler;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.factory.features.FactoryBlocks;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.gui.*;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -23,6 +27,8 @@ public class FactoryClientHandler implements IClientModuleHandler {
 			MenuScreens.register(FactoryMenuTypes.MOISTENER.menuType(), GuiMoistener::new);
 			MenuScreens.register(FactoryMenuTypes.SQUEEZER.menuType(), GuiSqueezer::new);
 			MenuScreens.register(FactoryMenuTypes.STILL.menuType(), GuiStill::new);
+
+			FactoryBlocks.TESR.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
 		});
 	}
 }

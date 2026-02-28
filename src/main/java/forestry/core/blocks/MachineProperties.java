@@ -1,6 +1,7 @@
 package forestry.core.blocks;
 
 import com.google.common.base.Preconditions;
+import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.tiles.IForestryTicker;
 import forestry.core.tiles.TileForestry;
 import forestry.modules.features.FeatureTileType;
@@ -29,10 +30,13 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	@Nullable
 	private Block block;
 
-	public MachineProperties(FeatureTileType<? extends T> teType, String name, IShapeProvider shape, @Nullable IForestryTicker<? extends T> clientTicker, @Nullable IForestryTicker<? extends T> serverTicker) {
+	private ForestryBlockStateProvider.TankLayout tankLayout;
+
+	public MachineProperties(FeatureTileType<? extends T> teType, String name, IShapeProvider shape, ForestryBlockStateProvider.TankLayout tankLayout,  @Nullable IForestryTicker<? extends T> clientTicker, @Nullable IForestryTicker<? extends T> serverTicker) {
 		this.teType = teType;
 		this.name = name;
 		this.shape = shape;
+		this.tankLayout = tankLayout;
 		this.clientTicker = clientTicker;
 		this.serverTicker = serverTicker;
 	}
@@ -46,6 +50,11 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	@Override
 	public Block getBlock() {
 		return this.block;
+	}
+
+	@Override
+	public ForestryBlockStateProvider.TankLayout getTankLayout() {
+		return this.tankLayout;
 	}
 
 	@Override
@@ -84,6 +93,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 		protected final FeatureTileType<? extends T> type;
 		protected final String name;
 		protected IShapeProvider shape = FULL_CUBE;
+		protected ForestryBlockStateProvider.TankLayout tankLayout = ForestryBlockStateProvider.TankLayout.NONE;
 		@Nullable
 		protected IForestryTicker<? extends T> clientTicker = null;
 		@Nullable
@@ -110,6 +120,12 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 			return (B) this;
 		}
 
+		public B setTankLayout(ForestryBlockStateProvider.TankLayout tankLayout) {
+			this.tankLayout = tankLayout;
+			//noinspection unchecked
+			return (B) this;
+		}
+
 		public B setClientTicker(@Nullable IForestryTicker<? extends T> clientTicker) {
 			this.clientTicker = clientTicker;
 			//noinspection unchecked
@@ -124,7 +140,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 
 		public MachineProperties<T> create() {
 			Preconditions.checkNotNull(this.shape);
-			return new MachineProperties<>(this.type, this.name, this.shape, this.clientTicker, this.serverTicker);
+			return new MachineProperties<>(this.type, this.name, this.shape, this.tankLayout, this.clientTicker, this.serverTicker);
 		}
 	}
 }

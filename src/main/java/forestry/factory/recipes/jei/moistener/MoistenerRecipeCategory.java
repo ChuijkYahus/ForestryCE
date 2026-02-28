@@ -7,6 +7,7 @@ import forestry.api.recipes.IMoistenerRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
+import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
@@ -48,7 +49,7 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		IDrawableStatic progressBar = guiHelper.createDrawable(TEXTURE, 176, 74, 16, 15);
 		this.progressBar = guiHelper.createAnimatedDrawable(progressBar, 160, IDrawableAnimated.StartDirection.LEFT, false);
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 176, 0, 16, 58);
-		ItemStack moistener = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER).block());
+		ItemStack moistener = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, moistener);
 
 		Collection<MoistenerFuel> fuels = FuelManager.moistenerResource.values();

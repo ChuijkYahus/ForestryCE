@@ -8,6 +8,7 @@ import forestry.api.recipes.IVariableFermentable;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
+import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
@@ -47,7 +48,7 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		IDrawableStatic progressBarDrawable1 = guiHelper.createDrawable(TEXTURE, 176, 78, 4, 18);
 		this.progressBar1 = guiHelper.createAnimatedDrawable(progressBarDrawable1, 80, IDrawableAnimated.StartDirection.BOTTOM, false);
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 192, 0, 16, 58);
-		ItemStack fermenter = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.FERMENTER).block());
+		ItemStack fermenter = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, fermenter);
 	}
 

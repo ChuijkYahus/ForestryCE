@@ -17,6 +17,9 @@ import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.RecipeUtils;
+import forestry.factory.blocks.BlockFactoryPlain;
+import forestry.factory.blocks.BlockFactoryTESR;
+import forestry.factory.features.FactoryBlocks;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerCarpenter;
 import forestry.factory.inventory.InventoryCarpenter;
@@ -131,6 +134,22 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 
 		if (updateOnInterval(20)) {
 			FluidHelper.drainContainers(this.tankManager, this, InventoryCarpenter.SLOT_CAN_INPUT);
+
+			TankRenderInfo resourceTankInfo = this.getResourceTankInfo();
+
+			int newLevel = resourceTankInfo.getLevel().getLevelScaled(4);
+			boolean update = false;
+
+			if (state.hasProperty(BlockFactoryPlain.TANK_RESOURCE_LEVEL) &&
+				state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL)!= newLevel){
+				state = state.setValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL, newLevel);
+				update = true;
+			}
+
+			if (update) {
+				level.setBlock(pos, state, BlockFactoryPlain.UPDATE_CLIENTS);
+			}
+
 		}
 	}
 

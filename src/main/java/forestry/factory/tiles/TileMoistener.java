@@ -18,6 +18,8 @@ import forestry.core.tiles.TileBase;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.RecipeUtils;
+import forestry.factory.blocks.BlockFactoryPlain;
+import forestry.factory.blocks.BlockFactoryTESR;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerMoistener;
 import forestry.factory.inventory.InventoryMoistener;
@@ -132,6 +134,21 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 		if (updateOnInterval(20)) {
 			// Check if we have suitable water container waiting in the item slot
 			FluidHelper.drainContainers(this.tankManager, this, InventoryMoistener.SLOT_PRODUCT);
+
+			TankRenderInfo resourceTankInfo = this.getResourceTankInfo();
+
+			int newLevel = resourceTankInfo.getLevel().getLevelScaled(4);
+			boolean update = false;
+
+			if (state.hasProperty(BlockFactoryPlain.TANK_RESOURCE_LEVEL) &&
+				state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL)!= newLevel){
+				state = state.setValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL, newLevel);
+				update = true;
+			}
+
+			if (update) {
+				level.setBlock(pos, state, BlockFactoryPlain.UPDATE_CLIENTS);
+			}
 		}
 
 		// Let's get to work

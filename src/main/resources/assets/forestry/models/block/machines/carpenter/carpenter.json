@@ -1,0 +1,9 @@
+{
+  "parent": "forestry:block/base_machine",
+  "textures": {
+		"0": "forestry:block/machines/carpenter/base",
+		"3": "forestry:block/machines/carpenter/tank_r_0",
+		"4": "forestry:block/machines/carpenter/tank_l_0",
+		"particle": "forestry:block/machines/carpenter/particles"
+	}
+}

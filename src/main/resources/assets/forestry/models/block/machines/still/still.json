@@ -1,0 +1,9 @@
+{
+  "parent": "forestry:block/base_machine",
+  "textures": {
+		"0": "forestry:block/machines/still/base",
+		"3": "forestry:block/machines/still/tank_r_0",
+		"4": "forestry:block/machines/still/tank_l_0",
+		"particle": "forestry:block/machines/still/particles"
+	}
+}

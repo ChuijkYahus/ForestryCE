@@ -7,30 +7,46 @@ import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.core.blocks.BlockBase;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.fluids.ForestryFluids;
+import forestry.core.tiles.TileForestry;
 import forestry.core.utils.ModUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
+import forestry.factory.blocks.BlockFactoryPlain;
+import forestry.factory.blocks.BlockFactoryTESR;
+import forestry.factory.blocks.BlockTypeFactoryPlain;
+import forestry.factory.blocks.BlockTypeFactoryTesr;
+import forestry.factory.features.FactoryBlocks;
+import forestry.factory.features.FactoryTiles;
 import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingBlocks;
+import forestry.modules.features.FeatureTileType;
+import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
 		super(output, ForestryConstants.MOD_ID, exFileHelper);
+	}
+
+	public enum TankLayout {
+		NONE,
+		RESOURCE,
+		PRODUCT,
+		BOTH
 	}
 
 	@Override
@@ -73,6 +89,15 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic2d(CoreItems.INGOT_BRONZE);
 		generic2d(CoreItems.GEAR_BRONZE);
 		generic2d(CoreItems.GEAR_COPPER);
+
+		machineBlock(BlockTypeFactoryPlain.BOTTLER, TankLayout.RESOURCE);
+		machineBlock(BlockTypeFactoryPlain.CARPENTER, TankLayout.RESOURCE);
+		machineBlock(BlockTypeFactoryPlain.CENTRIFUGE, TankLayout.NONE);
+		machineBlock(BlockTypeFactoryPlain.FERMENTER, TankLayout.BOTH);
+		machineBlock(BlockTypeFactoryPlain.MOISTENER, TankLayout.RESOURCE);
+		machineBlock(BlockTypeFactoryPlain.SQUEEZER, TankLayout.PRODUCT);
+		machineBlock(BlockTypeFactoryPlain.STILL, TankLayout.BOTH);
+
 
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
 		for (ForestryFluids fluid : ForestryFluids.values()) {
@@ -157,6 +182,149 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			.end()
 			// reuse the particle
 			.parent(baseModel);
+	}
+
+	public void machineBlock (
+		BlockTypeFactoryPlain block,
+		TankLayout layout
+	) {
+
+		BlockFactoryPlain machine = FactoryBlocks.PLAIN.get(block).block();
+		String name = block.name().toLowerCase();
+
+		String baseTexture = "block/machines/" + name + "/base";
+		String particleTexture = "block/machines/" + name + "/particles";
+
+		switch (layout) {
+
+			// ----------------------------------
+			// 0 TANKS
+			// ----------------------------------
+			case NONE -> {
+
+				models().withExistingParent(name,
+						modLoc("block/machines/base_machine"))
+					.renderType("cutout")
+					.texture("base", modLoc(baseTexture))
+					.texture("particle", modLoc(particleTexture));
+
+				getVariantBuilder(machine)
+					.forAllStates(state -> ConfiguredModel.builder()
+						.modelFile(models().getExistingFile(
+							modLoc("block/" + name)))
+						.rotationY(rotationFromFacing(state.getValue(BlockBase.FACING)))
+						.build());
+			}
+
+			// ----------------------------------
+			// 1 TANK (RESOURCE)
+			// ----------------------------------
+			case RESOURCE -> {
+
+				for (int level = 0; level <= 4; level++) {
+
+					String modelName = name + "_res_" + level;
+
+					models().withExistingParent(modelName,
+							modLoc("block/machines/base_machine"))
+						.renderType("cutout")
+						.texture("base", modLoc(baseTexture))
+						.texture("particle", modLoc(particleTexture))
+						.texture("resource_tank", modLoc(
+							"block/machines/" + name + "/tank_res_" + level));
+				}
+
+				getVariantBuilder(machine)
+					.forAllStates(state -> {
+
+						int level = state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL);
+
+						return ConfiguredModel.builder()
+							.modelFile(models().getExistingFile(
+								modLoc("block/" + name + "_res_" + level)))
+							.rotationY(rotationFromFacing(state.getValue(BlockBase.FACING)))
+							.build();
+					});
+			}
+
+			// ----------------------------------
+			// 1 TANK (PRODUCT)
+			// ----------------------------------
+			case PRODUCT -> {
+
+				for (int level = 0; level <= 4; level++) {
+
+					String modelName = name + "_prod_" + level;
+
+					models().withExistingParent(modelName,
+							modLoc("block/machines/base_machine"))
+						.renderType("cutout")
+						.texture("base", modLoc(baseTexture))
+						.texture("particle", modLoc(particleTexture))
+						.texture("product_tank", modLoc(
+							"block/machines/" + name + "/tank_prod_" + level));
+				}
+
+				getVariantBuilder(machine)
+					.forAllStates(state -> {
+
+						int level = state.getValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL);
+
+						return ConfiguredModel.builder()
+							.modelFile(models().getExistingFile(
+								modLoc("block/" + name + "_prod_" + level)))
+							.rotationY(rotationFromFacing(state.getValue(BlockBase.FACING)))
+							.build();
+					});
+			}
+
+			// ----------------------------------
+			// 2 TANKS
+			// ----------------------------------
+			case BOTH -> {
+
+				for (int left = 0; left <= 4; left++) {
+					for (int right = 0; right <= 4; right++) {
+
+						String modelName = name + "_res_" + left + "_prod_" + right;
+
+						models().withExistingParent(modelName,
+								modLoc("block/machines/base_machine"))
+							.renderType("cutout")
+							.texture("base", modLoc(baseTexture))
+							.texture("particle", modLoc(particleTexture))
+							.texture("resource_tank", modLoc(
+								"block/machines/" + name + "/tank_res_" + left))
+							.texture("product_tank", modLoc(
+								"block/machines/" + name + "/tank_prod_" + right));
+					}
+				}
+
+				getVariantBuilder(machine)
+					.forAllStates(state -> {
+
+						int left = state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL);
+						int right = state.getValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL);
+
+						String modelName = name + "_res_" + left + "_prod_" + right;
+
+						return ConfiguredModel.builder()
+							.modelFile(models().getExistingFile(
+								modLoc("block/" + modelName)))
+							.rotationY(rotationFromFacing(state.getValue(BlockBase.FACING)))
+							.build();
+					});
+			}
+		}
+	}
+
+	private int rotationFromFacing(Direction facing) {
+		return switch (facing) {
+            case SOUTH -> 180;
+			case WEST  -> 270;
+			case EAST  -> 90;
+			default -> 0;
+		};
 	}
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {

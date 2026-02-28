@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-03T23:37:14.696196059	Tags for minecraft:item mod id forestry
+// 1.20.1	2026-02-23T21:07:34.0199455	Tags for minecraft:item mod id forestry
 e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
@@ -28,7 +28,6 @@ f48573065b4783237bdb7cdcdc0e10fde2f7bf7e data/forestry/tags/items/coconut_logs.j
 6eabef4518f12701c9313cc05d8f73d9f80d0217 data/forestry/tags/items/ebony_logs.json
 738b3a66a4998641552538ec8c73163a35f2eb52 data/forestry/tags/items/elm_logs.json
 9b0261db179dea40689117f6c40ed27e2576ade5 data/forestry/tags/items/feijoa_logs.json
-8f7b016b1f13e0d1e8b2f1a7b34fbd52f74e38c3 data/forestry/tags/items/fir_logs.json
 f325d2ec9a1667fbb13f65621a214b7536d09265 data/forestry/tags/items/fireproof_acacia_desert_logs.json
 6287e45cc5944b9ab030ba66d775c136ca790de4 data/forestry/tags/items/fireproof_acacia_logs.json
 ed489cef863f2aa79aea8c510a0ab988b98cb828 data/forestry/tags/items/fireproof_balsa_logs.json
@@ -79,6 +78,7 @@ d563e02daaf5505f563c57c3e9319f0b73782140 data/forestry/tags/items/fireproof_popl
 df517a61e2436b7e7414e9951e70d0f7001e9c87 data/forestry/tags/items/fireproof_wenge_logs.json
 f20d14bd7a6abec64deb751405f77c7a95b9cec6 data/forestry/tags/items/fireproof_willow_logs.json
 34888f131d1c7359623db31de16f7a6a7c56f990 data/forestry/tags/items/fireproof_zebrawood_logs.json
+8f7b016b1f13e0d1e8b2f1a7b34fbd52f74e38c3 data/forestry/tags/items/fir_logs.json
 da154afda74cfc84b9cd5877774f7bbfbdcbf474 data/forestry/tags/items/forestry_fruits.json
 2b8802a4c0f798bb066c876a870fb5fcd41c49c1 data/forestry/tags/items/giganteum_logs.json
 f2ed2384a75ab600da9b22499a068285bf48ef88 data/forestry/tags/items/ginkgo_logs.json
@@ -105,7 +105,7 @@ e41e726786e6d509176119273c7114ec1096f549 data/forestry/tags/items/pewen_logs.jso
 8e920a4b480ee7f3216288a6951f9a53ef32e71a data/forestry/tags/items/plum_logs.json
 287e1c67594c1d5f1af5aff5ce006771f33a0c1a data/forestry/tags/items/poplar_logs.json
 d013a58efdcf5f8209c8db9f75ede3023e29dde4 data/forestry/tags/items/propolis.json
-cf0c5a0245a3eeb822d88e53776905fa468d455c data/forestry/tags/items/scoops.json
+88ff67bac50ebbc982b9f90215beb936eecddf79 data/forestry/tags/items/scoops.json
 4db8d050d51f3ff6e6b36ac3a5eaf111fb670c17 data/forestry/tags/items/sequoia_logs.json
 c0020e6f377758179d2d7f23812e757851ba1ff2 data/forestry/tags/items/stamps.json
 3b0f59388456aafa2e2c014337e0de851144750c data/forestry/tags/items/teak_logs.json
@@ -116,9 +116,9 @@ c0020e6f377758179d2d7f23812e757851ba1ff2 data/forestry/tags/items/stamps.json
 a53617c07723524a62f108cef691b2adbfdbfe51 data/forestry/tags/items/zebrawood_logs.json
 e736c96d74e1d9b8799f108ba1e8b1e2173926fb data/forge/tags/items/chests.json
 997ede0ad811c9479aabe6bd63d0a5b90a75c3e6 data/forge/tags/items/dusts/ash.json
+42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/forge/tags/items/fences.json
 d96521ed9e35f1dd037c67f6374622063d9657ac data/forge/tags/items/fence_gates.json
 d96521ed9e35f1dd037c67f6374622063d9657ac data/forge/tags/items/fence_gates/wooden.json
-42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/forge/tags/items/fences.json
 7f5a98d8fa19572ce1d617975f4c7d0449b04380 data/forge/tags/items/fruits.json
 364116e996f1a0fd286e6ea38477fb15cccf46bb data/forge/tags/items/fruits/cherry.json
 3c22c5eb89477aab32b100953d3e3684a5c1e20a data/forge/tags/items/fruits/chestnut.json

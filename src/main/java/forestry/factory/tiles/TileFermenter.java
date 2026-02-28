@@ -15,6 +15,8 @@ import forestry.core.render.TankRenderInfo;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
 import forestry.core.utils.RecipeUtils;
+import forestry.factory.blocks.BlockFactoryPlain;
+import forestry.factory.blocks.BlockFactoryTESR;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerFermenter;
 import forestry.factory.inventory.InventoryFermenter;
@@ -114,6 +116,30 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 			FluidStack fluidStack = this.productTank.getFluid();
 			if (fluidStack != null) {
 				FluidHelper.fillContainers(this.tankManager, this, InventoryFermenter.SLOT_CAN_INPUT, InventoryFermenter.SLOT_CAN_OUTPUT, fluidStack.getFluid(), true);
+			}
+
+
+			TankRenderInfo resourceTankInfo = this.getResourceTankInfo();
+			TankRenderInfo productTankInfo = this.getProductTankInfo();
+
+			int newLevelLeft = resourceTankInfo.getLevel().getLevelScaled(4);
+			int newLevelRight= productTankInfo.getLevel().getLevelScaled(4);
+			boolean update = false;
+
+			if (state.hasProperty(BlockFactoryPlain.TANK_RESOURCE_LEVEL) &&
+				state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL)!= newLevelLeft){
+				state = state.setValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL, newLevelLeft);
+				update = true;
+			}
+
+			if (state.hasProperty(BlockFactoryPlain.TANK_PRODUCT_LEVEL) &&
+				state.getValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL)!= newLevelRight){
+				state = state.setValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL, newLevelRight);
+				update = true;
+			}
+
+			if (update) {
+				level.setBlock(pos, state, BlockFactoryPlain.UPDATE_CLIENTS);
 			}
 		}
 	}

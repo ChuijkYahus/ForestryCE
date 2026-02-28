@@ -1,9 +1,19 @@
 package forestry.core.models;
 
+import forestry.Forestry;
+import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IColoredBlock;
+import forestry.core.blocks.MachineProperties;
+import forestry.core.fluids.TankManager;
+import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.items.definitions.IColoredItem;
+import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.tiles.IRenderableTile;
+import forestry.core.tiles.TilePowered;
 import forestry.core.utils.ModUtil;
+import forestry.core.utils.RenderUtil;
 import forestry.core.utils.ResourceUtil;
+import forestry.factory.tiles.*;
 import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureGroup;
 import forestry.modules.features.FeatureItem;
@@ -18,8 +28,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -39,8 +52,29 @@ public enum ClientManager {
 	};
 	public static final BlockColor FORESTRY_BLOCK_COLOR = (state, level, pos, tintIndex) -> {
 		Block block = state.getBlock();
-		if (level != null && pos != null && block instanceof IColoredBlock coloredBlock) {
-			return coloredBlock.colorMultiplier(state, level, pos, tintIndex);
+		if (level != null && pos != null) {
+			if (block instanceof IColoredBlock coloredBlock)
+				return coloredBlock.colorMultiplier(state, level, pos, tintIndex);
+			else{
+				//Special handling for machine
+				BlockEntity bm = level.getBlockEntity(pos);
+
+				if (bm instanceof IRenderableTile tile) {
+					if (tintIndex == 0){
+						FluidStack fs = tile.getResourceTankInfo().getFluidStack();
+						if (fs.getFluid() != null) {
+							return RenderUtil.getFluidColor(fs.getFluid());
+						}
+					}
+					else if (tintIndex == 1){
+						FluidStack fs = tile.getProductTankInfo().getFluidStack();
+						if (fs.getFluid() != null) {
+							return RenderUtil.getFluidColor(fs.getFluid());
+						}
+					}
+					return 0x000000;
+				}
+			}
 		}
 		return 0xffffff;
 	};

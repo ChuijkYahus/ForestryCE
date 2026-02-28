@@ -12,6 +12,8 @@ import forestry.core.inventory.watchers.ISlotPickupWatcher;
 import forestry.core.render.TankRenderInfo;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
+import forestry.factory.blocks.BlockFactoryPlain;
+import forestry.factory.blocks.BlockFactoryTESR;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerBottler;
 import forestry.factory.inventory.InventoryBottler;
@@ -115,6 +117,21 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 					rightProcessingStack = removeItem(InventoryBottler.SLOT_INPUT_EMPTY_CONTAINER, 1);
 					setItem(InventoryBottler.SLOT_FILLING_PROCESSING, rightProcessingStack);
 				}
+			}
+
+			TankRenderInfo resourceTankInfo = this.getResourceTankInfo();
+
+			int newLevel = resourceTankInfo.getLevel().getLevelScaled(4);
+			boolean update = false;
+
+			if (state.hasProperty(BlockFactoryPlain.TANK_RESOURCE_LEVEL) &&
+				state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL)!= newLevel){
+				state = state.setValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL, newLevel);
+				update = true;
+			}
+
+			if (update) {
+				level.setBlock(pos, state, BlockFactoryPlain.UPDATE_CLIENTS);
 			}
 		}
 
