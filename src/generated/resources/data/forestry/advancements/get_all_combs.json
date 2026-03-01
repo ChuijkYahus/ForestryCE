@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:get_bee_house",
+  "criteria": {
+    "forestry:get_all_combs": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:grafter"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_all_combs.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:bee_comb_honey"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_all_combs.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_all_combs"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

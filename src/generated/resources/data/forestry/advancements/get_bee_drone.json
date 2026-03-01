@@ -1,0 +1,41 @@
+{
+  "parent": "forestry:get_a_bee",
+  "criteria": {
+    "forestry:get_bee_drone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_drone_ge",
+              "forestry:bee_princess_ge",
+              "forestry:bee_queen_ge"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_bee_drone.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:bee_drone_ge",
+      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:activity\":{active:\"forestry:activity_diurnal\",inactive:\"forestry:activity_diurnal\"},\"forestry:bee_effect\":{active:\"forestry:bee_effect_miasmic\",inactive:\"forestry:bee_effect_miasmic\"},\"forestry:bee_species\":{active:\"forestry:bee_vanilla\",inactive:\"forestry:bee_vanilla\"},\"forestry:cave_dwelling\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"},\"forestry:fertility\":{active:\"forestry:0i\",inactive:\"forestry:0i\"},\"forestry:flower_type\":{active:\"forestry:flower_type_vanilla\",inactive:\"forestry:flower_type_vanilla\"},\"forestry:humidity_tolerance\":{active:\"forestry:tolerance_up_1d\",inactive:\"forestry:tolerance_up_1d\"},\"forestry:lifespan\":{active:\"forestry:35id\",inactive:\"forestry:35id\"},\"forestry:pollination\":{active:\"forestry:20i\",inactive:\"forestry:20i\"},\"forestry:speed\":{active:\"forestry:0.3fd\",inactive:\"forestry:0.3fd\"},\"forestry:temperature_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:territory\":{active:\"forestry:11_8_11\",inactive:\"forestry:11_8_11\"},\"forestry:tolerates_rain\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"}},health:35,max_heath:35,pristine:1b}}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_bee_drone.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_bee_drone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

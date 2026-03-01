@@ -1,0 +1,41 @@
+{
+  "parent": "forestry:get_a_bee",
+  "criteria": {
+    "forestry:get_pirate_drone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_drone_ge",
+              "forestry:bee_princess_ge",
+              "forestry:bee_queen_ge"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_pirate_drone.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:bee_drone_ge",
+      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:activity\":{active:\"forestry:activity_cathemeral\",inactive:\"forestry:activity_cathemeral\"},\"forestry:bee_effect\":{active:\"forestry:bee_effect_none\",inactive:\"forestry:bee_effect_none\"},\"forestry:bee_species\":{active:\"forestry:bee_pirate\",inactive:\"forestry:bee_pirate\"},\"forestry:cave_dwelling\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"},\"forestry:fertility\":{active:\"forestry:2id\",inactive:\"forestry:2id\"},\"forestry:flower_type\":{active:\"forestry:flower_type_sea\",inactive:\"forestry:flower_type_sea\"},\"forestry:humidity_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:lifespan\":{active:\"forestry:20id\",inactive:\"forestry:20id\"},\"forestry:pollination\":{active:\"forestry:5id\",inactive:\"forestry:5id\"},\"forestry:speed\":{active:\"forestry:0.6fd\",inactive:\"forestry:0.6fd\"},\"forestry:temperature_tolerance\":{active:\"forestry:tolerance_both_1d\",inactive:\"forestry:tolerance_both_1d\"},\"forestry:territory\":{active:\"forestry:15_13_15\",inactive:\"forestry:15_13_15\"},\"forestry:tolerates_rain\":{active:\"forestry:trued\",inactive:\"forestry:trued\"}},health:20,max_heath:20,pristine:1b}}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_pirate_drone.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_pirate_drone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

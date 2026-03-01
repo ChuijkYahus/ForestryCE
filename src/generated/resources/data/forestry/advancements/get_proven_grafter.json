@@ -1,0 +1,39 @@
+{
+  "parent": "forestry:get_grafter",
+  "criteria": {
+    "forestry:get_proven_grafter": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:grafter_proven"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_proven_grafter.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:grafter_proven",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_proven_grafter.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_proven_grafter"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

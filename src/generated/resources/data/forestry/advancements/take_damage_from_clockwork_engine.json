@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:get_engine",
+  "criteria": {
+    "forestry:take_damage_from_clockwork_engine": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:engine_biogas"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.take_damage_from_clockwork_engine.description"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "item": "forestry:engine_clockwork"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.take_damage_from_clockwork_engine.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:take_damage_from_clockwork_engine"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

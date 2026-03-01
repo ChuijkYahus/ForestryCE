@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:get_a_bee",
+  "criteria": {
+    "forestry:get_bee_house": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_house"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_bee_house.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:bee_house"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_bee_house.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_bee_house"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

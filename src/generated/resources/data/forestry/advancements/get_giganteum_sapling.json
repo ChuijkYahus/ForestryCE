@@ -1,0 +1,39 @@
+{
+  "parent": "forestry:get_forestry_sapling",
+  "criteria": {
+    "forestry:get_giganteum_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:sapling"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_giganteum_sapling.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:sapling",
+      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:fireproof\":{active:\"forestry:trued\",inactive:\"forestry:trued\"},\"forestry:fruits\":{active:\"forestry:fruit_none\",inactive:\"forestry:fruit_none\"},\"forestry:girth\":{active:\"forestry:4i\",inactive:\"forestry:4i\"},\"forestry:height\":{active:\"forestry:2.0f\",inactive:\"forestry:2.0f\"},\"forestry:maturation\":{active:\"forestry:10id\",inactive:\"forestry:10id\"},\"forestry:saplings\":{active:\"forestry:0.025fd\",inactive:\"forestry:0.025fd\"},\"forestry:sappiness\":{active:\"forestry:0.1fd\",inactive:\"forestry:0.1fd\"},\"forestry:tree_effect\":{active:\"forestry:tree_effect_none\",inactive:\"forestry:tree_effect_none\"},\"forestry:tree_species\":{active:\"forestry:tree_giant_sequoia\",inactive:\"forestry:tree_giant_sequoia\"},\"forestry:yield\":{active:\"forestry:0.025fd\",inactive:\"forestry:0.025fd\"}}}}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_giganteum_sapling.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_giganteum_sapling"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

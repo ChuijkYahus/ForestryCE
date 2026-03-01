@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:farming_simulator",
+  "criteria": {
+    "forestry:feed_the_world": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:farm_plain_stone_brick"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.feed_the_world.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:farm_plain_stone_brick"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.feed_the_world.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:feed_the_world"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

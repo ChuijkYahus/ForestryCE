@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:root",
+  "criteria": {
+    "forestry:get_ash": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:ash"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_ash.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:log_pile"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_ash.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_ash"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

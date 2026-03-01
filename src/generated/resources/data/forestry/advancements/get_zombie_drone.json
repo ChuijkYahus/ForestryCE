@@ -1,0 +1,41 @@
+{
+  "parent": "forestry:get_a_bee",
+  "criteria": {
+    "forestry:get_zombie_drone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_drone_ge",
+              "forestry:bee_princess_ge",
+              "forestry:bee_queen_ge"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_zombie_drone.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:bee_drone_ge",
+      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:activity\":{active:\"forestry:activity_metaturnal\",inactive:\"forestry:activity_metaturnal\"},\"forestry:bee_effect\":{active:\"forestry:bee_effect_none\",inactive:\"forestry:bee_effect_none\"},\"forestry:bee_species\":{active:\"forestry:bee_zombified\",inactive:\"forestry:bee_zombified\"},\"forestry:cave_dwelling\":{active:\"forestry:trued\",inactive:\"forestry:trued\"},\"forestry:fertility\":{active:\"forestry:1id\",inactive:\"forestry:1id\"},\"forestry:flower_type\":{active:\"forestry:flower_type_nether\",inactive:\"forestry:flower_type_nether\"},\"forestry:humidity_tolerance\":{active:\"forestry:tolerance_up_1d\",inactive:\"forestry:tolerance_up_1d\"},\"forestry:lifespan\":{active:\"forestry:2147483647i\",inactive:\"forestry:2147483647i\"},\"forestry:pollination\":{active:\"forestry:5id\",inactive:\"forestry:5id\"},\"forestry:speed\":{active:\"forestry:1.0f\",inactive:\"forestry:1.0f\"},\"forestry:temperature_tolerance\":{active:\"forestry:tolerance_down_3\",inactive:\"forestry:tolerance_down_3\"},\"forestry:territory\":{active:\"forestry:9_6_9\",inactive:\"forestry:9_6_9\"},\"forestry:tolerates_rain\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"}},health:2147483647,max_heath:2147483647,pristine:1b}}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_zombie_drone.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_zombie_drone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

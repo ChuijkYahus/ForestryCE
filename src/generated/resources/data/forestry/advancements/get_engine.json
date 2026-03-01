@@ -1,0 +1,40 @@
+{
+  "parent": "forestry:get_carpenter",
+  "criteria": {
+    "forestry:get_engine": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:engine_clockwork",
+              "forestry:engine_peat",
+              "forestry:engine_biogas"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_engine.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:engine_biogas"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_engine.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_engine"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

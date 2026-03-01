@@ -1,0 +1,39 @@
+{
+  "parent": "forestry:use_research_note",
+  "criteria": {
+    "forestry:complete_bee_research": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:research_note"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.complete_bee_research.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:bee_queen_ge",
+      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:activity\":{active:\"forestry:activity_diurnal\",inactive:\"forestry:activity_diurnal\"},\"forestry:bee_effect\":{active:\"forestry:bee_effect_beatific\",inactive:\"forestry:bee_effect_beatific\"},\"forestry:bee_species\":{active:\"forestry:bee_imperial\",inactive:\"forestry:bee_imperial\"},\"forestry:cave_dwelling\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"},\"forestry:fertility\":{active:\"forestry:2id\",inactive:\"forestry:2id\"},\"forestry:flower_type\":{active:\"forestry:flower_type_vanilla\",inactive:\"forestry:flower_type_vanilla\"},\"forestry:humidity_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:lifespan\":{active:\"forestry:40i\",inactive:\"forestry:40i\"},\"forestry:pollination\":{active:\"forestry:5id\",inactive:\"forestry:5id\"},\"forestry:speed\":{active:\"forestry:0.6fd\",inactive:\"forestry:0.6fd\"},\"forestry:temperature_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:territory\":{active:\"forestry:9_6_9\",inactive:\"forestry:9_6_9\"},\"forestry:tolerates_rain\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"}},health:40,max_heath:40,pristine:1b}}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.complete_bee_research.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:complete_bee_research"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

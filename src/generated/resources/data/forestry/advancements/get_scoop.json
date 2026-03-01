@@ -1,0 +1,39 @@
+{
+  "parent": "forestry:root",
+  "criteria": {
+    "forestry:get_scoop": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:scoop"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_scoop.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:scoop",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_scoop.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_scoop"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

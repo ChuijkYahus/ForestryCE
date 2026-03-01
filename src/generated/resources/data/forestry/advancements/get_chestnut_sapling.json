@@ -1,0 +1,39 @@
+{
+  "parent": "forestry:get_forestry_sapling",
+  "criteria": {
+    "forestry:get_chestnut_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:sapling"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_chestnut_sapling.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:sapling",
+      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:fireproof\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"},\"forestry:fruits\":{active:\"forestry:fruit_chestnut\",inactive:\"forestry:fruit_chestnut\"},\"forestry:girth\":{active:\"forestry:2i\",inactive:\"forestry:2i\"},\"forestry:height\":{active:\"forestry:1.25f\",inactive:\"forestry:1.25f\"},\"forestry:maturation\":{active:\"forestry:4i\",inactive:\"forestry:4i\"},\"forestry:saplings\":{active:\"forestry:0.025fd\",inactive:\"forestry:0.025fd\"},\"forestry:sappiness\":{active:\"forestry:0.2fd\",inactive:\"forestry:0.2fd\"},\"forestry:tree_effect\":{active:\"forestry:tree_effect_none\",inactive:\"forestry:tree_effect_none\"},\"forestry:tree_species\":{active:\"forestry:tree_chestnut\",inactive:\"forestry:tree_chestnut\"},\"forestry:yield\":{active:\"forestry:0.2fd\",inactive:\"forestry:0.2fd\"}}}}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_chestnut_sapling.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_chestnut_sapling"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

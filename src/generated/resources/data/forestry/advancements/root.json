@@ -1,96 +1,16 @@
 {
   "criteria": {
-    "tick": {
+    "used_forestry": {
       "conditions": {
-        "items": [
+        "player": [
           {
-            "items": [
-              "forestry:bee_comb_honey"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_cocoa"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_simmering"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_stringy"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_frozen"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_dripping"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_silky"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_parched"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_mysterious"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_powdery"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_wheaten"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_mossy"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_mellow"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_kaolin"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_vintage"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_sponge"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_sculken"
-            ]
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {}
           }
         ]
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:location"
     }
   },
   "display": {
@@ -103,7 +23,7 @@
     "hidden": false,
     "icon": {
       "item": "forestry:bee_queen_ge",
-      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:activity\":{active:\"forestry:activity_diurnal\",inactive:\"forestry:activity_diurnal\"},\"forestry:bee_effect\":{active:\"forestry:bee_effect_none\",inactive:\"forestry:bee_effect_none\"},\"forestry:bee_species\":{active:\"forestry:bee_industrious\",inactive:\"forestry:bee_industrious\"},\"forestry:cave_dwelling\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"},\"forestry:fertility\":{active:\"forestry:2id\",inactive:\"forestry:2id\"},\"forestry:flower_type\":{active:\"forestry:flower_type_vanilla\",inactive:\"forestry:flower_type_vanilla\"},\"forestry:humidity_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:lifespan\":{active:\"forestry:40i\",inactive:\"forestry:40i\"},\"forestry:pollination\":{active:\"forestry:25i\",inactive:\"forestry:25i\"},\"forestry:speed\":{active:\"forestry:0.6fd\",inactive:\"forestry:0.6fd\"},\"forestry:temperature_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:territory\":{active:\"forestry:9_6_9\",inactive:\"forestry:9_6_9\"},\"forestry:tolerates_rain\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"}},health:40,max_heath:40,pristine:1b}}}"
+      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:activity\":{active:\"forestry:activity_diurnal\",inactive:\"forestry:activity_diurnal\"},\"forestry:bee_effect\":{active:\"forestry:bee_effect_none\",inactive:\"forestry:bee_effect_none\"},\"forestry:bee_species\":{active:\"forestry:bee_forest\",inactive:\"forestry:bee_forest\"},\"forestry:cave_dwelling\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"},\"forestry:fertility\":{active:\"forestry:3i\",inactive:\"forestry:3i\"},\"forestry:flower_type\":{active:\"forestry:flower_type_vanilla\",inactive:\"forestry:flower_type_vanilla\"},\"forestry:humidity_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:lifespan\":{active:\"forestry:20id\",inactive:\"forestry:20id\"},\"forestry:pollination\":{active:\"forestry:10i\",inactive:\"forestry:10i\"},\"forestry:speed\":{active:\"forestry:0.3fd\",inactive:\"forestry:0.3fd\"},\"forestry:temperature_tolerance\":{active:\"forestry:tolerance_down_1d\",inactive:\"forestry:tolerance_down_1d\"},\"forestry:territory\":{active:\"forestry:9_6_9\",inactive:\"forestry:9_6_9\"},\"forestry:tolerates_rain\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"}},health:20,max_heath:20,pristine:1b}}}"
     },
     "show_toast": false,
     "title": {
@@ -112,7 +32,7 @@
   },
   "requirements": [
     [
-      "tick"
+      "used_forestry"
     ]
   ],
   "rewards": {

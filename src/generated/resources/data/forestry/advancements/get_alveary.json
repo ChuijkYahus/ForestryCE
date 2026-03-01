@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:get_apiary",
+  "criteria": {
+    "forestry:get_alveary": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:portable_alyzer"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_alveary.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:alveary_plain"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_alveary.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_alveary"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

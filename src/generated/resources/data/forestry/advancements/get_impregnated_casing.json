@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:get_squeezer",
+  "criteria": {
+    "forestry:get_impregnated_casing": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:impregnated_casing"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_impregnated_casing.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:impregnated_casing"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_impregnated_casing.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_impregnated_casing"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

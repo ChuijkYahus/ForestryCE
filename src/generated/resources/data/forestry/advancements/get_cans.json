@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:root",
+  "criteria": {
+    "forestry:get_cans": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:can"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_cans.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:can"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_cans.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_cans"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

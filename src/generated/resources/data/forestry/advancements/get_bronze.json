@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:root",
+  "criteria": {
+    "forestry:get_bronze": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:ingot_bronze"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_bronze.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:ingot_bronze"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_bronze.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_bronze"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

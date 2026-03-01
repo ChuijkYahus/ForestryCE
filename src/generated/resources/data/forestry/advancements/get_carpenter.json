@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:get_bronze",
+  "criteria": {
+    "forestry:get_carpenter": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:carpenter"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_carpenter.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:carpenter"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_carpenter.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_carpenter"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

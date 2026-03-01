@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:get_a_bee",
+  "criteria": {
+    "forestry:get_analyser": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:portable_alyzer"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_analyser.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:portable_alyzer"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_analyser.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_analyser"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
