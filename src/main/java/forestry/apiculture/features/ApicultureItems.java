@@ -49,7 +49,7 @@ public class ApicultureItems {
 
 	// TOOLS
 	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(() -> new ItemScoop(16), "scoop");
-	public static final FeatureItem<ItemScoop> PROVEN_SCOOP = REGISTRY.item(() -> new ItemScoop(160), "proven_scoop");
+	public static final FeatureItem<ItemScoop> SCOOP_PROVEN = REGISTRY.item(() -> new ItemScoop(160), "scoop_proven");
 	public static final FeatureItem<ItemSmoker> SMOKER = REGISTRY.item(ItemSmoker::new, "smoker");
 
 	// MISC

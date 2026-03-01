@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-22T14:11:04.3798561	Item Models: forestry
+// 1.20.1	2026-03-01T20:37:27.1785432	Item Models: forestry
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/adventurer_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/adventurer_bag_woven.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/apiarist_bag.json
@@ -101,6 +101,19 @@ b3872cfd4532636291087c492f417023e59d43e2 assets/forestry/models/item/crated_sand
 6e47a35b16280d08bcc5ddb543404797fe122777 assets/forestry/models/item/crated_wheat.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/digger_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/digger_bag_woven.json
+58f98055e8434e945631ae4c31dfd01888befdfd assets/forestry/models/item/electron_tube_amber.json
+60e404ff6dffbe7613c49b59d986cf8d1786e134 assets/forestry/models/item/electron_tube_apatite.json
+dc88d9179022a9323e7781d9fe3a412192bd1b4e assets/forestry/models/item/electron_tube_blaze.json
+425945d343ab3aa97e59256a97bef7ab8998a9c2 assets/forestry/models/item/electron_tube_bronze.json
+b2fec86876f6ed5fe7cd0600b63856b0811eef3c assets/forestry/models/item/electron_tube_copper.json
+8c6d6c6a23231082e9c5e1216617a7b8cb186e96 assets/forestry/models/item/electron_tube_diamond.json
+c1fa119d3565cf08dffb742fb2867c31c9049c2a assets/forestry/models/item/electron_tube_emerald.json
+9e837c15211f99d10801b681415fb26cad59a39f assets/forestry/models/item/electron_tube_ender.json
+19be9f6fe866c58ca7767bccee1aab58e278e5f8 assets/forestry/models/item/electron_tube_gold.json
+1c27c720c766d8d74b26bba030e8569d1ba0cd41 assets/forestry/models/item/electron_tube_iron.json
+eeb1221f626c806e05108f001cf992f40b456e8a assets/forestry/models/item/electron_tube_lapis.json
+580874a8ca47949700130f5bdf7094bc8cb17b62 assets/forestry/models/item/electron_tube_obsidian.json
+87d073d8de449450ec4ec6a50ba756789fbe11ec assets/forestry/models/item/electron_tube_tin.json
 7b0b204564a5cebeef0690196f2fb8d4523cdb98 assets/forestry/models/item/farm_crops_managed.json
 7b0b204564a5cebeef0690196f2fb8d4523cdb98 assets/forestry/models/item/farm_crops_manual.json
 4fce79d304faa64983b18ed5bf35c5802351e22b assets/forestry/models/item/farm_ender_managed.json

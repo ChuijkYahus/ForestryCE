@@ -7,7 +7,10 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.data.builder.FilledCrateModelBuilder;
+import forestry.core.features.CoreItems;
 import forestry.core.fluids.ForestryFluids;
+import forestry.core.items.ItemElectronTube;
+import forestry.core.items.definitions.EnumElectronTube;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.SpeciesUtil;
 import forestry.cultivation.blocks.BlockPlanter;
@@ -76,6 +79,10 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 
 		// 2d items
 		basicItem(ApicultureItems.FRAME_CREATIVE.get());
+
+		for (ItemElectronTube em: CoreItems.ELECTRON_TUBES.getItems()){
+			basicItem(em.asItem());
+		}
 
 		// manual overrides
 		filledCrateModel(CrateItems.CRATED_CACTUS.getName(), mcLoc("block/cactus_side"));

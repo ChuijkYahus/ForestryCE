@@ -5,6 +5,7 @@ import forestry.api.circuits.ICircuit;
 import forestry.api.circuits.ICircuitLayout;
 import forestry.api.circuits.ICircuitManager;
 import forestry.api.core.ItemGroups;
+import forestry.core.items.definitions.EnumElectronTube;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -16,9 +17,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemElectronTube extends ItemOverlay {
-	public ItemElectronTube(ItemOverlay.IOverlayInfo type) {
-		super(ItemGroups.tabForestry, type);
+public class ItemElectronTube extends ItemForestry {
+
+	private final EnumElectronTube type; //This doesn't do anything... is it needed?
+	public ItemElectronTube(EnumElectronTube type) {
+		this.type = type;
 	}
 
 	//TODO: Make it so total speed, efficiency, and fortune multipliers are shown?
