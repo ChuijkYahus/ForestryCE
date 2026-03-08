@@ -106,10 +106,11 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					writer);
 
 				//Ol' Reliable
+				//A reference to Spongebob's special jellyfishing net
 				Advancement get_proven_scoop = makeSimpleAdvancement(
 					"get_proven_scoop",
 					ApicultureItems.SCOOP_PROVEN.stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(ArboricultureItems.GRAFTER_PROVEN.get()),
+					InventoryChangeTrigger.TriggerInstance.hasItems(ApicultureItems.SCOOP_PROVEN.get()),
 					scooped,
 					writer, FrameType.CHALLENGE, true, true, false);
 
@@ -326,7 +327,8 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 							get_bee_house,
 							writer);
 
-							//Ol' Reliable
+							//The Gift of the Graft
+							//A reference to the phrase "The gift of the gab" because I couldn't think of anything else.
 							Advancement get_proven_grafter = makeSimpleAdvancement(
 								"get_proven_grafter",
 								ArboricultureItems.GRAFTER_PROVEN.stack(),
@@ -650,7 +652,6 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 		}
 
 		//Advancements that are missing:
-		// Proven scoop
 		// We just got a letter - Open a letter
 		// Down but not out/I didn't hear no bell - break a bronze tool/repair a bronze tool
 		// I've bee-n around - discover all natural hives
