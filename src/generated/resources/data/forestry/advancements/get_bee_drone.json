@@ -3,17 +3,9 @@
   "criteria": {
     "forestry:get_bee_drone": {
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "forestry:bee_drone_ge",
-              "forestry:bee_princess_ge",
-              "forestry:bee_queen_ge"
-            ]
-          }
-        ]
+        "tag": "forestry:bee_vanilla"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "forestry:pickup_species_trigger"
     }
   },
   "display": {

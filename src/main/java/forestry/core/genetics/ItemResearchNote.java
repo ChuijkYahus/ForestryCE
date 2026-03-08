@@ -3,6 +3,7 @@ package forestry.core.genetics;
 import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.genetics.*;
+import forestry.core.advancements.ForestryAdvancementTriggers;
 import forestry.core.features.CoreItems;
 import forestry.core.genetics.mutations.EnumMutateChance;
 import forestry.core.items.ItemForestry;
@@ -145,6 +146,8 @@ public class ItemResearchNote extends ItemForestry {
 		ISpecies<?> speciesFirst = encoded.getFirstParent();
 		ISpecies<?> speciesSecond = encoded.getSecondParent();
 		ISpecies<?> speciesResult = encoded.getResult();
+
+		ForestryAdvancementTriggers.DISCOVER_SPECIES_TRIGGER.trigger(level, player.getGameProfile(), speciesResult.id());
 
 		tracker.registerSpecies(speciesFirst);
 		tracker.registerSpecies(speciesSecond);

@@ -7,19 +7,24 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.apiculture.ApiaristAI;
 import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.villagers.ApicultureVillagers;
+import forestry.core.advancements.ForestryAdvancementTriggers;
+import forestry.core.data.ForestryAdvancementProvider;
 import forestry.core.worldgen.VillagerJigsaw;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -83,4 +88,5 @@ public class EventHandlerCore {
 
 		VillagerJigsaw.init(pools, processors);
 	}
+
 }

@@ -14,6 +14,7 @@ import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.loot.GrafterLootModifier;
+import forestry.core.advancements.ForestryAdvancementTriggers;
 import forestry.core.blocks.TileStreamUpdateTracker;
 import forestry.core.client.CoreClientHandler;
 import forestry.core.climate.ForestryClimateManager;
@@ -77,6 +78,9 @@ public class ModuleCore extends BlankForestryModule {
 		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onTagsUpdated);
 		MinecraftForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
 		MinecraftForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
+
+		//I feel like this shouldn't go here...?
+		ForestryAdvancementTriggers.init();
 
 		PluginManager.registerAsyncException(modBus);
 	}

@@ -1,42 +1,33 @@
 package forestry.core.data;
 
-import com.google.gson.JsonObject;
-import forestry.Forestry;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.advancements.DiscoverSpeciesTrigger;
 import forestry.core.blocks.BlockTypeCoreTesr;
-import forestry.core.blocks.MachineProperties;
-import forestry.core.data.recipe.ForestryRecipeProvider;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.features.CoreTiles;
 import forestry.core.features.FluidsItems;
 import forestry.core.items.definitions.EnumContainerType;
 import forestry.core.utils.SpeciesUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
-import forestry.energy.blocks.EngineBlock;
 import forestry.energy.blocks.EngineBlockType;
 import forestry.energy.features.EnergyBlocks;
-import forestry.factory.blocks.BlockFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
-import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingBlocks;
 import forestry.worktable.features.WorktableBlocks;
 import net.minecraft.advancements.*;
@@ -51,11 +42,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.ForgeAdvancementProvider;
-import net.minecraftforge.fluids.capability.ItemFluidContainer;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -67,6 +55,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 	public ForestryAdvancementProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper existingFileHelper) {
 		super(output, registries, existingFileHelper, List.of(new CoreAdvancements()));
 	}
+
 
 	private static class CoreAdvancements implements AdvancementGenerator {
 		
@@ -116,6 +105,13 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					root,
 					writer);
 
+				//Ol' Reliable
+				Advancement get_proven_scoop = makeSimpleAdvancement(
+					"get_proven_scoop",
+					ApicultureItems.SCOOP_PROVEN.stack(),
+					InventoryChangeTrigger.TriggerInstance.hasItems(ArboricultureItems.GRAFTER_PROVEN.get()),
+					scooped,
+					writer, FrameType.CHALLENGE, true, true, false);
 
 				//Zonked Out
 				//To be zonked is to be like, really tired, or really high. Which is kinda what the smoker does.
@@ -199,18 +195,12 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					 * Advancements for finding specific bee species begin here
 					 */
 
-
-					//TODO: Change these so that only the species has to match
 					//I'm Different!
 					//A reference to Portal 2
 					Advancement valiant_bee = makeSimpleAdvancement(
 						"get_valiant_drone",
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VALIANT, BeeLifeStage.DRONE),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VALIANT, BeeLifeStage.DRONE).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VALIANT, BeeLifeStage.PRINCESS).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VALIANT, BeeLifeStage.QUEEN).getItem()
-						).build()),
+						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.VALIANT),
 						bee,
 						writer, FrameType.GOAL, true, true, false);
 
@@ -219,11 +209,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					Advancement steadfast_bee = makeSimpleAdvancement(
 						"get_steadfast_drone",
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.STEADFAST, BeeLifeStage.DRONE),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.STEADFAST, BeeLifeStage.DRONE).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.STEADFAST, BeeLifeStage.PRINCESS).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.STEADFAST, BeeLifeStage.QUEEN).getItem()
-						).build()),
+						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.STEADFAST),
 						bee,
 						writer, FrameType.GOAL, true, true, false);
 
@@ -231,11 +217,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					Advancement monastic_bee = makeSimpleAdvancement(
 						"get_monastic_drone",
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.MONASTIC, BeeLifeStage.DRONE),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.MONASTIC, BeeLifeStage.DRONE).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.MONASTIC, BeeLifeStage.PRINCESS).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.MONASTIC, BeeLifeStage.QUEEN).getItem()
-						).build()),
+						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.MONASTIC),
 						bee,
 						writer, FrameType.GOAL, true, true, false);
 
@@ -244,11 +226,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					Advancement pirate_bee = makeSimpleAdvancement(
 						"get_pirate_drone",
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.PIRATE, BeeLifeStage.DRONE),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.PIRATE, BeeLifeStage.DRONE).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.PIRATE, BeeLifeStage.PRINCESS).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.PIRATE, BeeLifeStage.QUEEN).getItem()
-						).build()),
+						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.PIRATE),
 						bee,
 						writer, FrameType.GOAL, true, true, false);
 
@@ -257,11 +235,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					Advancement relic_bee = makeSimpleAdvancement(
 						"get_relic_drone",
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.DRONE),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.DRONE).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.PRINCESS).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.QUEEN).getItem()
-						).build()),
+						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.RELIC),
 						bee,
 						writer, FrameType.GOAL, true, true, false);
 
@@ -269,11 +243,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					Advancement zombie_bee = makeSimpleAdvancement(
 						"get_zombie_drone",
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.ZOMBIFIED, BeeLifeStage.DRONE),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.ZOMBIFIED, BeeLifeStage.DRONE).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.ZOMBIFIED, BeeLifeStage.PRINCESS).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.ZOMBIFIED, BeeLifeStage.QUEEN).getItem()
-						).build()),
+						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.ZOMBIFIED),
 						bee,
 						writer, FrameType.GOAL, true, true, false);
 
@@ -283,11 +253,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					Advancement bee_bee = makeSimpleAdvancement(
 						"get_bee_drone",
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.PRINCESS).getItem(),
-							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.QUEEN).getItem()
-						).build()),
+						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.VANILLA),
 						bee,
 						writer, FrameType.GOAL, true, true, false);
 
@@ -384,25 +350,15 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 								Advancement get_chestnut_sapling = makeSimpleAdvancement(
 									"get_chestnut_sapling",
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.CHESTNUT, TreeLifeStage.SAPLING),
-									InventoryChangeTrigger.TriggerInstance.hasItems(SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.CHESTNUT, TreeLifeStage.SAPLING).getItem()),
+									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.CHESTNUT),
 									get_forestry_sapling,
 									writer, FrameType.GOAL, true, true, false);
-
-								//Fee-Fi-Fo-Fum!
-								//A line spoken by the Giant in Jack and the Beanstalk
-								Advancement get_giganteum_sapling = makeSimpleAdvancement(
-									"get_giganteum_sapling",
-									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.GIANT_SEQUOIA, TreeLifeStage.SAPLING),
-									InventoryChangeTrigger.TriggerInstance.hasItems(SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.GIANT_SEQUOIA, TreeLifeStage.SAPLING).getItem()),
-									get_forestry_sapling,
-									writer, FrameType.GOAL, true, true, false);
-									//TODO: Make this a child of the Ginkgo Sapling when this is added.
 
 								//The Tree of Life
 								Advancement get_baobab_sapling = makeSimpleAdvancement(
 									"get_baobab_sapling",
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.BAOBAB, TreeLifeStage.SAPLING),
-									InventoryChangeTrigger.TriggerInstance.hasItems(SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.BAOBAB, TreeLifeStage.SAPLING).getItem()),
+									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.BAOBAB),
 									get_forestry_sapling,
 									writer, FrameType.GOAL, true, true, false);
 
@@ -411,7 +367,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 								Advancement get_mahogany_sapling = makeSimpleAdvancement(
 									"get_mahogany_sapling",
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.MAHOGANY, TreeLifeStage.SAPLING),
-									InventoryChangeTrigger.TriggerInstance.hasItems(SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.MAHOGANY, TreeLifeStage.SAPLING).getItem()),
+									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.MAHOGANY),
 									get_forestry_sapling,
 									writer, FrameType.GOAL, true, true, false);
 
@@ -420,11 +376,46 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 								Advancement get_willow_sapling = makeSimpleAdvancement(
 									"get_willow_sapling",
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.WILLOW, TreeLifeStage.SAPLING),
-									InventoryChangeTrigger.TriggerInstance.hasItems(ArboricultureItems.SAPLING.get()), //TODO: Make this trigger for the correct species
+									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.WILLOW),
 									get_forestry_sapling,
 									writer, FrameType.GOAL, true, true, false);
 
-								//Should also have advancements for Ginkgo, Kauri, and Jacaranda, when they're added.
+								//Tane Mahuta!
+								//The name of New Zealand's largest Kauri tree
+								Advancement get_kauri_sapling = makeSimpleAdvancement(
+									"get_kauri_sapling",
+									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.KAURI, TreeLifeStage.SAPLING),
+									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.KAURI),
+									get_forestry_sapling,
+									writer, FrameType.GOAL, true, true, false);
+
+								//What Else Can I Do?
+								//A reference to the song of the same name from Disney's Encanto, and the 'hurricane of jacarandas'
+								Advancement get_jacaranda_sapling = makeSimpleAdvancement(
+									"get_jacaranda_sapling",
+									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.JACARANDA, TreeLifeStage.SAPLING),
+									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.JACARANDA),
+									get_forestry_sapling,
+									writer, FrameType.GOAL, true, true, false);
+
+								//A Living Fossil
+								//Ginkgo trees are often referred to as such
+								Advancement get_ginkgo_sapling = makeSimpleAdvancement(
+									"get_ginkgo_sapling",
+									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.GINKGO, TreeLifeStage.SAPLING),
+									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.GINKGO),
+									get_forestry_sapling,
+									writer, FrameType.GOAL, true, true, false);
+
+									//Fee-Fi-Fo-Fum!
+									//A line spoken by the Giant in Jack and the Beanstalk
+									Advancement get_giganteum_sapling = makeSimpleAdvancement(
+										"get_giganteum_sapling",
+										SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.GIANT_SEQUOIA, TreeLifeStage.SAPLING),
+										DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.GIANT_SEQUOIA),
+										get_ginkgo_sapling,
+										writer, FrameType.CHALLENGE, true, true, false);
+
 
 								/*
 								 * Advancements for end-of-line forestry saplings end here
@@ -657,6 +648,14 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					writer);
 
 		}
+
+		//Advancements that are missing:
+		// Proven scoop
+		// We just got a letter - Open a letter
+		// Down but not out/I didn't hear no bell - break a bronze tool/repair a bronze tool
+		// I've bee-n around - discover all natural hives
+		// Duffman(?) - Brew an alcohol
+		// Bright-eyed and Bushy-tailed - Sleep off drunkeness
 
 		public ItemPredicate getItemWithNBT(Item item, String key, String value){
 			 return ItemPredicate.Builder.item()

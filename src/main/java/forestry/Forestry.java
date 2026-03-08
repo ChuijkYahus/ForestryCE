@@ -4,6 +4,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.EventHandlerCore;
+import forestry.core.advancements.ForestryAdvancementTriggers;
 import forestry.core.config.ForestryConfig;
 import forestry.core.network.NetworkHandler;
 import forestry.modules.ForestryModuleManager;
@@ -35,6 +36,7 @@ public class Forestry {
 		PluginManager.registerErrors();
 
 		ForestryConfig.register(ModLoadingContext.get());
+
 
 		ForgeMod.enableMilkFluid();
 	}

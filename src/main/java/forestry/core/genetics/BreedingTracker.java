@@ -8,8 +8,10 @@ import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
+import forestry.core.advancements.ForestryAdvancementTriggers;
 import forestry.core.network.packets.PacketGenomeTrackerSync;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -193,6 +195,8 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	public void registerSpecies(ISpecies<?> species) {
 		ResourceLocation speciesId = species.id();
 
+		ForestryAdvancementTriggers.DISCOVER_SPECIES_TRIGGER.trigger(this.level, this.username, speciesId);
+
 		if (!this.discoveredSpecies.contains(speciesId)) {
             this.discoveredSpecies.add(speciesId);
 
@@ -206,6 +210,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 	@Override
 	public void researchMutation(IMutation<?> mutation) {
+
 		String mutationString = getMutationString(mutation);
 		if (!this.researchedMutations.contains(mutationString)) {
             this.researchedMutations.add(mutationString);

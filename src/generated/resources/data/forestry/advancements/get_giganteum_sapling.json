@@ -1,17 +1,11 @@
 {
-  "parent": "forestry:get_forestry_sapling",
+  "parent": "forestry:get_ginkgo_sapling",
   "criteria": {
     "forestry:get_giganteum_sapling": {
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "forestry:sapling"
-            ]
-          }
-        ]
+        "tag": "forestry:tree_giant_sequoia"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "forestry:pickup_species_trigger"
     }
   },
   "display": {
@@ -19,7 +13,7 @@
     "description": {
       "translate": "advancements.forestry.get_giganteum_sapling.description"
     },
-    "frame": "goal",
+    "frame": "challenge",
     "hidden": false,
     "icon": {
       "item": "forestry:sapling",

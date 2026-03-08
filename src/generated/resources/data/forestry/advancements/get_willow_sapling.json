@@ -3,15 +3,9 @@
   "criteria": {
     "forestry:get_willow_sapling": {
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "forestry:sapling"
-            ]
-          }
-        ]
+        "tag": "forestry:tree_willow"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "forestry:pickup_species_trigger"
     }
   },
   "display": {
