@@ -13,7 +13,7 @@
     "description": {
       "translate": "advancements.forestry.get_giganteum_sapling.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "hidden": false,
     "icon": {
       "item": "forestry:sapling",

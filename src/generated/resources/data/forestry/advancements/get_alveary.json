@@ -2,16 +2,7 @@
   "parent": "forestry:get_apiary",
   "criteria": {
     "forestry:get_alveary": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "forestry:portable_alyzer"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:impossible"
     }
   },
   "display": {
@@ -19,7 +10,7 @@
     "description": {
       "translate": "advancements.forestry.get_alveary.description"
     },
-    "frame": "goal",
+    "frame": "task",
     "hidden": false,
     "icon": {
       "item": "forestry:alveary_plain"

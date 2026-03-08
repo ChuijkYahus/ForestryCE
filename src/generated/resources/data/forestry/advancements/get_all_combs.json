@@ -1,12 +1,204 @@
 {
   "parent": "forestry:get_bee_house",
   "criteria": {
-    "forestry:get_all_combs": {
+    "get_bee_comb_cocoa": {
       "conditions": {
         "items": [
           {
             "items": [
-              "forestry:grafter"
+              "forestry:bee_comb_cocoa"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_dripping": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_dripping"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_frozen": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_frozen"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_honey": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_honey"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_kaolin": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_kaolin"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_mellow": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_mellow"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_mossy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_mossy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_mysterious": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_mysterious"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_parched": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_parched"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_powdery": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_powdery"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_sculken": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_sculken"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_silky": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_silky"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_simmering": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_simmering"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_sponge": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_sponge"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_stringy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_stringy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_vintage": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_vintage"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "get_bee_comb_wheaten": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:bee_comb_wheaten"
             ]
           }
         ]
@@ -31,7 +223,55 @@
   },
   "requirements": [
     [
-      "forestry:get_all_combs"
+      "get_bee_comb_honey"
+    ],
+    [
+      "get_bee_comb_cocoa"
+    ],
+    [
+      "get_bee_comb_simmering"
+    ],
+    [
+      "get_bee_comb_stringy"
+    ],
+    [
+      "get_bee_comb_frozen"
+    ],
+    [
+      "get_bee_comb_dripping"
+    ],
+    [
+      "get_bee_comb_silky"
+    ],
+    [
+      "get_bee_comb_parched"
+    ],
+    [
+      "get_bee_comb_mysterious"
+    ],
+    [
+      "get_bee_comb_powdery"
+    ],
+    [
+      "get_bee_comb_wheaten"
+    ],
+    [
+      "get_bee_comb_mossy"
+    ],
+    [
+      "get_bee_comb_mellow"
+    ],
+    [
+      "get_bee_comb_kaolin"
+    ],
+    [
+      "get_bee_comb_vintage"
+    ],
+    [
+      "get_bee_comb_sponge"
+    ],
+    [
+      "get_bee_comb_sculken"
     ]
   ],
   "sends_telemetry_event": true

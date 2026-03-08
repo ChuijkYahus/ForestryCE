@@ -2,16 +2,7 @@
   "parent": "forestry:use_research_note",
   "criteria": {
     "forestry:complete_bee_research": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "forestry:research_note"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:impossible"
     }
   },
   "display": {

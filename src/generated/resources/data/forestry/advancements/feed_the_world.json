@@ -2,16 +2,7 @@
   "parent": "forestry:farming_simulator",
   "criteria": {
     "forestry:feed_the_world": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "forestry:farm_plain_stone_brick"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:impossible"
     }
   },
   "display": {
@@ -19,7 +10,7 @@
     "description": {
       "translate": "advancements.forestry.feed_the_world.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "hidden": false,
     "icon": {
       "item": "forestry:farm_plain_stone_brick"

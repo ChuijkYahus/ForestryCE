@@ -1,11 +1,13 @@
 package forestry.energy.tiles;
 
+import forestry.core.advancements.AdvancementHelper;
 import forestry.core.config.Constants;
 import forestry.core.damage.CoreDamageTypes;
 import forestry.core.tiles.TemperatureState;
 import forestry.energy.features.EnergyTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -27,6 +29,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 	private float tension = 0.0f;
 	private short delay = 0;
+	private static final ResourceLocation CLOCKWORK_ENGINE_HURT_PLAYER = new ResourceLocation("forestry:take_damage_from_clockwork_engine");
 
 	public ClockworkEngineBlockEntity(BlockPos pos, BlockState state) {
 		super(EnergyTiles.CLOCKWORK_ENGINE.tileType(), pos, state, "", ENGINE_CLOCKWORK_HEAT_MAX, 10000);
@@ -48,7 +51,9 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 		player.causeFoodExhaustion(WIND_EXHAUSTION);
 		if (this.tension > ENGINE_CLOCKWORK_WIND_MAX + 0.1 * WIND_TENSION_BASE) {
-			player.hurt(CoreDamageTypes.source(this.level, CoreDamageTypes.CLOCKWORK), 6);
+			if (player.hurt(CoreDamageTypes.source(this.level, CoreDamageTypes.CLOCKWORK), 6))
+				AdvancementHelper.tryUnlock(player, CLOCKWORK_ENGINE_HURT_PLAYER);
+
 		}
         this.tension = Math.min(this.tension, ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE);
         this.delay = WIND_DELAY;

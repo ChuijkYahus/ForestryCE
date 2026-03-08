@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "forestry:grafter_proven"
+              "forestry:scoop_proven"
             ]
           }
         ]
@@ -19,7 +19,7 @@
     "description": {
       "translate": "advancements.forestry.get_proven_scoop.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "hidden": false,
     "icon": {
       "item": "forestry:scoop_proven",

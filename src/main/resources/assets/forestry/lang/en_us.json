@@ -2418,8 +2418,8 @@
   "advancements.forestry.root.title": "Forestry",
 
   "advancements.forestry.root.description": "Bees, trees and more!",
-  "advancements.forestry.get_ash.title": "Flame Grilled",
-  "advancements.forestry.get_ash.description": "Harvest some charcoal and ash from a burnt wood pile",
+  "advancements.forestry.break_ash_block.title": "Flame Grilled",
+  "advancements.forestry.break_ash_block.description": "Harvest some charcoal and ash from a burnt wood pile",
   "advancements.forestry.get_cans.title": "I Can, Can You?",
   "advancements.forestry.get_cans.description": "Craft some cans out of tin",
   "advancements.forestry.get_scoop.title": "Here's the Scoop!",

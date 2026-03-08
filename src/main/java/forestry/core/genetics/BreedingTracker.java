@@ -3,11 +3,15 @@ package forestry.core.genetics;
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
+import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.genetics.IBeeSpeciesType;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.ForestryEvent;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
+import forestry.apiculture.BeeSpecies;
 import forestry.core.advancements.ForestryAdvancementTriggers;
 import forestry.core.network.packets.PacketGenomeTrackerSync;
 import forestry.core.utils.NetworkUtil;
@@ -196,6 +200,12 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 		ResourceLocation speciesId = species.id();
 
 		ForestryAdvancementTriggers.DISCOVER_SPECIES_TRIGGER.trigger(this.level, this.username, speciesId);
+		if (species instanceof IBeeSpecies bs){
+
+		}
+		if (species instanceof ITreeSpecies ts){
+
+		}
 
 		if (!this.discoveredSpecies.contains(speciesId)) {
             this.discoveredSpecies.add(speciesId);

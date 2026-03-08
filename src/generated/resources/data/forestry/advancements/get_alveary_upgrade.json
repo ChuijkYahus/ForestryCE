@@ -24,7 +24,7 @@
     "description": {
       "translate": "advancements.forestry.get_alveary_upgrade.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "hidden": false,
     "icon": {
       "item": "forestry:alveary_swarmer"

@@ -13,7 +13,7 @@
     "description": {
       "translate": "advancements.forestry.get_willow_sapling.description"
     },
-    "frame": "goal",
+    "frame": "task",
     "hidden": false,
     "icon": {
       "item": "forestry:sapling",

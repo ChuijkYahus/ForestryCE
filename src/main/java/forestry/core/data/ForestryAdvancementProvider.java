@@ -34,6 +34,7 @@ import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.commands.CommandFunction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -81,10 +82,11 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 				.save(writer, ForestryConstants.MOD_ID + ":root");
 
 			//Flame Grilled
+			//Advancement triggered manually by BlockAsh.java
 			Advancement wood_pile = makeSimpleAdvancement(
-				"get_ash",
+				"break_ash_block",
 				CharcoalBlocks.LOG_PILE.stack(),
-				InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.ASH.get()),
+				new ImpossibleTrigger.TriggerInstance(),
 				root,
 				writer);
 
@@ -112,7 +114,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					ApicultureItems.SCOOP_PROVEN.stack(),
 					InventoryChangeTrigger.TriggerInstance.hasItems(ApicultureItems.SCOOP_PROVEN.get()),
 					scooped,
-					writer, FrameType.CHALLENGE, true, true, false);
+					writer, FrameType.GOAL, true, true, false);
 
 				//Zonked Out
 				//To be zonked is to be like, really tired, or really high. Which is kinda what the smoker does.
@@ -203,7 +205,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VALIANT, BeeLifeStage.DRONE),
 						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.VALIANT),
 						bee,
-						writer, FrameType.GOAL, true, true, false);
+						writer, FrameType.TASK, true, true, false);
 
 					//Dungeon Flyer
 					//A pun on Dungeon Crawler
@@ -212,7 +214,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.STEADFAST, BeeLifeStage.DRONE),
 						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.STEADFAST),
 						bee,
-						writer, FrameType.GOAL, true, true, false);
+						writer, FrameType.TASK, true, true, false);
 
 					//What a deal!
 					Advancement monastic_bee = makeSimpleAdvancement(
@@ -220,7 +222,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.MONASTIC, BeeLifeStage.DRONE),
 						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.MONASTIC),
 						bee,
-						writer, FrameType.GOAL, true, true, false);
+						writer, FrameType.TASK, true, true, false);
 
 					//Yellow-and-Blackbeard
 					//A play on Blackbeard, the pirate
@@ -229,7 +231,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.PIRATE, BeeLifeStage.DRONE),
 						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.PIRATE),
 						bee,
-						writer, FrameType.GOAL, true, true, false);
+						writer, FrameType.TASK, true, true, false);
 
 					//The Land Beefore Time
 					//A play on the land before time, that one movie I've definitely seen.
@@ -238,7 +240,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.DRONE),
 						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.RELIC),
 						bee,
-						writer, FrameType.GOAL, true, true, false);
+						writer, FrameType.TASK, true, true, false);
 
 					//Zombeefication
 					Advancement zombie_bee = makeSimpleAdvancement(
@@ -246,7 +248,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.ZOMBIFIED, BeeLifeStage.DRONE),
 						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.ZOMBIFIED),
 						bee,
-						writer, FrameType.GOAL, true, true, false);
+						writer, FrameType.TASK, true, true, false);
 
 
 					//Buzzy Bees!
@@ -256,7 +258,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE),
 						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.VANILLA),
 						bee,
-						writer, FrameType.GOAL, true, true, false);
+						writer, FrameType.TASK, true, true, false);
 
 					/*
 					 * Advancements for finding specific bee species end here
@@ -278,7 +280,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 							ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).stack(),
 							InventoryChangeTrigger.TriggerInstance.hasItems(ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).get()),
 							get_bee_house,
-							writer, FrameType.GOAL, true, true, false);
+							writer, FrameType.TASK, true, true, false);
 
 
 							//I've Been Framed
@@ -295,12 +297,13 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 
 
 							//Al-very Nice!
+							//Advancement granted manually via ContainerAlveary.java
 							Advancement get_alveary = makeSimpleAdvancement(
 								"get_alveary",
 								ApicultureBlocks.ALVEARY.stack(BlockAlvearyType.PLAIN),
-								InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.PORTABLE_ALYZER.get()), //TODO: Change this to assembling an alveary
+								new ImpossibleTrigger.TriggerInstance(),
 								get_apiary,
-								writer, FrameType.GOAL, true, true, false);
+								writer, FrameType.TASK, true, true, false);
 
 
 								//Make a House a Home
@@ -316,7 +319,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 										ApicultureBlocks.ALVEARY.get(BlockAlvearyType.SWARMER)
 									).build()),
 									get_alveary,
-									writer, FrameType.CHALLENGE, true, true, false);
+									writer, FrameType.GOAL, true, true, false);
 
 						//Minegraft
 						//A pun on that one block game people like; Roblox
@@ -334,7 +337,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 								ArboricultureItems.GRAFTER_PROVEN.stack(),
 								InventoryChangeTrigger.TriggerInstance.hasItems(ArboricultureItems.GRAFTER_PROVEN.get()),
 								get_grafter,
-								writer, FrameType.CHALLENGE, true, true, false);
+								writer, FrameType.GOAL, true, true, false);
 
 							//Branching Off
 							Advancement get_forestry_sapling = makeSimpleAdvancement(
@@ -354,7 +357,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.CHESTNUT, TreeLifeStage.SAPLING),
 									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.CHESTNUT),
 									get_forestry_sapling,
-									writer, FrameType.GOAL, true, true, false);
+									writer, FrameType.TASK, true, true, false);
 
 								//The Tree of Life
 								Advancement get_baobab_sapling = makeSimpleAdvancement(
@@ -362,7 +365,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.BAOBAB, TreeLifeStage.SAPLING),
 									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.BAOBAB),
 									get_forestry_sapling,
-									writer, FrameType.GOAL, true, true, false);
+									writer, FrameType.TASK, true, true, false);
 
 								//That is Mahogany!
 								//A reference to The Hunger Games when Katniss stabs a table with a knife
@@ -371,7 +374,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.MAHOGANY, TreeLifeStage.SAPLING),
 									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.MAHOGANY),
 									get_forestry_sapling,
-									writer, FrameType.GOAL, true, true, false);
+									writer, FrameType.TASK, true, true, false);
 
 								//The Wind in the Willows
 								//A reference to the book of the same name
@@ -380,7 +383,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.WILLOW, TreeLifeStage.SAPLING),
 									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.WILLOW),
 									get_forestry_sapling,
-									writer, FrameType.GOAL, true, true, false);
+									writer, FrameType.TASK, true, true, false);
 
 								//Tane Mahuta!
 								//The name of New Zealand's largest Kauri tree
@@ -389,7 +392,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.KAURI, TreeLifeStage.SAPLING),
 									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.KAURI),
 									get_forestry_sapling,
-									writer, FrameType.GOAL, true, true, false);
+									writer, FrameType.TASK, true, true, false);
 
 								//What Else Can I Do?
 								//A reference to the song of the same name from Disney's Encanto, and the 'hurricane of jacarandas'
@@ -398,7 +401,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.JACARANDA, TreeLifeStage.SAPLING),
 									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.JACARANDA),
 									get_forestry_sapling,
-									writer, FrameType.GOAL, true, true, false);
+									writer, FrameType.TASK, true, true, false);
 
 								//A Living Fossil
 								//Ginkgo trees are often referred to as such
@@ -407,7 +410,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.GINKGO, TreeLifeStage.SAPLING),
 									DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.GINKGO),
 									get_forestry_sapling,
-									writer, FrameType.GOAL, true, true, false);
+									writer, FrameType.TASK, true, true, false);
 
 									//Fee-Fi-Fo-Fum!
 									//A line spoken by the Giant in Jack and the Beanstalk
@@ -416,22 +419,34 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 										SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.GIANT_SEQUOIA, TreeLifeStage.SAPLING),
 										DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryTreeSpecies.GIANT_SEQUOIA),
 										get_ginkgo_sapling,
-										writer, FrameType.CHALLENGE, true, true, false);
+										writer, FrameType.GOAL, true, true, false);
 
 
 								/*
 								 * Advancements for end-of-line forestry saplings end here
 								 */
 
-								//TODO: Add an advancement for catching a butterfly?
-
 						//Honey, I'm Home!
-						Advancement get_all_combs = makeSimpleAdvancement(
-							"get_all_combs",
+						Advancement.Builder combAdvancementBuilder = Advancement.Builder.advancement();
+						ApicultureItems.BEE_COMBS.getItems().forEach(itemHoneyComb -> {
+							String name = BuiltInRegistries.ITEM.getKey(itemHoneyComb.asItem()).getPath();
+							combAdvancementBuilder.addCriterion(
+								"get_"+name,
+								InventoryChangeTrigger.TriggerInstance.hasItems(itemHoneyComb)
+							);
+						});
+						Advancement get_all_combs = combAdvancementBuilder.display(
 							ApicultureItems.BEE_COMBS.get(EnumHoneyComb.HONEY).stack(),
-							InventoryChangeTrigger.TriggerInstance.hasItems(ArboricultureItems.GRAFTER.get()), //TODO: Make this require all comb types.
-							get_bee_house,
-							writer, FrameType.CHALLENGE, true, true, false);
+							Component.translatable("advancements.forestry.get_all_combs.title"),
+							Component.translatable("advancements.forestry.get_all_combs.description"),
+							null,
+							FrameType.CHALLENGE,
+							true,
+							true,
+							false)
+							.parent(get_bee_house)
+							.save(writer,  ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "get_all_combs").toString());
+
 
 						//I See What's Going On Here
 						Advancement get_spectacles = makeSimpleAdvancement(
@@ -506,12 +521,13 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						writer);
 
 						//Wound Up
+						//Advancement granted manually via ClockworkEngineBlockEntity.java
 						Advancement take_damage_from_clockwork_engine = makeSimpleAdvancement(
 							"take_damage_from_clockwork_engine",
 							EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).stack(),
-							InventoryChangeTrigger.TriggerInstance.hasItems(EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS).get()), //TODO: Replace this with a trigger from taking damage to a clockwork engine
+							new ImpossibleTrigger.TriggerInstance(),
 							get_engine,
-							writer, FrameType.CHALLENGE, true, true, true);
+							writer, FrameType.TASK, true, true, true);
 
 					//When Is a Raven Like a Writing Desk?
 					//A reference to the quote which is from like, Lewis Carrol or something? I can't remember and I'm too lazy to look it up right now.
@@ -531,18 +547,20 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 							writer);
 
 							//Master Arborist
+							//Advancement granted manually. No idea how to do that yet.
 							Advancement complete_tree_research = makeSimpleAdvancement(
 								"complete_tree_research",
-								SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.ELM, TreeLifeStage.SAPLING), //TODO: Replace this with Golden Elm. It's not the hardest to get but it is a unique icon for the advancement.
-								InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.RESEARCH_NOTE.get()), //TODO: Replace this with something that triggers when you have researched all tree species
+								SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.ELM, TreeLifeStage.SAPLING),
+								new ImpossibleTrigger.TriggerInstance(),
 								use_research_note,
 								writer, FrameType.CHALLENGE, true, true, false);
 
 							//Master Apiarist
+							//Advancement granted manually. No idea how to do that yet.
 							Advancement complete_bee_research = makeSimpleAdvancement(
 								"complete_bee_research",
 								SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.IMPERIAL, BeeLifeStage.QUEEN),
-								InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.RESEARCH_NOTE.get()), //TODO: Replace this with something that triggers when you have researched all bee species
+								new ImpossibleTrigger.TriggerInstance(),
 								use_research_note,
 								writer, FrameType.CHALLENGE, true, true, false);
 
@@ -630,22 +648,21 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						writer);
 
 						//Feed The World
+						//Advancement granted manually via ContainerFarm.java
 						Advancement feed_the_world = makeSimpleAdvancement(
 							"feed_the_world",
 							FarmingBlocks.FARM.stack(EnumFarmBlockType.PLAIN, EnumFarmMaterial.STONE_BRICK),
-							InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-									FarmingBlocks.FARM.get(EnumFarmBlockType.PLAIN, EnumFarmMaterial.STONE_BRICK) //TODO: Change this to trigger when the player assembles a farm
-								).build()
-							),
+							new ImpossibleTrigger.TriggerInstance(),
 							farming_simulator,
-							writer, FrameType.CHALLENGE, true, true, false);
+							writer, FrameType.GOAL, true, true, false);
 
 
 				//Make It Rain!
+				//Advancement granted manually via TileMillRainmaker
 				Advancement make_it_rain = makeSimpleAdvancement(
 					"use_rainmaker",
 					FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).get()), //TODO: Make this trigger when using an iodine charge or abrosial capsule.
+					new ImpossibleTrigger.TriggerInstance(),
 					bronzed,
 					writer);
 
@@ -657,6 +674,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 		// I've bee-n around - discover all natural hives
 		// Duffman(?) - Brew an alcohol
 		// Bright-eyed and Bushy-tailed - Sleep off drunkeness
+		// The Fruits of my Labour - Collect all different types of fruit
 
 		public ItemPredicate getItemWithNBT(Item item, String key, String value){
 			 return ItemPredicate.Builder.item()

@@ -19,7 +19,7 @@
     "description": {
       "translate": "advancements.forestry.get_proven_grafter.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "hidden": false,
     "icon": {
       "item": "forestry:grafter_proven",
