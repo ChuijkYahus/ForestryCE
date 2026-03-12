@@ -467,7 +467,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 				CoreItems.INGOT_BRONZE.stack(),
 				InventoryChangeTrigger.TriggerInstance.hasItems(
 					ItemPredicate.Builder.item().of(
-						TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", "ingots_bronze"))).build()),
+						TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", "ingots/bronze"))).build()),
 				root,
 				writer);
 
