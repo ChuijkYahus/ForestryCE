@@ -1,5 +1,6 @@
 package forestry.core.data;
 
+import dev.architectury.fluid.FluidStack;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
@@ -17,6 +18,7 @@ import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
+import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.EnumContainerType;
 import forestry.core.utils.SpeciesUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
@@ -35,10 +37,12 @@ import net.minecraft.advancements.critereon.*;
 import net.minecraft.commands.CommandFunction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -461,10 +465,11 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 			Advancement bronzed = makeSimpleAdvancement(
 				"get_bronze",
 				CoreItems.INGOT_BRONZE.stack(),
-				InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.INGOT_BRONZE.get()),
+				InventoryChangeTrigger.TriggerInstance.hasItems(
+					ItemPredicate.Builder.item().of(
+						TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", "ingots_bronze"))).build()),
 				root,
 				writer);
-				//TODO: Make this trigger with the Bronze item tag
 
 				//Moisturise me!
 				//A reference to Cassandra, a Doctor Who villian
@@ -485,12 +490,51 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 
 					//Green Means Clean!
 					//A line spoken by Woshua from Undertale
+					/*ItemPredicate bucket = ItemPredicate.Builder.item()
+						.of(ForestryFluids.BIOMASS.getBucket())
+						.build();
+
+					CompoundTag biomassFluid = new CompoundTag();
+					biomassFluid.putString("FluidName", "forestry:biomass");
+					biomassFluid.putInt("Amount", 1000);
+
+					CompoundTag biomassTag = new CompoundTag();
+					biomassTag.put("Fluid", biomassFluid);
+
+					ItemPredicate can = ItemPredicate.Builder.item()
+						.of(FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
+						.hasNbt(biomassTag)
+						.build();
+
+					ItemPredicate capsule = ItemPredicate.Builder.item()
+						.of(FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE))
+						.hasNbt(biomassTag)
+						.build();
+
+					ItemPredicate refacCapsule = ItemPredicate.Builder.item()
+						.of(FluidsItems.CONTAINERS.get(EnumContainerType.REFRACTORY))
+						.hasNbt(biomassTag)
+						.build();
+
 					Advancement get_biomass = makeSimpleAdvancement(
 						"get_biomass",
-						FluidsItems.CONTAINERS.get(EnumContainerType.CAN).stack(),
-						InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.FERTILIZER_COMPOUND.get()), //TODO: Make this trigger with a biomass bucket or can.
+						ForestryFluids.BIOMASS.getBucket().getDefaultInstance(),
+                            new InventoryChangeTrigger.TriggerInstance(
+                                ContextAwarePredicate.ANY,
+                                MinMaxBounds.Ints.ANY,
+                                MinMaxBounds.Ints.ANY,
+                                MinMaxBounds.Ints.ANY,
+                                new ItemPredicate[]{bucket, can, capsule, refacCapsule}),
 						get_fertiliser,
-						writer);
+						writer);*/
+						//TODO: Allow Biomass cans and capsules and stuff to trigger this too
+						Advancement get_biomass = makeSimpleAdvancement(
+							"get_biomass",
+							ForestryFluids.BIOMASS.getBucket().getDefaultInstance(),
+							InventoryChangeTrigger.TriggerInstance.hasItems(
+								ForestryFluids.BIOMASS.getBucket().asItem()),
+							get_fertiliser,
+							writer);
 
 				//Remember me!
 				Advancement get_worktable = makeSimpleAdvancement(
@@ -594,10 +638,11 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 
 					//Bee Juice
 					//A reference to Clarkson's Farm, and what Clarkson refers to his honey as
+					//TODO: Allow Honey cans and capsules and stuff to trigger this too
 					Advancement get_liquid_honey = makeSimpleAdvancement(
 						"get_liquid_honey",
-						FluidsItems.CONTAINERS.get(EnumContainerType.CAN).stack(), //TODO: Replace this with a honey can
-						InventoryChangeTrigger.TriggerInstance.hasItems(FluidsItems.CONTAINERS.get(EnumContainerType.CAN).get()),
+						ForestryFluids.HONEY.getBucket().getDefaultInstance(),
+						InventoryChangeTrigger.TriggerInstance.hasItems(ForestryFluids.HONEY.getBucket().asItem()),
 						get_squeezer,
 						writer);
 

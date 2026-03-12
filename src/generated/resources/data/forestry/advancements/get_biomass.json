@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "forestry:fertilizer_compound"
+              "forestry:bucket_biomass"
             ]
           }
         ]
@@ -22,7 +22,7 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "forestry:can"
+      "item": "forestry:bucket_biomass"
     },
     "show_toast": true,
     "title": {

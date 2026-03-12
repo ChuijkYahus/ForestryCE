@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-08T22:44:59.2470252	Advancements
+// 1.20.1	2026-03-12T22:34:22.7926355	Advancements
 950107b53f82f7138a67dd435735bdab0abe32a0 data/forestry/advancements/break_ash_block.json
 5a42a6bef82f9b06bf575cc91c4818cf388c9e4d data/forestry/advancements/complete_bee_research.json
 6a0b0fe52301e6b5cc5a2f3314d71e17fd3dda37 data/forestry/advancements/complete_tree_research.json
@@ -15,8 +15,8 @@ dd96f313dbe490eba74aec8d8c68d9289dad2aff data/forestry/advancements/feed_the_wor
 6c135c42b12bc86059ffa4ef0634cbf3069c658a data/forestry/advancements/get_baobab_sapling.json
 88287780115df4f86e27c355cdc12b584a8ebf25 data/forestry/advancements/get_bee_drone.json
 ff2c731d58bcc680b22f8f325b94c5ab2d17f565 data/forestry/advancements/get_bee_house.json
-be5de83f4af054e8dbaeca47936060362047ef23 data/forestry/advancements/get_biomass.json
-2a0ab1e29e7e87863e10ea022ca1830c29acc50c data/forestry/advancements/get_bronze.json
+d90fc7326d11113927426f270a1778b748ce4268 data/forestry/advancements/get_biomass.json
+4d1c4777a9ea717fa0348d4f6826721b01f53222 data/forestry/advancements/get_bronze.json
 957dc95d6d074c82e63814e229d5baa83840ccc3 data/forestry/advancements/get_cans.json
 671f9d4a5158633488943f6daef078cdc6d93e2c data/forestry/advancements/get_carpenter.json
 686a12eab25820874da6d4895cd1a5dcfacc0191 data/forestry/advancements/get_centrifuge.json
@@ -34,7 +34,7 @@ e728025665aef822f72b260d6bd7bb3d7a5bdd0d data/forestry/advancements/get_grafter.
 5d3e9324841c8869a0d8117f4b751baa4637d9e6 data/forestry/advancements/get_impregnated_casing.json
 6137d354a06271b8fbaa154325a9fa571607cd4f data/forestry/advancements/get_jacaranda_sapling.json
 75e4c8abce654b1fe4720ca34470fd21f10cf1d9 data/forestry/advancements/get_kauri_sapling.json
-d03d64981184ca069c58aa1e809b8c3e4b933dbd data/forestry/advancements/get_liquid_honey.json
+5cdcfeb5f8b12ecf65af4407c815f41d48c27343 data/forestry/advancements/get_liquid_honey.json
 bac4e713bc679c4b761a5ea4afbdb14483c560ba data/forestry/advancements/get_mahogany_sapling.json
 58b8ed954bd019713fa17f0dded4fc8470eb7c3b data/forestry/advancements/get_moistener.json
 5696b872a5d07d7374cb3602472e3892bb942ce5 data/forestry/advancements/get_monastic_drone.json

@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "forestry:can"
+              "forestry:bucket_honey"
             ]
           }
         ]
@@ -22,7 +22,7 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "forestry:can"
+      "item": "forestry:bucket_honey"
     },
     "show_toast": true,
     "title": {
