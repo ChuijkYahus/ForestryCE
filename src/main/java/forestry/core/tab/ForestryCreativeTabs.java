@@ -262,6 +262,7 @@ public class ForestryCreativeTabs {
 		// Blocks
 		items.accept(CharcoalBlocks.LOG_PILE);
 		items.accept(CharcoalBlocks.DECORATIVE_LOG_PILE);
+		items.accept(CharcoalBlocks.ASH);
 		items.accept(CoreItems.ASH);
 		IWoodAccess access = WoodAccess.INSTANCE;
 		for (IWoodType type : access.getRegisteredWoodTypes()) {

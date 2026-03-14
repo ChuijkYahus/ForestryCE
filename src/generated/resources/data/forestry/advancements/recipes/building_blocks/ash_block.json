@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "forestry:ash_block"
+              "forestry:ash"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:ash"
+        "recipe": "forestry:ash_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:ash"
+      "forestry:ash_block"
     ]
   },
   "sends_telemetry_event": true

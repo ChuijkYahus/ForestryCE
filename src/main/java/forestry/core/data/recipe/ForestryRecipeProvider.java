@@ -395,6 +395,11 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XYX");
 			recipe.pattern("XXX");
 		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.ASH.item(), recipe -> {
+			recipe.define('X', CoreItems.ASH);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
 	}
 
 	private static void registerWoodRecipes(MKRecipeProvider recipes) {

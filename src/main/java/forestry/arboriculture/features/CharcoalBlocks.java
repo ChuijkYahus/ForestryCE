@@ -12,6 +12,9 @@ import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 
 @FeatureProvider
 public class CharcoalBlocks {
@@ -20,5 +23,5 @@ public class CharcoalBlocks {
 	public static final FeatureBlock<BlockCharcoal, ItemBlockForestry<BlockCharcoal>> CHARCOAL = REGISTRY.block(BlockCharcoal::new, (block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(16000)), "charcoal");
 	public static final FeatureBlock<LogPileBlock, BlockItem> LOG_PILE = REGISTRY.block(LogPileBlock::new, (block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(1200)), "log_pile");
 	public static final FeatureBlock<DecorativeLogPileBlock, BlockItem> DECORATIVE_LOG_PILE = REGISTRY.block(DecorativeLogPileBlock::new, (block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(1200)), "decorative_log_pile");
-	public static final FeatureBlock<BlockAsh, BlockItem> ASH = REGISTRY.block(BlockAsh::new, "ash_block");
+	public static final FeatureBlock<BlockAsh, ItemBlockForestry<BlockAsh>> ASH = REGISTRY.block(BlockAsh::new, (block) -> new ItemBlockForestry<>(block, new Item.Properties()), "ash_block");
 }

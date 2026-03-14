@@ -10,8 +10,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,7 +23,7 @@ import net.minecraft.world.level.material.PushReaction;
 
 import javax.annotation.Nullable;
 
-public class BlockAsh extends Block {
+public class BlockAsh extends FallingBlock {
 	public static final IntegerProperty AMOUNT = IntegerProperty.create("amount", 0, 63);
 	private static final ResourceLocation BREAK_ASH_BLOCK = new ResourceLocation("forestry:break_ash_block");
 
@@ -50,6 +52,10 @@ public class BlockAsh extends Block {
 
 	}
 
+	@Override
+	public int getDustColor(BlockState state, BlockGetter reader, BlockPos pos) {
+		return state.getMapColor(reader, pos).col;
+	}
 
 
 }

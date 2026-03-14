@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-12T22:38:52.6131117	Advancements
+// 1.20.1	2026-03-14T23:45:10.8584118	Advancements
 950107b53f82f7138a67dd435735bdab0abe32a0 data/forestry/advancements/break_ash_block.json
 5a42a6bef82f9b06bf575cc91c4818cf388c9e4d data/forestry/advancements/complete_bee_research.json
 6a0b0fe52301e6b5cc5a2f3314d71e17fd3dda37 data/forestry/advancements/complete_tree_research.json
@@ -16,7 +16,7 @@ dd96f313dbe490eba74aec8d8c68d9289dad2aff data/forestry/advancements/feed_the_wor
 88287780115df4f86e27c355cdc12b584a8ebf25 data/forestry/advancements/get_bee_drone.json
 ff2c731d58bcc680b22f8f325b94c5ab2d17f565 data/forestry/advancements/get_bee_house.json
 d90fc7326d11113927426f270a1778b748ce4268 data/forestry/advancements/get_biomass.json
-b8089138b701ea882bce3d92125cdbe8446406ea data/forestry/advancements/get_bronze.json
+f23aa1a3be8182bfd11e2b9fd4c4c4c079ae50a9 data/forestry/advancements/get_bronze.json
 957dc95d6d074c82e63814e229d5baa83840ccc3 data/forestry/advancements/get_cans.json
 671f9d4a5158633488943f6daef078cdc6d93e2c data/forestry/advancements/get_carpenter.json
 686a12eab25820874da6d4895cd1a5dcfacc0191 data/forestry/advancements/get_centrifuge.json

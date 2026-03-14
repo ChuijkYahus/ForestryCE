@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-23T21:07:34.0252031	Recipes
+// 1.20.1	2026-03-15T00:33:28.2889233	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -27,6 +27,7 @@ f1e6021e24f23ce6704ca709ca6177b1c9c476e8 data/forestry/advancements/recipes/buil
 d8c48dd22c6f15e1a8e84895611a326a634a72b6 data/forestry/advancements/recipes/building_blocks/alveary_sieve.json
 772315350e8a47153de975a1197d2012dda7706a data/forestry/advancements/recipes/building_blocks/alveary_stabiliser.json
 a24885f2ef881570497629c5a7b2470b24290430 data/forestry/advancements/recipes/building_blocks/alveary_swarmer.json
+13b8c6b35ed88f1c598a5ee7781bcb518bb4723f data/forestry/advancements/recipes/building_blocks/ash_block.json
 ff7f05d141fd157133e6526a716401af7c492a97 data/forestry/advancements/recipes/building_blocks/balsa_fence.json
 fe188af145383c34d6d86d789ca9ca0ef69cb5ac data/forestry/advancements/recipes/building_blocks/balsa_fence_gate.json
 d2c486b98a38c0c2c0e5798868c59ca277f64ab6 data/forestry/advancements/recipes/building_blocks/balsa_fireproof_fence.json
@@ -1278,6 +1279,7 @@ f72023989dbdffcf06459516d3c222dde689703a data/forestry/recipes/apiary.json
 c433fc0651320545d6becaf86ceaa1495945398d data/forestry/recipes/arboretum_manual.json
 7adacc4cc7bdcab1e7ffdefe942ae92267b25dbf data/forestry/recipes/arborist_bag.json
 11c5f405967d2c3df954a952c25a4b562ab87b2a data/forestry/recipes/ash.json
+e478f6823c2ea6475ab3843c447efa847b7effc7 data/forestry/recipes/ash_block.json
 a40493d2869c695b00fa34dffcbd91e5eee05acf data/forestry/recipes/axe_kit.json
 93250e776fcc56be984da306fa8a0773e5fba67c data/forestry/recipes/balsa_boat.json
 de04c4e45fc754f30c86bde13d81160d0df96f4c data/forestry/recipes/balsa_button.json
