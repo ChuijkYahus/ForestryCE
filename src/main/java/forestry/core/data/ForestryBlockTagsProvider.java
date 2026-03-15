@@ -51,7 +51,12 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.DEEPSLATE_TIN_ORE.block())
 			.add(CoreBlocks.RAW_TIN_BLOCK.block())
 			.add(CharcoalBlocks.CHARCOAL.block())
-			.add(EnergyBlocks.ENGINES.blockArray());
+			.add(EnergyBlocks.ENGINES.blockArray())
+			.add(CoreBlocks.ASH_BRICKS.block())
+			.add(CoreBlocks.ASH_BRICK_WALL.block())
+			.add(CoreBlocks.ASH_BRICK_SLAB.block())
+			.add(CoreBlocks.ASH_BRICK_STAIRS.block())
+			.add(CoreBlocks.METAL_PLATING.blockArray());
 
 		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
