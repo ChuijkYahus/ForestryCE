@@ -48,7 +48,8 @@ public class BlockAsh extends FallingBlock {
 		super.playerDestroy(level, player, pos, state, blockEntity, tool);
 		//Using a field to not create a new object every time someone breaks an ash block.
 		//Performant? Maybe.
-		AdvancementHelper.tryUnlock(player, BREAK_ASH_BLOCK);
+		if (state.getValue(AMOUNT) > 0)
+			AdvancementHelper.tryUnlock(player, BREAK_ASH_BLOCK);
 
 	}
 

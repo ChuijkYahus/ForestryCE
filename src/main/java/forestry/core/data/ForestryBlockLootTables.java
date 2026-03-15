@@ -13,6 +13,10 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.features.LepidopterologyBlocks;
 import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureBlockGroup;
+import net.minecraft.advancements.critereon.EnchantmentPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
@@ -30,6 +34,9 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
@@ -74,10 +81,60 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		for (BlockForestryDoor door : ArboricultureBlocks.DOORS.getBlocks()) {
 			add(door, createDoorTable(door));
 		}
+
 		//TODO: Make this work with Silk Touch
-		registerLootTable(CharcoalBlocks.ASH, (block) -> LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK)
-			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(CoreItems.ASH)).apply(SetItemCountFunction.setCount(BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f))))
-			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL)).apply(CountBlockFunction.builder()).apply(ApplyBonusCount.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 23.0f / 40, 2))));
+		LootItemCondition.Builder hasAsh =
+			LootItemBlockStatePropertyCondition.hasBlockStateProperties(CharcoalBlocks.ASH.block())
+				.setProperties(
+					StatePropertiesPredicate.Builder.properties()
+						.hasProperty(BlockAsh.AMOUNT, 0)
+				).invert();
+
+		LootItemCondition.Builder hasSilk =
+			MatchTool.toolMatches(
+				ItemPredicate.Builder.item().hasEnchantment(
+					new EnchantmentPredicate(
+						Enchantments.SILK_TOUCH,
+						MinMaxBounds.Ints.atLeast(1)
+					)
+				)
+			);
+
+		registerLootTable(CharcoalBlocks.ASH, block ->
+			LootTable.lootTable()
+				.setParamSet(LootContextParamSets.BLOCK)
+
+				// Normal ash drops
+				.withPool(LootPool.lootPool()
+					.when(hasAsh)
+					.add(LootItem.lootTableItem(CoreItems.ASH))
+					.apply(SetItemCountFunction.setCount(
+						BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f)
+					))
+				)
+
+				// Normal charcoal drops
+				.withPool(LootPool.lootPool()
+					.when(hasAsh)
+					.add(LootItem.lootTableItem(Items.CHARCOAL))
+					.apply(CountBlockFunction.builder())
+					.apply(ApplyBonusCount.addBonusBinomialDistributionCount(
+						Enchantments.BLOCK_FORTUNE,
+						23.0f / 40,
+						2
+					))
+				)
+
+				// Extra drop when silk touch is used
+				// This is weird and goes against how Silk Touch should work but, to me, it makes sense
+				// Because I don't want players to have 64 different types of ash block. So we'll just
+				// Give them the default amount (0) when digging with silk touhc.
+				.withPool(LootPool.lootPool()
+					.when(hasSilk)
+					.add(LootItem.lootTableItem(block))
+				)
+		);
+
 
 		registerLootTable(CoreBlocks.PEAT, (block) -> LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(Blocks.DIRT))).withPool(LootPool.lootPool().apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))).add(LootItem.lootTableItem(CoreItems.PEAT.item()))));
 		registerDropping(CoreBlocks.HUMUS, Blocks.DIRT);
