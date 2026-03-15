@@ -1,6 +1,8 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
+import forestry.apiculture.blocks.BlockBeeHive;
+import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.core.blocks.*;
 import forestry.core.items.ItemBlockForestry;
@@ -8,6 +10,7 @@ import forestry.core.items.ItemBlockTesr;
 import forestry.modules.features.*;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -39,6 +42,7 @@ public class CoreBlocks {
 	public static final FeatureBlock<WallBlock, BlockItem> ASH_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL)), ItemBlockForestry::new, "ash_brick_wall");
 	//TODO: Chiseled Ash Bricks?
 
+	public static final FeatureBlockGroup<BlockMetalPlating, BlockTypeMetalPlating> METAL_PLATING = REGISTRY.blockGroup(BlockMetalPlating::new, BlockTypeMetalPlating.values()).itemWithType((block, type) -> new ItemBlockForestry<>(block, new Item.Properties())).identifier("metal_plating").create();
 	public static final FeatureBlockGroup<BlockTesr<NaturalistChestBlockType>, NaturalistChestBlockType> NATURALIST_CHEST = REGISTRY.blockGroup(type -> {
 		return new BlockTesr<>(type, Block.Properties.of().sound(SoundType.WOOD));
 	}, NaturalistChestBlockType.values()).item(ItemBlockTesr::new).create();

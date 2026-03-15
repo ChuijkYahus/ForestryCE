@@ -6,6 +6,8 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
+import forestry.core.blocks.BlockTypeMetalPlating;
+import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemFruit;
 import forestry.core.items.definitions.EnumCraftingMaterial;
@@ -133,6 +135,12 @@ public class ForestryItemTagsProvider {
 			.addOptionalTag(new ResourceLocation("c", "workbenches"))
 			.addOptionalTag(new ResourceLocation("c", "workbench"))
 			.add(Items.CRAFTING_TABLE);
+
+		for(BlockTypeMetalPlating type: BlockTypeMetalPlating.values()){
+			tags.tag(ForestryTags.Items.METAL_PLATING).add(
+				CoreBlocks.METAL_PLATING.get(type).item()
+			);
+		}
 
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP_PROVEN.item());

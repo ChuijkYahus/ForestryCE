@@ -26,6 +26,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.blocks.BlockTypeMetalPlating;
 import forestry.core.blocks.EnumResourceType;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.circuits.ItemCircuitBoard;
@@ -94,6 +95,7 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import thedarkcolour.modkit.data.MKRecipeProvider;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import static thedarkcolour.modkit.data.MKRecipeProvider.ingredient;
@@ -1434,6 +1436,20 @@ public class ForestryRecipeProvider {
 				.define('#', CoreItems.ASH.item()))
 			.build(consumer, id("carpenter", "ash_brick"));
 
+		metalPlating(consumer, "iron_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.IRON).item(), Items.IRON_INGOT, 8);
+		metalPlating(consumer, "gold_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.GOLD).item(), Items.GOLD_INGOT, 12);
+		metalPlating(consumer, "copper_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.COPPER).item(), Items.COPPER_INGOT, 8);
+		metalPlating(consumer, "netherite_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.NETHERITE).item(), Items.NETHERITE_INGOT, 32);
+		metalPlating(consumer, "tin_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.TIN).item(), CoreItems.INGOT_TIN.item(), 8);
+		metalPlating(consumer, "bronze_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.TIN).item(), CoreItems.INGOT_BRONZE.item(), 12);
+
+
+		Map<TagKey<Item>, BlockTypeMetalPlating> map = BlockTypeMetalPlating.getDye();
+		for(TagKey<Item> dye: map.keySet()){
+			BlockTypeMetalPlating type = map.get(dye);
+			metalPlating(consumer, type.getName(), CoreBlocks.METAL_PLATING.get(type).item(), ForestryTags.Items.METAL_PLATING, 8, dye);
+		}
+
 		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
 			FeatureItem<ItemStamp> item = MailItems.STAMPS.get(stamp);
 
@@ -1615,6 +1631,32 @@ public class ForestryRecipeProvider {
 		wovenBackpack(consumer, "hunter", BackpackItems.HUNTER_BACKPACK, BackpackItems.HUNTER_BACKPACK_T_2);
 		wovenBackpack(consumer, "adventurer", BackpackItems.ADVENTURER_BACKPACK, BackpackItems.ADVENTURER_BACKPACK_T_2);
 		wovenBackpack(consumer, "builder", BackpackItems.BUILDER_BACKPACK, BackpackItems.BUILDER_BACKPACK_T_2);
+	}
+
+	private static void metalPlating(Consumer<FinishedRecipe> consumer, String id, Item product, Item base, int amount){
+
+		new CarpenterRecipeBuilder()
+			.setLiquid(new FluidStack(ForestryFluids.HONEY.getFluid(), 50))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, product, amount)
+				.pattern("###")
+				.pattern("# #")
+				.pattern("###")
+				.define('#', base))
+			.build(consumer, id("metal_plating", id));
+	}
+
+	private static void metalPlating(Consumer<FinishedRecipe> consumer, String id, Item product, TagKey<Item> base, int amount, TagKey<Item> dye){
+
+		new CarpenterRecipeBuilder()
+			.setLiquid(new FluidStack(ForestryFluids.HONEY.getFluid(), 50))
+			.setBox(Ingredient.of(dye))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, product, amount)
+				.pattern("###")
+				.pattern("# #")
+				.pattern("###")
+				.define('#', Ingredient.of(base)))
+			.build(consumer, id("metal_plating", id));
 	}
 
 	private static void wovenBackpack(Consumer<FinishedRecipe> consumer, String id, FeatureItem<?> tier1, FeatureItem<?> tier2) {

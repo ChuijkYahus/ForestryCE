@@ -8,6 +8,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
@@ -107,7 +108,7 @@ public class ForestryTags {
 		// Blocks where the Alveary Swarmer can spawn hives on top of
 		public static final TagKey<Block> SWARM_BEE_GROUND = blockTag("hive_grounds/swarm");
 
-		private static TagKey<Block> forgeTag(String name) {
+        private static TagKey<Block> forgeTag(String name) {
 			return BlockTags.create(new ResourceLocation("forge", name));
 		}
 	}
@@ -231,6 +232,7 @@ public class ForestryTags {
 		public static final TagKey<Item> CRAFTING_TABLES = itemTag("crafting_tables");
 
 		public static final TagKey<Item> BEES = itemTag("bees");
+		public static final TagKey<Item> METAL_PLATING = itemTag("metal_plating");
 
 		private static TagKey<Item> forgeTag(String name) {
 			return ItemTags.create(new ResourceLocation("forge", name));

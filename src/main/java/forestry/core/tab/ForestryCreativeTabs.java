@@ -163,6 +163,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.ASH_BRICK_STAIRS);
 		items.accept(CoreBlocks.ASH_BRICK_SLAB);
 		items.accept(CoreBlocks.ASH_BRICK_WALL);
+		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
 
 		// Gears
 		items.accept(CoreItems.GEAR_COPPER);

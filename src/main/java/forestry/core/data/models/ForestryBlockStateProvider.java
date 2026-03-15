@@ -8,6 +8,8 @@ import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.core.blocks.BlockBase;
+import forestry.core.blocks.BlockMetalPlating;
+import forestry.core.blocks.BlockTypeMetalPlating;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.fluids.ForestryFluids;
@@ -99,6 +101,12 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		wallBlock(CoreBlocks.ASH_BRICK_WALL.block(), modLoc("block/ash_bricks"));
 		wallBlockItem(CoreBlocks.ASH_BRICK_WALL.block(), modLoc("block/ash_bricks"));
+
+		for(BlockTypeMetalPlating type: BlockTypeMetalPlating.values()){
+			BlockMetalPlating block = CoreBlocks.METAL_PLATING.get(type).block();
+			simpleBlock(block);
+			generic3d(block);
+		}
 
 		generic2d(CoreItems.RAW_TIN);
 		generic2d(CoreItems.INGOT_TIN);

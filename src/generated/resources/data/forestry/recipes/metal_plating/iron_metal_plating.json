@@ -1,0 +1,28 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "liquid": {
+    "Amount": 50,
+    "FluidName": "forestry:honey"
+  },
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "key": {
+      "#": {
+        "item": "minecraft:iron_ingot"
+      }
+    },
+    "pattern": [
+      "###",
+      "# #",
+      "###"
+    ],
+    "result": {
+      "count": 8,
+      "item": "forestry:metal_plating_iron"
+    },
+    "show_notification": true
+  },
+  "time": 5
+}

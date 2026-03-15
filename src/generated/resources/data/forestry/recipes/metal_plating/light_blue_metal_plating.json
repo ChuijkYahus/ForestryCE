@@ -1,0 +1,30 @@
+{
+  "type": "forestry:carpenter",
+  "box": {
+    "tag": "forge:dyes/light_blue"
+  },
+  "liquid": {
+    "Amount": 50,
+    "FluidName": "forestry:honey"
+  },
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "key": {
+      "#": {
+        "tag": "forestry:metal_plating"
+      }
+    },
+    "pattern": [
+      "###",
+      "# #",
+      "###"
+    ],
+    "result": {
+      "count": 8,
+      "item": "forestry:metal_plating_light_blue"
+    },
+    "show_notification": true
+  },
+  "time": 5
+}
