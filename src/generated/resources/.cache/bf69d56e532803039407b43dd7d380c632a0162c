@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-23T21:07:34.0169422	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-03-15T20:29:15.8528212	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
@@ -145,9 +145,10 @@ a74d324eaacf17486a9612367d49a24299a17723 data/minecraft/tags/blocks/mineable/sho
 26d5ff819d4e2e63dbe6b17047c63e675ed57c2f data/minecraft/tags/blocks/overworld_natural_logs.json
 d7937e93ba131f356b253c9eb27aa4427291417d data/minecraft/tags/blocks/planks.json
 aa3ef881a072a72a240e6e382073be189586b71b data/minecraft/tags/blocks/saplings.json
-3aaedad77a559846cc67c088300f242356eb6d41 data/minecraft/tags/blocks/slabs.json
-f6bcbfaa7c014155b4fd1833c8978296db10cc77 data/minecraft/tags/blocks/stairs.json
+3001d0127b5e50bddbb13aa74cf8eabbaae37699 data/minecraft/tags/blocks/slabs.json
+93706cc1921b46c2c14d819be23551b8ba7405dd data/minecraft/tags/blocks/stairs.json
 645f6c9f90047de9b56bedf65bb63c2b83c1c1ee data/minecraft/tags/blocks/standing_signs.json
+c8c541c3c3ad4a23868194d15151f41dda5cf4c3 data/minecraft/tags/blocks/walls.json
 c7d898a21e16b528c876f790d64a509e004f5ed7 data/minecraft/tags/blocks/wall_hanging_signs.json
 9398d4d5283ca0b2d597fce555d1f6ff453c71ac data/minecraft/tags/blocks/wall_signs.json
 c1bf2f5e8cf473519dcb2927ff1714a45bf82a11 data/minecraft/tags/blocks/wooden_buttons.json

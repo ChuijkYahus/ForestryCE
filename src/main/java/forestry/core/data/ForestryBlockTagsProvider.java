@@ -197,6 +197,10 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.LUSH_BEE_CEILING).add(Blocks.MOSS_BLOCK).add(Blocks.ROOTED_DIRT);
 		tags.tag(ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES).add(Blocks.POINTED_DRIPSTONE).add(Blocks.CAVE_VINES).add(Blocks.CAVE_VINES_PLANT).add(Blocks.HANGING_ROOTS).add(Blocks.GLOW_LICHEN);
 		tags.tag(ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES).add(Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT, Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT);
+
+		tags.tag(BlockTags.WALLS).add(CoreBlocks.ASH_BRICK_WALL.block());
+		tags.tag(BlockTags.STAIRS).add(CoreBlocks.ASH_BRICK_STAIRS.block());
+		tags.tag(BlockTags.SLABS).add(CoreBlocks.ASH_BRICK_SLAB.block());
 	}
 
 	private static Collection<Block> union(FeatureBlockGroup<?, ?>... features) {

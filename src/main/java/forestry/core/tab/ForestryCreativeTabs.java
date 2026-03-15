@@ -158,6 +158,12 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.RAW_TIN_BLOCK);
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);
 		items.accept(CharcoalBlocks.CHARCOAL);
+		//Building Blocks
+		items.accept(CoreBlocks.ASH_BRICKS);
+		items.accept(CoreBlocks.ASH_BRICK_STAIRS);
+		items.accept(CoreBlocks.ASH_BRICK_SLAB);
+		items.accept(CoreBlocks.ASH_BRICK_WALL);
+
 		// Gears
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_TIN);
@@ -186,6 +192,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.SOLDERING_IRON);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(CoreItems.ASH);
+		items.accept(CoreItems.ASH_BRICK);
 		items.accept(CoreItems.PEAT);
 		items.accept(CoreItems.BITUMINOUS_PEAT);
 		items.accept(CoreItems.BEESWAX);

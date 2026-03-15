@@ -27,11 +27,14 @@ import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingBlocks;
 import forestry.modules.features.FeatureTileType;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
@@ -82,6 +85,20 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic3d(CoreBlocks.TIN_ORE.block());
 		generic3d(CoreBlocks.DEEPSLATE_TIN_ORE.block());
 		generic3d(CoreBlocks.RAW_TIN_BLOCK.block());
+
+		ResourceLocation ashBrickTexture = modLoc("block/ash_bricks");
+
+		simpleBlock(CoreBlocks.ASH_BRICKS.block());
+		generic3d(CoreBlocks.ASH_BRICKS.block());
+
+		stairsBlock(CoreBlocks.ASH_BRICK_STAIRS.block(), modLoc("block/ash_bricks"));
+		generic3d(CoreBlocks.ASH_BRICK_STAIRS.block());
+
+		slabBlock(CoreBlocks.ASH_BRICK_SLAB.block(), modLoc("block/ash_bricks"), modLoc("block/ash_bricks"));
+		generic3d(CoreBlocks.ASH_BRICK_SLAB.block());
+
+		wallBlock(CoreBlocks.ASH_BRICK_WALL.block(), modLoc("block/ash_bricks"));
+		wallBlockItem(CoreBlocks.ASH_BRICK_WALL.block(), modLoc("block/ash_bricks"));
 
 		generic2d(CoreItems.RAW_TIN);
 		generic2d(CoreItems.INGOT_TIN);
@@ -135,6 +152,12 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			singleModelBlock(this, feature, models().cubeBottomTop(path, side, bottom, top));
 			generic3d(feature);
 		}
+	}
+
+	private void wallBlockItem(WallBlock block, ResourceLocation resourceLocation) {
+		String name = path(block);
+		models().wallInventory(name + "_inventory", resourceLocation);
+		itemModels().withExistingParent(name, modLoc("block/" + name + "_inventory"));
 	}
 
 	public static void singleModelBlock(ForestryBlockStateProvider states, Block defaultBlock, ModelFile file) {

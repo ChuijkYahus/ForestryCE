@@ -8,10 +8,7 @@ import forestry.core.items.ItemBlockTesr;
 import forestry.modules.features.*;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DropExperienceBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
@@ -29,6 +26,18 @@ public class CoreBlocks {
 	public static final FeatureBlock<Block, BlockItem> TIN_ORE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.COPPER_ORE)), ItemBlockForestry::new, "tin_ore");
 	public static final FeatureBlock<Block, BlockItem> DEEPSLATE_TIN_ORE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(TIN_ORE.block()).mapColor(MapColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE)), ItemBlockForestry::new, "deepslate_tin_ore");
 	public static final FeatureBlock<Block, BlockItem> RAW_TIN_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_COPPER_BLOCK)), ItemBlockForestry::new, "raw_tin_block");
+
+	/* Block Sets */
+	//TODO: Helper method?
+
+	public static final FeatureBlock<Block, BlockItem> ASH_BRICKS = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS)), ItemBlockForestry::new, "ash_bricks");
+
+	public static final FeatureBlock<StairBlock, BlockItem> ASH_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS)), ItemBlockForestry::new, "ash_brick_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> ASH_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB)), ItemBlockForestry::new, "ash_brick_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> ASH_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL)), ItemBlockForestry::new, "ash_brick_wall");
+	//TODO: Chiseled Ash Bricks?
 
 	public static final FeatureBlockGroup<BlockTesr<NaturalistChestBlockType>, NaturalistChestBlockType> NATURALIST_CHEST = REGISTRY.blockGroup(type -> {
 		return new BlockTesr<>(type, Block.Properties.of().sound(SoundType.WOOD));

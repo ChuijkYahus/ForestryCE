@@ -67,11 +67,9 @@ import forestry.storage.items.ItemCrated;
 import forestry.worktable.features.WorktableBlocks;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.Util;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.NonNullList;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -127,7 +125,7 @@ public class ForestryRecipeProvider {
 		registerFoodRecipes(recipes);
 		registerBackpackRecipes(recipes);
 		registerCharcoalRecipes(recipes);
-		registerCoreRecipes(recipes);
+		registerCoreRecipes(recipes, consumer);
 		registerCultivationRecipes(recipes);
 		registerFactoryRecipes(recipes);
 		registerFarmingRecipes(recipes);
@@ -395,11 +393,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XYX");
 			recipe.pattern("XXX");
 		});
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.ASH.item(), recipe -> {
-			recipe.define('X', CoreItems.ASH);
-			recipe.pattern("XX");
-			recipe.pattern("XX");
-		});
 	}
 
 	private static void registerWoodRecipes(MKRecipeProvider recipes) {
@@ -611,7 +604,7 @@ public class ForestryRecipeProvider {
 		recipes.shapelessCrafting("wood_pile_from_decorative", RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.LOG_PILE.block(), 1, CharcoalBlocks.DECORATIVE_LOG_PILE.block());
 	}
 
-	private static void registerCoreRecipes(MKRecipeProvider recipes) {
+	private static void registerCoreRecipes(MKRecipeProvider recipes, Consumer<FinishedRecipe> consumer) {
 		recipes.oreSmelting(ingredient(CoreBlocks.APATITE_ORE.get(), CoreBlocks.DEEPSLATE_APATITE_ORE.get()), CoreItems.APATITE, 0.5f, 200);
 		recipes.oreSmelting(ingredient(CoreBlocks.TIN_ORE.get(), CoreBlocks.DEEPSLATE_TIN_ORE.get(), CoreItems.RAW_TIN), CoreItems.INGOT_TIN, 0.5f, 200);
 		recipes.smelting(Ingredient.of(CoreItems.PEAT.item()), CoreItems.ASH, 0.0f, 200);
@@ -830,6 +823,43 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" | ");
 			recipe.pattern(" ^ ");
 		});
+
+		//Building Blocks
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.ASH.item(), recipe -> {
+			recipe.define('X', ForestryTags.Items.DUSTS_ASH);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+
+		//ASH BRICKS
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.ASH_BRICKS, recipe -> {
+			recipe.define('X', CoreItems.ASH_BRICK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		recipes.stairs(CoreBlocks.ASH_BRICK_STAIRS, CoreBlocks.ASH_BRICKS);
+		recipes.slab(CoreBlocks.ASH_BRICK_SLAB, CoreBlocks.ASH_BRICKS);
+		recipes.woodenFence(CoreBlocks.ASH_BRICK_WALL, CoreBlocks.ASH_BRICKS);
+
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
+			RecipeCategory.BUILDING_BLOCKS,
+			CoreBlocks.ASH_BRICK_STAIRS.get())
+			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
+				.save(consumer, "forestry:ash_brick_stairs_from_stonecutting");
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
+				RecipeCategory.BUILDING_BLOCKS,
+				CoreBlocks.ASH_BRICK_SLAB.get(),
+				2)
+			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
+			.save(consumer, "forestry:ash_brick_slab_from_stonecutting");
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
+				RecipeCategory.BUILDING_BLOCKS,
+				CoreBlocks.ASH_BRICK_WALL.get())
+			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
+			.save(consumer, "forestry:ash_brick_wall_from_stonecutting");
+
+
+
 
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
@@ -1394,6 +1424,15 @@ public class ForestryRecipeProvider {
 				.pattern(" # ")
 				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 			.build(consumer, id("carpenter", "carton"));
+
+		new CarpenterRecipeBuilder()
+			.setLiquid(new FluidStack(Fluids.WATER, 50))
+			.setPackagingTime(5)
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ASH_BRICK, 1)
+				.pattern("##")
+				.define('#', CoreItems.ASH.item()))
+			.build(consumer, id("carpenter", "ash_brick"));
 
 		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
 			FeatureItem<ItemStamp> item = MailItems.STAMPS.get(stamp);

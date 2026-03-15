@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-15T15:54:50.7948835	Loot Tables
+// 1.20.1	2026-03-15T19:52:32.8302256	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -45,6 +45,10 @@ d6da35738e5c98c48430e4e271b55f83497fbbd2 data/forestry/loot_tables/blocks/apatit
 19ef2cdacbade57b15aa18a26e14b7edd382b223 data/forestry/loot_tables/blocks/arboretum_managed.json
 29487072bfc116f5969019cb1136f0c62ced9e7e data/forestry/loot_tables/blocks/arboretum_manual.json
 4dea06048fdce41b889e595714e34912da73992e data/forestry/loot_tables/blocks/ash_block.json
+35d7636861e8fb12f6d4d13c149c87c6ca2e6ea1 data/forestry/loot_tables/blocks/ash_bricks.json
+60b1e8481800839a65d12064dec9d50f7b571fee data/forestry/loot_tables/blocks/ash_brick_slab.json
+1333035baebb45b43166799d5079ea8a8a98eefd data/forestry/loot_tables/blocks/ash_brick_stairs.json
+e0bb6df86ddf5b111545ab58aebc166f5c8874c6 data/forestry/loot_tables/blocks/ash_brick_wall.json
 435ad7a829e7e7448824dbf2883d005e18e69ee7 data/forestry/loot_tables/blocks/balsa_button.json
 fc4ef66dad3f63da10acf81a6e778ddc279a4bee data/forestry/loot_tables/blocks/balsa_door.json
 713dc2499112c47cee2efa9e3858a27e1dbb4194 data/forestry/loot_tables/blocks/balsa_fence.json

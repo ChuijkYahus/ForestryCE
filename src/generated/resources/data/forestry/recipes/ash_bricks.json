@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "X": {
-      "tag": "forge:dusts/ash"
+      "item": "forestry:ash_brick"
     }
   },
   "pattern": [
@@ -11,7 +11,7 @@
     "XX"
   ],
   "result": {
-    "item": "forestry:ash_block"
+    "item": "forestry:ash_bricks"
   },
   "show_notification": true
 }

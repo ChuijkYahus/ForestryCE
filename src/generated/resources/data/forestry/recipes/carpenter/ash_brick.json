@@ -1,0 +1,25 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "liquid": {
+    "Amount": 50,
+    "FluidName": "minecraft:water"
+  },
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "#": {
+        "item": "forestry:ash"
+      }
+    },
+    "pattern": [
+      "##"
+    ],
+    "result": {
+      "item": "forestry:ash_brick"
+    },
+    "show_notification": true
+  },
+  "time": 5
+}

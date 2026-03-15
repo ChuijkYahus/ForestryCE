@@ -41,6 +41,7 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.KIT_AXE.get());
 		models.generic2d(CoreItems.KIT_SWORD.get());
 		models.generic2d(CoreItems.KIT_HOE.get());
+		models.generic2d(CoreItems.ASH_BRICK.get());
 
 		Set<ResourceLocation> vanillaIds = Set.of(
 			ForestryTreeSpecies.OAK,
