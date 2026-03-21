@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-22T01:29:02.7578364	Block States: forestry
+// 1.20.1	2026-03-22T12:24:30.4184281	Block States: forestry
 efb6cd9088f34afc855db97087b928d69c02ae5f assets/forestry/blockstates/apatite_ore.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_managed.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_manual.json
@@ -278,8 +278,6 @@ a397f3eedb8d2435def474635b0a4dd23e252ce1 assets/forestry/blockstates/tree_wenge_
 919cbbae5d037403b03b93c64acb7ec603f7f010 assets/forestry/blockstates/tree_zebrawood_decorative_leaves.json
 919cbbae5d037403b03b93c64acb7ec603f7f010 assets/forestry/blockstates/tree_zebrawood_default_leaves.json
 919cbbae5d037403b03b93c64acb7ec603f7f010 assets/forestry/blockstates/tree_zebrawood_default_leaves_fruit.json
-169caeb7a7149421269196fded994ddd6b656882 assets/forestry/blockstates/wax_block.json
-eaa3aa8502a3dfe224224cfa56b13613d346490a assets/forestry/blockstates/wax_block_refractory.json
 c1e2cc6f05bb5ed3019b2dd323646786b9148d65 assets/forestry/models/block/apatite_ore.json
 6f31a082351254935a8c8e0f778419b014c53b6c assets/forestry/models/block/ash_bricks.json
 51c5ebe2b0f2350bfe3fc3e29390593c28adbd5e assets/forestry/models/block/ash_brick_slab.json
@@ -526,8 +524,6 @@ fa469315c335b0eda49486df4a5b7feb55b9d687 assets/forestry/models/block/tree_walnu
 f436e4fd30c90a5549aac5c4b8b179bf5b149f2e assets/forestry/models/block/tree_wenge_default_leaves.json
 bf3d2203d55590dbdaeb064114a01d95aac3579a assets/forestry/models/block/tree_willow_default_leaves.json
 dcb48dadb634675a8f8aee9fd202e404c9060698 assets/forestry/models/block/tree_zebrawood_default_leaves.json
-3479433d0946f60b6052093637c147be21cb9126 assets/forestry/models/block/wax_block.json
-970469ab42cb605de34172e2cf9b7b3096230dde assets/forestry/models/block/wax_block_refractory.json
 f77d9f3afb7a1f72f9ae4c48d34b49d3b1dabbbb assets/forestry/models/item/apatite_ore.json
 5457cd3385666e1e83f355a40a693338db66a787 assets/forestry/models/item/ash_bricks.json
 dcdc64392c10e31cf4280d78c858b3e6ab2c842f assets/forestry/models/item/ash_brick_slab.json
@@ -782,5 +778,3 @@ a44018d0e9e662c363044eb7ef9e3bebf55532f7 assets/forestry/models/item/tree_willow
 6fb09ed17c0c963b1f461b254dc3dedc669857f9 assets/forestry/models/item/tree_zebrawood_decorative_leaves.json
 6fb09ed17c0c963b1f461b254dc3dedc669857f9 assets/forestry/models/item/tree_zebrawood_default_leaves.json
 6fb09ed17c0c963b1f461b254dc3dedc669857f9 assets/forestry/models/item/tree_zebrawood_default_leaves_fruit.json
-77f5e9797d3d5adea28da16dc45676c8ac5bc763 assets/forestry/models/item/wax_block.json
-07225baa5c10714d2b4bc345bd50116a5145a7c9 assets/forestry/models/item/wax_block_refractory.json

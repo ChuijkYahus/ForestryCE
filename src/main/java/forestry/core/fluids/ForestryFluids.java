@@ -72,7 +72,7 @@ public enum ForestryFluids {
 	WAX(properties -> properties
 		.particleColor(ForestryColors.color(255, 237, 140))
 		.density(1420)
-		.viscosity(75600)
+		.viscosity(500)
 		.temperature(329)
 	);
 

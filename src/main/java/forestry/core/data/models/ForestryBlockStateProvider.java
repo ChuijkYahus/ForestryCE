@@ -160,11 +160,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			singleModelBlock(this, feature, models().cubeBottomTop(path, side, bottom, top));
 			generic3d(feature);
 		}
-
-		simpleBlock(ApicultureBlocks.WAX_BLOCK.block());
-		generic3d(ApicultureBlocks.WAX_BLOCK.block());
-		simpleBlock(ApicultureBlocks.REFRACTORY_WAX_BLOCK.block());
-		generic3d(ApicultureBlocks.REFRACTORY_WAX_BLOCK.block());
 	}
 
 	private void wallBlockItem(WallBlock block, ResourceLocation resourceLocation) {
