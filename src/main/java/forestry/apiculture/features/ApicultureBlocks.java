@@ -5,11 +5,12 @@ import forestry.apiculture.blocks.*;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.ItemBlockHoneyComb;
 import forestry.core.items.ItemBlockForestry;
-import forestry.modules.features.FeatureBlockGroup;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.modules.features.*;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 @FeatureProvider
 public class ApicultureBlocks {
@@ -21,4 +22,9 @@ public class ApicultureBlocks {
 
 	public static final FeatureBlockGroup<BlockHoneyComb, EnumHoneyComb> BEE_COMB = REGISTRY.blockGroup(BlockHoneyComb::new, EnumHoneyComb.VALUES).item(ItemBlockHoneyComb::new).identifier("block_bee_comb").create();
 	public static final FeatureBlockGroup<BlockAlveary, BlockAlvearyType> ALVEARY = REGISTRY.blockGroup(BlockAlveary::new, BlockAlvearyType.VALUES).item(blockAlveary -> new ItemBlockForestry<>(blockAlveary, new Item.Properties())).identifier("alveary").create();
+
+	public static final FeatureBlock<Block, BlockItem> WAX_BLOCK = REGISTRY.block(() -> new BlockWax(true), ItemBlockForestry::new, "wax_block");
+
+	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAX_BLOCK = REGISTRY.block(() -> new BlockWax(false), ItemBlockForestry::new, "wax_block_refractory");
+
 }

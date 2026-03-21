@@ -1,23 +1,24 @@
 {
-  "type": "forestry:carpenter",
-  "box": {
-    "tag": "forge:dyes/gray"
-  },
-  "liquid": {
+  "type": "forestry:fabricator",
+  "molten": {
     "Amount": 50,
-    "FluidName": "forestry:honey"
+    "FluidName": "forestry:wax"
   },
+  "plan": [],
   "recipe": {
     "type": "minecraft:crafting_shaped",
     "category": "building",
     "key": {
       "#": {
         "tag": "forestry:metal_plating"
+      },
+      "D": {
+        "tag": "forge:dyes/gray"
       }
     },
     "pattern": [
       "###",
-      "# #",
+      "#D#",
       "###"
     ],
     "result": {
@@ -25,6 +26,5 @@
       "item": "forestry:metal_plating_gray"
     },
     "show_notification": true
-  },
-  "time": 5
+  }
 }

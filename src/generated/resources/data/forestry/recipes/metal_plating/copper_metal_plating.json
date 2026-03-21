@@ -1,10 +1,10 @@
 {
-  "type": "forestry:carpenter",
-  "box": [],
-  "liquid": {
+  "type": "forestry:fabricator",
+  "molten": {
     "Amount": 50,
-    "FluidName": "forestry:honey"
+    "FluidName": "forestry:wax"
   },
+  "plan": [],
   "recipe": {
     "type": "minecraft:crafting_shaped",
     "category": "building",
@@ -23,6 +23,5 @@
       "item": "forestry:metal_plating_copper"
     },
     "show_notification": true
-  },
-  "time": 5
+  }
 }

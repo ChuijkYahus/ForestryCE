@@ -1,0 +1,5 @@
+{
+  "parent": "forge:item/bucket",
+  "fluid": "forestry:wax",
+  "loader": "forge:fluid_container"
+}

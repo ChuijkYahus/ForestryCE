@@ -363,6 +363,9 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" Y ");
 		});
 
+		recipes.grid3x3(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.WAX_BLOCK, Ingredient.of(CoreItems.BEESWAX));
+		recipes.grid3x3(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.REFRACTORY_WAX_BLOCK, Ingredient.of(CoreItems.REFRACTORY_WAX));
+
 		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
 
 		// todo remove in 1.21.1 when volcanic propolis is removed
@@ -1436,19 +1439,7 @@ public class ForestryRecipeProvider {
 				.define('#', CoreItems.ASH.item()))
 			.build(consumer, id("carpenter", "ash_brick"));
 
-		metalPlating(consumer, "iron_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.IRON).item(), Items.IRON_INGOT, 8);
-		metalPlating(consumer, "gold_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.GOLD).item(), Items.GOLD_INGOT, 12);
-		metalPlating(consumer, "copper_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.COPPER).item(), Items.COPPER_INGOT, 8);
-		metalPlating(consumer, "netherite_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.NETHERITE).item(), Items.NETHERITE_INGOT, 32);
-		metalPlating(consumer, "tin_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.TIN).item(), CoreItems.INGOT_TIN.item(), 8);
-		metalPlating(consumer, "bronze_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.TIN).item(), CoreItems.INGOT_BRONZE.item(), 12);
 
-
-		Map<TagKey<Item>, BlockTypeMetalPlating> map = BlockTypeMetalPlating.getDye();
-		for(TagKey<Item> dye: map.keySet()){
-			BlockTypeMetalPlating type = map.get(dye);
-			metalPlating(consumer, type.getName(), CoreBlocks.METAL_PLATING.get(type).item(), ForestryTags.Items.METAL_PLATING, 8, dye);
-		}
 
 		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
 			FeatureItem<ItemStamp> item = MailItems.STAMPS.get(stamp);
@@ -1631,32 +1622,6 @@ public class ForestryRecipeProvider {
 		wovenBackpack(consumer, "hunter", BackpackItems.HUNTER_BACKPACK, BackpackItems.HUNTER_BACKPACK_T_2);
 		wovenBackpack(consumer, "adventurer", BackpackItems.ADVENTURER_BACKPACK, BackpackItems.ADVENTURER_BACKPACK_T_2);
 		wovenBackpack(consumer, "builder", BackpackItems.BUILDER_BACKPACK, BackpackItems.BUILDER_BACKPACK_T_2);
-	}
-
-	private static void metalPlating(Consumer<FinishedRecipe> consumer, String id, Item product, Item base, int amount){
-
-		new CarpenterRecipeBuilder()
-			.setLiquid(new FluidStack(ForestryFluids.HONEY.getFluid(), 50))
-			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, product, amount)
-				.pattern("###")
-				.pattern("# #")
-				.pattern("###")
-				.define('#', base))
-			.build(consumer, id("metal_plating", id));
-	}
-
-	private static void metalPlating(Consumer<FinishedRecipe> consumer, String id, Item product, TagKey<Item> base, int amount, TagKey<Item> dye){
-
-		new CarpenterRecipeBuilder()
-			.setLiquid(new FluidStack(ForestryFluids.HONEY.getFluid(), 50))
-			.setBox(Ingredient.of(dye))
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, product, amount)
-				.pattern("###")
-				.pattern("# #")
-				.pattern("###")
-				.define('#', Ingredient.of(base)))
-			.build(consumer, id("metal_plating", id));
 	}
 
 	private static void wovenBackpack(Consumer<FinishedRecipe> consumer, String id, FeatureItem<?> tier1, FeatureItem<?> tier2) {
@@ -1974,6 +1939,21 @@ public class ForestryRecipeProvider {
 				.define('E', Tags.Items.GEMS_EMERALD))
 			.build(consumer, id("fabricator", "electron_tubes", "flexible_casing"));
 
+		metalPlating(consumer, "iron_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.IRON).item(), Items.IRON_INGOT, 8);
+		metalPlating(consumer, "gold_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.GOLD).item(), Items.GOLD_INGOT, 8);
+		metalPlating(consumer, "copper_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.COPPER).item(), Items.COPPER_INGOT, 8);
+		metalPlating(consumer, "netherite_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.NETHERITE).item(), Items.NETHERITE_INGOT, 8);
+		metalPlating(consumer, "tin_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.TIN).item(), CoreItems.INGOT_TIN.item(), 8);
+		metalPlating(consumer, "bronze_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.TIN).item(), CoreItems.INGOT_BRONZE.item(), 8);
+
+
+		Map<TagKey<Item>, BlockTypeMetalPlating> map = BlockTypeMetalPlating.getDye();
+		for(TagKey<Item> dye: map.keySet()){
+			BlockTypeMetalPlating type = map.get(dye);
+			metalPlating(consumer, type.getName(), CoreBlocks.METAL_PLATING.get(type).item(), ForestryTags.Items.METAL_PLATING, 8, dye);
+		}
+
+
 		for (ForestryWoodType type : ForestryWoodType.values()) {
 			addFireproofRecipes(consumer, type);
 		}
@@ -1981,6 +1961,35 @@ public class ForestryRecipeProvider {
 		for (VanillaWoodType type : VanillaWoodType.values()) {
 			addFireproofRecipes(consumer, type);
 		}
+	}
+
+
+
+	private static void metalPlating(Consumer<FinishedRecipe> consumer, String id, Item product, Item base, int amount){
+
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(new FluidStack(ForestryFluids.WAX.getFluid(), 50))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, product, amount)
+				.pattern("###")
+				.pattern("# #")
+				.pattern("###")
+				.define('#', base))
+			.build(consumer, id("metal_plating", id));
+	}
+
+	private static void metalPlating(Consumer<FinishedRecipe> consumer, String id, Item product, TagKey<Item> base, int amount, TagKey<Item> dye){
+
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(new FluidStack(ForestryFluids.WAX.getFluid(), 50))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, product, amount)
+				.pattern("###")
+				.pattern("#D#")
+				.pattern("###")
+				.define('D', Ingredient.of(dye))
+				.define('#', Ingredient.of(base)))
+			.build(consumer, id("metal_plating", id));
 	}
 
 	private static void addFireproofRecipes(Consumer<FinishedRecipe> consumer, IWoodType type) {
@@ -2042,6 +2051,18 @@ public class ForestryRecipeProvider {
 			.setProduct(liquidGlassX4)
 			.setMeltingPoint(4800)
 			.build(consumer, id("fabricator", "smelting", "sandstone"));
+
+		new FabricatorSmeltingRecipeBuilder()
+			.setResource(Ingredient.of(ApicultureBlocks.WAX_BLOCK))
+			.setProduct(ForestryFluids.WAX.getFluid(FluidType.BUCKET_VOLUME))
+			.setMeltingPoint(500) //Arbitrary value, yes. Longer to warm up, but more efficient use of material
+			.build(consumer, id("fabricator", "smelting", "wax_block"));
+
+		new FabricatorSmeltingRecipeBuilder()
+			.setResource(Ingredient.of(CoreItems.BEESWAX))
+			.setProduct(ForestryFluids.WAX.getFluid(FluidType.BUCKET_VOLUME/10)) //A /9 is easier, but messier.
+			.setMeltingPoint(200) //Arbitrary value, yes. Shorter to warm up, but uses 10% more material
+			.build(consumer, id("fabricator", "smelting", "wax"));
 	}
 
 	private static void registerFermenter(Consumer<FinishedRecipe> consumer) {

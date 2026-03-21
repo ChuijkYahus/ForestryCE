@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-01T20:37:27.1785432	Item Models: forestry
+// 1.20.1	2026-03-22T01:19:40.6646776	Item Models: forestry
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/adventurer_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/adventurer_bag_woven.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/apiarist_bag.json
@@ -13,6 +13,7 @@ ad160b28b6224e1966dd11a1458ff72d1a587204 assets/forestry/models/item/bucket_hone
 8d3f69c5620c62f1cca0d3f2dcc23ca5eedf31f5 assets/forestry/models/item/bucket_juice.json
 10fe645e4d2ffa4d943c6408bccb9d1d69c2bbbf assets/forestry/models/item/bucket_seed_oil.json
 ffa1809a2354a6a8c842cc72873f23d9ccaf1a70 assets/forestry/models/item/bucket_short_mead.json
+c6c5e4059b09b9e5b008edde7a8e37fa919a2bbb assets/forestry/models/item/bucket_wax.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/builder_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/builder_bag_woven.json
 1764a704e73b9f19c8c174e4342a7ec68a05a16c assets/forestry/models/item/caterpillar_ge.json

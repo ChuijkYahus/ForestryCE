@@ -225,6 +225,9 @@ public class ForestryCreativeTabs {
 			}
 		}
 
+		items.accept(ApicultureBlocks.WAX_BLOCK.get());
+		items.accept(ApicultureBlocks.REFRACTORY_WAX_BLOCK.get());
+
 		// Alveary
 		ApicultureBlocks.ALVEARY.getItems().forEach(items::accept);
 
