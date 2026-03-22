@@ -163,6 +163,16 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.ASH_BRICK_STAIRS);
 		items.accept(CoreBlocks.ASH_BRICK_SLAB);
 		items.accept(CoreBlocks.ASH_BRICK_WALL);
+		items.accept(CoreBlocks.HARDENED_WAX_BLOCK);
+		items.accept(CoreBlocks.WAX_BRICKS);
+		items.accept(CoreBlocks.WAX_BRICK_STAIRS);
+		items.accept(CoreBlocks.WAX_BRICK_SLAB);
+		items.accept(CoreBlocks.WAX_BRICK_WALL);
+		items.accept(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICKS);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_WALL);
 		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
 
 		// Gears

@@ -365,6 +365,8 @@ public class ForestryRecipeProvider {
 
 		recipes.grid3x3(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.WAX_BLOCK, Ingredient.of(CoreItems.BEESWAX));
 		recipes.grid3x3(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.REFRACTORY_WAX_BLOCK, Ingredient.of(CoreItems.REFRACTORY_WAX));
+		recipes.shapelessCrafting("uncraft_wax_block", RecipeCategory.MISC, CoreItems.BEESWAX, 9, ApicultureBlocks.WAX_BLOCK);
+		recipes.shapelessCrafting("uncraft_refractory_wax_block", RecipeCategory.MISC, CoreItems.REFRACTORY_WAX, 9, ApicultureBlocks.REFRACTORY_WAX_BLOCK);
 
 		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
 
@@ -845,6 +847,44 @@ public class ForestryRecipeProvider {
 		recipes.stairs(CoreBlocks.ASH_BRICK_STAIRS, CoreBlocks.ASH_BRICKS);
 		recipes.slab(CoreBlocks.ASH_BRICK_SLAB, CoreBlocks.ASH_BRICKS);
 		recipes.woodenFence(CoreBlocks.ASH_BRICK_WALL, CoreBlocks.ASH_BRICKS);
+
+		//WAX BRICKS
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HARDENED_WAX_BLOCK, 2, recipe -> {
+			recipe.define('X', ApicultureBlocks.WAX_BLOCK);
+			recipe.define('#', Ingredient.of(
+				CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP),
+				CoreItems.ASH
+			));
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAX_BRICKS, 4, recipe -> {
+			recipe.define('X', CoreBlocks.HARDENED_WAX_BLOCK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		recipes.stairs(CoreBlocks.WAX_BRICK_STAIRS, CoreBlocks.WAX_BRICKS);
+		recipes.slab(CoreBlocks.WAX_BRICK_SLAB, CoreBlocks.WAX_BRICKS);
+		recipes.woodenFence(CoreBlocks.WAX_BRICK_WALL, CoreBlocks.WAX_BRICKS);
+
+		//REFRACTORY WAX BRICKS
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK, 2, recipe -> {
+			recipe.define('X', ApicultureBlocks.REFRACTORY_WAX_BLOCK);
+			recipe.define('#', Ingredient.of(
+				CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP),
+				CoreItems.ASH
+			));
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.REFRACTORY_WAX_BRICKS, 4, recipe -> {
+			recipe.define('X', CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		recipes.stairs(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS, CoreBlocks.REFRACTORY_WAX_BRICKS);
+		recipes.slab(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB, CoreBlocks.REFRACTORY_WAX_BRICKS);
+		recipes.woodenFence(CoreBlocks.REFRACTORY_WAX_BRICK_WALL, CoreBlocks.REFRACTORY_WAX_BRICKS);
 
 		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
 			RecipeCategory.BUILDING_BLOCKS,

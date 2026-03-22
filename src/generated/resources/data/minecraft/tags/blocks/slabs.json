@@ -93,6 +93,8 @@
     "forestry:acacia_fireproof_slab",
     "forestry:dark_oak_fireproof_slab",
     "forestry:cherry_fireproof_slab",
-    "forestry:ash_brick_slab"
+    "forestry:ash_brick_slab",
+    "forestry:wax_brick_slab",
+    "forestry:refractory_wax_brick_slab"
   ]
 }

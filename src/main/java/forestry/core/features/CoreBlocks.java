@@ -42,6 +42,21 @@ public class CoreBlocks {
 	public static final FeatureBlock<WallBlock, BlockItem> ASH_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL)), ItemBlockForestry::new, "ash_brick_wall");
 	//TODO: Chiseled Ash Bricks?
 
+
+	public static final FeatureBlock<Block, BlockItem> HARDENED_WAX_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "hardened_wax_block");
+	public static final FeatureBlock<Block, BlockItem> WAX_BRICKS = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "wax_bricks");
+	public static final FeatureBlock<StairBlock, BlockItem> WAX_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "wax_brick_stairs");
+	public static final FeatureBlock<SlabBlock, BlockItem> WAX_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "wax_brick_slab");
+	public static final FeatureBlock<WallBlock, BlockItem> WAX_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "wax_brick_wall");
+
+
+	public static final FeatureBlock<Block, BlockItem> HARDENED_REFRACTORY_WAX_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "hardened_refractory_wax_block");
+
+	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAX_BRICKS = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "refractory_wax_bricks");
+	public static final FeatureBlock<StairBlock, BlockItem> REFRACTORY_WAX_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "refractory_wax_brick_stairs");
+	public static final FeatureBlock<SlabBlock, BlockItem> REFRACTORY_WAX_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "refractory_wax_brick_slab");
+	public static final FeatureBlock<WallBlock, BlockItem> REFRACTORY_WAX_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).sound(SoundType.WART_BLOCK)), ItemBlockForestry::new, "refractory_wax_brick_wall");
+
 	public static final FeatureBlockGroup<BlockMetalPlating, BlockTypeMetalPlating> METAL_PLATING = REGISTRY.blockGroup(BlockMetalPlating::new, BlockTypeMetalPlating.values()).itemWithType((block, type) -> new ItemBlockForestry<>(block, new Item.Properties())).identifier("metal_plating").create();
 	public static final FeatureBlockGroup<BlockTesr<NaturalistChestBlockType>, NaturalistChestBlockType> NATURALIST_CHEST = REGISTRY.blockGroup(type -> {
 		return new BlockTesr<>(type, Block.Properties.of().sound(SoundType.WOOD));

@@ -33,10 +33,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
@@ -88,19 +85,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic3d(CoreBlocks.DEEPSLATE_TIN_ORE.block());
 		generic3d(CoreBlocks.RAW_TIN_BLOCK.block());
 
-		ResourceLocation ashBrickTexture = modLoc("block/ash_bricks");
 
-		simpleBlock(CoreBlocks.ASH_BRICKS.block());
-		generic3d(CoreBlocks.ASH_BRICKS.block());
-
-		stairsBlock(CoreBlocks.ASH_BRICK_STAIRS.block(), modLoc("block/ash_bricks"));
-		generic3d(CoreBlocks.ASH_BRICK_STAIRS.block());
-
-		slabBlock(CoreBlocks.ASH_BRICK_SLAB.block(), modLoc("block/ash_bricks"), modLoc("block/ash_bricks"));
-		generic3d(CoreBlocks.ASH_BRICK_SLAB.block());
-
-		wallBlock(CoreBlocks.ASH_BRICK_WALL.block(), modLoc("block/ash_bricks"));
-		wallBlockItem(CoreBlocks.ASH_BRICK_WALL.block(), modLoc("block/ash_bricks"));
 
 		for(BlockTypeMetalPlating type: BlockTypeMetalPlating.values()){
 			BlockMetalPlating block = CoreBlocks.METAL_PLATING.get(type).block();
@@ -160,6 +145,43 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			singleModelBlock(this, feature, models().cubeBottomTop(path, side, bottom, top));
 			generic3d(feature);
 		}
+
+		simpleBlock(CoreBlocks.HARDENED_WAX_BLOCK.block());
+		generic3d(CoreBlocks.HARDENED_WAX_BLOCK.block());
+		simpleBlock(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK.block());
+		generic3d(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK.block());
+
+		stoneBlockSet(CoreBlocks.ASH_BRICKS.block(),
+			CoreBlocks.ASH_BRICK_STAIRS.block(),
+			CoreBlocks.ASH_BRICK_SLAB.block(),
+			CoreBlocks.ASH_BRICK_WALL.block(),
+			modLoc("block/ash_bricks"));
+
+		stoneBlockSet(CoreBlocks.WAX_BRICKS.block(),
+			CoreBlocks.WAX_BRICK_STAIRS.block(),
+			CoreBlocks.WAX_BRICK_SLAB.block(),
+			CoreBlocks.WAX_BRICK_WALL.block(),
+			modLoc("block/wax_bricks"));
+
+		stoneBlockSet(CoreBlocks.REFRACTORY_WAX_BRICKS.block(),
+			CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block(),
+			CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block(),
+			CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block(),
+			modLoc("block/refractory_wax_bricks"));
+	}
+
+	public void stoneBlockSet(Block base, StairBlock stairs, SlabBlock slab, WallBlock wall, ResourceLocation modelLocation){
+		simpleBlock(base);
+		generic3d(base);
+
+		stairsBlock(stairs, modelLocation);
+		generic3d(stairs);
+
+		slabBlock(slab, modelLocation, modelLocation);
+		generic3d(slab);
+
+		wallBlock(wall, modelLocation);
+		wallBlockItem(wall, modelLocation);
 	}
 
 	private void wallBlockItem(WallBlock block, ResourceLocation resourceLocation) {

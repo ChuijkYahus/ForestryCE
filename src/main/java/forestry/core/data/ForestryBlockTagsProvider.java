@@ -56,6 +56,16 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.ASH_BRICK_WALL.block())
 			.add(CoreBlocks.ASH_BRICK_SLAB.block())
 			.add(CoreBlocks.ASH_BRICK_STAIRS.block())
+			.add(CoreBlocks.HARDENED_WAX_BLOCK.block())
+			.add(CoreBlocks.WAX_BRICKS.block())
+			.add(CoreBlocks.WAX_BRICK_WALL.block())
+			.add(CoreBlocks.WAX_BRICK_SLAB.block())
+			.add(CoreBlocks.WAX_BRICK_STAIRS.block())
+			.add(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK.block())
+			.add(CoreBlocks.REFRACTORY_WAX_BRICKS.block())
+			.add(CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block())
+			.add(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block())
+			.add(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block())
 			.add(CoreBlocks.METAL_PLATING.blockArray());
 
 		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
@@ -206,6 +216,14 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(BlockTags.WALLS).add(CoreBlocks.ASH_BRICK_WALL.block());
 		tags.tag(BlockTags.STAIRS).add(CoreBlocks.ASH_BRICK_STAIRS.block());
 		tags.tag(BlockTags.SLABS).add(CoreBlocks.ASH_BRICK_SLAB.block());
+
+		tags.tag(BlockTags.WALLS).add(CoreBlocks.WAX_BRICK_WALL.block());
+		tags.tag(BlockTags.STAIRS).add(CoreBlocks.WAX_BRICK_STAIRS.block());
+		tags.tag(BlockTags.SLABS).add(CoreBlocks.WAX_BRICK_SLAB.block());
+
+		tags.tag(BlockTags.WALLS).add(CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block());
+		tags.tag(BlockTags.STAIRS).add(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block());
+		tags.tag(BlockTags.SLABS).add(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block());
 	}
 
 	private static Collection<Block> union(FeatureBlockGroup<?, ?>... features) {

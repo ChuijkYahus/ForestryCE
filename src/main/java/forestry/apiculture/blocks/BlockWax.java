@@ -10,18 +10,24 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockWax extends Block {
 
 
 	private final boolean MELTABLE;
-	public BlockWax(boolean melts) {
+	//Adding this for compatibility reasons. Other bee mods might want meltable wax blocks yknow.
+
+	@Nullable private final Fluid MELTING_FLUID;
+
+	public BlockWax(boolean melts, @Nullable Fluid meltingFluid) {
 		super(Properties.copy(Blocks.HONEYCOMB_BLOCK)
 			.sound(SoundType.HONEY_BLOCK)
 			.ignitedByLava()
 		);
-		MELTABLE = melts;
+		this.MELTABLE = melts;
+		this.MELTING_FLUID = meltingFluid;
 	}
 
 	@Override
@@ -53,7 +59,7 @@ public class BlockWax extends Block {
 	@Override
 	public void onCaughtFire(BlockState state, Level level, BlockPos pos, @Nullable Direction direction, @Nullable LivingEntity igniter) {
 		super.onCaughtFire(state, level, pos, direction, igniter);
-		if (MELTABLE)
-			level.setBlock(pos, ForestryFluids.WAX.getFluid().defaultFluidState().createLegacyBlock(), 3);
+		if (MELTABLE && MELTING_FLUID != null)
+			level.setBlock(pos, MELTING_FLUID.defaultFluidState().createLegacyBlock(), 3);
 	}
 }

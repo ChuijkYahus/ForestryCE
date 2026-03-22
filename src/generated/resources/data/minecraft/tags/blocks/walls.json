@@ -1,5 +1,7 @@
 {
   "values": [
-    "forestry:ash_brick_wall"
+    "forestry:ash_brick_wall",
+    "forestry:wax_brick_wall",
+    "forestry:refractory_wax_brick_wall"
   ]
 }

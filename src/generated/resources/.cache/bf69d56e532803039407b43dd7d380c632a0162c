@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-16T00:05:07.919307	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-03-22T22:13:53.3501718	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
@@ -139,16 +139,16 @@ e73ebe50f3648320322f96fec6c45537167124bb data/minecraft/tags/blocks/leaves.json
 c72164ff1b6d852fa51f3c0e98004cacb660a295 data/minecraft/tags/blocks/logs.json
 a3f470e9eccaa5cf9d4bc2a389bad4a21ce49be5 data/minecraft/tags/blocks/logs_that_burn.json
 ce86ae664316536a146dedd54abd318dbb38d299 data/minecraft/tags/blocks/mineable/axe.json
-f69c99698294a478418a97578524697c46ad6f43 data/minecraft/tags/blocks/mineable/pickaxe.json
+e2aad82bd57c6ce93167e0949e6481aac6d1d9dd data/minecraft/tags/blocks/mineable/pickaxe.json
 a74d324eaacf17486a9612367d49a24299a17723 data/minecraft/tags/blocks/mineable/shovel.json
 4f0f5d3a71d5e122fb2e1f8e6ba54801b535d904 data/minecraft/tags/blocks/needs_stone_tool.json
 26d5ff819d4e2e63dbe6b17047c63e675ed57c2f data/minecraft/tags/blocks/overworld_natural_logs.json
 d7937e93ba131f356b253c9eb27aa4427291417d data/minecraft/tags/blocks/planks.json
 aa3ef881a072a72a240e6e382073be189586b71b data/minecraft/tags/blocks/saplings.json
-3001d0127b5e50bddbb13aa74cf8eabbaae37699 data/minecraft/tags/blocks/slabs.json
-93706cc1921b46c2c14d819be23551b8ba7405dd data/minecraft/tags/blocks/stairs.json
+6ab32e44e4be9466cf9b6045748001f3a5b0d6be data/minecraft/tags/blocks/slabs.json
+7df918acefd7dd0b8627844df86c5d8712329bf8 data/minecraft/tags/blocks/stairs.json
 645f6c9f90047de9b56bedf65bb63c2b83c1c1ee data/minecraft/tags/blocks/standing_signs.json
-c8c541c3c3ad4a23868194d15151f41dda5cf4c3 data/minecraft/tags/blocks/walls.json
+10c6db71271f2a02bedcbaee339974b226f6b2b5 data/minecraft/tags/blocks/walls.json
 c7d898a21e16b528c876f790d64a509e004f5ed7 data/minecraft/tags/blocks/wall_hanging_signs.json
 9398d4d5283ca0b2d597fce555d1f6ff453c71ac data/minecraft/tags/blocks/wall_signs.json
 c1bf2f5e8cf473519dcb2927ff1714a45bf82a11 data/minecraft/tags/blocks/wooden_buttons.json
