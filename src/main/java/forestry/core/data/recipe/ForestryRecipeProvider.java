@@ -692,15 +692,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" X ");
 			recipe.pattern("X  ");
 		});
-		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.PORTABLE_ALYZER, recipe -> {
-			recipe.define('#', Tags.Items.GLASS_PANES);
-			recipe.define('X', ForestryTags.Items.INGOTS_TIN);
-			recipe.define('R', Tags.Items.DUSTS_REDSTONE);
-			recipe.define('D', Tags.Items.GEMS_DIAMOND);
-			recipe.pattern("X#X");
-			recipe.pattern("X#X");
-			recipe.pattern("RDR");
-		});
 
 		recipes.shapedCrafting("string_from_wisp", RecipeCategory.MISC, Items.STRING, recipe -> {
 			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SILK_WISP));
