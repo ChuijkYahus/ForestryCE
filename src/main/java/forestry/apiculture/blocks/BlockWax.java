@@ -11,19 +11,21 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockWax extends Block {
 
 
 	private final boolean MELTABLE;
-	//Adding this for compatibility reasons. Other bee mods might want meltable wax blocks yknow.
 
+	//Adding this for compatibility reasons. Other bee mods might want meltable wax blocks yknow.
 	@Nullable private final Fluid MELTING_FLUID;
 
-	public BlockWax(boolean melts, @Nullable Fluid meltingFluid) {
+	public BlockWax(boolean melts, @Nullable Fluid meltingFluid, MapColor colour) {
 		super(Properties.copy(Blocks.HONEYCOMB_BLOCK)
 			.sound(SoundType.HONEY_BLOCK)
+			.mapColor(colour)
 			.ignitedByLava()
 		);
 		this.MELTABLE = melts;

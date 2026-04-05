@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 
 @FeatureProvider
 public class ApicultureBlocks {
@@ -24,8 +25,8 @@ public class ApicultureBlocks {
 	public static final FeatureBlockGroup<BlockHoneyComb, EnumHoneyComb> BEE_COMB = REGISTRY.blockGroup(BlockHoneyComb::new, EnumHoneyComb.VALUES).item(ItemBlockHoneyComb::new).identifier("block_bee_comb").create();
 	public static final FeatureBlockGroup<BlockAlveary, BlockAlvearyType> ALVEARY = REGISTRY.blockGroup(BlockAlveary::new, BlockAlvearyType.VALUES).item(blockAlveary -> new ItemBlockForestry<>(blockAlveary, new Item.Properties())).identifier("alveary").create();
 
-	public static final FeatureBlock<Block, BlockItem> WAX_BLOCK = REGISTRY.block(() -> new BlockWax(true, ForestryFluids.WAX.getFluid()), ItemBlockForestry::new, "wax_block");
+	public static final FeatureBlock<Block, BlockItem> WAX_BLOCK = REGISTRY.block(() -> new BlockWax(true, ForestryFluids.WAX.getFluid(), MapColor.COLOR_YELLOW), ItemBlockForestry::new, "wax_block");
 
-	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAX_BLOCK = REGISTRY.block(() -> new BlockWax(false, null), ItemBlockForestry::new, "wax_block_refractory");
+	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAX_BLOCK = REGISTRY.block(() -> new BlockWax(false, null, MapColor.COLOR_RED), ItemBlockForestry::new, "wax_block_refractory");
 
 }

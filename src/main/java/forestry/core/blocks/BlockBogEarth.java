@@ -27,7 +27,7 @@ public class BlockBogEarth extends Block {
 		super(Block.Properties.of()
 			.randomTicks()
 			.strength(0.5f)
-			.sound(SoundType.GRAVEL));
+			.sound(SoundType.MUD));
 
 		registerDefaultState(this.getStateDefinition().any().setValue(MATURITY, 0));
 	}

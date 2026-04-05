@@ -20,7 +20,7 @@ public class BlockPeat extends Block {
 	public BlockPeat() {
         super(BlockBehaviour.Properties.of()
 			.strength(0.5f)
-			.sound(SoundType.GRAVEL));
+			.sound(SoundType.MUDDY_MANGROVE_ROOTS));
 	}
 
 	@Override

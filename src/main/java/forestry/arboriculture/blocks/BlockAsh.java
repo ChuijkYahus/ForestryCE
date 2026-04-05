@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
 import javax.annotation.Nullable;
@@ -28,7 +29,7 @@ public class BlockAsh extends FallingBlock {
 	private static final ResourceLocation BREAK_ASH_BLOCK = new ResourceLocation("forestry:break_ash_block");
 
 	public BlockAsh() {
-		super(Block.Properties.of().sound(SoundType.SAND).strength(0.6F));
+		super(Block.Properties.of().sound(SoundType.SAND).strength(0.6F).mapColor(MapColor.COLOR_LIGHT_GRAY));
 	}
 
 	@Override
