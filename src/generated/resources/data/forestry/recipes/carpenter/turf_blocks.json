@@ -1,0 +1,27 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "liquid": {
+    "Amount": 100,
+    "FluidName": "minecraft:water"
+  },
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "X": {
+        "item": "minecraft:grass_block"
+      }
+    },
+    "pattern": [
+      "XX",
+      "XX"
+    ],
+    "result": {
+      "count": 4,
+      "item": "forestry:turf_block"
+    },
+    "show_notification": true
+  },
+  "time": 20
+}

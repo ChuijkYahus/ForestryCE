@@ -823,6 +823,12 @@ public class ForestryRecipeProvider {
 		});
 
 		//Building Blocks
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TURF, 3, recipe -> {
+			recipe.define('X', CoreBlocks.TURF_BLOCK);
+			recipe.pattern("XX");
+		});
+
+
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.ASH.item(), recipe -> {
 			recipe.define('X', ForestryTags.Items.DUSTS_ASH);
 			recipe.pattern("XX");
@@ -1548,6 +1554,16 @@ public class ForestryRecipeProvider {
 				.define('#', CoreItems.BEESWAX)
 				.define('X', Items.STRING))
 			.build(consumer, id("carpenter", "candles"));
+
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(20)
+			.setLiquid(new FluidStack(Fluids.WATER, 100))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, CoreBlocks.TURF_BLOCK, 4)
+				.pattern("XX")
+				.pattern("XX")
+				.define('X', Blocks.GRASS_BLOCK))
+			.build(consumer, id("carpenter", "turf_blocks"));
 
 		// Crates
 		new CarpenterRecipeBuilder()

@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-22T21:59:27.3606477	Recipes
+// 1.20.1	2026-04-06T00:18:25.6719308	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -646,6 +646,7 @@ cc003fb988f0b7cf54a48851204f684fba70cc91 data/forestry/advancements/recipes/buil
 da368cc5879315981e47182ecff050c2200d1cc8 data/forestry/advancements/recipes/building_blocks/teak_stairs.json
 3f762b465af768e57d0d91ba0bbdf40076274257 data/forestry/advancements/recipes/building_blocks/teak_stripped_wood.json
 6ee406c49c8067472a8db73c9ea62f28935eb1bd data/forestry/advancements/recipes/building_blocks/teak_wood.json
+1fafa12415607fee5833f50fb36751c53b29a0cb data/forestry/advancements/recipes/building_blocks/turf.json
 e025d57c69a65dd01a4deb169f9a845d439e5b76 data/forestry/advancements/recipes/building_blocks/walnut_fence.json
 21ddeb326949f8b34baa1e7ce699876a1e38d5ae data/forestry/advancements/recipes/building_blocks/walnut_fence_gate.json
 0e67e2300a2bcefec1c638c7db83bab9084f4968 data/forestry/advancements/recipes/building_blocks/walnut_fireproof_fence.json
@@ -1241,7 +1242,6 @@ d1e37b43657105c258ba78b668832b98c749ded6 data/forestry/advancements/recipes/tool
 ebcbc4aa7180f3ff552072929aa2017121151637 data/forestry/advancements/recipes/tools/miner_bag.json
 9d69e846a965956bd51b9aa7aa7d9a488c8fdd3b data/forestry/advancements/recipes/tools/naturalist_helmet.json
 77a1cc8909b200757a4f186b6ce3bc0374defb01 data/forestry/advancements/recipes/tools/pipette.json
-0699b45823f9207eee94926021358cc2d915758b data/forestry/advancements/recipes/tools/portable_alyzer.json
 2f05b68d29dfdf84a197f32bd3b97c8b99e1d8ba data/forestry/advancements/recipes/tools/scoop.json
 b2bc531aadff7ccdac7b1b162353f950f7598e3e data/forestry/advancements/recipes/tools/smoker.json
 4731228b3fd0e3baec18a3c5fdca32abf670f180 data/forestry/advancements/recipes/tools/sword_kit.json
@@ -1629,6 +1629,7 @@ e4bcd0e34bf671fe692ae57b45f67e566085888b data/forestry/recipes/carpenter/stamp_1
 5a0edb5cf31ff103a42f833217b1a6e12ec8b84a data/forestry/recipes/carpenter/stamp_2n.json
 57aefa38778bb84996d5793c7a736e7c06127740 data/forestry/recipes/carpenter/stamp_50n.json
 450604c6a51c38050a03b9838510a1122d6ef911 data/forestry/recipes/carpenter/stamp_5n.json
+5985f9c39968ee922c07321de40970c8f04ce539 data/forestry/recipes/carpenter/turf_blocks.json
 b8078710e4c560f89d6b6002953bcb1f12d2e837 data/forestry/recipes/carpenter/wood_pulp.json
 98384b7c1dea5346c267319a35481a85b98dcb49 data/forestry/recipes/carpenter/woven_silk.json
 f30d2a71f6d1c471b28714f9e6e70aba23591eee data/forestry/recipes/catalogue.json
@@ -2855,7 +2856,6 @@ ccb5b4378d07a92f69e9a7e51f206620163d64bf data/forestry/recipes/poplar_stairs.jso
 7b46baa6199e24ef34e5027ef923ea6546ea566d data/forestry/recipes/poplar_stripped_wood.json
 916ac8f2ba1bfcadf3f5345d86e75916fd25fa67 data/forestry/recipes/poplar_trapdoor.json
 557f0b7f42ba009f560cd0165751cc9400931cf4 data/forestry/recipes/poplar_wood.json
-5e8f1b2d831971300eb99672ea30310d21494492 data/forestry/recipes/portable_alyzer.json
 0e15bf8d516b691b2baa3491badf9a734722b301 data/forestry/recipes/pulsating_mesh.json
 3fee21ef851274792872ad94d0c5f1afd3e87bfe data/forestry/recipes/rainmaker.json
 74bd5fb42fe4f52a56d96557e4cd16e53e01e335 data/forestry/recipes/raw_tin_block.json
@@ -2966,6 +2966,7 @@ d1829b14312672abd590ca7a5f6a73318df2091e data/forestry/recipes/teak_stripped_woo
 ec88dd63401b58d4b6bdf27afcee2c3f55e063e0 data/forestry/recipes/torch_from_wax.json
 053ffabc3e2a3e10e96c734f9f308af31f53b57c data/forestry/recipes/trade_station.json
 ef6678334f954268dec42f7fef2c08b9c3d1e493 data/forestry/recipes/tree_chest.json
+a567654df2691b2f15c4365df1e4a0e8cd97cef8 data/forestry/recipes/turf.json
 57af5272312c70d3e4f2e07d9dc64f5d774dae51 data/forestry/recipes/uncraft_refractory_wax_block.json
 7b182210505ef94a7047e77b109f96626db061c1 data/forestry/recipes/uncraft_wax_block.json
 bc0cf6c150736d169b46f209d626da643213410d data/forestry/recipes/volcanic_propolis_to_phosphor.json

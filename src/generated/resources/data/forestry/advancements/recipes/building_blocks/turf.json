@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:glass_panes"
+            "items": [
+              "forestry:turf_block"
+            ]
           }
         ]
       },
@@ -13,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:portable_alyzer"
+        "recipe": "forestry:turf"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:portable_alyzer"
+      "forestry:turf"
     ]
   },
   "sends_telemetry_event": true
