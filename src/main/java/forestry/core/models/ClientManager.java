@@ -4,6 +4,7 @@ import forestry.Forestry;
 import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IColoredBlock;
 import forestry.core.blocks.MachineProperties;
+import forestry.core.features.CoreBlocks;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.items.definitions.IColoredItem;
@@ -18,8 +19,11 @@ import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureGroup;
 import forestry.modules.features.FeatureItem;
 import forestry.modules.features.FeatureTable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -27,12 +31,18 @@ import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ColorResolver;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.ColorResolverManager;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.logging.log4j.core.Core;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -48,6 +58,11 @@ public enum ClientManager {
 		if (item instanceof IColoredItem coloredItem) {
 			return coloredItem.getColorFromItemStack(stack, tintIndex);
 		}
+		else if (
+			stack.is(CoreBlocks.TURF_BLOCK.item()) || stack.is(CoreBlocks.TURF.item())) {
+			return Minecraft.getInstance().getItemColors().getColor(Items.GRASS_BLOCK.getDefaultInstance(), 0);
+
+		}
 		return 0xffffff;
 	};
 	public static final BlockColor FORESTRY_BLOCK_COLOR = (state, level, pos, tintIndex) -> {
@@ -55,7 +70,7 @@ public enum ClientManager {
 		if (level != null && pos != null) {
 			if (block instanceof IColoredBlock coloredBlock)
 				return coloredBlock.colorMultiplier(state, level, pos, tintIndex);
-			else{
+			else if (level.getBlockEntity(pos) != null){
 				//Special handling for machine
 				BlockEntity bm = level.getBlockEntity(pos);
 
@@ -74,6 +89,13 @@ public enum ClientManager {
 					}
 					return 0x000000;
 				}
+			}
+			else if (
+				block.equals(CoreBlocks.TURF_BLOCK.block()) ||
+					block.equals(CoreBlocks.TURF.block())) {
+
+				return BiomeColors.getAverageGrassColor(level, pos);
+
 			}
 		}
 		return 0xffffff;

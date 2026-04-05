@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-22T22:13:53.3501718	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-04-05T22:23:34.600444	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
@@ -72,7 +72,7 @@ eafee3357587c960c9eb1405b3b788747d3f34e2 data/forestry/tags/blocks/flowers/coral
 8dd18b109a989a23dc78465bfd0bb053a040eb67 data/forestry/tags/blocks/flowers/mushrooms.json
 b84c5008081b8b3970cd6f45e95d61eac8932921 data/forestry/tags/blocks/flowers/nether.json
 bd6700108f31975213042e02d5820f5e1795280a data/forestry/tags/blocks/flowers/plantable.json
-85f8feb482014b8e5637825e51e685a7fcd6fd47 data/forestry/tags/blocks/flowers/plantable_ground.json
+4391ca460b02ec1ab453c10c65c9ee2761d4e3f7 data/forestry/tags/blocks/flowers/plantable_ground.json
 cc9497c65f14a52560f3ea352812f1d6f2d7bbe3 data/forestry/tags/blocks/flowers/sculk.json
 33989d311cb039fba05887c9685d2c212383b511 data/forestry/tags/blocks/flowers/sea.json
 29d5a63d62fee543d08945c7e5510f159fb7f65d data/forestry/tags/blocks/flowers/snow.json
@@ -131,23 +131,38 @@ a50813a6215611330b9e7a32904eb8f174d3741a data/forge/tags/blocks/storage_blocks/b
 c74d64c654da6d15a76cd4167268fc9965ef23ca data/forge/tags/blocks/storage_blocks/charcoal.json
 8b3a8ecaabc2db91e27ad34b051647d52a0ad47e data/forge/tags/blocks/storage_blocks/raw_tin.json
 ed974f25f4057a6e2a627a4ee061decd56b7d274 data/forge/tags/blocks/storage_blocks/tin.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/azalea_grows_on.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/azalea_root_replaceable.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/bamboo_plantable_on.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/big_dripleaf_placeable.json
 187c2975f45d9928dc3a105b7ff7a0c58aa589d0 data/minecraft/tags/blocks/ceiling_hanging_signs.json
-fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/blocks/dirt.json
+737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/combination_step_sound_blocks.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/dead_bush_may_place_on.json
+35636a36417b35d6685b567440a7162623547ca2 data/minecraft/tags/blocks/dirt.json
 6d6cb2e736c663ed2002b30cf61222cb5e870f09 data/minecraft/tags/blocks/doors.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/enderman_holdable.json
 42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/minecraft/tags/blocks/fences.json
 e73ebe50f3648320322f96fec6c45537167124bb data/minecraft/tags/blocks/leaves.json
 c72164ff1b6d852fa51f3c0e98004cacb660a295 data/minecraft/tags/blocks/logs.json
 a3f470e9eccaa5cf9d4bc2a389bad4a21ce49be5 data/minecraft/tags/blocks/logs_that_burn.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/lush_ground_replaceable.json
+737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/mangrove_logs_can_grow_through.json
+737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/mangrove_roots_can_grow_through.json
 ce86ae664316536a146dedd54abd318dbb38d299 data/minecraft/tags/blocks/mineable/axe.json
+737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/mineable/hoe.json
 e2aad82bd57c6ce93167e0949e6481aac6d1d9dd data/minecraft/tags/blocks/mineable/pickaxe.json
-a74d324eaacf17486a9612367d49a24299a17723 data/minecraft/tags/blocks/mineable/shovel.json
+ca07be9e8b0ddc7e17419720d88fab28c5f9455e data/minecraft/tags/blocks/mineable/shovel.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/moss_replaceable.json
 4f0f5d3a71d5e122fb2e1f8e6ba54801b535d904 data/minecraft/tags/blocks/needs_stone_tool.json
 26d5ff819d4e2e63dbe6b17047c63e675ed57c2f data/minecraft/tags/blocks/overworld_natural_logs.json
 d7937e93ba131f356b253c9eb27aa4427291417d data/minecraft/tags/blocks/planks.json
 aa3ef881a072a72a240e6e382073be189586b71b data/minecraft/tags/blocks/saplings.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/sculk_replaceable.json
 6ab32e44e4be9466cf9b6045748001f3a5b0d6be data/minecraft/tags/blocks/slabs.json
 7df918acefd7dd0b8627844df86c5d8712329bf8 data/minecraft/tags/blocks/stairs.json
 645f6c9f90047de9b56bedf65bb63c2b83c1c1ee data/minecraft/tags/blocks/standing_signs.json
+737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/sword_efficient.json
+40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/valid_spawn.json
 10c6db71271f2a02bedcbaee339974b226f6b2b5 data/minecraft/tags/blocks/walls.json
 c7d898a21e16b528c876f790d64a509e004f5ed7 data/minecraft/tags/blocks/wall_hanging_signs.json
 9398d4d5283ca0b2d597fce555d1f6ff453c71ac data/minecraft/tags/blocks/wall_signs.json

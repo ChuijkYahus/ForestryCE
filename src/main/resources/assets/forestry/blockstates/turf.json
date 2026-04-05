@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      { "model": "forestry:block/turf", "y": 0 },
+      { "model": "forestry:block/turf", "y": 90 },
+      { "model": "forestry:block/turf", "y": 180 },
+      { "model": "forestry:block/turf", "y": 270 }
+    ]
+  }
+}

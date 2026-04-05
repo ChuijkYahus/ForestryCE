@@ -18,7 +18,9 @@ import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureBlockGroup;
 import forestry.worktable.features.WorktableBlocks;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.Tag;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
@@ -79,7 +81,9 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(BlockTags.MINEABLE_WITH_SHOVEL)
 			.add(CoreBlocks.HUMUS.block())
 			.add(CoreBlocks.BOG_EARTH.block())
-			.add(CoreBlocks.PEAT.block());
+			.add(CoreBlocks.PEAT.block())
+			.add(CoreBlocks.TURF.block())
+			.add(CoreBlocks.TURF_BLOCK.block());
 
 		for (Block block : union(
 			CoreBlocks.BASE,
@@ -180,7 +184,9 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE).block());
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_AMBER).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER).block());
 
-		tags.tag(BlockTags.DIRT).add(CoreBlocks.HUMUS.block());
+		tags.tag(BlockTags.DIRT)
+			.add(CoreBlocks.HUMUS.block())
+			.add(CoreBlocks.TURF_BLOCK.block());
 
 		Block[] pottedFlowers = {Blocks.POTTED_ALLIUM, Blocks.POTTED_AZURE_BLUET, Blocks.POTTED_BLUE_ORCHID, Blocks.POTTED_CORNFLOWER, Blocks.POTTED_DANDELION, Blocks.POTTED_FLOWERING_AZALEA, Blocks.POTTED_LILY_OF_THE_VALLEY, Blocks.POTTED_ORANGE_TULIP, Blocks.POTTED_OXEYE_DAISY, Blocks.POTTED_PINK_TULIP, Blocks.POTTED_POPPY, Blocks.POTTED_RED_TULIP, Blocks.POTTED_TORCHFLOWER, Blocks.POTTED_WHITE_TULIP, Blocks.POTTED_WITHER_ROSE};
 		tags.tag(ForestryTags.Blocks.VANILLA_FLOWERS).addTag(BlockTags.FLOWERS).add(pottedFlowers);
@@ -204,7 +210,7 @@ public final class ForestryBlockTagsProvider {
 			.add(Blocks.FERN)
 			.add(Blocks.CRIMSON_FUNGUS, Blocks.WARPED_FUNGUS, Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS);
 
-		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND).add(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE);
+		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND).add(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE, CoreBlocks.TURF_BLOCK.block());
 
 		tags.tag(ForestryTags.Blocks.MODEST_BEE_GROUND).addTag(BlockTags.SAND).addTag(BlockTags.TERRACOTTA);
 		tags.tag(ForestryTags.Blocks.WINTRY_BEE_GROUND).addTag(BlockTags.DIRT).addTag(BlockTags.SNOW);
@@ -213,17 +219,54 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES).add(Blocks.POINTED_DRIPSTONE).add(Blocks.CAVE_VINES).add(Blocks.CAVE_VINES_PLANT).add(Blocks.HANGING_ROOTS).add(Blocks.GLOW_LICHEN);
 		tags.tag(ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES).add(Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT, Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT);
 
-		tags.tag(BlockTags.WALLS).add(CoreBlocks.ASH_BRICK_WALL.block());
-		tags.tag(BlockTags.STAIRS).add(CoreBlocks.ASH_BRICK_STAIRS.block());
-		tags.tag(BlockTags.SLABS).add(CoreBlocks.ASH_BRICK_SLAB.block());
+		//BUILDING BLOCKS
+		tags.tag(BlockTags.WALLS).add(
+			CoreBlocks.ASH_BRICK_WALL.block(),
+			CoreBlocks.WAX_BRICK_WALL.block(),
+			CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block()
+		);
 
-		tags.tag(BlockTags.WALLS).add(CoreBlocks.WAX_BRICK_WALL.block());
-		tags.tag(BlockTags.STAIRS).add(CoreBlocks.WAX_BRICK_STAIRS.block());
-		tags.tag(BlockTags.SLABS).add(CoreBlocks.WAX_BRICK_SLAB.block());
+		tags.tag(BlockTags.STAIRS).add(
+			CoreBlocks.ASH_BRICK_STAIRS.block(),
+			CoreBlocks.WAX_BRICK_STAIRS.block(),
+			CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block()
+		);
 
-		tags.tag(BlockTags.WALLS).add(CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block());
-		tags.tag(BlockTags.STAIRS).add(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block());
-		tags.tag(BlockTags.SLABS).add(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block());
+		tags.tag(BlockTags.SLABS).add(
+			CoreBlocks.ASH_BRICK_SLAB.block(),
+			CoreBlocks.WAX_BRICK_SLAB.block(),
+			CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block()
+		);
+
+		//Turf needs to simulate a lot of grass tags.
+		TagKey[] turfBlockTags = {
+			BlockTags.BIG_DRIPLEAF_PLACEABLE,
+			BlockTags.VALID_SPAWN,
+			BlockTags.BAMBOO_PLANTABLE_ON,
+			//BlockTags.ANIMALS_SPAWNABLE_ON,
+			//BlockTags.WOLVES_SPAWNABLE_ON,
+			BlockTags.AZALEA_GROWS_ON,
+			BlockTags.SCULK_REPLACEABLE,
+			BlockTags.AZALEA_ROOT_REPLACEABLE,
+			BlockTags.ENDERMAN_HOLDABLE,
+			BlockTags.DEAD_BUSH_MAY_PLACE_ON,
+			BlockTags.LUSH_GROUND_REPLACEABLE,
+			BlockTags.MOSS_REPLACEABLE
+			//I didn't copy *all* tags. Just some that made the most sense.
+		};
+		for (TagKey t: turfBlockTags){
+			tags.tag(t).add(CoreBlocks.TURF_BLOCK.block());
+		}
+		TagKey[] turfTags = {
+			BlockTags.MINEABLE_WITH_HOE,
+			BlockTags.COMBINATION_STEP_SOUND_BLOCKS,
+			BlockTags.SWORD_EFFICIENT,
+			BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH,
+			BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH
+		};
+		for (TagKey t: turfTags){
+			tags.tag(t).add(CoreBlocks.TURF.block());
+		}
 	}
 
 	private static Collection<Block> union(FeatureBlockGroup<?, ?>... features) {

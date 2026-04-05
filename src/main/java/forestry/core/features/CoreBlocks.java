@@ -30,6 +30,10 @@ public class CoreBlocks {
 	public static final FeatureBlock<Block, BlockItem> DEEPSLATE_TIN_ORE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(TIN_ORE.block()).mapColor(MapColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE)), ItemBlockForestry::new, "deepslate_tin_ore");
 	public static final FeatureBlock<Block, BlockItem> RAW_TIN_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_COPPER_BLOCK).mapColor(MapColor.METAL)), ItemBlockForestry::new, "raw_tin_block");
 
+	public static final FeatureBlock<Block, BlockItem> TURF_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK)), ItemBlockForestry::new, "turf_block");
+
+	public static final FeatureBlock<Block, BlockItem> TURF = REGISTRY.block(() -> new CarpetBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK)), ItemBlockForestry::new, "turf");
+
 	/* Block Sets */
 	//TODO: Helper method?
 

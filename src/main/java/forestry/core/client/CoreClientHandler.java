@@ -188,6 +188,10 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
 		// Factory
 		event.register(ClientManager.FORESTRY_BLOCK_COLOR, FactoryBlocks.PLAIN.blockArray());
+
+		//Core
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, CoreBlocks.TURF.block());
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, CoreBlocks.TURF_BLOCK.block());
 	}
 
 	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
@@ -196,6 +200,9 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.CIRCUITBOARDS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, FluidsItems.CONTAINERS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.PIPETTE.item());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreBlocks.TURF.item());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreBlocks.TURF_BLOCK.item());
+
 		// Apiculture
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureBlocks.BEE_COMB.blockArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR,

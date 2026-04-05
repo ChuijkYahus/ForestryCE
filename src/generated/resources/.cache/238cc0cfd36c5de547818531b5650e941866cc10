@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-22T22:13:53.3561954	Tags for minecraft:item mod id forestry
+// 1.20.1	2026-04-05T22:12:21.2174725	Tags for minecraft:item mod id forestry
 e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
@@ -159,7 +159,7 @@ ed974f25f4057a6e2a627a4ee061decd56b7d274 data/forge/tags/items/storage_blocks/ti
 e2dd45f87e39aa655524797c7d3cc13e53e8f112 data/minecraft/tags/items/boats.json
 9e255cc010012bea470dfbf307fa3814413a0eac data/minecraft/tags/items/chest_boats.json
 6192b7352b9e9c5c454e3337140f5368ddd64f03 data/minecraft/tags/items/cluster_max_harvestables.json
-fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/items/dirt.json
+35636a36417b35d6685b567440a7162623547ca2 data/minecraft/tags/items/dirt.json
 6d6cb2e736c663ed2002b30cf61222cb5e870f09 data/minecraft/tags/items/doors.json
 42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/minecraft/tags/items/fences.json
 187c2975f45d9928dc3a105b7ff7a0c58aa589d0 data/minecraft/tags/items/hanging_signs.json

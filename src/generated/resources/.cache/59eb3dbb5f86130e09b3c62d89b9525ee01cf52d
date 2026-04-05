@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-22T21:59:27.3415674	Loot Tables
+// 1.20.1	2026-04-05T22:12:21.2009206	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -1332,6 +1332,8 @@ adf9b181030596e87722241557f6cd24fc6a67c7 data/forestry/loot_tables/blocks/tree_w
 f4168234e525dc6b5e5686145e287cedcebf692f data/forestry/loot_tables/blocks/tree_zebrawood_decorative_leaves.json
 b3fd8579c39779f5d994763d207572f85f724a3d data/forestry/loot_tables/blocks/tree_zebrawood_default_leaves.json
 b70a6ac9211fcde419df738ceea3f5e94ecd435e data/forestry/loot_tables/blocks/tree_zebrawood_default_leaves_fruit.json
+cccb9292056b55a47903f7aba79ca3565b38e7f2 data/forestry/loot_tables/blocks/turf.json
+5f3e544d0c09f74e31d9274fa0b917e191a9ea90 data/forestry/loot_tables/blocks/turf_block.json
 7acb8fd5edfee69a3d52223282aea164f54237de data/forestry/loot_tables/blocks/walnut_button.json
 5e7b4eedc4a476434b7ae8ecd19f97b9de989aba data/forestry/loot_tables/blocks/walnut_door.json
 65af7cffb1b4ddae09af3db1b754ec7c47809495 data/forestry/loot_tables/blocks/walnut_fence.json
