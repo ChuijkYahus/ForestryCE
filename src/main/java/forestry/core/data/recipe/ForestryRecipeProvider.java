@@ -570,6 +570,16 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
+		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.BREWER_BACKPACK, recipe -> {
+			recipe.define('#', ItemTags.WOOL);
+			recipe.define('V', Items.GLASS_BOTTLE);
+			recipe.define('X', Tags.Items.STRING);
+			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
+			recipe.pattern("X#X");
+			recipe.pattern("VYV");
+			recipe.pattern("X#X");
+		});
+
 		// Naturalist backpacks
 		naturalistBackpack(recipes, BackpackItems.APIARIST_BACKPACK, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.APIARIST_CHEST));
 		naturalistBackpack(recipes, BackpackItems.LEPIDOPTERIST_BACKPACK, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST));
@@ -1669,6 +1679,7 @@ public class ForestryRecipeProvider {
 		wovenBackpack(consumer, "hunter", BackpackItems.HUNTER_BACKPACK, BackpackItems.HUNTER_BACKPACK_T_2);
 		wovenBackpack(consumer, "adventurer", BackpackItems.ADVENTURER_BACKPACK, BackpackItems.ADVENTURER_BACKPACK_T_2);
 		wovenBackpack(consumer, "builder", BackpackItems.BUILDER_BACKPACK, BackpackItems.BUILDER_BACKPACK_T_2);
+		wovenBackpack(consumer, "brewer", BackpackItems.BREWER_BACKPACK, BackpackItems.BREWER_BACKPACK_T_2);
 	}
 
 	private static void wovenBackpack(Consumer<FinishedRecipe> consumer, String id, FeatureItem<?> tier1, FeatureItem<?> tier2) {

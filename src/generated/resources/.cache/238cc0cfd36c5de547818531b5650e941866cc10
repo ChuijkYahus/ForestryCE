@@ -1,13 +1,15 @@
-// 1.20.1	2026-04-05T22:12:21.2174725	Tags for minecraft:item mod id forestry
+// 1.20.1	2026-04-06T23:26:46.4676561	Tags for minecraft:item mod id forestry
 e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
+07feeeda6e36f94c0d99eb0cfb992005f0f0b03c data/forestry/tags/items/backpack/allow/brewer.json
 426fdc880d77e5feaa70125d93a57b7ce21dbc2b data/forestry/tags/items/backpack/allow/builder.json
 603f16d567f393f72e982cc81a735eb8a2928fff data/forestry/tags/items/backpack/allow/digger.json
 03dc68ecdad9c2fb29142abc0e2af053792b2713 data/forestry/tags/items/backpack/allow/forester.json
 16e1a41cd2f9345fd2486015f3abe28c5e515113 data/forestry/tags/items/backpack/allow/hunter.json
 cc64626d7c935e9f9d2e41ea8652523ad6b0c5e9 data/forestry/tags/items/backpack/allow/miner.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/reject/adventurer.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/reject/brewer.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/reject/builder.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/reject/digger.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/reject/forester.json

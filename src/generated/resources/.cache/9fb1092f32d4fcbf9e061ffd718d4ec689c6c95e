@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-06T00:18:25.6719308	Recipes
+// 1.20.1	2026-04-06T23:19:16.5517095	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1225,6 +1225,7 @@ dad047a1cf7390d0cf172f3a5594feb2737c2ba8 data/forestry/advancements/recipes/reds
 feea581980844da435c753f278777c514b66a0ca data/forestry/advancements/recipes/tools/apiarist_bag.json
 e5296a94c318c0fac5d2855d1b5e205c290c534e data/forestry/advancements/recipes/tools/arborist_bag.json
 a894f57f5eefcb3d8e87f0afdb28beac857b4878 data/forestry/advancements/recipes/tools/axe_kit.json
+02db1d59bcd32471d6b3e418eef52e1b8c23bd8f data/forestry/advancements/recipes/tools/brewer_bag.json
 9d61fec4469abe2cdc13031e0c52948f9b7c9ee5 data/forestry/advancements/recipes/tools/bronze_axe.json
 248322463ba487aa831dbb4c879f54e1432d2131 data/forestry/advancements/recipes/tools/bronze_hoe.json
 d00409e0180ad26862331f7754dcddd0887888f7 data/forestry/advancements/recipes/tools/bronze_pickaxe.json
@@ -1410,6 +1411,7 @@ cb69e794d2b5547320a13441880a8b868345a6f9 data/forestry/recipes/bog_earth_refract
 79db573e173384d72187238af6f1334bbe439b1d data/forestry/recipes/bog_earth_wax_capsule.json
 8e56aab045b010be6fd685aef77c85093ea2b837 data/forestry/recipes/bottled_honey_drops.json
 efa4f246f13a93142a5198d4b68914181a74a283 data/forestry/recipes/bottler.json
+ed4cfaf7180c01ddececabddbe0f3266f4d0aaeb data/forestry/recipes/brewer_bag.json
 85c667876ebf140fc756f2ef3c374dd1f5dc4fde data/forestry/recipes/bronze_axe.json
 8250452e94b4f397608a2c43e56eb428d0ee827f data/forestry/recipes/bronze_hoe.json
 243c4b8c17c41051c73e05ae14bcc67c99a3b3fa data/forestry/recipes/bronze_pickaxe.json
@@ -3045,6 +3047,7 @@ b861842db58ba0068bd78838bf7eb9427c79aeb8 data/forestry/recipes/willow_trapdoor.j
 e719c5aaf9a82fbf2d13c19b1e1c18ccbe93d415 data/forestry/recipes/wood_pile_from_decorative.json
 d2fe843c7acbd401f8ee051f4178e6c39606184e data/forestry/recipes/worktable.json
 89e9ebcc0e959e6ab174c11f32a8a55e88e45066 data/forestry/recipes/woven_backpack/adventurer.json
+05703a737dd305f078b007555bff4f0e617e1b4b data/forestry/recipes/woven_backpack/brewer.json
 afaacc33d2bbced3235a559f510c0b8af15b9c9b data/forestry/recipes/woven_backpack/builder.json
 8b7cbb22a094194dd10482f6e20e7fe6e0714a68 data/forestry/recipes/woven_backpack/digger.json
 04cbe5f14ade488b04c8b3bb8c633805bf6518d8 data/forestry/recipes/woven_backpack/forester.json
