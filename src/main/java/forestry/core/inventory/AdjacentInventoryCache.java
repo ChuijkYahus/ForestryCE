@@ -4,7 +4,7 @@ import forestry.core.tiles.AdjacentTileCache;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;

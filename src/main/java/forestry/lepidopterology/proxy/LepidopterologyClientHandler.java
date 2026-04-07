@@ -14,8 +14,8 @@ import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.core.registries.Registries;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.bus.api.IEventBus;
 
 public class LepidopterologyClientHandler implements IClientModuleHandler {

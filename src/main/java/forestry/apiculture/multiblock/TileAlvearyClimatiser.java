@@ -3,7 +3,6 @@ package forestry.apiculture.multiblock;
 import forestry.api.climate.IClimateControlled;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.core.tiles.IActivatable;
 import forestry.energy.EnergyHelper;
 import forestry.energy.EnergyTransferMode;

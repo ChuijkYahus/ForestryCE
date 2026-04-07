@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkHooks;
 
 public class ItemInventoryBackpackPaged extends ItemInventoryBackpack implements IPagedInventory {
 	private final ResourceLocation typeId;
@@ -21,7 +20,7 @@ public class ItemInventoryBackpackPaged extends ItemInventoryBackpack implements
 	public void flipPage(ServerPlayer player, short page) {
 		ItemStack backpack = getParent();
 		SimpleMenuProvider provider = new SimpleMenuProvider((windowId, playerInv, p) -> ContainerNaturalistBackpack.makeContainer(windowId, p, backpack, page, this.typeId), backpack.getHoverName());
-		NetworkHooks.openScreen(player, provider, buffer -> {
+		player.openMenu(provider, buffer -> {
 			buffer.writeByte(page);
 			buffer.writeResourceLocation(this.typeId);
 		});

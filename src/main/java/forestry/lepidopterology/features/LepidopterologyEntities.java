@@ -4,7 +4,6 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.lepidopterology.entities.EntityButterfly;
 import forestry.modules.features.FeatureEntityType;
 import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;

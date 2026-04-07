@@ -11,7 +11,6 @@ import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.circuits.ICircuit;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;

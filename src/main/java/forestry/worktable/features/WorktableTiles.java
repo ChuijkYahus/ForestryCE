@@ -3,7 +3,6 @@ package forestry.worktable.features;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import forestry.worktable.tiles.WorktableTile;
 

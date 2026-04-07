@@ -1,16 +1,20 @@
 package forestry.modules.features;
 
+import com.google.common.base.Preconditions;
+import com.mojang.datafixers.util.Function3;
+import forestry.api.core.IBlockSubtype;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.block.Block;
-
-import forestry.api.core.IBlockSubtype;
+import java.util.function.UnaryOperator;
 
 public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends FeatureGroup<FeatureBlockGroup.Builder<B, S>, FeatureBlock<B, BlockItem>, S> {
 	private FeatureBlockGroup(Builder<B, S> builder) {
@@ -19,12 +23,7 @@ public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends
 
 	@Override
 	protected FeatureBlock<B, BlockItem> createFeature(Builder<B, S> builder, S type) {
-		return builder.registry.block(() -> builder.constructor.apply(type), builder.itemConstructor != null ? (block) -> builder.itemConstructor.apply(block, type) : null, builder.getIdentifier(type));
-	}
-
-	// todo remove in 1.21
-	public Collection<B> getBlocks() {
-		return getList();
+		return builder.registry.block(() -> builder.blockConstructor.apply(BlockBehaviour.Properties.of(), type), builder.itemConstructor != null ? (block) -> builder.itemConstructor.apply(block, type) : null, builder.getIdentifier(type));
 	}
 
 	// todo use immutable collection?
@@ -45,33 +44,50 @@ public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends
 	}
 
 	public Block[] blockArray() {
-		return getBlocks().toArray(new Block[0]);
+		return getList().toArray(new Block[0]);
 	}
 
 	public static class Builder<B extends Block, S extends IBlockSubtype> extends FeatureGroup.Builder<S, FeatureBlockGroup<B, S>> {
-		private final IFeatureRegistry registry;
-		private final Function<S, B> constructor;
+		private final FeatureRegistry registry;
+		private final BiFunction<BlockBehaviour.Properties, S, B> blockConstructor;
 		@Nullable
-		private BiFunction<B, S, BlockItem> itemConstructor;
+		private BiFunction<BlockBehaviour.Properties, S, BlockBehaviour.Properties> blockProperties;
+		@Nullable
+		private Function3<B, Item.Properties, S, BlockItem> itemConstructor;
 
-		public Builder(IFeatureRegistry registry, Function<S, B> constructor) {
-			super(registry);
+		public Builder(FeatureRegistry registry, Collection<S> types, BiFunction<BlockBehaviour.Properties, S, B> blockConstructor) {
+			super(registry, types);
 			this.registry = registry;
-			this.constructor = constructor;
+			this.blockConstructor = blockConstructor;
 		}
 
-		public Builder<B, S> itemWithType(BiFunction<B, S, BlockItem> itemConstructor) {
-			this.itemConstructor = itemConstructor;
+		public Builder<B, S> item(BiFunction<B, Item.Properties, BlockItem> itemConstructor) {
+			return item(itemConstructor, UnaryOperator.identity());
+		}
+
+		public Builder<B, S> item(Function3<B, Item.Properties, S, BlockItem> itemConstructor, UnaryOperator<Item.Properties> props) {
+			this.itemConstructor = (block, p, type) -> itemConstructor.apply(block, props.apply(p), type);
 			return this;
 		}
 
-		public Builder<B, S> item(Function<B, BlockItem> itemConstructor) {
-			this.itemConstructor = (block, type) -> itemConstructor.apply(block);
+		public Builder<B, S> item(BiFunction<B, Item.Properties, BlockItem> itemConstructor, UnaryOperator<Item.Properties> props) {
+			this.itemConstructor = (block, p, type) -> itemConstructor.apply(block, props.apply(p));
+			return this;
+		}
+
+		public Builder<B, S> blockProperties(BiFunction<BlockBehaviour.Properties, S, BlockBehaviour.Properties> props) {
+			this.blockProperties = props;
+			return this;
+		}
+
+		public Builder<B, S> blockProperties(UnaryOperator<BlockBehaviour.Properties> props) {
+			this.blockProperties = (p, type) -> props.apply(p);
 			return this;
 		}
 
 		@Override
 		public FeatureBlockGroup<B, S> create() {
+			Preconditions.checkNotNull(this.blockConstructor);
 			return new FeatureBlockGroup<>(this);
 		}
 	}

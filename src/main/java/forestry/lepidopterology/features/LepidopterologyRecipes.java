@@ -10,7 +10,6 @@ import net.neoforged.neoforge.registries.RegistryObject;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.lepidopterology.recipe.ButterflyMatingRecipe;
 import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider

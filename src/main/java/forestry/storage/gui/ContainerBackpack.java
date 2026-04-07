@@ -4,7 +4,7 @@ import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFilteredInventory;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.inventory.ItemInventoryBackpack;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,9 +33,9 @@ public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackp
 
 	private final Size size;
 
-	public static ContainerBackpack fromNetwork(int windowID, Inventory inv, FriendlyByteBuf extraData) {
-		Size size = extraData.readEnum(Size.class);
-		ItemStack parent = extraData.readItem();
+	public static ContainerBackpack fromNetwork(int windowID, Inventory inv, RegistryFriendlyByteBuf buffer) {
+		Size size = buffer.readEnum(Size.class);
+		ItemStack parent = ItemStack.STREAM_CODEC.decode(buffer);
 		return new ContainerBackpack(windowID, inv.player, size, parent);
 	}
 

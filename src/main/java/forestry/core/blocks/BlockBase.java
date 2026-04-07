@@ -48,7 +48,7 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 		return properties.strength(2.0f);
 	}
 
-	public BlockBase(P blockType, Block.Properties properties) {
+	public BlockBase(Block.Properties properties, P blockType) {
 		super(createProperties(properties));
 
 		if (getStateDefinition().any().hasProperty(FACING)) {

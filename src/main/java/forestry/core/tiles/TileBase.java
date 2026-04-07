@@ -8,7 +8,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
 
 public abstract class TileBase extends TileForestry {
 	public TileBase(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
@@ -19,7 +18,7 @@ public abstract class TileBase extends TileForestry {
 		if (!hasGui()) {
 			return;
 		}
-		NetworkHooks.openScreen(player, this, pos);
+		player.openMenu(this, pos);
 	}
 
 	protected boolean hasGui() {

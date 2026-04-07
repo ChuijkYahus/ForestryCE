@@ -22,7 +22,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,7 +76,7 @@ public class TileApiary extends TileBeeHousingBase implements IApiary {
 
 	@Override
 	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		NetworkHooks.openScreen(player, this, buffer -> {
+		player.openMenu(this, buffer -> {
 			buffer.writeBlockPos(pos);
 			buffer.writeBoolean(true);
 			NetworkUtil.writeEnum(buffer, GuiBeeHousing.Icon.APIARY);

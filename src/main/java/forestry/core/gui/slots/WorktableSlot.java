@@ -39,7 +39,7 @@ public class WorktableSlot extends Slot {
 	protected void checkTakeAchievements(ItemStack stack) {
 		if (this.amountCrafted > 0) {
 			stack.onCraftedBy(this.player.level(), this.player, this.amountCrafted);
-			net.minecraftforge.event.ForgeEventFactory.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
+			net.neoforged.neoforge.event.ForgeEventFactory.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
 		}
 
 		if (this.container instanceof RecipeHolder holder) {

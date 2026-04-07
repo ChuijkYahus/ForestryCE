@@ -4,22 +4,19 @@ import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.gui.GuiNaturalistInventory;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import forestry.storage.features.BackpackMenuTypes;
-import forestry.storage.gui.ContainerNaturalistBackpack;
 import forestry.storage.gui.GuiBackpack;
 import forestry.storage.items.ItemBackpack;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.RegistryObject;
 
 public class StorageClientHandler implements IClientModuleHandler {
@@ -51,7 +48,7 @@ public class StorageClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
-		event.register("filled_crate", new FilledCrateModel.Loader());
+		event.register(ForestryConstants.forestry("filled_crate"), new FilledCrateModel.Loader());
 	}
 
 	private static void onModelBake(ModelEvent.BakingCompleted event) {
@@ -60,10 +57,8 @@ public class StorageClientHandler implements IClientModuleHandler {
 		FilledCrateModel.cachedQuads = null;
 	}
 
-	private static void onClientSetup(FMLClientSetupEvent event) {
-		event.enqueueWork(() -> {
-			MenuScreens.register(BackpackMenuTypes.BACKPACK.menuType(), GuiBackpack::new);
-			MenuScreens.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<ContainerNaturalistBackpack>::new);
-		});
+	private static void onClientSetup(RegisterMenuScreensEvent event) {
+		event.register(BackpackMenuTypes.BACKPACK.menuType(), GuiBackpack::new);
+		event.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<NaturalistBackpackMenu>::new);
 	}
 }

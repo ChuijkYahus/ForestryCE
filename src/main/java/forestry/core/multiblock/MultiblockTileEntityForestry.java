@@ -21,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -37,7 +36,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 	 * Called by a structure block when it is right clicked by a player.
 	 */
 	public void openGui(ServerPlayer player, BlockPos pos) {
-		NetworkHooks.openScreen(player, this, pos);
+		player.openMenu(this, pos);
 	}
 
 	@Override

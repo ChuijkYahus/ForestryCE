@@ -38,7 +38,7 @@ public class EngineBlock extends BlockBase<EngineBlockType> {
 	}
 
 	public EngineBlock(EngineBlockType blockType) {
-		super(blockType, Properties.of().sound(SoundType.METAL));
+		super(Properties.of().sound(SoundType.METAL), blockType);
 
 		registerDefaultState(getStateDefinition().any().setValue(VERTICAL_FACING, Direction.UP));
 	}

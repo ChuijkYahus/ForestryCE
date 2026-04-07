@@ -3,7 +3,7 @@ package forestry.apiculture;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.IArmorApiarist;
+import forestry.api.apiculture.IBeeProtection;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.core.ForestryEvent;
 import forestry.api.core.TemperatureType;
@@ -65,7 +65,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.register(IArmorApiarist.class);
+		event.register(IBeeProtection.class);
 	}
 
 	private static void onNetherBeeMate(ForestryEvent.BeeMatingEvent event) {

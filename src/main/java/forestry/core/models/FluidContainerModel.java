@@ -16,13 +16,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.client.model.CompositeModel;
-import net.minecraftforge.client.model.DynamicFluidContainerModel;
-import net.minecraftforge.client.model.QuadTransformers;
-import net.minecraftforge.client.model.geometry.*;
-import net.minecraftforge.fluids.FluidUtil;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.model.CompositeModel;
+import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
+import net.neoforged.neoforge.client.model.QuadTransformers;
+import net.neoforged.neoforge.client.model.geometry.*;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -54,7 +54,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 		Material fluidMaskLocation = context.hasMaterial("fluid") ? context.getMaterial("fluid") : null;
 		Material coverLocation = context.hasMaterial("cover") ? context.getMaterial("cover") : null;
 		TextureAtlasSprite baseSprite = baseLocation != null ? spriteGetter.apply(baseLocation) : null;
-		TextureAtlasSprite fluidSprite = this.fluid != Fluids.EMPTY ? spriteGetter.apply(ForgeHooksClient.getBlockMaterial(IClientFluidTypeExtensions.of(this.fluid).getStillTexture())) : null;
+		TextureAtlasSprite fluidSprite = this.fluid != Fluids.EMPTY ? spriteGetter.apply(ClientHooks.getBlockMaterial(IClientFluidTypeExtensions.of(this.fluid).getStillTexture())) : null;
 		TextureAtlasSprite coverSprite = (coverLocation != null && (!this.coverIsMask || baseLocation != null)) ? spriteGetter.apply(coverLocation) : null;
 
 		TextureAtlasSprite particleSprite = fluidSprite;

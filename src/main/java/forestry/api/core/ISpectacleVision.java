@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
  *
  * @see ForestryCapabilities#ARMOR_NATURALIST
  */
-public interface IArmorNaturalist {
+public interface ISpectacleVision {
 
 	/**
 	 * Called to see if this naturalist's armor allows for seeing pollinated tree leaves/flowers.

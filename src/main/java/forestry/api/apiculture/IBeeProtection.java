@@ -10,9 +10,9 @@ import javax.annotation.Nullable;
 /**
  * When implemented as a capability by armor items, protects the wearer from negative bee effects.
  *
- * @see ForestryCapabilities#ARMOR_APIARIST
+ * @see ForestryCapabilities#BEE_PROTECTION
  */
-public interface IArmorApiarist {
+public interface IBeeProtection {
 	/**
 	 * Called when the apiarist's armor acts as protection against an attack.
 	 *

@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.SimpleModelState;
+import net.neoforged.neoforge.client.model.SimpleModelState;
 
 /**
  * Util methods used at the installation of the game or at the reloading or baking of resources like models or

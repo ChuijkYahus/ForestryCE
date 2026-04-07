@@ -2,7 +2,7 @@ package forestry.apiculture.items;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.ForestryConstants;
-import forestry.api.apiculture.IArmorApiarist;
+import forestry.api.apiculture.IBeeProtection;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.config.Constants;
@@ -74,7 +74,7 @@ public class ItemArmorApiarist extends ArmorItem {
 		}
 	}
 
-	public enum ArmorApiarist implements IArmorApiarist {
+	public enum BeeProtection implements IBeeProtection {
 		INSTANCE;
 
 		@Override
@@ -101,7 +101,7 @@ public class ItemArmorApiarist extends ArmorItem {
 		return new ICapabilityProvider() {
 			@Override
 			public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-				return cap == ForestryCapabilities.ARMOR_APIARIST ? LazyOptional.of(() -> ArmorApiarist.INSTANCE).cast() : LazyOptional.empty();
+				return cap == ForestryCapabilities.ARMOR_APIARIST ? LazyOptional.of(() -> BeeProtection.INSTANCE).cast() : LazyOptional.empty();
 			}
 		};
 	}

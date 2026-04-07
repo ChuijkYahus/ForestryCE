@@ -40,8 +40,8 @@ public class CarrierPlayer implements IPostalCarrier {
 	}
 
 	@Override
-	public IPostalState deliverLetter(ServerLevel world, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
-		POBox pobox = POBoxRegistry.getOrCreate(world).getOrCreatePOBox(recipient);
+	public IPostalState deliverLetter(ServerLevel level, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
+		POBox pobox = POBoxRegistry.getOrCreate(level).getOrCreatePOBox(recipient);
 		if (pobox == null) {
 			return EnumDeliveryState.NO_MAILBOX;
 		}
@@ -49,7 +49,7 @@ public class CarrierPlayer implements IPostalCarrier {
 		if (!pobox.storeLetter(letterStack.copy())) {
 			return EnumDeliveryState.MAILBOX_FULL;
 		} else {
-			Player player = PlayerUtil.getPlayer(world, recipient.getPlayerProfile());
+			Player player = PlayerUtil.getPlayer(level, recipient.getPlayerProfile());
 			if (player instanceof ServerPlayer) {
 				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false), (ServerPlayer) player);
 			}

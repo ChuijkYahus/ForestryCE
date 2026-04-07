@@ -9,7 +9,6 @@ import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.modules.features.FeatureBlockGroup;
 import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider

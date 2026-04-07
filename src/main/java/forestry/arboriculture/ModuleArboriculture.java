@@ -6,7 +6,7 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.core.IArmorNaturalist;
+import forestry.api.core.ISpectacleVision;
 import forestry.api.genetics.IIndividual;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
@@ -94,7 +94,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.register(IArmorNaturalist.class);
+		event.register(ISpectacleVision.class);
 	}
 
 	private static void commonSetup(FMLCommonSetupEvent event) {

@@ -7,10 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 
 public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends FeatureGroup<B, F, S>>, F extends IModFeature, S extends IFeatureSubtype> {
@@ -73,13 +70,14 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 	}
 
 	public static abstract class Builder<S extends IFeatureSubtype, G> {
-		protected final IFeatureRegistry registry;
-		protected final Set<S> subTypes = new LinkedHashSet<>();
+		protected final FeatureRegistry registry;
+		protected final SequencedSet<S> subTypes;
 		protected IdentifierType identifierType = IdentifierType.TYPE_ONLY;
 		protected String identifier = StringUtils.EMPTY;
 
-		public Builder(IFeatureRegistry registry) {
+		public Builder(FeatureRegistry registry, Collection<S> types) {
 			this.registry = registry;
+			this.subTypes = new LinkedHashSet<>(types);
 		}
 
 		public Builder<S, G> identifier(String identifier) {

@@ -3,7 +3,6 @@ package forestry.apiculture.multiblock;
 import forestry.api.climate.IClimateControlled;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.api.recipes.IHygroregulatorRecipe;
-import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.apiculture.gui.ContainerAlvearyHygroregulator;
 import forestry.apiculture.inventory.InventoryHygroregulator;
 import forestry.core.config.Constants;

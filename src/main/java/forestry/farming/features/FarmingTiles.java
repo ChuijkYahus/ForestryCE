@@ -5,7 +5,6 @@ import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.tiles.*;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider

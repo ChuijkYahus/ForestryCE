@@ -8,7 +8,6 @@ import forestry.api.core.TemperatureType;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.api.multiblock.IMultiblockController;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.gui.ContainerAlveary;
 import forestry.core.inventory.IInventoryAdapter;
@@ -35,8 +34,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.capabilities.Capability;
 import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.common.util.LazyOptional;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
 

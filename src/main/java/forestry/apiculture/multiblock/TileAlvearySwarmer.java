@@ -6,7 +6,6 @@ import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.apiculture.gui.ContainerAlvearySwarmer;
 import forestry.apiculture.hives.Hive;
 import forestry.apiculture.hives.HiveDecorator;

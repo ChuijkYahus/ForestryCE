@@ -5,7 +5,7 @@ import forestry.modules.features.FeatureProvider;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
-import net.minecraftforge.forgespi.language.ModFileScanData;
+import net.neoforged.neoforge.forgespi.language.ModFileScanData;
 import org.objectweb.asm.Type;
 
 import java.lang.reflect.Field;

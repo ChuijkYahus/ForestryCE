@@ -5,7 +5,6 @@ import forestry.arboriculture.entities.ForestryBoat;
 import forestry.arboriculture.entities.ForestryChestBoat;
 import forestry.modules.features.FeatureEntityType;
 import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.world.entity.MobCategory;
 

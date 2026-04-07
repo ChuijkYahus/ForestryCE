@@ -6,7 +6,6 @@ import forestry.apiculture.recipes.HygroregulatorRecipe;
 import forestry.factory.recipes.*;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureRecipeType;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider

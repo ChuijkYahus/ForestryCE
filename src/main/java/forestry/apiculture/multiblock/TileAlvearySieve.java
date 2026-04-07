@@ -3,7 +3,6 @@ package forestry.apiculture.multiblock;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.genetics.pollen.IPollen;
 import forestry.api.multiblock.IAlvearyComponent;
-import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.apiculture.gui.ContainerAlvearySieve;
 import forestry.apiculture.inventory.InventoryAlvearySieve;
 import forestry.core.inventory.IInventoryAdapter;

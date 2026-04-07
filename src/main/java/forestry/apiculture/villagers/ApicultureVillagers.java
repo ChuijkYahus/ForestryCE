@@ -15,7 +15,6 @@ import forestry.core.registration.VillagerTrade;
 import forestry.core.registration.VillagerTrade.*;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.Holder;
@@ -35,7 +34,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryObject;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.List;
 import java.util.Objects;

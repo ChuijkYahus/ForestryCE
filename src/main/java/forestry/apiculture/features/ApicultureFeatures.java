@@ -5,7 +5,6 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.hives.HiveDecorator;
 import forestry.core.worldgen.ApiaristPoolElement;
 import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

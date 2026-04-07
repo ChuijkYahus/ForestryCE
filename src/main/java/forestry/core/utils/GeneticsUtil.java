@@ -19,7 +19,7 @@ import net.neoforged.neoforge.common.util.LazyOptional;
 import forestry.api.ForestryCapabilities;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.core.IArmorNaturalist;
+import forestry.api.core.ISpectacleVision;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.IMutationManager;
@@ -29,7 +29,7 @@ import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
-import forestry.arboriculture.capabilities.ArmorNaturalist;
+import forestry.arboriculture.capabilities.SpectacleVision;
 import forestry.compat.curios.CuriosCompat;
 import forestry.core.genetics.ItemGE;
 import forestry.core.tiles.TileUtil;
@@ -77,10 +77,10 @@ public class GeneticsUtil {
 		if (armorItemStack.isEmpty()) {
 			return false;
 		}
-		final IArmorNaturalist armorNaturalist;
-		LazyOptional<IArmorNaturalist> armorCap = armorItemStack.getCapability(ForestryCapabilities.ARMOR_NATURALIST);
+		final ISpectacleVision armorNaturalist;
+		LazyOptional<ISpectacleVision> armorCap = armorItemStack.getCapability(ForestryCapabilities.ARMOR_NATURALIST);
 		if (armorCap.isPresent()) {
-			armorNaturalist = armorCap.orElse(ArmorNaturalist.INSTANCE);
+			armorNaturalist = armorCap.orElse(SpectacleVision.INSTANCE);
 		} else {
 			return false;
 		}

@@ -5,7 +5,7 @@ import forestry.core.inventory.wrappers.InventoryMapper;
 import forestry.core.tiles.TileBase;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.worktable.features.WorktableTiles;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import forestry.worktable.inventory.WorktableInventory;
@@ -13,9 +13,10 @@ import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.screens.WorktableMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,6 +25,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -47,31 +49,31 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
-        this.craftingDisplay.write(data);
-        this.memory.write(data);
+		this.craftingDisplay.write(nbt, registries);
+		this.memory.write(nbt, registries);
 	}
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
-        this.craftingDisplay.read(data);
-        this.memory = new RecipeMemory(data);
+		this.craftingDisplay.read(nbt, registries);
+		this.memory = new RecipeMemory(nbt, registries);
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
-        this.craftingDisplay.writeData(data);
-        this.memory.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		this.craftingDisplay.writeData(buffer);
+		this.memory.writeData(buffer);
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
-        this.craftingDisplay.readData(data);
-        this.memory.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		this.craftingDisplay.readData(buffer);
+		this.memory.readData(buffer);
 	}
 
 	public boolean hasRecipeConflict() {
@@ -80,20 +82,20 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 
 	public void chooseNextConflictRecipe() {
 		if (this.currentRecipe != null) {
-            this.currentRecipe.incrementRecipe();
+			this.currentRecipe.incrementRecipe();
 		}
 	}
 
 	public void choosePreviousConflictRecipe() {
 		if (this.currentRecipe != null) {
-            this.currentRecipe.decrementRecipe();
+			this.currentRecipe.decrementRecipe();
 		}
 	}
 
 	@Override
 	public ItemStack getResult(CraftingContainer inventory, Level level) {
 		if (this.currentRecipe != null) {
-			return this.currentRecipe.getCraftingResult(inventory, level);
+			return this.currentRecipe.getCraftingResult(inventory.asCraftInput(), level);
 		}
 		return ItemStack.EMPTY;
 	}
@@ -118,13 +120,13 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 			return false;
 		}
 
-		CraftingRecipe selectedRecipe = this.currentRecipe.getSelectedRecipe();
+		RecipeHolder<CraftingRecipe> selectedRecipe = this.currentRecipe.getSelectedRecipe();
 		if (selectedRecipe == null) {
 			return false;
 		}
 
 		NonNullList<ItemStack> inventoryStacks = InventoryUtil.getStacks(this);
-		WorktableCraftingContainer usedMatrix = RecipeUtils.getUsedMatrix(this.currentRecipe.getCraftMatrix(), inventoryStacks, this.level, selectedRecipe);
+		WorktableCraftingContainer usedMatrix = RecipeUtil.getUsedMatrix(this.currentRecipe.getCraftMatrix(), inventoryStacks, this.level, selectedRecipe.value());
 		if (usedMatrix == null) {
 			return false;
 		}
@@ -146,7 +148,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 		if (!simulate) {
 
 			// update crafting display to match the ingredients that were actually used
-            this.currentRecipe.setCraftMatrix(usedMatrix);
+			this.currentRecipe.setCraftMatrix(usedMatrix);
 			setCurrentRecipe(this.currentRecipe);
 		}
 
@@ -155,11 +157,11 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 
 	@Override
 	public void onCraftingComplete(Player player) {
-		CraftingRecipe selectedRecipe = this.currentRecipe.getSelectedRecipe();
+		RecipeHolder<CraftingRecipe> selectedRecipe = this.currentRecipe.getSelectedRecipe();
 
 		CommonHooks.setCraftingPlayer(player);
 		WorktableCraftingContainer craftMatrix = this.currentRecipe.getCraftMatrix();
-		NonNullList<ItemStack> remainingItems = selectedRecipe.getRemainingItems(craftMatrix.copy());
+		NonNullList<ItemStack> remainingItems = selectedRecipe.value().getRemainingItems(craftMatrix.asCraftInput());
 		CommonHooks.setCraftingPlayer(null);
 
 		for (ItemStack remainingItem : remainingItems) {
@@ -171,7 +173,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 		}
 
 		if (!this.level.isClientSide) {
-            this.memory.memorizeRecipe(this.level.getGameTime(), this.currentRecipe, this.level);
+			this.memory.memorizeRecipe(this.level.getGameTime(), this.currentRecipe, this.level);
 		}
 	}
 
@@ -188,7 +190,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 	private void setCraftingDisplay(Container craftMatrix) {
 		for (int slot = 0; slot < craftMatrix.getContainerSize(); slot++) {
 			ItemStack stack = craftMatrix.getItem(slot);
-            this.craftingDisplay.setItem(slot, stack.copy());
+			this.craftingDisplay.setItem(slot, stack.copy());
 		}
 	}
 
@@ -198,12 +200,12 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 
 	public void clearCraftMatrix() {
 		for (int slot = 0; slot < this.craftingDisplay.getContainerSize(); slot++) {
-            this.craftingDisplay.setItem(slot, ItemStack.EMPTY);
+			this.craftingDisplay.setItem(slot, ItemStack.EMPTY);
 		}
 	}
 
 	public void setCurrentRecipe(CraftingContainer crafting) {
-		List<CraftingRecipe> recipes = RecipeUtils.getRecipes(RecipeType.CRAFTING, crafting, this.level);
+		List<RecipeHolder<CraftingRecipe>> recipes = RecipeUtil.getRecipes(RecipeType.CRAFTING, crafting.asCraftInput(), this.level);
 		MemorizedRecipe recipe = recipes.isEmpty() ? null : new MemorizedRecipe(crafting, recipes);
 
 		if (this.currentRecipe != null && recipe != null) {

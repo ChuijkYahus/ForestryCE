@@ -6,13 +6,14 @@ import forestry.core.ForestryColors;
 import forestry.core.items.definitions.DrinkProperties;
 import forestry.core.utils.ModUtil;
 import forestry.modules.features.*;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -70,11 +71,11 @@ public enum ForestryFluids {
 		.drinkProperties(1, 0.2f, 32)
 	);
 
-	private static final Map<ResourceLocation, ForestryFluids> tagToFluid = new HashMap<>();
+	private static final Map<ResourceLocation, ForestryFluids> BY_ID = new HashMap<>();
 
 	static {
 		for (ForestryFluids fluidDefinition : ForestryFluids.values()) {
-			tagToFluid.put(ForestryConstants.forestry(fluidDefinition.feature.getName()), fluidDefinition);
+			BY_ID.put(ForestryConstants.forestry(fluidDefinition.feature.getName()), fluidDefinition);
 		}
 	}
 
@@ -83,13 +84,13 @@ public enum ForestryFluids {
 	private final FeatureItem<BucketItem> bucket;
 
 	ForestryFluids(UnaryOperator<FeatureFluid.Builder> properties) {
-		IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.FLUIDS);
+		IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 		this.feature = properties.apply(registry
 				.fluid(name().toLowerCase(Locale.ENGLISH)))
 			.bucket(this::getBucket)
 			.create();
 		this.bucket = registry
-			.item(() -> new BucketItem(this::getFluid, new Item.Properties()
+			.item(() -> new BucketItem(getFluid(), new Item.Properties()
 					.craftRemainder(Items.BUCKET)
 					.stacksTo(1)),
 				"bucket_" + name().toLowerCase(Locale.ENGLISH)
@@ -123,10 +124,11 @@ public enum ForestryFluids {
 
 	public final FluidStack getFluid(int mb) {
 		Fluid fluid = getFluid();
-		if (fluid == Fluids.EMPTY) {
-			return FluidStack.EMPTY;
-		}
 		return new FluidStack(fluid, mb);
+	}
+
+	public final SizedFluidIngredient ingredient(int mb) {
+		return SizedFluidIngredient.of(getFluid(), mb);
 	}
 
 	public final int getParticleColor() {
@@ -141,22 +143,13 @@ public enum ForestryFluids {
 		return getFluid() == fluidStack.getFluid();
 	}
 
-	public static boolean areEqual(Fluid fluid, FluidStack fluidStack) {
+	public static boolean areEqual(@Nullable Fluid fluid, FluidStack fluidStack) {
 		return fluid == fluidStack.getFluid();
 	}
 
 	@Nullable
 	public static ForestryFluids getFluidDefinition(Fluid fluid) {
-		return tagToFluid.get(ModUtil.getRegistryName(fluid));
-	}
-
-	@Nullable
-	public static ForestryFluids getFluidDefinition(FluidStack stack) {
-		if (!stack.isEmpty()) {
-			return getFluidDefinition(stack.getFluid());
-		}
-
-		return null;
+		return BY_ID.get(ModUtil.getRegistryName(fluid));
 	}
 
 	/**
@@ -165,5 +158,10 @@ public enum ForestryFluids {
 	@Nullable
 	public DrinkProperties getDrinkProperties() {
 		return this.feature.properties().properties;
+	}
+
+	@SuppressWarnings("deprecation")
+	public Holder<Fluid> holder() {
+		return getFluid().builtInRegistryHolder();
 	}
 }

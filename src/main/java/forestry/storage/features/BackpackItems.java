@@ -6,7 +6,6 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.api.storage.EnumBackpackType;
 import forestry.modules.features.FeatureItem;
 import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import forestry.storage.ModuleStorage;
 

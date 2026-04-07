@@ -6,7 +6,7 @@ import forestry.core.network.IStreamable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
-import net.minecraftforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
 
 public class ForestryEnergyStorage extends EnergyStorage implements IStreamable, INbtReadable, INbtWritable {
 	public ForestryEnergyStorage(int maxTransfer, int capacity) {

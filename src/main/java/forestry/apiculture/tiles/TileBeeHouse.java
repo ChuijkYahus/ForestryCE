@@ -16,7 +16,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
 
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class TileBeeHouse extends TileBeeHousingBase {
 
 	@Override
 	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		NetworkHooks.openScreen(player, this, buffer -> {
+		player.openMenu(this, buffer -> {
 			buffer.writeBlockPos(pos);
 			buffer.writeBoolean(false);
 			NetworkUtil.writeEnum(buffer, GuiBeeHousing.Icon.BEE_HOUSE);

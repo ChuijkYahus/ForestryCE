@@ -6,7 +6,6 @@ import forestry.arboriculture.tiles.TileLeaves;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 
