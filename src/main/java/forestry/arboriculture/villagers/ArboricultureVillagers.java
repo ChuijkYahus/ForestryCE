@@ -14,6 +14,7 @@ import forestry.core.features.CoreBlocks;
 import forestry.core.registration.VillagerTrade;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.features.FeatureProvider;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.Holder;

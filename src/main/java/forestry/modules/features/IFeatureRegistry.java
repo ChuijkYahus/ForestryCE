@@ -48,6 +48,8 @@ public interface IFeatureRegistry {
 
 	<I extends Item> FeatureItem<I> item(Supplier<I> constructor, String name);
 
+	FeatureItem<Item> item(String name);
+
 	<I extends Item> FeatureItem<I> item(Function<Item.Properties, I> constructor, Supplier<Item.Properties> properties, String identifier);
 
 	FeatureItem<Item> backpack(IBackpackDefinition definition, EnumBackpackType type, String identifier);

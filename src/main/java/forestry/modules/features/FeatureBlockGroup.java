@@ -23,7 +23,12 @@ public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends
 
 	@Override
 	protected FeatureBlock<B, BlockItem> createFeature(Builder<B, S> builder, S type) {
-		return builder.registry.block(() -> builder.blockConstructor.apply(BlockBehaviour.Properties.of(), type), builder.itemConstructor != null ? (block) -> builder.itemConstructor.apply(block, type) : null, builder.getIdentifier(type));
+		BlockBehaviour.Properties properties = builder.blockProperties != null ? builder.blockProperties.apply(BlockBehaviour.Properties.of(), type) : BlockBehaviour.Properties.of();
+		return builder.registry.block(
+			() -> builder.blockConstructor.apply(properties, type),
+			builder.itemConstructor != null ? (block) -> builder.itemConstructor.apply(block, new Item.Properties(), type) : null,
+			builder.getIdentifier(type)
+		);
 	}
 
 	// todo use immutable collection?

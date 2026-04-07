@@ -18,7 +18,7 @@ public class FeatureRecipeType<R extends Recipe<?>> extends ModFeature implement
 	protected FeatureRecipeType(IFeatureRegistry registry, ResourceLocation moduleId, String name, Supplier<RecipeSerializer<? extends R>> serializer) {
 		super(moduleId, name);
 
-		this.type = registry.getRegistry(Registries.RECIPE_TYPE).register(name, () -> RecipeType.simple(new ResourceLocation(moduleId.getNamespace(), name)));
+		this.type = registry.getRegistry(Registries.RECIPE_TYPE).register(name, () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(moduleId.getNamespace(), name)));
 		this.serializer = registry.getRegistry(Registries.RECIPE_SERIALIZER).register(name, serializer);
 	}
 

@@ -8,6 +8,7 @@ import forestry.core.gui.ContainerEscritoire;
 import forestry.core.gui.ContainerNaturalistInventory;
 import forestry.modules.features.FeatureMenuType;
 import forestry.modules.features.FeatureProvider;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider

@@ -7,6 +7,7 @@ import forestry.mail.tiles.TileStampCollector;
 import forestry.mail.tiles.TileTrader;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider

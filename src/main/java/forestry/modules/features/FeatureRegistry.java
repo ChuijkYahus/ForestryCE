@@ -6,6 +6,7 @@ import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
 import forestry.api.storage.EnumBackpackType;
 import forestry.api.storage.IBackpackDefinition;
+import forestry.core.items.ItemForestry;
 import forestry.core.utils.ModUtil;
 import forestry.storage.ModuleStorage;
 import net.minecraft.core.Registry;
@@ -78,7 +79,7 @@ public class FeatureRegistry implements IFeatureRegistry {
 	}
 
 	public <B extends Block, S extends IBlockSubtype> FeatureBlockGroup.Builder<B, S> blockGroup(Function<S, B> constructor, Collection<S> types) {
-		return (FeatureBlockGroup.Builder<B, S>) new FeatureBlockGroup.Builder<>(this, constructor).types(types);
+		return (FeatureBlockGroup.Builder<B, S>) new FeatureBlockGroup.Builder<>(this, types, (properties, type) -> constructor.apply(type));
 	}
 
 	public <B extends Block, S extends IBlockSubtype> FeatureBlockGroup.Builder<B, S> blockGroup(Collection<S> types) {
@@ -92,6 +93,10 @@ public class FeatureRegistry implements IFeatureRegistry {
 
 	public <I extends Item> FeatureItem<I> item(Supplier<I> constructor, String name) {
 		return register(new FeatureItem<>(this, this.moduleId, name, constructor));
+	}
+
+	public FeatureItem<Item> item(String name) {
+		return item(ItemForestry::new, name);
 	}
 
 	public <I extends Item> FeatureItem<I> item(Function<Item.Properties, I> constructor, Supplier<Item.Properties> properties, String identifier) {

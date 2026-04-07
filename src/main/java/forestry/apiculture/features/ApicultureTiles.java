@@ -8,6 +8,7 @@ import forestry.apiculture.tiles.TileBeeHouse;
 import forestry.apiculture.tiles.TileHive;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @SuppressWarnings("Convert2MethodRef")

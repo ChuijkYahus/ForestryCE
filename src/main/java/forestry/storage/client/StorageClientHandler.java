@@ -4,6 +4,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.gui.GuiNaturalistInventory;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.gui.GuiBackpack;
@@ -17,7 +18,7 @@ import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StorageClientHandler implements IClientModuleHandler {
 	public static final ModelResourceLocation FILLED_CRATE_MODEL = new ModelResourceLocation(ForestryConstants.MOD_ID, "filled_crate", "inventory");
@@ -35,9 +36,9 @@ public class StorageClientHandler implements IClientModuleHandler {
 			@SuppressWarnings("deprecation")
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemBackpack.getMode(stack).ordinal();
 
-			for (RegistryObject<Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
+			for (DeferredHolder<Item, ? extends Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
 				if (entry.get() instanceof ItemBackpack) {
-					ItemProperties.register(entry.get(), new ResourceLocation("mode"), itemPropertyFunction);
+					ItemProperties.register(entry.get(), ResourceLocation.withDefaultNamespace("mode"), itemPropertyFunction);
 				}
 			}
 		});

@@ -50,6 +50,7 @@ import forestry.storage.features.CrateItems;
 import forestry.storage.items.ItemCrated;
 import forestry.worktable.features.WorktableBlocks;
 import net.minecraft.nbt.ByteTag;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
@@ -59,7 +60,6 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 @FeatureProvider
 public class ForestryCreativeTabs {
@@ -392,7 +392,7 @@ public class ForestryCreativeTabs {
 
 		// Filled containers
 		for (EnumContainerType type : EnumContainerType.values()) {
-			for (Fluid fluid : ForgeRegistries.FLUIDS.getValues()) {
+			for (Fluid fluid : BuiltInRegistries.FLUID) {
 				if (fluid instanceof FlowingFluid flowing && flowing.getSource() != fluid) {
 					continue;
 				}

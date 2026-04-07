@@ -5,6 +5,7 @@ import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.tiles.*;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;

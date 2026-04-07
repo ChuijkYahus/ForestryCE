@@ -6,6 +6,7 @@ import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.tiles.*;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider

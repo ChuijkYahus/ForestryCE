@@ -3,6 +3,7 @@ package forestry.worktable.features;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.modules.features.FeatureMenuType;
 import forestry.modules.features.FeatureProvider;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import forestry.worktable.screens.WorktableMenu;
 

@@ -2,6 +2,7 @@ package forestry.apiculture.particles;
 
 import forestry.api.modules.ForestryModuleIds;
 import forestry.modules.features.FeatureProvider;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;

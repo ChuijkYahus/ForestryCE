@@ -5,6 +5,7 @@ import forestry.core.items.ItemFluidContainerForestry;
 import forestry.core.items.definitions.EnumContainerType;
 import forestry.modules.features.FeatureItemGroup;
 import forestry.modules.features.FeatureProvider;
+import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider
