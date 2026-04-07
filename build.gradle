@@ -19,6 +19,7 @@ version = forestryVersion
 base.archivesName = "forestry-$minecraftVersion"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 
 neoForge {
 	version = "$forgeVersion"
