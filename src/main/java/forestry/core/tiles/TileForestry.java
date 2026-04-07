@@ -26,9 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
@@ -256,16 +254,12 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	public void clearContent() {
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			if (facing != null) {
-				return LazyOptional.of(() -> new SidedInvWrapper(getInternalInventory(), facing)).cast();
-			} else {
-				return LazyOptional.of(() -> new InvWrapper(getInternalInventory())).cast();
-			}
+	@Nullable
+	public IItemHandler getItemHandler(@Nullable Direction facing) {
+		if (facing != null) {
+			return new SidedInvWrapper(getInternalInventory(), facing);
 		}
-		return super.getCapability(capability, facing);
+		return new InvWrapper(getInternalInventory());
 	}
 
 	@Override

@@ -17,9 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
 
@@ -28,7 +26,6 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	private static final int WORK_TICK_INTERVAL = 5; // one Forestry work tick happens every WORK_TICK_INTERVAL game ticks
 
 	private final ForestryEnergyStorage energyStorage;
-	private final LazyOptional<ForestryEnergyStorage> energyCap;
 	protected float speedMultiplier = 1.0f;
 	protected float powerMultiplier = 1.0f;
 	protected double outputMultiplier = 1.0f;
@@ -45,7 +42,6 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		super(type, pos, state);
 
 		this.energyStorage = new ForestryEnergyStorage(maxTransfer, capacity, EnergyTransferMode.RECEIVE);
-		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 
 		this.ticksPerWorkCycle = 4;
 	}
@@ -204,11 +200,8 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		return TankRenderInfo.EMPTY;
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && capability == ForgeCapabilities.ENERGY) {
-			return this.energyCap.cast();
-		}
-		return super.getCapability(capability, facing);
+	@Nullable
+	public IEnergyStorage getEnergyHandler(@Nullable Direction facing) {
+		return this.remove ? null : this.energyStorage;
 	}
 }

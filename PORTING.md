@@ -67,13 +67,18 @@ To keep progress coherent across Codex sessions:
   - `FluidMap` now resolves `ResourceLocation` and string fluid keys through `BuiltInRegistries.FLUID`.
   - `FeatureRegistry` now runs post-registration callbacks from its own `RegisterEvent` listener instead of relying on removed `ObjectHolderRegistry`.
   - `ModuleCore` now runs its item post-registration setup from common setup enqueue work.
+- Core and cultivation block capability providers:
+  - `TileForestry`, `TilePowered`, and `TilePlanter` now expose plain item, energy, and fluid handler accessors instead of overriding removed Forge-era `getCapability(...)` APIs.
+  - `ModuleCore` now registers block entity capabilities for analyzer, escritoire, and naturalist chest tile entities with `RegisterCapabilitiesEvent.registerBlockEntity(...)`.
+  - `ModuleCultivation` now registers item, energy, and fluid block capabilities for all planter tile entity types.
+  - `TileAnalyzer` no longer overrides the removed Forge-era fluid capability hook and now relies on module capability registration.
 
 ## Next Work Plan
 
 1. Finish the remaining compile errors in the item-capability slice that were exposed once the old capability package was removed:
-   - `src/main/java/forestry/core/tiles/TileForestry.java`
-   - `src/main/java/forestry/cultivation/tiles/TilePlanter.java`
-   - `src/main/java/forestry/core/tiles/TilePowered.java`
+   - `src/main/java/forestry/core/inventory/ItemInventory.java`
+   - `src/main/java/forestry/core/tiles/TileUtil.java`
+   - `src/main/java/forestry/energy/EnergyHelper.java`
 2. Port recipe/data generation APIs.
 3. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
 4. Sweep remaining tick-event package moves in:
@@ -96,7 +101,9 @@ To keep progress coherent across Codex sessions:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemArmorApiarist|ModuleApiculture|ModuleCore|JeiUtil|error:"`
 - Current verification command for the registry-helper cleanup slice:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ModUtil|FluidMap|FeatureRegistry|ModuleCore|ForgeRegistries|ObjectHolderRegistry|error:"`
+- Current verification command for the base block-capability cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "TileForestry|TilePlanter|TilePowered|TileAnalyzer|ModuleCultivation|ModuleCore|Capability|ForgeCapabilities|LazyOptional|error:"`
 - Compile family reduced by the latest slice:
-  - cleared the direct `ModUtil`, `FluidMap`, `FeatureRegistry`, and registry-helper `ModuleCore` errors from the filtered compile
-- Current next blocker after the registry-helper cleanup:
-  - `src/main/java/forestry/core/tiles/TileForestry.java` still imports removed `Capability`, `ForgeCapabilities`, and `LazyOptional`
+  - cleared the direct `TileForestry`, `TilePlanter`, `TilePowered`, `TileAnalyzer`, and cultivation/core block-capability registration errors from the filtered compile
+- Current next blocker after the base block-capability cleanup:
+  - `src/main/java/forestry/core/inventory/ItemInventory.java` still imports removed `Capability`, `ForgeCapabilities`, and `ICapabilityProvider`

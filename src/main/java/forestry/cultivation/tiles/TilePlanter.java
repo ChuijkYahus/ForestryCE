@@ -40,9 +40,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -306,12 +303,9 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 		return this.manager.getTankManager();
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(this::getTankManager).cast();
-		}
-		return super.getCapability(capability, facing);
+	@Nullable
+	public IFluidHandler getFluidHandler(@Nullable Direction facing) {
+		return getTankManager();
 	}
 
 	public abstract List<ItemStack> createGermlingStacks();
