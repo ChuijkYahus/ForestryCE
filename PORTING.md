@@ -72,6 +72,10 @@ To keep progress coherent across Codex sessions:
   - `ModuleCore` now registers block entity capabilities for analyzer, escritoire, and naturalist chest tile entities with `RegisterCapabilitiesEvent.registerBlockEntity(...)`.
   - `ModuleCultivation` now registers item, energy, and fluid block capabilities for all planter tile entity types.
   - `TileAnalyzer` no longer overrides the removed Forge-era fluid capability hook and now relies on module capability registration.
+- Tick-event package cleanup:
+  - `MultiblockServerTickHandler` now uses `LevelTickEvent.Pre`.
+  - `ModuleStorage` now uses `LevelTickEvent.Post` and `ItemEntityPickupEvent`.
+  - `NonStackingBeeEffect` now listens on `LevelTickEvent.Pre`.
 
 ## Next Work Plan
 
@@ -82,9 +86,7 @@ To keep progress coherent across Codex sessions:
 2. Port recipe/data generation APIs.
 3. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
 4. Sweep remaining tick-event package moves in:
-   - `src/main/java/forestry/core/multiblock/MultiblockServerTickHandler.java`
-   - `src/main/java/forestry/storage/ModuleStorage.java`
-   - `src/main/java/forestry/apiculture/genetics/effects/NonStackingBeeEffect.java`
+   - complete for the first remaining users; next likely tick-related blockers are now outside this short list
 
 ## Session Notes
 
@@ -103,7 +105,9 @@ To keep progress coherent across Codex sessions:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ModUtil|FluidMap|FeatureRegistry|ModuleCore|ForgeRegistries|ObjectHolderRegistry|error:"`
 - Current verification command for the base block-capability cleanup slice:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "TileForestry|TilePlanter|TilePowered|TileAnalyzer|ModuleCultivation|ModuleCore|Capability|ForgeCapabilities|LazyOptional|error:"`
+- Current verification command for the tick-event cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "MultiblockServerTickHandler|ModuleStorage|NonStackingBeeEffect|TickEvent|ItemEntityPickupEvent|error:"`
 - Compile family reduced by the latest slice:
-  - cleared the direct `TileForestry`, `TilePlanter`, `TilePowered`, `TileAnalyzer`, and cultivation/core block-capability registration errors from the filtered compile
-- Current next blocker after the base block-capability cleanup:
+  - cleared the direct `MultiblockServerTickHandler`, `ModuleStorage`, and `NonStackingBeeEffect` tick-event import/signature errors from the filtered compile
+- Current next blocker after the tick-event cleanup:
   - `src/main/java/forestry/core/inventory/ItemInventory.java` still imports removed `Capability`, `ForgeCapabilities`, and `ICapabilityProvider`

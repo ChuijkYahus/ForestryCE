@@ -13,9 +13,8 @@ import forestry.storage.client.StorageClientHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.TickEvent;
-import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;
-import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.bus.api.IEventBus;
 
 import java.util.function.Consumer;
@@ -45,25 +44,17 @@ public class ModuleStorage extends BlankForestryModule {
 		NeoForge.EVENT_BUS.addListener(ModuleStorage::onLevelTick);
 	}
 
-	private static void onLevelTick(TickEvent.LevelTickEvent event) {
+	private static void onLevelTick(LevelTickEvent.Post event) {
 		// todo use register/unregister on the IEventBus
 		if (ForestryConfig.SERVER.enableBackpackResupply.get()) {
-			if (event.phase == TickEvent.Phase.END) {
-				for (Player player : event.level.players()) {
-					BackpackResupplyHandler.resupply(player);
-				}
+			for (Player player : event.getLevel().players()) {
+				BackpackResupplyHandler.resupply(player);
 			}
 		}
 	}
 
-	private static void onItemPickup(EntityItemPickupEvent event) {
-		if (event.isCanceled() || event.getResult() == Event.Result.ALLOW) {
-			return;
-		}
-
-		if (PickupHandlerStorage.onItemPickup(event.getEntity(), event.getItem())) {
-			event.setResult(Event.Result.ALLOW);
-		}
+	private static void onItemPickup(ItemEntityPickupEvent event) {
+		PickupHandlerStorage.onItemPickup(event.getPlayer(), event.getItemEntity());
 	}
 
 	@Override

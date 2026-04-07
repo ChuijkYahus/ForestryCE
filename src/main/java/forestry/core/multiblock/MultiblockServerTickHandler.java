@@ -1,9 +1,9 @@
 package forestry.core.multiblock;
 
 import forestry.api.ForestryConstants;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 /**
  * This is a generic multiblock tick handler. If you are using this code on your own,
@@ -18,9 +18,7 @@ import net.neoforged.fml.common.Mod;
 public class MultiblockServerTickHandler {
 
 	@SubscribeEvent
-	public static void onWorldTick(TickEvent.LevelTickEvent event) {
-		if (event.phase == TickEvent.Phase.START) {
-			MultiblockRegistry.tickStart(event.level);
-		}
+	public static void onWorldTick(LevelTickEvent.Pre event) {
+		MultiblockRegistry.tickStart(event.getLevel());
 	}
 }
