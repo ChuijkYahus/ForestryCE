@@ -3,7 +3,6 @@ package forestry.apiculture;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.IBeeProtection;
 import forestry.api.ForestryCapabilities;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.core.ForestryEvent;
@@ -28,7 +27,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -57,13 +56,13 @@ public class ModuleApiculture extends BlankForestryModule {
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
 		// BREWING RECIPES
 		BrewingRecipeRegistry.addRecipe(
-			Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),
+			Ingredient.of(PotionContents.createItemStack(Items.POTION, Potions.AWKWARD)),
 			Ingredient.of(ApicultureItems.POLLEN_CLUSTER.stack(EnumPollenCluster.NORMAL, 1)),
-			PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.HEALING));
+			PotionContents.createItemStack(Items.POTION, Potions.HEALING));
 		BrewingRecipeRegistry.addRecipe(
-			Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),
+			Ingredient.of(PotionContents.createItemStack(Items.POTION, Potions.AWKWARD)),
 			Ingredient.of(ApicultureItems.POLLEN_CLUSTER.stack(EnumPollenCluster.CRYSTALLINE, 1)),
-			PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.REGENERATION));
+			PotionContents.createItemStack(Items.POTION, Potions.REGENERATION));
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {

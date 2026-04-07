@@ -56,17 +56,24 @@ To keep progress coherent across Codex sessions:
     - vanilla sapling genetic handlers
     - pipette and Forestry fluid container item fluid handlers
   - Forestry item-capability consumers were updated off `LazyOptional` for the migrated custom item capabilities.
+- Item-capability-adjacent cleanup:
+  - `ItemArmorApiarist` now uses the 1.21.1 holder-based `ArmorMaterial` API with `ArmorMaterial.Layer`.
+  - `ModuleApiculture` brewing recipe setup now creates potion stacks through `PotionContents.createItemStack(...)`.
+  - `ModuleCore` now uses `ItemEntityPickupEvent`, `LevelTickEvent.Post`, and `NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS`.
+  - `JeiUtil` now reads shaped recipe dimensions from `ShapedRecipe#getWidth()` / `getHeight()`.
+  - Added apiarist armor layer texture copies under `assets/forestry/textures/models/armor/` for the new armor-material texture lookup.
 
 ## Next Work Plan
 
 1. Finish the remaining compile errors in the item-capability slice that were exposed once the old capability package was removed:
-   - `src/main/java/forestry/apiculture/items/ItemArmorApiarist.java`
-   - `src/main/java/forestry/apiculture/ModuleApiculture.java`
-   - `src/main/java/forestry/core/ModuleCore.java`
-   - `src/main/java/forestry/core/utils/JeiUtil.java`
-2. Port block-entity capability registration and lookups from old `getCapability`/`ForgeCapabilities` usage to NeoForge block capabilities.
+   - `src/main/java/forestry/core/tiles/TileForestry.java`
+   - `src/main/java/forestry/cultivation/tiles/TilePlanter.java`
+   - `src/main/java/forestry/core/tiles/TilePowered.java`
+2. Replace remaining Forge registry helper usage:
+   - `src/main/java/forestry/core/utils/ModUtil.java`
+   - `src/main/java/forestry/core/utils/datastructures/FluidMap.java`
 3. Port recipe/data generation APIs.
-4. Port JEI integration against the NeoForge 1.21.1 API.
+4. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
 
 ## Session Notes
 
@@ -79,7 +86,9 @@ To keep progress coherent across Codex sessions:
 - Old source registration still needs the correct JMCP-resolvable 1.20.1 coordinate if class diffs are needed across versions.
 - Current verification command for the item-capability slice:
   - `./gradlew compileJava --console=plain 2>&1 | rg "ItemGE|IIndividualHandlerItem|ModuleArboriculture|ItemArmorApiarist|ModuleApiculture|ModuleCore|ModuleFluids|ModuleLepidopterology|JeiUtil"`
-- Current next blocker after the item-capability registration port:
-  - `ItemArmorApiarist` armor-material API drift
-  - `ModuleCore` event/registry API drift
-  - JEI helper imports still on removed NeoForge classes
+- Current verification command for the item-capability-adjacent cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemArmorApiarist|ModuleApiculture|ModuleCore|JeiUtil|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `ItemArmorApiarist`, `ModuleApiculture`, `ModuleCore`, and `JeiUtil` errors from the filtered compile
+- Current next blocker after the item-capability-adjacent cleanup:
+  - `src/main/java/forestry/core/utils/ModUtil.java` still imports removed `ForgeRegistries` / `ObjectHolderRegistry`

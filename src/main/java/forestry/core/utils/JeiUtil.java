@@ -30,8 +30,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.crafting.IShapedRecipe;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -104,9 +104,9 @@ public class JeiUtil {
 	public static void setCraftingItems(List<IRecipeSlotBuilder> craftingSlots, CraftingRecipe craftingGridRecipe, ICraftingGridHelper craftingGridHelper) {
 		int width = 0;
 		int height = 0;
-		if (craftingGridRecipe instanceof IShapedRecipe<?> shapedRecipe) {
-			width = shapedRecipe.getRecipeWidth();
-			height = shapedRecipe.getRecipeHeight();
+		if (craftingGridRecipe instanceof ShapedRecipe shapedRecipe) {
+			width = shapedRecipe.getWidth();
+			height = shapedRecipe.getHeight();
 		}
 		setCraftingItems(craftingSlots, craftingGridRecipe.getIngredients(), width, height, craftingGridHelper);
 	}

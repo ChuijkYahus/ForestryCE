@@ -52,12 +52,11 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
-import net.neoforged.neoforge.event.TickEvent;
-import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;
-import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.List;
@@ -128,7 +127,7 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	private static void registerGlobalLootModifiers(RegisterEvent event) {
-		event.register(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
+		event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
 			helper.register(ForestryConstants.forestry("condition_modifier"), ConditionLootModifier.CODEC);
 			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC);
 		});
@@ -140,17 +139,12 @@ public class ModuleCore extends BlankForestryModule {
 		PluginManager.registerPollen();
 	}
 
-	private static void onItemPickup(EntityItemPickupEvent event) {
-		if (event.isCanceled() || event.getResult() == Event.Result.ALLOW) {
-			return;
-		}
-		PickupHandlerCore.onItemPickup(event.getEntity(), event.getItem());
+	private static void onItemPickup(ItemEntityPickupEvent event) {
+		PickupHandlerCore.onItemPickup(event.getPlayer(), event.getItemEntity());
 	}
 
-	private static void onLevelTick(TickEvent.LevelTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			TileStreamUpdateTracker.syncVisualUpdates();
-		}
+	private static void onLevelTick(LevelTickEvent.Post event) {
+		TileStreamUpdateTracker.syncVisualUpdates();
 	}
 
 	private static void onTagsUpdated(TagsUpdatedEvent event) {

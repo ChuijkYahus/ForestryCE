@@ -1,17 +1,12 @@
 package forestry.apiculture.items;
 
-import forestry.api.ForestryCapabilities;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.IBeeProtection;
 import forestry.api.apiculture.genetics.IBeeEffect;
-import forestry.apiculture.features.ApicultureItems;
-import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.core.items.definitions.EnumCraftingMaterial;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -20,54 +15,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+import java.util.Map;
+
 public class ItemArmorApiarist extends ArmorItem {
-	public static final String TEXTURE_APIARIST_ARMOR_PRIMARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/apiarist_armor_1.png";
-	public static final String TEXTURE_APIARIST_ARMOR_SECONDARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/apiarist_armor_2.png";
-
-	public static final class ApiaristArmorMaterial implements ArmorMaterial {
-		private static final int[] reductions = new int[]{1, 3, 2, 1};
-		private static final int[] DURABILITY = new int[]{11 * 3, 16 * 3, 15 * 3, 13 * 3};
-
-		@Override
-		public int getDurabilityForType(ArmorItem.Type type) {
-			return DURABILITY[type.ordinal()];
-		}
-
-		@Override
-		public int getDefenseForType(ArmorItem.Type type) {
-			return reductions[type.ordinal()];
-		}
-
-		@Override
-		public int getEnchantmentValue() {
-			return 15;
-		}
-
-		@Override
-		public SoundEvent getEquipSound() {
-			return SoundEvents.ARMOR_EQUIP_LEATHER;
-		}
-
-		@Override
-		public Ingredient getRepairIngredient() {
-			return Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOVEN_SILK).get());
-		}
-
-		@Override
-		public String getName() {
-			return "APIARIST_ARMOR";
-		}
-
-		@Override
-		public float getToughness() {
-			return 0.0F;
-		}
-
-		@Override
-		public float getKnockbackResistance() {
-			return 0.0F;
-		}
-	}
+	private static final Holder<ArmorMaterial> APIARIST_ARMOR_MATERIAL = Holder.direct(new ArmorMaterial(
+		Map.of(
+			ArmorItem.Type.BOOTS, 1,
+			ArmorItem.Type.LEGGINGS, 2,
+			ArmorItem.Type.CHESTPLATE, 3,
+			ArmorItem.Type.HELMET, 1,
+			ArmorItem.Type.BODY, 3
+		),
+		15,
+		SoundEvents.ARMOR_EQUIP_LEATHER,
+		() -> Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOVEN_SILK).get()),
+		List.of(new ArmorMaterial.Layer(ForestryConstants.forestry("apiarist_armor"))),
+		0.0F,
+		0.0F
+	));
 
 	public enum BeeProtection implements IBeeProtection {
 		INSTANCE;
@@ -79,15 +45,6 @@ public class ItemArmorApiarist extends ArmorItem {
 	}
 
 	public ItemArmorApiarist(ArmorItem.Type type) {
-		super(new ApiaristArmorMaterial(), type, new Item.Properties());
-	}
-
-	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-		if (ApicultureItems.APIARIST_LEGS.itemEqual(stack)) {
-			return TEXTURE_APIARIST_ARMOR_SECONDARY;
-		} else {
-			return TEXTURE_APIARIST_ARMOR_PRIMARY;
-		}
+		super(APIARIST_ARMOR_MATERIAL, type, new Item.Properties());
 	}
 }
