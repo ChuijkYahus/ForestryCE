@@ -1,28 +1,28 @@
 package forestry.core.data.builder;
 
-import com.google.gson.JsonObject;
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import forestry.factory.recipes.CarpenterRecipe;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.fluids.FluidStack;
-import org.apache.commons.lang3.mutable.MutableObject;
 
 import javax.annotation.Nullable;
-import java.util.function.Consumer;
 
 public class CarpenterRecipeBuilder {
+	private static final Criterion<ImpossibleTrigger.TriggerInstance> IMPOSSIBLE = new Criterion<>(CriteriaTriggers.IMPOSSIBLE, new ImpossibleTrigger.TriggerInstance());
+
 	private int packagingTime = 5;
 	@Nullable
 	private FluidStack liquid;
 	private Ingredient box;
-	private FinishedRecipe recipe;
+	private CraftingRecipe recipe;
 	@Nullable
 	private ItemStack result;
 
@@ -42,16 +42,16 @@ public class CarpenterRecipeBuilder {
 	}
 
 	public CarpenterRecipeBuilder recipe(ShapedRecipeBuilder recipe) {
-		MutableObject<FinishedRecipe> holder = new MutableObject<>();
-		recipe.unlockedBy("impossible", new ImpossibleTrigger.TriggerInstance()).save(holder::setValue);
-		this.recipe = holder.getValue();
+		RecipeCapture capture = new RecipeCapture();
+		recipe.unlockedBy("impossible", IMPOSSIBLE).save(capture, ResourceLocation.withDefaultNamespace("forestry_carpenter_shaped"));
+		this.recipe = capture.recipe(ResourceLocation.withDefaultNamespace("forestry_carpenter_shaped"), CraftingRecipe.class);
 		return this;
 	}
 
 	public CarpenterRecipeBuilder recipe(ShapelessRecipeBuilder recipe) {
-		MutableObject<FinishedRecipe> holder = new MutableObject<>();
-		recipe.unlockedBy("impossible", new ImpossibleTrigger.TriggerInstance()).save(holder::setValue);
-		this.recipe = holder.getValue();
+		RecipeCapture capture = new RecipeCapture();
+		recipe.unlockedBy("impossible", IMPOSSIBLE).save(capture, ResourceLocation.withDefaultNamespace("forestry_carpenter_shapeless"));
+		this.recipe = capture.recipe(ResourceLocation.withDefaultNamespace("forestry_carpenter_shapeless"), CraftingRecipe.class);
 		return this;
 	}
 
@@ -66,63 +66,7 @@ public class CarpenterRecipeBuilder {
 		return this;
 	}
 
-	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, this.packagingTime, this.liquid, this.box, this.recipe, this.result));
-	}
-
-	public static class Result implements FinishedRecipe {
-		private final ResourceLocation id;
-		private final int packagingTime;
-		@Nullable
-		private final FluidStack liquid;
-		private final Ingredient box;
-		private final FinishedRecipe recipe;
-		@Nullable
-		private final ItemStack result;
-
-		public Result(ResourceLocation id, int packagingTime, @Nullable FluidStack liquid, Ingredient box, FinishedRecipe recipe, @Nullable ItemStack result) {
-			this.id = id;
-			this.packagingTime = packagingTime;
-			this.liquid = liquid;
-			this.box = box;
-			this.recipe = recipe;
-			this.result = result;
-		}
-
-		@Override
-		public void serializeRecipeData(JsonObject json) {
-			json.addProperty("time", this.packagingTime);
-
-			if (this.liquid != null) {
-				json.add("liquid", RecipeSerializers.serializeFluid(this.liquid));
-			}
-
-			json.add("box", this.box.toJson());
-			json.add("recipe", this.recipe.serializeRecipe());
-
-			if (this.result != null) {
-				json.add("result", RecipeSerializers.item(this.result));
-			}
-		}
-
-		@Override
-		public ResourceLocation getId() {
-			return this.id;
-		}
-
-		@Override
-		public RecipeSerializer<?> getType() {
-			return FactoryRecipeTypes.CARPENTER.serializer();
-		}
-
-		@Override
-		public JsonObject serializeAdvancement() {
-			return null;
-		}
-
-		@Override
-		public ResourceLocation getAdvancementId() {
-			return null;
-		}
+	public void build(RecipeOutput output, ResourceLocation id) {
+		output.accept(id, new CarpenterRecipe(id, this.packagingTime, this.liquid == null ? FluidStack.EMPTY : this.liquid, this.box, this.recipe, this.result), null);
 	}
 }

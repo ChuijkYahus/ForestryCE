@@ -1,15 +1,10 @@
 package forestry.core.data.builder;
 
-import com.google.gson.JsonObject;
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
-import net.minecraft.data.recipes.FinishedRecipe;
+import forestry.factory.recipes.FabricatorSmeltingRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.fluids.FluidStack;
-
-import java.util.function.Consumer;
 
 public class FabricatorSmeltingRecipeBuilder {
 
@@ -32,48 +27,7 @@ public class FabricatorSmeltingRecipeBuilder {
 		return this;
 	}
 
-	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, this.meltingPoint, this.resource, this.product));
-	}
-
-	public static class Result implements FinishedRecipe {
-		private final ResourceLocation id;
-		private final int meltingPoint;
-		private final Ingredient resource;
-		private final FluidStack product;
-
-		public Result(ResourceLocation id, int meltingPoint, Ingredient resource, FluidStack product) {
-			this.id = id;
-			this.meltingPoint = meltingPoint;
-			this.resource = resource;
-			this.product = product;
-		}
-
-		@Override
-		public void serializeRecipeData(JsonObject json) {
-			json.addProperty("melting", this.meltingPoint);
-			json.add("resource", this.resource.toJson());
-			json.add("product", RecipeSerializers.serializeFluid(this.product));
-		}
-
-		@Override
-		public ResourceLocation getId() {
-			return this.id;
-		}
-
-		@Override
-		public RecipeSerializer<?> getType() {
-			return FactoryRecipeTypes.FABRICATOR_SMELTING.serializer();
-		}
-
-		@Override
-		public JsonObject serializeAdvancement() {
-			return null;
-		}
-
-		@Override
-		public ResourceLocation getAdvancementId() {
-			return null;
-		}
+	public void build(RecipeOutput output, ResourceLocation id) {
+		output.accept(id, new FabricatorSmeltingRecipe(id, this.resource, this.product, this.meltingPoint), null);
 	}
 }

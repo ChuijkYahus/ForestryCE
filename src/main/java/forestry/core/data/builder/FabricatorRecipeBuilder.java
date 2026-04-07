@@ -1,23 +1,22 @@
 package forestry.core.data.builder;
 
-import com.google.gson.JsonObject;
-import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.RecipeSerializers;
+import forestry.factory.recipes.FabricatorRecipe;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.neoforged.neoforge.fluids.FluidStack;
-import org.apache.commons.lang3.mutable.MutableObject;
-
-import java.util.function.Consumer;
 
 public class FabricatorRecipeBuilder {
+	private static final Criterion<ImpossibleTrigger.TriggerInstance> IMPOSSIBLE = new Criterion<>(CriteriaTriggers.IMPOSSIBLE, new ImpossibleTrigger.TriggerInstance());
+
 	private Ingredient plan;
 	private FluidStack molten;
-	private ShapedRecipeBuilder.Result recipe;
+	private ShapedRecipe recipe;
 
 	public FabricatorRecipeBuilder setPlan(Ingredient plan) {
 		this.plan = plan;
@@ -30,54 +29,13 @@ public class FabricatorRecipeBuilder {
 	}
 
 	public FabricatorRecipeBuilder recipe(ShapedRecipeBuilder recipe) {
-		MutableObject<FinishedRecipe> holder = new MutableObject<>();
-		recipe.unlockedBy("impossible", new ImpossibleTrigger.TriggerInstance()).save(holder::setValue);
-		this.recipe = (ShapedRecipeBuilder.Result) holder.getValue();
+		RecipeCapture capture = new RecipeCapture();
+		recipe.unlockedBy("impossible", IMPOSSIBLE).save(capture, ResourceLocation.withDefaultNamespace("forestry_fabricator"));
+		this.recipe = capture.recipe(ResourceLocation.withDefaultNamespace("forestry_fabricator"), ShapedRecipe.class);
 		return this;
 	}
 
-	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, this.plan, this.molten, this.recipe));
-	}
-
-	public static class Result implements FinishedRecipe {
-		private final ResourceLocation id;
-		private final Ingredient plan;
-		private final FluidStack molten;
-		private final ShapedRecipeBuilder.Result recipe;
-
-		public Result(ResourceLocation id, Ingredient plan, FluidStack molten, ShapedRecipeBuilder.Result recipe) {
-			this.id = id;
-			this.plan = plan;
-			this.molten = molten;
-			this.recipe = recipe;
-		}
-
-		@Override
-		public void serializeRecipeData(JsonObject json) {
-			json.add("plan", this.plan.toJson());
-			json.add("molten", RecipeSerializers.serializeFluid(this.molten));
-			json.add("recipe", this.recipe.serializeRecipe());
-		}
-
-		@Override
-		public ResourceLocation getId() {
-			return this.id;
-		}
-
-		@Override
-		public RecipeSerializer<?> getType() {
-			return FactoryRecipeTypes.FABRICATOR.serializer();
-		}
-
-		@Override
-		public JsonObject serializeAdvancement() {
-			return null;
-		}
-
-		@Override
-		public ResourceLocation getAdvancementId() {
-			return null;
-		}
+	public void build(RecipeOutput output, ResourceLocation id) {
+		output.accept(id, new FabricatorRecipe(id, this.plan, this.molten, this.recipe), null);
 	}
 }
