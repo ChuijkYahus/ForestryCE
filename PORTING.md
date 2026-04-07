@@ -62,6 +62,11 @@ To keep progress coherent across Codex sessions:
   - `ModuleCore` now uses `ItemEntityPickupEvent`, `LevelTickEvent.Post`, and `NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS`.
   - `JeiUtil` now reads shaped recipe dimensions from `ShapedRecipe#getWidth()` / `getHeight()`.
   - Added apiarist armor layer texture copies under `assets/forestry/textures/models/armor/` for the new armor-material texture lookup.
+- Registry-helper cleanup:
+  - `ModUtil` now reads vanilla item, block, fluid, and particle registry keys through `BuiltInRegistries`.
+  - `FluidMap` now resolves `ResourceLocation` and string fluid keys through `BuiltInRegistries.FLUID`.
+  - `FeatureRegistry` now runs post-registration callbacks from its own `RegisterEvent` listener instead of relying on removed `ObjectHolderRegistry`.
+  - `ModuleCore` now runs its item post-registration setup from common setup enqueue work.
 
 ## Next Work Plan
 
@@ -69,11 +74,12 @@ To keep progress coherent across Codex sessions:
    - `src/main/java/forestry/core/tiles/TileForestry.java`
    - `src/main/java/forestry/cultivation/tiles/TilePlanter.java`
    - `src/main/java/forestry/core/tiles/TilePowered.java`
-2. Replace remaining Forge registry helper usage:
-   - `src/main/java/forestry/core/utils/ModUtil.java`
-   - `src/main/java/forestry/core/utils/datastructures/FluidMap.java`
-3. Port recipe/data generation APIs.
-4. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
+2. Port recipe/data generation APIs.
+3. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
+4. Sweep remaining tick-event package moves in:
+   - `src/main/java/forestry/core/multiblock/MultiblockServerTickHandler.java`
+   - `src/main/java/forestry/storage/ModuleStorage.java`
+   - `src/main/java/forestry/apiculture/genetics/effects/NonStackingBeeEffect.java`
 
 ## Session Notes
 
@@ -88,7 +94,9 @@ To keep progress coherent across Codex sessions:
   - `./gradlew compileJava --console=plain 2>&1 | rg "ItemGE|IIndividualHandlerItem|ModuleArboriculture|ItemArmorApiarist|ModuleApiculture|ModuleCore|ModuleFluids|ModuleLepidopterology|JeiUtil"`
 - Current verification command for the item-capability-adjacent cleanup slice:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemArmorApiarist|ModuleApiculture|ModuleCore|JeiUtil|error:"`
+- Current verification command for the registry-helper cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ModUtil|FluidMap|FeatureRegistry|ModuleCore|ForgeRegistries|ObjectHolderRegistry|error:"`
 - Compile family reduced by the latest slice:
-  - cleared the direct `ItemArmorApiarist`, `ModuleApiculture`, `ModuleCore`, and `JeiUtil` errors from the filtered compile
-- Current next blocker after the item-capability-adjacent cleanup:
-  - `src/main/java/forestry/core/utils/ModUtil.java` still imports removed `ForgeRegistries` / `ObjectHolderRegistry`
+  - cleared the direct `ModUtil`, `FluidMap`, `FeatureRegistry`, and registry-helper `ModuleCore` errors from the filtered compile
+- Current next blocker after the registry-helper cleanup:
+  - `src/main/java/forestry/core/tiles/TileForestry.java` still imports removed `Capability`, `ForgeCapabilities`, and `LazyOptional`

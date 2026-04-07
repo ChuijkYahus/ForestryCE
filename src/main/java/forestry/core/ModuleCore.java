@@ -31,7 +31,6 @@ import forestry.core.network.PacketIdServer;
 import forestry.core.network.packets.*;
 import forestry.core.owner.GameProfileDataSerializer;
 import forestry.core.recipes.RecipeManagers;
-import forestry.core.utils.ModUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.modules.BlankForestryModule;
@@ -74,7 +73,6 @@ public class ModuleCore extends BlankForestryModule {
 		modBus.addListener(ModuleCore::onCommonSetup);
 		modBus.addListener(ModuleCore::registerCapabilities);
 		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
-		ModUtil.addRegistryListener(Registries.ITEM, ModuleCore::postItemRegistry);
 
 		ModuleUtil.loadFeatureProviders();
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
@@ -90,6 +88,7 @@ public class ModuleCore extends BlankForestryModule {
 		event.enqueueWork(() -> {
 			((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
 			PluginManager.registerCircuits();
+			postItemRegistry();
 			EntityDataSerializers.registerSerializer(GameProfileDataSerializer.INSTANCE);
 			registerComposts();
 		});

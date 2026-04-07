@@ -1,10 +1,9 @@
 package forestry.core.utils.datastructures;
 
-
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import java.io.Serial;
 
@@ -31,10 +30,10 @@ public class FluidMap<T> extends StackMap<Fluid, T> {
 			return (Fluid) key;
 		}
 		if (key instanceof String) {
-			return ForgeRegistries.FLUIDS.getValue(new ResourceLocation((String) key));
+			return BuiltInRegistries.FLUID.get(new ResourceLocation((String) key));
 		}
 		if (key instanceof ResourceLocation) {
-			return ForgeRegistries.FLUIDS.getValue((ResourceLocation) key);
+			return BuiltInRegistries.FLUID.get((ResourceLocation) key);
 		}
 		return null;
 	}

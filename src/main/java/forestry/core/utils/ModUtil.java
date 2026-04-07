@@ -3,8 +3,8 @@ package forestry.core.utils;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -13,16 +13,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.registries.ForgeRegistries;
-import net.neoforged.neoforge.registries.ObjectHolderRegistry;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.artifact.versioning.VersionRange;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public abstract class ModUtil {
 	public static boolean isModLoaded(String modname) {
@@ -52,19 +48,19 @@ public abstract class ModUtil {
 	}
 
 	public static ResourceLocation getRegistryName(Fluid o) {
-		return ForgeRegistries.FLUIDS.getKey(o);
+		return BuiltInRegistries.FLUID.getKey(o);
 	}
 
 	public static ResourceLocation getRegistryName(Block o) {
-		return ForgeRegistries.BLOCKS.getKey(o);
+		return BuiltInRegistries.BLOCK.getKey(o);
 	}
 
 	public static ResourceLocation getRegistryName(Item o) {
-		return ForgeRegistries.ITEMS.getKey(o);
+		return BuiltInRegistries.ITEM.getKey(o);
 	}
 
 	public static ResourceLocation getRegistryName(ParticleType<?> o) {
-		return ForgeRegistries.PARTICLE_TYPES.getKey(o);
+		return BuiltInRegistries.PARTICLE_TYPE.getKey(o);
 	}
 
 	// todo use in more parts of the mod
@@ -79,30 +75,5 @@ public abstract class ModUtil {
 
 	public static ResourceLocation withSuffix(ResourceLocation id, String suffix) {
 		return new ResourceLocation(id.getNamespace(), id.getPath() + suffix);
-	}
-
-	// Run code immediately after registration is completed (not applicable for data-driven registries)
-	public static void addRegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener) {
-		ObjectHolderRegistry.addHandler(new RegistryListener(type, listener));
-	}
-
-	private static class RegistryListener implements Consumer<Predicate<ResourceLocation>> {
-		private final ResourceKey<? extends Registry<?>> type;
-		private final Runnable listener;
-		private boolean hasInit;
-
-		public RegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener) {
-			this.type = type;
-			this.listener = listener;
-			this.hasInit = false;
-		}
-
-		@Override
-		public void accept(Predicate<ResourceLocation> predicate) {
-			if (!this.hasInit && predicate.test(this.type.location())) {
-				this.hasInit = true;
-                this.listener.run();
-			}
-		}
 	}
 }

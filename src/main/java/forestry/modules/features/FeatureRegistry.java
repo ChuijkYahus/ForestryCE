@@ -52,6 +52,7 @@ public class FeatureRegistry implements IFeatureRegistry {
 	public FeatureRegistry(ResourceLocation moduleId, IEventBus modBus) {
 		this.moduleId = moduleId;
 		this.modBus = modBus;
+		this.modBus.addListener(this::onRegisterEvent);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -144,7 +145,13 @@ public class FeatureRegistry implements IFeatureRegistry {
 	}
 
 	public void addRegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener) {
-		ModUtil.addRegistryListener(type, listener);
+		this.registryListeners.put(type, event -> listener.run());
+	}
+
+	private void onRegisterEvent(RegisterEvent event) {
+		for (Consumer<RegisterEvent> listener : this.registryListeners.get(event.getRegistryKey())) {
+			listener.accept(event);
+		}
 	}
 
 	public <F extends IModFeature> F register(F feature) {
