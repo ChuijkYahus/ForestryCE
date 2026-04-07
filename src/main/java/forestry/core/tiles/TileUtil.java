@@ -9,14 +9,14 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public abstract class TileUtil {
@@ -74,9 +74,12 @@ public abstract class TileUtil {
 			return null;
 		}
 
-		LazyOptional<IItemHandler> itemCap = tile.getCapability(ForgeCapabilities.ITEM_HANDLER, side);
-		if (itemCap.isPresent()) {
-			return itemCap.orElse(null);
+		Level level = tile.getLevel();
+		if (level != null) {
+			IItemHandler itemCap = level.getCapability(Capabilities.ItemHandler.BLOCK, tile.getBlockPos(), side);
+			if (itemCap != null) {
+				return itemCap;
+			}
 		}
 
 		if (tile instanceof WorldlyContainer worldly) {
@@ -90,11 +93,7 @@ public abstract class TileUtil {
 		return null;
 	}
 
-	public static <T> LazyOptional<T> getInterface(Level world, BlockPos pos, Capability<T> capability, @Nullable Direction facing) {
-		BlockEntity tileEntity = world.getBlockEntity(pos);
-		if (tileEntity == null) {
-			return LazyOptional.empty();
-		}
-		return tileEntity.getCapability(capability, facing);
+	public static <T, C> Optional<T> getInterface(Level world, BlockPos pos, BlockCapability<T, C> capability, @Nullable C context) {
+		return Optional.ofNullable(world.getCapability(capability, pos, context));
 	}
 }

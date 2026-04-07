@@ -76,13 +76,17 @@ To keep progress coherent across Codex sessions:
   - `MultiblockServerTickHandler` now uses `LevelTickEvent.Pre`.
   - `ModuleStorage` now uses `LevelTickEvent.Post` and `ItemEntityPickupEvent`.
   - `NonStackingBeeEffect` now listens on `LevelTickEvent.Pre`.
+- Capability consumer cleanup:
+  - `ItemInventory` no longer implements the removed Forge-era `ICapabilityProvider`.
+  - `TileUtil` now reads item and generic block capabilities through `Level#getCapability(...)`.
+  - `EnergyHelper` now pushes and probes energy through `Capabilities.EnergyStorage.BLOCK`.
 
 ## Next Work Plan
 
 1. Finish the remaining compile errors in the item-capability slice that were exposed once the old capability package was removed:
-   - `src/main/java/forestry/core/inventory/ItemInventory.java`
-   - `src/main/java/forestry/core/tiles/TileUtil.java`
-   - `src/main/java/forestry/energy/EnergyHelper.java`
+   - `src/main/java/forestry/energy/tiles/EngineBlockEntity.java`
+   - `src/main/java/forestry/energy/tiles/BiogasEngineBlockEntity.java`
+   - `src/main/java/forestry/apiculture/multiblock/TileAlveary.java`
 2. Port recipe/data generation APIs.
 3. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
 4. Sweep remaining tick-event package moves in:
@@ -107,7 +111,9 @@ To keep progress coherent across Codex sessions:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "TileForestry|TilePlanter|TilePowered|TileAnalyzer|ModuleCultivation|ModuleCore|Capability|ForgeCapabilities|LazyOptional|error:"`
 - Current verification command for the tick-event cleanup slice:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "MultiblockServerTickHandler|ModuleStorage|NonStackingBeeEffect|TickEvent|ItemEntityPickupEvent|error:"`
+- Current verification command for the capability-consumer cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemInventory|TileUtil|EnergyHelper|ForgeCapabilities|ICapabilityProvider|error:"`
 - Compile family reduced by the latest slice:
-  - cleared the direct `MultiblockServerTickHandler`, `ModuleStorage`, and `NonStackingBeeEffect` tick-event import/signature errors from the filtered compile
-- Current next blocker after the tick-event cleanup:
-  - `src/main/java/forestry/core/inventory/ItemInventory.java` still imports removed `Capability`, `ForgeCapabilities`, and `ICapabilityProvider`
+  - cleared the direct `ItemInventory`, `TileUtil`, and `EnergyHelper` consumer-side capability errors from the filtered compile
+- Current next blocker after the capability-consumer cleanup:
+  - `src/main/java/forestry/energy/tiles/EngineBlockEntity.java` still imports removed Forge-era block capability APIs

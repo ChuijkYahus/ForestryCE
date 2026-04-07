@@ -4,8 +4,7 @@ import forestry.core.config.Preference;
 import forestry.energy.tiles.EngineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
@@ -58,9 +57,12 @@ public class EnergyHelper {
 			return receptor.getEnergyManager().forceReceiveEnergy(extractable, simulate);
 		}
 
-		return tile.getCapability(ForgeCapabilities.ENERGY, side).map(storage -> {
-			return storage.receiveEnergy(extractable, simulate);
-		}).orElse(0);
+		if (tile.getLevel() == null) {
+			return 0;
+		}
+
+		IEnergyStorage storage = tile.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, tile.getBlockPos(), side);
+		return storage != null ? storage.receiveEnergy(extractable, simulate) : 0;
 	}
 
 	public static boolean canSendEnergy(ForestryEnergyStorage energyStorage, Direction orientation, BlockEntity tile) {
@@ -75,12 +77,12 @@ public class EnergyHelper {
 			return true;
 		}
 
-		LazyOptional<IEnergyStorage> energyStorage = tile.getCapability(ForgeCapabilities.ENERGY, side);
-		if (energyStorage.isPresent()) {
-			return energyStorage.orElse(null).canReceive();
+		if (tile.getLevel() == null) {
+			return false;
 		}
 
-		return false;
+		IEnergyStorage energyStorage = tile.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, tile.getBlockPos(), side);
+		return energyStorage != null && energyStorage.canReceive();
 	}
 
 }

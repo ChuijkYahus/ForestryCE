@@ -10,17 +10,13 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.capabilities.ICapabilityProvider;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class ItemInventory implements Container, IFilterSlotDelegate, ICapabilityProvider {
+public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	private static final String KEY_SLOTS = "Slots";
 	private static final String KEY_UID = "UID";
 	private static final Random rand = new Random();
@@ -278,14 +274,6 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 	}
 
 	/* Fields */
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			return LazyOptional.of(() -> this.itemHandler).cast();
-		}
-		return LazyOptional.empty();
-	}
 
 	public IItemHandler getItemHandler() {
 		return this.itemHandler;
