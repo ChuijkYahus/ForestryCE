@@ -11,9 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
 
@@ -23,7 +21,6 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 	private static final int FE_PER_OPERATION = 50;
 
 	private final ForestryEnergyStorage energyStorage;
-	private final LazyOptional<ForestryEnergyStorage> energyCap;
 	private final byte temperatureSteps;
 
 	private int workingTime = 0;
@@ -33,7 +30,6 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 		this.temperatureSteps = temperatureSteps;
 
 		this.energyStorage = new ForestryEnergyStorage(1000, 2000, EnergyTransferMode.RECEIVE);
-		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 	}
 
 	/* UPDATING */
@@ -91,11 +87,8 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 		}
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && capability == ForgeCapabilities.ENERGY) {
-			return this.energyCap.cast();
-		}
-		return super.getCapability(capability, facing);
+	@Nullable
+	public IEnergyStorage getEnergyHandler(@Nullable Direction facing) {
+		return this.remove ? null : this.energyStorage;
 	}
 }

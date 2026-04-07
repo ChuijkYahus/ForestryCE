@@ -23,9 +23,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
@@ -51,7 +48,6 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	protected boolean forceCooldown = false;
 	public float progress;
 	protected final ForestryEnergyStorage energyStorage;
-	private final LazyOptional<IEnergyStorage> energyCap;
 	private final String hintKey;
 
 	protected EngineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, String hintKey, int maxHeat, int maxEnergy) {
@@ -59,7 +55,6 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 		this.hintKey = hintKey;
 		this.maxHeat = maxHeat;
 		this.energyStorage = new ForestryEnergyStorage(2000, maxEnergy, EnergyTransferMode.EXTRACT);
-		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 	}
 
 	public String getHintKey() {
@@ -289,11 +284,11 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 		return this.energyStorage;
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction side) {
-		if (!this.remove && capability == ForgeCapabilities.ENERGY && side == getBlockState().getValue(EngineBlock.VERTICAL_FACING)) {
-			return this.energyCap.cast();
+	@Nullable
+	public IEnergyStorage getEnergyHandler(@Nullable Direction side) {
+		if (this.remove || side != getBlockState().getValue(EngineBlock.VERTICAL_FACING)) {
+			return null;
 		}
-		return super.getCapability(capability, side);
+		return this.energyStorage;
 	}
 }

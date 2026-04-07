@@ -31,9 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
@@ -71,17 +69,13 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 		setChanged();
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			if (facing != null) {
-				// TODO why is sided inventory used here? the side is actually ignored, see in InventoryAdapter
-				return LazyOptional.of(() -> new SidedInvWrapper(getInternalInventory(), facing)).cast();
-			} else {
-				return LazyOptional.of(() -> new InvWrapper(getInternalInventory())).cast();
-			}
+	@Nullable
+	public IItemHandler getItemHandler(@Nullable Direction facing) {
+		if (facing != null) {
+			// TODO why is sided inventory used here? the side is actually ignored, see in InventoryAdapter
+			return new SidedInvWrapper(getInternalInventory(), facing);
 		}
-		return super.getCapability(capability, facing);
+		return new InvWrapper(getInternalInventory());
 	}
 
 	/* IHousing */

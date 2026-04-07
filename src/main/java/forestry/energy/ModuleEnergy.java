@@ -12,20 +12,36 @@ import forestry.core.fluids.ForestryFluids;
 import forestry.core.utils.datastructures.FluidMap;
 import forestry.core.utils.datastructures.ItemStackMap;
 import forestry.energy.client.EnergyClientHandler;
+import forestry.energy.features.EnergyTiles;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.ForgeMod;
 
 import java.util.function.Consumer;
 
 @ForestryModule
 public class ModuleEnergy extends BlankForestryModule {
+	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, EnergyTiles.CLOCKWORK_ENGINE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, EnergyTiles.BIOGAS_ENGINE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, EnergyTiles.PEAT_ENGINE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, EnergyTiles.BIOGAS_ENGINE.tileType(), (tile, side) -> tile.getFluidHandler(side));
+	}
+
 	@Override
 	public ResourceLocation getId() {
 		return ForestryModuleIds.ENERGY;
+	}
+
+	@Override
+	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ModuleEnergy::registerCapabilities);
 	}
 
 	@Override

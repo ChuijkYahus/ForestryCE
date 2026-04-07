@@ -80,16 +80,16 @@ To keep progress coherent across Codex sessions:
   - `ItemInventory` no longer implements the removed Forge-era `ICapabilityProvider`.
   - `TileUtil` now reads item and generic block capabilities through `Level#getCapability(...)`.
   - `EnergyHelper` now pushes and probes energy through `Capabilities.EnergyStorage.BLOCK`.
+- Energy and alveary block capability registration:
+  - `EngineBlockEntity`, `BiogasEngineBlockEntity`, `TileAlveary`, `TileAlvearyClimatiser`, and `TileAlvearyHygroregulator` now expose explicit item, energy, and fluid provider methods instead of overriding removed Forge-era `getCapability(...)`.
+  - `ModuleEnergy` now registers engine block entity energy providers for all engine tile types and the biogas engine fluid provider through `RegisterCapabilitiesEvent`.
+  - `ModuleApiculture` now registers alveary block entity item providers for all alveary tile types, plus energy for fan/heater and fluid for the hygroregulator.
 
 ## Next Work Plan
 
-1. Finish the remaining compile errors in the item-capability slice that were exposed once the old capability package was removed:
-   - `src/main/java/forestry/energy/tiles/EngineBlockEntity.java`
-   - `src/main/java/forestry/energy/tiles/BiogasEngineBlockEntity.java`
-   - `src/main/java/forestry/apiculture/multiblock/TileAlveary.java`
-2. Port recipe/data generation APIs.
-3. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
-4. Sweep remaining tick-event package moves in:
+1. Port recipe/data generation APIs.
+2. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
+3. Sweep remaining tick-event package moves in:
    - complete for the first remaining users; next likely tick-related blockers are now outside this short list
 
 ## Session Notes
@@ -113,7 +113,9 @@ To keep progress coherent across Codex sessions:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "MultiblockServerTickHandler|ModuleStorage|NonStackingBeeEffect|TickEvent|ItemEntityPickupEvent|error:"`
 - Current verification command for the capability-consumer cleanup slice:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemInventory|TileUtil|EnergyHelper|ForgeCapabilities|ICapabilityProvider|error:"`
+- Current verification command for the engine/alveary block-capability slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "EngineBlockEntity|BiogasEngineBlockEntity|TileAlveary|TileAlvearyClimatiser|TileAlvearyHygroregulator|ModuleEnergy|ModuleApiculture|ForgeCapabilities|LazyOptional|error:"`
 - Compile family reduced by the latest slice:
-  - cleared the direct `ItemInventory`, `TileUtil`, and `EnergyHelper` consumer-side capability errors from the filtered compile
-- Current next blocker after the capability-consumer cleanup:
-  - `src/main/java/forestry/energy/tiles/EngineBlockEntity.java` still imports removed Forge-era block capability APIs
+  - cleared the direct `EngineBlockEntity`, `BiogasEngineBlockEntity`, `TileAlveary`, `TileAlvearyClimatiser`, and `TileAlvearyHygroregulator` block-capability provider errors from the filtered compile
+- Current next blocker after the engine/alveary block-capability slice:
+  - recipe/data generation APIs now dominate the compile failures, with remaining Forge-era capability users still present in farming, sorting, factory, and compat code

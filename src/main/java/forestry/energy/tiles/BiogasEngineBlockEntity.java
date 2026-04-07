@@ -24,9 +24,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -44,8 +41,6 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 
 	private boolean shutdown; // true if the engine is too cold and needs to warm itself up.
 
-	private final LazyOptional<IFluidHandler> fluidCap;
-
 	public BiogasEngineBlockEntity(BlockPos pos, BlockState state) {
 		super(EnergyTiles.BIOGAS_ENGINE.tileType(), pos, state, "engine.bronze", ENGINE_BRONZE_HEAT_MAX, 300000);
 
@@ -56,7 +51,6 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		this.burnTank = new StandardTank(BUCKET_VOLUME, false, false);
 
 		this.tankManager = new TankManager(this, this.fuelTank, this.heatingTank, this.burnTank);
-		this.fluidCap = LazyOptional.of(() -> this.tankManager);
 	}
 
 	@Override
@@ -268,18 +262,9 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
         this.burnTank.readData(data);
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction facing) {
-		if (!this.remove && cap == ForgeCapabilities.FLUID_HANDLER) {
-			return this.fluidCap.cast();
-		}
-		return super.getCapability(cap, facing);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		this.fluidCap.invalidate();
+	@Nullable
+	public IFluidHandler getFluidHandler(@Nullable Direction facing) {
+		return this.remove ? null : this.tankManager;
 	}
 
 	@Override

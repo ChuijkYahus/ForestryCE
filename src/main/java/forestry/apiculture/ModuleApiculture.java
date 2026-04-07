@@ -13,6 +13,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
 import forestry.apiculture.commands.CommandBee;
 import forestry.apiculture.features.ApicultureItems;
+import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.core.genetics.ItemGE;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
@@ -35,6 +36,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.brewing.BrewingRecipeRegistry;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
@@ -76,6 +78,16 @@ public class ModuleApiculture extends BlankForestryModule {
 			ApicultureItems.BEE_DRONE.item(),
 			ApicultureItems.BEE_PRINCESS.item(),
 			ApicultureItems.BEE_LARVAE.item());
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_PLAIN.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SIEVE.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SWARMER.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_HYGROREGULATOR.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_STABILISER.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_FAN.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_HEATER.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ApicultureTiles.ALVEARY_FAN.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ApicultureTiles.ALVEARY_HEATER.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ApicultureTiles.ALVEARY_HYGROREGULATOR.tileType(), (tile, side) -> tile.getFluidHandler(side));
 	}
 
 	private static void onNetherBeeMate(ForestryEvent.BeeMatingEvent event) {
