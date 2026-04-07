@@ -6,17 +6,17 @@ import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.FrameType;
+import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.commands.CommandFunction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.common.data.ForgeAdvancementProvider;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -24,14 +24,14 @@ import java.util.function.Consumer;
 
 import static net.minecraft.advancements.Advancement.Builder.advancement;
 
-public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
+public class ForestryAdvancementProvider extends AdvancementProvider {
 	public ForestryAdvancementProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper existingFileHelper) {
 		super(output, registries, existingFileHelper, List.of(new CoreAdvancements()));
 	}
 
-	private static class CoreAdvancements implements AdvancementGenerator {
+	private static class CoreAdvancements implements AdvancementProvider.AdvancementGenerator {
 		@Override
-		public void generate(HolderLookup.Provider registries, Consumer<Advancement> writer, ExistingFileHelper existingFileHelper) {
+		public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> writer, ExistingFileHelper existingFileHelper) {
 			ItemStack icon = SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.INDUSTRIOUS, BeeLifeStage.QUEEN);
 
 			advancement()
@@ -39,14 +39,14 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					icon,
 					Component.translatable("advancements.forestry.root.title"),
 					Component.translatable("advancements.forestry.root.description"),
-					new ResourceLocation("textures/block/honeycomb_block.png"),
-					FrameType.TASK,
+					ResourceLocation.withDefaultNamespace("textures/block/honeycomb_block.png"),
+					AdvancementType.TASK,
 					false,
 					false,
 					false
 				)
 				.addCriterion("tick", InventoryChangeTrigger.TriggerInstance.hasItems(ApicultureItems.BEE_COMBS.itemArray()))
-				.rewards(new AdvancementRewards(0, new ResourceLocation[]{ForestryConstants.forestry("grant_guide")}, new ResourceLocation[0], CommandFunction.CacheableFunction.NONE))
+				.rewards(AdvancementRewards.Builder.function(ForestryConstants.forestry("grant_guide")).build())
 				.save(writer, ForestryConstants.MOD_ID + ":root");
 		}
 	}

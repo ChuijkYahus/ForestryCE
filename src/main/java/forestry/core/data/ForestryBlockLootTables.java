@@ -13,6 +13,7 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.features.LepidopterologyBlocks;
 import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureBlockGroup;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
@@ -46,8 +47,8 @@ import java.util.function.Function;
 public class ForestryBlockLootTables extends BlockLootSubProvider {
 	private final LinkedHashSet<Block> added = new LinkedHashSet<>();
 
-	protected ForestryBlockLootTables() {
-		super(Set.of(), FeatureFlags.DEFAULT_FLAGS);
+	protected ForestryBlockLootTables(HolderLookup.Provider registries) {
+		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, registries);
 	}
 
 	@Override
@@ -58,10 +59,10 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 			}
 		});
 
-		for (BlockDecorativeLeaves leaves : ArboricultureBlocks.LEAVES_DECORATIVE.getBlocks()) {
+		for (BlockDecorativeLeaves leaves : ArboricultureBlocks.LEAVES_DECORATIVE.getList()) {
 			add(leaves, block -> droppingWithChances(block, leaves.getType(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
-		for (BlockDefaultLeaves leaves : ArboricultureBlocks.LEAVES_DEFAULT.getBlocks()) {
+		for (BlockDefaultLeaves leaves : ArboricultureBlocks.LEAVES_DEFAULT.getList()) {
 			add(leaves, block -> droppingWithChances(block, leaves.getType(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
 		for (Map.Entry<ForestryLeafType, FeatureBlock<BlockDefaultLeavesFruit, BlockItem>> entry : ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.getFeatureByType().entrySet()) {
@@ -70,12 +71,12 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 			Block fruitLeavesBlock = entry.getValue().block();
 			add(fruitLeavesBlock, (block) -> droppingWithChances(defaultLeavesBlock, entry.getKey(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
-		for (BlockForestryDoor door : ArboricultureBlocks.DOORS.getBlocks()) {
+		for (BlockForestryDoor door : ArboricultureBlocks.DOORS.getList()) {
 			add(door, createDoorTable(door));
 		}
 		registerLootTable(CharcoalBlocks.ASH, (block) -> LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK)
 			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(CoreItems.ASH)).apply(SetItemCountFunction.setCount(BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f))))
-			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL)).apply(CountBlockFunction.builder()).apply(ApplyBonusCount.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 23.0f / 40, 2))));
+			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL)).apply(CountBlockFunction.builder()).apply(ApplyBonusCount.addBonusBinomialDistributionCount(enchantments().getOrThrow(Enchantments.FORTUNE), 23.0f / 40, 2))));
 		registerLootTable(CoreBlocks.PEAT, (block) -> LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(Blocks.DIRT))).withPool(LootPool.lootPool().apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))).add(LootItem.lootTableItem(CoreItems.PEAT.item()))));
 		registerDropping(CoreBlocks.HUMUS, Blocks.DIRT);
 
@@ -95,15 +96,19 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		dropSelf(CoreBlocks.RAW_TIN_BLOCK.block());
 	}
 
+	private HolderLookup.RegistryLookup<net.minecraft.world.item.enchantment.Enchantment> enchantments() {
+		return this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+	}
+
 	private LootTable.Builder createApatiteOreDrops(Block block) {
-		return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(CoreItems.APATITE.item()).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 7.0F))).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 2))));
+		return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(CoreItems.APATITE.item()).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 7.0F))).apply(ApplyBonusCount.addUniformBonusCount(enchantments().getOrThrow(Enchantments.FORTUNE), 2))));
 	}
 
 	public LootTable.Builder droppingWithChances(Block block, ForestryLeafType definition, float... chances) {
 		return createSilkTouchOrShearsDispatchTable(block,
 			applyExplosionCondition(block, LootItem.lootTableItem(ArboricultureItems.SAPLING)
 				.apply(OrganismFunction.fromId(SpeciesUtil.TREE_TYPE.get().id(), definition.getSpeciesId())))
-				.when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, chances)));
+				.when(BonusLevelTableCondition.bonusLevelFlatChance(enchantments().getOrThrow(Enchantments.FORTUNE), chances)));
 	}
 
 	public void registerLootTable(FeatureBlock<?, ?> featureBlock, Function<Block, LootTable.Builder> builderFunction) {

@@ -10,7 +10,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -34,7 +34,7 @@ public class ForestryFeaturesProvider extends DatapackBuiltinEntriesProvider {
 			.add(Registries.PLACED_FEATURE, ForestryFeaturesProvider::addPlacedFeatures), Set.of(ForestryConstants.MOD_ID));
 	}
 
-	private static void addConfiguredFeatures(BootstapContext<ConfiguredFeature<?, ?>> context) {
+	private static void addConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 		context.register(CoreFeatures.ORE_APATITE, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(List.of(
 			OreConfiguration.target(new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), CoreBlocks.APATITE_ORE.defaultState()),
 			OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), CoreBlocks.DEEPSLATE_APATITE_ORE.defaultState())
@@ -49,7 +49,7 @@ public class ForestryFeaturesProvider extends DatapackBuiltinEntriesProvider {
 		context.register(ArboricultureFeatures.CONFIGURED_TREE, new ConfiguredFeature<>(ArboricultureFeatures.TREE_DECORATOR.get(), FeatureConfiguration.NONE));
 	}
 
-	private static void addPlacedFeatures(BootstapContext<PlacedFeature> context) {
+	private static void addPlacedFeatures(BootstrapContext<PlacedFeature> context) {
 		HolderGetter<ConfiguredFeature<?, ?>> holders = context.lookup(Registries.CONFIGURED_FEATURE);
 
 		context.register(CoreFeatures.PLACED_APATITE, new PlacedFeature(holders.getOrThrow(CoreFeatures.ORE_APATITE), OrePlacements.commonOrePlacement(3, HeightRangePlacement.triangle(

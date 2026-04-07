@@ -84,6 +84,11 @@ To keep progress coherent across Codex sessions:
   - `EngineBlockEntity`, `BiogasEngineBlockEntity`, `TileAlveary`, `TileAlvearyClimatiser`, and `TileAlvearyHygroregulator` now expose explicit item, energy, and fluid provider methods instead of overriding removed Forge-era `getCapability(...)`.
   - `ModuleEnergy` now registers engine block entity energy providers for all engine tile types and the biogas engine fluid provider through `RegisterCapabilitiesEvent`.
   - `ModuleApiculture` now registers alveary block entity item providers for all alveary tile types, plus energy for fan/heater and fluid for the hygroregulator.
+- Core datagen provider cleanup:
+  - `ForestryAdvancementProvider` now targets the 1.21.1 advancement API via NeoForge `AdvancementProvider`, `AdvancementType`, and the new advancement reward builder.
+  - `ForestryLootTableProvider`, `ForestryBlockLootTables`, and `ForestryChestLootTables` now thread `HolderLookup.Provider` through the 1.21.1 loot table APIs, including `ResourceKey<LootTable>` outputs and holder-backed enchantment lookups.
+  - `ForestryFeaturesProvider` now uses `BootstrapContext`, and `ForestryAtlasProvider` now uses the lookup-aware `SpriteSourceProvider` constructor with `gather()`.
+  - `Data` now wires the updated providers and uses the standalone `@EventBusSubscriber` annotation form.
 
 ## Next Work Plan
 
@@ -119,3 +124,9 @@ To keep progress coherent across Codex sessions:
   - cleared the direct `EngineBlockEntity`, `BiogasEngineBlockEntity`, `TileAlveary`, `TileAlvearyClimatiser`, and `TileAlvearyHygroregulator` block-capability provider errors from the filtered compile
 - Current next blocker after the engine/alveary block-capability slice:
   - recipe/data generation APIs now dominate the compile failures, with remaining Forge-era capability users still present in farming, sorting, factory, and compat code
+- Current verification command for the core datagen provider cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n "ForestryAdvancementProvider|ForestryLootTableProvider|ForestryBlockLootTables|ForestryChestLootTables|ForestryFeaturesProvider|ForestryAtlasProvider|forestry/core/data/Data.java"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `ForestryAdvancementProvider`, `ForestryLootTableProvider`, `ForestryBlockLootTables`, `ForestryChestLootTables`, `ForestryFeaturesProvider`, `ForestryAtlasProvider`, and `Data` datagen API errors from the filtered compile
+- Current next blocker after the core datagen provider cleanup slice:
+  - remaining datagen/registry cleanup now starts with `src/main/java/forestry/core/data/models/ForestryItemModelProvider.java` still using removed `RegistryObject`, while non-datagen compile failures remain concentrated in Forge-era capability users and other 1.21 API migrations

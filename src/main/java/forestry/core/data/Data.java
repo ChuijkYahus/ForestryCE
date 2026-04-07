@@ -15,12 +15,12 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import thedarkcolour.modkit.data.DataHelper;
 
 import java.util.concurrent.CompletableFuture;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ForestryConstants.MOD_ID)
 public class Data {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
@@ -47,12 +47,12 @@ public class Data {
 		dataHelper.createItemModels(false, false, false, ForestryItemModels::addModels);
 
 		generator.addProvider(event.includeServer(), new ForestryAdvancementProvider(output, lookup, existingFileHelper));
-		generator.addProvider(event.includeServer(), new ForestryLootTableProvider(output));
+		generator.addProvider(event.includeServer(), new ForestryLootTableProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new ForestryLootModifierProvider(output));
 		generator.addProvider(event.includeClient(), new ForestryBlockStateProvider(output, existingFileHelper));
 		generator.addProvider(event.includeClient(), new ForestryWoodModelProvider(output, existingFileHelper));
 		generator.addProvider(event.includeClient(), new ForestryItemModelProvider(output, existingFileHelper));
-		generator.addProvider(event.includeClient(), new ForestryAtlasProvider(output, existingFileHelper));
+		generator.addProvider(event.includeClient(), new ForestryAtlasProvider(output, lookup, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ForestryFeaturesProvider(output, lookup));
 		generator.addProvider(event.includeClient(), new ForestryCuriosProvider(output, existingFileHelper, lookup));
 	}
