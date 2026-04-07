@@ -85,13 +85,13 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 	}
 
 	public static abstract class Builder<R extends IFeatureSubtype, C extends IFeatureSubtype, G> {
-		protected final IFeatureRegistry registry;
+		protected final FeatureRegistry registry;
 		protected final Set<R> rowTypes = new LinkedHashSet<>();
 		protected final Set<C> columnTypes = new LinkedHashSet<>();
 		protected IdentifierType identifierType = IdentifierType.TYPE_ONLY;
 		protected String identifier = StringUtils.EMPTY;
 
-		public Builder(IFeatureRegistry registry) {
+		public Builder(FeatureRegistry registry) {
 			this.registry = registry;
 		}
 

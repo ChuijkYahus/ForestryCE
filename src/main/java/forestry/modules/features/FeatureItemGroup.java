@@ -33,11 +33,11 @@ public class FeatureItemGroup<I extends Item, S extends IItemSubtype> extends Fe
 	}
 
 	public static class Builder<I extends Item, S extends IItemSubtype> extends FeatureGroup.Builder<S, FeatureItemGroup<I, S>> {
-		private final IFeatureRegistry registry;
+		private final FeatureRegistry registry;
 		private final Function<S, I> constructor;
 
-		public Builder(IFeatureRegistry registry, Function<S, I> constructor) {
-			super(registry);
+		public Builder(FeatureRegistry registry, Function<S, I> constructor) {
+			super(registry, java.util.List.of());
 			this.registry = registry;
 			this.constructor = constructor;
 		}

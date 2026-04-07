@@ -6,10 +6,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -17,9 +18,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class FeatureBlock<B extends Block, I extends BlockItem> extends ModFeature implements IBlockFeature<B, I> {
-	private final RegistryObject<B> blockObject;
+	private final DeferredHolder<Block, B> blockObject;
 	@Nullable
-	private final RegistryObject<I> itemObject;
+	private final DeferredHolder<Item, I> itemObject;
 
 	public FeatureBlock(IFeatureRegistry features, ResourceLocation moduleId, String identifier, Supplier<B> constructorBlock, @Nullable Function<B, I> constructorItem) {
 		super(moduleId, identifier);
@@ -28,7 +29,7 @@ public class FeatureBlock<B extends Block, I extends BlockItem> extends ModFeatu
 	}
 
 	public String getTranslationKey() {
-		return this.blockObject.map(Block::getDescriptionId).orElseGet(() -> "block." + ForestryConstants.MOD_ID + "." + this.name.replace('/', '.'));
+		return this.blockObject.asOptional().map(Block::getDescriptionId).orElseGet(() -> "block." + ForestryConstants.MOD_ID + "." + this.name.replace('/', '.'));
 	}
 
 	@Override

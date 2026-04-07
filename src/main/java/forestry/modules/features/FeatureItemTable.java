@@ -22,10 +22,10 @@ public class FeatureItemTable<I extends Item, R extends IItemSubtype, C extends 
 	}
 
 	public static class Builder<I extends Item, R extends IItemSubtype, C extends IItemSubtype> extends FeatureTable.Builder<R, C, FeatureItemTable<I, R, C>> {
-		private final IFeatureRegistry registry;
+		private final FeatureRegistry registry;
 		private final BiFunction<R, C, I> constructor;
 
-		public Builder(IFeatureRegistry registry, BiFunction<R, C, I> constructor) {
+		public Builder(FeatureRegistry registry, BiFunction<R, C, I> constructor) {
 			super(registry);
 			this.registry = registry;
 			this.constructor = constructor;

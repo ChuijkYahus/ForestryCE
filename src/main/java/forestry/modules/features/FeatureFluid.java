@@ -13,11 +13,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.ForgeFlowingFluid;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.ForgeRegistries;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -26,23 +26,23 @@ import java.util.function.Supplier;
 public class FeatureFluid extends ModFeature implements IFluidFeature {
 	private final IBlockFeature<BlockForestryFluid, BlockItem> block;
 	private final FluidProperties properties;
-	private final ForgeFlowingFluid.Properties internal;
+	private final BaseFlowingFluid.Properties internal;
 
-	private final RegistryObject<? extends FlowingFluid> fluidObject;
-	private final RegistryObject<? extends FlowingFluid> flowingFluidObject;
+	private final DeferredHolder<Fluid, ? extends FlowingFluid> fluidObject;
+	private final DeferredHolder<Fluid, ? extends FlowingFluid> flowingFluidObject;
 
 	public FeatureFluid(Builder builder) {
 		super(builder.moduleId, builder.identifier);
 		this.block = builder.registry.block(() -> new BlockForestryFluid(this), "fluid_" + builder.identifier);
 		this.properties = new FluidProperties(builder);
-		RegistryObject<FluidType> attributes = builder.registry.getRegistry(ForgeRegistries.Keys.FLUID_TYPES).register(this.name, () -> new ForestryFluidType(this.properties, FluidType.Properties.create()
+		DeferredHolder<FluidType, FluidType> attributes = builder.registry.getRegistry(NeoForgeRegistries.Keys.FLUID_TYPES).register(this.name, () -> new ForestryFluidType(this.properties, FluidType.Properties.create()
 			.density(this.properties.density)
 			.viscosity(this.properties.viscosity)
 			.temperature(this.properties.temperature)));
 		DeferredRegister<Fluid> fluidRegistry = builder.registry.getRegistry(Registries.FLUID);
-		this.internal = new ForgeFlowingFluid.Properties(attributes, this::fluid, this::flowing).block(this.block::block).bucket(properties().bucket);
-		this.fluidObject = fluidRegistry.register(this.name, () -> new ForgeFlowingFluid.Source(this.internal));
-		this.flowingFluidObject = fluidRegistry.register(this.name + "_flowing", () -> new ForgeFlowingFluid.Flowing(this.internal));
+		this.internal = new BaseFlowingFluid.Properties(attributes, this::fluid, this::flowing).block(this.block::block).bucket(properties().bucket);
+		this.fluidObject = fluidRegistry.register(this.name, () -> new BaseFlowingFluid.Source(this.internal));
+		this.flowingFluidObject = fluidRegistry.register(this.name + "_flowing", () -> new BaseFlowingFluid.Flowing(this.internal));
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 	}
 
 	public static class Builder {
-		final IFeatureRegistry registry;
+		final FeatureRegistry registry;
 		private final ResourceLocation moduleId;
 		final String identifier;
 
@@ -85,7 +85,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 		DrinkProperties properties = null;
 		Supplier<Item> bucket = () -> Items.AIR;
 
-		public Builder(IFeatureRegistry registry, ResourceLocation moduleId, String identifier) {
+		public Builder(FeatureRegistry registry, ResourceLocation moduleId, String identifier) {
 			this.registry = registry;
 			this.moduleId = moduleId;
 			this.identifier = identifier;

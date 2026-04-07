@@ -38,7 +38,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.*;
 
-public class FeatureRegistry {
+public class FeatureRegistry implements IFeatureRegistry {
 	private final ArrayList<IModFeature> features = new ArrayList<>();
 	private final ArrayListMultimap<ResourceKey<? extends Registry<?>>, IModFeature> featureByRegistry = ArrayListMultimap.create();
 	@SuppressWarnings("rawtypes")

@@ -5,12 +5,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.function.Supplier;
 
 public class FeatureItem<I extends Item> extends ModFeature implements IItemFeature<I> {
-	private final RegistryObject<I> itemObject;
+	private final DeferredHolder<Item, I> itemObject;
 
 	public FeatureItem(IFeatureRegistry registry, ResourceLocation moduleId, String identifier, Supplier<I> constructor) {
 		super(moduleId, identifier);

@@ -47,12 +47,12 @@ public class FeatureBlockTable<B extends Block, R extends IBlockSubtype, C exten
 	}
 
 	public static class Builder<B extends Block, R extends IBlockSubtype, C extends IBlockSubtype> extends FeatureTable.Builder<R, C, FeatureBlockTable<B, R, C>> {
-		private final IFeatureRegistry registry;
+		private final FeatureRegistry registry;
 		private final BiFunction<R, C, B> constructor;
 		@Nullable
 		private TriFunction<B, R, C, BlockItem> itemConstructor;
 
-		public Builder(IFeatureRegistry registry, BiFunction<R, C, B> constructor) {
+		public Builder(FeatureRegistry registry, BiFunction<R, C, B> constructor) {
 			super(registry);
 			this.registry = registry;
 			this.constructor = constructor;

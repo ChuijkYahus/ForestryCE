@@ -139,6 +139,31 @@ Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
 fi
 
+# Some Linux distributions provide a Java runtime without javac. Gradle can
+# auto-provision a full JDK under ~/.gradle/jdks, but the wrapper still starts
+# on the current JVM unless we redirect it here.
+if [ -n "$JAVA_HOME" ] ; then
+    JAVACHECK=$JAVA_HOME/bin/javac
+else
+    JAVABIN=$(command -v "$JAVACMD" 2>/dev/null || true)
+    JAVAHOME_CANDIDATE=${JAVABIN%/bin/java}
+    if [ "$JAVAHOME_CANDIDATE" != "$JAVABIN" ] ; then
+        JAVACHECK=$JAVAHOME_CANDIDATE/bin/javac
+    else
+        JAVACHECK=
+    fi
+fi
+
+if [ -n "$HOME" ] && [ ! -x "$JAVACHECK" ] && [ -d "$HOME/.gradle/jdks" ] ; then
+    for gradle_javac in "$HOME"/.gradle/jdks/*/bin/javac ; do
+        if [ -x "$gradle_javac" ] ; then
+            JAVA_HOME=${gradle_javac%/bin/javac}
+            JAVACMD=$JAVA_HOME/bin/java
+            break
+        fi
+    done
+fi
+
 # Increase the maximum file descriptors if we can.
 if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
     case $MAX_FD in #(
