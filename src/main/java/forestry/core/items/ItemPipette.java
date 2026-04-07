@@ -9,8 +9,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 
 import javax.annotation.Nullable;
@@ -37,8 +37,7 @@ public class ItemPipette extends ItemForestry implements IToolPipette, IColoredI
 		}
 	}
 
-	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+	public IFluidHandlerItem createFluidHandler(ItemStack stack) {
 		return new FluidHandlerItemStack(stack, FluidType.BUCKET_VOLUME);
 	}
 

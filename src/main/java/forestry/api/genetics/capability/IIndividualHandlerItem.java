@@ -47,13 +47,19 @@ public interface IIndividualHandlerItem {
 
 	static void ifPresent(ItemStack stack, BiConsumer<IIndividual, ILifeStage> action) {
 		if (!stack.isEmpty()) {
-			stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).ifPresent(handler -> action.accept(handler.getIndividual(), handler.getStage()));
+			IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
+			if (handler != null) {
+				action.accept(handler.getIndividual(), handler.getStage());
+			}
 		}
 	}
 
 	static void ifPresent(ItemStack stack, Consumer<IIndividual> action) {
 		if (!stack.isEmpty()) {
-			stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).ifPresent(handler -> action.accept(handler.getIndividual()));
+			IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
+			if (handler != null) {
+				action.accept(handler.getIndividual());
+			}
 		}
 	}
 
@@ -61,7 +67,7 @@ public interface IIndividualHandlerItem {
 	 * @return Whether the given item has an individual capability. (Vanilla saplings have a capability too)
 	 */
 	static boolean isIndividual(ItemStack stack) {
-		return !stack.isEmpty() && stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM).isPresent();
+		return !stack.isEmpty() && stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM) != null;
 	}
 
 	/**
@@ -76,7 +82,7 @@ public interface IIndividualHandlerItem {
 		if (stack.isEmpty()) {
 			return false;
 		}
-		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
 		return handler != null && predicate.test(handler.getIndividual());
 	}
 
@@ -85,7 +91,7 @@ public interface IIndividualHandlerItem {
 		if (stack.isEmpty()) {
 			return false;
 		}
-		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
 		return handler != null && predicate.test(handler.getIndividual(), handler.getStage());
 	}
 
@@ -98,7 +104,7 @@ public interface IIndividualHandlerItem {
 	@Nullable
 	@SuppressWarnings("DataFlowIssue")
 	static IIndividualHandlerItem get(ItemStack stack) {
-		return stack.isEmpty() ? null : stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		return stack.isEmpty() ? null : stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
 	}
 
 	@Nullable
@@ -107,9 +113,7 @@ public interface IIndividualHandlerItem {
 		if (stack.isEmpty()) {
 			return null;
 		}
-		// hack fix for creative tabs
-		stack.reviveCaps();
-		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
 		return handler != null ? handler.getIndividual() : null;
 	}
 

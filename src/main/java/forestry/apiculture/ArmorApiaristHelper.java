@@ -15,9 +15,8 @@ public class ArmorApiaristHelper implements IArmorApiaristHelper {
 			return false;
 		}
 
-		return stack.getCapability(ForestryCapabilities.ARMOR_APIARIST)
-			.map(armorApiarist -> armorApiarist.protectEntity(entity, stack, cause, doProtect))
-			.orElse(false);
+		IBeeProtection armorApiarist = stack.getCapability(ForestryCapabilities.BEE_PROTECTION);
+		return armorApiarist != null && armorApiarist.protectEntity(entity, stack, cause, doProtect);
 	}
 
 	@Override

@@ -14,15 +14,15 @@ public class ForestryCapabilities {
 	/**
 	 * Items with this capability can protect the wearer from harmful bee effects.
 	 */
-	public static ItemCapability<IBeeProtection, Void> BEE_PROTECTION = ItemCapability.createVoid(forestry("bee_protection"), IBeeProtection.class);
+	public static final ItemCapability<IBeeProtection, Void> BEE_PROTECTION = ItemCapability.createVoid(forestry("bee_protection"), IBeeProtection.class);
 
 	/**
 	 * Grants the wearer the ability to see wild bee hives and pollinated leaves more easily.
 	 */
-	public static ItemCapability<ISpectacleVision, Void> SPECTACLE_VISION = ItemCapability.createVoid(forestry("spectacle_vision"), ISpectacleVision.class);
+	public static final ItemCapability<ISpectacleVision, Void> SPECTACLE_VISION = ItemCapability.createVoid(forestry("spectacle_vision"), ISpectacleVision.class);
 
 	/**
 	 * Items with this capability support Forestry's genetic data.
 	 */
-	public static ItemCapability<IIndividualHandlerItem, Void> INDIVIDUAL_HANDLER_ITEM = ItemCapability.createVoid(forestry("individual"), IIndividualHandlerItem.class);
+	public static final ItemCapability<IIndividualHandlerItem, Void> INDIVIDUAL_HANDLER_ITEM = ItemCapability.createVoid(forestry("individual"), IIndividualHandlerItem.class);
 }

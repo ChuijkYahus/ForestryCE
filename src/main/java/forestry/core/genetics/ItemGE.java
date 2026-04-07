@@ -13,6 +13,7 @@ import forestry.core.items.ItemForestry;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -20,8 +21,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.capabilities.ICapabilityProvider;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import javax.annotation.Nullable;
@@ -40,16 +41,14 @@ public abstract class ItemGE extends ItemForestry {
 
 	protected abstract ISpeciesType<?, ?> getType();
 
-	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+	public IIndividualHandlerItem createIndividualHandler(ItemStack stack) {
 		Tag parent;
+		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
 
-		if (nbt != null && nbt.contains("Parent")) {
-			// serializable caps returned by this method are saved under "Parent". I love undocumented Forge code!!!
-			parent = nbt.get("Parent");
-		} else if (stack.getTag() != null && stack.getTagElement("ForgeCaps") != null && stack.getTagElement("ForgeCaps").contains("Parent")) {
+		if (customData != null && customData.contains("ForgeCaps")) {
 			// Individual.saveToStack saves to NBT manually to bypass the cap nbt being null without setting the field
-			parent = stack.getTagElement("ForgeCaps").get("Parent");
+			CompoundTag forgeCaps = customData.copyTag().getCompound("ForgeCaps");
+			parent = forgeCaps.contains("Parent") ? forgeCaps.get("Parent") : null;
 		} else {
 			parent = null;
 		}
@@ -63,14 +62,14 @@ public abstract class ItemGE extends ItemForestry {
 
 	@Override
 	public Component getName(ItemStack stack) {
-		return stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM)
-			.map(handler -> GeneticsUtil.getItemName(handler.getStage(), handler.getIndividual().getSpecies()))
-			.orElseGet(() -> super.getName(stack));
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
+		return handler != null ? GeneticsUtil.getItemName(handler.getStage(), handler.getIndividual().getSpecies()) : super.getName(stack);
 	}
 
 	@Override
 	public boolean isFoil(ItemStack stack) {
-		if (!stack.hasTag()) { // villager trade wildcard bees
+		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+		if (customData == null || customData.isEmpty()) { // villager trade wildcard bees
 			return false;
 		}
 		ISpecies<?> species = getSpecies(stack);
@@ -78,7 +77,8 @@ public abstract class ItemGE extends ItemForestry {
 	}
 
 	public static void appendGeneticsTooltip(ItemStack stack, List<Component> tooltip) {
-		if (!stack.hasTag()) {
+		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+		if (customData == null || customData.isEmpty()) {
 			return;
 		}
 

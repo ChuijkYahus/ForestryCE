@@ -135,9 +135,10 @@ public class JeiUtil {
 	}
 
 	public static <S extends ISpecies<?>> void registerItemSubtypes(ISubtypeRegistration registry, IRegistryChromosome<S> species, ISpeciesType<S, ?> type) {
-		IIngredientSubtypeInterpreter<ItemStack> interpreter = (stack, context) -> stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM)
-			.map(individual -> individual.getIndividual().getGenome().getActiveValue(species).getBinomial())
-			.orElse(IIngredientSubtypeInterpreter.NONE);
+		IIngredientSubtypeInterpreter<ItemStack> interpreter = (stack, context) -> {
+			IIndividualHandlerItem individual = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
+			return individual != null ? individual.getIndividual().getGenome().getActiveValue(species).getBinomial() : IIngredientSubtypeInterpreter.NONE;
+		};
 
 		for (ILifeStage stage : type.getLifeStages()) {
 			registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, stage.getItemForm(), interpreter);

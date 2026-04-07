@@ -4,6 +4,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.IBeeProtection;
+import forestry.api.ForestryCapabilities;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.core.ForestryEvent;
 import forestry.api.core.TemperatureType;
@@ -14,6 +15,7 @@ import forestry.api.modules.IPacketRegistry;
 import forestry.apiculture.commands.CommandBee;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumPollenCluster;
+import forestry.core.genetics.ItemGE;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
@@ -35,7 +37,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.brewing.BrewingRecipeRegistry;
-import net.neoforged.neoforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -65,7 +67,16 @@ public class ModuleApiculture extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.register(IBeeProtection.class);
+		event.registerItem(ForestryCapabilities.BEE_PROTECTION, (stack, context) -> ItemArmorApiarist.BeeProtection.INSTANCE,
+			ApicultureItems.APIARIST_HELMET.item(),
+			ApicultureItems.APIARIST_CHEST.item(),
+			ApicultureItems.APIARIST_LEGS.item(),
+			ApicultureItems.APIARIST_BOOTS.item());
+		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> ((ItemGE) stack.getItem()).createIndividualHandler(stack),
+			ApicultureItems.BEE_QUEEN.item(),
+			ApicultureItems.BEE_DRONE.item(),
+			ApicultureItems.BEE_PRINCESS.item(),
+			ApicultureItems.BEE_LARVAE.item());
 	}
 
 	private static void onNetherBeeMate(ForestryEvent.BeeMatingEvent event) {

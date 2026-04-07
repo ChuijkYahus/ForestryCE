@@ -162,7 +162,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 
 	@SuppressWarnings({"DataFlowIssue", "ConstantValue"})
 	default boolean isMember(ItemStack stack) {
-		IIndividualHandlerItem individual = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM).orElse(null);
+		IIndividualHandlerItem individual = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
 		return individual != null && isMember(individual.getIndividual());
 	}
 

@@ -1,18 +1,22 @@
 package forestry.lepidopterology;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import forestry.api.ForestryCapabilities;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
+import forestry.core.genetics.ItemGE;
 import forestry.lepidopterology.commands.CommandButterfly;
 import forestry.lepidopterology.entities.EntityButterfly;
 import forestry.lepidopterology.features.LepidopterologyEntities;
+import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.lepidopterology.proxy.LepidopterologyClientHandler;
 import forestry.modules.BlankForestryModule;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
 import net.neoforged.bus.api.IEventBus;
@@ -35,6 +39,7 @@ public class ModuleLepidopterology extends BlankForestryModule {
 	public void registerEvents(IEventBus modBus) {
 		NeoForge.EVENT_BUS.addListener(ModuleLepidopterology::onEntityTravelToDimension);
 		modBus.addListener(ModuleLepidopterology::onAttributeCreate);
+		modBus.addListener(ModuleLepidopterology::registerCapabilities);
 	}
 
 	public static void onEntityTravelToDimension(EntityTravelToDimensionEvent event) {
@@ -45,6 +50,14 @@ public class ModuleLepidopterology extends BlankForestryModule {
 
 	public static void onAttributeCreate(EntityAttributeCreationEvent event) {
 		event.put(LepidopterologyEntities.BUTTERFLY.entityType(), LepidopterologyEntities.BUTTERFLY.createAttributes().build());
+	}
+
+	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> ((ItemGE) stack.getItem()).createIndividualHandler(stack),
+			LepidopterologyItems.BUTTERFLY_GE.item(),
+			LepidopterologyItems.SERUM_GE.item(),
+			LepidopterologyItems.CATERPILLAR_GE.item(),
+			LepidopterologyItems.COCOON_GE.item());
 	}
 
 	@Override

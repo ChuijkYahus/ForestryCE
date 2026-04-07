@@ -5,9 +5,8 @@ import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
+import forestry.api.ForestryCapabilities;
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.core.ISpectacleVision;
-import forestry.api.genetics.IIndividual;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
@@ -15,6 +14,7 @@ import forestry.arboriculture.client.ArboricultureClientHandler;
 import forestry.arboriculture.commands.CommandTree;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.items.ForestryBoatDispenserBehavior;
+import forestry.core.genetics.ItemGE;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.arboriculture.villagers.ArboricultureVillagers;
 import forestry.core.genetics.capability.IndividualHandlerItem;
@@ -22,8 +22,8 @@ import forestry.core.network.PacketIdClient;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -31,8 +31,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.event.AttachCapabilitiesEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -52,22 +51,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 		modBus.addListener(ModuleArboriculture::registerCapabilities);
 		modBus.addListener(ModuleArboriculture::commonSetup);
-		NeoForge.EVENT_BUS.addGenericListener(ItemStack.class, ModuleArboriculture::attachCapabilities);
 		NeoForge.EVENT_BUS.addListener(ModuleArboriculture::modifySnifferLoot);
-	}
-
-	private static void attachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
-		// Add genetics capabilities to vanilla saplings
-		if (!event.getCapabilities().containsKey(IIndividual.CAPABILITY_ID)) {
-			ItemStack stack = event.getObject();
-
-			ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
-			ITree individual = type.getVanillaIndividual(stack.getItem());
-
-			if (individual != null) {
-				event.addCapability(IIndividual.CAPABILITY_ID, new IndividualHandlerItem(type, stack, individual, TreeLifeStage.SAPLING));
-			}
-		}
 	}
 
 	private static void modifySnifferLoot(LootTableLoadEvent event) {
@@ -94,7 +78,14 @@ public class ModuleArboriculture extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.register(ISpectacleVision.class);
+		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> {
+			ITree individual = SpeciesUtil.TREE_TYPE.get().getVanillaIndividual(stack.getItem());
+			return individual != null ? new IndividualHandlerItem(SpeciesUtil.TREE_TYPE.get(), stack, individual, TreeLifeStage.SAPLING) : null;
+		},
+			BuiltInRegistries.ITEM.stream().filter(item -> SpeciesUtil.TREE_TYPE.get().getVanillaIndividual(item) != null).toArray(net.minecraft.world.item.Item[]::new));
+		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> ((ItemGE) stack.getItem()).createIndividualHandler(stack),
+			ArboricultureItems.SAPLING.item(),
+			ArboricultureItems.POLLEN_FERTILE.item());
 	}
 
 	private static void commonSetup(FMLCommonSetupEvent event) {

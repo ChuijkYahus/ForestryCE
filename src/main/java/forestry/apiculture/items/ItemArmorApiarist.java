@@ -8,8 +8,6 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.core.items.definitions.EnumCraftingMaterial;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -20,9 +18,6 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ICapabilityProvider;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemArmorApiarist extends ArmorItem {
@@ -94,15 +89,5 @@ public class ItemArmorApiarist extends ArmorItem {
 		} else {
 			return TEXTURE_APIARIST_ARMOR_PRIMARY;
 		}
-	}
-
-	@Override
-	public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-		return new ICapabilityProvider() {
-			@Override
-			public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-				return cap == ForestryCapabilities.ARMOR_APIARIST ? LazyOptional.of(() -> BeeProtection.INSTANCE).cast() : LazyOptional.empty();
-			}
-		};
 	}
 }

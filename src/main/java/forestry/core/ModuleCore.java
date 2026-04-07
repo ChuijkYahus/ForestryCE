@@ -2,8 +2,10 @@ package forestry.core;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.ForestryConstants;
+import forestry.api.ForestryCapabilities;
 import forestry.api.IForestryApi;
 import forestry.api.client.IClientModuleHandler;
+import forestry.api.core.ISpectacleVision;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
@@ -20,6 +22,8 @@ import forestry.core.climate.ForestryClimateManager;
 import forestry.core.commands.DiagnosticsCommand;
 import forestry.core.commands.DumpCommand;
 import forestry.core.features.CoreItems;
+import forestry.core.items.ItemPipette;
+import forestry.core.items.ItemSpectacles;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.loot.ConditionLootModifier;
 import forestry.core.network.PacketIdClient;
@@ -44,6 +48,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
@@ -68,6 +73,7 @@ public class ModuleCore extends BlankForestryModule {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleCore::onCommonSetup);
+		modBus.addListener(ModuleCore::registerCapabilities);
 		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
 		ModUtil.addRegistryListener(Registries.ITEM, ModuleCore::postItemRegistry);
 
@@ -88,6 +94,11 @@ public class ModuleCore extends BlankForestryModule {
 			EntityDataSerializers.registerSerializer(GameProfileDataSerializer.INSTANCE);
 			registerComposts();
 		});
+	}
+
+	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerItem(ForestryCapabilities.SPECTACLE_VISION, (stack, context) -> ItemSpectacles.SPECTACLE_VISION, CoreItems.SPECTACLES.item());
+		event.registerItem(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.ITEM, (stack, context) -> ((ItemPipette) stack.getItem()).createFluidHandler(stack), CoreItems.PIPETTE.item());
 	}
 
 	private static void registerComposts() {

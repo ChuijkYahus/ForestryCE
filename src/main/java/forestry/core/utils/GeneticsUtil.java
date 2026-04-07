@@ -14,8 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import net.neoforged.neoforge.common.util.LazyOptional;
-
 import forestry.api.ForestryCapabilities;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
@@ -77,11 +75,8 @@ public class GeneticsUtil {
 		if (armorItemStack.isEmpty()) {
 			return false;
 		}
-		final ISpectacleVision armorNaturalist;
-		LazyOptional<ISpectacleVision> armorCap = armorItemStack.getCapability(ForestryCapabilities.ARMOR_NATURALIST);
-		if (armorCap.isPresent()) {
-			armorNaturalist = armorCap.orElse(SpectacleVision.INSTANCE);
-		} else {
+		ISpectacleVision armorNaturalist = armorItemStack.getCapability(ForestryCapabilities.SPECTACLE_VISION);
+		if (armorNaturalist == null) {
 			return false;
 		}
 

@@ -18,10 +18,6 @@ public class IndividualSubtypeInterpreter implements ISubtypeInterpreter<ItemSta
 	@Override
 	public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context) {
 		IIndividualHandlerItem handler = ingredient.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
-		if (handler != null) {
-			return handler.getIndividual().getGenome().getActiveSpecies().getBinomial();
-		} else {
-			return "";
-		}
+		return handler != null ? handler.getIndividual().getGenome().getActiveSpecies().getBinomial() : "";
 	}
 }
