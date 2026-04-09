@@ -133,6 +133,7 @@ public class ForestryCreativeTabs {
 		// Engines
 		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
 		// Machines
+		FactoryBlocks.PLAIN.getItems().forEach(items::accept);
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
 		// Circuit boards
 		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR));
@@ -174,6 +175,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB);
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_WALL);
 		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
+		items.accept(CoreBlocks.TURF_BLOCK);
+		items.accept(CoreBlocks.TURF);
 
 		// Gears
 		items.accept(CoreItems.GEAR_COPPER);
