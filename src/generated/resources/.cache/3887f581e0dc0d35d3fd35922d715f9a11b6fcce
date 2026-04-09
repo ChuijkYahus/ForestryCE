@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-22T22:05:54.8181238	Block States: forestry
+// 1.20.1	2026-04-09T15:28:33.7751795	Block States: forestry
 efb6cd9088f34afc855db97087b928d69c02ae5f assets/forestry/blockstates/apatite_ore.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_managed.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_manual.json
@@ -131,6 +131,7 @@ f03f8dbe313e3d3c22aae7537413565d17f4de5e assets/forestry/blockstates/raw_tin_blo
 1430c5086ab8a7d816b21bdfe3b62075df67dbb1 assets/forestry/blockstates/refractory_wax_brick_slab.json
 76342b5fd1143306d695ab68e5aa00e2b211a340 assets/forestry/blockstates/refractory_wax_brick_stairs.json
 42f1c4371a1f2c23b12187d59c85ccd006b33c0d assets/forestry/blockstates/refractory_wax_brick_wall.json
+0ca4277585d00859a438774fafd16603599d0377 assets/forestry/blockstates/smelter.json
 9b380078e273a437d50fc5d9a77019962e6be510 assets/forestry/blockstates/squeezer.json
 6ab1de44f5d1763b6b3a99d3ea709e08c6204c68 assets/forestry/blockstates/still.json
 b8a874387ee64c0a96141097c27970190741046f assets/forestry/blockstates/tin_ore.json
@@ -465,6 +466,7 @@ f235900366b0b9991a740a51af1f0f4e37bc630a assets/forestry/models/block/refractory
 49d37bdf53b8260ceb9fc5003cc199660ee1be71 assets/forestry/models/block/refractory_wax_brick_wall_post.json
 373f736a1254306b7c9e5e7b280b4feabe5be52c assets/forestry/models/block/refractory_wax_brick_wall_side.json
 7be8e957c5c8f1379df0c8032786e442987bf35f assets/forestry/models/block/refractory_wax_brick_wall_side_tall.json
+2cacf1a4b31ad854f92a90766885a92b8251bf3c assets/forestry/models/block/smelter.json
 542dc8d0d732d44fefbdcf2226fced25e0b1a960 assets/forestry/models/block/squeezer_prod_0.json
 1509370e63778c051dfae2f338848ffdfba1f22a assets/forestry/models/block/squeezer_prod_1.json
 5a4b833437f3c157c97070871e05be646d500bfb assets/forestry/models/block/squeezer_prod_2.json

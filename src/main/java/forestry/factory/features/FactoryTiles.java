@@ -20,6 +20,7 @@ public class FactoryTiles {
 	public static final FeatureTileType<TileFermenter> FERMENTER = REGISTRY.tile(TileFermenter::new, "fermenter", () -> FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).collect());
 	public static final FeatureTileType<TileMillRainmaker> RAINMAKER = REGISTRY.tile(TileMillRainmaker::new, "rainmaker", () -> FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).collect());
 	public static final FeatureTileType<TileMoistener> MOISTENER = REGISTRY.tile(TileMoistener::new, "moistener", () -> FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).collect());
+	public static final FeatureTileType<TileSmelter> SMELTER = REGISTRY.tile(TileSmelter::new, "smelter", () -> FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).collect());
 	public static final FeatureTileType<TileSqueezer> SQUEEZER = REGISTRY.tile(TileSqueezer::new, "squeezer", () -> FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).collect());
 	public static final FeatureTileType<TileStill> STILL = REGISTRY.tile(TileStill::new, "still", () -> FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL).collect());
 }

@@ -105,6 +105,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		machineBlock(BlockTypeFactoryPlain.CENTRIFUGE, TankLayout.NONE);
 		machineBlock(BlockTypeFactoryPlain.FERMENTER, TankLayout.BOTH);
 		machineBlock(BlockTypeFactoryPlain.MOISTENER, TankLayout.RESOURCE);
+		machineBlock(BlockTypeFactoryPlain.SMELTER, TankLayout.NONE);
 		machineBlock(BlockTypeFactoryPlain.SQUEEZER, TankLayout.PRODUCT);
 		machineBlock(BlockTypeFactoryPlain.STILL, TankLayout.BOTH);
 

@@ -18,6 +18,7 @@ public enum BlockTypeFactoryPlain implements IBlockType {
 	CENTRIFUGE(FactoryTiles.CENTRIFUGE, "centrifuge", ForestryBlockStateProvider.TankLayout.NONE, TileCentrifuge::serverTick),
 	FERMENTER(FactoryTiles.FERMENTER, "fermenter", ForestryBlockStateProvider.TankLayout.BOTH, TileFermenter::serverTick),
 	MOISTENER(FactoryTiles.MOISTENER, "moistener", ForestryBlockStateProvider.TankLayout.RESOURCE, TileMoistener::serverTick),
+	SMELTER(FactoryTiles.SMELTER, "smelter", ForestryBlockStateProvider.TankLayout.NONE, TileSmelter::serverTick),
 	SQUEEZER(FactoryTiles.SQUEEZER, "squeezer", ForestryBlockStateProvider.TankLayout.PRODUCT, TileSqueezer::serverTick),
 	STILL(FactoryTiles.STILL, "still", ForestryBlockStateProvider.TankLayout.BOTH, TileStill::serverTick);
 

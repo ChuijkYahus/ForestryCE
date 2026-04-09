@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-05T22:12:21.2009206	Loot Tables
+// 1.20.1	2026-04-09T15:25:02.2702853	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -1143,6 +1143,7 @@ d35465234914968d85127ad8a0e5d5b447e7840c data/forestry/loot_tables/blocks/sequoi
 fcb080bb94ac54cde7eb7a7985ce792563afbda9 data/forestry/loot_tables/blocks/sequoia_stripped_wood.json
 451c205ccdf9fa50b5c4e35b718bdb826a919798 data/forestry/loot_tables/blocks/sequoia_trapdoor.json
 6a6a2e080560fa9228e679f50134ccdccbe7df8a data/forestry/loot_tables/blocks/sequoia_wood.json
+53563023945d726bbd6f6bb4c2fa6b26acd567e7 data/forestry/loot_tables/blocks/smelter.json
 8bbc1bfbb3b7fc141b530503172ee8a6285c4400 data/forestry/loot_tables/blocks/spruce_fireproof_fence.json
 1e81467ccce675c53ea949c690f8a209d30cc409 data/forestry/loot_tables/blocks/spruce_fireproof_fence_gate.json
 70899da04fe9753c29c7f78878412ccc2b0937b7 data/forestry/loot_tables/blocks/spruce_fireproof_log.json

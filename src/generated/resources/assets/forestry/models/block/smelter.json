@@ -1,0 +1,8 @@
+{
+  "parent": "forestry:block/machines/base_machine",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "base": "forestry:block/machines/smelter/base",
+    "particle": "forestry:block/machines/smelter/particles"
+  }
+}
