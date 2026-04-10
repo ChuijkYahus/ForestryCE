@@ -10,7 +10,6 @@ import forestry.core.utils.RecipeUtils;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -83,7 +82,7 @@ public class CarpenterRecipeCategory extends ForestryRecipeCategory<ICarpenterRe
 
 		FluidStack fluidResource = recipe.getInputFluid();
 		if (!fluidResource.isEmpty()) {
-			tankSlot.addIngredient(ForgeTypes.FLUID_STACK, fluidResource);
+			tankSlot.addFluidStack(fluidResource);
 		}
 	}
 

@@ -10,7 +10,6 @@ import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -90,7 +89,7 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
 			.setFluidRenderer(10000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addIngredient(ForgeTypes.FLUID_STACK, fluidInput);
+			.addFluidStack(fluidInput);
 
 		builder.createFocusLink(fuelResourceSlot, fuelProductsSlot);
 	}

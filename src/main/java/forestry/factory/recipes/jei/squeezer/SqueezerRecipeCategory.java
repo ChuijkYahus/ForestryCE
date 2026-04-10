@@ -10,7 +10,6 @@ import forestry.core.utils.JeiUtil;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -69,7 +68,7 @@ public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerReci
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 2)
 			.setFluidRenderer(10000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addIngredient(ForgeTypes.FLUID_STACK, recipe.getFluidOutput());
+			.addFluidStack(recipe.getFluidOutput());
 	}
 
 	@Override

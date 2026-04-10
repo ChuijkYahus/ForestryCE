@@ -11,7 +11,6 @@ import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -76,7 +75,7 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
 			.setFluidRenderer(3000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addIngredient(ForgeTypes.FLUID_STACK, fluidInput);
+			.addFluidStack(fluidInput);
 
 		final int baseAmount = Math.round(recipe.getFermentationValue() * recipe.getModifier());
 		List<FluidStack> outputs =
@@ -93,7 +92,7 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		IRecipeSlotBuilder fluidOutputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 91, 1)
 			.setFluidRenderer(3000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addIngredients(ForgeTypes.FLUID_STACK, outputs);
+			.addFluidStacks(outputs);
 
 		builder.createFocusLink(ingredientInputSlot, fluidOutputSlot);
 	}

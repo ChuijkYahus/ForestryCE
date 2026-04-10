@@ -30,7 +30,6 @@ import forestry.factory.recipes.jei.still.StillRecipeCategory;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
@@ -44,10 +43,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.Comparator;
 import java.util.List;
@@ -138,7 +136,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration subtypeRegistry) {
 		IIngredientSubtypeInterpreter<ItemStack> subtypeInterpreter = (itemStack, context) -> {
-			LazyOptional<IFluidHandlerItem> fluidHandler = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
+			Optional<IFluidHandlerItem> fluidHandler = FluidUtil.getFluidHandler(itemStack);
 			return fluidHandler.map(handler -> handler.getFluidInTank(0))
 				.map(fluid -> ModUtil.getRegistryName(fluid.getFluid()))
 				.map(ResourceLocation::toString)
@@ -168,7 +166,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 			TankWidget widget = guiContainer.getTankAtPosition(mouseX, mouseY);
 
 			if (widget != null && widget.getTank() != null) {
-				return this.manager.createTypedIngredient(ForgeTypes.FLUID_STACK, widget.getTank().getFluid()).map(ingredient -> new IClickableIngredient<FluidStack>() {
+				return this.manager.createTypedIngredient(widget.getTank().getFluid()).map(ingredient -> new IClickableIngredient<FluidStack>() {
 					@Override
 					public ITypedIngredient<FluidStack> getTypedIngredient() {
 						return ingredient;
