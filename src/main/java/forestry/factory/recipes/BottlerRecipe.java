@@ -2,26 +2,26 @@ package forestry.factory.recipes;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class BottlerRecipe {
 	@Nullable
 	public static BottlerRecipe createEmptyingRecipe(ItemStack filled) {
 		ItemStack empty = filled.copy();
 		empty.setCount(1);
-		LazyOptional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(empty);
+		Optional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(empty);
 
-		if (!fluidHandlerCap.isPresent()) {
+		if (fluidHandlerCap.isEmpty()) {
 			return null;
 		}
 
-		IFluidHandlerItem fluidHandler = fluidHandlerCap.orElse(null);
+		IFluidHandlerItem fluidHandler = fluidHandlerCap.orElseThrow();
 
 		FluidStack drained = fluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
 		if (!drained.isEmpty() && drained.getAmount() > 0) {
@@ -36,12 +36,12 @@ public class BottlerRecipe {
 		ItemStack filled = empty.copy();
 		filled.setCount(1);
 
-		LazyOptional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(filled);
-		if (!fluidHandlerCap.isPresent()) {
+		Optional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(filled);
+		if (fluidHandlerCap.isEmpty()) {
 			return null;
 		}
 
-		IFluidHandlerItem fluidHandler = fluidHandlerCap.orElse(null);
+		IFluidHandlerItem fluidHandler = fluidHandlerCap.orElseThrow();
 
 		int fillAmount = fluidHandler.fill(new FluidStack(res, Integer.MAX_VALUE), IFluidHandler.FluidAction.EXECUTE);
 		if (fillAmount > 0) {

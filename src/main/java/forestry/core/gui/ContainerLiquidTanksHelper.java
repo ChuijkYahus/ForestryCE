@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -22,6 +21,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class ContainerLiquidTanksHelper<T extends BlockEntity & ILiquidTankTile> implements IContainerLiquidTanks {
 	private final T tile;
@@ -50,7 +50,7 @@ public class ContainerLiquidTanksHelper<T extends BlockEntity & ILiquidTankTile>
 		IFluidTank tank = this.tile.getTankManager().getTank(slot);
 		int liquidAmount = tank.getFluidAmount();
 
-		LazyOptional<IFluidHandlerItem> fluidCap = FluidUtil.getFluidHandler(itemstack);
+		Optional<IFluidHandlerItem> fluidCap = FluidUtil.getFluidHandler(itemstack);
 		fluidCap.ifPresent(fluidHandlerItem -> {
 			if (pipette.canPipette(itemstack) && liquidAmount > 0) {
 				if (tank instanceof StandardTank standard) {

@@ -6,6 +6,7 @@ import forestry.api.core.tooltips.ToolTip;
 import forestry.core.utils.ModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
@@ -15,7 +16,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -67,7 +67,10 @@ public class FilteredTank extends StandardTank {
 
 		if (Screen.hasShiftDown() || filters.size() < 5) {
 			for (ResourceLocation filterName : filters) {
-				Fluid fluidFilter = ForgeRegistries.FLUIDS.getValue(filterName);
+				Fluid fluidFilter = BuiltInRegistries.FLUID.get(filterName);
+				if (fluidFilter == Fluids.EMPTY) {
+					continue;
+				}
 				FluidType attributes = fluidFilter.getFluidType();
 				Rarity rarity = attributes.getRarity();
 				if (rarity == null) {

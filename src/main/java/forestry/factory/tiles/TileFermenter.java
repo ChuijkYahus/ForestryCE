@@ -33,9 +33,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -288,11 +285,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		return new ContainerFermenter(windowId, inv, this);
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return super.getCapability(capability, facing);
+	public IFluidHandler getFluidHandler(@Nullable Direction facing) {
+		return this.tankManager;
 	}
 }

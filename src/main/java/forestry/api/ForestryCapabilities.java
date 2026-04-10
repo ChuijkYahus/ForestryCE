@@ -3,6 +3,8 @@ package forestry.api;
 import forestry.api.apiculture.IBeeProtection;
 import forestry.api.core.ISpectacleVision;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.genetics.filter.IFilterLogic;
+import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.ItemCapability;
 
 import static forestry.api.ForestryConstants.forestry;
@@ -25,4 +27,9 @@ public class ForestryCapabilities {
 	 * Items with this capability support Forestry's genetic data.
 	 */
 	public static final ItemCapability<IIndividualHandlerItem, Void> INDIVIDUAL_HANDLER_ITEM = ItemCapability.createVoid(forestry("individual"), IIndividualHandlerItem.class);
+
+	/**
+	 * Genetic filters expose their configurable sorting logic through this block capability.
+	 */
+	public static final BlockCapability<IFilterLogic, Void> FILTER_LOGIC = BlockCapability.createVoid(forestry("filter_logic"), IFilterLogic.class);
 }

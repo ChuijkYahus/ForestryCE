@@ -36,9 +36,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
@@ -505,11 +502,7 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 		return new ContainerMoistener(windowId, inv, this);
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();    //TODO this shouldn't be created every time this method is called...
-		}
-		return super.getCapability(capability, facing);
+	public IFluidHandler getFluidHandler(@Nullable Direction facing) {
+		return this.tankManager;
 	}
 }

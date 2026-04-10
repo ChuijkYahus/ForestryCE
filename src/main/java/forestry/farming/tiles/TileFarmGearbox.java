@@ -9,19 +9,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.energy.IEnergyStorage;
-
-import javax.annotation.Nullable;
 
 public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	private static final int WORK_CYCLES = 4;
 	private static final int ENERGY_PER_OPERATION = WORK_CYCLES * 50;
 
 	private final ForestryEnergyStorage energyStorage;
-	private final LazyOptional<IEnergyStorage> energyCap;
 
 	private int activationDelay = 0;
 	private int previousDelays = 0;
@@ -31,7 +25,6 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 		super(FarmingTiles.GEARBOX.tileType(), pos, state);
 
 		this.energyStorage = new ForestryEnergyStorage(200, 10000);
-		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 	}
 
 	/* SAVING & LOADING */
@@ -94,17 +87,10 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 		return this.energyStorage;
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction facing) {
-		if (!this.remove && cap == ForgeCapabilities.ENERGY) {
-			return this.energyCap.cast();
+	public IEnergyStorage getEnergyHandler(Direction facing) {
+		if (!this.remove) {
+			return this.energyStorage;
 		}
-		return super.getCapability(cap, facing);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-        this.energyCap.invalidate();
+		return null;
 	}
 }

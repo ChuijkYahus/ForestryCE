@@ -24,15 +24,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidTankTile {
 	private static final FluidStack STACK_WATER = new FluidStack(Fluids.WATER, FluidType.BUCKET_VOLUME);
@@ -119,9 +117,9 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 
 	private boolean dumpFluidBelow() {
 		if (!this.resourceTank.isEmpty()) {
-			LazyOptional<IFluidHandler> fluidCap = FluidUtil.getFluidHandler(this.level, this.worldPosition.below(), Direction.UP);
+			Optional<IFluidHandler> fluidCap = FluidUtil.getFluidHandler(this.level, this.worldPosition.below(), Direction.UP);
 			if (fluidCap.isPresent()) {
-				return !FluidUtil.tryFluidTransfer(fluidCap.orElse(null), this.tankManager, FluidType.BUCKET_VOLUME / 20, true).isEmpty();
+				return !FluidUtil.tryFluidTransfer(fluidCap.orElseThrow(), this.tankManager, FluidType.BUCKET_VOLUME / 20, true).isEmpty();
 			}
 		}
 		return false;
@@ -160,17 +158,11 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 		}
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> {
-				if (facing == Direction.DOWN) {
-					return new DrainOnlyFluidHandlerWrapper(this.tankManager);
-				}
-				return this.tankManager;
-			}).cast();
+	public IFluidHandler getFluidHandler(@Nullable Direction facing) {
+		if (facing == Direction.DOWN) {
+			return new DrainOnlyFluidHandlerWrapper(this.tankManager);
 		}
-		return super.getCapability(capability, facing);
+		return this.tankManager;
 	}
 
 	@Override

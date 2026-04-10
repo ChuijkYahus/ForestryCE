@@ -35,6 +35,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -48,7 +49,6 @@ import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -310,7 +310,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	protected Holder<Biome> getBiome() {
 		BlockPos coords = getReferenceCoord();
 		if (coords == null) {
-			return ForgeRegistries.BIOMES.getDelegateOrThrow(Biomes.PLAINS);
+			return BuiltInRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS);
 		}
 		return this.level.getBiome(coords);
 	}

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 import forestry.api.recipes.IFermenterRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -13,8 +14,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class FermenterRecipe implements IFermenterRecipe {
 	private final ResourceLocation id;
@@ -108,7 +109,7 @@ public class FermenterRecipe implements IFermenterRecipe {
 			Ingredient resource = RecipeSerializers.deserialize(json.get("resource"));
 			int fermentationValue = GsonHelper.getAsInt(json, "fermentationValue");
 			float modifier = GsonHelper.getAsFloat(json, "modifier");
-			Fluid output = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(GsonHelper.getAsString(json, "output")));
+			Fluid output = BuiltInRegistries.FLUID.get(ResourceLocation.parse(GsonHelper.getAsString(json, "output")));
 			FluidStack fluidResource = RecipeSerializers.deserializeFluid(GsonHelper.getAsJsonObject(json, "fluidResource"));
 
 			return new FermenterRecipe(recipeId, resource, fermentationValue, modifier, output, fluidResource);
@@ -119,7 +120,7 @@ public class FermenterRecipe implements IFermenterRecipe {
 			Ingredient resource = Ingredient.fromNetwork(buffer);
 			int fermentationValue = buffer.readVarInt();
 			float modifier = buffer.readFloat();
-			Fluid output = ForgeRegistries.FLUIDS.getValue(buffer.readResourceLocation());
+			Fluid output = BuiltInRegistries.FLUID.get(buffer.readResourceLocation());
 			FluidStack fluidResource = FluidStack.readFromPacket(buffer);
 
 			return new FermenterRecipe(recipeId, resource, fermentationValue, modifier, output, fluidResource);
@@ -130,7 +131,7 @@ public class FermenterRecipe implements IFermenterRecipe {
 			recipe.resource.toNetwork(buffer);
 			buffer.writeVarInt(recipe.fermentationValue);
 			buffer.writeFloat(recipe.modifier);
-			buffer.writeResourceLocation(ForgeRegistries.FLUIDS.getKey(recipe.output));
+			buffer.writeResourceLocation(BuiltInRegistries.FLUID.getKey(recipe.output == null ? Fluids.EMPTY : recipe.output));
 			recipe.fluidResource.writeToPacket(buffer);
 		}
 	}

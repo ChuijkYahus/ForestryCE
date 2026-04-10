@@ -27,9 +27,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
@@ -167,13 +164,11 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 		return new ContainerGeneticFilter(windowId, player.getInventory(), this);
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER && facing != null) {
-			return LazyOptional.of(() -> new ItemHandlerFilter(this, facing)).cast();
-		} else if (capability == ForestryCapabilities.FILTER_LOGIC) {
-			return LazyOptional.of(() -> this.logic).cast();
+	@Nullable
+	public IItemHandler getItemHandler(@Nullable Direction facing) {
+		if (facing != null) {
+			return new ItemHandlerFilter(this, facing);
 		}
-		return super.getCapability(capability, facing);
+		return null;
 	}
 }

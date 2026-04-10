@@ -4,13 +4,8 @@ import forestry.core.fluids.ITankManager;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.farming.features.FarmingTiles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
-
-import javax.annotation.Nullable;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 public class TileFarmValve extends TileFarm implements ILiquidTankTile {
 	public TileFarmValve(BlockPos pos, BlockState state) {
@@ -22,11 +17,7 @@ public class TileFarmValve extends TileFarm implements ILiquidTankTile {
 		return getMultiblockLogic().getController().getTankManager();
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(this::getTankManager).cast();
-		}
-		return super.getCapability(capability, facing);
+	public IFluidHandler getFluidHandler(net.minecraft.core.Direction facing) {
+		return getTankManager();
 	}
 }

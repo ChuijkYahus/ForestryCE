@@ -29,9 +29,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -40,6 +37,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
+import java.util.Optional;
 
 public class TileBottler extends TilePowered implements WorldlyContainer, ILiquidTankTile, ISlotPickupWatcher {
 	private static final int TICKS_PER_RECIPE_TIME = 5;
@@ -149,7 +147,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		if (!this.resourceTank.isEmpty()) {
 			for (Direction facing : Direction.VALUES) {
 				if (this.canDump.get(facing)) {
-					LazyOptional<IFluidHandler> fluidDestination = FluidUtil.getFluidHandler(this.level, this.worldPosition.relative(facing), facing.getOpposite());
+					Optional<IFluidHandler> fluidDestination = FluidUtil.getFluidHandler(this.level, this.worldPosition.relative(facing), facing.getOpposite());
 
 					if (fluidDestination.isPresent()) {
 						fluidDestination.ifPresent(f -> FluidUtil.tryFluidTransfer(f, this.tankManager, FluidType.BUCKET_VOLUME / 20, true));
@@ -333,14 +331,8 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		return this.tankManager;
 	}
 
-
-	//TODO - is this efficient? or even correct?
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return super.getCapability(capability, facing);
+	public IFluidHandler getFluidHandler(@Nullable Direction facing) {
+		return this.tankManager;
 	}
 
 	@Override

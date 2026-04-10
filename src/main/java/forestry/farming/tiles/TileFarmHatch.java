@@ -10,9 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
@@ -50,12 +47,11 @@ public class TileFarmHatch extends TileFarm implements WorldlyContainer, IFarmCo
 
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			SidedInvWrapper sidedInvWrapper = new SidedInvWrapper(this, facing);
-			return LazyOptional.of(() -> sidedInvWrapper).cast();
+	@Nullable
+	public IItemHandler getItemHandler(@Nullable Direction facing) {
+		if (facing != null) {
+			return new SidedInvWrapper(this, facing);
 		}
-		return super.getCapability(capability, facing);
+		return new InvWrapper(this);
 	}
 }

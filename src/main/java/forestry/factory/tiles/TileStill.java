@@ -26,9 +26,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -180,12 +177,8 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	}
 
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return super.getCapability(capability, facing);
+	public IFluidHandler getFluidHandler(@Nullable Direction facing) {
+		return this.tankManager;
 	}
 
 	@Override
