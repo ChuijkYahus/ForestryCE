@@ -7,6 +7,7 @@ import forestry.api.climate.IClimateManager;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.arboriculture.commands.TreeGenHelper;
+import forestry.arboriculture.genetics.Tree;
 import forestry.core.config.ForestryConfig;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.SpeciesUtil;
@@ -23,7 +24,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.neoforged.neoforge.common.IPlantable;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 			blockState = world.getBlockState(pos);
 		}
 
-		if (tree instanceof IPlantable plantable && blockState.getBlock().canSustainPlant(blockState, world, pos, Direction.UP, plantable)) {
+		if (Tree.canPlantTreeOn(blockState)) {
 			return pos.above();
 		}
 

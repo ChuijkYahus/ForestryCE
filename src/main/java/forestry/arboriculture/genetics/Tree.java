@@ -17,7 +17,7 @@ import forestry.core.genetics.Individual;
 import forestry.core.genetics.mutations.Mutation;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -26,15 +26,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.neoforged.neoforge.common.IPlantable;
-import net.neoforged.neoforge.common.PlantType;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> implements ITree, IPlantable {
+public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> implements ITree {
 	public static final Codec<Tree> CODEC = RecordCodecBuilder.create(instance -> {
 		Codec<IGenome> genomeCodec = SpeciesUtil.TREE_TYPE.get().getKaryotype().getGenomeCodec();
 
@@ -91,21 +89,11 @@ public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> impl
 	public boolean canStay(BlockGetter level, BlockPos pos) {
 		BlockPos below = pos.below();
 		BlockState state = level.getBlockState(below);
-
-		Block block = state.getBlock();
-		return block.canSustainPlant(state, level, below, Direction.UP, this);
+		return canPlantTreeOn(state);
 	}
 
-	// IPlantable
-	@Override
-	public BlockState getPlant(BlockGetter level, BlockPos pos) {
-		return level.getBlockState(pos);
-	}
-
-	// IPlantable
-	@Override
-	public PlantType getPlantType(BlockGetter level, BlockPos pos) {
-		return PlantType.PLAINS;
+	public static boolean canPlantTreeOn(BlockState state) {
+		return state.is(BlockTags.DIRT);
 	}
 
 	@Override

@@ -6,12 +6,12 @@ import forestry.api.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.IPlantable;
 
 public class FertileBeeEffect extends ThrottledBeeEffect {
 	private static final int MAX_BLOCK_FIND_TRIES = 5;
@@ -53,7 +53,7 @@ public class FertileBeeEffect extends ThrottledBeeEffect {
 		for (int y = maxY; y >= minY; --y) {
 			BlockState state = level.getBlockState(new BlockPos(x, y, z));
 			Block block = state.getBlock();
-			if (block.isRandomlyTicking(state) && (block instanceof BonemealableBlock || block instanceof IPlantable)) {
+			if (block.isRandomlyTicking(state) && (block instanceof BonemealableBlock || state.is(BlockTags.SAPLINGS))) {
 				level.scheduleTick(new BlockPos(x, y, z), block, 5);
 				return true;
 			}

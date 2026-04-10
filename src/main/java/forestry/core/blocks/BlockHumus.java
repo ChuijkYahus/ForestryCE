@@ -1,11 +1,9 @@
 package forestry.core.blocks;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -14,8 +12,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.neoforged.neoforge.common.IPlantable;
-import net.neoforged.neoforge.common.PlantType;
 
 public class BlockHumus extends Block {
 	private static final int DEGRADE_STEPS = 3;
@@ -77,11 +73,5 @@ public class BlockHumus extends Block {
 		} else {
 			world.setBlock(pos, blockState.setValue(DEGRADE, degrade), UPDATE_CLIENTS);
 		}
-	}
-
-	@Override
-	public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction direction, IPlantable plantable) {
-		PlantType plantType = plantable.getPlantType(world, pos);
-		return plantType == PlantType.CROP || plantType == PlantType.PLAINS;
 	}
 }

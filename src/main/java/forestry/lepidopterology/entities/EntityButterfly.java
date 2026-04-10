@@ -50,7 +50,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.IPlantable;
 
 import javax.annotation.Nullable;
 
@@ -261,7 +260,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 			Block block = blockState.getBlock();
 			if (blockState.is(BlockTags.FLOWERS)) {
 				weight += 2.0f;
-			} else if (block instanceof IPlantable) {
+			} else if (blockState.is(BlockTags.SAPLINGS)) {
 				weight += 1.5f;
 			} else if (block instanceof BonemealableBlock) {
 				weight += 1.0f;
