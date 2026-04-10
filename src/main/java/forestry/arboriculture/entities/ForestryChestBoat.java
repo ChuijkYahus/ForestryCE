@@ -24,8 +24,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
@@ -205,31 +203,11 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 	}
 	// </editor-fold>
 
-	// <editor-fold desc="Forge Start">
-	private net.neoforged.neoforge.common.util.LazyOptional<?> itemHandler = LazyOptional.of(() -> new InvWrapper(this));
-
-	@Override
-	public <T> net.neoforged.neoforge.common.util.LazyOptional<T> getCapability(net.neoforged.neoforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.core.Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER && isAlive()) {
-			return this.itemHandler.cast();
-		}
-		return super.getCapability(capability, facing);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		this.itemHandler.invalidate();
-	}
-
-	@Override
-	public void reviveCaps() {
-		super.reviveCaps();
-		this.itemHandler = LazyOptional.of(() -> new InvWrapper(this));
+	public InvWrapper getItemHandler() {
+		return new InvWrapper(this);
 	}
 
 	public void stopOpen(Player player) {
 		level().gameEvent(GameEvent.CONTAINER_CLOSE, position(), GameEvent.Context.of(player));
 	}
-	// </editor-fold>
 }

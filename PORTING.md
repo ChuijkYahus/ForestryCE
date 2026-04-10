@@ -112,6 +112,11 @@ To keep progress coherent across Codex sessions:
   - Remaining `ForgeRegistries` users in `FilteredTank`, `ForestersManualItem`, `FakeAlvearyController`, `FarmController`, `FermenterRecipe`, and `InventoryBottler` now use `BuiltInRegistries` or simple vanilla fluid checks.
   - Remaining `LazyOptional`-based fluid helper callers in `ContainerLiquidTanksHelper`, `FluidHelper`, `BottlerRecipe`, `InventoryRaintank`, `TileBottler`, and `TileRaintank` now use NeoForge 1.21.1 `FluidUtil`'s `Optional`-returning APIs.
   - This clears the active `ForgeRegistries` and helper-side `LazyOptional` compile failures from those core/factory/apiculture/farming helper files.
+- Compat entity-capability cleanup:
+  - `ForestryChestBoat` no longer overrides removed Forge-era entity capability hooks or stores a `LazyOptional`; it now exposes a plain `InvWrapper` accessor.
+  - `ModuleArboriculture` now registers the chest boat inventory through `RegisterCapabilitiesEvent.registerEntity(...)` with `Capabilities.ItemHandler.ENTITY`.
+  - `CuriosCompat` no longer depends on removed NeoForge `CapabilityManager` / `CapabilityToken` lookup code and now queries Curios inventories through `CuriosApi.getCuriosInventory(player)`.
+  - This clears the direct `ForestryChestBoat` and `CuriosCompat` capability compile failures from the active compat slice.
 
 ## Next Work Plan
 
@@ -180,3 +185,9 @@ To keep progress coherent across Codex sessions:
   - cleared the direct `ForgeRegistries` failures in the active core/apiculture/farming/factory helper files and moved the active fluid helper callers off removed `LazyOptional` APIs onto `Optional`
 - Current next blocker after the registry and fluid helper cleanup slice:
   - compile failures are now front-loaded by JEI `ForgeTypes`, old capability users in compat entities/helpers, and broader Mojang-side 1.21 API signature changes
+- Current verification command for the compat entity-capability cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ForestryChestBoat|ModuleArboriculture|CuriosCompat|Capabilities\\.ItemHandler\\.ENTITY|CuriosApi|LazyOptional|ForgeCapabilities|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `ForestryChestBoat` and `CuriosCompat` removed capability API failures by moving the chest boat inventory onto NeoForge entity capability registration and switching Curios access over to `CuriosApi`
+- Current next blocker after the compat entity-capability cleanup slice:
+  - compile failures are now front-loaded by KubeJS API removals (`KubeJSPlugin`, `BindingsEvent`, `EventJS`), worktable/recipe migration fallout (`RecipeUtil`, `RecipeHolder`), loot function serializer rewrites, and broader Mojang-side 1.21 signature changes

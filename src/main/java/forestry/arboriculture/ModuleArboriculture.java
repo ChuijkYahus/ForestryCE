@@ -31,6 +31,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.bus.api.IEventBus;
@@ -86,6 +87,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> ((ItemGE) stack.getItem()).createIndividualHandler(stack),
 			ArboricultureItems.SAPLING.item(),
 			ArboricultureItems.POLLEN_FERTILE.item());
+		event.registerEntity(Capabilities.ItemHandler.ENTITY, ArboricultureEntities.CHEST_BOAT.entityType(), (boat, context) -> boat.isAlive() ? boat.getItemHandler() : null);
 	}
 
 	private static void commonSetup(FMLCommonSetupEvent event) {
