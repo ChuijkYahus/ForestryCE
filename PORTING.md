@@ -33,13 +33,15 @@ To keep progress coherent across Codex sessions:
    - what compile family was reduced
    - the exact next blocker
    - the exact command used to verify progress
-3. Keep commits scoped by subsystem, not by file type.
+3. Make a git commit immediately after each completed porting round.
+   Use one commit per verified slice so future Codex sessions can resume from clean checkpoints.
+4. Keep commits scoped by subsystem, not by file type.
    Good commit examples:
    - `port item capability registration to RegisterCapabilitiesEvent`
    - `port block entity fluid and energy capabilities`
    - `port recipe builders off FinishedRecipe`
-4. Before touching a new slice, run a filtered compile grep against the target files so the next session can see whether the slice is still the active blocker.
-5. Prefer JMCP-backed notes over memory.
+5. Before touching a new slice, run a filtered compile grep against the target files so the next session can see whether the slice is still the active blocker.
+6. Prefer JMCP-backed notes over memory.
    If a class moved or an API rename is confirmed, add it to session notes here and save a JMCP porting pattern when the mapping is stable.
 
 ## Completed Slices
@@ -89,13 +91,33 @@ To keep progress coherent across Codex sessions:
   - `ForestryLootTableProvider`, `ForestryBlockLootTables`, and `ForestryChestLootTables` now thread `HolderLookup.Provider` through the 1.21.1 loot table APIs, including `ResourceKey<LootTable>` outputs and holder-backed enchantment lookups.
   - `ForestryFeaturesProvider` now uses `BootstrapContext`, and `ForestryAtlasProvider` now uses the lookup-aware `SpriteSourceProvider` constructor with `gather()`.
   - `Data` now wires the updated providers and uses the standalone `@EventBusSubscriber` annotation form.
+- Deferred registration holder cleanup:
+  - `ForestryItemModelProvider` now iterates item deferred entries as `DeferredHolder<Item, ? extends Item>` instead of the removed `RegistryObject`.
+  - `CoreParticles`, `ApicultureVillagers`, and `ArboricultureVillagers` now store deferred registration handles as `DeferredHolder`, matching NeoForge 1.21.1 `DeferredRegister#register(...)`.
+  - This clears the remaining direct `RegistryObject` compile errors from the datagen/registry layer.
+- Plant/tool helper cleanup:
+  - `BlockForestryLog` now uses NeoForge 1.21.1 `ItemAbility` / `ItemAbilities` for axe stripping instead of the removed `ToolAction` / `ToolActions`.
+  - Forestry tree placement no longer depends on removed `IPlantable` / `PlantType`; `Tree` and `TreeDecorator` now use Forestry-side soil checks backed by `BlockTags.DIRT`, which already includes humus in Forestry tags.
+  - `BlockHumus`, `BlockBogEarth`, `FertileBeeEffect`, and `EntityButterfly` no longer reference the removed Forge plantable helpers.
+- Event subscriber cleanup:
+  - `EventHandlerCore`, `MultiblockServerTickHandler`, and `MultiblockEventHandler` now use the standalone `@EventBusSubscriber` annotation import.
+  - `EventHandlerCore` now listens with `LivingIncomingDamageEvent` instead of the removed `LivingAttackEvent`.
+- Farm, sorting, and factory block capability cleanup:
+  - `ModuleFarming` now registers gearbox energy, hatch item, and valve fluid block-entity capabilities through NeoForge 1.21.1 `RegisterCapabilitiesEvent`.
+  - `TileFarmGearbox`, `TileFarmHatch`, and `TileFarmValve` now expose explicit energy/item/fluid handlers instead of removed `LazyOptional`-based `getCapability(...)` overrides.
+  - `ForestryCapabilities` now defines a NeoForge `BlockCapability` for sorting filter logic, and `ModuleSorting` registers both the genetic filter item handler and filter-logic block capability.
+  - `TileGeneticFilter` now exposes its sided item handler through an explicit accessor for capability registration.
+  - `ModuleFactory` now registers item, energy, and fluid block capabilities for factory machine block entities, and the liquid factory tiles now expose explicit `getFluidHandler(...)` accessors instead of Forge-era capability overrides.
+- Registry and fluid helper cleanup:
+  - Remaining `ForgeRegistries` users in `FilteredTank`, `ForestersManualItem`, `FakeAlvearyController`, `FarmController`, `FermenterRecipe`, and `InventoryBottler` now use `BuiltInRegistries` or simple vanilla fluid checks.
+  - Remaining `LazyOptional`-based fluid helper callers in `ContainerLiquidTanksHelper`, `FluidHelper`, `BottlerRecipe`, `InventoryRaintank`, `TileBottler`, and `TileRaintank` now use NeoForge 1.21.1 `FluidUtil`'s `Optional`-returning APIs.
+  - This clears the active `ForgeRegistries` and helper-side `LazyOptional` compile failures from those core/factory/apiculture/farming helper files.
 
 ## Next Work Plan
 
-1. Port recipe/data generation APIs.
-2. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes`.
-3. Sweep remaining tick-event package moves in:
-   - complete for the first remaining users; next likely tick-related blockers are now outside this short list
+1. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes` and the lingering old capability access in the factory JEI plugin.
+2. Port remaining compatibility-side old capability users such as `ForestryChestBoat` and `CuriosCompat`.
+3. Continue the Mojang-side 1.21 signature migrations once the removed Forge/NeoForge API references are no longer dominating the compile.
 
 ## Session Notes
 
@@ -130,3 +152,31 @@ To keep progress coherent across Codex sessions:
   - cleared the direct `ForestryAdvancementProvider`, `ForestryLootTableProvider`, `ForestryBlockLootTables`, `ForestryChestLootTables`, `ForestryFeaturesProvider`, `ForestryAtlasProvider`, and `Data` datagen API errors from the filtered compile
 - Current next blocker after the core datagen provider cleanup slice:
   - remaining datagen/registry cleanup now starts with `src/main/java/forestry/core/data/models/ForestryItemModelProvider.java` still using removed `RegistryObject`, while non-datagen compile failures remain concentrated in Forge-era capability users and other 1.21 API migrations
+- Current verification command for the deferred registration holder cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | grep -E "ForestryItemModelProvider|CoreParticles|ApicultureVillagers|ArboricultureVillagers|RegistryObject|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `RegistryObject` failures in `ForestryItemModelProvider`, `CoreParticles`, `ApicultureVillagers`, and `ArboricultureVillagers`
+- Current next blocker after the deferred registration holder cleanup slice:
+  - compile failures are now led by remaining NeoForge 1.21 API migrations around removed Forge-era plant/tool helpers (`IPlantable`, `PlantType`, `ToolAction`, `ToolActions`), removed capability APIs still present in farming/factory/sorting/compat code, and several Mojang-side 1.21 signature changes
+- Current verification command for the plant/tool helper cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | grep -E "BlockForestryLog|BlockHumus|BlockBogEarth|TreeDecorator|forestry/arboriculture/genetics/Tree|FertileBeeEffect|EntityButterfly|IPlantable|PlantType|ToolAction|ToolActions|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `IPlantable`, `PlantType`, `ToolAction`, and `ToolActions` failures from the active Forestry tree/soil and butterfly/bee files
+- Current verification command for the event subscriber cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | grep -E "EventHandlerCore|MultiblockServerTickHandler|MultiblockEventHandler|LivingAttackEvent|EventBusSubscriber|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `LivingAttackEvent` and `@Mod.EventBusSubscriber` failures in the Forestry core event subscriber classes
+- Current next blocker after the event subscriber cleanup slice:
+  - compile failures are now front-loaded by removed `ForgeRegistries` users, remaining `LazyOptional`/old capability API consumers in farming, sorting, factory, and compat code, plus several isolated Mojang/NeoForge 1.21 API signature changes
+- Current verification command for the farm/sorting/factory block capability cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ModuleFarming|TileFarmGearbox|TileFarmHatch|TileFarmValve|ModuleSorting|TileGeneticFilter|ModuleFactory|TileBottler|TileCarpenter|TileFabricator|TileFermenter|TileMoistener|TileRaintank|TileSqueezer|TileStill|LazyOptional|ForgeCapabilities|RegisterCapabilitiesEvent|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct removed `Capability`/`ForgeCapabilities`/`LazyOptional` block-provider failures in farming, sorting, and the core set of factory machine tiles by moving them onto NeoForge 1.21.1 block capability registration
+- Current next blocker after the farm/sorting/factory block capability cleanup slice:
+  - compile failures are now led by remaining `ForgeRegistries` users, `LazyOptional` consumers in core/factory recipe and compat helpers, JEI `ForgeTypes`, plus broader Mojang-side 1.21 API signature changes
+- Current verification command for the registry and fluid helper cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "FilteredTank|ForestersManualItem|FakeAlvearyController|FarmController|FermenterRecipe|InventoryBottler|ContainerLiquidTanksHelper|FluidHelper|BottlerRecipe|InventoryRaintank|TileBottler|TileRaintank|ForgeRegistries|LazyOptional|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `ForgeRegistries` failures in the active core/apiculture/farming/factory helper files and moved the active fluid helper callers off removed `LazyOptional` APIs onto `Optional`
+- Current next blocker after the registry and fluid helper cleanup slice:
+  - compile failures are now front-loaded by JEI `ForgeTypes`, old capability users in compat entities/helpers, and broader Mojang-side 1.21 API signature changes
