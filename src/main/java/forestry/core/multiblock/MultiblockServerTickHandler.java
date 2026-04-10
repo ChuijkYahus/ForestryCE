@@ -2,7 +2,7 @@ package forestry.core.multiblock;
 
 import forestry.api.ForestryConstants;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 /**
@@ -14,7 +14,7 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
  * SERVER and WORLD ticks only run on the server.
  * WORLDLOAD ticks run only on the server, and only when worlds are loaded.
  */
-@Mod.EventBusSubscriber(modid = ForestryConstants.MOD_ID)
+@EventBusSubscriber(modid = ForestryConstants.MOD_ID)
 public class MultiblockServerTickHandler {
 
 	@SubscribeEvent

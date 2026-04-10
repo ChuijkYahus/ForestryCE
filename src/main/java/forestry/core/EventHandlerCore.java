@@ -19,13 +19,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 
-@Mod.EventBusSubscriber(modid = ForestryConstants.MOD_ID)
+@EventBusSubscriber(modid = ForestryConstants.MOD_ID)
 public class EventHandlerCore {
 	@SubscribeEvent
 	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
@@ -57,7 +57,7 @@ public class EventHandlerCore {
 	}
 
 	@SubscribeEvent
-	public static void doHakunaDamageReduction(LivingAttackEvent event) {
+	public static void doHakunaDamageReduction(LivingIncomingDamageEvent event) {
 		if (event.getEntity().hasEffect(ApicultureEffects.HAKUNA_MATATA.get())) {
 			event.setCanceled(true);
 			if (event.getAmount() > 5) {

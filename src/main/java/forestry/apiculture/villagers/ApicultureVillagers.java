@@ -33,8 +33,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.RegistryObject;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.List;
@@ -49,8 +49,8 @@ public class ApicultureVillagers {
 	private static final DeferredRegister<PoiType> POINTS_OF_INTEREST = REGISTRY.getRegistry(Registries.POINT_OF_INTEREST_TYPE);
 	private static final DeferredRegister<VillagerProfession> PROFESSIONS = REGISTRY.getRegistry(Registries.VILLAGER_PROFESSION);
 
-	public static final RegistryObject<PoiType> POI_ESCRITOIRE = POINTS_OF_INTEREST.register("escritoire", () -> new PoiType(Set.copyOf(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).block().getStateDefinition().getPossibleStates()), 1, 1));
-	public static final RegistryObject<VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register("beekeeper", () -> {
+	public static final DeferredHolder<PoiType, PoiType> POI_ESCRITOIRE = POINTS_OF_INTEREST.register("escritoire", () -> new PoiType(Set.copyOf(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).block().getStateDefinition().getPossibleStates()), 1, 1));
+	public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register("beekeeper", () -> {
 		ResourceKey<PoiType> key = Objects.requireNonNull(POI_ESCRITOIRE.getKey());
 		Predicate<Holder<PoiType>> jobSitePredicate = e -> e.is(key);
 		return new VillagerProfession("beekeeper", jobSitePredicate, jobSitePredicate, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LIBRARIAN);

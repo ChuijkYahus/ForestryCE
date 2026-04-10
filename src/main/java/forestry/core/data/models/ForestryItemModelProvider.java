@@ -31,7 +31,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Map;
 
@@ -101,7 +101,7 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 		}
 
 		// Backpacks
-		for (RegistryObject<Item> object : ModFeatureRegistry.get(ForestryModuleIds.STORAGE).getRegistry(Registries.ITEM).getEntries()) {
+		for (DeferredHolder<Item, ? extends Item> object : ModFeatureRegistry.get(ForestryModuleIds.STORAGE).getRegistry(Registries.ITEM).getEntries()) {
 			if (object.get() instanceof ItemBackpack) {
 				String path = object.getId().getPath();
 				boolean woven = path.endsWith("woven");

@@ -6,7 +6,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 /**
  * In your mod, subscribe this on both the client and server sides side to handle chunk
@@ -14,7 +14,7 @@ import net.neoforged.fml.common.Mod;
  * Chunks can load asynchronously in environments like MCPC+, so we cannot
  * process any blocks that are in chunks which are still loading.
  */
-@Mod.EventBusSubscriber(modid = ForestryConstants.MOD_ID)
+@EventBusSubscriber(modid = ForestryConstants.MOD_ID)
 public class MultiblockEventHandler {
 	@SubscribeEvent
 	public static void onChunkLoad(ChunkEvent.Load loadEvent) {
