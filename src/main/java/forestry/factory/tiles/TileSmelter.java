@@ -7,6 +7,7 @@ import forestry.api.circuits.ICircuitBoard;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.recipes.*;
+import forestry.core.blocks.BlockBase;
 import forestry.core.circuits.ISocketable;
 import forestry.core.config.Constants;
 import forestry.core.fluids.FilteredTank;
@@ -35,9 +36,11 @@ import forestry.factory.recipes.SmelterRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -51,6 +54,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -236,6 +240,63 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 		//A squeezer squeezing honey uses 2000RF per item (in bursts of 200RF)
 		//A squeezer stores 40000RF and can squeeze 20 items from full. Let's apply that to here.
 
+		//for particles sake
+		if (updateOnInterval(WORK_TICK_INTERVAL * 4)) {
+			if (level instanceof ServerLevel serverLevel){
+
+				Direction facing = this.getBlockState().getValue(BlockBase.FACING);
+
+				float posX = this.getBlockPos().getX();
+				float posY = this.getBlockPos().getY()+(1f/4f);
+				float posZ = this.getBlockPos().getZ();
+
+				float dX = 0;
+				float dY = (1f/8f);
+				float dZ = 0;
+
+				switch (facing){
+					case NORTH:
+						posX += 0.5f;
+						posZ -= (1/16f);
+						dX = 0.2f;
+						break;
+					case EAST:
+						posX += (17f/16f);
+						posZ += 0.5f;
+						dZ = 0.2f;
+						break;
+					case SOUTH:
+						posX += 0.5f;
+						posZ += (17f/16f);;
+						dX = 0.2f;
+						break;
+					case WEST:
+						posX -= (1/16f);
+						posZ += 0.5f;
+						dZ = 0.2f;
+				}
+
+				if (this.heat > this.meltingPoint)
+					serverLevel.sendParticles(ParticleTypes.FLAME,
+						posX,
+						posY,
+						posZ,
+						3,
+						dX, dY, dZ,
+						0
+					);
+
+				if (this.meltingPoint > 0)
+					serverLevel.sendParticles(ParticleTypes.SMOKE,
+						posX,
+						posY,
+						posZ,
+						3,
+						dX, dY, dZ,
+						0
+					);
+			}
+		}
 	}
 
 	//Called by super.serverTick()
