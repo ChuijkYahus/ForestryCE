@@ -89,12 +89,16 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	@Override
 	public void writeData(FriendlyByteBuf data) {
         this.tankManager.writeData(data);
+		data.writeVarInt(this.heat);
+		data.writeVarInt(this.meltingPoint);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
         this.tankManager.readData(data);
+		this.heat = data.readVarInt();
+		this.meltingPoint = data.readVarInt();
 	}
 
 	/* UPDATING */

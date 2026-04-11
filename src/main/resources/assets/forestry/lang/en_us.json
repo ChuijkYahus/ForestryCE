@@ -784,13 +784,8 @@
   "errors.forestry.no_space_tank.help": "Empty this machine's liquid tank.",
   "errors.forestry.not_dark.desc": "Not dark enough",
   "errors.forestry.not_dark.help": "A lower light level is required for operation.",
-  "_comment": "RAIN TANK",
-  "errors.forestry.not_raining.desc": "No rain",
-  "errors.forestry.not_raining.help": "Operation is only possible when it is raining.",
-  "errors.forestry.no_rain_biome.desc": "Never rains",
-  "errors.forestry.no_rain_biome.help": "This location never receives rain.",
-  "errors.forestry.no_sky_rain_tank.desc": "Sky obstructed",
-  "errors.forestry.no_sky_rain_tank.help": "Clear the area above this machine so it can gather rain.",
+  "errors.forestry.not_warm_enough.desc": "Not warm enough",
+  "errors.forestry.not_warm_enough.help": "This machine isn't warm enough to operate. Ensure power is connected.",
   "_comment": "ALYZERS",
   "errors.forestry.no_honey.desc": "Honey required",
   "errors.forestry.no_honey.help": "This gadget requires honey drops or honeydew for operation.",
@@ -2611,5 +2606,9 @@
   "painting.forestry.mystical_tree.title": "Mystical Tree",
   "painting.forestry.mystical_tree.author": "Spearkiller",
   "for.gui.mail.toast.title": "You've got Mail!",
-  "for.gui.mail.toast.message": "%1$d unopened letters"
+  "for.gui.mail.toast.message": "%1$d unopened letters",
+
+  "for.gui.smelter.heat": "Current temperature: %1$s/%2$s ",
+  "for.gui.smelter.requiredHeat": "Required alloying temperature: %s"
+
 }

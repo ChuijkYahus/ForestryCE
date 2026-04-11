@@ -38,10 +38,7 @@ public enum ForestryError implements IError {
 	DISABLED_BY_REDSTONE("disabled_redstone", "disabled"), // This machine is being disabled by a redstone signal.
 	NOT_DARK("not_dark", "not_gloomy"), // A lower light level is required for operation.
 
-	// Rain Tank
-	NOT_RAINING("not_raining"), // Operation is only possible when it is raining.
-	NO_RAIN_BIOME("no_rain_biome", "not_raining"), // This location never receives rain.
-	NO_SKY_RAIN_TANK("no_sky_rain_tank", "no_sky"), // Clear the area above this machine so it can gather rain.
+	NOT_WARM_ENOUGH("not_warm_enough", "no_heat"), //This machine is not hot enough to operate yet
 
 	// Analyzer
 	NO_HONEY("no_honey"), // This gadget requires honey drops or honeydew for operation.

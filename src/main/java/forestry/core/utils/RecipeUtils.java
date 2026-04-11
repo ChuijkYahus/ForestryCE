@@ -1,9 +1,12 @@
 package forestry.core.utils;
 
+import forestry.Forestry;
 import forestry.api.recipes.*;
 import forestry.core.ClientsideCode;
 import forestry.core.fluids.FluidHelper;
+import forestry.core.recipes.IngredientStack;
 import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.SmelterRecipe;
 import forestry.modules.features.FeatureRecipeType;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import net.minecraft.core.NonNullList;
@@ -14,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -24,9 +28,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -206,12 +208,18 @@ public class RecipeUtils {
 	}
 
 	@Nullable
+	public static ISmelterRecipe getSmelterRecipe(RecipeManager manager, List<ItemStack> contents) {
+		return getMatchingRecipe(manager, FactoryRecipeTypes.SMELTER, recipe -> SmelterRecipe.canAlloy(recipe, contents));
+	}
+
+	@Nullable
 	public static IStillRecipe getStillRecipe(RecipeManager manager, FluidStack input) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.STILL, recipe -> recipe.matches(input));
 	}
 
 	@Nullable
 	private static <R extends Recipe<C>, C extends Container> R getMatchingRecipe(RecipeManager manager, FeatureRecipeType<R> type, Predicate<R> matcher) {
+		//Forestry.LOGGER.info("Recipe count for " + type.type() + ": " + getRecipes(manager, type).count());
 		return getRecipes(manager, type)
 			.filter(matcher)
 			.findFirst()

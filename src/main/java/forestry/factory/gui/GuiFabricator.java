@@ -25,7 +25,10 @@ public class GuiFabricator extends GuiForestryTitled<ContainerFabricator> {
 
 		int heatScaled = this.tile.getHeatScaled(52);
 		if (heatScaled > 0) {
-			graphics.blit(this.textureFile, this.leftPos + 55, this.topPos + 17 + 52 - heatScaled, 192, 52 - heatScaled, 4, heatScaled);
+			graphics.blit(this.textureFile,
+				this.leftPos + 55, this.topPos + 17 + 52 - heatScaled,
+				192, 52 - heatScaled,
+				4, heatScaled);
 		}
 
 		int meltingPointScaled = this.tile.getMeltingPointScaled(52);

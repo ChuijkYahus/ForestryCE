@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-06T23:19:16.5517095	Recipes
+// 1.20.1	2026-04-11T00:00:04.7368303	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -2895,6 +2895,8 @@ a400c6bcf291051c070be51cca6364c6e1534fbf data/forestry/recipes/sequoia_stripped_
 a8835902add9fb7cc245b76e4a9068d260152192 data/forestry/recipes/sequoia_trapdoor.json
 b039b265e66493871016cf86722a17841d175b2f data/forestry/recipes/sequoia_wood.json
 bf2dd5567d7935be91ba7b2ce667a3ea1b3453fb data/forestry/recipes/slime_from_propolis.json
+7951d7018dd8f5df4664723d0df53676e62eeedf data/forestry/recipes/smelter/bronze_from_ingots.json
+a887fe970b0a6e2020bf8f775ac640f580445511 data/forestry/recipes/smelter/bronze_from_raw_materials.json
 c86d150fc1b07832263841a9b659fafe67b1e2f7 data/forestry/recipes/smoker.json
 21966eb9020b5d42d568e2bbe227f61ee1b631f7 data/forestry/recipes/spruce_door.json
 9fa066a8b1fd59e0edec2ce354b4189eb61e0e95 data/forestry/recipes/spruce_fireproof_fence.json

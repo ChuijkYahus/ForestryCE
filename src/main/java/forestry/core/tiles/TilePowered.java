@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 
 // todo rename "ticks" to "steps" in 1.21 to clarify they're different than actual ticks
 public abstract class TilePowered extends TileBase implements IRenderableTile, IMachineUpgradable, IStreamableGui, IPowerHandler {
-	private static final int WORK_TICK_INTERVAL = 5; // one Forestry work tick happens every WORK_TICK_INTERVAL game ticks
+	protected static final int WORK_TICK_INTERVAL = 5; // one Forestry work tick happens every WORK_TICK_INTERVAL game ticks
 
 	private final ForestryEnergyStorage energyStorage;
 	private final LazyOptional<ForestryEnergyStorage> energyCap;

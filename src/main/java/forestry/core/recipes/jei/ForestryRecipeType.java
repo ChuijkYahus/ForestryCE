@@ -12,6 +12,7 @@ public class ForestryRecipeType {
 	public static final RecipeType<IFermenterRecipe> FERMENTER = create("fermenter", IFermenterRecipe.class);
 	public static final RecipeType<IMoistenerRecipe> MOISTENER = create("moistener", IMoistenerRecipe.class);
 	public static final RecipeType<RainSubstrate> RAINMAKER = create("rainmaker", RainSubstrate.class);
+	public static final RecipeType<ISmelterRecipe> SMELTER = create("smelter", ISmelterRecipe.class);
 	public static final RecipeType<ISqueezerRecipe> SQUEEZER = create("squeezer", ISqueezerRecipe.class);
 	public static final RecipeType<IStillRecipe> STILL = create("still", IStillRecipe.class);
 

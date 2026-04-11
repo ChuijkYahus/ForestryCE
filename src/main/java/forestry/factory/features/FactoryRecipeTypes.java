@@ -8,10 +8,12 @@ import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureRecipeType;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.Recipe;
 
 @FeatureProvider
 public class FactoryRecipeTypes {
-	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.FACTORY);
+    private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.FACTORY);
 
 	public static final FeatureRecipeType<ICarpenterRecipe> CARPENTER = REGISTRY.recipeType("carpenter", CarpenterRecipe.Serializer::new);
 	public static final FeatureRecipeType<ICentrifugeRecipe> CENTRIFUGE = REGISTRY.recipeType("centrifuge", CentrifugeRecipe.Serializer::new);
@@ -20,6 +22,7 @@ public class FactoryRecipeTypes {
 	public static final FeatureRecipeType<IFermenterRecipe> FERMENTER = REGISTRY.recipeType("fermenter", FermenterRecipe.Serializer::new);
 	public static final FeatureRecipeType<IHygroregulatorRecipe> HYGROREGULATOR = REGISTRY.recipeType("hygroregulator", HygroregulatorRecipe.Serializer::new);
 	public static final FeatureRecipeType<IMoistenerRecipe> MOISTENER = REGISTRY.recipeType("moistener", MoistenerRecipe.Serializer::new);
+	public static final FeatureRecipeType<ISmelterRecipe> SMELTER = REGISTRY.recipeType("smelter", SmelterRecipe.Serializer::new);
 	public static final FeatureRecipeType<ISqueezerRecipe> SQUEEZER = REGISTRY.recipeType("squeezer", SqueezerRecipe.Serializer::new);
 	public static final FeatureRecipeType<ISqueezerContainerRecipe> SQUEEZER_CONTAINER = REGISTRY.recipeType("squeezer_container", SqueezerContainerRecipe.Serializer::new);
 	public static final FeatureRecipeType<IStillRecipe> STILL = REGISTRY.recipeType("still", StillRecipe.Serializer::new);
