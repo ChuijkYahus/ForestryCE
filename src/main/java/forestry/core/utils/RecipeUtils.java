@@ -143,7 +143,7 @@ public class RecipeUtils {
 
 	@Nullable
 	public static RecipeHolder<IHygroregulatorRecipe> getHygroRegulatorRecipe(RecipeManager manager, FluidStack input) {
-		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> recipe.getInputFluid().test(input));
+		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> input.containsFluid(recipe.getInputFluid()));
 	}
 
 	@Nullable
@@ -191,8 +191,8 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	public static RecipeHolder<FabricatorSmeltingRecipe> getFabricatorMeltingRecipe(RecipeManager manager, ItemStack stack) {
-		return getMatchingRecipe(manager, FactoryRecipeTypes.FABRICATOR_SMELTING, recipe -> recipe.input().test(stack));
+	public static RecipeHolder<IFabricatorSmeltingRecipe> getFabricatorMeltingRecipe(RecipeManager manager, ItemStack stack) {
+		return getMatchingRecipe(manager, FactoryRecipeTypes.FABRICATOR_SMELTING, recipe -> recipe.getInput().test(stack));
 	}
 
 	@Nullable
@@ -220,28 +220,36 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	private static <R extends Recipe<I>, I extends RecipeInput> RecipeHolder<R> getMatchingRecipe(RecipeManager manager, FeatureRecipeType<R> type, Predicate<R> matcher) {
+	private static <R extends IForestryRecipe> RecipeHolder<R> getMatchingRecipe(RecipeManager manager, FeatureRecipeType<R> type, Predicate<R> matcher) {
 		return getRecipes(manager, type)
 			.filter(holder -> matcher.test(holder.value()))
 			.findFirst()
 			.orElse(null);
 	}
 
-	public static <R extends Recipe<I>, I extends RecipeInput> Stream<RecipeHolder<R>> getRecipes(RecipeManager manager, FeatureRecipeType<R> type) {
+	public static <R extends IForestryRecipe> Stream<RecipeHolder<R>> getRecipes(RecipeManager manager, FeatureRecipeType<R> type) {
 		return manager.byType(type.type()).stream();
 	}
 
 	public static <R extends Recipe<C>, C extends RecipeInput> Set<ResourceLocation> getTargetFluidsFromIngredients(RecipeManager manager, RecipeType<R> type, Function<R, FluidIngredient> targetFluid) {
-		return getTargetFluids(manager, type, recipe -> Arrays.stream(targetFluid.apply(recipe).getStacks()).map(FluidStack::getFluid));
+		return getTargetFluidStreams(manager, type, recipe -> Arrays.stream(targetFluid.apply(recipe).getStacks()).map(FluidStack::getFluid));
 	}
 
-	public static <R extends Recipe<I>, I extends RecipeInput> Set<ResourceLocation> getTargetFluids(RecipeManager manager, RecipeType<R> type, Function<R, Stream<Fluid>> targetFluid) {
+	public static <R extends Recipe<I>, I extends RecipeInput> Set<ResourceLocation> getTargetFluidsFromStacks(RecipeManager manager, RecipeType<R> type, Function<R, FluidStack> targetFluid) {
+		return getTargetFluidStreams(manager, type, recipe -> Stream.of(targetFluid.apply(recipe).getFluid()));
+	}
+
+	public static <R extends Recipe<I>, I extends RecipeInput> Set<ResourceLocation> getTargetFluids(RecipeManager manager, RecipeType<R> type, Function<R, Fluid> targetFluid) {
+		return getTargetFluidStreams(manager, type, recipe -> Stream.of(targetFluid.apply(recipe)));
+	}
+
+	private static <R extends Recipe<I>, I extends RecipeInput> Set<ResourceLocation> getTargetFluidStreams(RecipeManager manager, RecipeType<R> type, Function<R, Stream<Fluid>> targetFluid) {
 		return manager.byType(type).stream()
 			.flatMap(holder -> targetFluid.apply(holder.value()).map(ModUtil::getRegistryName))
 			.collect(Collectors.toSet());
 	}
 
-	public static <R extends Recipe<I>, I extends RecipeInput> RecipeHolder<R> getRecipeByOutput(FeatureRecipeType<R> recipeType, RegistryAccess registryAccess, ItemStack output) {
+	public static <R extends IForestryRecipe> RecipeHolder<R> getRecipeByOutput(FeatureRecipeType<R> recipeType, RegistryAccess registryAccess, ItemStack output) {
 		return getRecipes(getRecipeManager(), recipeType)
 			.filter(recipe -> ItemStack.isSameItem(recipe.value().getResultItem(registryAccess), output))
 			.findFirst()

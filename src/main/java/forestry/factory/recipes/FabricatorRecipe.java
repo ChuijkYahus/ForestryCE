@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 import forestry.api.recipes.IFabricatorRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -61,8 +61,8 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess registryAccess) {
-		return this.recipe.getResultItem(registryAccess);
+	public ItemStack getResultItem(HolderLookup.Provider lookupProvider) {
+		return this.recipe.getResultItem(lookupProvider);
 	}
 
 	@Override

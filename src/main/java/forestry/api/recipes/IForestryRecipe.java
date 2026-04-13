@@ -1,27 +1,27 @@
 package forestry.api.recipes;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public interface IForestryRecipe extends Recipe<Container> {
+public interface IForestryRecipe extends Recipe<RecipeInput> {
 	// <editor-fold desc="Ignore these methods, we just piggy back off Minecraft's system for recipe sync">
 	@Deprecated
 	@Override
-	default boolean matches(Container inv, Level level) {
+	default boolean matches(RecipeInput inv, Level level) {
 		return false;
 	}
 
 	@Deprecated
 	@Override
-	default ItemStack assemble(Container inv, RegistryAccess lookup) {
+	default ItemStack assemble(RecipeInput inv, HolderLookup.Provider lookup) {
 		return ItemStack.EMPTY;
 	}
 
@@ -33,7 +33,7 @@ public interface IForestryRecipe extends Recipe<Container> {
 
 	@Deprecated
 	@Override
-	default NonNullList<ItemStack> getRemainingItems(Container inv) {
+	default NonNullList<ItemStack> getRemainingItems(RecipeInput inv) {
 		return NonNullList.create();
 	}
 
@@ -62,7 +62,6 @@ public interface IForestryRecipe extends Recipe<Container> {
 	}
 	// </editor-fold>
 
-	@Override
 	ResourceLocation getId();
 
 	@Override

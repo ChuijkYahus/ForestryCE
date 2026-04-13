@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import forestry.api.recipes.ISqueezerRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -67,7 +67,7 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess registryAccess) {
+	public ItemStack getResultItem(HolderLookup.Provider lookupProvider) {
 		return ItemStack.EMPTY;
 	}
 

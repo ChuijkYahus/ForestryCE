@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 import forestry.api.recipes.ICarpenterRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -60,8 +60,8 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess registryAccess) {
-		return this.result != null ? this.result : this.recipe.getResultItem(registryAccess);
+	public ItemStack getResultItem(HolderLookup.Provider lookupProvider) {
+		return this.result != null ? this.result : this.recipe.getResultItem(lookupProvider);
 	}
 
 	@Override

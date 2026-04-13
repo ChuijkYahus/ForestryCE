@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import forestry.api.recipes.IHygroregulatorRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import forestry.factory.recipes.RecipeSerializers;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -53,7 +53,7 @@ public class HygroregulatorRecipe implements IHygroregulatorRecipe {
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+	public ItemStack getResultItem(HolderLookup.Provider lookupProvider) {
 		return ItemStack.EMPTY;
 	}
 
