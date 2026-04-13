@@ -276,7 +276,7 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 						dZ = 0.2f;
 				}
 
-				if (this.heat > this.meltingPoint)
+				if (this.heat > this.meltingPoint && this.meltingPoint > 0)
 					serverLevel.sendParticles(ParticleTypes.FLAME,
 						posX,
 						posY,

@@ -9,7 +9,7 @@
       "tag": "forge:ingots/copper"
     },
     "Y": {
-      "tag": "forestry:crafting_tables"
+      "item": "minecraft:furnace"
     }
   },
   "pattern": [
@@ -18,7 +18,7 @@
     "X#X"
   ],
   "result": {
-    "item": "forestry:carpenter"
+    "item": "forestry:smelter"
   },
   "show_notification": true
 }

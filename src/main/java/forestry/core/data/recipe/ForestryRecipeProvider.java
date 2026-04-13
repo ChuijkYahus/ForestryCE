@@ -987,8 +987,17 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
-			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
-			recipe.define('Y', CoreItems.STURDY_CASING);
+			recipe.define('X', Tags.Items.INGOTS_COPPER);
+			recipe.define('Y', ForestryTags.Items.CRAFTING_TABLES);
+			recipe.pattern("X#X");
+			recipe.pattern("XYX");
+			recipe.pattern("X#X");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block(), recipe -> {
+			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('X', Tags.Items.INGOTS_IRON);
+			recipe.define('Y', Items.FURNACE);
 			recipe.pattern("X#X");
 			recipe.pattern("XYX");
 			recipe.pattern("X#X");
@@ -2447,7 +2456,7 @@ public class ForestryRecipeProvider {
 			.addIngredient(Ingredient.of(ForestryTags.Items.INGOTS_TIN))
 			.addIngredient(Ingredient.of(Tags.Items.INGOTS_COPPER), 3)
 			.setOutput(CoreItems.INGOT_BRONZE.stack(), 4)
-			.setProcessingTime(40)
+			.setProcessingTime(80)
 			.build(consumer, id("smelter", "bronze_from_ingots"));
 
 		new SmelterRecipeBuilder()
@@ -2455,7 +2464,7 @@ public class ForestryRecipeProvider {
 			.addIngredient(Ingredient.of(ForestryTags.Items.RAW_MATERIALS_TIN))
 			.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_COPPER), 3)
 			.setOutput(CoreItems.INGOT_BRONZE.stack(), 5)
-			.setProcessingTime(40)
+			.setProcessingTime(80)
 			.build(consumer, id("smelter", "bronze_from_raw_materials"));
 	}
 	private static ResourceLocation id(String... path) {

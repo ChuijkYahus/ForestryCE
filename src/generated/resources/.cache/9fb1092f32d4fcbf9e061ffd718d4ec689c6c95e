@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-11T00:00:04.7368303	Recipes
+// 1.20.1	2026-04-11T18:13:39.7940335	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1004,6 +1004,7 @@ d62280116003f7ab0f2f6c135798b24aea01491e data/forestry/advancements/recipes/misc
 c1fcf83aceda05414b4b4d2fabea6cb9fb35cd01 data/forestry/advancements/recipes/misc/sequoia_hanging_sign.json
 5c7746746aca65d7f3ff224f24327977cbfa1cb4 data/forestry/advancements/recipes/misc/sequoia_sign.json
 0dfebfe2b4c3c08944b20c6d4e001516da64aba9 data/forestry/advancements/recipes/misc/slime_from_propolis.json
+babf5b4fad2af33c905295c74372b125bdc32897 data/forestry/advancements/recipes/misc/smelter.json
 78e32579873e5e79b628bdbea0df491bd76ddafe data/forestry/advancements/recipes/misc/squeezer.json
 32feea216eacc2aa296aabf031f25c032b84d3c5 data/forestry/advancements/recipes/misc/stamp_100n.json
 f0f8fca14ccfb3d5616aa7daba643a816a65d024 data/forestry/advancements/recipes/misc/stamp_10n.json
@@ -1425,7 +1426,7 @@ d8440aecdb22cd7fb3a869b556dbb93989432dbe data/forestry/recipes/cake_can.json
 a695357254333cc156e17bfb29955bf18101d6b7 data/forestry/recipes/cake_refractory.json
 5b29fc305b6242a808c00012cedf54d66063e31b data/forestry/recipes/can.json
 0eca0162cdd2e6decf123afeaf339723b4b58c7f data/forestry/recipes/capsule.json
-9a735032482945fa0abc22cc8a6ea5e4ad0ccc17 data/forestry/recipes/carpenter.json
+045e2f0f3dd18ed2a7b3e390b38ace7be4b7af38 data/forestry/recipes/carpenter.json
 7b9d9134ab40f06326995cb25c767ea721d6c8d9 data/forestry/recipes/carpenter/ash_brick.json
 00de128a63e9be4e3e9a4d9648f11c31d9b60b6f data/forestry/recipes/carpenter/bog_earth.json
 438b57297729f39617dd1ea3b167e5ee69867100 data/forestry/recipes/carpenter/candles.json
@@ -2895,8 +2896,9 @@ a400c6bcf291051c070be51cca6364c6e1534fbf data/forestry/recipes/sequoia_stripped_
 a8835902add9fb7cc245b76e4a9068d260152192 data/forestry/recipes/sequoia_trapdoor.json
 b039b265e66493871016cf86722a17841d175b2f data/forestry/recipes/sequoia_wood.json
 bf2dd5567d7935be91ba7b2ce667a3ea1b3453fb data/forestry/recipes/slime_from_propolis.json
-7951d7018dd8f5df4664723d0df53676e62eeedf data/forestry/recipes/smelter/bronze_from_ingots.json
-a887fe970b0a6e2020bf8f775ac640f580445511 data/forestry/recipes/smelter/bronze_from_raw_materials.json
+5a6d403c997d9a6fdbd57bd9ab2beb0edca973d6 data/forestry/recipes/smelter.json
+161ec90c4dcc3f2b50b4b867c92e400df71cd233 data/forestry/recipes/smelter/bronze_from_ingots.json
+e2bcd74b983bbf9c749af7309aca29a3da84b65c data/forestry/recipes/smelter/bronze_from_raw_materials.json
 c86d150fc1b07832263841a9b659fafe67b1e2f7 data/forestry/recipes/smoker.json
 21966eb9020b5d42d568e2bbe227f61ee1b631f7 data/forestry/recipes/spruce_door.json
 9fa066a8b1fd59e0edec2ce354b4189eb61e0e95 data/forestry/recipes/spruce_fireproof_fence.json
