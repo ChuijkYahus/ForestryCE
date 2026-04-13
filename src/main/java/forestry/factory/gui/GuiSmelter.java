@@ -35,7 +35,7 @@ public class GuiSmelter extends GuiForestryTitled<ContainerSmelter> {
 			progress, 16); //Width and Height of thing to be drawn
 
 			//Status Indicator. Kinda redundant but it's a nice visual indicator
-		if (this.tile.hasWork()){
+		if (!this.tile.getErrorLogic().hasErrors()){
 			graphics.blit(this.textureFile,
 				this.leftPos + 96, this.topPos + 58, //Where to draw thing
 				176, 68, //Coordinates of thing to be drawn

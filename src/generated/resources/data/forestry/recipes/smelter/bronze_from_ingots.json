@@ -2,15 +2,15 @@
   "type": "forestry:smelter",
   "inputs": [
     {
-      "count": 1,
-      "ingredient": {
-        "tag": "forge:ingots/tin"
-      }
-    },
-    {
       "count": 3,
       "ingredient": {
         "tag": "forge:ingots/copper"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "forge:ingots/tin"
       }
     }
   ],

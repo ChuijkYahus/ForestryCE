@@ -74,7 +74,7 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 	private final InventoryAdapter sockets = new InventoryAdapter(1, "sockets");
 	private final ResultContainer craftPreviewInventory;
 	private static final int TICKS_PER_RECIPE_TIME = 1;
-	private static final int ENERGY_PER_WORK_CYCLE = 2500;
+	private static final int ENERGY_PER_WORK_CYCLE = 2000;
 	private static final int ENERGY_PER_RECIPE_TIME = ENERGY_PER_WORK_CYCLE / 10;
 	private ISmelterRecipe currentRecipe;
 	private final InventorySmelter inventory;
@@ -192,8 +192,7 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 			if (level instanceof ServerLevel serverLevel){
 
 				//there's probably a nicer way to do this.
-				if (this.currentRecipe == null) return;
-				if (this.getEnergyManager().getEnergyStored() <= 0) return;
+				if (this.getErrorLogic().hasErrors()) return;
 
 				Direction facing = this.getBlockState().getValue(BlockBase.FACING);
 
