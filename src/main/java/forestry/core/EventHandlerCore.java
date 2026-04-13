@@ -58,17 +58,17 @@ public class EventHandlerCore {
 
 	@SubscribeEvent
 	public static void doHakunaDamageReduction(LivingIncomingDamageEvent event) {
-		if (event.getEntity().hasEffect(ApicultureEffects.HAKUNA_MATATA.get())) {
+		if (event.getEntity().hasEffect(ApicultureEffects.HAKUNA_MATATA)) {
 			event.setCanceled(true);
 			if (event.getAmount() > 5) {
-				event.getEntity().removeEffect(ApicultureEffects.HAKUNA_MATATA.get());
-				event.getEntity().addEffect(new MobEffectInstance(ApicultureEffects.MATATA.get(), (int) (300 * event.getAmount())));
+				event.getEntity().removeEffect(ApicultureEffects.HAKUNA_MATATA);
+				event.getEntity().addEffect(new MobEffectInstance(ApicultureEffects.MATATA, (int) (300 * event.getAmount())));
 				event.getEntity().playSound(SoundEvents.WITHER_BREAK_BLOCK);
 				if (event.getSource().getEntity() instanceof LivingEntity attacker) {
 					//no to no worries when attacking
-					if (attacker.hasEffect(ApicultureEffects.HAKUNA_MATATA.get())) {
-						attacker.removeEffect(ApicultureEffects.HAKUNA_MATATA.get());
-						attacker.addEffect(new MobEffectInstance(ApicultureEffects.MATATA.get(), (int) (300 * event.getAmount())));
+					if (attacker.hasEffect(ApicultureEffects.HAKUNA_MATATA)) {
+						attacker.removeEffect(ApicultureEffects.HAKUNA_MATATA);
+						attacker.addEffect(new MobEffectInstance(ApicultureEffects.MATATA, (int) (300 * event.getAmount())));
 						attacker.playSound(SoundEvents.WITHER_BREAK_BLOCK);
 					}
 				}

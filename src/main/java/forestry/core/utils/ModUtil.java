@@ -74,6 +74,6 @@ public abstract class ModUtil {
 	}
 
 	public static ResourceLocation withSuffix(ResourceLocation id, String suffix) {
-		return new ResourceLocation(id.getNamespace(), id.getPath() + suffix);
+		return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath() + suffix);
 	}
 }

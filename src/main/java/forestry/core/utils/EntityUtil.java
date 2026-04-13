@@ -27,7 +27,7 @@ public abstract class EntityUtil {
 		living.yBodyRot = living.getYRot();
 		DifficultyInstance diff = world.getCurrentDifficultyAt(BlockPos.containing(x, y, z));
 		//TODO - check SpawnReason
-		living.finalizeSpawn((ServerLevel) world, diff, MobSpawnType.MOB_SUMMONED, null, null);
+		living.finalizeSpawn((ServerLevel) world, diff, MobSpawnType.MOB_SUMMONED, null);
 		world.addFreshEntity(living);
 		//TODO - right sound?
 		living.playAmbientSound();

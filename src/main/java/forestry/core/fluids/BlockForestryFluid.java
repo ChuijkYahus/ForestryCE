@@ -27,7 +27,7 @@ public class BlockForestryFluid extends LiquidBlock {
 	private final boolean explodes;
 
 	public BlockForestryFluid(FeatureFluid feature) {
-		super(feature::fluid, Block.Properties.of().liquid().noCollission().noLootTable().replaceable());
+		super(feature.fluid(), Block.Properties.of().liquid().noCollission().noLootTable().replaceable());
 		FluidProperties properties = feature.properties();
 		this.flammability = properties.flammability;
 		this.spreadsFire = properties.spreadsFire;
@@ -44,7 +44,7 @@ public class BlockForestryFluid extends LiquidBlock {
 		if (this.freezing) {
 			entity.setIsInPowderSnow(true);
 		} else if (this.burning) {
-			entity.setSecondsOnFire(5);
+			entity.igniteForSeconds(5.0F);
 			entity.hurt(pLevel.damageSources().lava(), 1);
 		}
 	}

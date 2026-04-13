@@ -6,6 +6,7 @@ import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.RenderUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -28,8 +29,8 @@ public class ItemPipette extends ItemForestry implements IToolPipette, IColoredI
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
+	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(itemstack, context, list, flag);
 
 		PipetteContents contained = PipetteContents.create(itemstack);
 		if (contained != null) {
