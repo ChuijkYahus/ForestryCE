@@ -15,8 +15,10 @@ import forestry.core.network.packets.PacketItemStackDisplay;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -112,7 +114,7 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		ItemStack displayStack = getIndividualOnDisplay();
 		data.writeItem(displayStack);
@@ -120,7 +122,7 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.individualOnDisplayClient = data.readItem();
 	}

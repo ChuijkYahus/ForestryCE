@@ -13,8 +13,9 @@ import forestry.core.network.IStreamable;
 import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -80,15 +81,15 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	// / SAVING & LOADING
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
-        this.inventory.read(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
+        this.inventory.read(data, registries);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
-        this.inventory.write(data);
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
+        this.inventory.write(data, registries);
 	}
 
 	@Nullable
@@ -98,15 +99,15 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag tag = super.getUpdateTag();
-		return NBTUtilForestry.writeStreamableToNbt(this, tag);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag tag = super.getUpdateTag(registries);
+		return NBTUtilForestry.writeStreamableToNbt(this, tag, registries);
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
-		NBTUtilForestry.readStreamableFromNbt(this, tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
+		NBTUtilForestry.readStreamableFromNbt(this, tag, registries);
 	}
 
 	/* INetworkedEntity */
@@ -116,11 +117,11 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	/* IStreamable */
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 	}
 
 	// serverside only, called when the block is destroyed and its inventory is spilled into the world

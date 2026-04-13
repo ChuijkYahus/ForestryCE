@@ -238,3 +238,14 @@ To keep progress coherent across Codex sessions:
   - cleared the direct `Product`, `ItemStackUtil`, `InventoryUtil`, and `ItemInventory` failures by moving product/item-stack tag handling onto item components, swapping legacy `FriendlyByteBuf` registry ID calls to `writeById` / `readById`, and serializing stored stacks through `ItemStack.CODEC`
 - Current next blocker after the ItemStack/NBT migration slice:
   - compile failures are now front-loaded by the shared Forestry lookup-aware NBT and stream interface rewrite (`INbtReadable`, `INbtWritable`, `IStreamable`) across `TileTreeContainer`, `TileForestry`, `InventoryAdapter`, `InventoryPlain`, `NBTUtilForestry`, and related tile/helper classes, with broader datagen and client API migrations still behind that front edge
+- Shared stream/NBT interface migration:
+  - Moved Forestry block-entity and helper sync code onto NeoForge 1.21.1 `RegistryFriendlyByteBuf` and lookup-aware NBT signatures.
+  - `NBTUtilForestry` now serializes streamables with registry-aware buffers, and `NetworkUtil` regained the tracking-packet helper used by Forestry tile/client update packets.
+  - Updated the active arboriculture/core/farming/energy/mail sync classes off old `FriendlyByteBuf` / `load(...)` / `saveAdditional(...)` assumptions, including `TileTreeContainer`, `TileFruitPod`, `TileLeaves`, `TileForestry`, `TilePowered`, `TilePlanter`, `InventoryAdapter`, `InventoryPlain`, `OwnerHandler`, `TankManager`, `StandardTank`, `ForestryEnergyStorage`, `FarmManager`, `FarmHydrationManager`, `FarmFertilizerManager`, `PacketTileStream`, `TileAnalyzer`, `TileEscritoire`, `EscritoireGame*`, `TileMill`, `EngineBlockEntity`, and `TileTrader`.
+  - This clears the shared stream/NBT signature family from the front of the compile output so recipe/tag/datagen API migration is leading again.
+- Current verification command for the shared stream/NBT interface migration slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 1 "TileTreeContainer|TileFruitPod|TileLeaves|TileForestry|TilePowered|TilePlanter|NBTUtilForestry|InventoryAdapter|InventoryPlain|OwnerHandler|TankManager|StandardTank|ForestryEnergyStorage|FarmManager|FarmHydrationManager|FarmFertilizerManager|PacketTileStream|TileAnalyzer|TileEscritoire|EscritoireGame|EscritoireGameBoard|EscritoireGameToken|TileMill|EngineBlockEntity|TileTrader|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct lookup-aware NBT / `RegistryFriendlyByteBuf` migration failures across the shared Forestry sync helpers and the active tile/helper classes touched above
+- Current next blocker after the shared stream/NBT interface migration slice:
+  - compile failures are now front-loaded by recipe and tag/datagen API changes (`ForestryRecipeProvider`, `ForestryBackpackTagProvider`, `ForestryItemTagsProvider`, `LootTableHelper`), with JEI subtype handling and a smaller set of remaining client/gui API migrations behind them

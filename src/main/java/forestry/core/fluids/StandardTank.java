@@ -4,6 +4,7 @@ import forestry.api.core.tooltips.ToolTip;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.ModUtil;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.material.Fluid;
@@ -149,13 +150,21 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	@Override
+	public void writeData(RegistryFriendlyByteBuf data) {
+		FluidStack.STREAM_CODEC.encode(data, this.fluid);
+	}
+
 	public void writeData(FriendlyByteBuf data) {
-		data.writeFluidStack(this.fluid);
+		FluidStack.STREAM_CODEC.encode((RegistryFriendlyByteBuf) data, this.fluid);
 	}
 
 	@Override
+	public void readData(RegistryFriendlyByteBuf data) {
+        this.fluid = FluidStack.STREAM_CODEC.decode(data);
+	}
+
 	public void readData(FriendlyByteBuf data) {
-        this.fluid = data.readFluidStack();
+        this.fluid = FluidStack.STREAM_CODEC.decode((RegistryFriendlyByteBuf) data);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -179,7 +188,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 			if (rarity == null) {
 				rarity = Rarity.COMMON;
 			}
-			toolTip.add(fluidStack.getDisplayName(), rarity.color);
+			toolTip.add(fluidStack.getDisplayName().copy().withStyle(rarity.getStyleModifier()));
 			amount = getFluid().getAmount();
 		}
 		Component liquidAmount = Component.translatable("for.gui.tooltip.liquid.amount", amount, getCapacity());

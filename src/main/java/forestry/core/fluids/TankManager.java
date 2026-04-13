@@ -9,10 +9,12 @@ import forestry.core.network.packets.PacketTankLevelUpdate;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.IRenderableTile;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
@@ -54,14 +56,14 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
 		ListTag tagList = new ListTag();
 		for (byte slot = 0; slot < this.tanks.size(); slot++) {
 			StandardTank tank = this.tanks.get(slot);
 			if (!tank.getFluid().isEmpty()) {
 				CompoundTag tag = new CompoundTag();
 				tag.putByte("tank", slot);
-				tank.writeToNBT(tag);
+				tank.writeToNBT(registries, tag);
 				tagList.add(tag);
 			}
 		}
@@ -70,19 +72,25 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public void read(CompoundTag data) {
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
 		for (Tag tag : data.getList("tanks", Tag.TAG_COMPOUND)) {
 			CompoundTag compound = (CompoundTag) tag;
 			int slot = compound.getByte("tank");
 			if (slot >= 0 && slot < this.tanks.size()) {
 				StandardTank tank = this.tanks.get(slot);
-				tank.readFromNBT(compound);
+				tank.readFromNBT(registries, compound);
 				updateTankLevels(tank);
 			}
 		}
 	}
 
 	@Override
+	public void writeData(RegistryFriendlyByteBuf data) {
+		for (StandardTank tank : this.tanks) {
+			tank.writeData(data);
+		}
+	}
+
 	public void writeData(FriendlyByteBuf data) {
 		for (StandardTank tank : this.tanks) {
 			tank.writeData(data);
@@ -90,6 +98,12 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
+	public void readData(RegistryFriendlyByteBuf data) {
+		for (StandardTank tank : this.tanks) {
+			tank.readData(data);
+		}
+	}
+
 	public void readData(FriendlyByteBuf data) {
 		for (StandardTank tank : this.tanks) {
 			tank.readData(data);

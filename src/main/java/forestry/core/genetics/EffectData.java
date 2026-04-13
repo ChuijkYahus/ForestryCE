@@ -1,6 +1,7 @@
 package forestry.core.genetics;
 
 import forestry.api.genetics.IEffectData;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 
 public class EffectData implements IEffectData {
@@ -37,11 +38,11 @@ public class EffectData implements IEffectData {
 	}
 
 	@Override
-	public void read(CompoundTag CompoundNBT) {
+	public void read(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag CompoundNBT) {
+	public CompoundTag write(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 		return CompoundNBT;
 	}
 }

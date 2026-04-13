@@ -15,8 +15,10 @@ import forestry.energy.ForestryEnergyStorage;
 import forestry.energy.blocks.EngineBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -246,7 +248,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 
 	/* NETWORK */
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		data.writeBoolean(this.active);
 		data.writeInt(this.heat);
@@ -256,7 +258,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.active = data.readBoolean();
         this.heat = data.readInt();

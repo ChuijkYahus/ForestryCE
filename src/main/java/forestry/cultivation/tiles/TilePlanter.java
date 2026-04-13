@@ -28,6 +28,7 @@ import forestry.farming.gui.IFarmLedgerDelegate;
 import forestry.farming.multiblock.IFarmInventoryInternal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -108,18 +109,18 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
-        this.manager.write(data);
-        this.ownerHandler.write(data);
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
+        this.manager.write(data, registries);
+        this.ownerHandler.write(data, registries);
 		data.putBoolean("manual", this.manual);
 	}
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
-        this.manager.read(data);
-        this.ownerHandler.read(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
+        this.manager.read(data, registries);
+        this.ownerHandler.read(data, registries);
 		setManual(data.getBoolean("manual"));
 	}
 
@@ -273,9 +274,9 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag data = super.getUpdateTag();
-        this.manager.write(data);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag data = super.getUpdateTag(registries);
+        this.manager.write(data, registries);
 		return data;
 	}
 

@@ -9,8 +9,10 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.ColourUtil;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +37,10 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 
 	private State state = State.UNREVEALED;
 
+	public EscritoireGameToken(RegistryFriendlyByteBuf data) {
+		readData(data);
+	}
+
 	public EscritoireGameToken(FriendlyByteBuf data) {
 		readData(data);
 	}
@@ -44,7 +50,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	public EscritoireGameToken(CompoundTag nbt) {
-		read(nbt);
+		readFromTag(nbt);
 	}
 
 	private void setTokenSpecies(ResourceLocation typeId, ResourceLocation speciesId) {
@@ -135,7 +141,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag nbt) {
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
 		nbt.putInt("state", this.state.ordinal());
 
 		if (this.tokenIndividual != null) {
@@ -144,7 +150,11 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 		return nbt;
 	}
 
-	private void read(CompoundTag nbt) {
+	private void read(CompoundTag nbt, HolderLookup.Provider registries) {
+		readFromTag(nbt);
+	}
+
+	private void readFromTag(CompoundTag nbt) {
 		if (nbt.contains("state")) {
 			int stateOrdinal = nbt.getInt("state");
 			this.state = State.VALUES[stateOrdinal];
@@ -159,7 +169,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		NetworkUtil.writeEnum(data, this.state);
 		if (this.tokenIndividual != null && this.tokenType != null) {
 			data.writeBoolean(true);
@@ -171,6 +181,26 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	@Override
+	public void readData(RegistryFriendlyByteBuf data) {
+        this.state = NetworkUtil.readEnum(data, State.VALUES);
+		if (data.readBoolean()) {
+			ResourceLocation speciesId = data.readResourceLocation();
+			ResourceLocation typeId = data.readResourceLocation();
+			setTokenSpecies(typeId, speciesId);
+		}
+	}
+
+	public void writeData(FriendlyByteBuf data) {
+		NetworkUtil.writeEnum(data, this.state);
+		if (this.tokenIndividual != null && this.tokenType != null) {
+			data.writeBoolean(true);
+			data.writeResourceLocation(this.tokenIndividual.getSpecies().id());
+			data.writeResourceLocation(this.tokenType.id());
+		} else {
+			data.writeBoolean(false);
+		}
+	}
+
 	public void readData(FriendlyByteBuf data) {
         this.state = NetworkUtil.readEnum(data, State.VALUES);
 		if (data.readBoolean()) {

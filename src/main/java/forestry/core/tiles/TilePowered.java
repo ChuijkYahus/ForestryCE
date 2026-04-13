@@ -10,6 +10,7 @@ import forestry.energy.EnergyTransferMode;
 import forestry.energy.ForestryEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -146,15 +147,15 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
-		this.energyStorage.write(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+		this.energyStorage.write(nbt, registries);
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
-		this.energyStorage.read(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+		this.energyStorage.read(nbt, registries);
 	}
 
 	@Override

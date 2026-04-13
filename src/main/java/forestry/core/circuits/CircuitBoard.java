@@ -6,6 +6,7 @@ import forestry.api.circuits.ICircuitBoard;
 import forestry.api.circuits.ICircuitLayout;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -90,7 +91,7 @@ public class CircuitBoard implements ICircuitBoard {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compound) {
+	public CompoundTag write(CompoundTag compound, HolderLookup.Provider registries) {
 
 		compound.putShort("T", (short) this.type.ordinal());
 

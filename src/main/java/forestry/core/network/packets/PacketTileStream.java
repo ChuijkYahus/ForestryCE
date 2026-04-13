@@ -5,7 +5,6 @@ import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +17,7 @@ public class PacketTileStream implements CustomPacketPayload {
 	@Nullable
 	protected final IStreamable streamable;
 	@Nullable
-	protected final FriendlyByteBuf payload;
+	protected final RegistryFriendlyByteBuf payload;
 
 	public <T extends BlockEntity & IStreamable> PacketTileStream(T streamable) {
 		this.pos = streamable.getBlockPos();
@@ -26,7 +25,7 @@ public class PacketTileStream implements CustomPacketPayload {
 		this.payload = null;
 	}
 
-	private PacketTileStream(BlockPos pos, FriendlyByteBuf payload) {
+	private PacketTileStream(BlockPos pos, RegistryFriendlyByteBuf payload) {
 		this.pos = pos;
 		this.streamable = null;
 		this.payload = payload;

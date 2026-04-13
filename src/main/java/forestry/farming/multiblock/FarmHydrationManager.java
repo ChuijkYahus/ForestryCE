@@ -8,8 +8,10 @@ import forestry.core.network.IStreamable;
 import forestry.cultivation.IFarmHousingInternal;
 import forestry.farming.gui.IFarmLedgerDelegate;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 
@@ -88,26 +90,36 @@ public class FarmHydrationManager implements IFarmLedgerDelegate, INbtWritable, 
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		compoundNBT.putInt("HydrationDelay", this.hydrationDelay);
 		compoundNBT.putInt("TicksSinceRainfall", this.ticksSinceRainfall);
 		return compoundNBT;
 	}
 
 	@Override
+	public void writeData(RegistryFriendlyByteBuf data) {
+		data.writeVarInt(this.hydrationDelay);
+		data.writeVarInt(this.ticksSinceRainfall);
+	}
+
 	public void writeData(FriendlyByteBuf data) {
 		data.writeVarInt(this.hydrationDelay);
 		data.writeVarInt(this.ticksSinceRainfall);
 	}
 
 	@Override
+	public void readData(RegistryFriendlyByteBuf data) {
+        this.hydrationDelay = data.readVarInt();
+        this.ticksSinceRainfall = data.readVarInt();
+	}
+
 	public void readData(FriendlyByteBuf data) {
         this.hydrationDelay = data.readVarInt();
         this.ticksSinceRainfall = data.readVarInt();
 	}
 
 	@Override
-	public void read(CompoundTag nbt) {
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
         this.hydrationDelay = nbt.getInt("HydrationDelay");
         this.ticksSinceRainfall = nbt.getInt("TicksSinceRainfall");
 	}

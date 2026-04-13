@@ -7,10 +7,12 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 
@@ -179,7 +181,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		if (this.tokenCount > 0) {
 			compoundNBT.putInt("TokenCount", this.tokenCount);
 			ListTag nbttaglist = new ListTag();
@@ -192,7 +194,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 
 				CompoundTag compoundNBT2 = new CompoundTag();
 				compoundNBT2.putByte("Slot", (byte) i);
-				token.write(compoundNBT2);
+				token.write(compoundNBT2, registries);
 				nbttaglist.add(compoundNBT2);
 			}
 
@@ -204,14 +206,29 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		data.writeVarInt(this.tokenCount);
 		NetworkUtil.writeStreamables(data, this.gameTokens);
 	}
 
+	public void writeData(FriendlyByteBuf data) {
+		data.writeVarInt(this.tokenCount);
+		for (EscritoireGameToken token : this.gameTokens) {
+			token.writeData(data);
+		}
+	}
+
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		this.tokenCount = data.readVarInt();
 		NetworkUtil.readStreamables(data, this.gameTokens, EscritoireGameToken::new);
+	}
+
+	public void readData(FriendlyByteBuf data) {
+		this.tokenCount = data.readVarInt();
+		this.gameTokens.clear();
+		for (int i = 0; i < this.tokenCount; i++) {
+			this.gameTokens.add(new EscritoireGameToken(data));
+		}
 	}
 }

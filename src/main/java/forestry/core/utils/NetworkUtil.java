@@ -14,9 +14,11 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -31,6 +33,16 @@ import java.util.function.Function;
 public class NetworkUtil {
 	public static void sendToPlayersTrackingPos(CustomPacketPayload packet, BlockPos pos, ServerLevel level) {
 		PacketDistributor.sendToPlayersTrackingChunk(level, new ChunkPos(pos), packet);
+	}
+
+	public static void sendNetworkPacket(CustomPacketPayload packet, BlockPos pos, Level level) {
+		if (level instanceof ServerLevel serverLevel) {
+			sendToPlayersTrackingPos(packet, pos, serverLevel);
+		}
+	}
+
+	public static void sendToPlayer(CustomPacketPayload packet, ServerPlayer player) {
+		PacketDistributor.sendToPlayer(player, packet);
 	}
 
 	// Used for Streamable to prepare FriendlyByteBuf for sending over the network

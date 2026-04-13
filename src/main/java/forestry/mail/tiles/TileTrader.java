@@ -21,8 +21,9 @@ import forestry.mail.gui.ContainerTrader;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.network.packets.PacketTraderAddressResponse;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -82,7 +83,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	/* NETWORK */
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
         this.ownerHandler.writeData(data);
 		String addressName = this.address.getName();
@@ -91,7 +92,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.ownerHandler.readData(data);
 		String addressName = data.readUtf();

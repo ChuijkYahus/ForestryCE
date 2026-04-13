@@ -20,8 +20,9 @@ import forestry.core.utils.SpeciesUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -136,7 +137,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 	/* Network */
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		ItemStack displayStack = getIndividualOnDisplay();
 		data.writeItem(displayStack);
@@ -145,7 +146,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.individualOnDisplayClient = data.readItem();
         this.tankManager.readData(data);

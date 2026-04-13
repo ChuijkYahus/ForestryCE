@@ -4,8 +4,10 @@ import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
 import forestry.cultivation.IFarmHousingInternal;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 
 public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStreamable {
 	private static final int BUFFER_FERTILIZER = 200;
@@ -50,12 +52,12 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 	}
 
 	@Override
-	public void read(CompoundTag data) {
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
         this.storedFertilizer = data.getInt("StoredFertilizer");
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
 		data.putInt("StoredFertilizer", this.storedFertilizer);
 		return data;
 	}
@@ -69,11 +71,19 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 	}
 
 	@Override
+	public void writeData(RegistryFriendlyByteBuf data) {
+		data.writeVarInt(this.storedFertilizer);
+	}
+
 	public void writeData(FriendlyByteBuf data) {
 		data.writeVarInt(this.storedFertilizer);
 	}
 
 	@Override
+	public void readData(RegistryFriendlyByteBuf data) {
+        this.storedFertilizer = data.readVarInt();
+	}
+
 	public void readData(FriendlyByteBuf data) {
         this.storedFertilizer = data.readVarInt();
 	}

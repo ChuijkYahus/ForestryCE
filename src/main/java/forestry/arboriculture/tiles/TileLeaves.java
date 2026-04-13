@@ -29,9 +29,10 @@ import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -85,8 +86,8 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
 		this.ripeningTime = nbt.getInt(NBT_RIPENING);
 		this.damage = nbt.getInt(NBT_DAMAGE);
@@ -112,8 +113,8 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		nbt.putInt(NBT_RIPENING, this.ripeningTime);
 		nbt.putInt(NBT_DAMAGE, this.damage);
@@ -300,7 +301,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	private static final short FLAG_HAS_INACTIVE_EFFECT = 1 << 3;
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 
 		byte leafState = 0;
@@ -331,21 +332,21 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			String fruitAlleleUID = genome.getActiveAllele(TreeChromosomes.FRUIT).alleleId().toString();
 			int colourFruits = getFruitColour();
 
-			data.writeUtf(fruitAlleleUID);
+			data.writeResourceLocation(ResourceLocation.parse(fruitAlleleUID));
 			data.writeInt(colourFruits);
 		}
 
 		// todo come up with a way to send numeric IDs instead of string IDs
 		if (hasActiveEffect) {
-			data.writeUtf(effects.active().alleleId().toString());
+			data.writeResourceLocation(effects.active().alleleId());
 		}
 		if (hasInactiveEffect) {
-			data.writeUtf(effects.inactive().alleleId().toString());
+			data.writeResourceLocation(effects.inactive().alleleId());
 		}
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		ResourceLocation speciesId = null;
 		if (data.readBoolean()) {
 			speciesId = data.readResourceLocation(); // this is called instead of super.readData, be careful!

@@ -15,9 +15,10 @@ import forestry.core.utils.BlockUtil;
 import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -56,7 +57,7 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 
 	/* SAVING & LOADING */
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		if (this.fruit != null) {
 			data.writeBoolean(true);
 			data.writeResourceLocation(TreeChromosomes.FRUIT.getId(this.fruit));
@@ -66,7 +67,7 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		if (data.readBoolean()) {
 			IValueAllele<?> stored = IForestryApi.INSTANCE.getAlleleManager().getAllele(data.readResourceLocation()).cast();
 
@@ -78,8 +79,8 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 		if (this.fruit != null) {
 			compoundNBT.putString(NBT_FRUIT, TreeChromosomes.FRUIT.getId(this.fruit).toString());
 		}
@@ -88,8 +89,8 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
 		String fruitNbt = nbt.getString(NBT_FRUIT);
 		if (!fruitNbt.isEmpty()) {
@@ -148,22 +149,22 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag tag = super.getUpdateTag();
-		return NBTUtilForestry.writeStreamableToNbt(this, tag);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag tag = super.getUpdateTag(registries);
+		return NBTUtilForestry.writeStreamableToNbt(this, tag, registries);
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
-		NBTUtilForestry.readStreamableFromNbt(this, tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
+		NBTUtilForestry.readStreamableFromNbt(this, tag, registries);
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		super.onDataPacket(net, pkt);
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries) {
+		super.onDataPacket(net, pkt, registries);
 		CompoundTag nbt = pkt.getTag();
-		handleUpdateTag(nbt);
+		handleUpdateTag(nbt, registries);
 	}
 
 	/* IFRUITBEARER */
