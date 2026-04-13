@@ -21,7 +21,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.ForgeMod;
+import net.neoforged.neoforge.common.NeoForgeMod;
 
 import java.util.function.Consumer;
 
@@ -57,7 +57,7 @@ public class ModuleEnergy extends BlankForestryModule {
 		FuelManager.biogasEngineFuel.put(Fluids.WATER, new EngineBronzeFuel(Fluids.WATER,
 			Constants.ENGINE_FUEL_VALUE_WATER, Constants.ENGINE_CYCLE_DURATION_WATER, 3));
 
-		Fluid milk = ForgeMod.MILK.get();
+		Fluid milk = NeoForgeMod.MILK.get();
 		FuelManager.biogasEngineFuel.put(milk, new EngineBronzeFuel(milk,
 			Constants.ENGINE_FUEL_VALUE_MILK, Constants.ENGINE_CYCLE_DURATION_MILK, 3));
 

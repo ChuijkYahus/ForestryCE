@@ -41,7 +41,7 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 	private final String translationKey;
 
 	// For Forestry only
-	public TileAlveary(BlockAlvearyType type, BlockPos pos, BlockState state) {
+	public TileAlveary(BlockAlveary.Type type, BlockPos pos, BlockState state) {
 		this(type.getTileType().tileType(), ApicultureBlocks.ALVEARY.get(type).getTranslationKey(), pos, state);
 	}
 

@@ -25,7 +25,7 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 
 	private int workingTime = 0;
 
-	protected TileAlvearyClimatiser(BlockAlvearyType alvearyType, BlockPos pos, BlockState state, byte temperatureSteps) {
+	protected TileAlvearyClimatiser(BlockAlveary.Type alvearyType, BlockPos pos, BlockState state, byte temperatureSteps) {
 		super(alvearyType, pos, state);
 		this.temperatureSteps = temperatureSteps;
 

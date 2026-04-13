@@ -12,15 +12,7 @@ import java.util.Optional;
  * It can be mated with another individual to produce offspring.
  */
 public interface IIndividual {
-	ResourceLocation CAPABILITY_ID = new ResourceLocation(ForestryConstants.MOD_ID, "individual") {
-		// Used for AttachCapabilitiesEvent. Hashcode is cached for performance.
-		private final int hashCode = super.hashCode();
-
-		@Override
-		public int hashCode() {
-			return this.hashCode;
-		}
-	};
+	ResourceLocation CAPABILITY_ID = ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "individual");
 
 	/**
 	 * @return The genome of this individual.

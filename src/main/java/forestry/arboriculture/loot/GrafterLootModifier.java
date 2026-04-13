@@ -31,7 +31,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
-import net.neoforged.neoforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -63,7 +63,7 @@ public class GrafterLootModifier extends LootModifier {
 		}
 		harvestingTool.hurt(1, context.getRandom(), (ServerPlayer) player);
 		if (harvestingTool.isEmpty()) {
-			ForgeEventFactory.onPlayerDestroyItem(player, harvestingTool, InteractionHand.MAIN_HAND);
+			EventHooks.onPlayerDestroyItem(player, harvestingTool, InteractionHand.MAIN_HAND);
 		}
 		return generatedLoot;
 	}
