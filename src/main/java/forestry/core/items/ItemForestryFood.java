@@ -1,6 +1,7 @@
 package forestry.core.items;
 
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
@@ -27,12 +28,12 @@ public class ItemForestryFood extends Item {
 
 	//Actual constructor that puts everything together.
 	public ItemForestryFood(int heal, float saturation, Item.Properties properties) {
-		super(properties.food(new FoodProperties.Builder().nutrition(heal).saturationMod(saturation).build()));
+		super(properties.food(new FoodProperties.Builder().nutrition(heal).saturationModifier(saturation).build()));
 	}
 
 	@Override
-	public int getUseDuration(ItemStack pStack) {
-		if (pStack.getItem().isEdible()) { //Unnecessary check? All food is edible?
+	public int getUseDuration(ItemStack pStack, net.minecraft.world.entity.LivingEntity entity) {
+		if (pStack.has(DataComponents.FOOD)) {
 			return useTime;
 		} else {
 			return 0;

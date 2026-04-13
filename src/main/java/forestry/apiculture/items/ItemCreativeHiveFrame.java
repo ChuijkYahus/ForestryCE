@@ -3,11 +3,13 @@ package forestry.apiculture.items;
 import java.util.List;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 
 import forestry.api.apiculture.IBeeHousing;
@@ -35,8 +37,8 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
-		super.appendHoverText(stack, world, tooltip, advanced);
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag advanced) {
+		super.appendHoverText(stack, context, tooltip, advanced);
 
 		tooltip.add(Component.translatable("item.forestry.bee.modifier.production", Modifier.PRODUCTION));
 		tooltip.add(Component.translatable("item.forestry.bee.modifier.genetic.decay", Modifier.GENETIC_DECAY));
@@ -54,7 +56,8 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 	}
 
 	public static boolean hasForceMutations(ItemStack stack) {
-		return stack.getTag() != null && stack.getTag().contains(NBT_FORCE_MUTATIONS);
+		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+		return customData != null && customData.contains(NBT_FORCE_MUTATIONS);
 	}
 
 	private enum Modifier implements IBeeModifier {

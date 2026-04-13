@@ -45,8 +45,8 @@ public class ItemBlockForestry<B extends Block> extends BlockItem {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
-		super.appendHoverText(stack, world, tooltip, advanced);
-		ItemTooltipUtil.addInformation(stack, world, tooltip, advanced);
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag advanced) {
+		super.appendHoverText(stack, context, tooltip, advanced);
+		ItemTooltipUtil.addInformation(stack, tooltip);
 	}
 }

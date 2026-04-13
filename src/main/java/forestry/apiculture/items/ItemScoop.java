@@ -6,6 +6,7 @@ import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.core.utils.ItemTooltipUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -42,14 +43,14 @@ public class ItemScoop extends TieredItem {
 
 	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity entity, LivingEntity player) {
-		stack.hurtAndBreak(2, player, (living) -> living.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+		stack.hurtAndBreak(2, player, EquipmentSlot.MAINHAND);
 		return true;
 	}
 
 	@Override
 	public boolean mineBlock(ItemStack stack, Level world, BlockState blockState, BlockPos pos, LivingEntity player) {
 		if (!world.isClientSide && blockState.getDestroySpeed(world, pos) != 0.0F) {
-			stack.hurtAndBreak(1, player, (living) -> living.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+			stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 		}
 
 		return true;
@@ -65,7 +66,7 @@ public class ItemScoop extends TieredItem {
 				level.addFreshEntity(bee);
 				level.playSound(null, interactionTarget.blockPosition(), SoundEvents.BEE_HURT, SoundSource.PLAYERS, 1f, 1f);
 				interactionTarget.setRemoved(Entity.RemovalReason.DISCARDED);
-				stack.hurtAndBreak(1, player, living -> living.broadcastBreakEvent(usedHand));
+				stack.hurtAndBreak(1, player, usedHand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
 			}
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
@@ -73,13 +74,18 @@ public class ItemScoop extends TieredItem {
 	}
 
 	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-		return enchantment == Enchantments.BLOCK_EFFICIENCY || enchantment == Enchantments.SILK_TOUCH || enchantment == Enchantments.UNBREAKING || enchantment == Enchantments.BLOCK_FORTUNE ||
-			enchantment == Enchantments.MENDING || enchantment == Enchantments.VANISHING_CURSE || super.canApplyAtEnchantingTable(stack, enchantment);
+	public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
+		return enchantment.is(Enchantments.EFFICIENCY)
+			|| enchantment.is(Enchantments.SILK_TOUCH)
+			|| enchantment.is(Enchantments.UNBREAKING)
+			|| enchantment.is(Enchantments.FORTUNE)
+			|| enchantment.is(Enchantments.MENDING)
+			|| enchantment.is(Enchantments.VANISHING_CURSE)
+			|| super.supportsEnchantment(stack, enchantment);
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
-		ItemTooltipUtil.addInformation(stack, world, tooltip, advanced);
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag advanced) {
+		ItemTooltipUtil.addInformation(stack, tooltip);
 	}
 }

@@ -31,11 +31,11 @@ public class ItemHiveFrame extends ItemForestry implements IHiveFrame {
 
 	@Override
 	public ItemStack frameUsed(IBeeHousing housing, ItemStack frame, IBee queen, int wear) {
-		if (frame.hurt(wear, housing.getWorldObj().getRandom(), null)) {
-			return ItemStack.EMPTY;
-		} else {
-			return frame;
+		if (housing.getWorldObj() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+			frame.hurtAndBreak(wear, serverLevel, null, item -> {
+			});
 		}
+		return frame.isEmpty() ? ItemStack.EMPTY : frame;
 	}
 
 	@Override
@@ -44,8 +44,8 @@ public class ItemHiveFrame extends ItemForestry implements IHiveFrame {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
-		super.appendHoverText(stack, world, tooltip, advanced);
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag advanced) {
+		super.appendHoverText(stack, context, tooltip, advanced);
         this.beeModifier.addInformation(tooltip);
 		if (!stack.isDamaged()) {
 			tooltip.add(Component.translatable("item.forestry.durability", stack.getMaxDamage()));

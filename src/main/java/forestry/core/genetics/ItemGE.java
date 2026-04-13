@@ -100,7 +100,7 @@ public abstract class ItemGE extends ItemForestry {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
 		appendGeneticsTooltip(stack, tooltip);
 	}
 

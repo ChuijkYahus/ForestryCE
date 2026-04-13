@@ -50,8 +50,8 @@ public class ItemResearchNote extends ItemForestry {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
+	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(itemstack, context, list, flag);
 		ResearchNote note = new ResearchNote(itemstack.getTag());
 		note.addTooltip(list);
 	}
