@@ -2608,7 +2608,7 @@
   "for.gui.mail.toast.title": "You've got Mail!",
   "for.gui.mail.toast.message": "%1$d unopened letters",
 
-  "for.gui.smelter.heat": "Current temperature: %1$s/%2$s ",
-  "for.gui.smelter.requiredHeat": "Required alloying temperature: %s"
+  "for.gui.fabricator.heat": "Current temperature: %1$s/%2$s ",
+  "for.gui.fabricator.requiredHeat": "Required melting temperature: %s"
 
 }

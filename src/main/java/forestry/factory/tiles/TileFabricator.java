@@ -1,5 +1,6 @@
 package forestry.factory.tiles;
 
+import forestry.Forestry;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.recipes.IFabricatorRecipe;
@@ -47,7 +48,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import javax.annotation.Nullable;
 
 public class TileFabricator extends TilePowered implements ISlotPickupWatcher, ILiquidTankTile, WorldlyContainer {
-	private static final int MAX_HEAT = 5000;
+	public static final int MAX_HEAT = 5000;
 
 	private final InventoryAdapterTile craftingInventory;
 	private final TankManager tankManager;
@@ -72,23 +73,29 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	public void saveAdditional(CompoundTag compound) {
 		super.saveAdditional(compound);
 
-		compound.putInt("Heat", this.heat);
         this.tankManager.write(compound);
         this.craftingInventory.write(compound);
+
+		compound.putInt("Heat", this.heat);
+		compound.putInt("MeltingPont", this.meltingPoint);
 	}
 
 	@Override
 	public void load(CompoundTag compound) {
 		super.load(compound);
 
-        this.heat = compound.getInt("Heat");
         this.tankManager.read(compound);
         this.craftingInventory.read(compound);
+
+		this.heat = compound.getInt("Heat");
+		this.meltingPoint = compound.getInt("MeltingPont");
 	}
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
-        this.tankManager.writeData(data);
+		super.writeData(data);
+		this.tankManager.writeData(data);
+		this.craftingInventory.writeData(data);
 		data.writeVarInt(this.heat);
 		data.writeVarInt(this.meltingPoint);
 	}
@@ -96,7 +103,28 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
+		super.readData(data);
+		this.tankManager.readData(data);
+		this.craftingInventory.readData(data);
+		this.heat = data.readVarInt();
+		this.meltingPoint = data.readVarInt();
+	}
+
+	@Override
+	public void writeGuiData(FriendlyByteBuf data) {
+		super.writeGuiData(data);
+        this.tankManager.writeData(data);
+		this.craftingInventory.writeData(data);
+		data.writeVarInt(this.heat);
+		data.writeVarInt(this.meltingPoint);
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void readGuiData(FriendlyByteBuf data) {
+		super.readGuiData(data);
         this.tankManager.readData(data);
+		this.craftingInventory.readData(data);
 		this.heat = data.readVarInt();
 		this.meltingPoint = data.readVarInt();
 	}
@@ -248,7 +276,11 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		return this.heat * i / MAX_HEAT;
 	}
 
-	private int getMeltingPoint() {
+	public int getHeat(){
+		return this.heat;
+	}
+
+	public int getMeltingPoint() {
 		if (!this.getItem(InventoryFabricator.SLOT_METAL).isEmpty()) {
 			IFabricatorSmeltingRecipe meltingRecipe = RecipeUtils.getFabricatorMeltingRecipe(getLevel().getRecipeManager(), this.getItem(InventoryFabricator.SLOT_METAL));
 			return meltingRecipe == null ? 0 : meltingRecipe.getMeltingPoint();

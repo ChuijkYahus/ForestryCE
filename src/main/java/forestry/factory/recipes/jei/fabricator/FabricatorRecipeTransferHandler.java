@@ -40,13 +40,13 @@ public class FabricatorRecipeTransferHandler implements IRecipeTransferHandler<C
 	@Override
 	public IRecipeTransferError transferRecipe(ContainerFabricator container, IFabricatorRecipe recipe, IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 		if (doTransfer) {
-			Container craftingInventory = container.getFabricator().getCraftingInventory();
+			Container craftingInventory = container.getTile().getCraftingInventory();
 			NonNullList<ItemStack> items = JeiUtil.getFirstItemStacks(recipeSlots);
 			for (int i = 0; i < items.size(); i++) {
 				craftingInventory.setItem(i, items.get(i));
 			}
 
-			NetworkUtil.sendToServer(new PacketRecipeTransferRequest(container.getFabricator().getBlockPos(), items));
+			NetworkUtil.sendToServer(new PacketRecipeTransferRequest(container.getTile().getBlockPos(), items));
 		}
 
 		return null;

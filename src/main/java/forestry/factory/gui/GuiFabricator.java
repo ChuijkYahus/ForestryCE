@@ -1,5 +1,6 @@
 package forestry.factory.gui;
 
+import forestry.Forestry;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
 import forestry.core.gui.widgets.ReservoirWidget;
@@ -7,6 +8,9 @@ import forestry.factory.tiles.TileFabricator;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+
+import java.util.List;
+import java.util.Optional;
 
 public class GuiFabricator extends GuiForestryTitled<ContainerFabricator> {
 	private final TileFabricator tile;
@@ -33,7 +37,43 @@ public class GuiFabricator extends GuiForestryTitled<ContainerFabricator> {
 
 		int meltingPointScaled = this.tile.getMeltingPointScaled(52);
 		if (meltingPointScaled > 0) {
-			graphics.blit(this.textureFile, this.leftPos + 52, this.topPos + 15 + 52 - meltingPointScaled, 196, 0, 10, 5);
+			graphics.blit(this.textureFile,
+				this.leftPos + 52, this.topPos + 15 + 52 - meltingPointScaled,
+				196, 0,
+				10, 5);
+		}
+	}
+
+	@Override
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		super.render(guiGraphics, mouseX, mouseY, partialTick);
+
+		this.renderTooltip(guiGraphics, mouseX, mouseY);
+
+		boolean mouseOverHeatingBar = (
+			mouseX >= this.leftPos + 55
+				&& mouseX <= this.leftPos + 59
+				&& mouseY >= this.topPos + 16
+				&& mouseY <= this.topPos + 70
+		);
+
+		if (mouseOverHeatingBar) {
+
+			List<Component> messages;
+			if(this.tile.getMeltingPoint() > 0)
+				messages = List.of(
+					Component.translatable("for.gui.fabricator.heat", tile.getHeat(), TileFabricator.MAX_HEAT),
+					Component.translatable("for.gui.fabricator.requiredHeat", tile.getMeltingPoint()));
+			else
+				messages = List.of(Component.translatable("for.gui.fabricator.heat", tile.getHeat(), TileFabricator.MAX_HEAT));
+
+			guiGraphics.renderTooltip(
+				this.font,
+				messages,
+				Optional.empty(),
+				mouseX,
+				mouseY
+			);
 		}
 	}
 

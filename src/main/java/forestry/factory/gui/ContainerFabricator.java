@@ -1,11 +1,13 @@
 package forestry.factory.gui;
 
+import forestry.Forestry;
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.IContainerCrafting;
 import forestry.core.gui.slots.SlotCraftMatrix;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotOutput;
 import forestry.core.inventory.InventoryGhostCrafting;
+import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryFabricator;
@@ -18,6 +20,10 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 
 public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> implements IContainerCrafting {
+
+
+	int previousHeatValue = 0;
+
 	public static ContainerFabricator fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TileFabricator tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileFabricator.class);
 		return new ContainerFabricator(windowId, inv, tile);
@@ -25,7 +31,7 @@ public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> im
 
 	public ContainerFabricator(int windowId, Inventory playerInventory, TileFabricator tile) {
 		super(windowId, FactoryMenuTypes.FABRICATOR.menuType(), playerInventory, tile, 8, 129);
-		addDataSlots(new SimpleContainerData(4));
+		//addDataSlots(new SimpleContainerData(4));
 
 		// Internal inventory
 		for (int i = 0; i < 2; i++) {
@@ -56,22 +62,26 @@ public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> im
 	}
 
 	@Override
-	public void setData(int messageId, int data) {
-		super.setData(messageId, data);
-
-        this.tile.getGUINetworkData(messageId, data);
-	}
-
-	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
 		for (ContainerListener crafter : this.containerListeners) {
             this.tile.sendGUINetworkData(this, crafter);
 		}
+
+		int currentHeat = this.tile.getHeat();
+
+		if (currentHeat != this.previousHeatValue){
+			this.previousHeatValue = currentHeat;
+			PacketGuiStream packet = new PacketGuiStream(this.tile);
+			sendPacketToListeners(packet);
+		}
 	}
 
-	public TileFabricator getFabricator() {
-		return this.tile;
+	@Override
+	public void setData(int messageId, int data) {
+		super.setData(messageId, data);
+		this.tile.getGUINetworkData(messageId, data);
 	}
+
 }
