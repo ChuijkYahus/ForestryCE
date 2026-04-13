@@ -6,9 +6,11 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import forestry.Forestry;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.neoforged.neoforge.common.util.JsonUtils;
 
 public class JsonUtil {
@@ -24,10 +26,12 @@ public class JsonUtil {
 			return fallback;
 		}
 		try {
-			Item item = GsonHelper.getAsItem(object, "item");
+			Holder<net.minecraft.world.item.Item> item = GsonHelper.getAsItem(object, "item");
 			int count = GsonHelper.getAsInt(object, "count", 1);
 			ItemStack stack = new ItemStack(item, count);
-			stack.setTag(JsonUtils.readNBT(object, "nbt"));
+			if (object.has("nbt")) {
+				stack.set(DataComponents.CUSTOM_DATA, CustomData.of(JsonUtils.readNBT(object, "nbt")));
+			}
 			return stack;
 		} catch (JsonSyntaxException e) {
 			if (logError) {

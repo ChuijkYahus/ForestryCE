@@ -30,7 +30,7 @@ public class ResourceUtil {
 	}
 
 	public static TextureAtlasSprite getBlockSprite(String location) {
-		return getBlockSprite(new ResourceLocation(location));
+		return getBlockSprite(ResourceLocation.parse(location));
 	}
 
 	public static SimpleModelState loadTransform(ResourceLocation location) {

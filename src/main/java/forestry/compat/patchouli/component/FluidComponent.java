@@ -7,6 +7,7 @@ import java.util.function.UnaryOperator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -16,7 +17,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
@@ -48,7 +48,7 @@ public class FluidComponent implements ICustomComponent {
 		if (fluidStill != null) {
 			TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
 			ResourceLocation spriteLocation = sprite.contents().name();
-			ResourceLocation fluidTexture = new ResourceLocation(spriteLocation.getNamespace(), "textures/" + spriteLocation.getPath() + ".png");
+			ResourceLocation fluidTexture = ResourceLocation.fromNamespaceAndPath(spriteLocation.getNamespace(), "textures/" + spriteLocation.getPath() + ".png");
 			setGLColorFromInt(fluidAttributes.getTintColor(this.fluidStack));
 
 			// MatrixStack transform, int x, int y, float u, float v, int width, int height, int ?, int ?
@@ -68,11 +68,11 @@ public class FluidComponent implements ICustomComponent {
 
 	@Override
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		ResourceLocation id = new ResourceLocation(lookup.apply(this.fluid).asString());
+		ResourceLocation id = ResourceLocation.parse(lookup.apply(this.fluid).asString());
 		int mb = lookup.apply(this.amount).asNumber().intValue();
 
 		try {
-			this.fluidStack = new FluidStack(ForgeRegistries.FLUIDS.getValue(id), mb);
+			this.fluidStack = new FluidStack(BuiltInRegistries.FLUID.get(id), mb);
 		} catch (Exception e) {
 			this.fluidStack = FluidStack.EMPTY;
 		}

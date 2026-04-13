@@ -69,7 +69,7 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 						int offset = cycle ? (int) (level.getGameTime() / 40L) % length : 0;
 
 						for (int i = 0; i < entries; i++) {
-							lines.add(list.get((offset + i) % length).get().getName());
+							lines.add(list.get((offset + i) % length).value().getName());
 							lineOptions.add(gray);
 						}
 						if (cycle) {

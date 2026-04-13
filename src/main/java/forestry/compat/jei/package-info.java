@@ -1,4 +1,4 @@
 @javax.annotation.ParametersAreNonnullByDefault
-@forestry.api.core.FieldsAreNonnullByDefault
+@forestry.core.utils.FieldsAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
 package forestry.compat.jei;
