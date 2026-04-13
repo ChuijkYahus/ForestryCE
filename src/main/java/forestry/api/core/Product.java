@@ -2,11 +2,13 @@ package forestry.api.core;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -32,8 +34,7 @@ public record Product(Item item, int count, @Nullable CompoundTag tag, float cha
 	public ItemStack createStack() {
 		ItemStack stack = new ItemStack(this.item, this.count);
 		if (this.tag != null) {
-			// defensive copy
-			stack.setTag(this.tag.copy());
+			stack.set(DataComponents.CUSTOM_DATA, CustomData.of(this.tag.copy()));
 		}
 		return stack;
 	}
@@ -47,14 +48,14 @@ public record Product(Item item, int count, @Nullable CompoundTag tag, float cha
 	}
 
 	public static void toNetwork(FriendlyByteBuf buffer, Product product) {
-		buffer.writeId(BuiltInRegistries.ITEM, product.item);
+		buffer.writeById(BuiltInRegistries.ITEM::getId, product.item);
 		buffer.writeByte(product.count);
 		buffer.writeNbt(product.tag);
 		buffer.writeFloat(product.chance);
 	}
 
 	public static Product fromNetwork(FriendlyByteBuf buffer) {
-		Item item = buffer.readById(BuiltInRegistries.ITEM);
+		Item item = buffer.readById(BuiltInRegistries.ITEM::byId);
 		int count = buffer.readByte();
 		CompoundTag tag = buffer.readNbt();
 		float chance = buffer.readFloat();

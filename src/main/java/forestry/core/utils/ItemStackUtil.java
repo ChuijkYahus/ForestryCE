@@ -3,12 +3,14 @@ package forestry.core.utils;
 import forestry.api.core.IProduct;
 import it.unimi.dsi.fastutil.Hash;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.NonNullList;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
@@ -28,8 +30,8 @@ public abstract class ItemStackUtil {
 			int result = 1;
 			result = 31 * result + o.getCount();
 			result = 31 * result + o.getItem().hashCode();
-			if (o.hasTag()) {
-				result = 31 * result + o.getTag().hashCode();
+			if (!o.getComponents().isEmpty()) {
+				result = 31 * result + o.getComponents().hashCode();
 			}
 
 			return result;
@@ -50,7 +52,7 @@ public abstract class ItemStackUtil {
 	 * Compares item id, damage and NBT. Accepts wildcard damage.
 	 */
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
-		return ItemStack.isSameItemSameTags(lhs, rhs);
+		return lhs.getItem() == rhs.getItem() && lhs.getComponents().equals(rhs.getComponents());
 	}
 
 	/**
@@ -230,12 +232,12 @@ public abstract class ItemStackUtil {
 			return false;
 		}
 
-		// When the base stackTagCompound is null or empty, treat it as a wildcard for crafting
-		if (base.getTag() == null || base.getTag().isEmpty()) {
+		CustomData baseData = base.get(DataComponents.CUSTOM_DATA);
+		if (baseData == null || baseData.isEmpty()) {
 			return true;
-		} else {
-			return base.getTag().equals(comparison.getTag());
 		}
+		CustomData comparisonData = comparison.get(DataComponents.CUSTOM_DATA);
+		return baseData.equals(comparisonData);
 	}
 
 	/**
@@ -264,9 +266,8 @@ public abstract class ItemStackUtil {
 			return false;
 		}
 
-		// tool uses NBT for damage
-		//base.getItemDamage() == comparison.getItemDamage();
-		return base.getTag() == null || base.getTag().isEmpty();
+		CustomData baseData = base.get(DataComponents.CUSTOM_DATA);
+		return baseData == null || baseData.isEmpty();
 	}
 
 	public static void dropItemStackAsEntity(ItemStack items, Level world, double x, double y, double z) {
@@ -305,7 +306,7 @@ public abstract class ItemStackUtil {
 	public static boolean areItemStacksEqualIgnoreCount(ItemStack a, ItemStack b) {
 		int countB = b.getCount();
 		b.setCount(a.getCount());
-		boolean equals = a.equals(b, false);
+		boolean equals = ItemStack.matches(a, b);
 		b.setCount(countB);
 		return equals;
 	}

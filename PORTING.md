@@ -117,12 +117,27 @@ To keep progress coherent across Codex sessions:
   - `ModuleArboriculture` now registers the chest boat inventory through `RegisterCapabilitiesEvent.registerEntity(...)` with `Capabilities.ItemHandler.ENTITY`.
   - `CuriosCompat` no longer depends on removed NeoForge `CapabilityManager` / `CapabilityToken` lookup code and now queries Curios inventories through `CuriosApi.getCuriosInventory(player)`.
   - This clears the direct `ForestryChestBoat` and `CuriosCompat` capability compile failures from the active compat slice.
+- Item/mob effect/client signature cleanup:
+  - `ItemElectronTube` and `ItemPipette` now import `Item` for the 1.21 tooltip context signature instead of failing on `Item.TooltipContext`.
+  - `PotionBeeEffect`, `PotionBeeEffectExclusive`, `DefaultForestryPlugin`, and `EventHandlerCore` now use holder-based mob effects, matching the 1.21.1 `MobEffectInstance`, `hasEffect`, and `removeEffect` APIs.
+  - `BlockForestryFluid`, `ModUtil`, `DefaultForestryClientRegistration`, and `EntityUtil` now use 1.21.1-friendly constructor/signature forms for `LiquidBlock`, `ResourceLocation`, and `Mob#finalizeSpawn(...)`.
+  - This clears the active compile failures around tooltip signatures, holder-based mob effects, `ResourceLocation` private constructors, and the `EntityUtil` spawn helper.
+- Compat/client resource lookup cleanup:
+  - `FluidComponent` now resolves fluids through `BuiltInRegistries.FLUID` and uses `ResourceLocation.parse(...)` / `fromNamespaceAndPath(...)` instead of removed `ForgeRegistries` and private constructors.
+  - `BeeAnalyzerPlugin` now dereferences tag entries through `Holder#value()`.
+  - `ResourceUtil`, `FluidMap`, and `JsonUtil` now use 1.21.1 `ResourceLocation` parsing helpers, and `JsonUtil` builds NBT-backed `ItemStack`s through `DataComponents.CUSTOM_DATA`.
+  - This clears the active `FluidComponent`, `BeeAnalyzerPlugin`, `ResourceUtil`, `FluidMap`, and `JsonUtil` compile failures from the filtered compile.
+- Recipe base-interface and helper cleanup:
+  - `IForestryRecipe` now targets 1.21.1 `Recipe<RecipeInput>` semantics, including `HolderLookup.Provider` assembly/result signatures instead of the removed `Recipe<Container>` assumptions.
+  - `RecipeUtils` now treats Forestry machine recipe types as `IForestryRecipe` lookups, fixes the fabricator melting lookup against `IFabricatorSmeltingRecipe`, and restores distinct fluid-filter helpers for `FluidIngredient`, `FluidStack`, and plain `Fluid` outputs.
+  - Forestry machine recipe implementations now use the 1.21.1 `getResultItem(HolderLookup.Provider)` signature, and `FabricatorSmeltingRecipe.Serializer` now exposes `codec()` / `streamCodec()` with `RegistryFriendlyByteBuf`.
+  - This clears the active `IForestryRecipe`, `RecipeUtils`, and filtered machine-recipe signature failures from the compile output.
 
 ## Next Work Plan
 
-1. Port remaining JEI NeoForge integration off `mezz.jei.api.forge.ForgeTypes` and the lingering old capability access in the factory JEI plugin.
-2. Port remaining compatibility-side old capability users such as `ForestryChestBoat` and `CuriosCompat`.
-3. Continue the Mojang-side 1.21 signature migrations once the removed Forge/NeoForge API references are no longer dominating the compile.
+1. Port the recipe/input API layer: `IForestryRecipe`, `RecipeUtils`, and `FabricatorSmeltingRecipe` still assume pre-1.21 `Recipe<Container>` and old serializer/network helpers.
+2. Port the broader ItemStack/NBT migration: `Product`, `ItemStackUtil`, `InventoryUtil`, `ItemInventory`, and other callers still rely on removed `getTag` / `setTag` / `save` helpers.
+3. Port the shared stream/NBT/block-entity interfaces: many `IStreamable`, `INbtReadable`, and `INbtWritable` implementors now need the new `RegistryFriendlyByteBuf` and lookup-provider signatures.
 
 ## Session Notes
 
@@ -201,3 +216,25 @@ To keep progress coherent across Codex sessions:
   - cleared the active worktable recipe migration fallout by switching `WorktableTile` from the removed `RecipeUtil` references to `RecipeUtils` and updating `WorktableSlot` from the old inventory-side `RecipeHolder` import to `RecipeCraftingHolder`
 - Current next blocker after the worktable recipe cleanup slice:
   - compile failures are now front-loaded by loot function serializer rewrites (`OrganismFunction`, `CountBlockFunction`), client/api moves like `TextureStitchEvent`, `PotionUtils`, `ForgeEventFactory`, `ForgeMod`, and broader Mojang-side 1.21 item/NBT/stream signature changes
+- Current verification command for the item/mob effect/client signature cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemElectronTube|ItemPipette|PotionBeeEffect|PotionBeeEffectExclusive|AscensionBeeEffect|GuardianBeeEffect|IgnitionBeeEffect|DefaultForestryPlugin|EventHandlerCore|BlockForestryFluid|ModUtil|DefaultForestryClientRegistration|EntityUtil|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct tooltip-signature, holder-based mob effect, `ResourceLocation` constructor, `LiquidBlock`, and `EntityUtil#finalizeSpawn(...)` failures from the filtered compile
+- Current verification command for the compat/client resource lookup cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "FluidComponent|BeeAnalyzerPlugin|ResourceUtil|FluidMap|JsonUtil|ForgeRegistries|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `FluidComponent`, `BeeAnalyzerPlugin`, `ResourceUtil`, `FluidMap`, `JsonUtil`, and `compat/jei/package-info.java` failures from the filtered compile
+- Current next blocker after the compat/client resource lookup cleanup slice:
+  - compile failures are now front-loaded by the 1.21 recipe/input migration (`RecipeUtils`, `IForestryRecipe`, `FabricatorSmeltingRecipe`), the cross-cutting ItemStack/NBT migration (`Product`, `ItemStackUtil`, `InventoryUtil`, `ItemInventory`), and the shared stream/NBT interface signature rewrite (`RegistryFriendlyByteBuf`, lookup-provider NBT methods)
+- Current verification command for the recipe base-interface and helper cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "IForestryRecipe|RecipeUtils|FabricatorSmeltingRecipe|HygroregulatorRecipe|FabricatorRecipe|MoistenerRecipe|StillRecipe|SqueezerRecipe|SqueezerContainerRecipe|FermenterRecipe|CarpenterRecipe|CentrifugeRecipe|FluidRecipeFilter|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `IForestryRecipe`, `RecipeUtils`, `FluidRecipeFilter`, and Forestry machine recipe `getResultItem(...)` / fabricator melting lookup failures from the filtered compile
+- Current next blocker after the recipe base-interface and helper cleanup slice:
+  - compile failures are now front-loaded by the cross-cutting ItemStack/NBT migration (`Product`, `ItemStackUtil`, `InventoryUtil`, `ItemInventory`) plus the shared stream/NBT interface rewrite (`RegistryFriendlyByteBuf`, lookup-provider NBT methods)
+- Current verification command for the ItemStack/NBT migration slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "forestry/api/core/Product|ItemStackUtil|InventoryUtil|ItemInventory|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `Product`, `ItemStackUtil`, `InventoryUtil`, and `ItemInventory` failures by moving product/item-stack tag handling onto item components, swapping legacy `FriendlyByteBuf` registry ID calls to `writeById` / `readById`, and serializing stored stacks through `ItemStack.CODEC`
+- Current next blocker after the ItemStack/NBT migration slice:
+  - compile failures are now front-loaded by the shared Forestry lookup-aware NBT and stream interface rewrite (`INbtReadable`, `INbtWritable`, `IStreamable`) across `TileTreeContainer`, `TileForestry`, `InventoryAdapter`, `InventoryPlain`, `NBTUtilForestry`, and related tile/helper classes, with broader datagen and client API migrations still behind that front edge

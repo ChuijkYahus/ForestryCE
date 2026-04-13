@@ -1,5 +1,7 @@
 package forestry.core.utils;
 
+import com.mojang.serialization.DataResult;
+import net.minecraft.nbt.NbtOps;
 import forestry.core.circuits.ISocketable;
 import forestry.core.inventory.ItemHandlerInventoryManipulator;
 import forestry.core.inventory.StandardStackFilters;
@@ -289,7 +291,7 @@ public abstract class InventoryUtil {
 			if (!inventoryStack.isStackable()) {
 				continue;
 			}
-			if (!ItemStack.isSameItemSameTags(inventoryStack, stack)) {
+			if (!ItemStackUtil.isIdenticalItem(inventoryStack, stack)) {
 				continue;
 			}
 
@@ -357,7 +359,7 @@ public abstract class InventoryUtil {
 			}
 
 			// Not same type
-			if (!ItemStack.isSameItemSameTags(inventoryStack, stack)) {
+			if (!ItemStackUtil.isIdenticalItem(inventoryStack, stack)) {
 				continue;
 			}
 
@@ -440,7 +442,7 @@ public abstract class InventoryUtil {
 		for (int j = 0; j < nbttaglist.size(); ++j) {
 			CompoundTag compoundNBT2 = nbttaglist.getCompound(j);
 			int index = compoundNBT2.getInt("Slot");
-			inventory.setItem(index, ItemStack.of(compoundNBT2));
+			inventory.setItem(index, deserializeItemStack(compoundNBT2));
 		}
 	}
 
@@ -448,12 +450,24 @@ public abstract class InventoryUtil {
 		ListTag nbttaglist = new ListTag();
 		for (int i = 0; i < inventory.getContainerSize(); i++) {
 			if (!inventory.getItem(i).isEmpty()) {
-				CompoundTag compoundNBT2 = new CompoundTag();
+				CompoundTag compoundNBT2 = serializeItemStack(inventory.getItem(i));
 				compoundNBT2.putInt("Slot", i);
-				inventory.getItem(i).save(compoundNBT2);
 				nbttaglist.add(compoundNBT2);
 			}
 		}
 		compoundNBT.put(name, nbttaglist);
+	}
+
+	public static ItemStack deserializeItemStack(CompoundTag nbt) {
+		DataResult<ItemStack> result = ItemStack.CODEC.parse(NbtOps.INSTANCE, nbt);
+		return result.result().orElse(ItemStack.EMPTY);
+	}
+
+	public static CompoundTag serializeItemStack(ItemStack stack) {
+		DataResult<net.minecraft.nbt.Tag> result = ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack);
+		return result.result()
+			.filter(CompoundTag.class::isInstance)
+			.map(CompoundTag.class::cast)
+			.orElseGet(CompoundTag::new);
 	}
 }

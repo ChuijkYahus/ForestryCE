@@ -2,6 +2,7 @@ package forestry.core.inventory;
 
 import com.google.common.base.Preconditions;
 import forestry.core.tiles.IFilterSlotDelegate;
+import forestry.core.utils.InventoryUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -46,10 +47,10 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 			String slotKey = getSlotNBTKey(i);
 			if (nbtSlots.contains(slotKey)) {
 				CompoundTag itemNbt = nbtSlots.getCompound(slotKey);
-				ItemStack itemStack = ItemStack.of(itemNbt);
-                this.inventoryStacks.set(i, itemStack);
+				ItemStack itemStack = InventoryUtil.deserializeItemStack(itemNbt);
+				this.inventoryStacks.set(i, itemStack);
 			} else {
-                this.inventoryStacks.set(i, ItemStack.EMPTY);
+				this.inventoryStacks.set(i, ItemStack.EMPTY);
 			}
 		}
 	}
@@ -138,8 +139,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 			ItemStack itemStack = getItem(i);
 			if (!itemStack.isEmpty()) {
 				String slotKey = getSlotNBTKey(i);
-				CompoundTag itemNbt = new CompoundTag();
-				itemStack.save(itemNbt);
+				CompoundTag itemNbt = InventoryUtil.serializeItemStack(itemStack);
 				slotsNbt.put(slotKey, itemNbt);
 			}
 		}
@@ -183,7 +183,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 
 	@Override
 	public void setItem(int index, ItemStack itemstack) {
-        this.inventoryStacks.set(index, itemstack);
+		this.inventoryStacks.set(index, itemstack);
 
 		ItemStack parent = getParent();
 
@@ -206,10 +206,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 		if (itemstack.isEmpty()) {
 			slotNbt.remove(slotKey);
 		} else {
-			CompoundTag itemNbt = new CompoundTag();
-			itemstack.save(itemNbt);
-
-			slotNbt.put(slotKey, itemNbt);
+			slotNbt.put(slotKey, InventoryUtil.serializeItemStack(itemstack));
 		}
 	}
 
