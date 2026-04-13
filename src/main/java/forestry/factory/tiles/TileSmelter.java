@@ -73,11 +73,8 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 
 	private final InventoryAdapter sockets = new InventoryAdapter(1, "sockets");
 	private final ResultContainer craftPreviewInventory;
-	public static final int MAX_HEAT = 5000;
-	private int heat = 0;
-	private int meltingPoint = 0;
 	private static final int TICKS_PER_RECIPE_TIME = 1;
-	private static final int ENERGY_PER_WORK_CYCLE = 0; //Machine only uses power to maintain temperature.
+	private static final int ENERGY_PER_WORK_CYCLE = 2500;
 	private static final int ENERGY_PER_RECIPE_TIME = ENERGY_PER_WORK_CYCLE / 10;
 	private ISmelterRecipe currentRecipe;
 	private final InventorySmelter inventory;
@@ -142,7 +139,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
 		this.sockets.write(compoundNBT);
-		compoundNBT.putInt("Heat", this.heat);
 	}
 
 	@Override
@@ -157,8 +153,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 				chipset.onLoad(this);
 			}
 		}
-
-		this.heat = compoundNBT.getInt("Heat");
 	}
 
 	@Override
@@ -176,8 +170,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 	public void writeGuiData(FriendlyByteBuf data) {
 		super.writeGuiData(data);
 		this.sockets.writeData(data);
-		data.writeVarInt(this.heat);
-		data.writeVarInt(this.meltingPoint);
 	}
 
 	@Override
@@ -185,8 +177,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 	public void readGuiData(FriendlyByteBuf data) {
 		super.readGuiData(data);
 		this.sockets.readData(data);
-		this.heat = data.readVarInt();
-		this.meltingPoint = data.readVarInt();
 	}
 
 
@@ -196,53 +186,14 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		//Forestry.LOGGER.info("Ticking smelter");
 		super.serverTick(level, pos, state);
-		//Forestry.LOGGER.info("Smelter heat: " + this.heat);
-
-		if (!updateOnInterval(WORK_TICK_INTERVAL)) {
-			return;
-		}
-
-		boolean hasPower = this.getEnergyManager().getEnergyStored() > 0;
-		int heatPowerConsumption;
-		int heatProduction;
-
-		//If the machine is sufficiently warmed, greatly reduce the amount of energy going into warming up
-		if (this.currentRecipe != null){
-			//Machine is not at temperature
-			if (this.heat < this.currentRecipe.getTemperature()) {
-				heatPowerConsumption = 100; //Use more power to warm it up
-				heatProduction = 5;
-			}
-			//Machine is at temperature.
-			else {
-				heatPowerConsumption = 40; //Use less power to generate less heat.
-				heatProduction = 2;
-			}
-			//If there is power connected, warm the machine up
-			if (hasPower) {
-				this.heat = Math.min(this.heat + heatProduction, MAX_HEAT);
-
-			}
-			this.getEnergyManager().drainEnergy(heatPowerConsumption);
-		}
-
-
-		if (this.currentRecipe == null || !hasPower) {
-			//If there is no recipe or no power, reduce heat
-			if (this.heat > MAX_HEAT / 2) {
-				this.heat = Math.max(this.heat - 10, 0);
-			} else if (this.heat > 0) {
-				this.heat = Math.max(this.heat - 5, 0);
-			}
-		}
-
-
-		//A squeezer squeezing honey uses 2000RF per item (in bursts of 200RF)
-		//A squeezer stores 40000RF and can squeeze 20 items from full. Let's apply that to here.
 
 		//for particles sake
 		if (updateOnInterval(WORK_TICK_INTERVAL * 4)) {
 			if (level instanceof ServerLevel serverLevel){
+
+				//there's probably a nicer way to do this.
+				if (this.currentRecipe == null) return;
+				if (this.getEnergyManager().getEnergyStored() <= 0) return;
 
 				Direction facing = this.getBlockState().getValue(BlockBase.FACING);
 
@@ -276,25 +227,23 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 						dZ = 0.2f;
 				}
 
-				if (this.heat > this.meltingPoint && this.meltingPoint > 0)
-					serverLevel.sendParticles(ParticleTypes.FLAME,
-						posX,
-						posY,
-						posZ,
-						3,
-						dX, dY, dZ,
-						0
-					);
+				serverLevel.sendParticles(ParticleTypes.FLAME,
+					posX,
+					posY,
+					posZ,
+					3,
+					dX, dY, dZ,
+					0
+				);
 
-				if (this.meltingPoint > 0)
-					serverLevel.sendParticles(ParticleTypes.SMOKE,
-						posX,
-						posY,
-						posZ,
-						3,
-						dX, dY, dZ,
-						0
-					);
+				serverLevel.sendParticles(ParticleTypes.SMOKE,
+					posX,
+					posY,
+					posZ,
+					3,
+					dX, dY, dZ,
+					0
+				);
 			}
 		}
 	}
@@ -309,7 +258,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 		boolean hasResources = this.inventory.hasResources();
 		boolean hasRecipe = true;
 		boolean canAdd = true;
-		boolean atTemperature = true;
 
 		if (hasResources) {
 			hasRecipe = this.currentRecipe != null;
@@ -317,7 +265,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 				if (!this.currentRecipe.getOutput().isEmpty()) {
 					canAdd = this.inventory.addResult(this.currentRecipe.getOutput(), false);
 				}
-				if (this.heat < this.currentRecipe.getTemperature()) atTemperature = false;
 			}
 		}
 
@@ -325,9 +272,8 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 		errorLogic.setCondition(!hasResources, ForestryError.NO_RESOURCE);
 		errorLogic.setCondition(!hasRecipe, ForestryError.NO_RECIPE);
 		errorLogic.setCondition(!canAdd, ForestryError.NO_SPACE_INVENTORY);
-		errorLogic.setCondition(!atTemperature, ForestryError.NOT_WARM_ENOUGH);
 
-		return hasResources && hasRecipe && canAdd && atTemperature;
+		return hasResources && hasRecipe && canAdd;
 	}
 
 	public boolean checkRecipe(){
@@ -349,8 +295,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 				if (this.currentRecipe != null) {
 					handleItemStackForDisplay(currentRecipe.getOutput());
 
-					this.meltingPoint = currentRecipe.getTemperature();
-
 					int recipeTime = this.currentRecipe.getProcessingTime();
 					setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
 					setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
@@ -360,7 +304,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 				//If the updated recipe IS null, clear everything.
 				else {
 					this.craftPreviewInventory.clearContent();
-					this.meltingPoint = 0;
 					setTicksPerWorkCycle(0);
 					//Forestry.LOGGER.debug("Removed a recipe.");
 				}
@@ -390,7 +333,6 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 			return false;
 		}
 
-		this.heat = Math.max(this.heat - 50, 0);
 		this.inventory.addResult(this.currentRecipe.getOutput(), true);
 		return true;
 	}
@@ -414,39 +356,5 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inventory, Player player) {
 		return new ContainerSmelter(windowId, player.getInventory(), this);
-	}
-
-	public int getHeatScaled(int i) {
-		return this.heat * i / MAX_HEAT;
-	}
-
-	public int getMeltingPointScaled(int i) {
-		int meltingPoint = getMeltingPoint();
-
-		if (meltingPoint <= 0) {
-			return 0;
-		} else {
-			return meltingPoint * i / MAX_HEAT;
-		}
-	}
-
-	public int getHeat() {
-		return this.heat;
-	}
-
-	public int getMeltingPoint() {
-		return this.meltingPoint;
-	}
-	public void getGUINetworkData(int i, int j) {
-		if (i == 0) {
-			this.heat = j;
-		} else if (i == 1) {
-			this.meltingPoint = j;
-		}
-	}
-
-	public void sendGUINetworkData(AbstractContainerMenu container, ContainerListener iCrafting) {
-		iCrafting.dataChanged(container, 0, this.heat);
-		iCrafting.dataChanged(container, 1, getMeltingPoint());
 	}
 }

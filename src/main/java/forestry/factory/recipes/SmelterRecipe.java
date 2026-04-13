@@ -23,20 +23,18 @@ import java.util.List;
 
 public class SmelterRecipe implements ISmelterRecipe {
 	private final ResourceLocation id;
-	private final int temperature;
 	private final List<IngredientStack> inputs;
 	private final ItemStack output;
 
 	private final int processingTime;
 
-	public SmelterRecipe(ResourceLocation id, int temperature, List<IngredientStack> inputs, ItemStack output, int processTime) {
+	public SmelterRecipe(ResourceLocation id, List<IngredientStack> inputs, ItemStack output, int processTime) {
 		Preconditions.checkNotNull(id, "Recipe identifier cannot be null");
 		Preconditions.checkNotNull(inputs);
 		Preconditions.checkArgument(!inputs.isEmpty());
 		Preconditions.checkNotNull(output);
 
 		this.id = id;
-		this.temperature = temperature;
 		this.inputs = inputs;
 		this.output = output;
 		this.processingTime = processTime;
@@ -49,11 +47,6 @@ public class SmelterRecipe implements ISmelterRecipe {
 
 	@Override
 	public ItemStack getOutput() { return this.output; }
-
-	@Override
-	public int getTemperature() {
-		return this.temperature;
-	}
 
 	@Override
 	public int getProcessingTime() {
@@ -80,9 +73,9 @@ public class SmelterRecipe implements ISmelterRecipe {
 		return FactoryRecipeTypes.SMELTER.type();
 	}
 
-	public boolean matches(int temp, List<IngredientStack> in, ItemStack out){
+	public boolean matches(int processingTime, List<IngredientStack> in, ItemStack out){
 		return (
-			this.temperature == temp
+			this.processingTime == processingTime
 			&& in.equals(this.inputs)
 			&& out.equals(output)
 			);
@@ -119,19 +112,17 @@ public class SmelterRecipe implements ISmelterRecipe {
 	public static class Serializer implements RecipeSerializer<SmelterRecipe> {
 		@Override
 		public SmelterRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			int temperature = GsonHelper.getAsInt(json, "temperature");
 			ArrayList<IngredientStack> ingredients = new ArrayList<>();
 			for (JsonElement element : GsonHelper.getAsJsonArray(json, "inputs")) {
 				ingredients.add(IngredientStack.fromJson(element.getAsJsonObject()));
 			}
 			ItemStack out = RecipeSerializers.item(GsonHelper.getAsJsonObject(json, "output"));
 			int processTime = GsonHelper.getAsInt(json, "processingTime");
-			return new SmelterRecipe(recipeId, temperature, ingredients, out, processTime);
+			return new SmelterRecipe(recipeId, ingredients, out, processTime);
 		}
 
 		@Override
 		public SmelterRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			int processingTime = buffer.readVarInt();
 			List<IngredientStack> resources = new ArrayList<>();
 			//Read the size of the list of ingredients. I miss scanners.
 			int count = buffer.readVarInt();
@@ -141,12 +132,11 @@ public class SmelterRecipe implements ISmelterRecipe {
 			ItemStack out = buffer.readItem();
 			int processTime = buffer.readVarInt();
 
-			return new SmelterRecipe(recipeId, processingTime, resources, out, processTime);
+			return new SmelterRecipe(recipeId, resources, out, processTime);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, SmelterRecipe recipe) {
-			buffer.writeVarInt(recipe.temperature);
 			//Can't store just the list of ingredients. Have to also store the size of the list. whack.
 			buffer.writeVarInt(recipe.getInputs().size());
 			for (IngredientStack i: recipe.getInputs()){

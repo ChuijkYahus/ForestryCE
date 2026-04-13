@@ -2452,19 +2452,17 @@ public class ForestryRecipeProvider {
 	private static void registerSmelter(Consumer<FinishedRecipe> consumer) {
 
 		new SmelterRecipeBuilder()
-			.setTemperature(850)
 			.addIngredient(Ingredient.of(ForestryTags.Items.INGOTS_TIN))
 			.addIngredient(Ingredient.of(Tags.Items.INGOTS_COPPER), 3)
 			.setOutput(CoreItems.INGOT_BRONZE.stack(), 4)
-			.setProcessingTime(80)
+			.setProcessingTime(40)
 			.build(consumer, id("smelter", "bronze_from_ingots"));
 
 		new SmelterRecipeBuilder()
-			.setTemperature(950)
 			.addIngredient(Ingredient.of(ForestryTags.Items.RAW_MATERIALS_TIN))
 			.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_COPPER), 3)
 			.setOutput(CoreItems.INGOT_BRONZE.stack(), 5)
-			.setProcessingTime(80)
+			.setProcessingTime(40)
 			.build(consumer, id("smelter", "bronze_from_raw_materials"));
 	}
 	private static ResourceLocation id(String... path) {

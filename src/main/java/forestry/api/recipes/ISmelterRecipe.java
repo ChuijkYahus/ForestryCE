@@ -10,11 +10,6 @@ import java.util.List;
 public interface ISmelterRecipe extends IForestryRecipe {
 
 	/**
-	 * @return How hot the smelter has to be to process this recipe
-	 */
-	int getTemperature();
-
-	/**
 	 * @return How long this recipe takes to process
 	 */
 	int getProcessingTime();
@@ -30,5 +25,5 @@ public interface ISmelterRecipe extends IForestryRecipe {
 	 */
 	ItemStack getOutput();
 
-	boolean matches(int temp, List<IngredientStack> in, ItemStack out);
+	boolean matches(int processingTime, List<IngredientStack> in, ItemStack out);
 }

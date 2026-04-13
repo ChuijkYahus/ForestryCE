@@ -6,7 +6,7 @@
       "tag": "forge:glass"
     },
     "X": {
-      "tag": "forge:ingots/copper"
+      "tag": "forge:ingots/iron"
     },
     "Y": {
       "item": "minecraft:furnace"
