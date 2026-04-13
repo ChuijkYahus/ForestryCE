@@ -191,3 +191,13 @@ To keep progress coherent across Codex sessions:
   - cleared the direct `ForestryChestBoat` and `CuriosCompat` removed capability API failures by moving the chest boat inventory onto NeoForge entity capability registration and switching Curios access over to `CuriosApi`
 - Current next blocker after the compat entity-capability cleanup slice:
   - compile failures are now front-loaded by KubeJS API removals (`KubeJSPlugin`, `BindingsEvent`, `EventJS`), worktable/recipe migration fallout (`RecipeUtil`, `RecipeHolder`), loot function serializer rewrites, and broader Mojang-side 1.21 signature changes
+- Current verification command for the KubeJS compat cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ForestryKubeJsPlugin|ForestryClientEventJS|GeneticsEventJS|ApicultureEventJS|KubeJSPlugin|BindingsEvent|EventJS|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct KubeJS compat API failures by moving `ForestryKubeJsPlugin` onto the 1.21.1 KubeJS plugin interface (`dev.latvian.mods.kubejs.plugin.KubeJSPlugin`), switching binding registration to `BindingRegistry`, registering event groups through `EventGroupRegistry`, and replacing Forestry’s event payload base class from `EventJS` to `KubeEvent`
+- Current verification command for the worktable recipe cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "WorktableTile|WorktableSlot|RecipeUtil|RecipeHolder|RecipeCraftingHolder|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the active worktable recipe migration fallout by switching `WorktableTile` from the removed `RecipeUtil` references to `RecipeUtils` and updating `WorktableSlot` from the old inventory-side `RecipeHolder` import to `RecipeCraftingHolder`
+- Current next blocker after the worktable recipe cleanup slice:
+  - compile failures are now front-loaded by loot function serializer rewrites (`OrganismFunction`, `CountBlockFunction`), client/api moves like `TextureStitchEvent`, `PotionUtils`, `ForgeEventFactory`, `ForgeMod`, and broader Mojang-side 1.21 item/NBT/stream signature changes
