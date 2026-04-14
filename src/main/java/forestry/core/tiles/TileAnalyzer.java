@@ -66,15 +66,15 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	/* SAVING & LOADING */
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.tankManager.write(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
+        this.tankManager.write(compoundNBT, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.tankManager.read(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
+        this.tankManager.read(compoundNBT, registries);
 
 		ItemStack stackToAnalyze = getItem(InventoryAnalyzer.SLOT_ANALYZE);
 		if (!stackToAnalyze.isEmpty()) {
@@ -140,7 +140,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		ItemStack displayStack = getIndividualOnDisplay();
-		data.writeItem(displayStack);
+		ItemStack.STREAM_CODEC.encode(data, displayStack);
         this.tankManager.writeData(data);
 	}
 
@@ -148,7 +148,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
-        this.individualOnDisplayClient = data.readItem();
+        this.individualOnDisplayClient = ItemStack.STREAM_CODEC.decode(data);
         this.tankManager.readData(data);
 	}
 

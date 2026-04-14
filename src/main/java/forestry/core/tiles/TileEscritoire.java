@@ -39,16 +39,16 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.game.read(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
+        this.game.read(compoundNBT, registries);
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.game.write(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
+        this.game.write(compoundNBT, registries);
 	}
 
 	/* GAME */
@@ -117,14 +117,14 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		ItemStack displayStack = getIndividualOnDisplay();
-		data.writeItem(displayStack);
+		ItemStack.STREAM_CODEC.encode(data, displayStack);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
-        this.individualOnDisplayClient = data.readItem();
+        this.individualOnDisplayClient = ItemStack.STREAM_CODEC.decode(data);
 	}
 
 	/* ISlotPickupWatcher */

@@ -14,7 +14,9 @@ import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -86,10 +88,20 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
         this.inventory.read(data, registries);
 	}
 
+	@Deprecated(forRemoval = true)
+	public void load(CompoundTag data) {
+		loadAdditional(data, getRegistries());
+	}
+
 	@Override
 	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
 		super.saveAdditional(data, registries);
         this.inventory.write(data, registries);
+	}
+
+	@Deprecated(forRemoval = true)
+	public void saveAdditional(CompoundTag data) {
+		saveAdditional(data, getRegistries());
 	}
 
 	@Nullable
@@ -120,8 +132,24 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	public void writeData(RegistryFriendlyByteBuf data) {
 	}
 
+	public void writeData(FriendlyByteBuf data) {
+		if (data instanceof RegistryFriendlyByteBuf registryData) {
+			writeData(registryData);
+		}
+	}
+
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
+	}
+
+	public void readData(FriendlyByteBuf data) {
+		if (data instanceof RegistryFriendlyByteBuf registryData) {
+			readData(registryData);
+		}
+	}
+
+	protected HolderLookup.Provider getRegistries() {
+		return this.level != null ? this.level.registryAccess() : RegistryAccess.EMPTY;
 	}
 
 	// serverside only, called when the block is destroyed and its inventory is spilled into the world

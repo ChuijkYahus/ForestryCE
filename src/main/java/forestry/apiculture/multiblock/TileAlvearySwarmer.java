@@ -151,9 +151,8 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 		ItemStack[] offspring = this.pendingSpawns.toArray(new ItemStack[0]);
 		for (int i = 0; i < offspring.length; i++) {
 			if (offspring[i] != null) {
-				CompoundTag compoundNBT1 = new CompoundTag();
+				CompoundTag compoundNBT1 = (CompoundTag) offspring[i].saveOptional(getRegistries());
 				compoundNBT1.putByte("Slot", (byte) i);
-				offspring[i].save(compoundNBT1);
 				nbttaglist.add(compoundNBT1);
 			}
 		}

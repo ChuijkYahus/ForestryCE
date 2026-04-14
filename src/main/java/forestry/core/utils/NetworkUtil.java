@@ -45,6 +45,10 @@ public class NetworkUtil {
 		PacketDistributor.sendToPlayer(player, packet);
 	}
 
+	public static void sendToServer(CustomPacketPayload packet) {
+		PacketDistributor.sendToServer(packet);
+	}
+
 	// Used for Streamable to prepare FriendlyByteBuf for sending over the network
 	public static void writePayloadBuffer(RegistryFriendlyByteBuf buffer, Consumer<RegistryFriendlyByteBuf> dataWriter) {
 		// write a placeholder value for the number of bytes, keeping its index for replacing later
@@ -162,12 +166,35 @@ public class NetworkUtil {
 		buffer.writeByte(humidity.ordinal());
 	}
 
+	public static void writeClimateState(FriendlyByteBuf buffer, @Nullable IClimateProvider climateState) {
+		if (climateState != null) {
+			buffer.writeBoolean(true);
+			buffer.writeByte(climateState.temperature().ordinal());
+			buffer.writeByte(climateState.humidity().ordinal());
+		} else {
+			buffer.writeBoolean(false);
+		}
+	}
+
+	public static void writeClimateState(FriendlyByteBuf buffer, TemperatureType temperature, HumidityType humidity) {
+		buffer.writeBoolean(true);
+		buffer.writeByte(temperature.ordinal());
+		buffer.writeByte(humidity.ordinal());
+	}
+
 	public static IClimateProvider readClimateState(RegistryFriendlyByteBuf buffer) {
 		if (buffer.readBoolean()) {
 			return new ClimateState(TemperatureType.VALUES.get(buffer.readByte()), HumidityType.VALUES.get(buffer.readByte()));
 		} else {
 			return IForestryApi.INSTANCE.getClimateManager().createDummyClimateProvider();
 		}
+	}
+
+	public static IClimateProvider readClimateState(FriendlyByteBuf buffer) {
+		if (buffer.readBoolean()) {
+			return new ClimateState(TemperatureType.VALUES.get(buffer.readByte()), HumidityType.VALUES.get(buffer.readByte()));
+		}
+		return IForestryApi.INSTANCE.getClimateManager().createDummyClimateProvider();
 	}
 
 	public static void writeBlockState(RegistryFriendlyByteBuf buffer, BlockState state) {
@@ -207,6 +234,6 @@ public class NetworkUtil {
 
 	public static void sendRecipeClick(int mouseButton, int recipeIndex) {
 		CustomPacketPayload packet = new PacketGuiSelectRequest(mouseButton, recipeIndex);
-		PacketDistributor.sendToServer(packet);
+		sendToServer(packet);
 	}
 }

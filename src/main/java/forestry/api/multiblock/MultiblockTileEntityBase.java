@@ -1,6 +1,8 @@
 package forestry.api.multiblock;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -40,15 +42,25 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	public abstract void onMachineBroken();
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
         this.multiblockLogic.readFromNBT(data);
 	}
 
 	@Override
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
+        this.multiblockLogic.write(data, registries);
+	}
+
+	@Deprecated(forRemoval = true)
+	public void load(CompoundTag data) {
+		loadAdditional(data, getRegistries());
+	}
+
+	@Deprecated(forRemoval = true)
 	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
-        this.multiblockLogic.write(data);
+		saveAdditional(data, getRegistries());
 	}
 
 	@Override
@@ -77,8 +89,8 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag updateTag = super.getUpdateTag();
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag updateTag = super.getUpdateTag(registries);
         this.multiblockLogic.encodeDescriptionPacket(updateTag);
 		this.encodeDescriptionPacket(updateTag);
 		return updateTag;
@@ -96,10 +108,24 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
         this.multiblockLogic.decodeDescriptionPacket(tag);
 		this.decodeDescriptionPacket(tag);
+	}
+
+	@Deprecated(forRemoval = true)
+	public CompoundTag getUpdateTag() {
+		return getUpdateTag(getRegistries());
+	}
+
+	@Deprecated(forRemoval = true)
+	public void handleUpdateTag(CompoundTag tag) {
+		handleUpdateTag(tag, getRegistries());
+	}
+
+	protected HolderLookup.Provider getRegistries() {
+		return this.level != null ? this.level.registryAccess() : RegistryAccess.EMPTY;
 	}
 
 	/**

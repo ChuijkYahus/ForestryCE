@@ -76,13 +76,11 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 
 		// Write pending product
 		if (this.pendingProduct != null) {
-			CompoundTag CompoundNBTP = new CompoundTag();
-            this.pendingProduct.save(CompoundNBTP);
+			CompoundTag CompoundNBTP = (CompoundTag) this.pendingProduct.saveOptional(getRegistries());
 			compoundNBT.put("PendingProduct", CompoundNBTP);
 		}
 		if (this.currentProduct != null) {
-			CompoundTag CompoundNBTP = new CompoundTag();
-            this.currentProduct.save(CompoundNBTP);
+			CompoundTag CompoundNBTP = (CompoundTag) this.currentProduct.saveOptional(getRegistries());
 			compoundNBT.put("CurrentProduct", CompoundNBTP);
 		}
 	}

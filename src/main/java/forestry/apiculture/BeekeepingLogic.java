@@ -19,6 +19,7 @@ import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -67,13 +68,12 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 	// / SAVING & LOADING
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		compoundNBT.putInt("BreedingTime", this.beeProgress);
 		compoundNBT.putInt("Throttle", this.workThrottleCounter);
 
 		if (!this.queenStack.isEmpty()) {
-			CompoundTag queenNbt = new CompoundTag();
-			this.queenStack.save(queenNbt);
+			CompoundTag queenNbt = (CompoundTag) this.queenStack.saveOptional(registries);
 			compoundNBT.put("queen", queenNbt);
 		}
 
@@ -84,8 +84,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		ArrayDeque<ItemStack> spawnCopy = new ArrayDeque<>(this.spawn);
 		ListTag nbttaglist = new ListTag();
 		while (!spawnCopy.isEmpty()) {
-			CompoundTag compoundNBT1 = new CompoundTag();
-			spawnCopy.removeFirst().save(compoundNBT1);
+			CompoundTag compoundNBT1 = (CompoundTag) spawnCopy.removeFirst().saveOptional(registries);
 			nbttaglist.add(compoundNBT1);
 		}
 		compoundNBT.put("Offspring", nbttaglist);
