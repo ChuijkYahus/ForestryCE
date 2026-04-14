@@ -4,6 +4,7 @@ import forestry.Forestry;
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.api.multiblock.IMultiblockLogic;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
@@ -108,10 +109,10 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
 		if (isMultiblockSaveDelegate() && this.controller != null) {
 			CompoundTag multiblockData = new CompoundTag();
-			this.controller.write(multiblockData);
+			this.controller.write(multiblockData, registries);
 			data.put("multiblockData", multiblockData);
 		}
 		return data;

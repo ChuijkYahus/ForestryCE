@@ -1,6 +1,7 @@
 package forestry.core.inventory;
 
 import forestry.core.config.Constants;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -91,12 +92,12 @@ public enum FakeInventoryAdapter implements IInventoryAdapter {
 	}
 
 	@Override
-	public void read(CompoundTag CompoundNBT) {
+	public void read(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag CompoundNBT) {
-		return CompoundNBT;
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		return compoundNBT;
 	}
 
 	@Override

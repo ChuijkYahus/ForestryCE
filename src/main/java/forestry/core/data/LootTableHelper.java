@@ -15,6 +15,8 @@ import forestry.core.loot.OrganismFunction;
 import forestry.core.utils.SpeciesUtil;
 import forestry.storage.features.BackpackItems;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -46,7 +48,7 @@ public class LootTableHelper {
 		return instance;
 	}
 
-	protected final Multimap<ResourceLocation, Entry> entries = LinkedHashMultimap.create();
+	protected final Multimap<ResourceKey<LootTable>, Entry> entries = LinkedHashMultimap.create();
 
 	public LootTableHelper() {
 		add(BuiltInLootTables.ABANDONED_MINESHAFT, "apiculture",
@@ -180,7 +182,7 @@ public class LootTableHelper {
 				.add(beeLoot(ForestryBeeSpecies.MONASTIC).setWeight(6))
 				.add(EmptyLootItem.emptyItem().setWeight(3))
 			));
-		add(ForestryConstants.forestry("chests/village_naturalist"), "arboriculture",
+		add(ResourceKey.create(Registries.LOOT_TABLE, ForestryConstants.forestry("chests/village_naturalist")), "arboriculture",
 			LootTable.lootTable().withPool(LootPool.lootPool()
 				.name("forestry_arboriculture_items")
 				.setRolls(ConstantValue.exactly(3))
@@ -191,7 +193,7 @@ public class LootTableHelper {
 				.add(saplingLoot(ForestryTreeSpecies.TEAK))
 				.add(saplingLoot(ForestryTreeSpecies.PADAUK))
 			));
-		add(ForestryConstants.forestry("chests/village_naturalist"), "apiculture",
+		add(ResourceKey.create(Registries.LOOT_TABLE, ForestryConstants.forestry("chests/village_naturalist")), "apiculture",
 			LootTable.lootTable().withPool(LootPool.lootPool()
 				.name("forestry_apiculture_items")
 				.setRolls(ConstantValue.exactly(4))
@@ -263,23 +265,23 @@ public class LootTableHelper {
 		};
 	}
 
-	protected void add(ResourceLocation location, String extension, LootTable.Builder builder) {
+	protected void add(ResourceKey<LootTable> location, String extension, LootTable.Builder builder) {
         this.entries.put(location, new Entry(location, extension, builder));
 	}
 
 	public static class Entry {
-		public final ResourceLocation defaultLocation;
+		public final ResourceKey<LootTable> defaultLocation;
 		public final String extension;
 		public final LootTable.Builder builder;
 
-		public Entry(ResourceLocation defaultLocation, String extension, LootTable.Builder builder) {
+		public Entry(ResourceKey<LootTable> defaultLocation, String extension, LootTable.Builder builder) {
 			this.defaultLocation = defaultLocation;
 			this.extension = extension;
 			this.builder = builder;
 		}
 
 		public ResourceLocation getLocation() {
-			return ForestryConstants.forestry(this.defaultLocation.getPath() + "/" + this.extension);
+			return ForestryConstants.forestry(this.defaultLocation.location().getPath() + "/" + this.extension);
 		}
 	}
 }

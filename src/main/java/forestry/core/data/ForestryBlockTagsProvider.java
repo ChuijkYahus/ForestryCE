@@ -88,7 +88,7 @@ public final class ForestryBlockTagsProvider {
 			.addTag(ForestryTags.Blocks.STORAGE_BLOCKS_RAW_TIN);
 
 		tags.tag(ForestryTags.Blocks.CHARCOAL_BLOCK).add(CharcoalBlocks.CHARCOAL.block());
-		tags.tag(Tags.Blocks.CHESTS).add(CoreBlocks.NATURALIST_CHEST.getBlocks().toArray(Block[]::new));
+		tags.tag(Tags.Blocks.CHESTS).add(CoreBlocks.NATURALIST_CHEST.getList().toArray(Block[]::new));
 		tags.tag(BlockTags.PLANKS).add(ArboricultureBlocks.PLANKS.blockArray());
 
 		for (ForestryWoodType woodType : ForestryWoodType.VALUES) {
@@ -203,7 +203,7 @@ public final class ForestryBlockTagsProvider {
 		Set<Block> set = new LinkedHashSet<>();
 
 		for (FeatureBlockGroup<?, ?> feature : features) {
-			set.addAll(feature.getBlocks());
+			set.addAll(feature.getList());
 		}
 
 		return set;

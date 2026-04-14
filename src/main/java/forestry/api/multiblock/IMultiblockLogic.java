@@ -1,6 +1,7 @@
 package forestry.api.multiblock;
 
 import forestry.api.core.INbtWritable;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
@@ -63,5 +64,5 @@ public interface IMultiblockLogic extends INbtWritable {
 	 * Use this in Tile.write()
 	 */
 	@Override
-	CompoundTag write(CompoundTag CompoundNBT);
+	CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries);
 }

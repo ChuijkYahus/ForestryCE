@@ -1,6 +1,7 @@
 package forestry.core.loot;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.ForestryConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -21,7 +22,7 @@ import java.util.function.Consumer;
  * A global loot modifier used by forestry to inject the additional chest loot to the vanilla loot tables.
  */
 public class ConditionLootModifier extends LootModifier {
-	public static final Codec<ConditionLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+	public static final MapCodec<ConditionLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(lm -> lm.conditions),
 		ResourceLocation.CODEC.fieldOf("table").forGetter(lm -> lm.tableLocation),
 		Codec.list(Codec.STRING).fieldOf("extensions").forGetter(o -> o.extensions)
@@ -81,7 +82,7 @@ public class ConditionLootModifier extends LootModifier {
 	}
 
 	@Override
-	public Codec<? extends IGlobalLootModifier> codec() {
+	public MapCodec<? extends IGlobalLootModifier> codec() {
 		return CODEC;
 	}
 }

@@ -9,7 +9,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import javax.annotation.Nullable;
 
 public class FilledCrateModelBuilder<T extends ModelBuilder<T>> extends CustomLoaderBuilder<T> {
-	private static final ResourceLocation ID = new ResourceLocation("forestry:filled_crate");
+	private static final ResourceLocation ID = ResourceLocation.parse("forestry:filled_crate");
 
 	@Nullable
 	private ResourceLocation layer1;
@@ -17,7 +17,7 @@ public class FilledCrateModelBuilder<T extends ModelBuilder<T>> extends CustomLo
 	private ResourceLocation layer2;
 
 	public FilledCrateModelBuilder(T parent, ExistingFileHelper helper) {
-		super(ID, parent, helper);
+		super(ID, parent, helper, false);
 	}
 
 	public static <T extends ModelBuilder<T>> FilledCrateModelBuilder<T> begin(T parent, ExistingFileHelper helper) {

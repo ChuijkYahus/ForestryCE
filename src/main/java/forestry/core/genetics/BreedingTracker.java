@@ -10,6 +10,7 @@ import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.network.packets.PacketGenomeTrackerSync;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -87,7 +88,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	}
 
 	@Override
-	public final CompoundTag save(CompoundTag nbt) {
+	public final CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
 		writeToNbt(nbt);
 		return nbt;
 	}
@@ -106,7 +107,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void readFromNbt(CompoundTag nbt) {
-		readValuesFromNBT(nbt, value -> this.discoveredSpecies.add(new ResourceLocation(value)), SPECIES_KEY);
+		readValuesFromNBT(nbt, value -> this.discoveredSpecies.add(ResourceLocation.parse(value)), SPECIES_KEY);
 		readValuesFromNBT(nbt, this.discoveredMutations::add, MUTATIONS_KEY);
 		readValuesFromNBT(nbt, this.researchedMutations::add, RESEARCHED_KEY);
 	}

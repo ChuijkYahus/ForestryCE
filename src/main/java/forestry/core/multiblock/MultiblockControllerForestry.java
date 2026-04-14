@@ -13,6 +13,7 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.owner.IOwnedTile;
 import forestry.core.owner.IOwnerHandler;
 import forestry.core.owner.OwnerHandler;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.WorldlyContainer;
@@ -81,14 +82,14 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 
 	/* INbtWritable */
 	@Override
-	public CompoundTag write(CompoundTag data) {
-        this.ownerHandler.write(data);
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
+        this.ownerHandler.write(data, registries);
 		return data;
 	}
 
 	@Override
-	public void read(CompoundTag data) {
-        this.ownerHandler.read(data);
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
+        this.ownerHandler.read(data, registries);
 	}
 
 	/* INVENTORY */

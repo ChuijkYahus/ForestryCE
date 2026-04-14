@@ -1,7 +1,10 @@
 package forestry.core.items.definitions;
 
 import forestry.api.ForestryTags;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.LazyLoadedValue;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -46,6 +49,11 @@ public enum ToolTier implements Tier {
 	@Override
 	public int getLevel() {
 		return this.level;
+	}
+
+	@Override
+	public TagKey<Block> getIncorrectBlocksForDrops() {
+		return BlockTags.INCORRECT_FOR_IRON_TOOL;
 	}
 
 	@Override

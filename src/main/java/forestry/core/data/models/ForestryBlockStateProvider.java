@@ -178,7 +178,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	}
 
 	public void generic3d(Block block, ResourceLocation otherParentId) {
-		itemModels().withExistingParent(path(block), new ResourceLocation(otherParentId.getNamespace(), "block/" + otherParentId.getPath()));
+		itemModels().withExistingParent(path(block), ResourceLocation.fromNamespaceAndPath(otherParentId.getNamespace(), "block/" + otherParentId.getPath()));
 	}
 
 	protected ModelFile existingMcBlock(String path) {
@@ -232,6 +232,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		itemModels().getBuilder(path)
 			.parent(new ModelFile.UncheckedModelFile(parentName))
-			.texture("layer0", new ResourceLocation(itemId.getNamespace(), "item/" + path));
+			.texture("layer0", ResourceLocation.fromNamespaceAndPath(itemId.getNamespace(), "item/" + path));
 	}
 }

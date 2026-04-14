@@ -64,9 +64,9 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 				ResourceLocation contentsTexture;
 
 				if (containedItem instanceof BlockItem && !(containedItem instanceof ItemNameBlockItem)) {
-					contentsTexture = new ResourceLocation(contained.getNamespace(), "block/" + contained.getPath());
+					contentsTexture = ResourceLocation.fromNamespaceAndPath(contained.getNamespace(), "block/" + contained.getPath());
 				} else {
-					contentsTexture = new ResourceLocation(contained.getNamespace(), "item/" + contained.getPath());
+					contentsTexture = ResourceLocation.fromNamespaceAndPath(contained.getNamespace(), "item/" + contained.getPath());
 				}
 
 				filledCrateModel(id, contentsTexture);
@@ -96,7 +96,7 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 					.customLoader(DynamicFluidContainerModelBuilder::begin)
 					.fluid(fluid.getFluid())
 					.end()
-					.parent(getExistingFile(new ResourceLocation("forge:item/bucket")));
+					.parent(getExistingFile(ResourceLocation.parse("forge:item/bucket")));
 			}
 		}
 

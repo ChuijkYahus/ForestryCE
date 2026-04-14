@@ -9,6 +9,7 @@ import forestry.core.errors.FakeErrorLogic;
 import forestry.core.owner.FakeOwnerHandler;
 import forestry.core.owner.IOwnerHandler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -117,12 +118,12 @@ public interface FakeMultiblockController extends IMultiblockControllerInternal,
 	}
 
 	@Override
-	default void read(CompoundTag CompoundNBT) {
+	default void read(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 	}
 
 	@Override
-	default CompoundTag write(CompoundTag CompoundNBT) {
-		return CompoundNBT;
+	default CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		return compoundNBT;
 	}
 
 	@Override

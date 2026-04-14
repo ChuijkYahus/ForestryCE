@@ -11,7 +11,7 @@ import thedarkcolour.modkit.data.MKTagsProvider;
 public class ForestryBackpackTagProvider {
 	public static void addTags(MKTagsProvider<Item> tags) {
 		tags.tag(ForestryTags.Items.MINER_ALLOW).addTags(
-			Tags.Items.OBSIDIAN,
+			Tags.Items.OBSIDIANS,
 			Tags.Items.ORES,
 			Tags.Items.DUSTS,
 			Tags.Items.GEMS,
@@ -28,12 +28,12 @@ public class ForestryBackpackTagProvider {
 		tags.tag(ForestryTags.Items.MINER_REJECT);
 
 		tags.tag(ForestryTags.Items.DIGGER_ALLOW).addTags(
-			Tags.Items.COBBLESTONE,
-			Tags.Items.GRAVEL,
-			Tags.Items.NETHERRACK,
-			Tags.Items.STONE,
-			Tags.Items.SANDSTONE,
-			Tags.Items.SAND,
+			Tags.Items.COBBLESTONES,
+			Tags.Items.GRAVELS,
+			Tags.Items.NETHERRACKS,
+			Tags.Items.STONES,
+			Tags.Items.SANDSTONE_BLOCKS,
+			Tags.Items.SANDS,
 			ItemTags.DIRT
 		);
 		tags.tag(ForestryTags.Items.DIGGER_ALLOW).add(
@@ -64,7 +64,7 @@ public class ForestryBackpackTagProvider {
 			Items.CACTUS,
 			Items.RED_MUSHROOM,
 			Items.BROWN_MUSHROOM,
-			Items.GRASS, //TODO tag
+			Items.SHORT_GRASS, //TODO tag
 			Items.PUMPKIN,
 			Items.MELON,
 			Items.GOLDEN_APPLE,
@@ -82,10 +82,10 @@ public class ForestryBackpackTagProvider {
 			Tags.Items.ENDER_PEARLS,
 			Tags.Items.FEATHERS,
 			ItemTags.FISHES,
-			Tags.Items.GUNPOWDER,
-			Tags.Items.LEATHER,
+			Tags.Items.GUNPOWDERS,
+			Tags.Items.LEATHERS,
 			Tags.Items.SLIMEBALLS,
-			Tags.Items.STRING
+			Tags.Items.STRINGS
 		);
 		tags.tag(ForestryTags.Items.HUNTER_ALLOW).add(
 			Items.BLAZE_POWDER,
@@ -132,15 +132,15 @@ public class ForestryBackpackTagProvider {
 		tags.tag(ForestryTags.Items.BUILDER_ALLOW).addTags(
 			Tags.Items.GLASS_PANES,
 			ItemTags.WOODEN_SLABS,
-			Tags.Items.STAINED_GLASS,
-			Tags.Items.STONE,
-			Tags.Items.SANDSTONE,
+			Tags.Items.GLASS_BLOCKS,
+			Tags.Items.STONES,
+			Tags.Items.SANDSTONE_BLOCKS,
 			ItemTags.PLANKS,
 			ItemTags.WOODEN_STAIRS,
 			ItemTags.WOODEN_SLABS,
 			ItemTags.WOODEN_FENCES,
 			ItemTags.WOODEN_TRAPDOORS,
-			Tags.Items.GLASS,
+			Tags.Items.GLASS_BLOCKS_COLORLESS,
 			Tags.Items.CHESTS,
 			ItemTags.WOODEN_DOORS,
 			ItemTags.FENCE_GATES,
