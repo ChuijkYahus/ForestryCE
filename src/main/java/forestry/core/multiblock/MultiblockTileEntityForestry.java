@@ -12,6 +12,7 @@ import forestry.core.tiles.IFilterSlotDelegate;
 import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
@@ -40,20 +41,20 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 	}
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
 
 		if (data.contains("owner")) {
 			CompoundTag ownerNbt = data.getCompound("owner");
 			this.owner = NBTUtilForestry.readGameProfile(ownerNbt);
 		}
 
-		getInternalInventory().read(data);
+		getInternalInventory().read(data, registries);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
 
 		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
@@ -61,7 +62,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 			data.put("owner", nbt);
 		}
 
-		getInternalInventory().write(data);
+		getInternalInventory().write(data, registries);
 	}
 
 	/* INVENTORY */

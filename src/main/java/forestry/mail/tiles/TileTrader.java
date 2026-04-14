@@ -60,24 +60,24 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	/* SAVING & LOADING */
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
 		CompoundTag nbt = new CompoundTag();
         this.address.write(nbt);
 		compoundNBT.put("address", nbt);
 
-        this.ownerHandler.write(compoundNBT);
+        this.ownerHandler.write(compoundNBT, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
 		if (compoundNBT.contains("address")) {
             this.address = new MailAddress(compoundNBT.getCompound("address"));
 		}
-        this.ownerHandler.read(compoundNBT);
+        this.ownerHandler.read(compoundNBT, registries);
 	}
 
 	/* NETWORK */

@@ -11,6 +11,7 @@ import forestry.core.owner.OwnerHandler;
 import forestry.core.utils.SpeciesUtil;
 import forestry.core.worldgen.FeatureBase;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -39,19 +40,19 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
         this.timesTicked = nbt.getInt("TT");
-		this.ownerHandler.read(nbt);
+		this.ownerHandler.read(nbt, registries);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		nbt.putInt("TT", this.timesTicked);
-		this.ownerHandler.write(nbt);
+		this.ownerHandler.write(nbt, registries);
 	}
 
 	@Override

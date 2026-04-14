@@ -28,6 +28,8 @@ import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -144,18 +146,28 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.contained.read(compoundNBT);
-        this.beeLogic.read(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
+        this.contained.read(compoundNBT, registries);
+        this.beeLogic.read(compoundNBT, registries);
 	}
 
 
 	@Override
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
+        this.contained.write(compoundNBT, registries);
+        this.beeLogic.write(compoundNBT, registries);
+	}
+
+	@Deprecated(forRemoval = true)
+	public void load(CompoundTag compoundNBT) {
+		loadAdditional(compoundNBT, getRegistries());
+	}
+
+	@Deprecated(forRemoval = true)
 	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.contained.write(compoundNBT);
-        this.beeLogic.write(compoundNBT);
+		saveAdditional(compoundNBT, getRegistries());
 	}
 
 	@Override
@@ -228,26 +240,26 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag nbt = super.getUpdateTag();
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag nbt = super.getUpdateTag(registries);
 		nbt.putBoolean("active", this.calmTime == 0);
-		this.beeLogic.write(nbt);
+		this.beeLogic.write(nbt, registries);
 		return nbt;
 	}
 
 	// todo wtf are these two methods (loading from NBT several times per packet)
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
 		setActive(tag.getBoolean("active"));
-		this.beeLogic.read(tag);
+		this.beeLogic.read(tag, registries);
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		super.onDataPacket(net, pkt);
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries) {
+		super.onDataPacket(net, pkt, registries);
 		CompoundTag nbt = pkt.getTag();
-		handleUpdateTag(nbt);
+		handleUpdateTag(nbt, registries);
 	}
 
 	@Override
@@ -325,6 +337,10 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	@Override
 	public BlockPos getCoordinates() {
 		return this.worldPosition;
+	}
+
+	private HolderLookup.Provider getRegistries() {
+		return this.level != null ? this.level.registryAccess() : RegistryAccess.EMPTY;
 	}
 
 	private record BeeTargetPredicate(IHiveTile hive) implements Predicate<LivingEntity> {

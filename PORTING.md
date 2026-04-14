@@ -334,3 +334,13 @@ To keep progress coherent across Codex sessions:
   - cleared the active `CoreFeatures`, `ForestryBiomeModifier`, and `CoreBlocks` front-edge compile failures, moving the compile front deeper into remaining core block/item signature drift
 - Current next blocker after the core worldgen and block registration cleanup slice:
   - compile failures are now front-loaded by older core block/item override and constructor migrations (`BlockStructure`, `BlockBase`, `ItemFluidContainerForestry`, `CorePaintings`, `EscritoireGameToken`), with broader client/model and serializer rewrites still behind them
+- Block-entity HolderLookup serialization cleanup:
+  - Ported `MultiblockTileEntityForestry`, `TileBeeHousingBase`, `TileHive`, `TileTreeContainer`, `TileSapling`, `TileCocoon`, and `TileTrader` onto the 1.21.1 `loadAdditional(...)` / `saveAdditional(...)` / update-tag hooks that take `HolderLookup.Provider`.
+  - Added compatibility bridges where Forestry still manually calls `load(tag)` or `saveAdditional(tag)` outside vanilla block-entity deserialization, so item-driven leaf/cocoon/tree reads still compile while the rest of the port catches up.
+  - Updated `MultiblockTileEntityBase` and `TileHive` to the current block-entity packet callback signature that carries the lookup provider.
+- Current verification command for the block-entity HolderLookup serialization cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "MultiblockTileEntityBase|MultiblockTileEntityForestry|TileTreeContainer|TileSapling|TileCocoon|TileTrader|TileBeeHousingBase|TileHive|ItemBlockLeaves|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct stale `super.load(...)`, old update-tag/on-data-packet overrides, and missing tree/cocoon compatibility-hook failures from the active block-entity serialization layer
+- Current next blocker after the block-entity HolderLookup serialization cleanup slice:
+  - compile failures are now front-loaded by remaining 1.21 block/item/core signature drift (`BlockStructure`, `BlockBase`, `ItemFluidContainerForestry`, `CorePaintings`, `EscritoireGameToken`) plus packet/mail buffer rewrites (`PacketItemStackDisplay`, trader mail packets, recipe transfer packets)

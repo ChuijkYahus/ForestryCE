@@ -8,6 +8,8 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.blocks.BlockCocoon;
 import forestry.lepidopterology.features.LepidopterologyTiles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
@@ -31,8 +33,8 @@ public class TileCocoon extends BlockEntity {
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
 		if (compoundNBT.contains("Caterpillar")) {
             this.caterpillar = SpeciesUtil.deserializeIndividual(SpeciesUtil.BUTTERFLY_TYPE.get(), compoundNBT.getCompound("Caterpillar"));
@@ -42,8 +44,8 @@ public class TileCocoon extends BlockEntity {
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
 		Tag tag = SpeciesUtil.serializeIndividual(this.caterpillar);
 		if (tag != null) {
@@ -52,6 +54,16 @@ public class TileCocoon extends BlockEntity {
 
 		compoundNBT.putInt("CATMAT", this.maturationTime);
 		compoundNBT.putBoolean("isSolid", this.isSolid);
+	}
+
+	@Deprecated(forRemoval = true)
+	public void load(CompoundTag compoundNBT) {
+		loadAdditional(compoundNBT, getRegistries());
+	}
+
+	@Deprecated(forRemoval = true)
+	public void saveAdditional(CompoundTag compoundNBT) {
+		saveAdditional(compoundNBT, getRegistries());
 	}
 
 	public void onBlockTick() {
@@ -93,5 +105,9 @@ public class TileCocoon extends BlockEntity {
 
 	public List<ItemStack> getCocoonDrops() {
 		return this.caterpillar.getCocoonDrop(this.isSolid, this.caterpillar.getGenome().getActiveValue(ButterflyChromosomes.COCOON));
+	}
+
+	private HolderLookup.Provider getRegistries() {
+		return this.level != null ? this.level.registryAccess() : RegistryAccess.EMPTY;
 	}
 }

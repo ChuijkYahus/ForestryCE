@@ -98,8 +98,8 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public final void onDataPacket(Connection network, ClientboundBlockEntityDataPacket packet) {
-		super.onDataPacket(network, packet);
+	public final void onDataPacket(Connection network, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider registries) {
+		super.onDataPacket(network, packet, registries);
 		CompoundTag nbtData = packet.getTag();
 		if (nbtData != null) {
             this.multiblockLogic.decodeDescriptionPacket(nbtData);

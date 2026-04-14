@@ -17,6 +17,7 @@ import forestry.core.tiles.TileBase;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -61,33 +62,33 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 
 	/* LOADING & SAVING */
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.beeLogic.write(compoundNBT);
-        this.ownerHandler.write(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
+        this.beeLogic.write(compoundNBT, registries);
+        this.ownerHandler.write(compoundNBT, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.beeLogic.read(compoundNBT);
-        this.ownerHandler.read(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
+        this.beeLogic.read(compoundNBT, registries);
+        this.ownerHandler.read(compoundNBT, registries);
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag updateTag = super.getUpdateTag();
-        this.beeLogic.write(updateTag);
-        this.ownerHandler.write(updateTag);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag updateTag = super.getUpdateTag(registries);
+        this.beeLogic.write(updateTag, registries);
+        this.ownerHandler.write(updateTag, registries);
 		return updateTag;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
-        this.beeLogic.read(tag);
-        this.ownerHandler.read(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
+        this.beeLogic.read(tag, registries);
+        this.ownerHandler.read(tag, registries);
 	}
 
 	@Override
