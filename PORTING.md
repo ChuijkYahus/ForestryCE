@@ -323,3 +323,14 @@ To keep progress coherent across Codex sessions:
   - cleared the direct arboriculture/cultivation constructor-reference and `BonemealableBlock` signature failures, moving the compile front past these block/item registration classes
 - Current next blocker after the arboriculture and cultivation block-constructor cleanup slice:
   - compile failures are now led by worldgen/core registration drift (`CoreFeatures`, `ForestryBiomeModifier`, `CoreBlocks`), plus broad remaining 1.21 item/gui/client/model signature changes and villager trade `ItemCost` migrations
+- Core worldgen and block registration cleanup:
+  - `CoreFeatures` and `ForestryBiomeModifier` now use NeoForge 1.21.1's `MapCodec`-backed biome modifier serializer registration instead of the old `Codec`-backed shape.
+  - `ForestryBiomeModifier` now builds its serializer with `RecordCodecBuilder.mapCodec(...)` and returns `MapCodec<? extends BiomeModifier>` from `codec()`.
+  - `CoreBlocks` now routes block-group enum arrays through `List.of(...)` so they match the current feature-registry `Collection<S>` overload, and ore/storage block property copies now use `BlockBehaviour.Properties.ofFullCopy(...)`.
+  - The apatite ore registrations were also updated to the 1.21.1 `DropExperienceBlock(IntProvider, Properties)` constructor order.
+- Current verification command for the core worldgen and block registration cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 1 "CoreFeatures|ForestryBiomeModifier|CoreBlocks|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the active `CoreFeatures`, `ForestryBiomeModifier`, and `CoreBlocks` front-edge compile failures, moving the compile front deeper into remaining core block/item signature drift
+- Current next blocker after the core worldgen and block registration cleanup slice:
+  - compile failures are now front-loaded by older core block/item override and constructor migrations (`BlockStructure`, `BlockBase`, `ItemFluidContainerForestry`, `CorePaintings`, `EscritoireGameToken`), with broader client/model and serializer rewrites still behind them
