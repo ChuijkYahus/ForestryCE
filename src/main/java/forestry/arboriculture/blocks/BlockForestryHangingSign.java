@@ -21,7 +21,7 @@ public class BlockForestryHangingSign extends CeilingHangingSignBlock implements
 	private final ForestryWoodType type;
 
 	public BlockForestryHangingSign(ForestryWoodType type) {
-		super(Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1f).ignitedByLava(), type.getWoodType());
+		super(type.getWoodType(), Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1f).ignitedByLava());
 
 		this.type = type;
 	}

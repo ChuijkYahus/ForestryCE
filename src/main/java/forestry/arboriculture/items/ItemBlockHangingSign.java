@@ -7,13 +7,14 @@ import forestry.arboriculture.blocks.BlockForestryHangingSign;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.HangingSignItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemBlockHangingSign extends HangingSignItem {
 	private final ForestryWoodType type;
 
-	public ItemBlockHangingSign(BlockForestryHangingSign block) {
-		super(block, ArboricultureBlocks.WALL_HANGING_SIGN.get(block.getWoodType()).block(), new Properties());
+	public ItemBlockHangingSign(BlockForestryHangingSign block, Item.Properties properties) {
+		super(block, ArboricultureBlocks.WALL_HANGING_SIGN.get(block.getWoodType()).block(), properties);
 
 		this.type = block.getWoodType();
 	}

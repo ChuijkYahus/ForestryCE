@@ -3,11 +3,12 @@ package forestry.cultivation.items;
 import forestry.core.items.ItemBlockForestry;
 import forestry.cultivation.blocks.BlockPlanter;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemBlockPlanter extends ItemBlockForestry<BlockPlanter> {
-	public ItemBlockPlanter(BlockPlanter block) {
-		super(block);
+	public ItemBlockPlanter(BlockPlanter block, Item.Properties properties) {
+		super(block, properties);
 	}
 
 	@Override

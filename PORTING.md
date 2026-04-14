@@ -313,3 +313,13 @@ To keep progress coherent across Codex sessions:
   - cleared the direct `ItemStack#getTag()` / `setTag()` compile failures from the active Forestry item/mail/leaves/butterfly helpers, leaving only unrelated signature drift in a few of the touched files
 - Current next blocker after the ItemStack custom-data follow-up cleanup slice:
   - compile failures are now front-loaded by worldgen and core registration drift (`CoreFeatures`, `ForestryBiomeModifier`, `CoreBlocks`), plus nearby 1.21 signature changes in `BlockStructure`, `BlockBase`, `ItemFluidContainerForestry`, and other item/gui/client override sites
+- Arboriculture and cultivation block-constructor cleanup:
+  - Updated Forestry arboriculture door, trapdoor, sign, wall sign, hanging sign, and wall hanging sign blocks to the 1.21.1 vanilla constructor order (`BlockSetType` / `WoodType` before `Properties`).
+  - Updated `BlockForestryLeaves` to the 1.21.1 `BonemealableBlock#isValidBonemealTarget(LevelReader, BlockPos, BlockState)` signature.
+  - Switched the affected Forestry block-item wrappers (`ItemBlockPlanter`, `ItemBlockLeaves`, `ItemBlockDecorativeLeaves`, `ItemBlockSign`, `ItemBlockHangingSign`) onto the feature registry's current `(block, Item.Properties)` constructor shape so the arboriculture/cultivation registration layer compiles again.
+- Current verification command for the arboriculture and cultivation block-constructor cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 1 "BlockForestryDoor|BlockForestryTrapdoor|BlockForestryStandingSign|BlockForestryWallSign|BlockForestryHangingSign|BlockForestryWallHangingSign|BlockForestryLeaves|ArboricultureBlocks|CultivationBlocks|ItemBlockPlanter|ItemBlockLeaves|ItemBlockDecorativeLeaves|ItemBlockSign|ItemBlockHangingSign|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct arboriculture/cultivation constructor-reference and `BonemealableBlock` signature failures, moving the compile front past these block/item registration classes
+- Current next blocker after the arboriculture and cultivation block-constructor cleanup slice:
+  - compile failures are now led by worldgen/core registration drift (`CoreFeatures`, `ForestryBiomeModifier`, `CoreBlocks`), plus broad remaining 1.21 item/gui/client/model signature changes and villager trade `ItemCost` migrations

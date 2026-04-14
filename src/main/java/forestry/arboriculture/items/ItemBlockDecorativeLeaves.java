@@ -17,8 +17,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 public class ItemBlockDecorativeLeaves extends ItemBlockForestry<BlockDecorativeLeaves> implements IColoredItem {
-	public ItemBlockDecorativeLeaves(BlockDecorativeLeaves block) {
-		super(block, new Item.Properties());
+	public ItemBlockDecorativeLeaves(BlockDecorativeLeaves block, Item.Properties properties) {
+		super(block, properties);
 	}
 
 	@Override

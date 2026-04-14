@@ -6,14 +6,15 @@ import forestry.arboriculture.WoodHelper;
 import forestry.arboriculture.blocks.BlockForestryStandingSign;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SignItem;
 
 public class ItemBlockSign extends SignItem {
 	private final ForestryWoodType type;
 
-	public ItemBlockSign(BlockForestryStandingSign block) {
-		super(new Properties(), block, ArboricultureBlocks.WALL_SIGN.get(block.getWoodType()).block());
+	public ItemBlockSign(BlockForestryStandingSign block, Item.Properties properties) {
+		super(properties, block, ArboricultureBlocks.WALL_SIGN.get(block.getWoodType()).block());
 
 		this.type = block.getWoodType();
 	}

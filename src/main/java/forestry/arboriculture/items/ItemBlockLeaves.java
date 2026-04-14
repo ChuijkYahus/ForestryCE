@@ -12,12 +12,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.FoliageColor;
 
 public class ItemBlockLeaves extends ItemBlockForestry<BlockAbstractLeaves> implements IColoredItem {
-	public ItemBlockLeaves(BlockAbstractLeaves block) {
-		super(block);
+	public ItemBlockLeaves(BlockAbstractLeaves block, Item.Properties properties) {
+		super(block, properties);
 	}
 
 	@Override
