@@ -6,23 +6,22 @@ import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.lepidopterology.features.LepidopterologyRecipes;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 public class ButterflyMatingRecipe extends CustomRecipe {
-	public ButterflyMatingRecipe(ResourceLocation id, CraftingBookCategory category) {
-		super(id, category);
+	public ButterflyMatingRecipe(CraftingBookCategory category) {
+		super(category);
 	}
 
 	@Override
-	public boolean matches(CraftingContainer grid, Level level) {
-		int containerSize = grid.getContainerSize();
+	public boolean matches(CraftingInput grid, Level level) {
+		int containerSize = grid.size();
 		boolean hasButterfly = false;
 		boolean hasSerum = false;
 
@@ -58,10 +57,10 @@ public class ButterflyMatingRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingContainer grid, RegistryAccess lookup) {
+	public ItemStack assemble(CraftingInput grid, HolderLookup.Provider lookup) {
 		IButterfly butterfly = null;
 		IIndividual serum = null;
-		int containerSize = grid.getContainerSize();
+		int containerSize = grid.size();
 
 		for (int i = 0; i < containerSize; i++) {
 			IIndividualHandlerItem handler = IIndividualHandlerItem.get(grid.getItem(i));

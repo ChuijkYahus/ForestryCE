@@ -6,6 +6,7 @@ import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.alleles.IRegistryChromosome;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.modules.features.FeatureItem;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

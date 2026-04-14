@@ -51,7 +51,7 @@ import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.features.FarmingBlocks;
 import forestry.lepidopterology.features.LepidopterologyItems;
-import forestry.lepidopterology.features.LepidopterologyRecipes;
+import forestry.lepidopterology.recipe.ButterflyMatingRecipe;
 import forestry.mail.blocks.BlockTypeMail;
 import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
@@ -85,6 +85,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -175,7 +176,7 @@ public class ForestryRecipeProvider {
 			recipe.define('#', goldElectronTube);
 			recipe.define('I', Tags.Items.INGOTS_IRON);
 			recipe.define('X', plain);
-			recipe.define('S', Tags.Items.STONE);
+			recipe.define('S', Tags.Items.STONES);
 			recipe.pattern("#I#");
 			recipe.pattern(" X ");
 			recipe.pattern("SSS");
@@ -183,7 +184,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HYGRO).block(), recipe -> {
-			recipe.define('G', Tags.Items.GLASS);
+			recipe.define('G', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', plain);
 			recipe.define('I', Tags.Items.INGOTS_IRON);
 			recipe.pattern("GIG");
@@ -272,7 +273,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.APIARIST_CHEST), recipe -> {
-			recipe.define('G', Tags.Items.GLASS);
+			recipe.define('G', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.BEE_COMBS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern(" G ");
@@ -293,7 +294,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureItems.FRAME_IMPREGNATED, recipe -> {
 			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.IMPREGNATED_STICK));
-			recipe.define('S', Tags.Items.STRING);
+			recipe.define('S', Tags.Items.STRINGS);
 			recipe.pattern("###");
 			recipe.pattern("#S#");
 			recipe.pattern("###");
@@ -301,7 +302,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureItems.FRAME_UNTREATED, recipe -> {
 			recipe.define('#', Tags.Items.RODS_WOODEN);
-			recipe.define('S', Tags.Items.STRING);
+			recipe.define('S', Tags.Items.STRINGS);
 			recipe.pattern("###");
 			recipe.pattern("#S#");
 			recipe.pattern("###");
@@ -334,7 +335,7 @@ public class ForestryRecipeProvider {
 			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('S', Tags.Items.RODS_WOODEN);
 			recipe.define('F', Items.FLINT_AND_STEEL);
-			recipe.define('L', Tags.Items.LEATHER);
+			recipe.define('L', Tags.Items.LEATHERS);
 			recipe.pattern("LS#");
 			recipe.pattern("LF#");
 			recipe.pattern("###");
@@ -360,8 +361,6 @@ public class ForestryRecipeProvider {
 
 		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
 
-		// todo remove in 1.21.1 when volcanic propolis is removed
-		recipes.shapelessCrafting("volcanic_propolis_to_phosphor", RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR), 1, ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC));
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
@@ -385,7 +384,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.ARBORIST_CHEST), recipe -> {
 			recipe.define('X', ItemTags.SAPLINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.pattern(" # ");
 			recipe.pattern("XYX");
 			recipe.pattern("XXX");
@@ -503,7 +502,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.ADVENTURER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Tags.Items.BONES);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -513,7 +512,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.BUILDER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Items.CLAY_BALL);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -522,8 +521,8 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.DIGGER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
-			recipe.define('V', Tags.Items.STONE);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('V', Tags.Items.STONES);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -533,7 +532,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.FORESTER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', ItemTags.LOGS);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -543,7 +542,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.HUNTER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Tags.Items.FEATHERS);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -553,7 +552,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.MINER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Tags.Items.INGOTS_IRON);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -570,7 +569,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, backpack, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Tags.Items.RODS_WOODEN);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', chest);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -815,7 +814,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting("beeswax_candles", RecipeCategory.MISC, Items.CANDLE, 1, recipe -> {
-			recipe.define('|', Tags.Items.STRING);
+			recipe.define('|', Tags.Items.STRINGS);
 			recipe.define('^', CoreItems.BEESWAX);
 			recipe.pattern(" | ");
 			recipe.pattern(" ^ ");
@@ -869,7 +868,7 @@ public class ForestryRecipeProvider {
 			Block manual = CultivationBlocks.MANUAL_PLANTER.get(planter).block();
 
 			recipes.shapedCrafting(RecipeCategory.MISC, managed, recipe -> {
-				recipe.define('G', Tags.Items.GLASS);
+				recipe.define('G', Tags.Items.GLASS_BLOCKS_COLORLESS);
 				recipe.define('T', CoreItems.ELECTRON_TUBES.get(getElectronTube(planter)));
 				recipe.define('C', CoreItems.FLEXIBLE_CASING);
 				recipe.define('B', CoreItems.CIRCUITBOARDS.get(EnumCircuitBoardType.BASIC));
@@ -884,7 +883,7 @@ public class ForestryRecipeProvider {
 
 	private static void registerFactoryRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.BOTTLER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', FluidsItems.CONTAINERS.get(EnumContainerType.CAN));
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -893,7 +892,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -902,7 +901,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.INGOTS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -911,7 +910,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.INGOTS_GOLD);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.define('Z', Tags.Items.CHESTS_WOODEN);
@@ -921,7 +920,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.FERMENTER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.GEARS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -930,7 +929,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -939,7 +938,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.GEARS_TIN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -948,7 +947,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.RAINTANK).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.INGOTS_IRON);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -957,7 +956,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -966,7 +965,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.DUSTS_REDSTONE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -1002,7 +1001,7 @@ public class ForestryRecipeProvider {
 			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.VALVE, material), recipe -> {
 				recipe.define('T', ForestryTags.Items.GEARS_TIN);
 				recipe.define('#', base);
-				recipe.define('X', Tags.Items.GLASS);
+				recipe.define('X', Tags.Items.GLASS_BLOCKS_COLORLESS);
 				recipe.pattern(" # ");
 				recipe.pattern("XTX");
 			});
@@ -1032,19 +1031,19 @@ public class ForestryRecipeProvider {
 
 	private static void registerLepidopterologyRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', LepidopterologyItems.BUTTERFLY_GE);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern(" # ");
 			recipe.pattern("XYX");
 			recipe.pattern("XXX");
 		});
-		recipes.special("butterfly_mating", LepidopterologyRecipes.MATING_SERIALIZER);
+		recipes.special("butterfly_mating", category -> new ButterflyMatingRecipe(category));
 	}
 
 	private static void registerMailRecipes(MKRecipeProvider recipes) {
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.CATALOGUE, 1, Items.BOOK, ForestryTags.Items.STAMPS);
-		Ingredient sealant = Ingredient.merge(List.of(Ingredient.of(ForestryTags.Items.PROPOLIS), Ingredient.of(Tags.Items.SLIMEBALLS)));
+		Ingredient sealant = CompoundIngredient.of(Ingredient.of(ForestryTags.Items.PROPOLIS), Ingredient.of(Tags.Items.SLIMEBALLS));
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH), 1, Items.PAPER, sealant);
 
 		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.MAILBOX).block(), recipe -> {
@@ -1077,10 +1076,10 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XWX");
 		});
 
-		Ingredient glue = Ingredient.merge(List.of(
+		Ingredient glue = CompoundIngredient.of(
 			Ingredient.of(ForestryTags.Items.DROP_HONEY),
 			Ingredient.of(Items.SLIME_BALL)
-		));
+		);
 
 		for (EnumStampDefinition stampDefinition : EnumStampDefinition.VALUES) {
 			recipes.shapedCrafting(RecipeCategory.MISC, MailItems.STAMPS.get(stampDefinition), 9, recipe -> {
@@ -1095,14 +1094,17 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerSortingRecipes(MKRecipeProvider recipes) {
-		Ingredient ing = Ingredient.merge(List.of(Ingredient.of(LepidopterologyItems.CATERPILLAR_GE, ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)), Ingredient.of(ForestryTags.Items.FORESTRY_FRUITS)));
+		Ingredient ing = CompoundIngredient.of(
+			Ingredient.of(LepidopterologyItems.CATERPILLAR_GE, ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)),
+			Ingredient.of(ForestryTags.Items.FORESTRY_FRUITS)
+		);
 
 		recipes.shapedCrafting(RecipeCategory.MISC, SortingBlocks.FILTER.block(), 2, recipe -> {
 			recipe.define('B', ForestryTags.Items.GEARS_BRONZE);
 			recipe.define('D', Tags.Items.GEMS_DIAMOND);
 			recipe.define('F', ing);
 			recipe.define('W', ItemTags.PLANKS);
-			recipe.define('G', Tags.Items.GLASS);
+			recipe.define('G', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.pattern("WDW");
 			recipe.pattern("FGF");
 			recipe.pattern("BDB");
@@ -1123,7 +1125,7 @@ public class ForestryRecipeProvider {
 	private static void registerEnergyRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK), recipe -> {
 			recipe.define('P', ItemTags.PLANKS);
-			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('Q', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('D', Items.PISTON);
 			recipe.define('C', Items.CLOCK);
@@ -1134,7 +1136,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS), recipe -> {
 			recipe.define('P', ForestryTags.Items.INGOTS_BRONZE);
-			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('Q', ForestryTags.Items.GEARS_BRONZE);
 			recipe.define('D', Items.PISTON);
 			recipe.pattern("PPP");
@@ -1144,7 +1146,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.PEAT), recipe -> {
 			recipe.define('P', Tags.Items.INGOTS_COPPER);
-			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('Q', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('D', Items.PISTON);
 			recipe.pattern("PPP");
@@ -1207,7 +1209,7 @@ public class ForestryRecipeProvider {
 				.pattern("XYX")
 				.pattern("#X#")
 				.define('#', Items.DIRT)
-				.define('X', Tags.Items.SAND)
+				.define('X', Tags.Items.SANDS)
 				.define('Y', CoreItems.MULCH))
 			.build(consumer, id("carpenter", "bog_earth"));
 		new CarpenterRecipeBuilder()
@@ -1518,10 +1520,10 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_SPRUCE_LOG.get(), Ingredient.of(Items.SPRUCE_LOG));
 		crate(consumer, CrateItems.CRATED_ACACIA_LOG.get(), Ingredient.of(Items.ACACIA_LOG));
 		crate(consumer, CrateItems.CRATED_DARK_OAK_LOG.get(), Ingredient.of(Items.DARK_OAK_LOG));
-		crate(consumer, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONE));
+		crate(consumer, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONES));
 		crate(consumer, CrateItems.CRATED_DIRT.get(), Ingredient.of(Items.DIRT));
 		crate(consumer, CrateItems.CRATED_GRASS_BLOCK.get(), Ingredient.of(Items.GRASS_BLOCK));
-		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Tags.Items.STONE));
+		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Tags.Items.STONES));
 		crate(consumer, CrateItems.CRATED_GRANITE.get(), Ingredient.of(Items.GRANITE));
 		crate(consumer, CrateItems.CRATED_DIORITE.get(), Ingredient.of(Items.DIORITE));
 		crate(consumer, CrateItems.CRATED_ANDESITE.get(), Ingredient.of(Items.ANDESITE));
@@ -1532,13 +1534,13 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_CACTUS.get(), Ingredient.of(Items.CACTUS));
 		crate(consumer, CrateItems.CRATED_SAND.get(), Ingredient.of(Items.SAND));
 		crate(consumer, CrateItems.CRATED_RED_SAND.get(), Ingredient.of(Items.RED_SAND));
-		crate(consumer, CrateItems.CRATED_OBSIDIAN.get(), Ingredient.of(Tags.Items.OBSIDIAN));
-		crate(consumer, CrateItems.CRATED_NETHERRACK.get(), Ingredient.of(Tags.Items.NETHERRACK));
+		crate(consumer, CrateItems.CRATED_OBSIDIAN.get(), Ingredient.of(Tags.Items.OBSIDIANS));
+		crate(consumer, CrateItems.CRATED_NETHERRACK.get(), Ingredient.of(Tags.Items.NETHERRACKS));
 		crate(consumer, CrateItems.CRATED_SOUL_SAND.get(), Ingredient.of(Items.SOUL_SAND));
-		crate(consumer, CrateItems.CRATED_SANDSTONE.get(), Ingredient.of(Tags.Items.SANDSTONE));
+		crate(consumer, CrateItems.CRATED_SANDSTONE.get(), Ingredient.of(Tags.Items.SANDSTONE_BLOCKS));
 		crate(consumer, CrateItems.CRATED_NETHER_BRICKS.get(), Ingredient.of(Items.NETHER_BRICKS));
 		crate(consumer, CrateItems.CRATED_MYCELIUM.get(), Ingredient.of(Items.MYCELIUM));
-		crate(consumer, CrateItems.CRATED_GRAVEL.get(), Ingredient.of(Tags.Items.GRAVEL));
+		crate(consumer, CrateItems.CRATED_GRAVEL.get(), Ingredient.of(Tags.Items.GRAVELS));
 		crate(consumer, CrateItems.CRATED_OAK_SAPLING.get(), Ingredient.of(Items.OAK_SAPLING));
 		crate(consumer, CrateItems.CRATED_BIRCH_SAPLING.get(), Ingredient.of(Items.BIRCH_SAPLING));
 		crate(consumer, CrateItems.CRATED_JUNGLE_SAPLING.get(), Ingredient.of(Items.JUNGLE_SAPLING));
@@ -2278,6 +2280,6 @@ public class ForestryRecipeProvider {
 	}
 
 	private static ResourceLocation id(String... path) {
-		return new ResourceLocation("forestry", String.join("/", path));
+		return ResourceLocation.fromNamespaceAndPath("forestry", String.join("/", path));
 	}
 }
