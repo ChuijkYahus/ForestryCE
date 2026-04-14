@@ -346,7 +346,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		ForestryEvent.BeeMatingEvent event = new ForestryEvent.BeeMatingEvent(this.housing, princess, drone);
 
-		if (NeoForge.EVENT_BUS.post(event)) {
+		if (NeoForge.EVENT_BUS.post(event).isCanceled()) {
 			princess.setMate(originalMate);
 			this.beeProgress = 0;
 			return;

@@ -16,8 +16,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemGrafter extends ItemForestry implements IToolGrafter {
@@ -26,8 +24,8 @@ public class ItemGrafter extends ItemForestry implements IToolGrafter {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
-		super.appendHoverText(stack, world, tooltip, advanced);
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag advanced) {
+		super.appendHoverText(stack, context, tooltip, advanced);
 		if (!stack.isDamaged()) {
 			tooltip.add(Component.translatable("item.forestry.uses", stack.getMaxDamage() + 1).withStyle(ChatFormatting.GRAY));
 		}
@@ -50,7 +48,7 @@ public class ItemGrafter extends ItemForestry implements IToolGrafter {
 	@Override
 	public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity entity) {
 		if (!world.isClientSide && !state.is(BlockTags.FIRE)) {
-			stack.hurtAndBreak(1, entity, living -> living.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+			stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
 		}
 		return state.is(BlockTags.LEAVES);
 	}

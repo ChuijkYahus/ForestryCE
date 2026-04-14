@@ -132,6 +132,11 @@ To keep progress coherent across Codex sessions:
   - `RecipeUtils` now treats Forestry machine recipe types as `IForestryRecipe` lookups, fixes the fabricator melting lookup against `IFabricatorSmeltingRecipe`, and restores distinct fluid-filter helpers for `FluidIngredient`, `FluidStack`, and plain `Fluid` outputs.
   - Forestry machine recipe implementations now use the 1.21.1 `getResultItem(HolderLookup.Provider)` signature, and `FabricatorSmeltingRecipe.Serializer` now exposes `codec()` / `streamCodec()` with `RegistryFriendlyByteBuf`.
   - This clears the active `IForestryRecipe`, `RecipeUtils`, and filtered machine-recipe signature failures from the compile output.
+- Item/menu/block interaction signature cleanup:
+  - `ItemWithGui` and backpack item menus now open through `ServerPlayer.openMenu(...)` with `RegistryFriendlyByteBuf` extra data instead of removed `NetworkHooks` helpers.
+  - `BlockBase`, `BlockStructure`, and `BlockGeneticFilter` now use the split 1.21.1 block interaction hooks (`useWithoutItem(...)` / `useItemOn(...)`) instead of the removed monolithic `use(...)` override.
+  - Forestry item tooltip, armor-texture, use-duration, event-bus, and break-callback callers were updated for 1.21.1 in `ItemFluidContainerForestry`, `ItemSpectacles`, `ItemCircuitBoard`, `ItemBlockFarm`, `ItemLetter`, `ItemGrafter`, `ItemFruit`, `ContainerSocketedHelper`, `ItemBackpack`, `BackpackResupplyHandler`, and `BeekeepingLogic`.
+  - This clears the direct compile failures in those item/menu/block interaction files from the filtered compile.
 
 ## Next Work Plan
 
@@ -218,6 +223,12 @@ To keep progress coherent across Codex sessions:
   - compile failures are now front-loaded by loot function serializer rewrites (`OrganismFunction`, `CountBlockFunction`), client/api moves like `TextureStitchEvent`, `PotionUtils`, `ForgeEventFactory`, `ForgeMod`, and broader Mojang-side 1.21 item/NBT/stream signature changes
 - Current verification command for the item/mob effect/client signature cleanup slice:
   - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemElectronTube|ItemPipette|PotionBeeEffect|PotionBeeEffectExclusive|AscensionBeeEffect|GuardianBeeEffect|IgnitionBeeEffect|DefaultForestryPlugin|EventHandlerCore|BlockForestryFluid|ModUtil|DefaultForestryClientRegistration|EntityUtil|error:"`
+- Current verification command for the item/menu/block interaction signature cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemWithGui|ItemBackpack|ItemBackpackNaturalist|BackpackResupplyHandler|BeekeepingLogic|ItemFluidContainerForestry|ItemSpectacles|ItemCircuitBoard|ItemBlockFarm|ItemLetter|ItemGrafter|ItemFruit|ContainerSocketedHelper|BlockBase|BlockStructure|BlockGeneticFilter|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct removed `NetworkHooks`, old block `use(...)`, tooltip signature, `getUseDuration(...)`, event-bus boolean-return, and `hurtAndBreak(...)` callback failures in the active Forestry item/menu/block interaction files
+- Current next blocker after the item/menu/block interaction signature cleanup slice:
+  - compile failures are now led by `ItemPipette` fluid-handler storage migration, `ResourceLocation` constructor removals, painting/worldgen structure API changes, packet/item-stack codec rewrites, and broader client/model signature changes
 - Compile family reduced by the latest slice:
   - cleared the direct tooltip-signature, holder-based mob effect, `ResourceLocation` constructor, `LiquidBlock`, and `EntityUtil#finalizeSpawn(...)` failures from the filtered compile
 - Current verification command for the compat/client resource lookup cleanup slice:

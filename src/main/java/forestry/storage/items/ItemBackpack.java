@@ -18,7 +18,7 @@ import forestry.storage.inventory.ItemInventoryBackpack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -60,9 +60,9 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	}
 
 	@Override
-	protected void writeContainerData(ServerPlayer player, ItemStack stack, FriendlyByteBuf buffer) {
+	protected void writeContainerData(ServerPlayer player, ItemStack stack, RegistryFriendlyByteBuf buffer) {
 		NetworkUtil.writeEnum(buffer, this.type == EnumBackpackType.WOVEN ? ContainerBackpack.Size.T2 : ContainerBackpack.Size.DEFAULT);
-		buffer.writeItem(stack);
+		ItemStack.STREAM_CODEC.encode(buffer, stack);
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 		ItemBackpack backpack = (ItemBackpack) backpackStack.getItem();
 		ItemInventory inventory = new ItemInventoryBackpack(player, backpack.getBackpackSize(), backpackStack);
 
-		if (NeoForge.EVENT_BUS.post(new BackpackStowEvent(player, backpack.getDefinition(), inventory, stack))) {
+		if (NeoForge.EVENT_BUS.post(new BackpackStowEvent(player, backpack.getDefinition(), inventory, stack)).isCanceled()) {
 			return;
 		}
 		if (stack.isEmpty()) {
@@ -181,8 +181,8 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
+	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(itemstack, context, list, flag);
 
 		int occupied = ItemInventory.getOccupiedSlotCount(itemstack);
 

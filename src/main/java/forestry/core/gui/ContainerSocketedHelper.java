@@ -80,7 +80,7 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 
         this.tile.setSocket(slot, ItemStack.EMPTY);
 		InventoryUtil.stowInInventory(socket, player.getInventory(), true);
-		itemstack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));    //TODO onBreak
+		itemstack.hurtAndBreak(1, player, player.getUsedItemHand() == net.minecraft.world.InteractionHand.MAIN_HAND ? net.minecraft.world.entity.EquipmentSlot.MAINHAND : net.minecraft.world.entity.EquipmentSlot.OFFHAND);    //TODO onBreak
 		player.inventoryMenu.broadcastChanges();
 
 		PacketSocketUpdate packet = PacketSocketUpdate.create(this.tile);

@@ -63,9 +63,4 @@ public class ItemFruit extends ItemForestryFood {
 		return this.type;
 	}
 
-
-	@Override
-	public boolean canBeDepleted() {
-		return false;
-	}
 }

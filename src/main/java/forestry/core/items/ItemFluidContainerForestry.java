@@ -104,7 +104,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 	protected DrinkProperties getDrinkProperties(ItemStack itemStack) {
 		FluidStack contained = getContained(itemStack);
 		if (!contained.isEmpty()) {
-			ForestryFluids definition = ForestryFluids.getFluidDefinition(contained);
+			ForestryFluids definition = ForestryFluids.getFluidDefinition(contained.getFluid());
 			if (definition != null) {
 				return definition.getDrinkProperties();
 			}
@@ -113,12 +113,12 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 	}
 
 	@Override
-	public int getUseDuration(ItemStack itemstack) {
+	public int getUseDuration(ItemStack itemstack, LivingEntity entity) {
 		DrinkProperties drinkProperties = getDrinkProperties(itemstack);
 		if (drinkProperties != null) {
 			return drinkProperties.getMaxItemUseDuration();
 		} else {
-			return super.getUseDuration(itemstack);
+			return super.getUseDuration(itemstack, entity);
 		}
 	}
 

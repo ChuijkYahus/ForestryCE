@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -27,8 +28,8 @@ public abstract class BlockStructure extends BlockForestry {
 	protected long previousMessageTick = 0;
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand hand, BlockHitResult hit) {
-		if (playerIn.isShiftKeyDown()) { //isSneaking
+	protected InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player playerIn, BlockHitResult hit) {
+		if (playerIn.isShiftKeyDown()) {
 			return InteractionResult.PASS;
 		}
 
@@ -37,21 +38,15 @@ public abstract class BlockStructure extends BlockForestry {
 			return InteractionResult.FAIL;
 		}
 		IMultiblockController controller = part.getMultiblockLogic().getController();
-
-		ItemStack heldItem = playerIn.getItemInHand(hand);
-		// If the player's hands are empty and they right-click on a multiblock, they get a
-		// multiblock-debugging message if the machine is not assembled.
-		if (heldItem.isEmpty()) {
-			if (!controller.isAssembled()) {
-				String validationError = controller.getLastValidationError();
-				if (validationError != null) {
-					long tick = worldIn.getGameTime();
-					if (tick > this.previousMessageTick + 20) {
-						playerIn.sendSystemMessage(Component.literal(validationError));
-                        this.previousMessageTick = tick;
-					}
-					return InteractionResult.SUCCESS;
+		if (!controller.isAssembled()) {
+			String validationError = controller.getLastValidationError();
+			if (validationError != null) {
+				long tick = worldIn.getGameTime();
+				if (tick > this.previousMessageTick + 20) {
+					playerIn.sendSystemMessage(Component.literal(validationError));
+					this.previousMessageTick = tick;
 				}
+				return InteractionResult.SUCCESS;
 			}
 		}
 
@@ -64,6 +59,13 @@ public abstract class BlockStructure extends BlockForestry {
 			part.openGui((ServerPlayer) playerIn, pos);
 		}
 		return InteractionResult.SUCCESS;
+	}
+
+	@Override
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand hand, BlockHitResult hit) {
+		return useWithoutItem(state, worldIn, pos, playerIn, hit).consumesAction()
+			? ItemInteractionResult.sidedSuccess(worldIn.isClientSide)
+			: ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Override

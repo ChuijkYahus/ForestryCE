@@ -13,8 +13,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -97,26 +99,29 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 		return definition.getShape(state, reader, pos, context);
 	}
 
-	/* INTERACTION */
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand hand, BlockHitResult hit) {
+	protected InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player playerIn, BlockHitResult hit) {
 		TileBase tile = TileUtil.getTile(worldIn, pos, TileBase.class);
 		if (tile == null) {
 			return InteractionResult.PASS;
 		}
 		if (TileUtil.isUsableByPlayer(playerIn, tile)) {
-			if (!playerIn.isShiftKeyDown()) {
-				if (FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, hit.getDirection())) {
-					return InteractionResult.sidedSuccess(worldIn.isClientSide);
-				}
-			}
-
 			if (!worldIn.isClientSide) {
 				ServerPlayer sPlayer = (ServerPlayer) playerIn;
-				tile.openGui(sPlayer, hand, pos);
+				tile.openGui(sPlayer, InteractionHand.MAIN_HAND, pos);
 			}
 		}
 		return InteractionResult.SUCCESS;
+	}
+
+	@Override
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand hand, BlockHitResult hit) {
+		if (!playerIn.isShiftKeyDown() && FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, hit.getDirection())) {
+			return ItemInteractionResult.sidedSuccess(worldIn.isClientSide);
+		}
+		return useWithoutItem(state, worldIn, pos, playerIn, hit).consumesAction()
+			? ItemInteractionResult.sidedSuccess(worldIn.isClientSide)
+			: ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Nullable

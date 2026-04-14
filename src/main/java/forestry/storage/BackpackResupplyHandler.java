@@ -36,7 +36,7 @@ public class BackpackResupplyHandler {
 					ItemInventory backpackInventory = new ItemInventoryBackpack(player, backpackItem.getBackpackSize(), backpack);
 
 					Event event = new BackpackResupplyEvent(player, backpackItem.getDefinition(), backpackInventory);
-					if (!NeoForge.EVENT_BUS.post(event)) {
+					if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {
 						for (int i = 0; i < backpackInventory.getContainerSize(); i++) {
 							ItemStack itemStack = backpackInventory.getItem(i);
 							if (topOffPlayerInventory(player, itemStack)) {

@@ -3,7 +3,7 @@ package forestry.storage.items;
 import forestry.api.storage.EnumBackpackType;
 import forestry.api.storage.IBackpackDefinition;
 import forestry.storage.gui.ContainerNaturalistBackpack;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +20,7 @@ public class ItemBackpackNaturalist extends ItemBackpack {
 	}
 
 	@Override
-	protected void writeContainerData(ServerPlayer player, ItemStack stack, FriendlyByteBuf buffer) {
+	protected void writeContainerData(ServerPlayer player, ItemStack stack, RegistryFriendlyByteBuf buffer) {
 		buffer.writeByte(0);
 		buffer.writeResourceLocation(this.typeId);
 	}

@@ -1,7 +1,7 @@
 package forestry.core.items;
 
 import forestry.core.gui.ContainerItemInventory;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -31,14 +31,14 @@ public abstract class ItemWithGui extends ItemForestry {
 	}
 
 	protected void openGui(ServerPlayer serverPlayer, ItemStack heldItem) {
-		NetworkHooks.openScreen(serverPlayer, getMenuProvider(heldItem), buffer -> writeContainerData(serverPlayer, heldItem, buffer));
+		serverPlayer.openMenu(getMenuProvider(heldItem), buffer -> writeContainerData(serverPlayer, heldItem, buffer));
 	}
 
 	public SimpleMenuProvider getMenuProvider(ItemStack heldItem) {
 		return new SimpleMenuProvider((windowId, playerInv, player) -> getContainer(windowId, player, heldItem), heldItem.getHoverName());
 	}
 
-	protected void writeContainerData(ServerPlayer player, ItemStack stack, FriendlyByteBuf buffer) {
+	protected void writeContainerData(ServerPlayer player, ItemStack stack, RegistryFriendlyByteBuf buffer) {
 		buffer.writeBoolean(player.getUsedItemHand() == InteractionHand.MAIN_HAND);
 	}
 
