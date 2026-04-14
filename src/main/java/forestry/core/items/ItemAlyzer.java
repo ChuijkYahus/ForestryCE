@@ -2,6 +2,7 @@ package forestry.core.items;
 
 import forestry.core.gui.ContainerAlyzer;
 import forestry.core.inventory.ItemInventoryAlyzer;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -24,7 +25,7 @@ public class ItemAlyzer extends ItemWithGui {
 	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag advanced) {
 		super.appendHoverText(stack, context, tooltip, advanced);
 		int charges = 0;
-		CompoundTag compound = stack.getTag();
+		CompoundTag compound = NBTUtilForestry.getItemStackTag(stack);
 		if (compound != null) {
 			charges = compound.getInt("Charges");
 		}

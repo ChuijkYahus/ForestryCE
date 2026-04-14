@@ -7,6 +7,7 @@ import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.mail.IWatchable;
 import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
@@ -70,7 +71,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 		letter.invalidatePostage();
 		CompoundTag compoundNBT = new CompoundTag();
 		letter.write(compoundNBT);
-		letterstack.setTag(compoundNBT);
+		NBTUtilForestry.setItemStackTag(letterstack, compoundNBT);
 
 		this.setDirty();
 
@@ -84,7 +85,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 			if (this.letters.getItem(i).isEmpty()) {
 				continue;
 			}
-			CompoundTag tagCompound = this.letters.getItem(i).getTag();
+			CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(this.letters.getItem(i));
 			if (tagCompound != null) {
 				ILetter letter = new Letter(tagCompound);
 				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.get())) {

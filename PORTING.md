@@ -303,3 +303,13 @@ To keep progress coherent across Codex sessions:
   - cleared the direct `RecipeHolder`/`.value()` fallout in Forestry recipe helpers and machine callers, plus the current JEI fluid-slot overload and fake-crafting-input breakage
 - Current next blocker after the recipe holder and JEI fluid API cleanup slice:
   - compile failures are now led by worldgen/core registration drift (`CoreFeatures`, `ForestryBiomeModifier`, `CoreBlocks`), the remaining factory recipe serializer `streamCodec()` rewrites, and broader 1.21 block/item/client signature changes
+- ItemStack custom-data follow-up cleanup:
+  - Ported the remaining direct Forestry `ItemStack#getTag()` / `setTag()` callers in the active compile path onto `NBTUtilForestry` custom-data helpers, including `ItemInventory`, `ItemAlyzer`, `CircuitManager`, `ItemCircuitBoard`, `BackpackDefinition`, butterfly cocoon age handling, mail letter serialization helpers/inventories, PO box / trade-station mail writes, and leaf item/model tree payload reads.
+  - Fixed the writeback semantics for mutable item custom data in the touched files so copied `CUSTOM_DATA` payloads are explicitly written back to the owning `ItemStack` after mutation instead of silently editing detached tags.
+  - This clears the remaining direct item-custom-data compile failures from `ItemInventory`, `ItemAlyzer`, and the related mail/arboriculture/lepidopterology helper classes that still assumed pre-1.21 root tag mutability.
+- Current verification command for the ItemStack custom-data follow-up cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "ItemInventory|ItemAlyzer|ItemCircuitBoard|CircuitManager|BackpackDefinition|ItemButterflyGE|BlockCocoon|ItemInventoryLetter|ItemLetter|LetterProperties|LetterUtils|POBox|TradeStation|ItemBlockLeaves|ModelLeaves|getTag\\(|setTag\\(|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `ItemStack#getTag()` / `setTag()` compile failures from the active Forestry item/mail/leaves/butterfly helpers, leaving only unrelated signature drift in a few of the touched files
+- Current next blocker after the ItemStack custom-data follow-up cleanup slice:
+  - compile failures are now front-loaded by worldgen and core registration drift (`CoreFeatures`, `ForestryBiomeModifier`, `CoreBlocks`), plus nearby 1.21 signature changes in `BlockStructure`, `BlockBase`, `ItemFluidContainerForestry`, and other item/gui/client override sites

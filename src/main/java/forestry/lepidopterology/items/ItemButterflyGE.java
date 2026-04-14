@@ -10,6 +10,7 @@ import forestry.core.genetics.ItemGE;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.EntityUtil;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.SpeciesUtil;
 import forestry.core.utils.TreeUtil;
 import forestry.lepidopterology.entities.EntityButterfly;
@@ -129,7 +130,7 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 		if (SpeciesUtil.BUTTERFLY_TYPE.get().getLifeStage(cocoon) != ButterflyLifeStage.COCOON) {
 			return 0;
 		}
-		CompoundTag tagCompound = cocoon.getTag();
+		CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(cocoon);
 		if (tagCompound == null) {
 			return 0;
 		}

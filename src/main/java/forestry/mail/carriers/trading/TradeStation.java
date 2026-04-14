@@ -234,7 +234,7 @@ public class TradeStation implements ITradeStation {
 		mail.write(compoundNBT);
 
 		ItemStack mailstack = LetterProperties.createStampedLetterStack(mail);
-		mailstack.setTag(compoundNBT);
+		NBTUtilForestry.setItemStackTag(mailstack, compoundNBT);
 
 		IPostalState responseState = PostOffice.getOrCreate(world).lodgeLetter(world, mailstack, doLodge);
 
@@ -279,7 +279,7 @@ public class TradeStation implements ITradeStation {
 			confirm.write(compoundNBT);
 
 			ItemStack confirmstack = LetterProperties.createStampedLetterStack(confirm);
-			confirmstack.setTag(compoundNBT);
+			NBTUtilForestry.setItemStackTag(confirmstack, compoundNBT);
 
 			PostOffice.getOrCreate(world).lodgeLetter(world, confirmstack, doLodge);
 

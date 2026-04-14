@@ -1,6 +1,8 @@
 package forestry.mail;
 
 import forestry.api.mail.ILetter;
+import forestry.core.utils.NBTUtilForestry;
+import net.minecraft.nbt.CompoundTag;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.ItemLetter;
 import net.minecraft.world.item.Item;
@@ -38,8 +40,12 @@ public class LetterProperties {
 			case EMPTIED:
 		}
 		ItemStack ret = MailItems.LETTERS.stack(size, state, parent.getCount());
-		ret.setTag(parent.getTag());
-		letter.write(parent.getTag());
+		CompoundTag tag = NBTUtilForestry.getItemStackTag(parent);
+		if (tag == null) {
+			tag = new CompoundTag();
+		}
+		letter.write(tag);
+		NBTUtilForestry.setItemStackTag(ret, tag);
 		return ret;
 	}
 
@@ -53,7 +59,10 @@ public class LetterProperties {
 		if (state == ItemLetter.State.FRESH || state == ItemLetter.State.STAMPED) {
 			ItemLetter.Size size = itemLetter.getSize();
 			ItemStack ret = MailItems.LETTERS.stack(size, state, parent.getCount());
-			ret.setTag(parent.getTag());
+			CompoundTag tag = NBTUtilForestry.getItemStackTag(parent);
+			if (tag != null) {
+				NBTUtilForestry.setItemStackTag(ret, tag);
+			}
 			return ret;
 		} else {
 			return parent;

@@ -7,6 +7,7 @@ import forestry.api.circuits.ICircuitLayout;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.IColoredItem;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -51,7 +52,7 @@ public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 		CompoundTag compoundNBT = new CompoundTag();
 		new CircuitBoard(type, layout, circuits).write(compoundNBT);
 		ItemStack stack = CoreItems.CIRCUITBOARDS.stack(type, 1);
-		stack.setTag(compoundNBT);
+		NBTUtilForestry.setItemStackTag(stack, compoundNBT);
 		return stack;
 	}
 

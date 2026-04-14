@@ -6,8 +6,10 @@ import forestry.arboriculture.blocks.BlockAbstractLeaves;
 import forestry.arboriculture.tiles.TileLeaves;
 import forestry.core.items.ItemBlockForestry;
 import forestry.core.items.definitions.IColoredItem;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -20,12 +22,13 @@ public class ItemBlockLeaves extends ItemBlockForestry<BlockAbstractLeaves> impl
 
 	@Override
 	public Component getName(ItemStack itemstack) {
-		if (!itemstack.hasTag()) {
+		CompoundTag tag = NBTUtilForestry.getItemStackTag(itemstack);
+		if (tag == null) {
 			return Component.translatable("trees.grammar.leaves.type");
 		}
 
 		TileLeaves tileLeaves = new TileLeaves(BlockPos.ZERO, getBlock().defaultBlockState());
-		tileLeaves.load(itemstack.getTag());
+		tileLeaves.load(tag);
 
 		ITree tree = tileLeaves.getTree();
 		if (tree == null) {
@@ -41,12 +44,13 @@ public class ItemBlockLeaves extends ItemBlockForestry<BlockAbstractLeaves> impl
 
 	@Override
 	public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
-		if (itemStack.getTag() == null) {
+		CompoundTag tag = NBTUtilForestry.getItemStackTag(itemStack);
+		if (tag == null) {
 			return FoliageColor.getDefaultColor();
 		}
 
 		TileLeaves tileLeaves = new TileLeaves(BlockPos.ZERO, getBlock().defaultBlockState());
-		tileLeaves.load(itemStack.getTag());
+		tileLeaves.load(tag);
 
 		if (renderPass == BlockAbstractLeaves.FRUIT_COLOR_INDEX) {
 			return tileLeaves.getFruitColour();

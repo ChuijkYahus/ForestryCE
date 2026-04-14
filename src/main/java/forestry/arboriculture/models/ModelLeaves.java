@@ -8,6 +8,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.tiles.TileLeaves;
 import forestry.core.models.ModelBlockCached;
 import forestry.core.models.baker.ModelBaker;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.ResourceUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.client.Minecraft;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
@@ -79,8 +81,9 @@ public class ModelLeaves extends ModelBlockCached<BlockForestryLeaves, ModelLeav
 	@Override
 	protected Key getInventoryKey(ItemStack stack) {
 		TileLeaves leaves = new TileLeaves(BlockPos.ZERO, ArboricultureBlocks.LEAVES.defaultState());
-		if (stack.getTag() != null) {
-			leaves.load(stack.getTag());
+		CompoundTag tag = NBTUtilForestry.getItemStackTag(stack);
+		if (tag != null) {
+			leaves.load(tag);
 		} else {
 			leaves.setTree(SpeciesUtil.TREE_TYPE.get().getDefaultSpecies().createIndividual());
 		}

@@ -3,6 +3,7 @@ package forestry.mail.items;
 import forestry.api.core.IItemSubtype;
 import forestry.api.mail.ILetter;
 import forestry.core.items.ItemWithGui;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.mail.Letter;
 import forestry.mail.gui.ContainerLetter;
 import forestry.mail.inventory.ItemInventoryLetter;
@@ -81,7 +82,7 @@ public class ItemLetter extends ItemWithGui {
 	public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, world, list, flag);
 
-		CompoundTag compoundNBT = itemstack.getTag();
+		CompoundTag compoundNBT = NBTUtilForestry.getItemStackTag(itemstack);
 		if (compoundNBT == null) {
 			list.add(Component.literal("<")
 				.append(Component.translatable("for.gui.blank").append(">"))

@@ -1,6 +1,7 @@
 package forestry.storage;
 
 import forestry.api.storage.IBackpackDefinition;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -29,7 +30,7 @@ public class BackpackDefinition implements IBackpackDefinition {
 		Item item = backpack.getItem();
 		Component display = Component.translatable((item.getDescriptionId(backpack)).trim());
 
-		CompoundTag tagCompound = backpack.getTag();
+		CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(backpack);
 		if (tagCompound != null && tagCompound.contains("display", 10)) {
 			CompoundTag nbt = tagCompound.getCompound("display");
 

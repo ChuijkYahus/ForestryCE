@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import forestry.api.circuits.*;
 import forestry.core.features.CoreItems;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
@@ -53,7 +54,7 @@ public class CircuitManager implements ICircuitManager {
 	@Nullable
 	@Override
 	public ICircuitBoard getCircuitBoard(ItemStack stack) {
-		CompoundTag tag = stack.getTag();
+		CompoundTag tag = NBTUtilForestry.getItemStackTag(stack);
 		return tag == null ? null : new CircuitBoard(tag);
 	}
 

@@ -2,6 +2,7 @@ package forestry.mail;
 
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.mail.features.MailItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +19,7 @@ public class LetterUtils {
 		letter.write(compoundNBT);
 
 		ItemStack letterStack = LetterProperties.createStampedLetterStack(letter);
-		letterStack.setTag(compoundNBT);
+		NBTUtilForestry.setItemStackTag(letterStack, compoundNBT);
 
 		return letterStack;
 	}
@@ -33,11 +34,12 @@ public class LetterUtils {
 			return null;
 		}
 
-		if (itemstack.getTag() == null) {
+		CompoundTag tag = NBTUtilForestry.getItemStackTag(itemstack);
+		if (tag == null) {
 			return null;
 		}
 
-		return new Letter(itemstack.getTag());
+		return new Letter(tag);
 	}
 
 	public static boolean isLetter(ItemStack itemstack) {

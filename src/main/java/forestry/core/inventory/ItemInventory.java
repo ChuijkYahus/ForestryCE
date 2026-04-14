@@ -3,6 +3,7 @@ package forestry.core.inventory;
 import com.google.common.base.Preconditions;
 import forestry.core.tiles.IFilterSlotDelegate;
 import forestry.core.utils.InventoryUtil;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -35,12 +36,12 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 		this.parent = parent;
 		this.inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 
-		CompoundTag nbt = parent.getTag();
+		CompoundTag nbt = NBTUtilForestry.getItemStackTag(parent);
 		if (nbt == null) {
 			nbt = new CompoundTag();
-			parent.setTag(nbt);
 		}
 		setUID(nbt); // Set a uid to identify the itemStack on SMP
+		NBTUtilForestry.setItemStackTag(parent, nbt);
 
 		CompoundTag nbtSlots = nbt.getCompound(KEY_SLOTS);
 		for (int i = 0; i < this.inventoryStacks.size(); i++) {
@@ -56,7 +57,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	}
 
 	public static int getOccupiedSlotCount(ItemStack itemStack) {
-		CompoundTag nbt = itemStack.getTag();
+		CompoundTag nbt = NBTUtilForestry.getItemStackTag(itemStack);
 		if (nbt == null) {
 			return 0;
 		}
@@ -110,8 +111,8 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 			return false;
 		}
 
-		CompoundTag baseTagCompound = base.getTag();
-		CompoundTag comparisonTagCompound = comparison.getTag();
+		CompoundTag baseTagCompound = NBTUtilForestry.getItemStackTag(base);
+		CompoundTag comparisonTagCompound = NBTUtilForestry.getItemStackTag(comparison);
 		if (baseTagCompound == null || comparisonTagCompound == null) {
 			return false;
 		}
@@ -128,10 +129,9 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	private void writeToParentNBT() {
 		ItemStack parent = getParent();
 
-		CompoundTag nbt = parent.getTag();
+		CompoundTag nbt = NBTUtilForestry.getItemStackTag(parent);
 		if (nbt == null) {
 			nbt = new CompoundTag();
-			parent.setTag(nbt);
 		}
 
 		CompoundTag slotsNbt = new CompoundTag();
@@ -146,6 +146,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 
 		nbt.put(KEY_SLOTS, slotsNbt);
 		onWriteNBT(nbt);
+		NBTUtilForestry.setItemStackTag(parent, nbt);
 	}
 
 	private static String getSlotNBTKey(int i) {
@@ -187,10 +188,9 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 
 		ItemStack parent = getParent();
 
-		CompoundTag nbt = parent.getTag();
+		CompoundTag nbt = NBTUtilForestry.getItemStackTag(parent);
 		if (nbt == null) {
 			nbt = new CompoundTag();
-			parent.setTag(nbt);
 		}
 
 		CompoundTag slotNbt;
@@ -208,6 +208,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 		} else {
 			slotNbt.put(slotKey, InventoryUtil.serializeItemStack(itemstack));
 		}
+		NBTUtilForestry.setItemStackTag(parent, nbt);
 	}
 
 	@Override

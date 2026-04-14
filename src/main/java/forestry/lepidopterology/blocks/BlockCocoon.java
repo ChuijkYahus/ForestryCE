@@ -3,6 +3,7 @@ package forestry.lepidopterology.blocks;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.core.tiles.TileUtil;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.items.ItemButterflyGE;
 import forestry.lepidopterology.tiles.TileCocoon;
@@ -74,8 +75,13 @@ public class BlockCocoon extends Block implements EntityBlock {
 		int age = state.getValue(AGE);
 
 		ItemStack stack = SpeciesUtil.BUTTERFLY_TYPE.get().createStack(caterpillar, ButterflyLifeStage.COCOON);
-		if (!stack.isEmpty() && stack.getTag() != null) {
-			stack.getTag().putInt(ItemButterflyGE.NBT_AGE, age);
+		if (!stack.isEmpty()) {
+			CompoundTag tag = NBTUtilForestry.getItemStackTag(stack);
+			if (tag == null) {
+				tag = new CompoundTag();
+			}
+			tag.putInt(ItemButterflyGE.NBT_AGE, age);
+			NBTUtilForestry.setItemStackTag(stack, tag);
 		}
 		return stack;
 	}
