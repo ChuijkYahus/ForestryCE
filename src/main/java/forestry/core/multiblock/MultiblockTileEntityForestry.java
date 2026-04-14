@@ -9,10 +9,10 @@ import forestry.core.config.Constants;
 import forestry.core.inventory.FakeInventoryAdapter;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.IFilterSlotDelegate;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
@@ -45,7 +45,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 
 		if (data.contains("owner")) {
 			CompoundTag ownerNbt = data.getCompound("owner");
-			this.owner = NbtUtils.readGameProfile(ownerNbt);
+			this.owner = NBTUtilForestry.readGameProfile(ownerNbt);
 		}
 
 		getInternalInventory().read(data);
@@ -57,7 +57,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 
 		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
-			NbtUtils.writeGameProfile(nbt, this.owner);
+			NBTUtilForestry.writeGameProfile(nbt, this.owner);
 			data.put("owner", nbt);
 		}
 

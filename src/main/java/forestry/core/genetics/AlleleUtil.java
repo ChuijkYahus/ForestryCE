@@ -15,7 +15,7 @@ public class AlleleUtil {
 		if (idString.isEmpty()) {
 			return null;
 		}
-		ResourceLocation id = new ResourceLocation(idString);
+		ResourceLocation id = ResourceLocation.parse(idString);
 		return speciesType.getSpecies(id);
 	}
 }

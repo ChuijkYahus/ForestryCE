@@ -2,12 +2,12 @@ package forestry.mail;
 
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
 import forestry.core.utils.PlayerUtil;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
 
@@ -48,7 +48,7 @@ public class MailAddress implements IMailAddress {
 			gameProfile = invalidGameProfile;
 		} else if (nbt.contains("profile")) {
 			CompoundTag profileTag = nbt.getCompound("profile");
-			gameProfile = NbtUtils.readGameProfile(profileTag);
+			gameProfile = NBTUtilForestry.readGameProfile(profileTag);
 			if (gameProfile == null) {
 				gameProfile = invalidGameProfile;
 			}
@@ -111,7 +111,7 @@ public class MailAddress implements IMailAddress {
 
 		if (this.gameProfile != invalidGameProfile) {
 			CompoundTag profileNbt = new CompoundTag();
-			NbtUtils.writeGameProfile(profileNbt, this.gameProfile);
+			NBTUtilForestry.writeGameProfile(profileNbt, this.gameProfile);
 			compoundNBT.put("profile", profileNbt);
 		}
 		return compoundNBT;

@@ -5,6 +5,7 @@ import forestry.api.mail.*;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.mail.*;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.features.MailItems;
@@ -15,7 +16,6 @@ import forestry.mail.postalstates.ResponseNotMailable;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -75,7 +75,7 @@ public class TradeStation implements ITradeStation {
 	public CompoundTag save(CompoundTag compoundNBT) {
 		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
-			NbtUtils.writeGameProfile(nbt, this.owner);
+			NBTUtilForestry.writeGameProfile(nbt, this.owner);
 			compoundNBT.put("owner", nbt);
 		}
 
@@ -99,7 +99,7 @@ public class TradeStation implements ITradeStation {
 	@Override
 	public void read(CompoundTag nbt) {
 		if (nbt.contains("owner")) {
-            this.owner = NbtUtils.readGameProfile(nbt.getCompound("owner"));
+            this.owner = NBTUtilForestry.readGameProfile(nbt.getCompound("owner"));
 		}
 
 		if (nbt.contains("address")) {

@@ -4,6 +4,7 @@ import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -14,12 +15,12 @@ public class SerializableIndividualHandlerItem extends IndividualHandlerItem imp
 	}
 
 	@Override
-	public Tag serializeNBT() {
+	public Tag serializeNBT(HolderLookup.Provider registries) {
 		return SpeciesUtil.serializeIndividual(this.individual);
 	}
 
 	@Override
-	public void deserializeNBT(Tag nbt) {
+	public void deserializeNBT(HolderLookup.Provider registries, Tag nbt) {
 		this.individual = SpeciesUtil.deserializeIndividual(this.speciesType, nbt);
 	}
 }
