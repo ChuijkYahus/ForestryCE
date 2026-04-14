@@ -68,7 +68,7 @@ public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerReci
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 2)
 			.setFluidRenderer(10000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addFluidStack(recipe.getFluidOutput());
+			.addFluidStack(recipe.getFluidOutput().getFluid(), recipe.getFluidOutput().getAmount());
 	}
 
 	@Override

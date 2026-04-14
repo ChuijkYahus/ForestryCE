@@ -82,7 +82,7 @@ public class CarpenterRecipeCategory extends ForestryRecipeCategory<ICarpenterRe
 
 		FluidStack fluidResource = recipe.getInputFluid();
 		if (!fluidResource.isEmpty()) {
-			tankSlot.addFluidStack(fluidResource);
+			tankSlot.addFluidStack(fluidResource.getFluid(), fluidResource.getAmount());
 		}
 	}
 

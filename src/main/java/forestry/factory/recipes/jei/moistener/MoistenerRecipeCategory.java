@@ -89,7 +89,7 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
 			.setFluidRenderer(10000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addFluidStack(fluidInput);
+			.addFluidStack(fluidInput.getFluid(), fluidInput.getAmount());
 
 		builder.createFocusLink(fuelResourceSlot, fuelProductsSlot);
 	}

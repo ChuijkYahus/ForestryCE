@@ -53,12 +53,12 @@ public class StillRecipeCategory extends ForestryRecipeCategory<IStillRecipe> {
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
 			.setFluidRenderer(10000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addFluidStack(recipe.getInput());
+			.addFluidStack(recipe.getInput().getFluid(), recipe.getInput().getAmount());
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 91, 1)
 			.setFluidRenderer(10000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addFluidStack(recipe.getOutput());
+			.addFluidStack(recipe.getOutput().getFluid(), recipe.getOutput().getAmount());
 	}
 
 	@Override

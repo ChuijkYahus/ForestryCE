@@ -83,7 +83,7 @@ public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricator
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 6, 32)
 			.setFluidRenderer(2000, false, 16, 16)
-			.addFluidStack(recipeLiquid);
+			.addFluidStack(recipeLiquid.getFluid(), recipeLiquid.getAmount());
 
 		ShapedRecipe craftingGridRecipe = recipe.getCraftingGridRecipe();
 		List<IRecipeSlotBuilder> craftingSlots = JeiUtil.layoutSlotGrid(builder, RecipeIngredientRole.INPUT, 3, 3, 47, 1, 18);

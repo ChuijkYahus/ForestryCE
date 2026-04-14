@@ -75,7 +75,7 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
 			.setFluidRenderer(3000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addFluidStack(fluidInput);
+			.addFluidStack(fluidInput.getFluid(), fluidInput.getAmount());
 
 		final int baseAmount = Math.round(recipe.getFermentationValue() * recipe.getModifier());
 		List<FluidStack> outputs =

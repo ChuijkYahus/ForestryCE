@@ -142,22 +142,22 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	public static RecipeHolder<IHygroregulatorRecipe> getHygroRegulatorRecipe(RecipeManager manager, FluidStack input) {
+	public static IHygroregulatorRecipe getHygroRegulatorRecipe(RecipeManager manager, FluidStack input) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> input.containsFluid(recipe.getInputFluid()));
 	}
 
 	@Nullable
-	public static RecipeHolder<IFermenterRecipe> getFermenterRecipe(RecipeManager manager, ItemStack inputItem, FluidStack inputFluid) {
+	public static IFermenterRecipe getFermenterRecipe(RecipeManager manager, ItemStack inputItem, FluidStack inputFluid) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.FERMENTER, recipe -> recipe.matches(inputItem, inputFluid));
 	}
 
 	public static boolean isFermenterInput(RecipeManager manager, ItemStack stack) {
 		return getRecipes(manager, FactoryRecipeTypes.FERMENTER)
-			.anyMatch(recipe -> recipe.value().getInputItem().test(stack));
+			.anyMatch(recipe -> recipe.getInputItem().test(stack));
 	}
 
 	@Nullable
-	public static RecipeHolder<ICarpenterRecipe> getCarpenterRecipe(RecipeManager manager, FluidStack fluid, ItemStack boxStack, Container craftingInventory, Level level) {
+	public static ICarpenterRecipe getCarpenterRecipe(RecipeManager manager, FluidStack fluid, ItemStack boxStack, Container craftingInventory, Level level) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.CARPENTER, recipe -> recipe.matches(fluid, boxStack, craftingInventory, level));
 	}
 
@@ -168,7 +168,7 @@ public class RecipeUtils {
 	// Returns true if the item is part of any squeezer recipe.
 	public static boolean isSqueezerIngredient(RecipeManager manager, ItemStack stack) {
 		return getRecipes(manager, FactoryRecipeTypes.SQUEEZER).anyMatch(recipe -> {
-			for (Ingredient ingredient : recipe.value().getInputs()) {
+			for (Ingredient ingredient : recipe.getInputs()) {
 				if (ingredient.test(stack)) {
 					return true;
 				}
@@ -178,7 +178,7 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	public static RecipeHolder<ISqueezerContainerRecipe> getSqueezerContainerRecipe(RecipeManager manager, ItemStack stack) {
+	public static ISqueezerContainerRecipe getSqueezerContainerRecipe(RecipeManager manager, ItemStack stack) {
 		if (!FluidHelper.isDrainableFilledContainer(stack)) {
 			return null;
 		}
@@ -186,17 +186,17 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	public static RecipeHolder<ICentrifugeRecipe> getCentrifugeRecipe(RecipeManager manager, ItemStack stack) {
+	public static ICentrifugeRecipe getCentrifugeRecipe(RecipeManager manager, ItemStack stack) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.CENTRIFUGE, recipe -> recipe.getInput().test(stack));
 	}
 
 	@Nullable
-	public static RecipeHolder<IFabricatorSmeltingRecipe> getFabricatorMeltingRecipe(RecipeManager manager, ItemStack stack) {
+	public static IFabricatorSmeltingRecipe getFabricatorMeltingRecipe(RecipeManager manager, ItemStack stack) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.FABRICATOR_SMELTING, recipe -> recipe.getInput().test(stack));
 	}
 
 	@Nullable
-	public static RecipeHolder<IFabricatorRecipe> getFabricatorRecipe(RecipeManager manager, Level level, FluidStack liquid, ItemStack stack, Container inventory) {
+	public static IFabricatorRecipe getFabricatorRecipe(RecipeManager manager, Level level, FluidStack liquid, ItemStack stack, Container inventory) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.FABRICATOR, recipe -> recipe.matches(level, liquid, stack, inventory));
 	}
 
@@ -205,30 +205,30 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	public static RecipeHolder<IMoistenerRecipe> getMoistenerRecipe(RecipeManager manager, ItemStack stack) {
+	public static IMoistenerRecipe getMoistenerRecipe(RecipeManager manager, ItemStack stack) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.MOISTENER, recipe -> recipe.getInput().test(stack));
 	}
 
 	@Nullable
-	public static RecipeHolder<ISqueezerRecipe> getSqueezerRecipe(RecipeManager manager, List<ItemStack> inputs) {
+	public static ISqueezerRecipe getSqueezerRecipe(RecipeManager manager, List<ItemStack> inputs) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.SQUEEZER, recipe -> ItemStackUtil.createConsume(recipe.getInputs(), inputs.size(), inputs::get, false).length > 0);
 	}
 
 	@Nullable
-	public static RecipeHolder<IStillRecipe> getStillRecipe(RecipeManager manager, FluidStack input) {
+	public static IStillRecipe getStillRecipe(RecipeManager manager, FluidStack input) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.STILL, recipe -> recipe.matches(input));
 	}
 
 	@Nullable
-	private static <R extends IForestryRecipe> RecipeHolder<R> getMatchingRecipe(RecipeManager manager, FeatureRecipeType<R> type, Predicate<R> matcher) {
+	private static <R extends IForestryRecipe> R getMatchingRecipe(RecipeManager manager, FeatureRecipeType<R> type, Predicate<R> matcher) {
 		return getRecipes(manager, type)
-			.filter(holder -> matcher.test(holder.value()))
+			.filter(matcher)
 			.findFirst()
 			.orElse(null);
 	}
 
-	public static <R extends IForestryRecipe> Stream<RecipeHolder<R>> getRecipes(RecipeManager manager, FeatureRecipeType<R> type) {
-		return manager.byType(type.type()).stream();
+	public static <R extends IForestryRecipe> Stream<R> getRecipes(RecipeManager manager, FeatureRecipeType<R> type) {
+		return manager.byType(type.type()).stream().map(RecipeHolder::value);
 	}
 
 	public static <R extends Recipe<C>, C extends RecipeInput> Set<ResourceLocation> getTargetFluidsFromIngredients(RecipeManager manager, RecipeType<R> type, Function<R, FluidIngredient> targetFluid) {
@@ -249,9 +249,9 @@ public class RecipeUtils {
 			.collect(Collectors.toSet());
 	}
 
-	public static <R extends IForestryRecipe> RecipeHolder<R> getRecipeByOutput(FeatureRecipeType<R> recipeType, RegistryAccess registryAccess, ItemStack output) {
+	public static <R extends IForestryRecipe> R getRecipeByOutput(FeatureRecipeType<R> recipeType, RegistryAccess registryAccess, ItemStack output) {
 		return getRecipes(getRecipeManager(), recipeType)
-			.filter(recipe -> ItemStack.isSameItem(recipe.value().getResultItem(registryAccess), output))
+			.filter(recipe -> ItemStack.isSameItem(recipe.getResultItem(registryAccess), output))
 			.findFirst()
 			.orElseThrow(() -> new IllegalStateException("Couldn't find a recipe with output: " + output));
 	}

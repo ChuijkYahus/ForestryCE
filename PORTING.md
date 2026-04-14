@@ -249,3 +249,57 @@ To keep progress coherent across Codex sessions:
   - cleared the direct lookup-aware NBT / `RegistryFriendlyByteBuf` migration failures across the shared Forestry sync helpers and the active tile/helper classes touched above
 - Current next blocker after the shared stream/NBT interface migration slice:
   - compile failures are now front-loaded by recipe and tag/datagen API changes (`ForestryRecipeProvider`, `ForestryBackpackTagProvider`, `ForestryItemTagsProvider`, `LootTableHelper`), with JEI subtype handling and a smaller set of remaining client/gui API migrations behind them
+- Datagen and baseline signature cleanup follow-up:
+  - Moved `ToolTier` onto the 1.21 `Tier#getIncorrectBlocksForDrops()` contract.
+  - Fixed `ConditionLootModifier` and the loot helper/provider wiring for the 1.21 loot modifier and loot-table key APIs, including the new `MapCodec` return type and lookup-aware `GlobalLootModifierProvider` constructor.
+  - Updated the shared saved-data / NBT base classes touched in this slice (`BreedingTracker`, `MultiblockLogic`, `MultiblockControllerForestry`, `FakeMultiblockController`, `FakeInventoryAdapter`) to the lookup-aware `write(..., HolderLookup.Provider)` / `read(..., HolderLookup.Provider)` signatures.
+  - Ported the now-unused-but-still-compiled `BeeParticleType` class to the 1.21 particle `MapCodec` / `StreamCodec` contract.
+  - Fixed the active datagen helper drift in `ForestryBackpackTagProvider`, `ForestryItemTagsProvider`, `ForestryBlockTagsProvider`, `ForestryBlockStateProvider`, `ForestryItemModelProvider`, and `FilledCrateModelBuilder` by switching moved NeoForge tag constants, `ResourceLocation` factory helpers, and current feature collection APIs.
+  - Updated `VillagerTrade` to 1.21 `MerchantOffer` / `ItemCost` construction.
+- Current verification command for the datagen and baseline signature cleanup follow-up slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 1 "ToolTier|ConditionLootModifier|LootTableHelper|ForestryLootModifierProvider|BreedingTracker|MultiblockLogic|MultiblockControllerForestry|FakeMultiblockController|FakeInventoryAdapter|BeeParticleType|ForestryBackpackTagProvider|ForestryItemTagsProvider|ForestryBlockTagsProvider|ForestryBlockStateProvider|ForestryItemModelProvider|FilledCrateModelBuilder|VillagerTrade|error:"`
+- Recipe/datagen follow-up cleanup:
+  - `JeiUtil` now imports the Forestry individual-item capability type again so the JEI subtype registration path compiles on 1.21.1.
+  - `ForestryRecipeProvider` was updated for the current NeoForge tag constants (`STONES`, `STRINGS`, `LEATHERS`, `GLASS_BLOCKS_COLORLESS`, `SANDS`, etc.), switched off removed `Ingredient.merge(...)` onto `CompoundIngredient.of(...)`, and dropped the already-marked-for-removal volcanic propolis back-compat recipe now that `EnumPropolis.VOLCANIC` no longer exists in 1.21.1.
+  - The butterfly mating special recipe path now targets the 1.21 crafting API: `ButterflyMatingRecipe` uses `CraftingInput` plus lookup-aware `assemble(...)`, and the datagen/serializer factories now construct it from `CraftingBookCategory`.
+  - `CentrifugeRecipeBuilder` now reads recipe product NBT from `DataComponents.CUSTOM_DATA` instead of removed `ItemStack#getTag()`.
+- Current verification command for the recipe/datagen follow-up cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 1 "JeiUtil|ForestryRecipeProvider|ButterflyMatingRecipe|LepidopterologyRecipes|CentrifugeRecipeBuilder|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the active `ForestryRecipeProvider`, `JeiUtil`, butterfly special-recipe, and centrifuge builder compile failures so the front edge moved off recipe/datagen cleanup
+- Genetics and GameProfile/NBT cleanup:
+  - Added Forestry-side `NBTUtilForestry` helpers for `GameProfile` serialization and `ItemStack` custom-data access so the port no longer depends on removed Mojang `NbtUtils.readGameProfile(...)` / `writeGameProfile(...)` helpers or removed `ItemStack#getTag()` / `setTag()` accessors in the touched files.
+  - `ItemResearchNote`, `AlleleUtil`, `Individual`, `ServerBreedingHandler`, and `SerializableIndividualHandlerItem` now target the 1.21 APIs for resource location parsing, saved-data factories, item custom data, and lookup-aware `INBTSerializable`.
+  - Shared `GameProfile` NBT callers in `MailAddress`, `TradeStation`, and `MultiblockTileEntityForestry` now use the Forestry helper as well, so that migration is no longer blocked on the removed Mojang helpers.
+- Current verification command for the genetics and GameProfile/NBT cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 1 "ItemResearchNote|AlleleUtil|ServerBreedingHandler|SerializableIndividualHandlerItem|MailAddress|TradeStation|MultiblockTileEntityForestry|NBTUtilForestry|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the active genetics/GameProfile/NBT front-edge failures, including the remaining `ItemResearchNote`, `AlleleUtil`, breeding tracker saved-data, and removed Mojang GameProfile helper breakages
+- Current next blocker after the genetics and GameProfile/NBT cleanup slice:
+  - compile failures are now front-loaded by worldgen/core registration drift (`CoreFeatures`, `ForestryBiomeModifier`, `CoreBlocks`), older block/item override signatures (`BlockStructure`, `BlockBase`, `ItemFluidContainerForestry`), and the remaining lookup-aware block-entity save/load and stream method migrations (`TileAnalyzer`, `TileEscritoire`, `EngineBlockEntity`, related tile sync helpers)
+- Compile family reduced by the latest slice:
+  - cleared the direct abstract-method/signature failures in the touched tool tier, loot modifier, villager trade, particle type, and shared NBT base classes, and cleared the direct `ResourceLocation`/tag-helper/datagen-support errors in the touched provider/helper files
+- Current next blocker after the datagen and baseline signature cleanup follow-up slice:
+  - compile failures are now dominated by the large `ForestryRecipeProvider` tag/ingredient migration (`Tags.Items.*` renames, `Ingredient.merge(...)`, `special(...)`, and the removed `EnumPropolis.VOLCANIC` reference), with the next layer behind that still including JEI subtype handling, remaining ItemStack/NBT component migrations, and several client/model API updates
+- Shared legacy NBT/network compatibility follow-up:
+  - Added Forestry-side compatibility bridges so old one-arg `INbtReadable` / `INbtWritable` implementations and `FriendlyByteBuf` stream sync call sites still compile while delegating into the 1.21 lookup-aware / `RegistryFriendlyByteBuf` paths.
+  - `TileForestry` and `MultiblockTileEntityBase` now provide compatibility overloads for legacy `load(...)`, `saveAdditional(...)`, `getUpdateTag()`, and `handleUpdateTag(...)` callers, which clears the remaining abstract/signature breakage from that migration layer.
+  - `TileAnalyzer` and `TileEscritoire` now use lookup-aware save/load signatures and `ItemStack.STREAM_CODEC` instead of removed `RegistryFriendlyByteBuf#writeItem()` / `readItem()`.
+  - `NetworkUtil` regained a generic `sendToServer(...)` helper and now has both `FriendlyByteBuf` and `RegistryFriendlyByteBuf` climate-state overloads, clearing the active GUI/climate sync fallout in the touched files.
+  - Residual `ItemStack.save(...)` callers in `BeekeepingLogic`, `TileAlvearySwarmer`, `TileCentrifuge`, and `TileMoistener` now serialize through `ItemStack#saveOptional(...)`, so the old pre-1.21 NBT save signature is no longer part of the front edge.
+- Current verification command for the shared legacy NBT/network compatibility follow-up slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n -C 2 "INbtWritable|INbtReadable|IStreamable|TileForestry|MultiblockTileEntityBase|TileAnalyzer|TileEscritoire|sendToServer|writeClimateState|readClimateState|BeekeepingLogic|TileAlvearySwarmer|TileCentrifuge|TileMoistener|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the remaining Forestry-local legacy NBT/network helper drift from the compile front, so the active failures have moved on to worldgen/core registration API changes, ItemStack component callers, recipe-holder adoption, and broader client/model porting
+- Current next blocker after the shared legacy NBT/network compatibility follow-up slice:
+  - compile failures are now front-loaded by worldgen/core registration drift (`CoreFeatures`, `ForestryBiomeModifier`, `CoreBlocks`), remaining ItemStack component migrations (`ItemInventory`, `ItemCircuitBoard`, `ItemAlyzer`), and the recipe-holder/client-model cleanup behind them
+- Recipe holder and JEI fluid API cleanup:
+  - `RecipeUtils` now unwraps `RecipeHolder<T>` at the Forestry helper boundary again, so machine tiles, Patchouli processors, and JEI registration consume raw Forestry recipe interfaces instead of mixing holder/value call sites.
+  - `FakeCraftingInventory` now builds 1.21 `CraftingInput` instances instead of the removed transient `CraftingContainer` path, which clears the active `CarpenterRecipe` / `FabricatorRecipe` crafting-match breakage.
+  - Forestry JEI machine categories now use the current `addFluidStack(fluid, amount)` overload, clearing the active fluid-slot API errors in carpenter, fabricator, fermenter, moistener, squeezer, and still recipe displays.
+- Current verification command for the recipe holder and JEI fluid API cleanup slice:
+  - `./gradlew compileJava --console=plain 2>&1 | rg -n "CarpenterRecipe\\.java|FabricatorRecipe\\.java|CarpenterRecipeCategory\\.java|FabricatorRecipeCategory\\.java|FermenterRecipeCategory\\.java|MoistenerRecipeCategory\\.java|SqueezerRecipeCategory\\.java|StillRecipeCategory\\.java|FakeCraftingInventory\\.java|RecipeUtils\\.java|error:"`
+- Compile family reduced by the latest slice:
+  - cleared the direct `RecipeHolder`/`.value()` fallout in Forestry recipe helpers and machine callers, plus the current JEI fluid-slot overload and fake-crafting-input breakage
+- Current next blocker after the recipe holder and JEI fluid API cleanup slice:
+  - compile failures are now led by worldgen/core registration drift (`CoreFeatures`, `ForestryBiomeModifier`, `CoreBlocks`), the remaining factory recipe serializer `streamCodec()` rewrites, and broader 1.21 block/item/client signature changes

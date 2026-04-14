@@ -1,32 +1,18 @@
 package forestry.factory.recipes;
 
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class FakeCraftingInventory {
-	private static final AbstractContainerMenu EMPTY_CONTAINER = new AbstractContainerMenu(null, -1) {
-		@Override
-		public ItemStack quickMoveStack(Player p_38941_, int p_38942_) {
-			return ItemStack.EMPTY;
-		}
-
-		@Override
-		public boolean stillValid(Player playerIn) {
-			return true;
-		}
-	};
-
-	public static CraftingContainer of(Container backing) {
-		CraftingContainer inventory = new TransientCraftingContainer(EMPTY_CONTAINER, 3, 3);
-
+	public static CraftingInput of(Container backing) {
+		List<ItemStack> items = new ArrayList<>(9);
 		for (int i = 0; i < 9; i++) {
-			inventory.setItem(i, backing.getItem(i));
+			items.add(backing.getItem(i));
 		}
-
-		return inventory;
+		return CraftingInput.of(3, 3, items);
 	}
 }

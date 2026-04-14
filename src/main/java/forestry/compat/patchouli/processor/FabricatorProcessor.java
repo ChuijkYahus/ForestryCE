@@ -59,7 +59,7 @@ public class FabricatorProcessor implements IComponentProcessor {
 
 			return RecipeUtils.getRecipes(RecipeUtils.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
 				.filter(recipe -> recipe.getResultFluid().isFluidEqual(this.recipe.getResultFluid()))
-				.flatMap(r -> Arrays.stream(r.getInput().getItems()))
+				.flatMap(recipe -> Arrays.stream(recipe.getInput().getItems()))
 				.findFirst()
 				.map(IVariable::from)
 				.orElseGet(IVariable::empty);
