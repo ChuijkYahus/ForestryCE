@@ -48,7 +48,7 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 	private int burnTime = 0; //How long until the next item is burned.
 
 	private int ashProductionTimer = 0; //How many ticks until this produces ash
-	public static final int ASH_PRODUCTION_TIME = 400; //How many ticks it takes for ash to be produced. 100 ticks means there is a 1:1 ratio between ash produced and number of items this item could smelt.
+	public static final int ASH_PRODUCTION_TIME = 800; //How many ticks it takes for ash to be produced. 100 ticks means there is a 1:1 ratio between ash produced and number of items this item could smelt.
 	public static final  int PARTICLE_TICK_INTERVAL = 20; //How many ticks to emit particles on
 
 	private int errorTime = 0;
