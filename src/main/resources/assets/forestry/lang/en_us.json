@@ -786,6 +786,8 @@
   "errors.forestry.not_dark.help": "A lower light level is required for operation.",
   "errors.forestry.not_warm_enough.desc": "Not warm enough",
   "errors.forestry.not_warm_enough.help": "This machine isn't warm enough to operate. Ensure power is connected.",
+  "errors.forestry.not_lit.desc": "Needs fire!",
+  "errors.forestry.not_lit.help": "Ensure there are burnable items inside the barrels inventory, then right click with a Flint and Steel or Fire Charge to start burning!",
   "_comment": "ALYZERS",
   "errors.forestry.no_honey.desc": "Honey required",
   "errors.forestry.no_honey.help": "This gadget requires honey drops or honeydew for operation.",

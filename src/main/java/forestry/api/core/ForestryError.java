@@ -39,6 +39,7 @@ public enum ForestryError implements IError {
 	NOT_DARK("not_dark", "not_gloomy"), // A lower light level is required for operation.
 
 	NOT_WARM_ENOUGH("not_warm_enough", "no_heat"), //This machine is not hot enough to operate yet
+	NOT_LIT("not_lit", "no_heat"),
 
 	// Analyzer
 	NO_HONEY("no_honey"), // This gadget requires honey drops or honeydew for operation.

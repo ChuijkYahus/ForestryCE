@@ -19,6 +19,7 @@ import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
+import forestry.core.blocks.BlockBurnBarrel;
 import forestry.core.circuits.GuiSolderingIron;
 import forestry.core.config.Constants;
 import forestry.core.features.*;
@@ -95,6 +96,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 	private static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
 			CoreBlocks.BASE.getBlocks().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.BURN_BARREL.block(), RenderType.cutout());
 
 			for (ForestryFluids fluid : ForestryFluids.values()) {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFluid(), RenderType.translucent());
@@ -106,6 +108,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 			MenuScreens.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
 			MenuScreens.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
 			MenuScreens.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
+			MenuScreens.register(CoreMenuTypes.BURN_BARREL.menuType(), GuiBurnBarrel::new);
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());

@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-06T23:26:46.4676561	Tags for minecraft:item mod id forestry
+// 1.20.1	2026-04-16T11:40:05.2741075	Tags for minecraft:item mod id forestry
 e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
@@ -19,6 +19,7 @@ feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/items/balsa_logs.jso
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/items/baobab_logs.json
 785dde211dbc936b7d115a3e9def251869c30882 data/forestry/tags/items/beech_logs.json
 2e4f59b07943e7356cf4cf347a87058a964d48da data/forestry/tags/items/bees.json
+32ae15787c811f4473d0a90b346387ef3370c1ab data/forestry/tags/items/burn_barrel_blacklist.json
 141bc440331efa5e4af4022e97208e56e9d66954 data/forestry/tags/items/chestnut_logs.json
 aabf22e400a3909e316b0f004cfd21e59a80c1e1 data/forestry/tags/items/citrus_logs.json
 bc7896f819c64d7001e44ae623800293d1e776d3 data/forestry/tags/items/cocobolo_logs.json

@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "lit=false,has_ash=false": { "model": "forestry:block/burn_barrel_empty" },
+    "lit=false,has_ash=true": { "model": "forestry:block/burn_barrel_full" },
+
+    "lit=true,has_ash=false": { "model": "forestry:block/burn_barrel_burning" },
+    "lit=true,has_ash=true":  { "model": "forestry:block/burn_barrel_full_burning" }
+  }
+}

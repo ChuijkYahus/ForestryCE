@@ -7,6 +7,7 @@ import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.core.blocks.*;
 import forestry.core.items.ItemBlockForestry;
 import forestry.core.items.ItemBlockTesr;
+import forestry.core.tiles.TileBurnBarrel;
 import forestry.modules.features.*;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -15,11 +16,17 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
+import java.util.Collection;
+import java.util.List;
+
 @FeatureProvider
 public class CoreBlocks {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 
 	public static final FeatureBlockGroup<BlockCore, BlockTypeCoreTesr> BASE = REGISTRY.blockGroup(BlockCore::new, BlockTypeCoreTesr.values()).item(ItemBlockTesr::new).create();
+
+	public static final FeatureBlock<BlockBurnBarrel, ItemBlockForestry<?>> BURN_BARREL = REGISTRY.block(BlockBurnBarrel::new, ItemBlockForestry::new, "burn_barrel");
+
 	public static final FeatureBlock<BlockBogEarth, ItemBlockForestry<?>> BOG_EARTH = REGISTRY.block(BlockBogEarth::new, ItemBlockForestry::new, "bog_earth");
 	public static final FeatureBlock<BlockPeat, ItemBlockForestry<?>> PEAT = REGISTRY.block(BlockPeat::new, "peat");
 	public static final FeatureBlock<BlockHumus, ItemBlockForestry<?>> HUMUS = REGISTRY.block(BlockHumus::new, ItemBlockForestry::new, "humus");

@@ -153,6 +153,11 @@ public class ForestryItemTagsProvider {
 		tags.tag(ItemTags.PICKAXES).add(CoreItems.BRONZE_PICKAXE);
 		tags.tag(ItemTags.SHOVELS).add(CoreItems.BRONZE_SHOVEL);
 
+		tags.tag(ForestryTags.Items.BURN_BARREL_BLACKLIST).add(
+			Items.LAVA_BUCKET,
+			Items.BLAZE_ROD
+		);
+
 		tags.tag("curios:head").add(CoreItems.SPECTACLES);
 	}
 }

@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-09T15:25:02.2702853	Loot Tables
+// 1.20.1	2026-04-16T11:40:05.2381362	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -163,6 +163,7 @@ e21627f3a1f28865f7fe0d503126ae660ed1cb07 data/forestry/loot_tables/blocks/block_
 e3ad197e3509223093c14c77fcd78d010222f18c data/forestry/loot_tables/blocks/block_bee_comb_wheaten.json
 1ee4d8981bc97535b752b405771cbda5d7df0357 data/forestry/loot_tables/blocks/bog_earth.json
 3ac941b79d3e4be7b77309a1a49f8f412d3c9f9a data/forestry/loot_tables/blocks/bottler.json
+bc699e34ce4a4841aea85202058f7fba0e88d8c6 data/forestry/loot_tables/blocks/burn_barrel.json
 4c8e08d40386f012eb684f9b81209505d124b7c0 data/forestry/loot_tables/blocks/butterfly_chest.json
 c93497851e121665c4e015ba91df879ee4c00725 data/forestry/loot_tables/blocks/carpenter.json
 5eee376a138d7818b80d34405738ec967c346d18 data/forestry/loot_tables/blocks/centrifuge.json

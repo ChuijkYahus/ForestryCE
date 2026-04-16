@@ -2,6 +2,7 @@ package forestry.core.blocks;
 
 import forestry.core.features.CoreTiles;
 import forestry.core.tiles.TileAnalyzer;
+import forestry.core.tiles.TileBurnBarrel;
 import forestry.core.tiles.TileEscritoire;
 import forestry.modules.features.FeatureTileType;
 import net.minecraft.core.Direction;

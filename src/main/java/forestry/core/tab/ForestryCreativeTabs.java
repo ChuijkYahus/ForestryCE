@@ -22,9 +22,11 @@ import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.blocks.BlockBurnBarrel;
 import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
+import forestry.core.features.CoreTiles;
 import forestry.core.features.FluidsItems;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.EnumContainerType;
@@ -135,6 +137,7 @@ public class ForestryCreativeTabs {
 		// Machines
 		FactoryBlocks.PLAIN.getItems().forEach(items::accept);
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
+		items.accept(CoreBlocks.BURN_BARREL);
 		// Circuit boards
 		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR));
 		CoreItems.CIRCUITBOARDS.getItems().forEach(items::accept);
