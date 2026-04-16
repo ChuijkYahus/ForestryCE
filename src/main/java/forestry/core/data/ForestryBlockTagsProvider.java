@@ -68,7 +68,8 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block())
 			.add(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block())
 			.add(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block())
-			.add(CoreBlocks.METAL_PLATING.blockArray());
+			.add(CoreBlocks.METAL_PLATING.blockArray())
+			.add(CoreBlocks.BURN_BARREL.block());
 
 		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
