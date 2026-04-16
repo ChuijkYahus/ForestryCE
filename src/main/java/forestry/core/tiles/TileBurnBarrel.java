@@ -49,7 +49,7 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 
 	private int ashProductionTimer = 0; //How many ticks until this produces ash
 	public static final int ASH_PRODUCTION_TIME = 800; //How many ticks it takes for ash to be produced. 100 ticks means there is a 1:1 ratio between ash produced and number of items this item could smelt.
-	public static final  int PARTICLE_TICK_INTERVAL = 20; //How many ticks to emit particles on
+	public static final  int PARTICLE_TICK_INTERVAL = 5; //How many ticks to emit particles on
 
 	private int errorTime = 0;
 
@@ -148,37 +148,38 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 
 
 		//FX
-		if (this.burnTime > 0) { //Eventually this will just be done via blockstate
-			soundTimer--;
+		if (level instanceof ServerLevel serverLevel) {
+			if (serverLevel.getBlockState(pos).getValue(BlockBurnBarrel.LIT)) {
+				soundTimer--;
 
-			if (soundTimer <= 0) {
-				level.playSound( null, pos, SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 1, 1);
-				soundTimer = 20 + rng.nextInt(20);
-			}
+				if (soundTimer <= 0) {
+					serverLevel.playSound( null, pos, SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 1, 1);
+					soundTimer = 20 + rng.nextInt(20);
+				}
 
-			if (updateOnInterval(PARTICLE_TICK_INTERVAL)) {
+				float x = pos.getX() + (0.5f);
+				float y = pos.getY() + (0.9f);
+				float z = pos.getZ() + (0.5f);
 
-				float x = pos.getX()+(0.25f) + rng.nextFloat(0.5f);
-				float y = pos.getY()+(0.25f) + rng.nextFloat(0.5f);
-				float z = pos.getZ()+(0.25f) + rng.nextFloat(0.5f);
-
-				level.addParticle(
-					ParticleTypes.SMOKE,
-					x, y, z,
-					0, 1, 0
-				);
-
-				if (rng.nextFloat() < 0.2f){
-					x = pos.getX()+(0.25f) + rng.nextFloat(0.5f);
-					y = pos.getY()+(0.25f) + rng.nextFloat(0.5f);
-					z = pos.getZ()+(0.25f) + rng.nextFloat(0.5f);
-
-					level.addParticle(
-						ParticleTypes.LAVA,
+				if (updateOnInterval(PARTICLE_TICK_INTERVAL)) {
+					serverLevel.sendParticles(
+						ParticleTypes.SMOKE,
 						x, y, z,
-						rng.nextFloat(), 1, rng.nextFloat()
+						1,
+						0.15, 0, 0.15,
+						0.01f
 					);
 				}
+
+				/*if (updateOnInterval(PARTICLE_TICK_INTERVAL)) {
+					serverLevel.sendParticles(
+						ParticleTypes.LAVA,
+						x, y, z,
+						1,
+						0.15, 0, 0.15,
+						0.1f
+					);
+				}*/
 			}
 		}
 	}
