@@ -90,7 +90,7 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 
 				this.setChanged();
 				newState = newState.setValue(BlockBurnBarrel.HAS_ASH, true);
-				Forestry.LOGGER.info("Updating state to yes ash");
+				//Forestry.LOGGER.info("Updating state to yes ash");
 				updateState = true;
 				this.ashProductionTimer = 0;
 			}
@@ -118,7 +118,7 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 		if (this.preheatTime > 0) {
 			this.preheatTime--;
 			if (this.preheatTime <= 0){
-				Forestry.LOGGER.info("Updating state to no fire");
+				//Forestry.LOGGER.info("Updating state to no fire");
 				newState = newState.setValue(BlockBurnBarrel.LIT, false);
 				updateState = true;
 				//We do this here so that it doesnt immediately revert every update.
