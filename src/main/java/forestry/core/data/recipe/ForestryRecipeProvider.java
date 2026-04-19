@@ -1003,6 +1003,14 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
+		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.BURN_BARREL, recipe -> {
+			recipe.define('#', Items.IRON_BARS);
+			recipe.define('X', Tags.Items.INGOTS_IRON);
+			recipe.pattern("X X");
+			recipe.pattern("X#X");
+			recipe.pattern("XXX");
+		});
+
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
 			recipe.define('X', Tags.Items.INGOTS_COPPER);

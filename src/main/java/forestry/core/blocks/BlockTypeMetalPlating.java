@@ -44,6 +44,7 @@ public enum BlockTypeMetalPlating implements IBlockSubtype {
 		return name().toLowerCase(Locale.ENGLISH).concat("_metal_plating");
 	}
 
+	//TODO: see BlockTypeJumboCandle
 	public static Map<TagKey<Item>, BlockTypeMetalPlating> getDye(){
 		return new HashMap<>(){{
 			this.put(Tags.Items.DYES_WHITE, WHITE);

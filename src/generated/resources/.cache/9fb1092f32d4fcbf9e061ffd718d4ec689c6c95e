@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-14T00:43:35.5890116	Recipes
+// 1.20.1	2026-04-19T14:50:53.1247554	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -750,6 +750,7 @@ d9a519e3030c29577c869472fe54c4031182d768 data/forestry/advancements/recipes/misc
 f2854aa6011beb0d5a47fb1f1cba569df441083e data/forestry/advancements/recipes/misc/bee_house.json
 05db480b510e48bf86dce2aae4dbd5928b383654 data/forestry/advancements/recipes/misc/bituminous_peat.json
 013b62f207a12c49f21300c505a9989907dc1629 data/forestry/advancements/recipes/misc/bottler.json
+e424ca93cb526f8f63e5851e623b9259d055c947 data/forestry/advancements/recipes/misc/burn_barrel.json
 15473bf2e4a895af15db804f18a779edba9b7e1c data/forestry/advancements/recipes/misc/butterfly_chest.json
 235b92308dc3c9bc7fe17dbc72bcebb47ca7e1b0 data/forestry/advancements/recipes/misc/can.json
 df4d0fc6a1c7233dd9f74c2d9e34cae16aaa3aee data/forestry/advancements/recipes/misc/capsule.json
@@ -1419,6 +1420,7 @@ ed4cfaf7180c01ddececabddbe0f3266f4d0aaeb data/forestry/recipes/brewer_bag.json
 04743ae989b2aa95075fe16ca5ddf58b36f558b4 data/forestry/recipes/bronze_shovel.json
 686a9f88f7b8f3d3608f27d4d9182ca55efce6a8 data/forestry/recipes/bronze_sword.json
 cdd506495fa79ef046627326d936a5d075dfb2ca data/forestry/recipes/builder_bag.json
+b833b33268a63918cf3e5a495ffcc305d783cdfe data/forestry/recipes/burn_barrel.json
 84b528ce1a5a4f5fdf8ec2656c390238c0e2095f data/forestry/recipes/butterfly_chest.json
 4dbb18454fa95474e0245f569b6fad6a24d2d18b data/forestry/recipes/butterfly_mating.json
 d8440aecdb22cd7fb3a869b556dbb93989432dbe data/forestry/recipes/cake_can.json

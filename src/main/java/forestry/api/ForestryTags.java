@@ -108,6 +108,9 @@ public class ForestryTags {
 		// Blocks where the Alveary Swarmer can spawn hives on top of
 		public static final TagKey<Block> SWARM_BEE_GROUND = blockTag("hive_grounds/swarm");
 
+		public static final TagKey<Block> JUMBO_CANDLE = blockTag("jumbo_candle");
+		public static final TagKey<Block> BIG_CANDLE = blockTag("big_candle");
+
         private static TagKey<Block> forgeTag(String name) {
 			return BlockTags.create(new ResourceLocation("forge", name));
 		}

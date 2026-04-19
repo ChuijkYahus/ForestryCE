@@ -221,6 +221,10 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES).add(Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT, Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT);
 
 		//BUILDING BLOCKS
+		CoreBlocks.JUMBO_CANDLES.getBlocks().forEach(block ->
+			tags.tag(ForestryTags.Blocks.JUMBO_CANDLE).add(block)
+		);
+
 		tags.tag(BlockTags.WALLS).add(
 			CoreBlocks.ASH_BRICK_WALL.block(),
 			CoreBlocks.WAX_BRICK_WALL.block(),

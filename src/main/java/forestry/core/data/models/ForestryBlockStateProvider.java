@@ -1,5 +1,6 @@
 package forestry.core.data.models;
 
+import forestry.Forestry;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
 import forestry.apiculture.blocks.BlockBeeHive;
@@ -7,9 +8,7 @@ import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.core.blocks.BlockBase;
-import forestry.core.blocks.BlockMetalPlating;
-import forestry.core.blocks.BlockTypeMetalPlating;
+import forestry.core.blocks.*;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.fluids.ForestryFluids;
@@ -108,6 +107,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		machineBlock(BlockTypeFactoryPlain.SMELTER, TankLayout.NONE);
 		machineBlock(BlockTypeFactoryPlain.SQUEEZER, TankLayout.PRODUCT);
 		machineBlock(BlockTypeFactoryPlain.STILL, TankLayout.BOTH);
+
+		jumboCandles();
 
 
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
@@ -379,6 +380,99 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			case EAST  -> 90;
 			default -> 0;
 		};
+	}
+
+	private void jumboCandles(){
+
+		for(BlockTypeJumboCandle type: BlockTypeJumboCandle.values()){
+			Forestry.LOGGER.info("Building model for " + type);
+
+			Block candle = CoreBlocks.JUMBO_CANDLES.get(type).block();
+			String modelName;
+			String bottom;
+			String side;
+			String top;
+
+			//Single
+			modelName = "block/candles/" + type.getSerializedName() + "_jumbo_single";
+
+			bottom = "block/candles/" + type.getSerializedName() + "_bottom";
+			side = "block/candles/" + type.getSerializedName() + "_side";
+			top = "block/candles/" + type.getSerializedName() + "_top";
+
+			models().withExistingParent(modelName,
+					modLoc("block/candles/jumbo_single"))
+				.texture("bottom", modLoc(bottom))
+				.texture("side", modLoc(side))
+				.texture("top", modLoc(top))
+				.texture("particle", modLoc(side));
+			Forestry.LOGGER.info("Created model: " + modelName);
+
+			//Top
+			modelName = "block/candles/" + type.getSerializedName() + "_jumbo_top";
+
+			bottom = "block/candles/" + type.getSerializedName() + "_bottom_top";
+			side = "block/candles/" + type.getSerializedName() + "_side_top";
+			top = "block/candles/" + type.getSerializedName() + "_top";
+
+			models().withExistingParent(modelName,
+					modLoc("block/candles/jumbo_top"))
+				.texture("bottom", modLoc(bottom))
+				.texture("side", modLoc(side))
+				.texture("top", modLoc(top))
+				.texture("particle", modLoc(side));
+			Forestry.LOGGER.info("Created model: " + modelName);
+
+			//Middle
+			modelName = "block/candles/" + type.getSerializedName() + "_jumbo_middle";
+
+			bottom = "block/candles/" + type.getSerializedName() + "_bottom_top";
+			side = "block/candles/" + type.getSerializedName() + "_side_middle";
+			top = "block/candles/" + type.getSerializedName() + "_middle_top";
+
+			models().withExistingParent(modelName,
+					modLoc("block/candles/jumbo_middle"))
+				.texture("bottom", modLoc(bottom))
+				.texture("side", modLoc(side))
+				.texture("top", modLoc(top))
+				.texture("particle", modLoc(side));
+			Forestry.LOGGER.info("Created model: " + modelName);
+
+			//Bottom
+			//It is only about here that I really found the phrase "Jumbo Bottom" incredibly funny.
+			modelName = "block/candles/" + type.getSerializedName() + "_jumbo_bottom";
+
+			bottom = "block/candles/" + type.getSerializedName() + "_bottom";
+			side = "block/candles/" + type.getSerializedName() + "_side_bottom";
+			top = "block/candles/" + type.getSerializedName() + "_bottom_top";
+
+			models().withExistingParent(modelName,
+					modLoc("block/candles/jumbo_bottom"))
+				.texture("bottom", modLoc(bottom))
+				.texture("side", modLoc(side))
+				.texture("top", modLoc(top))
+				.texture("particle", modLoc(side));
+			Forestry.LOGGER.info("Created model: " + modelName);
+
+			Forestry.LOGGER.info("Building blockstates for " + type);
+
+			getVariantBuilder(candle).forAllStates(state -> {
+				Forestry.LOGGER.info("Building state for " + state);
+
+				BlockJumboCandle.CandleShape shape = state.getValue(BlockJumboCandle.SHAPE);
+
+				String curModel = "block/candles/" + type.getSerializedName() + "_jumbo_" + shape.getSerializedName();
+
+				Forestry.LOGGER.info("Looking for model: " + curModel);
+
+				return ConfiguredModel.builder()
+					.modelFile(models().getExistingFile(modLoc(curModel)))
+					.build();
+			});
+
+			//simpleBlockItem(candle, models().getExistingFile(ResourceLocation.parse("block/candles/" + type.getSerializedName() + "_jumbo_single")));
+		}
+
 	}
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {
