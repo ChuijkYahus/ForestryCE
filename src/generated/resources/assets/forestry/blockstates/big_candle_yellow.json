@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "forestry:block/candles/yellow_big"
+    },
+    "lit=true": {
+      "model": "forestry:block/candles/yellow_big"
+    }
+  }
+}

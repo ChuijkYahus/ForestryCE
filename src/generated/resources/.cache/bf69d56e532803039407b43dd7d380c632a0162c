@@ -1,8 +1,9 @@
-// 1.20.1	2026-04-19T15:42:11.2523281	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-05-04T23:57:18.7782325	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
 785dde211dbc936b7d115a3e9def251869c30882 data/forestry/tags/blocks/beech_logs.json
+5e8eb916c5c706bfbda50aea7e3338a7885c5e30 data/forestry/tags/blocks/big_candle.json
 141bc440331efa5e4af4022e97208e56e9d66954 data/forestry/tags/blocks/chestnut_logs.json
 aabf22e400a3909e316b0f004cfd21e59a80c1e1 data/forestry/tags/blocks/citrus_logs.json
 bc7896f819c64d7001e44ae623800293d1e776d3 data/forestry/tags/blocks/cocobolo_logs.json

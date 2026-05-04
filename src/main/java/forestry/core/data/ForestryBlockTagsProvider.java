@@ -224,6 +224,9 @@ public final class ForestryBlockTagsProvider {
 		CoreBlocks.JUMBO_CANDLES.getBlocks().forEach(block ->
 			tags.tag(ForestryTags.Blocks.JUMBO_CANDLE).add(block)
 		);
+		CoreBlocks.BIG_CANDLES.getBlocks().forEach(block ->
+			tags.tag(ForestryTags.Blocks.BIG_CANDLE).add(block)
+		);
 
 		tags.tag(BlockTags.WALLS).add(
 			CoreBlocks.ASH_BRICK_WALL.block(),

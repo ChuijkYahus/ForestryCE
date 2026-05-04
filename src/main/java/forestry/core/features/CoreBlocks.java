@@ -72,6 +72,8 @@ public class CoreBlocks {
 
 	public static final FeatureBlockGroup<BlockJumboCandle, BlockTypeJumboCandle> JUMBO_CANDLES = REGISTRY.blockGroup(BlockJumboCandle::new, BlockTypeJumboCandle.values()).itemWithType((block, type) -> new ItemBlockForestry<>(block, new Item.Properties())).identifier("jumbo_candle").create();
 
+	public static final FeatureBlockGroup<BlockBigCandle, BlockTypeBigCandle> BIG_CANDLES = REGISTRY.blockGroup(BlockBigCandle::new, BlockTypeBigCandle.values()).itemWithType((block, type) -> new ItemBlockForestry<>(block, new Item.Properties())).identifier("big_candle").create();
+
 	public static final FeatureBlockGroup<BlockTesr<NaturalistChestBlockType>, NaturalistChestBlockType> NATURALIST_CHEST = REGISTRY.blockGroup(type -> {
 		return new BlockTesr<>(type, Block.Properties.of().sound(SoundType.WOOD));
 	}, NaturalistChestBlockType.values()).item(ItemBlockTesr::new).create();

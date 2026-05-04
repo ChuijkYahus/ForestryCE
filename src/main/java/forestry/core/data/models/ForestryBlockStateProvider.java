@@ -109,6 +109,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		machineBlock(BlockTypeFactoryPlain.STILL, TankLayout.BOTH);
 
 		jumboCandles();
+		bigCandles();
 
 
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
@@ -474,6 +475,40 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		}
 
 	}
+
+	private void bigCandles(){
+
+		for(BlockTypeBigCandle type: BlockTypeBigCandle.values()){
+			Forestry.LOGGER.info("Building model for " + type);
+
+			Block candle = CoreBlocks.BIG_CANDLES.get(type).block();
+			String modelName;
+
+			modelName = "block/candles/" + type.getSerializedName() + "_big";
+			models().withExistingParent(modelName,
+					modLoc("block/candles/big"))
+				.texture("0", modLoc(modelName))
+				.texture("particle", modLoc(modelName));
+			Forestry.LOGGER.info("Created model: " + modelName);
+
+
+			Forestry.LOGGER.info("Building blockstates for " + type);
+
+			getVariantBuilder(candle).forAllStates(state -> {
+				Forestry.LOGGER.info("Building state for " + state);
+
+				String curModel = "block/candles/" + type.getSerializedName() + "_big";
+
+				return ConfiguredModel.builder()
+					.modelFile(models().getExistingFile(modLoc(curModel)))
+					.build();
+			});
+
+			//simpleBlockItem(candle, models().getExistingFile(ResourceLocation.parse("block/candles/" + type.getSerializedName() + "_jumbo_single")));
+		}
+
+	}
+
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {
 		return loc.withSuffix(suffix);

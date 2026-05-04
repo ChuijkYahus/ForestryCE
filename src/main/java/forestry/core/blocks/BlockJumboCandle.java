@@ -128,7 +128,7 @@ public class BlockJumboCandle extends Block {
 
 		if (random.nextInt(3) == 0) {
 			float x = pos.getX() + 0.5f;
-			float y = pos.getY() + 1.25f;
+			float y = pos.getY() + 1.125f;
 			float z = pos.getZ() + 0.5f;
 
 			level.addParticle(ParticleTypes.FLAME, x, y, z, 0.0, 0.0, 0.0);

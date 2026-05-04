@@ -2068,6 +2068,8 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("metal_plating", id));
 	}
 
+
+
 	private static void addFireproofRecipes(Consumer<FinishedRecipe> consumer, IWoodType type) {
 		FluidStack liquidGlass = ForestryFluids.GLASS.getFluid(500);
 

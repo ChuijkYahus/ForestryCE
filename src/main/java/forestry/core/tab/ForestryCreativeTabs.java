@@ -178,6 +178,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB);
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_WALL);
 		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
+		CoreBlocks.BIG_CANDLES.getItems().forEach(items::accept);
 		CoreBlocks.JUMBO_CANDLES.getItems().forEach(items::accept);
 		items.accept(CoreBlocks.TURF_BLOCK);
 		items.accept(CoreBlocks.TURF);
