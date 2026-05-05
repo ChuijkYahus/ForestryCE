@@ -55,6 +55,7 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 	}
 
 	@Override
+	@SuppressWarnings("removal") // internal bridge: only call site of the deprecated ICharcoalManager.registerWall — lifetime tied to the interface's removal
 	public void registerCharcoalPitWall(BlockState state, int charcoal) {
 		this.charcoalPitWalls.registerWall(state, charcoal);
 	}
