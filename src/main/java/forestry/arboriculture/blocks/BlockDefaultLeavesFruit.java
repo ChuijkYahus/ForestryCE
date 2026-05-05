@@ -12,7 +12,7 @@ import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -42,16 +42,16 @@ public class BlockDefaultLeavesFruit extends BlockAbstractLeaves {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult traceResult) {
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult traceResult) {
 		ItemStack mainHand = player.getItemInHand(InteractionHand.MAIN_HAND);
 		ItemStack offHand = player.getItemInHand(InteractionHand.OFF_HAND);
 		if (mainHand.isEmpty() && offHand.isEmpty()) {
 			ITree tree = getTree(level, pos);
 			if (tree == null) {
-				return InteractionResult.FAIL;
+				return ItemInteractionResult.FAIL;
 			}
 			if (level.isClientSide) {
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 			}
 			BlockUtil.sendDestroyEffects(level, pos, state);
 			IFruit fruitProvider = tree.getGenome().getActiveValue(TreeChromosomes.FRUIT);
@@ -62,10 +62,10 @@ public class BlockDefaultLeavesFruit extends BlockAbstractLeaves {
 			for (ItemStack fruit : products) {
 				ItemHandlerHelper.giveItemToPlayer(player, fruit);
 			}
-			return InteractionResult.CONSUME;
+			return ItemInteractionResult.CONSUME;
 		}
 
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Override
