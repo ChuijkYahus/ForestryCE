@@ -27,7 +27,7 @@ public final class FluidHelper {
 		if (fluidStack1 == null) {
 			return fluidStack2 == null;
 		} else {
-			return fluidStack1.isFluidStackIdentical(fluidStack2);
+			return FluidStack.matches(fluidStack1, fluidStack2);
 		}
 	}
 

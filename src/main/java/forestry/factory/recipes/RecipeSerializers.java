@@ -38,11 +38,13 @@ public class RecipeSerializers {
 	}
 
 	public static FluidStack deserializeFluid(JsonObject object) {
-		return FluidStack.loadFluidStackFromNBT((CompoundTag) Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, object));
+		// Recipe JSON parsing predates registry-aware components; use empty registries (no Holder lookups expected).
+		CompoundTag tag = (CompoundTag) Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, object);
+		return FluidStack.parseOptional(RegistryAccess.EMPTY, tag);
 	}
 
 	public static JsonObject serializeFluid(FluidStack fluid) {
-		return (JsonObject) Dynamic.convert(NbtOps.INSTANCE, JsonOps.INSTANCE, fluid.writeToNBT(new CompoundTag()));
+		return (JsonObject) Dynamic.convert(NbtOps.INSTANCE, JsonOps.INSTANCE, fluid.save(RegistryAccess.EMPTY));
 	}
 
 	public static ItemStack item(JsonObject object) {

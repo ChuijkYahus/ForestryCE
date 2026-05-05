@@ -96,7 +96,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 	public boolean matches(FluidStack fluid, ItemStack boxStack, Container craftingInventory, Level level) {
 		FluidStack liquid = this.liquid;
 		if (!liquid.isEmpty()) {
-			if (fluid.isEmpty() || !fluid.containsFluid(liquid)) {
+			if (fluid.isEmpty() || !(FluidStack.isSameFluidSameComponents(fluid, liquid) && fluid.getAmount() >= liquid.getAmount())) {
 				return false;
 			}
 		}

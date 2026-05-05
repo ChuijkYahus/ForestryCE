@@ -61,7 +61,7 @@ public class StillRecipe implements IStillRecipe {
 
 	@Override
 	public boolean matches(FluidStack input) {
-		return input.containsFluid(this.input);
+		return FluidStack.isSameFluidSameComponents(input, this.input) && input.getAmount() >= this.input.getAmount();
 	}
 
 	@Override

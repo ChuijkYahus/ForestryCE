@@ -155,7 +155,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 		FluidStack fluid = this.currentRecipe.getInputFluid();
 		if (!fluid.isEmpty()) {
 			FluidStack drained = this.resourceTank.drainInternal(fluid, IFluidHandler.FluidAction.SIMULATE);
-			if (!fluid.isFluidStackIdentical(drained)) {
+			if (!FluidStack.matches(fluid, drained)) {
 				return false;
 			}
 			if (doRemove) {

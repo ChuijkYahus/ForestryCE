@@ -58,9 +58,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
         this.tankManager.write(compoundNBT);
 
 		if (!this.bufferedLiquid.isEmpty()) {
-			CompoundTag buffer = new CompoundTag();
-            this.bufferedLiquid.writeToNBT(buffer);
-			compoundNBT.put("Buffer", buffer);
+			compoundNBT.put("Buffer", this.bufferedLiquid.save(getRegistries()));
 		}
 	}
 
@@ -71,7 +69,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 
 		if (compoundNBT.contains("Buffer")) {
 			CompoundTag buffer = compoundNBT.getCompound("Buffer");
-            this.bufferedLiquid = FluidStack.loadFluidStackFromNBT(buffer);
+            this.bufferedLiquid = FluidStack.parseOptional(getRegistries(), buffer);
 		}
 	}
 

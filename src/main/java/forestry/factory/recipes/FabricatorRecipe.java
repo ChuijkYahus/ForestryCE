@@ -69,7 +69,7 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 
 	@Override
 	public boolean matches(Level level, FluidStack liquid, ItemStack stack, Container inventory) {
-		return liquid.containsFluid(this.resultFluid) && this.plan.test(stack) && this.recipe.matches(FakeCraftingInventory.of(inventory), level);
+		return FluidStack.isSameFluidSameComponents(liquid, this.resultFluid) && liquid.getAmount() >= this.resultFluid.getAmount() && this.plan.test(stack) && this.recipe.matches(FakeCraftingInventory.of(inventory), level);
 	}
 
 	@Override

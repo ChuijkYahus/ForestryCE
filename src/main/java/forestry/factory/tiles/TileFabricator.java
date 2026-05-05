@@ -156,7 +156,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		ItemStack plan = inventory.getItem(InventoryFabricator.SLOT_PLAN);
 		FluidStack liquid = this.moltenTank.getFluid();
 		IFabricatorRecipe recipe = RecipeUtils.getFabricatorRecipe(this.level.getRecipeManager(), this.level, liquid, plan, this.craftingInventory);
-		if (!liquid.isEmpty() && recipe != null && !liquid.containsFluid(recipe.getResultFluid())) {
+		if (!liquid.isEmpty() && recipe != null && !(FluidStack.isSameFluidSameComponents(liquid, recipe.getResultFluid()) && liquid.getAmount() >= recipe.getResultFluid().getAmount())) {
 			return null;
 		}
 		return recipe;
@@ -188,7 +188,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 			// Remove resources
 			if (removeFromInventory(myRecipe, false)) {
 				FluidStack drained = this.moltenTank.drainInternal(liquid, IFluidHandler.FluidAction.SIMULATE);
-				if (!drained.isEmpty() && drained.isFluidStackIdentical(liquid)) {
+				if (!drained.isEmpty() && FluidStack.matches(drained, liquid)) {
 					removeFromInventory(myRecipe, true);
                     this.moltenTank.drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
 
@@ -224,7 +224,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 			hasResources = removeFromInventory(recipe, false);
 			FluidStack toDrain = recipe.getResultFluid();
 			FluidStack drained = this.moltenTank.drainInternal(toDrain, IFluidHandler.FluidAction.SIMULATE);
-			hasLiquidResources = !drained.isEmpty() && drained.isFluidStackIdentical(toDrain);
+			hasLiquidResources = !drained.isEmpty() && FluidStack.matches(drained, toDrain);
 		} else {
 			hasRecipe = RecipeUtils.getFabricatorMeltingRecipe(this.level.getRecipeManager(), getItem(InventoryFabricator.SLOT_METAL)) != null;
 		}

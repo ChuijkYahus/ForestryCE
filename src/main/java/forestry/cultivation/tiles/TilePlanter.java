@@ -196,7 +196,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	@Override
 	public boolean hasLiquid(FluidStack liquid) {
 		FluidStack drained = this.manager.getResourceTank().drainInternal(liquid, IFluidHandler.FluidAction.SIMULATE);
-		return liquid.isFluidStackIdentical(drained);
+		return FluidStack.matches(liquid, drained);
 	}
 
 	@Override
