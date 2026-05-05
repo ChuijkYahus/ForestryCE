@@ -150,7 +150,13 @@ public class ForestryModuleManager implements IModuleManager {
 		return modules;
 	}
 
+	private boolean apiSetUp = false;
+
 	public void setupApi() {
+		if (this.apiSetUp) {
+			return;
+		}
+		this.apiSetUp = true;
 		for (IForestryModule module : getLoadedModules()) {
 			try {
 				module.setupApi();

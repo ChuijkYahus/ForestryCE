@@ -78,6 +78,7 @@ public class ModuleCore extends BlankForestryModule {
 		modBus.addListener(ModuleCore::registerCapabilities);
 		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
 		modBus.addListener(ModuleCore::registerForestryRegistries);
+		modBus.addListener(ModuleCore::onGatherData);
 
 		ModuleUtil.loadFeatureProviders();
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
@@ -91,9 +92,9 @@ public class ModuleCore extends BlankForestryModule {
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
-			((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
 			PluginManager.registerCircuits();
 			postItemRegistry();
+			((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
 			EntityDataSerializers.registerSerializer(GameProfileDataSerializer.INSTANCE);
 			registerComposts();
 		});
@@ -103,6 +104,15 @@ public class ModuleCore extends BlankForestryModule {
 		event.register(ForestryRegistries.CIRCUIT);
 		event.register(ForestryRegistries.POSTAL_CARRIER);
 		event.register(ForestryRegistries.SPECIES_TYPE);
+	}
+
+	private static void onGatherData(net.neoforged.neoforge.data.event.GatherDataEvent event) {
+		// Datagen skips FMLCommonSetupEvent, so initialize the API here so data
+		// providers can resolve TreeManager / BeeManager / ButterflyManager.
+		PluginManager.registerCircuits();
+		postItemRegistry();
+		((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
+		registerComposts();
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
