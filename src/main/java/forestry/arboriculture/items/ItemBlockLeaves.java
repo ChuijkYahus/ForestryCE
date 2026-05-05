@@ -21,6 +21,10 @@ public class ItemBlockLeaves extends ItemBlockForestry<BlockAbstractLeaves> impl
 		super(block, properties);
 	}
 
+	public ItemBlockLeaves(BlockAbstractLeaves block) {
+		this(block, new Item.Properties());
+	}
+
 	@Override
 	public Component getName(ItemStack itemstack) {
 		CompoundTag tag = NBTUtilForestry.getItemStackTag(itemstack);
