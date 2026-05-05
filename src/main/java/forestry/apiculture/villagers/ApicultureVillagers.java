@@ -60,7 +60,7 @@ public class ApicultureVillagers {
 	public static void villagerTrades(VillagerTradesEvent event) {
 		if (event.getType().equals(PROF_BEEKEEPER.get())) {
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
-			List<Item> combs = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(Registries.ITEM).getTag(ForestryTags.Items.VILLAGE_COMBS).get().stream()
+			List<Item> combs = event.getRegistryAccess().registryOrThrow(Registries.ITEM).getTag(ForestryTags.Items.VILLAGE_COMBS).get().stream()
 				.map(Holder::value)
 				.toList();
 

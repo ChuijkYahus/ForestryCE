@@ -51,6 +51,12 @@ public class NetworkUtil {
 	}
 
 	public static void sendToAllPlayers(CustomPacketPayload packet) {
+		// Skip if no server is available (e.g. dedicated server's initial datapack
+		// reload happens before the server is registered with ServerLifecycleHooks,
+		// and the integrated client never has clients connected during startup).
+		if (net.neoforged.neoforge.server.ServerLifecycleHooks.getCurrentServer() == null) {
+			return;
+		}
 		PacketDistributor.sendToAllPlayers(packet);
 	}
 
