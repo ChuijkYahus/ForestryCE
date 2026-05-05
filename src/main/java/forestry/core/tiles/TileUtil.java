@@ -35,7 +35,7 @@ public abstract class TileUtil {
 	 */
 	@Nullable
 	public static BlockEntity getTile(BlockGetter level, BlockPos pos) {
-		return level.getExistingBlockEntity(pos);
+		return level.getBlockEntity(pos);
 	}
 
 	/**
