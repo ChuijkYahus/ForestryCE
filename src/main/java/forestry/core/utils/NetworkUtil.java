@@ -50,6 +50,10 @@ public class NetworkUtil {
 		PacketDistributor.sendToServer(packet);
 	}
 
+	public static void sendToAllPlayers(CustomPacketPayload packet) {
+		PacketDistributor.sendToAllPlayers(packet);
+	}
+
 	// Used for Streamable to prepare FriendlyByteBuf for sending over the network
 	public static void writePayloadBuffer(RegistryFriendlyByteBuf buffer, Consumer<RegistryFriendlyByteBuf> dataWriter) {
 		// write a placeholder value for the number of bytes, keeping its index for replacing later
