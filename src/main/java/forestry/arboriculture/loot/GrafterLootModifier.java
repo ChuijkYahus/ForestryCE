@@ -61,7 +61,7 @@ public class GrafterLootModifier extends LootModifier {
 		if (generatedLoot.stream().noneMatch((stack) -> stack.is(ItemTags.SAPLINGS))) {
 			handleLoot(generatedLoot, player, harvestingTool, state, context);
 		}
-		harvestingTool.hurt(1, context.getRandom(), (ServerPlayer) player);
+		harvestingTool.hurtAndBreak(1, context.getLevel(), (ServerPlayer) player, item -> {});
 		if (harvestingTool.isEmpty()) {
 			EventHooks.onPlayerDestroyItem(player, harvestingTool, InteractionHand.MAIN_HAND);
 		}
