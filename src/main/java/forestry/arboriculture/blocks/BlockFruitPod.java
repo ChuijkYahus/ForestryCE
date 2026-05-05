@@ -86,7 +86,7 @@ public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 
 	/* IGrowable */
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
 		TileFruitPod podTile = TileUtil.getTile(level, pos, TileFruitPod.class);
 		return podTile != null && podTile.canMature();
 	}
