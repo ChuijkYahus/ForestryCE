@@ -77,7 +77,7 @@ public class FilteredTank extends StandardTank {
 					rarity = Rarity.COMMON;
 				}
 				FluidStack filterFluidStack = new FluidStack(fluidFilter, 1);
-				toolTip.add(filterFluidStack.getDisplayName(), rarity.color);
+				toolTip.add(filterFluidStack.getDisplayName(), rarity.color());
 			}
 		} else {
 			Component tmiComponent = Component.literal("<")
