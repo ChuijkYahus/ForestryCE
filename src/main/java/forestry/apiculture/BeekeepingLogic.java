@@ -23,6 +23,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -128,7 +129,9 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	public void writeData(FriendlyByteBuf data) {
 		data.writeBoolean(this.active);
 		if (this.active) {
-			data.writeItem(this.queenStack);
+			// PacketBeeLogicActive sends this through a RegistryFriendlyByteBuf payload,
+			// which is required for ItemStack.STREAM_CODEC since 1.20.5.
+			ItemStack.STREAM_CODEC.encode((RegistryFriendlyByteBuf) data, this.queenStack);
 			this.hasFlowersCache.writeData(data);
 		}
 	}
@@ -140,7 +143,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		setActive(active);
 
 		if (active) {
-			this.queenStack = data.readItem();
+			this.queenStack = ItemStack.STREAM_CODEC.decode((RegistryFriendlyByteBuf) data);
 			this.queen = (IBee) IIndividualHandlerItem.getIndividual(this.queenStack);
 			this.hasFlowersCache.readData(data);
 		}
