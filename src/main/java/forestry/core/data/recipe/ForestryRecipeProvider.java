@@ -128,7 +128,7 @@ public class ForestryRecipeProvider {
 		registerCultivationRecipes(recipes);
 		registerFactoryRecipes(recipes);
 		registerFarmingRecipes(recipes);
-		registerFluidsRecipes(output, recipes);
+		registerFluidsRecipes(output);
 		registerLepidopterologyRecipes(recipes);
 		registerMailRecipes(recipes);
 		registerSortingRecipes(recipes);
@@ -1016,7 +1016,7 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void registerFluidsRecipes(RecipeOutput output, MKRecipeProvider recipes) {
+	private static void registerFluidsRecipes(RecipeOutput output) {
 		// Bypass MKRecipeProvider's shapedCrafting wrapper here: its
 		// attemptAutoCriterion calls Ingredient#getValues, which throws on
 		// DataComponentIngredient. Build with vanilla ShapedRecipeBuilder

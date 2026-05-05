@@ -66,6 +66,9 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 		Preconditions.checkNotNull(id, "Recipe identifier cannot be null");
 		Preconditions.checkNotNull(box);
 		Preconditions.checkNotNull(recipe);
+		if (!(recipe instanceof ShapedRecipe) && !(recipe instanceof ShapelessRecipe)) {
+			throw new IllegalArgumentException("CarpenterRecipe inner recipe must be ShapedRecipe or ShapelessRecipe; got " + recipe.getClass().getName());
+		}
 
 		this.id = id;
 		this.packagingTime = packagingTime;

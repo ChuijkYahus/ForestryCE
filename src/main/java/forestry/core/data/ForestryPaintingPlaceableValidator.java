@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
@@ -62,7 +64,7 @@ public final class ForestryPaintingPlaceableValidator implements DataProvider {
 		Path dir;
 		try {
 			dir = Path.of(URI.create(dirUrl.toString()));
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException | FileSystemNotFoundException e) {
 			throw new IllegalStateException("painting_variant resource is not a regular directory (jar-packed?): " + dirUrl, e);
 		}
 		try (Stream<Path> stream = Files.list(dir)) {
@@ -83,7 +85,7 @@ public final class ForestryPaintingPlaceableValidator implements DataProvider {
 			if (stream == null) {
 				throw new IllegalStateException("Missing placeable tag resource at " + PLACEABLE_TAG_RESOURCE);
 			}
-			JsonElement json = JsonParser.parseReader(new InputStreamReader(stream));
+			JsonElement json = JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
 			JsonObject obj = json.getAsJsonObject();
 			Set<String> entries = new TreeSet<>();
 			obj.getAsJsonArray("values").forEach(v -> entries.add(v.getAsString()));
