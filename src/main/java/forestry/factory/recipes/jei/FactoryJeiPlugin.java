@@ -44,7 +44,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.Comparator;
@@ -136,18 +135,20 @@ public class FactoryJeiPlugin implements IModPlugin {
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration subtypeRegistry) {
 		ISubtypeInterpreter<ItemStack> subtypeInterpreter = new ISubtypeInterpreter<>() {
+			private Optional<ResourceLocation> currentFluidId(ItemStack itemStack) {
+				return FluidUtil.getFluidHandler(itemStack)
+					.map(handler -> handler.getFluidInTank(0))
+					.map(fluid -> ModUtil.getRegistryName(fluid.getFluid()));
+			}
+
 			@Override
 			public Object getSubtypeData(ItemStack itemStack, UidContext context) {
-				Optional<IFluidHandlerItem> fluidHandler = FluidUtil.getFluidHandler(itemStack);
-				return fluidHandler.map(handler -> handler.getFluidInTank(0))
-					.map(fluid -> ModUtil.getRegistryName(fluid.getFluid()))
-					.orElse(null);
+				return currentFluidId(itemStack).orElse(null);
 			}
 
 			@Override
 			public String getLegacyStringSubtypeInfo(ItemStack itemStack, UidContext context) {
-				ResourceLocation id = (ResourceLocation) getSubtypeData(itemStack, context);
-				return id == null ? "" : id.toString();
+				return currentFluidId(itemStack).map(ResourceLocation::toString).orElse("");
 			}
 		};
 
