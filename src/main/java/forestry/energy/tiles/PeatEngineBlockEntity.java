@@ -223,7 +223,7 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 		if (compoundNBT.contains("EngineFuelItemStack")) {
 			CompoundTag fuelItemNbt = compoundNBT.getCompound("EngineFuelItemStack");
-            this.fuel = ItemStack.parse(getRegistries(), fuelItemNbt).orElse(ItemStack.EMPTY);
+            this.fuel = ItemStack.parse(registries, fuelItemNbt).orElse(ItemStack.EMPTY);
 		}
 
         this.burnTime = compoundNBT.getInt("EngineBurnTime");
@@ -239,7 +239,7 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 		super.saveAdditional(nbt, registries);
 
 		if (!this.fuel.isEmpty()) {
-			nbt.put("EngineFuelItemStack", this.fuel.save(getRegistries(), new CompoundTag()));
+			nbt.put("EngineFuelItemStack", this.fuel.save(registries, new CompoundTag()));
 		}
 
 		nbt.putInt("EngineBurnTime", this.burnTime);

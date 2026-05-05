@@ -56,21 +56,21 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.saveAdditional(compoundNBT, registries);
-        this.tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
 
 		if (!this.bufferedLiquid.isEmpty()) {
-			compoundNBT.put("Buffer", this.bufferedLiquid.save(getRegistries()));
+			compoundNBT.put("Buffer", this.bufferedLiquid.save(registries));
 		}
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.loadAdditional(compoundNBT, registries);
-        this.tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT, registries);
 
 		if (compoundNBT.contains("Buffer")) {
 			CompoundTag buffer = compoundNBT.getCompound("Buffer");
-            this.bufferedLiquid = FluidStack.parseOptional(getRegistries(), buffer);
+            this.bufferedLiquid = FluidStack.parseOptional(registries, buffer);
 		}
 	}
 

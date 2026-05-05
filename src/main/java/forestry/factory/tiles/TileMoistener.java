@@ -73,15 +73,15 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 		compoundNBT.putInt("TotalTime", this.totalTime);
 		compoundNBT.putInt("ProductionTime", this.productionTime);
 
-        this.tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
 
 		// Write pending product
 		if (this.pendingProduct != null) {
-			CompoundTag CompoundNBTP = (CompoundTag) this.pendingProduct.saveOptional(getRegistries());
+			CompoundTag CompoundNBTP = (CompoundTag) this.pendingProduct.saveOptional(registries);
 			compoundNBT.put("PendingProduct", CompoundNBTP);
 		}
 		if (this.currentProduct != null) {
-			CompoundTag CompoundNBTP = (CompoundTag) this.currentProduct.saveOptional(getRegistries());
+			CompoundTag CompoundNBTP = (CompoundTag) this.currentProduct.saveOptional(registries);
 			compoundNBT.put("CurrentProduct", CompoundNBTP);
 		}
 	}
@@ -94,16 +94,16 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
         this.totalTime = compoundNBT.getInt("TotalTime");
         this.productionTime = compoundNBT.getInt("ProductionTime");
 
-        this.tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT, registries);
 
 		// Load pending product
 		if (compoundNBT.contains("PendingProduct")) {
 			CompoundTag compoundNBTP = compoundNBT.getCompound("PendingProduct");
-            this.pendingProduct = ItemStack.parse(getRegistries(), compoundNBTP).orElse(ItemStack.EMPTY);
+            this.pendingProduct = ItemStack.parse(registries, compoundNBTP).orElse(ItemStack.EMPTY);
 		}
 		if (compoundNBT.contains("CurrentProduct")) {
 			CompoundTag compoundNBTP = compoundNBT.getCompound("CurrentProduct");
-            this.currentProduct = ItemStack.parse(getRegistries(), compoundNBTP).orElse(ItemStack.EMPTY);
+            this.currentProduct = ItemStack.parse(registries, compoundNBTP).orElse(ItemStack.EMPTY);
 		}
 
 		checkRecipe();

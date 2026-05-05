@@ -92,12 +92,12 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 	@Override
 	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.loadAdditional(compoundNBT, registries);
-        this.tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT, registries);
 
         this.heatTicks = compoundNBT.getInt("TransferTime");
 
 		if (compoundNBT.contains("CurrentLiquid")) {
-			FluidStack liquid = FluidStack.parseOptional(getRegistries(), compoundNBT.getCompound("CurrentLiquid"));
+			FluidStack liquid = FluidStack.parseOptional(registries, compoundNBT.getCompound("CurrentLiquid"));
             this.currentRecipe = RecipeUtils.getHygroRegulatorRecipe(RecipeUtils.getRecipeManager(), liquid);
 		}
 	}
@@ -106,11 +106,11 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.saveAdditional(compoundNBT, registries);
-        this.tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
 
 		compoundNBT.putInt("TransferTime", this.heatTicks);
 		if (this.currentRecipe != null) {
-			compoundNBT.put("CurrentLiquid", this.currentRecipe.getInputFluid().save(getRegistries()));
+			compoundNBT.put("CurrentLiquid", this.currentRecipe.getInputFluid().save(registries));
 		}
 	}
 

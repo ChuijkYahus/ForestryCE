@@ -140,7 +140,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 		ListTag nbttaglist = compoundNBT.getList("PendingSpawns", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag compoundNBT1 = nbttaglist.getCompound(i);
-            this.pendingSpawns.add(ItemStack.parse(getRegistries(), compoundNBT1).orElse(ItemStack.EMPTY));
+            this.pendingSpawns.add(ItemStack.parse(registries, compoundNBT1).orElse(ItemStack.EMPTY));
 		}
 	}
 
@@ -152,7 +152,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 		ItemStack[] offspring = this.pendingSpawns.toArray(new ItemStack[0]);
 		for (int i = 0; i < offspring.length; i++) {
 			if (offspring[i] != null) {
-				CompoundTag compoundNBT1 = (CompoundTag) offspring[i].saveOptional(getRegistries());
+				CompoundTag compoundNBT1 = (CompoundTag) offspring[i].saveOptional(registries);
 				compoundNBT1.putByte("Slot", (byte) i);
 				nbttaglist.add(compoundNBT1);
 			}
