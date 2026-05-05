@@ -11,19 +11,17 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum ToolTier implements Tier {
-	SURVIVALIST(3, 200, 7.0F, 2.5F, 10, () -> {
+	SURVIVALIST(200, 7.0F, 2.5F, 10, () -> {
 		return Ingredient.of(ForestryTags.Items.INGOTS_BRONZE);
 	});
 
-	private final int level;
 	private final int uses;
 	private final float speed;
 	private final float damage;
 	private final int enchantmentValue;
 	private final LazyLoadedValue<Ingredient> repairIngredient;
 
-	ToolTier(int level, int uses, float speed, float damage, int enchantmentValue, Supplier<Ingredient> repairIngredient) {
-		this.level = level;
+	ToolTier(int uses, float speed, float damage, int enchantmentValue, Supplier<Ingredient> repairIngredient) {
 		this.uses = uses;
 		this.speed = speed;
 		this.damage = damage;
@@ -47,12 +45,8 @@ public enum ToolTier implements Tier {
 	}
 
 	@Override
-	public int getLevel() {
-		return this.level;
-	}
-
-	@Override
 	public TagKey<Block> getIncorrectBlocksForDrops() {
+		// 1.21: replaces getLevel() — bronze sits between iron and stone, use iron's incorrect-for-drops tag
 		return BlockTags.INCORRECT_FOR_IRON_TOOL;
 	}
 
