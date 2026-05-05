@@ -5,6 +5,9 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.ForestryConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -70,7 +73,11 @@ public class ConditionLootModifier extends LootModifier {
 
 		for (String extension : this.extensions) {
 			ResourceLocation location = ForestryConstants.forestry(this.tableLocation.getPath() + "/" + extension);
-			LootTable table = context.getResolver().getLootTable(location);
+			ResourceKey<LootTable> tableKey = ResourceKey.create(Registries.LOOT_TABLE, location);
+			LootTable table = context.getResolver().lookup(Registries.LOOT_TABLE)
+				.flatMap(r -> r.get(tableKey))
+				.map(Holder::value)
+				.orElse(LootTable.EMPTY);
 
 			if (table != LootTable.EMPTY) {
 				table.getRandomItems(context, generatedLoot::add);
