@@ -79,7 +79,7 @@ public class ButterflyItemModel extends AbstractBakedModel {
 	public record Geometry(
 		IdentityHashMap<IButterflySpecies, ResourceLocation> subModels) implements IUnbakedGeometry<Geometry> {
 		@Override
-		public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+		public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
 			UnbakedModel modelButterfly = baker.getModel(ForestryConstants.forestry("item/butterfly"));
 
 			if (!(modelButterfly instanceof BlockModel modelBlock)) {
@@ -94,9 +94,8 @@ public class ButterflyItemModel extends AbstractBakedModel {
 				ResourceLocation texture = subModel.getValue();
 
 				BlockModel model = new BlockModel(parentLocation, elements, ImmutableMap.of("butterfly", Either.left(new Material(InventoryMenu.BLOCK_ATLAS, texture))), modelBlock.hasAmbientOcclusion, modelBlock.getGuiLight(), modelBlock.getTransforms(), modelBlock.getOverrides());
-				ResourceLocation location = ForestryConstants.forestry("item/butterfly");
 				ModelState transform = ResourceUtil.loadTransform(ForestryConstants.forestry("item/butterfly"));
-				subModelBuilder.put(identifier, model.bake(baker, model, spriteGetter, transform, location, true));
+				subModelBuilder.put(identifier, model.bake(baker, model, spriteGetter, transform, true));
 			}
 			return new ButterflyItemModel(subModelBuilder);
 		}

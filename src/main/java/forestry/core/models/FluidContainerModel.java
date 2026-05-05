@@ -49,7 +49,8 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 	// Note: The fluid mask is ignored, the fluid element is always from (4, 2) to (12, 14).
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
+		ResourceLocation modelLocation = ResourceLocation.parse(context.getModelName());
 		Material baseLocation = context.hasMaterial("base") ? context.getMaterial("base") : null;
 		Material fluidMaskLocation = context.hasMaterial("fluid") ? context.getMaterial("fluid") : null;
 		Material coverLocation = context.hasMaterial("cover") ? context.getMaterial("cover") : null;
@@ -138,7 +139,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 					if (!this.cache.containsKey(name)) {
 						FluidContainerModel unbaked = this.parent.withFluid(fluid);
-						BakedModel bakedModel = unbaked.bake(this.owner, this.bakery, Material::sprite, BlockModelRotation.X0_Y0, this, ResourceLocation.parse("forge:bucket_override"));
+						BakedModel bakedModel = unbaked.bake(this.owner, this.bakery, Material::sprite, BlockModelRotation.X0_Y0, this);
                         this.cache.put(name, bakedModel);
 						return bakedModel;
 					}

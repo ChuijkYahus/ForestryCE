@@ -34,7 +34,7 @@ import java.util.function.Function;
 
 public class ModelSapling implements IUnbakedGeometry<ModelSapling> {
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
 		IdentityHashMap<ITreeSpecies, BakedModel> itemModels = new IdentityHashMap<>();
 		IdentityHashMap<ITreeSpecies, BakedModel> blockModels = new IdentityHashMap<>();
 

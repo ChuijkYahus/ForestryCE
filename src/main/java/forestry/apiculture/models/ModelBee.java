@@ -45,7 +45,7 @@ public class ModelBee implements IUnbakedGeometry<ModelBee> {
 	}
 
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
 		IBeeClientManager manager = IForestryClientApi.INSTANCE.getBeeManager();
 		Map<IBeeSpecies, ResourceLocation> models = manager.getBeeModels(this.stage);
 		IdentityHashMap<IBeeSpecies, BakedModel> itemModels = new IdentityHashMap<>();
