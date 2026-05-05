@@ -57,7 +57,7 @@ public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) i
 
 	public static void handle(PacketLetterInfoResponseTrader msg, Player player) {
 		if (player.containerMenu instanceof ILetterInfoReceiver receiver) {
-			receiver.handleLetterInfoUpdate(PostalCarriers.TRADER.get(), null, msg.info);
+			receiver.handleLetterInfoUpdate(PostalCarriers.TRADER.value(), null, msg.info);
 		}
 	}
 }

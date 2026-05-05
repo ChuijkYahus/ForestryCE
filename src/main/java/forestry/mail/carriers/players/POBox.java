@@ -33,7 +33,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 	private final Set<Watcher> updateWatchers = new HashSet<>();
 
 	public POBox(IMailAddress address) {
-		if (!address.getCarrier().equals(PostalCarriers.PLAYER.get())) {
+		if (!address.getCarrier().equals(PostalCarriers.PLAYER.value())) {
 			throw new IllegalArgumentException("POBox address must be a player");
 		}
 
@@ -88,7 +88,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 			CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(this.letters.getItem(i));
 			if (tagCompound != null) {
 				ILetter letter = new Letter(tagCompound);
-				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.get())) {
+				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.value())) {
 					playerLetters++;
 				} else {
 					tradeLetters++;

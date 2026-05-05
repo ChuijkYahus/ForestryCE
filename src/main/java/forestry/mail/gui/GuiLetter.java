@@ -162,7 +162,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		} else {
 			clearTradeInfoWidgets();
             this.address.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
-			if (this.menu.getCarrier().equals(PostalCarriers.TRADER.get())) {
+			if (this.menu.getCarrier().equals(PostalCarriers.TRADER.value())) {
 				drawTradePreview(graphics, 18, 32);
 			} else {
                 this.text.render(graphics, mouseX, mouseY, partialTicks);

@@ -61,7 +61,7 @@ public class ApicultureVillagers {
 		if (event.getType().equals(PROF_BEEKEEPER.get())) {
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
 			List<Item> combs = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(Registries.ITEM).getTag(ForestryTags.Items.VILLAGE_COMBS).get().stream()
-				.map(Holder::get)
+				.map(Holder::value)
 				.toList();
 
 			trades.get(1).add(new GiveHoneyCombForItem(combs, Items.WHEAT, new VillagerTrade.PriceInterval(2, 4), new VillagerTrade.PriceInterval(8, 12), 8, 2, 0F));

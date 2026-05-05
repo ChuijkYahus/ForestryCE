@@ -54,7 +54,7 @@ public class TradeStation implements ITradeStation {
 	private final Set<Watcher> updateWatchers = new HashSet<>();
 
 	public TradeStation(@Nullable GameProfile owner, IMailAddress address) {
-		if (!address.getCarrier().equals(PostalCarriers.TRADER.get())) {
+		if (!address.getCarrier().equals(PostalCarriers.TRADER.value())) {
 			throw new IllegalArgumentException("TradeStation address must be a trader");
 		}
 

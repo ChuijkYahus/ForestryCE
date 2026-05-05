@@ -40,7 +40,7 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 		if (temperature == null) {
 			System.out.println(biome.getClass());
 			System.out.println(biome.unwrapKey());
-			System.out.println(biome.get());
+			System.out.println(biome.value());
 		}
 		// check if the biome is valid
 		if (!hive.isGoodBiome(biome) || !hive.isGoodTemperature(temperature) || !hive.isGoodHumidity(humidity)) {

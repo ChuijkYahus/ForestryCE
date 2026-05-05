@@ -23,7 +23,7 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 	 * @return true if the passed address is valid for PO Boxes.
 	 */
 	public boolean isValidPOBox(IMailAddress address) {
-		return address.getCarrier().equals(PostalCarriers.PLAYER.get()) && address.getName().matches("^[a-zA-Z0-9]+$");
+		return address.getCarrier().equals(PostalCarriers.PLAYER.value()) && address.getName().matches("^[a-zA-Z0-9]+$");
 	}
 
 	private void registerPOBOx(IMailAddress address, POBox box) {

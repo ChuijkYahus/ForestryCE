@@ -28,7 +28,7 @@ public record PacketLetterInfoResponsePlayer(IMailAddress address) implements Cu
 
 	public static void handle(PacketLetterInfoResponsePlayer msg, Player player) {
 		if (player.containerMenu instanceof ILetterInfoReceiver receiver) {
-			receiver.handleLetterInfoUpdate(PostalCarriers.PLAYER.get(), msg.address, null);
+			receiver.handleLetterInfoUpdate(PostalCarriers.PLAYER.value(), msg.address, null);
 		}
 	}
 }

@@ -24,7 +24,7 @@ public class MailAddress implements IMailAddress {
 
 	public MailAddress(GameProfile gameProfile) {
 
-		this.carrier = PostalCarriers.PLAYER.get();
+		this.carrier = PostalCarriers.PLAYER.value();
 		this.gameProfile = gameProfile;
 	}
 
@@ -32,7 +32,7 @@ public class MailAddress implements IMailAddress {
 		Preconditions.checkNotNull(name, "name must not be null");
 		Preconditions.checkArgument(StringUtils.isNotBlank(name), "name must not be blank");
 
-		this.carrier = PostalCarriers.TRADER.get();
+		this.carrier = PostalCarriers.TRADER.value();
 		this.gameProfile = new GameProfile(null, name);
 	}
 
@@ -44,7 +44,7 @@ public class MailAddress implements IMailAddress {
 		}
 
 		if (carrier == null) {
-			carrier = PostalCarriers.PLAYER.get();
+			carrier = PostalCarriers.PLAYER.value();
 			gameProfile = invalidGameProfile;
 		} else if (nbt.contains("profile")) {
 			CompoundTag profileTag = nbt.getCompound("profile");
@@ -75,7 +75,7 @@ public class MailAddress implements IMailAddress {
 
 	@Override
 	public GameProfile getPlayerProfile() {
-		if (!this.carrier.equals(PostalCarriers.PLAYER.get())) {
+		if (!this.carrier.equals(PostalCarriers.PLAYER.value())) {
 			return invalidGameProfile;
 		}
 		return this.gameProfile;
@@ -98,7 +98,7 @@ public class MailAddress implements IMailAddress {
 	@Override
 	public String toString() {
 		String name = getName().toLowerCase(Locale.ENGLISH);
-		if (getCarrier().equals(PostalCarriers.PLAYER.get())) {
+		if (getCarrier().equals(PostalCarriers.PLAYER.value())) {
 			return this.carrier + "-" + name + '-' + this.gameProfile.getId();
 		} else {
 			return this.carrier + "-" + name;

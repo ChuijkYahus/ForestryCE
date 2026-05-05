@@ -29,7 +29,7 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 	 * @return true if the passed address can be an address for a trade station
 	 */
 	public boolean isValidTradeAddress(IMailAddress address) {
-		return address.getCarrier().equals(PostalCarriers.TRADER.get()) && TRADE_STATION_NAME_REGEX.matcher(address.getName()).matches();
+		return address.getCarrier().equals(PostalCarriers.TRADER.value()) && TRADE_STATION_NAME_REGEX.matcher(address.getName()).matches();
 	}
 
 	/**
