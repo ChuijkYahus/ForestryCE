@@ -93,13 +93,21 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 	@Override
 	public void read(CompoundTag compoundNBT) {
+		// Delegate to the registry-aware overload so deprecated callers still work.
+		net.minecraft.world.level.Level level = this.housing.getWorldObj();
+		HolderLookup.Provider registries = level != null ? level.registryAccess() : net.minecraft.core.RegistryAccess.EMPTY;
+		read(compoundNBT, registries);
+	}
+
+	@Override
+	public void read(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		this.beeProgress = compoundNBT.getInt("BreedingTime");
 		this.workThrottleCounter = compoundNBT.getInt("Throttle");
 
 		// sadly this means duplicated NBT
 		if (compoundNBT.contains("queen")) {
 			CompoundTag queenNBT = compoundNBT.getCompound("queen");
-			this.queenStack = ItemStack.of(queenNBT);
+			this.queenStack = ItemStack.parse(registries, queenNBT).orElse(ItemStack.EMPTY);
 			this.queen = (IBee) IIndividualHandlerItem.getIndividual(this.queenStack);
 			if (this.queen != null) {
 				this.beeProgressMax = this.queen.getMaxHealth();
@@ -112,7 +120,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		ListTag list = compoundNBT.getList("Offspring", 10);
 		for (int i = 0; i < list.size(); i++) {
-			this.spawn.add(ItemStack.of(list.getCompound(i)));
+			this.spawn.add(ItemStack.parse(registries, list.getCompound(i)).orElse(ItemStack.EMPTY));
 		}
 	}
 

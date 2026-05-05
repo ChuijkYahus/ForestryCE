@@ -81,7 +81,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		ListTag nbttaglist = compound.getList("PendingProducts", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag CompoundNBT1 = nbttaglist.getCompound(i);
-			this.pendingProducts.add(ItemStack.of(CompoundNBT1));
+			this.pendingProducts.add(ItemStack.parse(getRegistries(), CompoundNBT1).orElse(ItemStack.EMPTY));
 		}
 		this.sockets.read(compound);
 

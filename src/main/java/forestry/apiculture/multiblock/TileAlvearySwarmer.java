@@ -139,7 +139,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 		ListTag nbttaglist = compoundNBT.getList("PendingSpawns", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag compoundNBT1 = nbttaglist.getCompound(i);
-            this.pendingSpawns.add(ItemStack.of(compoundNBT1));
+            this.pendingSpawns.add(ItemStack.parse(getRegistries(), compoundNBT1).orElse(ItemStack.EMPTY));
 		}
 	}
 
