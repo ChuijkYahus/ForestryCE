@@ -13,6 +13,7 @@ import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
@@ -40,25 +41,27 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 		this.address = address;
 	}
 
-	public POBox(CompoundTag tag) {
-		read(tag);
+	public POBox(CompoundTag tag, HolderLookup.Provider registries) {
+		read(tag, registries);
 	}
 
-	public void read(CompoundTag tag) {
+	@Override
+	public void read(CompoundTag tag, HolderLookup.Provider registries) {
 		if (tag.contains("address")) {
 			this.address = new MailAddress(tag.getCompound("address"));
 		}
 
-        this.letters.read(tag);
+        this.letters.read(tag, registries);
 	}
 
-	public CompoundTag write(CompoundTag compoundNBT) {
+	@Override
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		if (this.address != null) {
 			CompoundTag nbt = new CompoundTag();
 			this.address.write(nbt);
 			compoundNBT.put("address", nbt);
 		}
-        this.letters.write(compoundNBT);
+        this.letters.write(compoundNBT, registries);
 		return compoundNBT;
 	}
 

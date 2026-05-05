@@ -57,14 +57,14 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 		return new POBoxRegistry();
 	}
 
-	private static POBoxRegistry load(CompoundTag compoundTag) {
+	private static POBoxRegistry load(CompoundTag compoundTag, HolderLookup.Provider registries) {
 		POBoxRegistry registry = new POBoxRegistry();
 		ListTag tradeStations = compoundTag.getList("poboxes", 10);
 		for (int i = 0; i < tradeStations.size(); ++i) {
 			CompoundTag stationTag = tradeStations.getCompound(i);
 
 			IMailAddress address = new MailAddress(stationTag.getCompound("address"));
-			POBox pobox = new POBox(stationTag.getCompound("pobox"));
+			POBox pobox = new POBox(stationTag.getCompound("pobox"), registries);
 			registry.registerPOBOx(address, pobox);
 		}
 		return registry;
@@ -76,7 +76,7 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 		for (Map.Entry<IMailAddress, POBox> entry : this.cachedPOBoxes.entrySet()) {
 			CompoundTag entryTag = new CompoundTag();
 			entryTag.put("address", entry.getKey().write(new CompoundTag()));
-			entryTag.put("pobox", entry.getValue().write(new CompoundTag()));
+			entryTag.put("pobox", entry.getValue().write(new CompoundTag(), registries));
 			poboxes.add(entryTag);
 		}
 		compoundTag.put("poboxes", poboxes);
@@ -84,6 +84,7 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 	}
 
 	public static POBoxRegistry getOrCreate(ServerLevel level) {
-		return level.getDataStorage().computeIfAbsent(POBoxRegistry::load, POBoxRegistry::create, SAVE_NAME);
+		SavedData.Factory<POBoxRegistry> factory = new SavedData.Factory<>(POBoxRegistry::create, POBoxRegistry::load);
+		return level.getDataStorage().computeIfAbsent(factory, SAVE_NAME);
 	}
 }

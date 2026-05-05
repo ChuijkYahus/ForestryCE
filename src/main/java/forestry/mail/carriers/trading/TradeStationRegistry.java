@@ -91,14 +91,14 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 		return new TradeStationRegistry();
 	}
 
-	private static TradeStationRegistry load(CompoundTag compoundTag) {
+	private static TradeStationRegistry load(CompoundTag compoundTag, HolderLookup.Provider registries) {
 		TradeStationRegistry registry = new TradeStationRegistry();
 		ListTag tradeStations = compoundTag.getList("tradeStations", 10);
 		for (int i = 0; i < tradeStations.size(); ++i) {
 			CompoundTag stationTag = tradeStations.getCompound(i);
 
 			IMailAddress address = new MailAddress(stationTag.getCompound("address"));
-			ITradeStation station = new TradeStation(stationTag.getCompound("station"));
+			ITradeStation station = new TradeStation(stationTag.getCompound("station"), registries);
 			registry.registerTradeStation(address, station);
 		}
 		return registry;
@@ -110,7 +110,7 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 		for (Map.Entry<IMailAddress, ITradeStation> entry : this.cachedTradeStations.entrySet()) {
 			CompoundTag entryTag = new CompoundTag();
 			entryTag.put("address", entry.getKey().write(new CompoundTag()));
-			entryTag.put("station", entry.getValue().write(new CompoundTag()));
+			entryTag.put("station", entry.getValue().write(new CompoundTag(), registries));
 			tradeStations.add(entryTag);
 		}
 		compoundTag.put("tradeStations", tradeStations);
@@ -118,6 +118,7 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 	}
 
 	public static TradeStationRegistry getOrCreate(ServerLevel level) {
-		return level.getDataStorage().computeIfAbsent(TradeStationRegistry::load, TradeStationRegistry::create, SAVE_NAME);
+		SavedData.Factory<TradeStationRegistry> factory = new SavedData.Factory<>(TradeStationRegistry::create, TradeStationRegistry::load);
+		return level.getDataStorage().computeIfAbsent(factory, SAVE_NAME);
 	}
 }

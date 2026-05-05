@@ -14,6 +14,7 @@ import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.postalstates.EnumDeliveryState;
 import forestry.mail.postalstates.ResponseNotMailable;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -62,8 +63,8 @@ public class TradeStation implements ITradeStation {
 		this.address = address;
 	}
 
-	public TradeStation(CompoundTag tag) {
-		read(tag);
+	public TradeStation(CompoundTag tag, HolderLookup.Provider registries) {
+		read(tag, registries);
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class TradeStation implements ITradeStation {
 	}
 
 	// / SAVING & LOADING
-	public CompoundTag save(CompoundTag compoundNBT) {
+	public CompoundTag save(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
 			NBTUtilForestry.writeGameProfile(nbt, this.owner);
@@ -87,17 +88,17 @@ public class TradeStation implements ITradeStation {
 
 		compoundNBT.putBoolean("VRT", this.isVirtual);
 		compoundNBT.putBoolean("IVL", this.isInvalid);
-        this.inventory.write(compoundNBT);
+        this.inventory.write(compoundNBT, registries);
 		return compoundNBT;
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag nbt) {
-		return save(nbt);
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
+		return save(nbt, registries);
 	}
 
 	@Override
-	public void read(CompoundTag nbt) {
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
 		if (nbt.contains("owner")) {
             this.owner = NBTUtilForestry.readGameProfile(nbt.getCompound("owner"));
 		}
@@ -108,7 +109,7 @@ public class TradeStation implements ITradeStation {
 
 		this.isVirtual = nbt.getBoolean("VRT");
 		this.isInvalid = nbt.getBoolean("IVL");
-        this.inventory.read(nbt);
+        this.inventory.read(nbt, registries);
 	}
 
 	/* INVALIDATING */

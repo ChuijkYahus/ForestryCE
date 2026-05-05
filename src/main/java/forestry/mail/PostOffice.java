@@ -113,6 +113,7 @@ public class PostOffice extends SavedData implements IPostOffice {
 	}
 
 	public static PostOffice getOrCreate(ServerLevel level) {
-		return level.getDataStorage().computeIfAbsent(PostOffice::new, PostOffice::new, PostOffice.SAVE_NAME);
+		SavedData.Factory<PostOffice> factory = new SavedData.Factory<>(PostOffice::new, (tag, registries) -> new PostOffice(tag));
+		return level.getDataStorage().computeIfAbsent(factory, PostOffice.SAVE_NAME);
 	}
 }
