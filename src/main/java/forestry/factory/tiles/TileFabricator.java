@@ -23,6 +23,7 @@ import forestry.factory.gui.ContainerFabricator;
 import forestry.factory.inventory.InventoryFabricator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -66,8 +67,8 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	/* SAVING & LOADING */
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
-		super.saveAdditional(compound);
+	public void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.saveAdditional(compound, registries);
 
 		compound.putInt("Heat", this.heat);
         this.tankManager.write(compound);
@@ -75,8 +76,8 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.loadAdditional(compound, registries);
 
         this.heat = compound.getInt("Heat");
         this.tankManager.read(compound);

@@ -160,16 +160,6 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
         this.beeLogic.write(compoundNBT, registries);
 	}
 
-	@Deprecated(forRemoval = true)
-	public void load(CompoundTag compoundNBT) {
-		loadAdditional(compoundNBT, getRegistries());
-	}
-
-	@Deprecated(forRemoval = true)
-	public void saveAdditional(CompoundTag compoundNBT) {
-		saveAdditional(compoundNBT, getRegistries());
-	}
-
 	@Override
 	public void calmBees() {
         this.calmTime = 5;

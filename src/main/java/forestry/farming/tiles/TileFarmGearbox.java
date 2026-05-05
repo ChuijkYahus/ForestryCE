@@ -7,6 +7,7 @@ import forestry.energy.ForestryEnergyStorage;
 import forestry.farming.features.FarmingTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -29,8 +30,8 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
         this.energyStorage.read(compoundNBT);
 
@@ -40,8 +41,8 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
         this.energyStorage.write(compoundNBT);
 

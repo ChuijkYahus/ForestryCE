@@ -18,6 +18,7 @@ import forestry.factory.gui.ContainerStill;
 import forestry.factory.inventory.InventoryStill;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
@@ -53,8 +54,8 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
         this.tankManager.write(compoundNBT);
 
 		if (!this.bufferedLiquid.isEmpty()) {
@@ -63,8 +64,8 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
         this.tankManager.read(compoundNBT);
 
 		if (compoundNBT.contains("Buffer")) {

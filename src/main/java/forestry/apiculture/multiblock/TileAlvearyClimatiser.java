@@ -9,6 +9,7 @@ import forestry.energy.EnergyTransferMode;
 import forestry.energy.ForestryEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -50,15 +51,15 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 
 	/* LOADING & SAVING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
         this.energyStorage.read(compoundNBT);
         this.workingTime = compoundNBT.getInt("Heating");
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
         this.energyStorage.write(compoundNBT);
 		compoundNBT.putInt("Heating", this.workingTime);
 	}

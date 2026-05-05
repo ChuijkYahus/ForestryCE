@@ -7,6 +7,7 @@ import forestry.core.tiles.TileMill;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.inventory.InventoryRainmaker;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -52,8 +53,8 @@ public class TileMillRainmaker extends TileMill {
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
         this.charge = compoundNBT.getInt("Charge");
         this.progress = compoundNBT.getFloat("Progress");
@@ -64,8 +65,8 @@ public class TileMillRainmaker extends TileMill {
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
 		compoundNBT.putInt("Charge", this.charge);
 		compoundNBT.putFloat("Progress", this.progress);

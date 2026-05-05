@@ -15,6 +15,7 @@ import forestry.sorting.gui.ContainerGeneticFilter;
 import forestry.sorting.inventory.ItemHandlerFilter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -48,15 +49,15 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
 
 		data.put("Logic", this.logic.write(new CompoundTag()));
 	}
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
 
         this.logic.read(data.getCompound("Logic"));
 	}

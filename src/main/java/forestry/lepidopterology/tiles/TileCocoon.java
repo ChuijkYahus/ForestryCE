@@ -56,16 +56,6 @@ public class TileCocoon extends BlockEntity {
 		compoundNBT.putBoolean("isSolid", this.isSolid);
 	}
 
-	@Deprecated(forRemoval = true)
-	public void load(CompoundTag compoundNBT) {
-		loadAdditional(compoundNBT, getRegistries());
-	}
-
-	@Deprecated(forRemoval = true)
-	public void saveAdditional(CompoundTag compoundNBT) {
-		saveAdditional(compoundNBT, getRegistries());
-	}
-
 	public void onBlockTick() {
         this.maturationTime++;
 

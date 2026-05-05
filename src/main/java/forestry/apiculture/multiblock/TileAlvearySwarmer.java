@@ -15,6 +15,7 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.IActivatable;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
@@ -133,8 +134,8 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
 		ListTag nbttaglist = compoundNBT.getList("PendingSpawns", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
@@ -144,8 +145,8 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
 		ListTag nbttaglist = new ListTag();
 		ItemStack[] offspring = this.pendingSpawns.toArray(new ItemStack[0]);

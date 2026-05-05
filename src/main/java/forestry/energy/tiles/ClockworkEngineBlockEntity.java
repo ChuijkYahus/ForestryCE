@@ -5,6 +5,7 @@ import forestry.core.damage.CoreDamageTypes;
 import forestry.core.tiles.TemperatureState;
 import forestry.energy.features.EnergyTiles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -57,16 +58,16 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 	/* LOADING & SAVING */
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
         this.tension = nbt.getFloat("tension");
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		nbt.putFloat("tension", this.tension);
 	}

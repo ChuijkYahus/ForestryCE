@@ -53,16 +53,6 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
         this.multiblockLogic.write(data, registries);
 	}
 
-	@Deprecated(forRemoval = true)
-	public void load(CompoundTag data) {
-		loadAdditional(data, getRegistries());
-	}
-
-	@Deprecated(forRemoval = true)
-	public void saveAdditional(CompoundTag data) {
-		saveAdditional(data, getRegistries());
-	}
-
 	@Override
 	public void setRemoved() {
 		super.setRemoved();
