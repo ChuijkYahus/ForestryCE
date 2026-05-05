@@ -7,8 +7,9 @@ import forestry.core.utils.ModUtil;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotRichTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -53,8 +54,13 @@ public class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 	}
 
 	@Override
-	public IDrawable getBackground() {
-		return this.background;
+	public int getWidth() {
+		return this.background.getWidth();
+	}
+
+	@Override
+	public int getHeight() {
+		return this.background.getHeight();
 	}
 
 	@Override
@@ -83,7 +89,7 @@ public class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 	}
 
 	private static void setProductsList(IRecipeLayoutBuilder builder, Object2FloatOpenCustomHashMap<ItemStack> productStacks, int slotsY) {
-		IRecipeSlotTooltipCallback callback = (view, tooltip) -> view.getDisplayedItemStack().ifPresent(stack -> {
+		IRecipeSlotRichTooltipCallback callback = (view, tooltip) -> view.getDisplayedItemStack().ifPresent(stack -> {
 			if (productStacks.containsKey(stack)) {
 				tooltip.add(JeiUtil.formatChance(productStacks.getFloat(stack)));
 			}
@@ -99,19 +105,24 @@ public class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 			for (int i = 0; i < products; i++) {
 				builder.addSlot(RecipeIngredientRole.OUTPUT, ProductsRecipeCategory.PRODUCT_SLOTS_X + i * 22, slotsY)
 					.addItemStack(productsList.get(i))
-					.addTooltipCallback(callback);
+					.addRichTooltipCallback(callback);
 			}
 		} else {
 			// Three copies of the product list, each offset by 0, 1, and 2, should look like a scrolling list in JEI
 			for (int i = 0; i < 3; i++) {
 				builder.addSlot(RecipeIngredientRole.OUTPUT, ProductsRecipeCategory.PRODUCT_SLOTS_X + i * 22, slotsY)
 					.addItemStacks(productsList)
-					.addTooltipCallback(callback);
+					.addRichTooltipCallback(callback);
 
 				// rotate the list (no need to copy because JEI just iterates once)
 				productsList.addLast(productsList.removeFirst());
 			}
 		}
+	}
+
+	@Override
+	public void createRecipeExtras(IRecipeExtrasBuilder builder, ProductRecipe recipe, IFocusGroup focuses) {
+		builder.addDrawable(this.background, 0, 0);
 	}
 
 	@Override

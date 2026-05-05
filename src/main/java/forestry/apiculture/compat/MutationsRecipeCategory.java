@@ -6,8 +6,10 @@ import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
 import mezz.jei.api.gui.builder.IIngredientAcceptor;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -51,8 +53,18 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 	}
 
 	@Override
-	public IDrawable getBackground() {
-		return this.background;
+	public int getWidth() {
+		return this.background.getWidth();
+	}
+
+	@Override
+	public int getHeight() {
+		return this.background.getHeight();
+	}
+
+	@Override
+	public void createRecipeExtras(IRecipeExtrasBuilder builder, MutationRecipe recipe, IFocusGroup focuses) {
+		builder.addDrawable(this.background, 0, 0);
 	}
 
 	@Override
@@ -115,13 +127,11 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 	}
 
 	@Override
-	public List<Component> getTooltipStrings(MutationRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+	public void getTooltip(ITooltipBuilder tooltip, MutationRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 		List<Component> mutation = recipe.mutation.getSpecialConditions();
 
 		if (!mutation.isEmpty() && mouseX >= 90 && mouseX <= 120 && mouseY >= 11 && mouseY <= 19) {
-			return mutation;
-		} else {
-			return List.of();
+			tooltip.addAll(mutation);
 		}
 	}
 }

@@ -99,7 +99,7 @@ public class FarmingInfoRecipeCategory extends ForestryRecipeCategory<FarmingInf
 	public void draw(FarmingInfoRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
         this.addition.draw(graphics, 37, 64);
         this.arrow.draw(graphics, 91, 64);
-		int recipeWidth = this.getBackground().getWidth();
+		int recipeWidth = this.getWidth();
 		Font font = Minecraft.getInstance().font;
 		ICircuit circuit = recipe.circuit();
 		int textX = (recipeWidth - font.width(circuit.getDisplayName().getString())) / 2;

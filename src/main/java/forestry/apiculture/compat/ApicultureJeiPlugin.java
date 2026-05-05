@@ -15,10 +15,13 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +63,17 @@ public class ApicultureJeiPlugin implements IModPlugin {
 	public void registerItemSubtypes(ISubtypeRegistration registry) {
 		JeiUtil.registerItemSubtypes(registry, BeeChromosomes.SPECIES, SpeciesUtil.BEE_TYPE.get());
 		// show both creative frames in JEI
-		registry.registerSubtypeInterpreter(ApicultureItems.FRAME_CREATIVE.item(), (stack, context) -> String.valueOf(ItemCreativeHiveFrame.hasForceMutations(stack)));
+		registry.registerSubtypeInterpreter(ApicultureItems.FRAME_CREATIVE.item(), new ISubtypeInterpreter<>() {
+			@Override
+			public Object getSubtypeData(ItemStack stack, UidContext context) {
+				return ItemCreativeHiveFrame.hasForceMutations(stack);
+			}
+
+			@Override
+			public String getLegacyStringSubtypeInfo(ItemStack stack, UidContext context) {
+				return String.valueOf(ItemCreativeHiveFrame.hasForceMutations(stack));
+			}
+		});
 	}
 
 	@Override

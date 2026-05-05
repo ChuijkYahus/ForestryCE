@@ -1,13 +1,11 @@
 package forestry.core.recipes.jei;
 
 import forestry.core.utils.JeiUtil;
-import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
+import mezz.jei.api.gui.ingredient.IRecipeSlotRichTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
-import net.minecraft.network.chat.Component;
 
-import java.util.List;
-
-public class ChanceTooltipCallback implements IRecipeSlotTooltipCallback {
+public class ChanceTooltipCallback implements IRecipeSlotRichTooltipCallback {
 	private final float chance;
 
 	public ChanceTooltipCallback(float chance) {
@@ -20,7 +18,7 @@ public class ChanceTooltipCallback implements IRecipeSlotTooltipCallback {
 	}
 
 	@Override
-	public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
+	public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltip) {
 		tooltip.add(JeiUtil.formatChance(chance));
 	}
 }
