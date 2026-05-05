@@ -80,7 +80,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		compoundNBT.putBoolean("Active", this.active);
 
-		this.hasFlowersCache.write(compoundNBT);
+		this.hasFlowersCache.write(compoundNBT, registries);
 
 		ArrayDeque<ItemStack> spawnCopy = new ArrayDeque<>(this.spawn);
 		ListTag nbttaglist = new ListTag();
@@ -90,14 +90,6 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		}
 		compoundNBT.put("Offspring", nbttaglist);
 		return compoundNBT;
-	}
-
-	@Override
-	public void read(CompoundTag compoundNBT) {
-		// Delegate to the registry-aware overload so deprecated callers still work.
-		net.minecraft.world.level.Level level = this.housing.getWorldObj();
-		HolderLookup.Provider registries = level != null ? level.registryAccess() : net.minecraft.core.RegistryAccess.EMPTY;
-		read(compoundNBT, registries);
 	}
 
 	@Override
@@ -117,7 +109,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		setActive(compoundNBT.getBoolean("Active"));
 
-		this.hasFlowersCache.read(compoundNBT);
+		this.hasFlowersCache.read(compoundNBT, registries);
 
 		ListTag list = compoundNBT.getList("Offspring", 10);
 		for (int i = 0; i < list.size(); i++) {

@@ -61,7 +61,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	public void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
 		super.saveAdditional(compound, registries);
 
-		this.sockets.write(compound);
+		this.sockets.write(compound, registries);
 
 		ListTag nbttaglist = new ListTag();
 		ItemStack[] offspring = this.pendingProducts.toArray(new ItemStack[0]);
@@ -84,7 +84,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 			CompoundTag CompoundNBT1 = nbttaglist.getCompound(i);
 			this.pendingProducts.add(ItemStack.parse(getRegistries(), CompoundNBT1).orElse(ItemStack.EMPTY));
 		}
-		this.sockets.read(compound);
+		this.sockets.read(compound, registries);
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {

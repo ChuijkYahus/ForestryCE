@@ -71,8 +71,8 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		super.saveAdditional(compound, registries);
 
 		compound.putInt("Heat", this.heat);
-        this.tankManager.write(compound);
-        this.craftingInventory.write(compound);
+        this.tankManager.write(compound, registries);
+        this.craftingInventory.write(compound, registries);
 	}
 
 	@Override
@@ -80,8 +80,8 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		super.loadAdditional(compound, registries);
 
         this.heat = compound.getInt("Heat");
-        this.tankManager.read(compound);
-        this.craftingInventory.read(compound);
+        this.tankManager.read(compound, registries);
+        this.craftingInventory.read(compound, registries);
 	}
 
 	@Override

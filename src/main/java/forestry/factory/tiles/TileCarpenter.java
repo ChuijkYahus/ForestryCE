@@ -77,15 +77,15 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.saveAdditional(compoundNBT, registries);
 
-        this.tankManager.write(compoundNBT);
-        this.craftingInventory.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
+        this.craftingInventory.write(compoundNBT, registries);
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.loadAdditional(compoundNBT, registries);
-        this.tankManager.read(compoundNBT);
-        this.craftingInventory.read(compoundNBT);
+        this.tankManager.read(compoundNBT, registries);
+        this.craftingInventory.read(compoundNBT, registries);
 	}
 
 	@Override

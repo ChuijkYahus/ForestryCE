@@ -53,14 +53,14 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 	@Override
 	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.loadAdditional(compoundNBT, registries);
-        this.energyStorage.read(compoundNBT);
+        this.energyStorage.read(compoundNBT, registries);
         this.workingTime = compoundNBT.getInt("Heating");
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.saveAdditional(compoundNBT, registries);
-        this.energyStorage.write(compoundNBT);
+        this.energyStorage.write(compoundNBT, registries);
 		compoundNBT.putInt("Heating", this.workingTime);
 	}
 

@@ -227,7 +227,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	@Override
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.loadAdditional(nbt, registries);
-        this.energyStorage.read(nbt);
+        this.energyStorage.read(nbt, registries);
 
         this.heat = nbt.getInt("EngineHeat");
 
@@ -239,7 +239,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	@Override
 	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.saveAdditional(nbt, registries);
-        this.energyStorage.write(nbt);
+        this.energyStorage.write(nbt, registries);
 
 		nbt.putInt("EngineHeat", this.heat);
 		nbt.putFloat("EngineProgress", this.progress);

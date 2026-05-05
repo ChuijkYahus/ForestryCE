@@ -75,7 +75,7 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 		ListTag poboxes = new ListTag();
 		for (Map.Entry<IMailAddress, POBox> entry : this.cachedPOBoxes.entrySet()) {
 			CompoundTag entryTag = new CompoundTag();
-			entryTag.put("address", entry.getKey().write(new CompoundTag()));
+			entryTag.put("address", entry.getKey().write(new CompoundTag(), registries));
 			entryTag.put("pobox", entry.getValue().write(new CompoundTag(), registries));
 			poboxes.add(entryTag);
 		}

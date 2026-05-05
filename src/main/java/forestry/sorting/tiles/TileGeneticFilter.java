@@ -52,14 +52,14 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
 		super.saveAdditional(data, registries);
 
-		data.put("Logic", this.logic.write(new CompoundTag()));
+		data.put("Logic", this.logic.write(new CompoundTag(), registries));
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
 		super.loadAdditional(data, registries);
 
-        this.logic.read(data.getCompound("Logic"));
+        this.logic.read(data.getCompound("Logic"), registries);
 	}
 
 	@Override

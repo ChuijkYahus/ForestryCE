@@ -64,7 +64,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 		super.saveAdditional(compoundNBT, registries);
 
 		CompoundTag nbt = new CompoundTag();
-        this.address.write(nbt);
+        this.address.write(nbt, registries);
 		compoundNBT.put("address", nbt);
 
         this.ownerHandler.write(compoundNBT, registries);

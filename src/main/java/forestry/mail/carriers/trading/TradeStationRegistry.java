@@ -109,7 +109,7 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 		ListTag tradeStations = new ListTag();
 		for (Map.Entry<IMailAddress, ITradeStation> entry : this.cachedTradeStations.entrySet()) {
 			CompoundTag entryTag = new CompoundTag();
-			entryTag.put("address", entry.getKey().write(new CompoundTag()));
+			entryTag.put("address", entry.getKey().write(new CompoundTag(), registries));
 			entryTag.put("station", entry.getValue().write(new CompoundTag(), registries));
 			tradeStations.add(entryTag);
 		}

@@ -34,6 +34,7 @@ import forestry.farming.tiles.TileFarmPlain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -105,7 +106,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public void onAttachedPartWithMultiblockData(IMultiblockComponent part, CompoundTag data) {
-		this.read(data);
+		this.read(data, this.level.registryAccess());
 	}
 
 	@Override
@@ -227,34 +228,36 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
-		data = super.write(data);
-        this.sockets.write(data);
-        this.manager.write(data);
-        this.inventory.write(data);
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
+		data = super.write(data, registries);
+        this.sockets.write(data, registries);
+        this.manager.write(data, registries);
+        this.inventory.write(data, registries);
 		return data;
 	}
 
 	@Override
-	public void read(CompoundTag data) {
-		super.read(data);
-        this.sockets.read(data);
-        this.manager.read(data);
-        this.inventory.read(data);
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
+		super.read(data, registries);
+        this.sockets.read(data, registries);
+        this.manager.read(data, registries);
+        this.inventory.read(data, registries);
 
 		refreshFarmLogics();
 	}
 
 	@Override
 	public void formatDescriptionPacket(CompoundTag data) {
-        this.sockets.write(data);
-        this.manager.write(data);
+		HolderLookup.Provider registries = this.level.registryAccess();
+        this.sockets.write(data, registries);
+        this.manager.write(data, registries);
 	}
 
 	@Override
 	public void decodeDescriptionPacket(CompoundTag data) {
-        this.sockets.read(data);
-        this.manager.read(data);
+		HolderLookup.Provider registries = this.level.registryAccess();
+        this.sockets.read(data, registries);
+        this.manager.read(data, registries);
 
 		refreshFarmLogics();
 	}

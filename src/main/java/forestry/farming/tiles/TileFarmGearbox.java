@@ -33,7 +33,7 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.loadAdditional(compoundNBT, registries);
 
-        this.energyStorage.read(compoundNBT);
+        this.energyStorage.read(compoundNBT, registries);
 
         this.activationDelay = compoundNBT.getInt("ActivationDelay");
         this.previousDelays = compoundNBT.getInt("PrevDelays");
@@ -44,7 +44,7 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.saveAdditional(compoundNBT, registries);
 
-        this.energyStorage.write(compoundNBT);
+        this.energyStorage.write(compoundNBT, registries);
 
 		compoundNBT.putInt("ActivationDelay", this.activationDelay);
 		compoundNBT.putInt("PrevDelays", this.previousDelays);

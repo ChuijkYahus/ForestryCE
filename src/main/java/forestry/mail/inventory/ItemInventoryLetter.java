@@ -13,6 +13,7 @@ import forestry.core.utils.SlotUtil;
 import forestry.mail.Letter;
 import forestry.mail.LetterProperties;
 import forestry.mail.items.ItemStamp;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -25,7 +26,11 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 		super(player, 0, itemstack);
 		CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(itemstack);
 		Preconditions.checkNotNull(tagCompound);
-        this.letter = new Letter(tagCompound);
+        this.letter = new Letter(tagCompound, player.level().registryAccess());
+	}
+
+	private HolderLookup.Provider getRegistries() {
+		return this.player.level().registryAccess();
 	}
 
 	public ILetter getLetter() {
@@ -34,7 +39,7 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 
 	public void onLetterClosed() {
 		ItemStack parent = getParent();
-		setParent(LetterProperties.closeLetter(parent, this.letter));
+		setParent(LetterProperties.closeLetter(parent, this.letter, getRegistries()));
 	}
 
 	public void onLetterOpened() {
@@ -50,7 +55,7 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 			tagCompound = new CompoundTag();
 		}
 		Preconditions.checkNotNull(tagCompound);
-        this.letter.write(tagCompound);
+        this.letter.write(tagCompound, getRegistries());
 		NBTUtilForestry.setItemStackTag(getParent(), tagCompound);
 		return result;
 	}
@@ -63,7 +68,7 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 			tagCompound = new CompoundTag();
 		}
 		Preconditions.checkNotNull(tagCompound);
-        this.letter.write(tagCompound);
+        this.letter.write(tagCompound, getRegistries());
 		NBTUtilForestry.setItemStackTag(getParent(), tagCompound);
 	}
 

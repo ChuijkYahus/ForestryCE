@@ -73,7 +73,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		compoundNBT.putInt("FuelTotalTime", this.fuelTotalTime);
 		compoundNBT.putInt("FuelCurrentFerment", this.fuelCurrentFerment);
 
-        this.tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
         this.fuelTotalTime = compoundNBT.getInt("FuelTotalTime");
         this.fuelCurrentFerment = compoundNBT.getInt("FuelCurrentFerment");
 
-        this.tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT, registries);
 	}
 
 	@Override

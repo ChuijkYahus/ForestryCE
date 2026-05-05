@@ -23,6 +23,7 @@ import forestry.core.render.ParticleRender;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -96,7 +97,7 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 
 	@Override
 	public void onAttachedPartWithMultiblockData(IMultiblockComponent part, CompoundTag data) {
-		this.read(data);
+		this.read(data, this.level.registryAccess());
 	}
 
 	@Override
@@ -274,38 +275,40 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
-		data = super.write(data);
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
+		data = super.write(data, registries);
 
 		data.putByte("temperatureSteps", this.temperatureSteps);
 		data.putByte("humiditySteps", this.humiditySteps);
 
-        this.beekeepingLogic.write(data);
-        this.inventory.write(data);
+        this.beekeepingLogic.write(data, registries);
+        this.inventory.write(data, registries);
 		return data;
 	}
 
 	@Override
-	public void read(CompoundTag data) {
-		super.read(data);
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
+		super.read(data, registries);
 
 		this.temperatureSteps = data.getByte("temperatureSteps");
 		this.humiditySteps = data.getByte("humiditySteps");
 
-        this.beekeepingLogic.read(data);
-        this.inventory.read(data);
+        this.beekeepingLogic.read(data, registries);
+        this.inventory.read(data, registries);
 	}
 
 	@Override
 	public void formatDescriptionPacket(CompoundTag data) {
-		this.write(data);
-        this.beekeepingLogic.write(data);
+		HolderLookup.Provider registries = this.level.registryAccess();
+		this.write(data, registries);
+        this.beekeepingLogic.write(data, registries);
 	}
 
 	@Override
 	public void decodeDescriptionPacket(CompoundTag data) {
-		this.read(data);
-        this.beekeepingLogic.read(data);
+		HolderLookup.Provider registries = this.level.registryAccess();
+		this.read(data, registries);
+        this.beekeepingLogic.read(data, registries);
 	}
 
 	/* IActivatable */

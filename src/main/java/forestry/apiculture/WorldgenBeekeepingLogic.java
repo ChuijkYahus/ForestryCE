@@ -12,6 +12,7 @@ import forestry.apiculture.tiles.TileHive;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,15 +38,15 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 
 	// / SAVING & LOADING
 	@Override
-	public void read(CompoundTag CompoundNBT) {
+	public void read(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 		setActive(CompoundNBT.getBoolean("Active"));
-        this.hasFlowersCache.read(CompoundNBT);
+        this.hasFlowersCache.read(CompoundNBT, registries);
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag CompoundNBT) {
+	public CompoundTag write(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 		CompoundNBT.putBoolean("Active", this.active);
-        this.hasFlowersCache.write(CompoundNBT);
+        this.hasFlowersCache.write(CompoundNBT, registries);
 
 		return CompoundNBT;
 	}

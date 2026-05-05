@@ -8,6 +8,7 @@ import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
 import forestry.core.utils.PlayerUtil;
 import forestry.mail.carriers.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
@@ -107,7 +108,7 @@ public class MailAddress implements IMailAddress {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		compoundNBT.putString("carrier", ForestryRegistries.POSTAL_CARRIER.getKey(this.carrier).toString());
 
 		if (this.gameProfile != invalidGameProfile) {

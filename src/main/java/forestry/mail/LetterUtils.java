@@ -4,6 +4,8 @@ import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.core.utils.NBTUtilForestry;
 import forestry.mail.features.MailItems;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
@@ -14,9 +16,9 @@ public class LetterUtils {
 		return new Letter(sender, recipient);
 	}
 
-	public static ItemStack createLetterStack(ILetter letter) {
+	public static ItemStack createLetterStack(ILetter letter, HolderLookup.Provider registries) {
 		CompoundTag compoundNBT = new CompoundTag();
-		letter.write(compoundNBT);
+		letter.write(compoundNBT, registries);
 
 		ItemStack letterStack = LetterProperties.createStampedLetterStack(letter);
 		NBTUtilForestry.setItemStackTag(letterStack, compoundNBT);
@@ -25,7 +27,7 @@ public class LetterUtils {
 	}
 
 	@Nullable
-	public static ILetter getLetter(ItemStack itemstack) {
+	public static ILetter getLetter(ItemStack itemstack, HolderLookup.Provider registries) {
 		if (itemstack.isEmpty()) {
 			return null;
 		}
@@ -39,7 +41,12 @@ public class LetterUtils {
 			return null;
 		}
 
-		return new Letter(tag);
+		return new Letter(tag, registries);
+	}
+
+	@Nullable
+	public static ILetter getLetter(ItemStack itemstack) {
+		return getLetter(itemstack, RegistryAccess.EMPTY);
 	}
 
 	public static boolean isLetter(ItemStack itemstack) {

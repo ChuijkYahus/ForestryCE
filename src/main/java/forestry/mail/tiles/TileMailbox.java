@@ -65,7 +65,7 @@ public class TileMailbox extends TileBase {
 	}
 
 	private IPostalState tryDispatchLetter(ItemStack letterStack) {
-		ILetter letter = LetterUtils.getLetter(letterStack);
+		ILetter letter = LetterUtils.getLetter(letterStack, this.level.registryAccess());
 		IPostalState result;
 
 		if (letter != null) {

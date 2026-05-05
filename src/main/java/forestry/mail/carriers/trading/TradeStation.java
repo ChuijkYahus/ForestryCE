@@ -82,7 +82,7 @@ public class TradeStation implements ITradeStation {
 
 		if (this.address != null) {
 			CompoundTag nbt = new CompoundTag();
-            this.address.write(nbt);
+            this.address.write(nbt, registries);
 			compoundNBT.put("address", nbt);
 		}
 
@@ -166,7 +166,7 @@ public class TradeStation implements ITradeStation {
 	public IPostalState handleLetter(ServerLevel world, IMailAddress recipient, ItemStack letterstack, boolean doLodge) {
 		boolean sendOwnerNotice = doLodge && this.owner != null;
 
-		ILetter letter = LetterUtils.getLetter(letterstack);
+		ILetter letter = LetterUtils.getLetter(letterstack, world.registryAccess());
 
 		if (!isVirtual() && !hasPaper(sendOwnerNotice ? 2 : 1)) {
 			return EnumTradeStationState.INSUFFICIENT_PAPER;
@@ -232,7 +232,7 @@ public class TradeStation implements ITradeStation {
 
 		// Send the letter
 		CompoundTag compoundNBT = new CompoundTag();
-		mail.write(compoundNBT);
+		mail.write(compoundNBT, world.registryAccess());
 
 		ItemStack mailstack = LetterProperties.createStampedLetterStack(mail);
 		NBTUtilForestry.setItemStackTag(mailstack, compoundNBT);
@@ -277,7 +277,7 @@ public class TradeStation implements ITradeStation {
 
 			confirm.setText(orderFilledMessage);
 			confirm.addStamps(MailItems.STAMPS.stack(EnumStampDefinition.P_1, 1));
-			confirm.write(compoundNBT);
+			confirm.write(compoundNBT, world.registryAccess());
 
 			ItemStack confirmstack = LetterProperties.createStampedLetterStack(confirm);
 			NBTUtilForestry.setItemStackTag(confirmstack, compoundNBT);

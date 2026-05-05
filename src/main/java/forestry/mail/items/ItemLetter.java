@@ -89,7 +89,7 @@ public class ItemLetter extends ItemWithGui {
 			return;
 		}
 
-		ILetter letter = new Letter(compoundNBT);
+		ILetter letter = new Letter(compoundNBT, context.registries());
 		letter.addTooltip(list);
 	}
 

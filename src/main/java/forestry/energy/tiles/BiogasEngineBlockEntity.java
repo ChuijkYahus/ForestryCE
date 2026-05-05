@@ -234,7 +234,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		if (nbt.contains("shutdown")) {
             this.shutdown = nbt.getBoolean("shutdown");
 		}
-        this.tankManager.read(nbt);
+        this.tankManager.read(nbt, registries);
 	}
 
 	@Override
@@ -242,7 +242,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		super.saveAdditional(nbt, registries);
 
 		nbt.putBoolean("shutdown", this.shutdown);
-        this.tankManager.write(nbt);
+        this.tankManager.write(nbt, registries);
 	}
 
 	/* NETWORK */

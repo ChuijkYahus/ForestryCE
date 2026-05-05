@@ -70,13 +70,13 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	@Override
 	public void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
 		super.saveAdditional(compound, registries);
-        this.tankManager.write(compound);
+        this.tankManager.write(compound, registries);
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag compound, HolderLookup.Provider registries) {
 		super.loadAdditional(compound, registries);
-        this.tankManager.read(compound);
+        this.tankManager.read(compound, registries);
 		checkEmptyRecipe();
 		checkFillRecipe();
 	}

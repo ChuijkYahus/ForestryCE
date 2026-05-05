@@ -62,13 +62,13 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.saveAdditional(compoundNBT, registries);
-        this.tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.loadAdditional(compoundNBT, registries);
-        this.tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT, registries);
 	}
 
 	@Override

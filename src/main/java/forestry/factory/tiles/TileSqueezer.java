@@ -69,15 +69,15 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.saveAdditional(compoundNBT, registries);
-		this.tankManager.write(compoundNBT);
-		this.sockets.write(compoundNBT);
+		this.tankManager.write(compoundNBT, registries);
+		this.sockets.write(compoundNBT, registries);
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		super.loadAdditional(compoundNBT, registries);
-		this.tankManager.read(compoundNBT);
-		this.sockets.read(compoundNBT);
+		this.tankManager.read(compoundNBT, registries);
+		this.sockets.read(compoundNBT, registries);
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
