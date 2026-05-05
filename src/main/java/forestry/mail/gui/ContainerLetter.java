@@ -1,6 +1,7 @@
 package forestry.mail.gui;
 
 import forestry.Forestry;
+import forestry.api.ForestryRegistries;
 import forestry.api.mail.*;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFiltered;
@@ -100,7 +101,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 	}
 
 	public void advanceCarrierType() {
-		Iterator<IPostalCarrier> it = PostalCarriers.REGISTRY.get().iterator();
+		Iterator<IPostalCarrier> it = ForestryRegistries.POSTAL_CARRIER.iterator();
 		while (it.hasNext()) {
 			if (it.next().equals(this.carrier)) {
 				break;
@@ -111,7 +112,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 		if (it.hasNext()) {
 			postal = it.next();
 		} else {
-			postal = PostalCarriers.REGISTRY.get().iterator().next();
+			postal = ForestryRegistries.POSTAL_CARRIER.iterator().next();
 		}
 
 		setCarrier(postal);

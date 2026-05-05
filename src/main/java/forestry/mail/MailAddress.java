@@ -2,6 +2,7 @@ package forestry.mail;
 
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
+import forestry.api.ForestryRegistries;
 import forestry.core.utils.NBTUtilForestry;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
@@ -40,7 +41,7 @@ public class MailAddress implements IMailAddress {
 		IPostalCarrier carrier = null;
 		GameProfile gameProfile = invalidGameProfile;
 		if (nbt.contains("carrier")) {
-			carrier = PostalCarriers.REGISTRY.get().getValue(ResourceLocation.tryParse(nbt.getString("carrier")));
+			carrier = ForestryRegistries.POSTAL_CARRIER.get(ResourceLocation.tryParse(nbt.getString("carrier")));
 		}
 
 		if (carrier == null) {
@@ -107,7 +108,7 @@ public class MailAddress implements IMailAddress {
 
 	@Override
 	public CompoundTag write(CompoundTag compoundNBT) {
-		compoundNBT.putString("carrier", PostalCarriers.REGISTRY.get().getKey(this.carrier).toString());
+		compoundNBT.putString("carrier", ForestryRegistries.POSTAL_CARRIER.getKey(this.carrier).toString());
 
 		if (this.gameProfile != invalidGameProfile) {
 			CompoundTag profileNbt = new CompoundTag();

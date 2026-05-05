@@ -9,7 +9,6 @@ import forestry.api.modules.IPacketRegistry;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
 import forestry.core.utils.NetworkUtil;
-import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.client.MailClientHandler;
@@ -37,7 +36,6 @@ public class ModuleMail extends BlankForestryModule {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		NeoForge.EVENT_BUS.addListener(ModuleMail::handlePlayerLoggedIn);
-		PostalCarriers.register(modBus);
 	}
 
 	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {

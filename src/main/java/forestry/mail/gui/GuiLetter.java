@@ -1,5 +1,6 @@
 package forestry.mail.gui;
 
+import forestry.api.ForestryRegistries;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
 import forestry.core.config.Constants;
@@ -226,7 +227,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		String recipient = SessionVars.getStringVar("mail.letter.recipient");
 		String typeName = SessionVars.getStringVar("mail.letter.carrier");
 		ResourceLocation carrierId = ResourceLocation.tryParse(typeName);
-		IPostalCarrier carrier = PostalCarriers.REGISTRY.get().getValue(carrierId);
+		IPostalCarrier carrier = ForestryRegistries.POSTAL_CARRIER.get(carrierId);
 
 		if (StringUtils.isNotBlank(recipient) && carrier != null) {
             this.address.setValue(recipient);
