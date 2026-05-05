@@ -1,6 +1,5 @@
 package forestry.core.models.baker;
 
-import forestry.api.ForestryConstants;
 import forestry.core.models.ClientManager;
 import forestry.core.utils.ResourceUtil;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -10,7 +9,6 @@ import net.minecraft.client.renderer.block.model.FaceBakery;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
@@ -26,7 +24,6 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public final class ModelBaker {
 
-	private static final ResourceLocation FACE_LOCATION = ForestryConstants.forestry("baker_face");
 	private static final float[] UVS = new float[]{0.0F, 0.0F, 16.0F, 16.0F, 0.0F, 0.0F, 16.0F, 16.0F};
 	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	private static final Vector3f POS_FROM = new Vector3f(0.0F, 0.0F, 0.0F);
@@ -69,7 +66,7 @@ public final class ModelBaker {
 			Direction facing = face.face;
 			BlockFaceUV uvFace = new BlockFaceUV(UVS, 0);
 			BlockElementFace partFace = new BlockElementFace(facing, face.colorIndex, "", uvFace);
-			BakedQuad quad = FACE_BAKERY.bakeQuad(POS_FROM, POS_TO, partFace, face.spite, facing, modelRotation, null, true, FACE_LOCATION);
+			BakedQuad quad = FACE_BAKERY.bakeQuad(POS_FROM, POS_TO, partFace, face.spite, facing, modelRotation, null, true);
 
             this.currentModel.addQuad(facing, quad);
 		}
