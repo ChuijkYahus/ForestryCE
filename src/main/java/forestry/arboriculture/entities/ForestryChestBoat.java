@@ -25,7 +25,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 
@@ -203,10 +202,6 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 		this.items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 	}
 	// </editor-fold>
-
-	public InvWrapper getItemHandler() {
-		return new InvWrapper(this);
-	}
 
 	public void stopOpen(Player player) {
 		level().gameEvent(GameEvent.CONTAINER_CLOSE, position(), GameEvent.Context.of(player));

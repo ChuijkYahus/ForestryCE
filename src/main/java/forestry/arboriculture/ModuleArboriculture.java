@@ -35,6 +35,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -89,7 +90,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> ((ItemGE) stack.getItem()).createIndividualHandler(stack),
 			ArboricultureItems.SAPLING.item(),
 			ArboricultureItems.POLLEN_FERTILE.item());
-		event.registerEntity(Capabilities.ItemHandler.ENTITY, ArboricultureEntities.CHEST_BOAT.entityType(), (boat, context) -> boat.isAlive() ? boat.getItemHandler() : null);
+		event.registerEntity(Capabilities.ItemHandler.ENTITY, ArboricultureEntities.CHEST_BOAT.entityType(), (boat, context) -> boat.isAlive() ? new InvWrapper(boat) : null);
 	}
 
 	private static void commonSetup(FMLCommonSetupEvent event) {
