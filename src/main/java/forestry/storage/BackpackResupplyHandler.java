@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.bus.api.Event;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class BackpackResupplyHandler {
 					ItemBackpack backpackItem = (ItemBackpack) backpack.getItem();
 					ItemInventory backpackInventory = new ItemInventoryBackpack(player, backpackItem.getBackpackSize(), backpack);
 
-					Event event = new BackpackResupplyEvent(player, backpackItem.getDefinition(), backpackInventory);
+					BackpackResupplyEvent event = new BackpackResupplyEvent(player, backpackItem.getDefinition(), backpackInventory);
 					if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {
 						for (int i = 0; i < backpackInventory.getContainerSize(); i++) {
 							ItemStack itemStack = backpackInventory.getItem(i);

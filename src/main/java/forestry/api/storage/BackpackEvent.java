@@ -3,8 +3,9 @@ package forestry.api.storage;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
 
-public abstract class BackpackEvent extends Event {
+public abstract class BackpackEvent extends Event implements ICancellableEvent {
 
 	public final Player player;
 	public final IBackpackDefinition backpackDefinition;

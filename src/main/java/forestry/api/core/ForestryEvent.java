@@ -9,6 +9,7 @@ import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 // todo move to forestry.api.event
@@ -34,7 +35,7 @@ public abstract class ForestryEvent extends Event {
 	 *
 	 * @since 2.4.4
 	 */
-	public static class BeeMatingEvent extends ForestryEvent {
+	public static class BeeMatingEvent extends ForestryEvent implements ICancellableEvent {
 		private final IBeeHousing housing;
 		private IBee princess;
 		private final IBee drone;
