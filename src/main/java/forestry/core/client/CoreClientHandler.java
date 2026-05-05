@@ -93,7 +93,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 	private static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-			CoreBlocks.BASE.getBlocks().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
+			CoreBlocks.BASE.getList().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
 
 			for (ForestryFluids fluid : ForestryFluids.values()) {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFluid(), RenderType.translucent());
