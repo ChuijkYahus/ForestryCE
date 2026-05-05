@@ -5,7 +5,6 @@ import forestry.api.mail.IMailAddress;
 import forestry.core.utils.NBTUtilForestry;
 import forestry.mail.features.MailItems;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
@@ -42,17 +41,6 @@ public class LetterUtils {
 		}
 
 		return new Letter(tag, registries);
-	}
-
-	/**
-	 * @deprecated Reads with {@link RegistryAccess#EMPTY}, which loses any
-	 * registry-aware components. Prefer {@link #getLetter(ItemStack, HolderLookup.Provider)}
-	 * with the caller's real registry provider (Level#registryAccess(), Player#level(), etc.).
-	 */
-	@Deprecated
-	@Nullable
-	public static ILetter getLetter(ItemStack itemstack) {
-		return getLetter(itemstack, RegistryAccess.EMPTY);
 	}
 
 	public static boolean isLetter(ItemStack itemstack) {
