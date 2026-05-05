@@ -24,7 +24,12 @@ public class HiveBuilder implements IHiveBuilder {
 
 	public HiveBuilder(IHiveDefinition definition) {
 		this.definition = definition;
-		this.generationChance = definition.getGenChance();
+		this.generationChance = readDefaultGenChance(definition);
+	}
+
+	@SuppressWarnings("removal") // bridge: only call site of the deprecated IHiveDefinition.getGenChance default seeder — lifetime tied to the interface method's removal
+	private static float readDefaultGenChance(IHiveDefinition definition) {
+		return definition.getGenChance();
 	}
 
 	@Override

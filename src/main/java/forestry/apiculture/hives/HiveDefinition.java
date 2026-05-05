@@ -202,6 +202,7 @@ public enum HiveDefinition implements IHiveDefinition {
 	}
 
 	@Override
+	@SuppressWarnings("removal") // override of deprecated IHiveDefinition.getGenChance default-seeder — lifetime tied to the interface method's removal
 	public float getGenChance() {
 		return this.genChance;
 	}
