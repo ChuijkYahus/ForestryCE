@@ -1,5 +1,6 @@
 package forestry.arboriculture.client;
 
+import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.blocks.BlockDecorativeLeaves;
@@ -58,7 +59,7 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
-		event.register("sapling_ge", new SaplingModelLoader());
+		event.register(ForestryConstants.forestry("sapling_ge"), new SaplingModelLoader());
 	}
 
 	private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
