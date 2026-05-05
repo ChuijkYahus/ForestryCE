@@ -6,6 +6,8 @@ import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -33,5 +35,20 @@ public class CoreDataComponents {
 					() -> DataComponentType.<SimpleFluidContent>builder()
 							.persistent(SimpleFluidContent.CODEC)
 							.networkSynchronized(SimpleFluidContent.STREAM_CODEC)
+							.build());
+
+	/**
+	 * Holds the serialized {@link forestry.api.genetics.IIndividual} payload for genetic items
+	 * (bees, trees, butterflies, leaves dropped as items, etc.). Replaces the legacy
+	 * {@code CUSTOM_DATA -> "ForgeCaps" -> "Parent"} storage path used in 1.20.
+	 */
+	@SuppressWarnings("unchecked")
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<CompoundTag>> INDIVIDUAL =
+			(DeferredHolder<DataComponentType<?>, DataComponentType<CompoundTag>>) (DeferredHolder<?, ?>) DATA_COMPONENT_TYPES.register(
+					"individual",
+					() -> DataComponentType.<CompoundTag>builder()
+							.persistent(CompoundTag.CODEC)
+							.networkSynchronized(ByteBufCodecs.TRUSTED_COMPOUND_TAG)
+							.cacheEncoding()
 							.build());
 }

@@ -8,6 +8,7 @@ import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.config.ForestryConfig;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.genetics.capability.SerializableIndividualHandlerItem;
 import forestry.core.items.ItemForestry;
 import forestry.core.utils.GeneticsUtil;
@@ -42,22 +43,38 @@ public abstract class ItemGE extends ItemForestry {
 	protected abstract ISpeciesType<?, ?> getType();
 
 	public IIndividualHandlerItem createIndividualHandler(ItemStack stack) {
-		Tag parent;
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-
-		if (customData != null && customData.contains("ForgeCaps")) {
-			// Individual.saveToStack saves to NBT manually to bypass the cap nbt being null without setting the field
-			CompoundTag forgeCaps = customData.copyTag().getCompound("ForgeCaps");
-			parent = forgeCaps.contains("Parent") ? forgeCaps.get("Parent") : null;
-		} else {
-			parent = null;
-		}
+		Tag parent = readIndividualTag(stack);
 
 		if (parent == null) {
 			return new SerializableIndividualHandlerItem(getType(), stack, getType().getDefaultSpecies().createIndividual(), this.stage);
 		}
 
 		return new SerializableIndividualHandlerItem(getType(), stack, SpeciesUtil.deserializeIndividual(getType(), parent), this.stage);
+	}
+
+	/**
+	 * Reads the serialized individual NBT from a stack, preferring the modern
+	 * {@link CoreDataComponents#INDIVIDUAL} component and falling back to the
+	 * legacy {@code CUSTOM_DATA -> "ForgeCaps" -> "Parent"} path used by
+	 * pre-1.21 worlds and items still in flight from older saves.
+	 */
+	@Nullable
+	public static Tag readIndividualTag(ItemStack stack) {
+		CompoundTag individual = stack.get(CoreDataComponents.INDIVIDUAL);
+		if (individual != null) {
+			return individual;
+		}
+
+		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+		if (customData != null && customData.contains("ForgeCaps")) {
+			CompoundTag forgeCaps = customData.copyTag().getCompound("ForgeCaps");
+			return forgeCaps.contains("Parent") ? forgeCaps.get("Parent") : null;
+		}
+		return null;
+	}
+
+	public static boolean hasIndividual(ItemStack stack) {
+		return stack.has(CoreDataComponents.INDIVIDUAL) || readIndividualTag(stack) != null;
 	}
 
 	@Override
@@ -68,8 +85,7 @@ public abstract class ItemGE extends ItemForestry {
 
 	@Override
 	public boolean isFoil(ItemStack stack) {
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-		if (customData == null || customData.isEmpty()) { // villager trade wildcard bees
+		if (!hasIndividual(stack)) { // villager trade wildcard bees
 			return false;
 		}
 		ISpecies<?> species = getSpecies(stack);
@@ -77,8 +93,7 @@ public abstract class ItemGE extends ItemForestry {
 	}
 
 	public static void appendGeneticsTooltip(ItemStack stack, List<Component> tooltip) {
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-		if (customData == null || customData.isEmpty()) {
+		if (!hasIndividual(stack)) {
 			return;
 		}
 

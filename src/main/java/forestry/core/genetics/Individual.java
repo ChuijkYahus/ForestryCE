@@ -4,7 +4,7 @@ import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.genetics.*;
-import forestry.core.utils.NBTUtilForestry;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -119,15 +119,8 @@ public abstract class Individual<S extends ISpecies<I>, I extends IIndividual, T
 	public void saveToStack(ItemStack stack) {
 		Tag individual = SpeciesUtil.serializeIndividual(this);
 
-		if (individual != null) {
-			CompoundTag stackTag = NBTUtilForestry.getItemStackTag(stack);
-			if (stackTag == null) {
-				stackTag = new CompoundTag();
-			}
-			CompoundTag forgeCaps = new CompoundTag();
-			forgeCaps.put("Parent", individual);
-			stackTag.put("ForgeCaps", forgeCaps);
-			NBTUtilForestry.setItemStackTag(stack, stackTag);
+		if (individual instanceof CompoundTag tag) {
+			stack.set(CoreDataComponents.INDIVIDUAL, tag);
 		}
 	}
 
