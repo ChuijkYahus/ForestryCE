@@ -1,5 +1,6 @@
 package forestry.core.inventory;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
@@ -32,7 +33,7 @@ public enum StandardStackFilters implements Predicate<ItemStack> {
 		@Override
 		public boolean test(ItemStack stack) {
 			//TODO - tag on seeds?
-			return stack.getItem().getFoodProperties() != null || stack.getItem() == Items.WHEAT || stack.getItem() == Items.WHEAT_SEEDS;
+			return stack.has(DataComponents.FOOD) || stack.getItem() == Items.WHEAT || stack.getItem() == Items.WHEAT_SEEDS;
 		}
 	}
 }
