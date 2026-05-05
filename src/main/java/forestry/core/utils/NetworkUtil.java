@@ -10,6 +10,7 @@ import forestry.core.network.IStreamable;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -73,9 +74,9 @@ public class NetworkUtil {
 		}
 	}
 
-	public static List<ItemStack> readItemStacks(RegistryFriendlyByteBuf buffer) {
+	public static NonNullList<ItemStack> readItemStacks(RegistryFriendlyByteBuf buffer) {
 		int stackCount = buffer.readVarInt();
-		ArrayList<ItemStack> itemStacks = new ArrayList<>(stackCount);
+		NonNullList<ItemStack> itemStacks = NonNullList.create();
 		for (int i = 0; i < stackCount; i++) {
 			itemStacks.add(ItemStack.STREAM_CODEC.decode(buffer));
 		}
