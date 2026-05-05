@@ -11,6 +11,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.phys.Vec3;
 
 public class ForestryBoatDispenserBehavior extends DefaultDispenseItemBehavior {
 	private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
@@ -24,28 +25,29 @@ public class ForestryBoatDispenserBehavior extends DefaultDispenseItemBehavior {
 
 	@Override
 	public ItemStack execute(BlockSource source, ItemStack stack) {
-		Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
-		Level level = source.getLevel();
-		double x = 0.5625D + (double) EntityType.BOAT.getWidth() / 2.0D;
-		double y = source.x() + (double) direction.getStepX() * x;
-		double z = source.y() + (double) ((float) direction.getStepY() * 1.125F);
-		double d3 = source.z() + (double) direction.getStepZ() * x;
-		BlockPos blockpos = source.getPos().relative(direction);
+		Direction direction = source.state().getValue(DispenserBlock.FACING);
+		Level level = source.level();
+		Vec3 center = source.center();
+		double offset = 0.5625D + (double) EntityType.BOAT.getWidth() / 2.0D;
+		double x = center.x() + (double) direction.getStepX() * offset;
+		double y = center.y() + (double) ((float) direction.getStepY() * 1.125F);
+		double z = center.z() + (double) direction.getStepZ() * offset;
+		BlockPos blockpos = source.pos().relative(direction);
 		ForestryBoat boat = (this.hasChest ? new ForestryChestBoat(level, x, y, z) : new ForestryBoat(level, x, y, z));
 		boat.setWoodType(this.type);
 		boat.setYRot(direction.toYRot());
-		double d4;
+		double yOffset;
 		if (boat.canBoatInFluid(level.getFluidState(blockpos))) {
-			d4 = 1.0D;
+			yOffset = 1.0D;
 		} else {
 			if (!level.getBlockState(blockpos).isAir() || !boat.canBoatInFluid(level.getFluidState(blockpos.below()))) {
 				return this.defaultDispenseItemBehavior.dispense(source, stack);
 			}
 
-			d4 = 0.0D;
+			yOffset = 0.0D;
 		}
 
-		boat.setPos(y, z + d4, d3);
+		boat.setPos(x, y + yOffset, z);
 		level.addFreshEntity(boat);
 		stack.shrink(1);
 		return stack;
@@ -53,6 +55,6 @@ public class ForestryBoatDispenserBehavior extends DefaultDispenseItemBehavior {
 
 	@Override
 	protected void playSound(BlockSource source) {
-		source.getLevel().levelEvent(1000, source.getPos(), 0);
+		source.level().levelEvent(1000, source.pos(), 0);
 	}
 }
