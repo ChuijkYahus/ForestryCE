@@ -43,7 +43,9 @@ public class Data {
 		dataHelper.createTags(Registries.POINT_OF_INTEREST_TYPE, ForestryPoiTypeTagProvider::addTags);
 		// painting_variant became a datapack registry in 1.21; the painting JSONs and
 		// the placeable tag are shipped under src/main/resources/data/forestry/painting_variant/
-		// and data/minecraft/tags/painting_variant/placeable.json respectively.
+		// and data/minecraft/tags/painting_variant/placeable.json respectively. A small
+		// validator (below) fails datagen if a variant JSON is missing from the tag.
+		generator.addProvider(event.includeServer(), new ForestryPaintingPlaceableValidator());
 		dataHelper.createRecipes(ForestryRecipeProvider::addRecipes);
 		dataHelper.createDamageTypes(ForestryDamageTypesProvider::addTypes);
 		dataHelper.createItemModels(false, false, false, ForestryItemModels::addModels);
