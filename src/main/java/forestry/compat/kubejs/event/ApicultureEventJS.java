@@ -69,7 +69,9 @@ public class ApicultureEventJS implements KubeEvent {
 	}
 
 	public IHiveBuilder registerCustomHive(ResourceLocation id, IHiveGen placement, BlockState hiveState, Predicate<Holder<Biome>> isGoodBiome, Predicate<HumidityType> isGoodHumidity, Predicate<TemperatureType> isGoodTemperature, float genChance, KubeHiveDefinition.PostGenFunction postGen) {
-		return this.wrapped.registerHive(id, new KubeHiveDefinition(placement, hiveState, isGoodBiome, isGoodHumidity, isGoodTemperature, genChance, postGen));
+		IHiveBuilder builder = this.wrapped.registerHive(id, new KubeHiveDefinition(placement, hiveState, isGoodBiome, isGoodHumidity, isGoodTemperature, postGen));
+		builder.setGenerationChance(genChance);
+		return builder;
 	}
 
 	public void modifyHive(ResourceLocation id, Consumer<IHiveBuilder> action) {

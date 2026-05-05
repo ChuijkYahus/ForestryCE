@@ -21,6 +21,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HiveDefinitionSwarmer implements IHiveDefinition {
+	/** Generation chance applied by the alveary swarmer when it spawns a swarm hive. */
+	public static final float SWARMER_GEN_CHANCE = 128.0f;
+
 	private final List<ItemStack> bees;
 
 	public HiveDefinitionSwarmer(ItemStack... bees) {
@@ -50,12 +53,6 @@ public class HiveDefinitionSwarmer implements IHiveDefinition {
 	@Override
 	public boolean isGoodTemperature(TemperatureType temperature) {
 		return true;
-	}
-
-	@Override
-	@SuppressWarnings("removal") // override of deprecated IHiveDefinition.getGenChance default-seeder — lifetime tied to the interface method's removal
-	public float getGenChance() {
-		return 128.0f;
 	}
 
 	@Override

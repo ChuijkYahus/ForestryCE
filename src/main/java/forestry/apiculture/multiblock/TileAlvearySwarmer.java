@@ -120,7 +120,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 	private void trySpawnSwarm() {
 		ItemStack toSpawn = this.pendingSpawns.peek();
 		HiveDefinitionSwarmer hiveDescription = new HiveDefinitionSwarmer(toSpawn);
-		Hive hive = new Hive(hiveDescription, hiveDescription.getGenChance(), List.of());
+		Hive hive = new Hive(hiveDescription, HiveDefinitionSwarmer.SWARMER_GEN_CHANCE, List.of());
 
 		ServerLevel level = (ServerLevel) this.level;
 

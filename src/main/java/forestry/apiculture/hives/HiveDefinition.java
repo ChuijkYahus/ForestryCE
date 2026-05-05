@@ -159,15 +159,25 @@ public enum HiveDefinition implements IHiveDefinition {
 	}
 
 	private final BlockState blockState;
-	private final float genChance;
 	private final ResourceLocation speciesId;
 	private final IHiveGen hiveGen;
+	private final float defaultGenChance;
 
-	HiveDefinition(BlockState hiveState, float genChance, ResourceLocation beeTemplate, IHiveGen hiveGen) {
+	HiveDefinition(BlockState hiveState, float defaultGenChance, ResourceLocation beeTemplate, IHiveGen hiveGen) {
 		this.blockState = hiveState;
-		this.genChance = genChance;
+		this.defaultGenChance = defaultGenChance;
 		this.speciesId = beeTemplate;
 		this.hiveGen = hiveGen;
+	}
+
+	/**
+	 * The chance value historically baked into each enum constant. Plugin registrations apply this through
+	 * {@link forestry.api.plugin.IHiveBuilder#setGenerationChance} now that {@code IHiveDefinition.getGenChance}
+	 * has been removed; exposing it as a field keeps the per-hive tuning numbers next to the rest of the
+	 * definition instead of scattering them across {@code DefaultForestryPlugin}.
+	 */
+	public float defaultGenChance() {
+		return this.defaultGenChance;
 	}
 
 	@Override
@@ -199,12 +209,6 @@ public enum HiveDefinition implements IHiveDefinition {
 		TemperatureType idealTemperature = species.getTemperature();
 		ToleranceType temperatureTolerance = species.getDefaultGenome().getActiveValue(BeeChromosomes.TEMPERATURE_TOLERANCE);
 		return ClimateHelper.isWithinLimits(temperature, idealTemperature, temperatureTolerance);
-	}
-
-	@Override
-	@SuppressWarnings("removal") // override of deprecated IHiveDefinition.getGenChance default-seeder — lifetime tied to the interface method's removal
-	public float getGenChance() {
-		return this.genChance;
 	}
 
 	@Override

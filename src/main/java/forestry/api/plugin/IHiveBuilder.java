@@ -42,7 +42,12 @@ public interface IHiveBuilder {
 	/**
 	 * Changes the generation chance of the hive.
 	 *
+	 * <p>1.0 is the baseline chance; higher numbers spawn more hives, lower numbers spawn fewer.
+	 * Tree hives generally want 3.0–4.0 because their valid placement set is much smaller than
+	 * ground hives. Returns {@code this} so the call chains cleanly with
+	 * {@link forestry.api.plugin.IApicultureRegistration#registerHive} / {@link #addDrop}.
+	 *
 	 * @since 1.1.1
 	 */
-	void setGenerationChance(float generationChance);
+	IHiveBuilder setGenerationChance(float generationChance);
 }
