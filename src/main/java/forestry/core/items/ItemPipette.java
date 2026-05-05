@@ -1,6 +1,7 @@
 package forestry.core.items;
 
 import forestry.api.core.IToolPipette;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.fluids.PipetteContents;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.RenderUtil;
@@ -39,7 +40,7 @@ public class ItemPipette extends ItemForestry implements IToolPipette, IColoredI
 	}
 
 	public IFluidHandlerItem createFluidHandler(ItemStack stack) {
-		return new FluidHandlerItemStack(stack, FluidType.BUCKET_VOLUME);
+		return new FluidHandlerItemStack(CoreDataComponents.FLUID_CONTENT, stack, FluidType.BUCKET_VOLUME);
 	}
 
 	@Override
