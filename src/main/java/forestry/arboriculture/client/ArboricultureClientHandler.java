@@ -14,7 +14,6 @@ import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
@@ -66,7 +65,8 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 		event.registerEntityRenderer(ArboricultureEntities.BOAT.entityType(), ctx -> new ForestryBoatRenderer(ctx, false));
 		event.registerEntityRenderer(ArboricultureEntities.CHEST_BOAT.entityType(), ctx -> new ForestryBoatRenderer(ctx, true));
 		event.registerBlockEntityRenderer(ArboricultureTiles.SIGN.tileType(), SignRenderer::new);
-		event.registerBlockEntityRenderer(ArboricultureTiles.HANGING_SIGN.tileType(), HangingSignRenderer::new);
+		// HANGING_SIGN BE renderer is provided by vanilla; Forestry's hanging-sign blocks reuse
+		// vanilla's BlockEntityType.HANGING_SIGN via BlockEntityTypeAddBlocksEvent.
 	}
 
 	private static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {

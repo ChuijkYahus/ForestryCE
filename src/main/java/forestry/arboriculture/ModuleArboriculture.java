@@ -12,6 +12,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
 import forestry.arboriculture.client.ArboricultureClientHandler;
 import forestry.arboriculture.commands.CommandTree;
+import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.items.ForestryBoatDispenserBehavior;
@@ -25,7 +26,9 @@ import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -34,6 +37,7 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.bus.api.IEventBus;
@@ -42,6 +46,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 @ForestryModule
 public class ModuleArboriculture extends BlankForestryModule {
@@ -56,7 +61,23 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 		modBus.addListener(ModuleArboriculture::registerCapabilities);
 		modBus.addListener(ModuleArboriculture::commonSetup);
+		modBus.addListener(ModuleArboriculture::registerHangingSignBlocks);
 		NeoForge.EVENT_BUS.addListener(ModuleArboriculture::modifySnifferLoot);
+	}
+
+	/**
+	 * Adds Forestry's ceiling and wall hanging sign blocks to vanilla's
+	 * {@link BlockEntityType#HANGING_SIGN} valid-blocks set. This is required because
+	 * {@code HangingSignBlockEntity}'s public constructor hardcodes that vanilla type, so
+	 * any Forestry-owned BlockEntityType for hanging signs would never be used at runtime
+	 * (breaking save validation and tickers).
+	 */
+	private static void registerHangingSignBlocks(BlockEntityTypeAddBlocksEvent event) {
+		Block[] hangingSignBlocks = Stream.concat(
+			ArboricultureBlocks.HANGING_SIGN.getList().stream(),
+			ArboricultureBlocks.WALL_HANGING_SIGN.getList().stream()
+		).toArray(Block[]::new);
+		event.modify(BlockEntityType.HANGING_SIGN, hangingSignBlocks);
 	}
 
 	private static void modifySnifferLoot(LootTableLoadEvent event) {
