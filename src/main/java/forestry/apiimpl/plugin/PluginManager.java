@@ -311,8 +311,8 @@ public class PluginManager {
 				// default sapling block and item models (removes the "tree_" prefix)
 				String path = id.getPath().replace("tree_", "");
 				models.put(species, Pair.of(
-					new ResourceLocation(id.getNamespace(), "block/" + path + "_sapling"),
-					new ResourceLocation(id.getNamespace(), "item/" + path + "_sapling")
+					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + path + "_sapling"),
+					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + path + "_sapling")
 				));
 			}
 		}
@@ -334,8 +334,8 @@ public class PluginManager {
 				// default butterfly item and entity textures
 				String path = id.getPath().replace("butterfly_", "");
 				butterflyTextures.put(species, butterflyTexturesById.getOrDefault(id, Pair.of(
-					new ResourceLocation(id.getNamespace(), "item/butterfly/" + path),
-					new ResourceLocation(id.getNamespace(), "textures/entity/butterfly/" + path + ".png")
+					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/butterfly/" + path),
+					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "textures/entity/butterfly/" + path + ".png")
 				)));
 			}
 		}

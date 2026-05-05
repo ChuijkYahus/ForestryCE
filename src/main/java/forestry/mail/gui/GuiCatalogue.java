@@ -36,7 +36,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 	private final List<ItemStackWidget> tradeInfoWidgets = new ArrayList<>();
 
 	public GuiCatalogue(ContainerCatalogue container, Inventory inv, Component title) {
-		super(new ResourceLocation("textures/gui/book.png"), container, inv, title);
+		super(ResourceLocation.parse("textures/gui/book.png"), container, inv, title);
 
 		this.imageWidth = 192;
 		this.imageHeight = 192;

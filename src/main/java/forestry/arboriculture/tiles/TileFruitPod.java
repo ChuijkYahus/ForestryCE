@@ -94,7 +94,7 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 
 		String fruitNbt = nbt.getString(NBT_FRUIT);
 		if (!fruitNbt.isEmpty()) {
-			this.fruit = TreeChromosomes.FRUIT.getSafe(new ResourceLocation(fruitNbt));
+			this.fruit = TreeChromosomes.FRUIT.getSafe(ResourceLocation.parse(fruitNbt));
 		}
 		if (this.fruit == null) {
 			this.fruit = ForestryAlleles.FRUIT_COCOA.value();

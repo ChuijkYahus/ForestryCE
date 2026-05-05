@@ -138,7 +138,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 					if (!this.cache.containsKey(name)) {
 						FluidContainerModel unbaked = this.parent.withFluid(fluid);
-						BakedModel bakedModel = unbaked.bake(this.owner, this.bakery, Material::sprite, BlockModelRotation.X0_Y0, this, new ResourceLocation("forge:bucket_override"));
+						BakedModel bakedModel = unbaked.bake(this.owner, this.bakery, Material::sprite, BlockModelRotation.X0_Y0, this, ResourceLocation.parse("forge:bucket_override"));
                         this.cache.put(name, bakedModel);
 						return bakedModel;
 					}

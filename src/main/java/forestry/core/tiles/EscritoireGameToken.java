@@ -164,7 +164,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 		String tokenType = nbt.getString("tokenSpeciesType");
 
 		if (!tokenSpecies.isEmpty() && !tokenType.isEmpty()) {
-			setTokenSpecies(new ResourceLocation(tokenType), new ResourceLocation(tokenSpecies));
+			setTokenSpecies(ResourceLocation.parse(tokenType), ResourceLocation.parse(tokenSpecies));
 		}
 	}
 

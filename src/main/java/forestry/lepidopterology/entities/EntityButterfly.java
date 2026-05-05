@@ -173,7 +173,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 		Tag pollenNbt = nbt.get(NBT_POLLEN);
 		if (pollenNbt != null && nbt.contains(NBT_POLLEN_TYPE)) {
-			IPollenType<?> type = IForestryApi.INSTANCE.getPollenManager().getPollenType(new ResourceLocation(nbt.getString(NBT_POLLEN_TYPE)));
+			IPollenType<?> type = IForestryApi.INSTANCE.getPollenManager().getPollenType(ResourceLocation.parse(nbt.getString(NBT_POLLEN_TYPE)));
 
 			if (type != null) {
 				this.pollen = type.readNbt(pollenNbt);
@@ -463,7 +463,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		if (level().isClientSide) {
 			if (this.species == null) {
 				String speciesUid = this.entityData.get(DATAWATCHER_ID_SPECIES);
-				IButterflySpecies species = SpeciesUtil.BUTTERFLY_TYPE.get().getSpeciesSafe(new ResourceLocation(speciesUid));
+				IButterflySpecies species = SpeciesUtil.BUTTERFLY_TYPE.get().getSpeciesSafe(ResourceLocation.parse(speciesUid));
 
 				if (species != null) {
 					this.species = species;

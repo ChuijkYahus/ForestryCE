@@ -54,7 +54,7 @@ public enum ClientManager {
 
 	public ModelState getDefaultBlockState() {
 		if (this.defaultBlockState == null) {
-            this.defaultBlockState = ResourceUtil.loadTransform(new ResourceLocation("block/block"));
+            this.defaultBlockState = ResourceUtil.loadTransform(ResourceLocation.parse("block/block"));
 		}
 		return this.defaultBlockState;
 	}
