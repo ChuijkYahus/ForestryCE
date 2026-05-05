@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
 import java.util.EnumMap;
@@ -80,7 +81,7 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 	}
 
 	private void renderTank(PoseStack stack, ModelPart tankModel, MultiBufferSource buffers, ResourceLocation textureBase, TankRenderInfo renderInfo, int light, int overlay) {
-		tankModel.render(stack, buffers.getBuffer(RenderType.entityCutout(textureBase)), light, overlay);
+		tankModel.render(stack, buffers.getBuffer(RenderType.entityCutout(textureBase)), light, overlay, 0xFFFFFFFF);
 
 		ResourceLocation textureResourceTankLevel = this.texturesTankLevels.get(renderInfo.getLevel());
 		if (textureResourceTankLevel == null) {
@@ -88,11 +89,12 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 		}
 
 		int color = RenderUtil.getFluidColor(renderInfo.getFluidStack().getFluid());
-		float r = (color >> 16 & 255) / 255f;
-		float g = (color >> 8 & 255) / 255f;
-		float b = (color & 255) / 255f;
+		int r = color >> 16 & 255;
+		int g = color >> 8 & 255;
+		int b = color & 255;
+		int argb = FastColor.ARGB32.color(255, r, g, b);
 
-		tankModel.render(stack, buffers.getBuffer(RenderType.entityCutout(textureResourceTankLevel)), light, overlay, r, g, b, 1.0f);
+		tankModel.render(stack, buffers.getBuffer(RenderType.entityCutout(textureResourceTankLevel)), light, overlay, argb);
 	}
 
 	@Override
@@ -107,8 +109,8 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 		stack.translate(-0.5, -0.5, -0.5);
 		// render bases
 		VertexConsumer base = buffers.getBuffer(RenderType.entityCutout(this.textureBase));
-		this.basefront.render(stack, base, light, overlay);
-		this.baseback.render(stack, base, light, overlay);
+		this.basefront.render(stack, base, light, overlay, 0xFFFFFFFF);
+		this.baseback.render(stack, base, light, overlay, 0xFFFFFFFF);
 
 		// rotate for the tank "slices"
 		stack.translate(0.5, 0.5, 0.5);
