@@ -37,6 +37,8 @@ import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 @ForestryModule
@@ -60,9 +62,8 @@ public class ModuleArboriculture extends BlankForestryModule {
 			LootPool main = event.getTable().getPool("main");
 
 			if (main != null) {
-				LootPoolEntryContainer[] entries = new LootPoolEntryContainer[main.entries.length + 1];
-				System.arraycopy(main.entries, 0, entries, 0, main.entries.length);
-				entries[main.entries.length] = LootItem.lootTableItem(ArboricultureItems.AMBER_SAPLING).build();
+				List<LootPoolEntryContainer> entries = new ArrayList<>(main.entries);
+				entries.add(LootItem.lootTableItem(ArboricultureItems.AMBER_SAPLING).build());
 				main.entries = entries;
 			}
 		}
