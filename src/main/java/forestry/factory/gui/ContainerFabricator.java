@@ -17,7 +17,26 @@ import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> implements IContainerCrafting {
+	private final List<ContainerListener> trackedListeners = new ArrayList<>();
+
+	@Override
+	public void addSlotListener(ContainerListener listener) {
+		super.addSlotListener(listener);
+		if (!this.trackedListeners.contains(listener)) {
+			this.trackedListeners.add(listener);
+		}
+	}
+
+	@Override
+	public void removeSlotListener(ContainerListener listener) {
+		super.removeSlotListener(listener);
+		this.trackedListeners.remove(listener);
+	}
+
 	public static ContainerFabricator fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TileFabricator tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileFabricator.class);
 		return new ContainerFabricator(windowId, inv, tile);
@@ -66,7 +85,7 @@ public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> im
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		for (ContainerListener crafter : this.containerListeners) {
+		for (ContainerListener crafter : this.trackedListeners) {
             this.tile.sendGUINetworkData(this, crafter);
 		}
 	}
