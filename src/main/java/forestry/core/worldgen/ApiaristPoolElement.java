@@ -41,6 +41,7 @@ import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -48,14 +49,15 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ApiaristPoolElement extends SinglePoolElement {
 	public static final MapCodec<ApiaristPoolElement> CODEC = RecordCodecBuilder.mapCodec(instance -> {
-		return instance.group(templateCodec(), processorsCodec()).apply(instance, ApiaristPoolElement::new);
+		return instance.group(templateCodec(), processorsCodec(), projectionCodec(), overrideLiquidSettingsCodec()).apply(instance, ApiaristPoolElement::new);
 	});
 
-	public ApiaristPoolElement(Either<ResourceLocation, StructureTemplate> template, Holder<StructureProcessorList> processors) {
-		super(template, processors, StructureTemplatePool.Projection.RIGID);
+	public ApiaristPoolElement(Either<ResourceLocation, StructureTemplate> template, Holder<StructureProcessorList> processors, StructureTemplatePool.Projection projection, Optional<LiquidSettings> overrideLiquidSettings) {
+		super(template, processors, projection, overrideLiquidSettings);
 	}
 
 	@Override
@@ -73,9 +75,9 @@ public class ApiaristPoolElement extends SinglePoolElement {
 	}
 
 	@Override
-	protected StructurePlaceSettings getSettings(Rotation rotation, BoundingBox bounds, boolean keepJigsaws) {
+	protected StructurePlaceSettings getSettings(Rotation rotation, BoundingBox bounds, LiquidSettings liquidSettings, boolean keepJigsaws) {
 		// data markers get wiped (ignored) if we don't remove the structure block processor
-		return super.getSettings(rotation, bounds, keepJigsaws)
+		return super.getSettings(rotation, bounds, liquidSettings, keepJigsaws)
 			.popProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 	}
 
