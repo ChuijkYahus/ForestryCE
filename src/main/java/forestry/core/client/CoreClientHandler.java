@@ -42,6 +42,7 @@ import forestry.storage.features.CrateItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
@@ -123,15 +124,15 @@ public class CoreClientHandler implements IClientModuleHandler {
 			Map<IBeeSpecies, ResourceLocation> models = beeManager.getBeeModels(stage);
 
 			for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
-				event.register(models.get(species));
+				event.register(ModelResourceLocation.standalone(models.get(species)));
 			}
 		}
 
 		ITreeClientManager treeManager = IForestryClientApi.INSTANCE.getTreeManager();
 
 		for (Pair<ResourceLocation, ResourceLocation> pair : treeManager.getAllSaplingModels()) {
-			event.register(pair.getFirst());
-			event.register(pair.getSecond());
+			event.register(ModelResourceLocation.standalone(pair.getFirst()));
+			event.register(ModelResourceLocation.standalone(pair.getSecond()));
 		}
 	}
 

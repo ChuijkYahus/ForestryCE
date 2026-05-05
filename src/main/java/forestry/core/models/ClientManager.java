@@ -85,7 +85,7 @@ public enum ClientManager {
 
 	public void onBakeModels(ModelEvent.ModifyBakingResult event) {
 		//register custom models
-		Map<ResourceLocation, BakedModel> registry = event.getModels();
+		Map<ModelResourceLocation, BakedModel> registry = event.getModels();
 		for (final BlockModelEntry entry : this.customBlockModels) {
 			for (BlockState state : entry.states) {
 				registry.put(BlockModelShaper.stateToModelLocation(state), entry.model);
@@ -95,7 +95,7 @@ public enum ClientManager {
 				if (registryName == null) {
 					continue;
 				}
-				registry.put(new ModelResourceLocation(registryName, "inventory"), entry.model);
+				registry.put(ModelResourceLocation.inventory(registryName), entry.model);
 			}
 		}
 
