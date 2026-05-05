@@ -40,11 +40,6 @@ public class ForestryBoat extends Boat {
 	}
 
 	@Override
-	public double getPassengersRidingOffset() {
-		return -0.1;
-	}
-
-	@Override
 	public Item getDropItem() {
 		return ArboricultureItems.BOAT.item(getWoodType());
 	}
