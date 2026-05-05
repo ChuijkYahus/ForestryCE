@@ -40,7 +40,7 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 		event.register(ApicultureMenuTypes.ALVEARY_HYGROREGULATOR.menuType(), GuiAlvearyHygroregulator::new);
 		event.register(ApicultureMenuTypes.ALVEARY_SIEVE.menuType(), GuiAlvearySieve::new);
 		event.register(ApicultureMenuTypes.ALVEARY_SWARMER.menuType(), GuiAlvearySwarmer::new);
-		event.register(ApicultureMenuTypes.BEE_HOUSING.menuType(), GuiBeeHousing::new);
+		event.register(ApicultureMenuTypes.BEE_HOUSING.menuType(), (MenuScreens.ScreenConstructor<ContainerBeeHousing, GuiBeeHousing<ContainerBeeHousing>>) GuiBeeHousing::new);
 	}
 
 	private static void registerParticleFactory(RegisterParticleProvidersEvent event) {
