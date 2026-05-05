@@ -1,8 +1,8 @@
 package forestry.arboriculture.villagers;
 
 import com.google.common.collect.ImmutableSet;
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.genetics.ILifeStage;
@@ -82,7 +82,7 @@ public class ArboricultureVillagers {
 		@Override
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
 			ForestryWoodType woodType = ForestryWoodType.getRandom(rand);
-			ItemStack sellStack = TreeManager.woodAccess.getStack(woodType, WoodBlockKind.PLANKS, false);
+			ItemStack sellStack = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getStack(woodType, WoodBlockKind.PLANKS, false);
 			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
 			return new MerchantOffer(new ItemCost(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
@@ -96,7 +96,7 @@ public class ArboricultureVillagers {
 		@Override
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
 			ForestryWoodType woodType = ForestryWoodType.getRandom(rand);
-			ItemStack sellStack = TreeManager.woodAccess.getStack(woodType, WoodBlockKind.LOG, false);
+			ItemStack sellStack = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getStack(woodType, WoodBlockKind.LOG, false);
 			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
 			return new MerchantOffer(new ItemCost(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);

@@ -93,6 +93,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 	}
 
 	@Override
+	@SuppressWarnings("removal") // back-compat: keep populating the deprecated API field for external mods until it is fully removed
 	public void setupApi() {
 		TreeManager.woodAccess = WoodAccess.INSTANCE;
 	}

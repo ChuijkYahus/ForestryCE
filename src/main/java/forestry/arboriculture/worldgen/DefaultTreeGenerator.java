@@ -1,6 +1,7 @@
 package forestry.arboriculture.worldgen;
 
 import com.google.common.base.Preconditions;
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.*;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
@@ -40,7 +41,7 @@ public class DefaultTreeGenerator implements ITreeGenerator {
 	@Override
 	public boolean setLogBlock(IGenome genome, LevelAccessor level, BlockPos pos, Direction facing) {
 		boolean fireproof = genome.getActiveValue(TreeChromosomes.FIREPROOF);
-		BlockState logBlock = TreeManager.woodAccess.getBlock(this.woodType, WoodBlockKind.LOG, fireproof);
+		BlockState logBlock = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getBlock(this.woodType, WoodBlockKind.LOG, fireproof);
 
 		Direction.Axis axis = facing.getAxis();
 		return level.setBlock(pos, logBlock.setValue(RotatedPillarBlock.AXIS, axis), Block.UPDATE_KNOWN_SHAPE | Block.UPDATE_ALL);

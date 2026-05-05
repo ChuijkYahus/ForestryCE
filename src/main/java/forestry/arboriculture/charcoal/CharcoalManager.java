@@ -10,6 +10,9 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+// SuppressWarnings("removal") — these methods exist solely to satisfy the deprecated
+// ICharcoalManager surface. They will be removed when the interface methods are deleted.
+@SuppressWarnings("removal")
 public class CharcoalManager implements ICharcoalManager {
 	// Charcoal
 	public static final int charcoalAmountBase = 8;
