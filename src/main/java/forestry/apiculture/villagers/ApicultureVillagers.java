@@ -31,6 +31,7 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -89,7 +90,7 @@ public class ApicultureVillagers {
 
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			ItemStack buy = new ItemStack(this.buying, this.buyingPriceInfo.getPrice(rand));
+			ItemCost buy = new ItemCost(this.buying, this.buyingPriceInfo.getPrice(rand));
 			ItemStack sell = new ItemStack(this.itemHoneyCombs.get(rand.nextInt(this.itemHoneyCombs.size())), this.sellingPriceInfo.getPrice(rand));
 			return new MerchantOffer(buy, sell, this.maxUses, this.xp, this.priceMult);
 		}
@@ -105,7 +106,7 @@ public class ApicultureVillagers {
 			ItemStack randomHiveDrone = SpeciesUtil.getBeeSpecies(forestryMundane[rand.nextInt(forestryMundane.length)]).createStack(BeeLifeStage.DRONE);
 			randomHiveDrone.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(this.buying, this.buyingPriceInfo.getPrice(rand)), randomHiveDrone, this.maxUses, this.xp, this.priceMult);
+			return new MerchantOffer(new ItemCost(this.buying, this.buyingPriceInfo.getPrice(rand)), randomHiveDrone, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 }

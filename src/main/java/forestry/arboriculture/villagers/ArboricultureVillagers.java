@@ -28,6 +28,7 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -84,7 +85,7 @@ public class ArboricultureVillagers {
 			ItemStack sellStack = TreeManager.woodAccess.getStack(woodType, WoodBlockKind.PLANKS, false);
 			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
+			return new MerchantOffer(new ItemCost(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 
@@ -98,7 +99,7 @@ public class ArboricultureVillagers {
 			ItemStack sellStack = TreeManager.woodAccess.getStack(woodType, WoodBlockKind.LOG, false);
 			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
+			return new MerchantOffer(new ItemCost(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 
@@ -128,7 +129,7 @@ public class ArboricultureVillagers {
 			ItemStack sellStack = chosenSpecies.createStack(this.stage);
 			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.buyingPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
+			return new MerchantOffer(new ItemCost(Items.EMERALD, this.buyingPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 }
