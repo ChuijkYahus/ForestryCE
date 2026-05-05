@@ -4,6 +4,7 @@ import forestry.api.mail.*;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.postalstates.EnumDeliveryState;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -26,7 +27,7 @@ public class PostOffice extends SavedData implements IPostOffice {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compoundNBT) {
+	public CompoundTag save(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		for (int i = 0; i < this.collectedPostage.length; i++) {
 			compoundNBT.putInt("CPS" + i, this.collectedPostage[i]);
 		}

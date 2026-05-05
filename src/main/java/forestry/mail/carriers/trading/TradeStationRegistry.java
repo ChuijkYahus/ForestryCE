@@ -6,6 +6,7 @@ import forestry.api.mail.ITradeStation;
 import forestry.mail.IWatchable;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
@@ -104,7 +105,7 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compoundTag) {
+	public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
 		ListTag tradeStations = new ListTag();
 		for (Map.Entry<IMailAddress, ITradeStation> entry : this.cachedTradeStations.entrySet()) {
 			CompoundTag entryTag = new CompoundTag();

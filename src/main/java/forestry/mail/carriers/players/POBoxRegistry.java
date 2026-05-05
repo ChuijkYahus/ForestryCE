@@ -4,6 +4,7 @@ import forestry.api.mail.IMailAddress;
 import forestry.mail.IWatchable;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
@@ -70,7 +71,7 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compoundTag) {
+	public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
 		ListTag poboxes = new ListTag();
 		for (Map.Entry<IMailAddress, POBox> entry : this.cachedPOBoxes.entrySet()) {
 			CompoundTag entryTag = new CompoundTag();
