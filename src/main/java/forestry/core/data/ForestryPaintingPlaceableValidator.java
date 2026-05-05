@@ -7,7 +7,10 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.net.URI;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
@@ -23,9 +26,8 @@ import java.util.stream.Stream;
  * without a tag entry would silently fail to be placeable in survival.
  */
 public final class ForestryPaintingPlaceableValidator implements DataProvider {
-	private static final Path RESOURCES_ROOT = Path.of("src", "main", "resources");
-	private static final Path PAINTING_DIR = RESOURCES_ROOT.resolve("data/forestry/painting_variant");
-	private static final Path PLACEABLE_TAG = RESOURCES_ROOT.resolve("data/minecraft/tags/painting_variant/placeable.json");
+	private static final String PAINTING_DIR_RESOURCE = "/data/forestry/painting_variant";
+	private static final String PLACEABLE_TAG_RESOURCE = "/data/minecraft/tags/painting_variant/placeable.json";
 
 	@Override
 	public CompletableFuture<?> run(CachedOutput output) {
@@ -41,7 +43,7 @@ public final class ForestryPaintingPlaceableValidator implements DataProvider {
 		if (!missingFromTag.isEmpty() || !tagOrphans.isEmpty()) {
 			throw new IllegalStateException(String.format(
 				"painting_variant / placeable tag drift detected:\n  missing from %s: %s\n  tag entries with no painting_variant JSON: %s",
-				PLACEABLE_TAG, missingFromTag, tagOrphans));
+				PLACEABLE_TAG_RESOURCE, missingFromTag, tagOrphans));
 		}
 
 		return CompletableFuture.completedFuture(null);
@@ -53,10 +55,17 @@ public final class ForestryPaintingPlaceableValidator implements DataProvider {
 	}
 
 	private static Set<String> listVariants() {
-		if (!Files.isDirectory(PAINTING_DIR)) {
+		URL dirUrl = ForestryPaintingPlaceableValidator.class.getResource(PAINTING_DIR_RESOURCE);
+		if (dirUrl == null) {
 			return Set.of();
 		}
-		try (Stream<Path> stream = Files.list(PAINTING_DIR)) {
+		Path dir;
+		try {
+			dir = Path.of(URI.create(dirUrl.toString()));
+		} catch (IllegalArgumentException e) {
+			throw new IllegalStateException("painting_variant resource is not a regular directory (jar-packed?): " + dirUrl, e);
+		}
+		try (Stream<Path> stream = Files.list(dir)) {
 			return stream
 				.filter(p -> p.getFileName().toString().endsWith(".json"))
 				.map(p -> {
@@ -70,11 +79,11 @@ public final class ForestryPaintingPlaceableValidator implements DataProvider {
 	}
 
 	private static Set<String> readPlaceableTag() {
-		if (!Files.isRegularFile(PLACEABLE_TAG)) {
-			throw new IllegalStateException("Missing placeable tag at " + PLACEABLE_TAG);
-		}
-		try {
-			JsonElement json = JsonParser.parseString(Files.readString(PLACEABLE_TAG));
+		try (var stream = ForestryPaintingPlaceableValidator.class.getResourceAsStream(PLACEABLE_TAG_RESOURCE)) {
+			if (stream == null) {
+				throw new IllegalStateException("Missing placeable tag resource at " + PLACEABLE_TAG_RESOURCE);
+			}
+			JsonElement json = JsonParser.parseReader(new InputStreamReader(stream));
 			JsonObject obj = json.getAsJsonObject();
 			Set<String> entries = new TreeSet<>();
 			obj.getAsJsonArray("values").forEach(v -> entries.add(v.getAsString()));

@@ -1,6 +1,7 @@
 package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -18,6 +19,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 
@@ -25,16 +27,26 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class CarpenterRecipe implements ICarpenterRecipe {
+	// Inner crafting recipe is either Shaped or Shapeless; dispatch via Either so
+	// existing data (e.g. wood pulp, bronze ingot) using shapeless can persist.
+	private static final Codec<CraftingRecipe> CRAFTING_RECIPE_CODEC = Codec.either(
+		RecipeSerializer.SHAPED_RECIPE.codec().codec(),
+		RecipeSerializer.SHAPELESS_RECIPE.codec().codec()
+	).xmap(
+		either -> either.map(sr -> (CraftingRecipe) sr, slr -> (CraftingRecipe) slr),
+		cr -> {
+			if (cr instanceof ShapedRecipe sr) return Either.left(sr);
+			if (cr instanceof ShapelessRecipe slr) return Either.right(slr);
+			throw new IllegalStateException("Unsupported CraftingRecipe type for CarpenterRecipe: " + cr.getClass().getName());
+		}
+	);
+
 	private static final MapCodec<CarpenterRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		ResourceLocation.CODEC.fieldOf("id").forGetter(CarpenterRecipe::getId),
 		Codec.INT.fieldOf("time").forGetter(CarpenterRecipe::getPackagingTime),
 		FluidStack.OPTIONAL_CODEC.optionalFieldOf("liquid", FluidStack.EMPTY).forGetter(CarpenterRecipe::getInputFluid),
 		Ingredient.CODEC.fieldOf("box").forGetter(CarpenterRecipe::getBox),
-		// only ShapedRecipe is supported on the network path; see PORTING.md
-		RecipeSerializer.SHAPED_RECIPE.codec().codec()
-			.xmap(sr -> (CraftingRecipe) sr, cr -> (ShapedRecipe) cr)
-			.fieldOf("recipe")
-			.forGetter(CarpenterRecipe::getCraftingGridRecipe),
+		CRAFTING_RECIPE_CODEC.fieldOf("recipe").forGetter(CarpenterRecipe::getCraftingGridRecipe),
 		ItemStack.STRICT_CODEC.optionalFieldOf("result").forGetter(CarpenterRecipe::getOptionalResult)
 	).apply(instance, (id, time, liquid, box, recipe, optResult) -> new CarpenterRecipe(id, time, liquid, box, recipe, optResult.orElse(null))));
 	private static final StreamCodec<RegistryFriendlyByteBuf, CarpenterRecipe> STREAM_CODEC = StreamCodec.of(
@@ -140,7 +152,9 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 			int packagingTime = ByteBufCodecs.VAR_INT.decode(buffer);
 			FluidStack liquid = FluidStack.OPTIONAL_STREAM_CODEC.decode(buffer);
 			Ingredient box = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			ShapedRecipe internal = RecipeSerializer.SHAPED_RECIPE.streamCodec().decode(buffer);
+			CraftingRecipe internal = buffer.readBoolean()
+				? RecipeSerializer.SHAPED_RECIPE.streamCodec().decode(buffer)
+				: RecipeSerializer.SHAPELESS_RECIPE.streamCodec().decode(buffer);
 			ItemStack result = buffer.readBoolean() ? ItemStack.STREAM_CODEC.decode(buffer) : null;
 
 			return new CarpenterRecipe(recipeId, packagingTime, liquid, box, internal, result);
@@ -151,7 +165,15 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 			ByteBufCodecs.VAR_INT.encode(buffer, recipe.packagingTime);
 			FluidStack.OPTIONAL_STREAM_CODEC.encode(buffer, recipe.liquid);
 			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.box);
-			RecipeSerializer.SHAPED_RECIPE.streamCodec().encode(buffer, (ShapedRecipe) recipe.recipe);
+			if (recipe.recipe instanceof ShapedRecipe shaped) {
+				buffer.writeBoolean(true);
+				RecipeSerializer.SHAPED_RECIPE.streamCodec().encode(buffer, shaped);
+			} else if (recipe.recipe instanceof ShapelessRecipe shapeless) {
+				buffer.writeBoolean(false);
+				RecipeSerializer.SHAPELESS_RECIPE.streamCodec().encode(buffer, shapeless);
+			} else {
+				throw new IllegalStateException("Unsupported CraftingRecipe type for CarpenterRecipe network sync: " + recipe.recipe.getClass().getName());
+			}
 
 			boolean hasResult = recipe.result != null;
 			buffer.writeBoolean(hasResult);

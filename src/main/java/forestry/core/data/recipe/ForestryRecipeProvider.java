@@ -91,6 +91,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import forestry.api.ForestryConstants;
 import thedarkcolour.modkit.data.MKRecipeProvider;
 
 import java.util.List;
@@ -127,7 +128,7 @@ public class ForestryRecipeProvider {
 		registerCultivationRecipes(recipes);
 		registerFactoryRecipes(recipes);
 		registerFarmingRecipes(recipes);
-		registerFluidsRecipes(recipes);
+		registerFluidsRecipes(output, recipes);
 		registerLepidopterologyRecipes(recipes);
 		registerMailRecipes(recipes);
 		registerSortingRecipes(recipes);
@@ -1015,17 +1016,23 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void registerFluidsRecipes(MKRecipeProvider recipes) {
+	private static void registerFluidsRecipes(RecipeOutput output, MKRecipeProvider recipes) {
+		// Bypass MKRecipeProvider's shapedCrafting wrapper here: its
+		// attemptAutoCriterion calls Ingredient#getValues, which throws on
+		// DataComponentIngredient. Build with vanilla ShapedRecipeBuilder
+		// and set the unlock criterion via MKRecipeProvider.unlockedByHaving.
 		for (EnumContainerType containerType : EnumContainerType.values()) {
-			recipes.shapedCrafting("cake_" + containerType.getSerializedName(), RecipeCategory.FOOD, Items.CAKE, recipe -> {
-				recipe.define('A', DataComponentIngredient.of(true, getContainer(containerType, NeoForgeMod.MILK.get())));
-				recipe.define('B', Items.SUGAR);
-				recipe.define('C', Items.WHEAT);
-				recipe.define('E', Items.EGG);
-				recipe.pattern("AAA");
-				recipe.pattern("BEB");
-				recipe.pattern("CCC");
-			});
+			MKRecipeProvider.unlockedByHaving(
+				ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, Items.CAKE)
+					.define('A', DataComponentIngredient.of(true, getContainer(containerType, NeoForgeMod.MILK.get())))
+					.define('B', Items.SUGAR)
+					.define('C', Items.WHEAT)
+					.define('E', Items.EGG)
+					.pattern("AAA")
+					.pattern("BEB")
+					.pattern("CCC"),
+				Items.MILK_BUCKET
+			).save(output, ForestryConstants.forestry("cake_" + containerType.getSerializedName()));
 		}
 	}
 
