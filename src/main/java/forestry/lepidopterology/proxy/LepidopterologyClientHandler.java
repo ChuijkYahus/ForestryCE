@@ -42,6 +42,6 @@ public class LepidopterologyClientHandler implements IClientModuleHandler {
 	}
 
 	public static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
-		event.register("butterfly_ge", new ButterflyItemModel.Loader());
+		event.register(ForestryConstants.forestry("butterfly_ge"), new ButterflyItemModel.Loader());
 	}
 }
