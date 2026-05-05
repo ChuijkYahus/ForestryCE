@@ -60,7 +60,7 @@ public class PickupHandlerStorage {
 				continue;
 			}
 
-			if (ItemStack.isSameItemSameTags(inventoryStack, itemstack)) {
+			if (ItemStack.isSameItemSameComponents(inventoryStack, itemstack)) {
 				int space = inventoryStack.getMaxStackSize() - inventoryStack.getCount();
 
 				if (space > itemstack.getCount()) {

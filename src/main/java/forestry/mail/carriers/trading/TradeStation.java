@@ -303,7 +303,7 @@ public class TradeStation implements ITradeStation {
 		float orderCount = 0;
 
 		for (ItemStack stack : InventoryUtil.getStacks(this.inventory, SLOT_SEND_BUFFER, SLOT_SEND_BUFFER_COUNT)) {
-			if (stack != null && ItemStack.isSameItemSameTags(stack, tradegood)) {
+			if (stack != null && ItemStack.isSameItemSameComponents(stack, tradegood)) {
 				orderCount += stack.getCount() / (float) tradegood.getCount();
 				if (orderCount >= max) {
 					return max;
@@ -344,7 +344,7 @@ public class TradeStation implements ITradeStation {
 			for (int i = SLOT_SEND_BUFFER; i < SLOT_SEND_BUFFER + SLOT_SEND_BUFFER_COUNT; i++) {
 				ItemStack buffer = this.inventory.getItem(i);
 
-				if (!buffer.isEmpty() && ItemStack.isSameItemSameTags(buffer, this.inventory.getItem(SLOT_TRADEGOOD))) {
+				if (!buffer.isEmpty() && ItemStack.isSameItemSameComponents(buffer, this.inventory.getItem(SLOT_TRADEGOOD))) {
 					ItemStack decrease = this.inventory.removeItem(i, toRemove);
 					toRemove -= decrease.getCount();
 
