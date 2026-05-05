@@ -78,7 +78,7 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 
 	@Nonnull
 	@Override
-	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
+	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos) {
 		ITree tree = getTree(world, pos);
 		ITreeSpecies species;
 		if (tree == null) {
