@@ -1,8 +1,6 @@
 name: Lint
 
 on:
-  push:
-    branches: ['*']
   pull_request:
 
 jobs:
@@ -11,6 +9,8 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -18,5 +18,7 @@ jobs:
           java-version: 21
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Run pre-commit hooks
+      - name: Run pre-commit hooks on changed files
         uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref ${{ github.event.pull_request.head.sha }}
