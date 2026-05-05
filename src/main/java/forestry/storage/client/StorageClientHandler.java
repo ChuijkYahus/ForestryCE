@@ -30,13 +30,14 @@ public class StorageClientHandler implements IClientModuleHandler {
 		modBus.addListener(StorageClientHandler::registerModelLoaders);
 		modBus.addListener(StorageClientHandler::onModelBake);
 		modBus.addListener(StorageClientHandler::onClientSetup);
+		modBus.addListener(StorageClientHandler::registerBackpackItemProperties);
+	}
 
-		IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.STORAGE);
-
-		registry.addRegistryListener(Registries.ITEM, () -> {
-			@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
+	private static void registerBackpackItemProperties(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+		event.enqueueWork(() -> {
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemBackpack.getMode(stack).ordinal();
-
+			IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.STORAGE);
 			for (DeferredHolder<Item, ? extends Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
 				if (entry.get() instanceof ItemBackpack) {
 					ItemProperties.register(entry.get(), ResourceLocation.withDefaultNamespace("mode"), itemPropertyFunction);

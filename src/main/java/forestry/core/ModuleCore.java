@@ -58,7 +58,9 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import forestry.api.ForestryRegistries;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -75,6 +77,7 @@ public class ModuleCore extends BlankForestryModule {
 		modBus.addListener(ModuleCore::onCommonSetup);
 		modBus.addListener(ModuleCore::registerCapabilities);
 		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
+		modBus.addListener(ModuleCore::registerForestryRegistries);
 
 		ModuleUtil.loadFeatureProviders();
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
@@ -94,6 +97,12 @@ public class ModuleCore extends BlankForestryModule {
 			EntityDataSerializers.registerSerializer(GameProfileDataSerializer.INSTANCE);
 			registerComposts();
 		});
+	}
+
+	private static void registerForestryRegistries(NewRegistryEvent event) {
+		event.register(ForestryRegistries.CIRCUIT);
+		event.register(ForestryRegistries.POSTAL_CARRIER);
+		event.register(ForestryRegistries.SPECIES_TYPE);
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
@@ -147,7 +156,7 @@ public class ModuleCore extends BlankForestryModule {
 		PluginManager.registerPollen();
 	}
 
-	private static void onItemPickup(ItemEntityPickupEvent event) {
+	private static void onItemPickup(ItemEntityPickupEvent.Post event) {
 		PickupHandlerCore.onItemPickup(event.getPlayer(), event.getItemEntity());
 	}
 

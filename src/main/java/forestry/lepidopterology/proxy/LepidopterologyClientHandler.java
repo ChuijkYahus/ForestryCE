@@ -24,11 +24,13 @@ public class LepidopterologyClientHandler implements IClientModuleHandler {
 		modBus.addListener(LepidopterologyClientHandler::setupRenderers);
 		modBus.addListener(LepidopterologyClientHandler::setupLayers);
 		modBus.addListener(LepidopterologyClientHandler::registerModelLoaders);
+		modBus.addListener(LepidopterologyClientHandler::registerItemProperties);
+	}
 
-		ModFeatureRegistry.get(ForestryModuleIds.LEPIDOPTEROLOGY).addRegistryListener(Registries.ITEM, () -> {
-			@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
+	private static void registerItemProperties(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+		event.enqueueWork(() -> {
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemButterflyGE.getAge(stack);
-
 			ItemProperties.register(LepidopterologyItems.COCOON_GE.get(), ForestryConstants.forestry("age"), itemPropertyFunction);
 		});
 	}

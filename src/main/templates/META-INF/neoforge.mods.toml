@@ -17,7 +17,7 @@ description = '''
 	'''
 
 [[dependencies.forestry]]
-modId = "forge"
+modId = "neoforge"
 mandatory = true
 versionRange = "${forgeVersionRange}"
 ordering = "NONE"

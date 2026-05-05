@@ -128,8 +128,8 @@ public class ModuleApiculture extends BlankForestryModule {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleApiculture::registerCapabilities);
 		modBus.addListener(ModuleApiculture::onCommonSetup);
-		modBus.addListener(ModuleApiculture::registerBrewingRecipes);
 
+		NeoForge.EVENT_BUS.addListener(ModuleApiculture::registerBrewingRecipes);
 		NeoForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
