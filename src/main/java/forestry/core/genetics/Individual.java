@@ -3,6 +3,7 @@ package forestry.core.genetics;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import forestry.Forestry;
 import forestry.api.genetics.*;
 import forestry.core.features.CoreDataComponents;
 import forestry.core.utils.SpeciesUtil;
@@ -121,6 +122,13 @@ public abstract class Individual<S extends ISpecies<I>, I extends IIndividual, T
 
 		if (individual instanceof CompoundTag tag) {
 			stack.set(CoreDataComponents.INDIVIDUAL, tag);
+		} else if (individual != null) {
+			// Every IIndividual codec is built via RecordCodecBuilder, so the encoded shape must
+			// be a CompoundTag. A non-compound result here means a codec returned the wrong shape
+			// and the genome would silently drop on save — log loudly so it gets fixed.
+			Forestry.LOGGER.error(
+					"Refusing to save genome data for {}: codec produced {} ({}) instead of CompoundTag. Stack: {}",
+					this.species.id(), individual.getClass().getName(), individual, stack);
 		}
 	}
 

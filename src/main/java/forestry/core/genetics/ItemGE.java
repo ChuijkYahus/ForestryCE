@@ -68,7 +68,9 @@ public abstract class ItemGE extends ItemForestry {
 		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
 		if (customData != null && customData.contains("ForgeCaps")) {
 			CompoundTag forgeCaps = customData.copyTag().getCompound("ForgeCaps");
-			return forgeCaps.contains("Parent") ? forgeCaps.get("Parent") : null;
+			// Tag.TAG_COMPOUND == 10. Reject malformed legacy data where "Parent" exists but
+			// isn't a CompoundTag, since the codecs deserializing it expect a compound shape.
+			return forgeCaps.contains("Parent", Tag.TAG_COMPOUND) ? forgeCaps.get("Parent") : null;
 		}
 		return null;
 	}
