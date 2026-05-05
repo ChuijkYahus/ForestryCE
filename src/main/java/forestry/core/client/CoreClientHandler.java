@@ -115,7 +115,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
-		event.register("fluid_container", FluidContainerModel.Loader.INSTANCE);
+		event.register(ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "fluid_container"), FluidContainerModel.Loader.INSTANCE);
 
 		PluginManager.registerClient();
 	}
@@ -281,7 +281,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 					BlockPos playerPos = minecraft.player.blockPosition();
 					ChunkPos playerChunkPos = new ChunkPos(playerPos);
 
-					Color color = RenderUtil.getRainbowColor(minecraft.level.getGameTime(), event.getPartialTick());
+					Color color = RenderUtil.getRainbowColor(minecraft.level.getGameTime(), event.getPartialTick().getGameTimeDeltaPartialTick(false));
 
 					float r = color.getRed() / 255f;
 					float g = color.getGreen() / 255f;
