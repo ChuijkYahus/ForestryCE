@@ -37,9 +37,9 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.common.brewing.BrewingRecipeRegistry;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -58,12 +58,15 @@ public class ModuleApiculture extends BlankForestryModule {
 	public static int maxFlowersSpawnedPerHive = 20;
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
+	}
+
+	private static void registerBrewingRecipes(RegisterBrewingRecipesEvent event) {
 		// BREWING RECIPES
-		BrewingRecipeRegistry.addRecipe(
+		event.getBuilder().addRecipe(
 			Ingredient.of(PotionContents.createItemStack(Items.POTION, Potions.AWKWARD)),
 			Ingredient.of(ApicultureItems.POLLEN_CLUSTER.stack(EnumPollenCluster.NORMAL, 1)),
 			PotionContents.createItemStack(Items.POTION, Potions.HEALING));
-		BrewingRecipeRegistry.addRecipe(
+		event.getBuilder().addRecipe(
 			Ingredient.of(PotionContents.createItemStack(Items.POTION, Potions.AWKWARD)),
 			Ingredient.of(ApicultureItems.POLLEN_CLUSTER.stack(EnumPollenCluster.CRYSTALLINE, 1)),
 			PotionContents.createItemStack(Items.POTION, Potions.REGENERATION));
@@ -124,6 +127,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleApiculture::registerCapabilities);
 		modBus.addListener(ModuleApiculture::onCommonSetup);
+		modBus.addListener(ModuleApiculture::registerBrewingRecipes);
 
 		NeoForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
