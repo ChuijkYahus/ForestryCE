@@ -231,11 +231,7 @@ public class TradeStation implements ITradeStation {
 		}
 
 		// Send the letter
-		CompoundTag compoundNBT = new CompoundTag();
-		mail.write(compoundNBT, world.registryAccess());
-
-		ItemStack mailstack = LetterProperties.createStampedLetterStack(mail);
-		NBTUtilForestry.setItemStackTag(mailstack, compoundNBT);
+		ItemStack mailstack = LetterUtils.createLetterStack(mail, world.registryAccess());
 
 		IPostalState responseState = PostOffice.getOrCreate(world).lodgeLetter(world, mailstack, doLodge);
 
@@ -261,8 +257,6 @@ public class TradeStation implements ITradeStation {
 
 		// Send confirmation message to seller
 		if (sendOwnerNotice) {
-			compoundNBT = new CompoundTag();
-
 			ILetter confirm = new Letter(this.address, new MailAddress(this.owner));
 
 			String orderFilledMessage;
@@ -277,10 +271,8 @@ public class TradeStation implements ITradeStation {
 
 			confirm.setText(orderFilledMessage);
 			confirm.addStamps(MailItems.STAMPS.stack(EnumStampDefinition.P_1, 1));
-			confirm.write(compoundNBT, world.registryAccess());
 
-			ItemStack confirmstack = LetterProperties.createStampedLetterStack(confirm);
-			NBTUtilForestry.setItemStackTag(confirmstack, compoundNBT);
+			ItemStack confirmstack = LetterUtils.createLetterStack(confirm, world.registryAccess());
 
 			PostOffice.getOrCreate(world).lodgeLetter(world, confirmstack, doLodge);
 

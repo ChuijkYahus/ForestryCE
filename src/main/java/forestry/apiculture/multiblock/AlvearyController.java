@@ -299,16 +299,12 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 
 	@Override
 	public void formatDescriptionPacket(CompoundTag data) {
-		HolderLookup.Provider registries = this.level.registryAccess();
-		this.write(data, registries);
-        this.beekeepingLogic.write(data, registries);
+		this.write(data, this.level.registryAccess());
 	}
 
 	@Override
 	public void decodeDescriptionPacket(CompoundTag data) {
-		HolderLookup.Provider registries = this.level.registryAccess();
-		this.read(data, registries);
-        this.beekeepingLogic.read(data, registries);
+		this.read(data, this.level.registryAccess());
 	}
 
 	/* IActivatable */

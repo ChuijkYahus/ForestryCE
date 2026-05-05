@@ -67,7 +67,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		ItemStack[] offspring = this.pendingProducts.toArray(new ItemStack[0]);
 		for (int i = 0; i < offspring.length; i++) {
 			if (offspring[i] != null) {
-				CompoundTag products = (CompoundTag) offspring[i].saveOptional(getRegistries());
+				CompoundTag products = (CompoundTag) offspring[i].saveOptional(registries);
 				products.putByte("Slot", (byte) i);
 				nbttaglist.add(products);
 			}
@@ -82,7 +82,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		ListTag nbttaglist = compound.getList("PendingProducts", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag CompoundNBT1 = nbttaglist.getCompound(i);
-			this.pendingProducts.add(ItemStack.parse(getRegistries(), CompoundNBT1).orElse(ItemStack.EMPTY));
+			this.pendingProducts.add(ItemStack.parse(registries, CompoundNBT1).orElse(ItemStack.EMPTY));
 		}
 		this.sockets.read(compound, registries);
 
