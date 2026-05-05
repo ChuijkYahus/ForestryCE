@@ -27,6 +27,6 @@ public class RepulsionBeeEffect extends ThrottledBeeEffect {
 	}
 
 	private boolean isMobAvoidingPlayers(Monster mob) {
-		return mob.goalSelector.getRunningGoals().anyMatch(task -> task.getGoal() instanceof AIAvoidPlayers);
+		return mob.goalSelector.getAvailableGoals().stream().anyMatch(task -> task.isRunning() && task.getGoal() instanceof AIAvoidPlayers);
 	}
 }

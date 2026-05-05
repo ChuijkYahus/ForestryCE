@@ -49,7 +49,7 @@ public class IgnitionBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			entity.setSecondsOnFire(duration);
+			entity.igniteForSeconds((float) duration);
 		}
 
 		return storedData;

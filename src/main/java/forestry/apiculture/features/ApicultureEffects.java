@@ -34,7 +34,7 @@ public class ApicultureEffects {
 
 		// we have no ongoing effects
 		@Override
-		public boolean isDurationEffectTick(int duration, int amplifier) {
+		public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
 			return false;
 		}
 	}

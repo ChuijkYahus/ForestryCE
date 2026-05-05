@@ -74,10 +74,10 @@ public class BlockBeeHive extends Block implements EntityBlock {
 	}
 
 	@Override
-	public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
-		super.playerWillDestroy(world, pos, state, player);
+	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
 		boolean canHarvest = canHarvestBlock(state, world, pos, player);
 		TileUtil.actOnTile(world, pos, IHiveTile.class, tile -> tile.onBroken(world, pos, player, canHarvest));
+		return super.playerWillDestroy(world, pos, state, player);
 	}
 
 	@Nullable
