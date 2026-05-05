@@ -69,13 +69,13 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 	@Override
 	protected void addAdditionalSaveData(CompoundTag pCompound) {
 		super.addAdditionalSaveData(pCompound);
-		addChestVehicleSaveData(pCompound);
+		addChestVehicleSaveData(pCompound, level().registryAccess());
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag pCompound) {
 		super.readAdditionalSaveData(pCompound);
-		readChestVehicleSaveData(pCompound);
+		readChestVehicleSaveData(pCompound, level().registryAccess());
 	}
 
 	@Override
