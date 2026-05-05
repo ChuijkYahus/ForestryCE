@@ -112,12 +112,12 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
 
-        this.entityData.define(DATAWATCHER_ID_SPECIES, "");
-        this.entityData.define(DATAWATCHER_ID_SIZE, (int) (DEFAULT_BUTTERFLY_SIZE * 100));
-        this.entityData.define(DATAWATCHER_ID_STATE, (byte) DEFAULT_STATE.ordinal());
+        builder.define(DATAWATCHER_ID_SPECIES, "");
+        builder.define(DATAWATCHER_ID_SIZE, (int) (DEFAULT_BUTTERFLY_SIZE * 100));
+        builder.define(DATAWATCHER_ID_STATE, (byte) DEFAULT_STATE.ordinal());
 	}
 
 	@Override

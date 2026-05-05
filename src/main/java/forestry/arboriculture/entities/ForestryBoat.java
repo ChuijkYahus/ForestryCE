@@ -34,9 +34,9 @@ public class ForestryBoat extends Boat {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(DATA_ID_WOOD_TYPE, ForestryWoodType.ACACIA_DESERT.ordinal());
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_ID_WOOD_TYPE, ForestryWoodType.ACACIA_DESERT.ordinal());
 	}
 
 	@Override
