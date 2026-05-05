@@ -52,4 +52,3 @@ public class FluidHandlerItemForestry extends FluidHandlerItemStackSimple.Consum
         this.container.setDamageValue(1); // show the filled container model
 	}
 }
-
