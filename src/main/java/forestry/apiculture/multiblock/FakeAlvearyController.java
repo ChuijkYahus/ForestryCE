@@ -12,10 +12,11 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.multiblock.FakeMultiblockController;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -76,7 +77,8 @@ public enum FakeAlvearyController implements FakeMultiblockController, IAlvearyC
 
 	@Override
 	public Holder<Biome> getBiome() {
-		return BuiltInRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS);
+		// Biomes are now data-driven; resolve via the running server's registry access.
+		return ServerLifecycleHooks.getCurrentServer().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.PLAINS);
 	}
 
 	@Override

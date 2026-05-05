@@ -152,7 +152,10 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	private static void onLevelTick(LevelTickEvent.Post event) {
-		TileStreamUpdateTracker.syncVisualUpdates();
+		var server = event.getLevel().getServer();
+		if (server != null) {
+			TileStreamUpdateTracker.syncVisualUpdates(server);
+		}
 	}
 
 	private static void onTagsUpdated(TagsUpdatedEvent event) {

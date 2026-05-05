@@ -62,6 +62,7 @@ public class RecipeSerializers {
 			return Ingredient.EMPTY;
 		}
 
-		return Ingredient.fromJson(resource);
+		// Ingredient.fromJson(JsonElement) was removed in 1.21; parse via the codec instead.
+		return Ingredient.CODEC.parse(JsonOps.INSTANCE, resource).result().orElse(Ingredient.EMPTY);
 	}
 }

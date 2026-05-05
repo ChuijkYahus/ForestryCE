@@ -15,6 +15,7 @@ import forestry.apiculture.commands.CommandBee;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.items.EnumPollenCluster;
+import forestry.apiculture.items.ItemArmorApiarist;
 import forestry.core.genetics.ItemGE;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
