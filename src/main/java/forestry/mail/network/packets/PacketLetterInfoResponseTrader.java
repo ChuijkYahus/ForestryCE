@@ -35,7 +35,7 @@ public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) i
 			buffer.writeUUID(profile.getId());
 			buffer.writeUtf(profile.getName());
 
-			buffer.writeItem(msg.info.tradegood());
+			ItemStack.STREAM_CODEC.encode(buffer, msg.info.tradegood());
 			NetworkUtil.writeItemStacks(buffer, msg.info.required());
 
 			buffer.writeEnum(msg.info.state());
@@ -46,7 +46,7 @@ public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) i
 		if (buffer.readBoolean()) {
 			IMailAddress address = new MailAddress(buffer.readUtf());
 			GameProfile owner = new GameProfile(buffer.readUUID(), buffer.readUtf());
-			ItemStack tradegood = buffer.readItem();
+			ItemStack tradegood = ItemStack.STREAM_CODEC.decode(buffer);
 			NonNullList<ItemStack> required = NetworkUtil.readItemStacks(buffer);
 			EnumTradeStationState state = buffer.readEnum(EnumTradeStationState.class);
 			return new PacketLetterInfoResponseTrader(new TradeStationInfo(address, owner, tradegood, required, state));
