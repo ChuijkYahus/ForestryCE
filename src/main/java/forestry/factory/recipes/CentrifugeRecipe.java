@@ -1,17 +1,18 @@
 package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,10 +21,20 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 import forestry.api.core.Product;
 import forestry.api.recipes.ICentrifugeRecipe;
-import forestry.core.utils.JsonUtil;
 import forestry.factory.features.FactoryRecipeTypes;
 
 public class CentrifugeRecipe implements ICentrifugeRecipe {
+	private static final MapCodec<CentrifugeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+		ResourceLocation.CODEC.fieldOf("id").forGetter(CentrifugeRecipe::getId),
+		Codec.INT.fieldOf("time").forGetter(CentrifugeRecipe::getProcessingTime),
+		Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(CentrifugeRecipe::getInput),
+		Product.CODEC.listOf().fieldOf("products").forGetter(CentrifugeRecipe::getAllProducts)
+	).apply(instance, CentrifugeRecipe::new));
+	private static final StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> STREAM_CODEC = StreamCodec.of(
+		Serializer::toNetwork,
+		Serializer::fromNetwork
+	);
+
 	private final ResourceLocation id;
 	private final int processingTime;
 	private final Ingredient input;
@@ -92,33 +103,36 @@ public class CentrifugeRecipe implements ICentrifugeRecipe {
 
 	public static class Serializer implements RecipeSerializer<CentrifugeRecipe> {
 		@Override
-		public CentrifugeRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			int processingTime = GsonHelper.getAsInt(json, "time");
-			Ingredient input = RecipeSerializers.deserialize(json.get("input"));
-			NonNullList<Product> outputs = NonNullList.create();
+		public MapCodec<CentrifugeRecipe> codec() {
+			return CODEC;
+		}
 
-			for (JsonElement element : GsonHelper.getAsJsonArray(json, "products")) {
-				outputs.add(JsonUtil.deserialize(Product.CODEC, element));
+		@Override
+		public StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> streamCodec() {
+			return STREAM_CODEC;
+		}
+
+		private static CentrifugeRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+			ResourceLocation recipeId = ResourceLocation.STREAM_CODEC.decode(buffer);
+			int processingTime = ByteBufCodecs.VAR_INT.decode(buffer);
+			Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+			int count = ByteBufCodecs.VAR_INT.decode(buffer);
+			List<Product> products = new ArrayList<>(count);
+			for (int i = 0; i < count; i++) {
+				products.add(Product.fromNetwork(buffer));
 			}
 
-			return new CentrifugeRecipe(recipeId, processingTime, input, outputs);
+			return new CentrifugeRecipe(recipeId, processingTime, input, products);
 		}
 
-		@Override
-		public CentrifugeRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			int processingTime = buffer.readVarInt();
-			Ingredient input = Ingredient.fromNetwork(buffer);
-			List<Product> outputs = RecipeSerializers.read(buffer, Product::fromNetwork);
-
-			return new CentrifugeRecipe(recipeId, processingTime, input, outputs);
-		}
-
-		@Override
-		public void toNetwork(FriendlyByteBuf buffer, CentrifugeRecipe recipe) {
-			buffer.writeVarInt(recipe.processingTime);
-			recipe.input.toNetwork(buffer);
-
-			RecipeSerializers.write(buffer, recipe.products, Product::toNetwork);
+		private static void toNetwork(RegistryFriendlyByteBuf buffer, CentrifugeRecipe recipe) {
+			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
+			ByteBufCodecs.VAR_INT.encode(buffer, recipe.processingTime);
+			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
+			ByteBufCodecs.VAR_INT.encode(buffer, recipe.products.size());
+			for (Product product : recipe.products) {
+				Product.toNetwork(buffer, product);
+			}
 		}
 	}
 }
