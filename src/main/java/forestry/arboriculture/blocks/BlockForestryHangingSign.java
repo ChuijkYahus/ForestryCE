@@ -49,6 +49,6 @@ public class BlockForestryHangingSign extends CeilingHangingSignBlock implements
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new HangingSignBlockEntity(ArboricultureTiles.HANGING_SIGN.tileType(), pos, state);
+		return new HangingSignBlockEntity(pos, state);
 	}
 }
