@@ -49,7 +49,9 @@ import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import forestry.storage.items.ItemCrated;
 import forestry.worktable.features.WorktableBlocks;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -223,7 +225,9 @@ public class ForestryCreativeTabs {
 		items.accept(ApicultureItems.FRAME_IMPREGNATED);
 		items.accept(ApicultureItems.FRAME_PROVEN);
 		ItemStack creativeFrameMaxMutation = ApicultureItems.FRAME_CREATIVE.stack();
-		creativeFrameMaxMutation.addTagElement(ItemCreativeHiveFrame.NBT_FORCE_MUTATIONS, ByteTag.valueOf((byte) 1));
+		CompoundTag forceMutationsTag = new CompoundTag();
+		forceMutationsTag.put(ItemCreativeHiveFrame.NBT_FORCE_MUTATIONS, ByteTag.valueOf((byte) 1));
+		NBTUtilForestry.setItemStackTag(creativeFrameMaxMutation, forceMutationsTag);
 		items.accept(ApicultureItems.FRAME_CREATIVE);
 		items.accept(creativeFrameMaxMutation);
 
