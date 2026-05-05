@@ -24,6 +24,7 @@ import forestry.core.config.Constants;
 import forestry.core.features.*;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.gui.*;
+import forestry.core.items.ItemBlockTesr;
 import forestry.core.models.ClientManager;
 import forestry.core.models.FluidContainerModel;
 import forestry.core.models.ModelBlockCached;
@@ -32,6 +33,7 @@ import forestry.core.render.*;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;
 import forestry.core.utils.SpeciesUtil;
+import forestry.modules.features.FeatureFluid;
 import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryTiles;
 import forestry.lepidopterology.features.LepidopterologyItems;
@@ -51,7 +53,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -87,6 +93,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::registerBlockColors);
 		modBus.addListener(CoreClientHandler::registerItemColors);
 		modBus.addListener(CoreClientHandler::registerParticleFactory);
+		modBus.addListener(CoreClientHandler::registerClientExtensions);
 		NeoForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
 
 		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, ((ForestryClientApiImpl) IForestryClientApi.INSTANCE)::initializeTextureManager);
@@ -190,6 +197,43 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 	private static void registerParticleFactory(RegisterParticleProvidersEvent event) {
 		event.registerSpriteSet(CoreParticles.REFRACTORY_WAX.get(), RefractoryWaxParticle::new);
+	}
+
+	private static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+		// Replaces the deprecated per-instance Item#initializeClient override on ItemBlockTesr.
+		IClientItemExtensions tesrExtensions = new IClientItemExtensions() {
+			@Override
+			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+				return bewlr;
+			}
+		};
+		for (ItemBlockTesr<?> item : ItemBlockTesr.getInstances()) {
+			event.registerItem(tesrExtensions, item);
+		}
+
+		// Replaces the deprecated per-instance FluidType#initializeClient override on ForestryFluidType.
+		for (ForestryFluids fluid : ForestryFluids.values()) {
+			FluidType type = fluid.getFluid().getFluidType();
+			if (!(type instanceof FeatureFluid.ForestryFluidType forestryType)) {
+				continue;
+			}
+			event.registerFluidType(new IClientFluidTypeExtensions() {
+				@Override
+				public ResourceLocation getStillTexture() {
+					return forestryType.getStillTexture();
+				}
+
+				@Override
+				public ResourceLocation getFlowingTexture() {
+					return forestryType.getFlowingTexture();
+				}
+
+				@Override
+				public int getTintColor() {
+					return forestryType.getColor();
+				}
+			}, type);
+		}
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {

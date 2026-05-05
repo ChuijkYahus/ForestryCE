@@ -12,7 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -20,7 +19,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import javax.annotation.Nullable;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class FeatureFluid extends ModFeature implements IFluidFeature {
@@ -149,24 +147,16 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 			this.flowingTexture = forestryProps.resources[1];
 		}
 
-		@Override
-		public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-			consumer.accept(new IClientFluidTypeExtensions() {
-				@Override
-				public ResourceLocation getStillTexture() {
-					return ForestryFluidType.this.stillTexture;
-				}
+		public int getColor() {
+			return this.color;
+		}
 
-				@Override
-				public ResourceLocation getFlowingTexture() {
-					return FluidProperties.resourceExists(ForestryFluidType.this.flowingTexture) ? ForestryFluidType.this.flowingTexture : ForestryFluidType.this.stillTexture;
-				}
+		public ResourceLocation getStillTexture() {
+			return this.stillTexture;
+		}
 
-				@Override
-				public int getTintColor() {
-					return ForestryFluidType.this.color;
-				}
-			});
+		public ResourceLocation getFlowingTexture() {
+			return FluidProperties.resourceExists(this.flowingTexture) ? this.flowingTexture : this.stillTexture;
 		}
 	}
 }
