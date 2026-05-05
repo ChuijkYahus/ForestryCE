@@ -1,7 +1,6 @@
 package forestry.arboriculture;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
@@ -90,12 +89,6 @@ public class ModuleArboriculture extends BlankForestryModule {
 				main.entries = entries;
 			}
 		}
-	}
-
-	@Override
-	@SuppressWarnings("removal") // back-compat: keep populating the deprecated API field for external mods until it is fully removed
-	public void setupApi() {
-		TreeManager.woodAccess = WoodAccess.INSTANCE;
 	}
 
 	@Override
