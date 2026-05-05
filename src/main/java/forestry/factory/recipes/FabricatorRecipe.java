@@ -22,10 +22,13 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 
 	private static final MapCodec<FabricatorRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		ResourceLocation.CODEC.fieldOf("id").forGetter(FabricatorRecipe::getId),
-		Ingredient.CODEC_NONEMPTY.fieldOf("plan").forGetter(FabricatorRecipe::getPlan),
+		// "plan" is optional: many fabricator recipes (e.g. electron tubes) require no plan.
+		// Ingredient.CODEC_NONEMPTY rejects empty ingredients at serialization, so we map
+		// Ingredient.EMPTY to absent and back.
+		Ingredient.CODEC_NONEMPTY.optionalFieldOf("plan").forGetter(r -> r.plan.isEmpty() ? java.util.Optional.<Ingredient>empty() : java.util.Optional.of(r.plan)),
 		FluidStack.CODEC.fieldOf("molten").forGetter(FabricatorRecipe::getResultFluid),
 		RecipeSerializer.SHAPED_RECIPE.codec().codec().fieldOf("recipe").forGetter(FabricatorRecipe::getCraftingGridRecipe)
-	).apply(instance, FabricatorRecipe::new));
+	).apply(instance, (id, plan, molten, recipe) -> new FabricatorRecipe(id, plan.orElse(Ingredient.EMPTY), molten, recipe)));
 	private static final StreamCodec<RegistryFriendlyByteBuf, FabricatorRecipe> STREAM_CODEC = StreamCodec.of(
 		Serializer::toNetwork,
 		Serializer::fromNetwork
