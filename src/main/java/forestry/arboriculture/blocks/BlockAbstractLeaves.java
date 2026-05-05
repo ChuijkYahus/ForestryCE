@@ -11,10 +11,14 @@ import forestry.core.utils.BlockUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -141,7 +145,12 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 		}
 		ItemStack tool = context.getOptionalParameter(LootContextParams.TOOL);
 		BlockPos pos = BlockUtil.getPos(context);
-		getLeafDrop(drops, context.getLevel(), pos, profile, 1f, tool != null ? tool.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE) : 0, context);
+		int fortune = 0;
+		if (tool != null) {
+			Holder<Enchantment> fortuneEnchantment = context.getLevel().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
+			fortune = EnchantmentHelper.getItemEnchantmentLevel(fortuneEnchantment, tool);
+		}
+		getLeafDrop(drops, context.getLevel(), pos, profile, 1f, fortune, context);
 		return drops;
 	}
 
