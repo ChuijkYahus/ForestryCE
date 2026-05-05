@@ -14,6 +14,8 @@ import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
@@ -74,7 +76,7 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 			event.registerLayerDefinition(ForestryBoatRenderer.createBoatModelLocation(type, false), BoatModel::createBodyModel);
 			event.registerLayerDefinition(ForestryBoatRenderer.createBoatModelLocation(type, true), ChestBoatModel::createBodyModel);
 			//event.registerLayerDefinition(ModelLayers.createSignModelName(type.getWoodType()), SignRenderer::createSignLayer);
-			//event.registerLayerDefinition(ModelLayers.createHangingSignModelName(type.getWoodType()), HangingSignRenderer::createHangingSignLayer);
+			event.registerLayerDefinition(ModelLayers.createHangingSignModelName(type.getWoodType()), HangingSignRenderer::createHangingSignLayer);
 		}
 	}
 }
