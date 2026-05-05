@@ -19,6 +19,8 @@ import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.ModuleLepidopterology;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -35,6 +37,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.server.level.ServerLevel;
@@ -442,10 +447,19 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	@Override
 	protected void dropCustomDeathLoot(ServerLevel serverLevel, DamageSource source, boolean recentlyHitIn) {
 		Level level = level();
-		// MC 1.21: looting enchantment is no longer passed directly; loot context
-		// drives looting, so we pass 0 here to preserve API compatibility with
-		// IButterfly.getLootDrop until that interface is migrated.
-		for (ItemStack stack : this.contained.getLootDrop(this, recentlyHitIn, 0)) {
+		// MC 1.21: looting is no longer passed as a parameter to dropCustomDeathLoot.
+		// Derive it from the killer's equipped enchantments when the attacker is a
+		// LivingEntity (covers melee kills and most mob-on-mob kills). Projectile
+		// kills where the shooter is offline/non-living fall back to 0; vanilla's
+		// LootParams-based path would be needed to fully cover those cases.
+		int lootLevel = 0;
+		if (source.getEntity() instanceof LivingEntity attacker) {
+			Holder<Enchantment> looting = serverLevel.registryAccess()
+					.lookupOrThrow(Registries.ENCHANTMENT)
+					.getOrThrow(Enchantments.LOOTING);
+			lootLevel = EnchantmentHelper.getEnchantmentLevel(looting, attacker);
+		}
+		for (ItemStack stack : this.contained.getLootDrop(this, recentlyHitIn, lootLevel)) {
 			ItemStackUtil.dropItemStackAsEntity(stack, level, getX(), getY(), getZ());
 		}
 
