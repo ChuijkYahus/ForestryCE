@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CharcoalManager implements ICharcoalManager {
@@ -20,7 +21,11 @@ public class CharcoalManager implements ICharcoalManager {
 	 */
 	public void addWall(BlockState blockState, int amount) {
 		Preconditions.checkNotNull(blockState, "block state must not be null.");
-		Preconditions.checkArgument(amount > (-charcoalAmountBase) && amount < (63 - charcoalAmountBase), "amount must be bigger than -10 and smaller than 64.");
+		int minExclusive = -charcoalAmountBase;
+		int maxExclusive = 63 - charcoalAmountBase;
+		Preconditions.checkArgument(amount > minExclusive && amount < maxExclusive,
+				"amount must be greater than %s and less than %s (charcoalAmountBase=%s).",
+				minExclusive, maxExclusive, charcoalAmountBase);
 		this.walls.add(new CharcoalPileWall(blockState, amount));
 	}
 
@@ -37,6 +42,8 @@ public class CharcoalManager implements ICharcoalManager {
 
 	@Override
 	public List<ICharcoalPileWall> getWalls() {
-		return this.walls;
+		// Read-only view: callers must register through IArboricultureRegistration.registerCharcoalPitWall
+		// rather than mutating the list returned by this getter.
+		return Collections.unmodifiableList(this.walls);
 	}
 }
