@@ -15,6 +15,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 
+import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -61,10 +62,10 @@ public class ArboricultureBlocks {
 	public static final FeatureBlockGroup<BlockForestryDoor, ForestryWoodType> DOORS = woodGroup(BlockForestryDoor::new, ItemBlockWoodDoor::new, WoodBlockKind.DOOR, false, ForestryWoodType.VALUES);
 	public static final FeatureBlockGroup<BlockForestryTrapdoor, ForestryWoodType> TRAPDOORS = woodGroup(BlockForestryTrapdoor::new, WoodBlockKind.TRAPDOOR, false, ForestryWoodType.VALUES);
 
-	public static final FeatureBlockGroup<BlockForestryStandingSign, ForestryWoodType> SIGN = registerWood(REGISTRY.blockGroup(BlockForestryStandingSign::new, ForestryWoodType.VALUES).item(ItemBlockSign::new).identifier("sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.SIGN);
-	public static final FeatureBlockGroup<BlockForestryWallSign, ForestryWoodType> WALL_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryWallSign::new, ForestryWoodType.VALUES).identifier("wall_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.WALL_SIGN);
-	public static final FeatureBlockGroup<BlockForestryHangingSign, ForestryWoodType> HANGING_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryHangingSign::new, ForestryWoodType.VALUES).item(ItemBlockHangingSign::new).identifier("hanging_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.HANGING_SIGN);
-	public static final FeatureBlockGroup<BlockForestryWallHangingSign, ForestryWoodType> WALL_HANGING_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryWallHangingSign::new, ForestryWoodType.VALUES).identifier("wall_hanging_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.WALL_HANGING_SIGN);
+	public static final FeatureBlockGroup<BlockForestryStandingSign, ForestryWoodType> SIGN = registerWood(REGISTRY.blockGroup(BlockForestryStandingSign::new, Arrays.asList(ForestryWoodType.VALUES)).item(ItemBlockSign::new).identifier("sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.SIGN);
+	public static final FeatureBlockGroup<BlockForestryWallSign, ForestryWoodType> WALL_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryWallSign::new, Arrays.asList(ForestryWoodType.VALUES)).identifier("wall_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.WALL_SIGN);
+	public static final FeatureBlockGroup<BlockForestryHangingSign, ForestryWoodType> HANGING_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryHangingSign::new, Arrays.asList(ForestryWoodType.VALUES)).item(ItemBlockHangingSign::new).identifier("hanging_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.HANGING_SIGN);
+	public static final FeatureBlockGroup<BlockForestryWallHangingSign, ForestryWoodType> WALL_HANGING_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryWallHangingSign::new, Arrays.asList(ForestryWoodType.VALUES)).identifier("wall_hanging_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.WALL_HANGING_SIGN);
 
 	public static final FeatureBlockGroup<BlockForestryButton, ForestryWoodType> BUTTON = woodGroup(BlockForestryButton::new, WoodBlockKind.BUTTON, false, ForestryWoodType.VALUES);
 	public static final FeatureBlockGroup<BlockForestryPressurePlate, ForestryWoodType> PRESSURE_PLATE = woodGroup(BlockForestryPressurePlate::new, WoodBlockKind.PRESSURE_PLATE, false, ForestryWoodType.VALUES);
@@ -75,7 +76,7 @@ public class ArboricultureBlocks {
 	public static final FeatureBlockGroup<BlockDefaultLeaves, ForestryLeafType> LEAVES_DEFAULT = REGISTRY.blockGroup(BlockDefaultLeaves::new, ForestryLeafType.values()).item(ItemBlockLeaves::new).identifier("default_leaves", FeatureGroup.IdentifierType.SUFFIX).create();
 	public static final FeatureBlockGroup<BlockDefaultLeavesFruit, ForestryLeafType> LEAVES_DEFAULT_FRUIT = REGISTRY.blockGroup(BlockDefaultLeavesFruit::new, ForestryLeafType.values()).item(ItemBlockLeaves::new).identifier("default_leaves_fruit", FeatureGroup.IdentifierType.SUFFIX).create();
 	public static final FeatureBlockGroup<BlockDecorativeLeaves, ForestryLeafType> LEAVES_DECORATIVE = REGISTRY.blockGroup(BlockDecorativeLeaves::new, ForestryLeafType.values()).item(ItemBlockDecorativeLeaves::new).identifier("decorative_leaves", FeatureGroup.IdentifierType.SUFFIX).create();
-	public static final FeatureBlockGroup<BlockFruitPod, ForestryPodType> PODS = REGISTRY.blockGroup(BlockFruitPod::new, ForestryPodType.values()).identifier("pods").create();
+	public static final FeatureBlockGroup<BlockFruitPod, ForestryPodType> PODS = REGISTRY.blockGroup(BlockFruitPod::new, Arrays.asList(ForestryPodType.values())).identifier("pods").create();
 
 	private static <B extends Block & IWoodTyped, S extends IWoodType> FeatureBlockGroup<B, S> woodGroup(Function3<WoodBlockKind, Boolean, S, B> constructor, WoodBlockKind kind, boolean fireproof, S[] types) {
 		return woodGroup((fireproof1, type) -> constructor.apply(kind, fireproof1, type), ItemBlockWood::new, kind, fireproof, types);
@@ -86,7 +87,7 @@ public class ArboricultureBlocks {
 	}
 
 	private static <B extends Block & IWoodTyped, S extends IWoodType> FeatureBlockGroup<B, S> woodGroup(BiFunction<Boolean, S, B> constructor, Function<B, BlockItem> itemConstructor, WoodBlockKind kind, boolean fireproof, S[] types) {
-		return registerWood(REGISTRY.blockGroup((type) -> constructor.apply(fireproof, type), types).item(itemConstructor).identifier((fireproof ? "fireproof_" : "") + kind.getSerializedName(), FeatureGroup.IdentifierType.SUFFIX).create(), kind);
+		return registerWood(REGISTRY.blockGroup((type) -> constructor.apply(fireproof, type), Arrays.asList(types)).item(itemConstructor).identifier((fireproof ? "fireproof_" : "") + kind.getSerializedName(), FeatureGroup.IdentifierType.SUFFIX).create(), kind);
 	}
 
 	private static <B extends Block & IWoodTyped, S extends IWoodType> FeatureBlockGroup<B, S> woodGroup(Function<S, B> constructor, WoodBlockKind kind, boolean fireproof, S[] types) {
@@ -94,7 +95,7 @@ public class ArboricultureBlocks {
 	}
 
 	private static <B extends Block & IWoodTyped, S extends IWoodType> FeatureBlockGroup<B, S> woodGroup(Function<S, B> constructor, Function<B, BlockItem> itemConstructor, WoodBlockKind kind, boolean fireproof, S[] types) {
-		return registerWood(REGISTRY.blockGroup(constructor, types).item(itemConstructor).identifier((fireproof ? "fireproof_" : "") + kind.getSerializedName(), FeatureGroup.IdentifierType.SUFFIX).create(), kind);
+		return registerWood(REGISTRY.blockGroup(constructor, Arrays.asList(types)).item(itemConstructor).identifier((fireproof ? "fireproof_" : "") + kind.getSerializedName(), FeatureGroup.IdentifierType.SUFFIX).create(), kind);
 	}
 
 	private static <B extends Block & IWoodTyped, S extends IWoodType> FeatureBlockGroup<B, S> registerWood(FeatureBlockGroup<B, S> group, WoodBlockKind kind) {

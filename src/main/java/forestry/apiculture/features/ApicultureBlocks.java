@@ -13,6 +13,8 @@ import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
 
+import java.util.List;
+
 @FeatureProvider
 public class ApicultureBlocks {
 	private static final FeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.APICULTURE);
@@ -22,8 +24,8 @@ public class ApicultureBlocks {
 		.item(ItemBlockForestry::new)
 		.create();
 
-	public static final FeatureBlockGroup<BlockBeeHive, BlockHiveType> BEEHIVE = REGISTRY.blockGroup(BlockBeeHive::new, BlockHiveType.values()).itemWithType((block, type) -> new ItemBlockForestry<>(block, new Item.Properties())).identifier("beehive").create();
+	public static final FeatureBlockGroup<BlockBeeHive, BlockHiveType> BEEHIVE = REGISTRY.blockGroup(BlockBeeHive::new, List.of(BlockHiveType.values())).itemWithType((block, type) -> new ItemBlockForestry<>(block, new Item.Properties())).identifier("beehive").create();
 
-	public static final FeatureBlockGroup<BlockHoneyComb, EnumHoneyComb> BEE_COMB = REGISTRY.blockGroup(BlockHoneyComb::new, EnumHoneyComb.VALUES).item(ItemBlockHoneyComb::new).identifier("block_bee_comb").create();
+	public static final FeatureBlockGroup<BlockHoneyComb, EnumHoneyComb> BEE_COMB = REGISTRY.blockGroup(BlockHoneyComb::new, List.of(EnumHoneyComb.VALUES)).item(ItemBlockHoneyComb::new).identifier("block_bee_comb").create();
 	public static final FeatureBlockGroup<BlockAlveary, BlockAlveary.Type> ALVEARY = REGISTRY.blockGroup(BlockAlveary::new, BlockAlveary.Type.DEFAULT_VALUES).item(blockAlveary -> new ItemBlockForestry<>(blockAlveary, new Item.Properties())).identifier("alveary").create();
 }
