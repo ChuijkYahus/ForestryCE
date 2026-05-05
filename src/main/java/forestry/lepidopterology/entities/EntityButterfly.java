@@ -37,6 +37,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -362,7 +363,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	}
 
 	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn) {
 		if (!level().isClientSide) {
 			setIndividual(this.contained);
 		}
@@ -383,7 +384,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	}
 
 	@Override
-	public int getPortalWaitTime() {
+	public int getDimensionChangingDelay() {
 		return 1000;
 	}
 
@@ -439,9 +440,12 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 	/* LOOT */
 	@Override
-	protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHitIn) {
+	protected void dropCustomDeathLoot(ServerLevel serverLevel, DamageSource source, boolean recentlyHitIn) {
 		Level level = level();
-		for (ItemStack stack : this.contained.getLootDrop(this, recentlyHitIn, looting)) {
+		// MC 1.21: looting enchantment is no longer passed directly; loot context
+		// drives looting, so we pass 0 here to preserve API compatibility with
+		// IButterfly.getLootDrop until that interface is migrated.
+		for (ItemStack stack : this.contained.getLootDrop(this, recentlyHitIn, 0)) {
 			ItemStackUtil.dropItemStackAsEntity(stack, level, getX(), getY(), getZ());
 		}
 
