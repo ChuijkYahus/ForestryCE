@@ -35,6 +35,6 @@ public class PipetteContents {
 	}
 
 	public void addTooltip(List<Component> list) {
-		list.add(this.contents.getDisplayName().copy().append(" (" + this.contents.getAmount() + " mb)").withStyle(ChatFormatting.GRAY));
+		list.add(this.contents.getHoverName().copy().append(" (" + this.contents.getAmount() + " mb)").withStyle(ChatFormatting.GRAY));
 	}
 }

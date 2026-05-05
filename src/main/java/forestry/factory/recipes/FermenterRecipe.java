@@ -96,7 +96,7 @@ public class FermenterRecipe implements IFermenterRecipe {
 
 	@Override
 	public boolean matches(ItemStack inputItem, FluidStack inputFluid) {
-		return this.resource.test(inputItem) && this.fluidResource.isFluidEqual(inputFluid);
+		return this.resource.test(inputItem) && FluidStack.isSameFluidSameComponents(this.fluidResource, inputFluid);
 	}
 
 	@Override

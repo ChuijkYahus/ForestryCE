@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
@@ -58,7 +59,7 @@ public class FabricatorProcessor implements IComponentProcessor {
 			}
 
 			return RecipeUtils.getRecipes(RecipeUtils.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
-				.filter(recipe -> recipe.getResultFluid().isFluidEqual(this.recipe.getResultFluid()))
+				.filter(recipe -> FluidStack.isSameFluidSameComponents(recipe.getResultFluid(), this.recipe.getResultFluid()))
 				.flatMap(recipe -> Arrays.stream(recipe.getInput().getItems()))
 				.findFirst()
 				.map(IVariable::from)

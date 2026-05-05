@@ -66,7 +66,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 				String exactTranslationKey = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + '.' + ModUtil.getRegistryName(fluid.getFluid());
 				return Translator.tryTranslate(exactTranslationKey, () -> {
 					String grammarKey = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + ".grammar";
-					return Component.translatable(grammarKey, fluid.getDisplayName());
+					return Component.translatable(grammarKey, fluid.getHoverName());
 				});
 			} else {
 				String unlocalizedname = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + ".empty";

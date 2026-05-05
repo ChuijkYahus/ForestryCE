@@ -64,7 +64,7 @@ public class BottlerRecipe {
 	}
 
 	public boolean matchEmpty(ItemStack emptyCan, FluidStack resource) {
-		return !emptyCan.isEmpty() && ItemStack.isSameItem(emptyCan, this.inputStack) && resource.isFluidEqual(this.fluid) && this.fillRecipe;
+		return !emptyCan.isEmpty() && ItemStack.isSameItem(emptyCan, this.inputStack) && FluidStack.isSameFluidSameComponents(resource, this.fluid) && this.fillRecipe;
 	}
 
 	public boolean matchFilled(ItemStack filledCan) {

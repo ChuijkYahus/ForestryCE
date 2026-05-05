@@ -56,7 +56,7 @@ public class FluidComponent implements ICustomComponent {
 
 			if (context.isAreaHovered(mouseX, mouseY, this.x, this.y, this.w, this.h)) {
 				List<Component> toolTips = new ArrayList<>();
-				toolTips.add(this.fluidStack.getDisplayName());
+				toolTips.add(this.fluidStack.getHoverName());
 				toolTips.add(Component.translatable("for.gui.tooltip.liquid.amount", this.level, this.maxLevel));
 
 				context.setHoverTooltipComponents(toolTips);

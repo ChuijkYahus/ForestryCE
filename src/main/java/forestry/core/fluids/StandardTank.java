@@ -188,7 +188,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 			if (rarity == null) {
 				rarity = Rarity.COMMON;
 			}
-			toolTip.add(fluidStack.getDisplayName().copy().withStyle(rarity.getStyleModifier()));
+			toolTip.add(fluidStack.getHoverName().copy().withStyle(rarity.getStyleModifier()));
 			amount = getFluid().getAmount();
 		}
 		Component liquidAmount = Component.translatable("for.gui.tooltip.liquid.amount", amount, getCapacity());
