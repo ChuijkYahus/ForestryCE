@@ -70,8 +70,8 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 		var normalRenderTypes = DynamicFluidContainerModel.getLayerRenderTypes(false);
 
 		if (baseLocation != null && baseSprite != null) {
-			var baseElement = UnbakedGeometryHelper.createUnbakedItemElements(0, baseSprite.contents());
-			var quads = UnbakedGeometryHelper.bakeElements(baseElement, $ -> baseSprite, modelState, modelLocation);
+			var baseElement = UnbakedGeometryHelper.createUnbakedItemElements(0, baseSprite);
+			var quads = UnbakedGeometryHelper.bakeElements(baseElement, $ -> baseSprite, modelState);
 			modelBuilder.addQuads(normalRenderTypes, quads);
 		}
 
@@ -79,7 +79,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 		if (fluidMaskLocation != null && fluidSprite != null) {
 			// no edges
 			var fluidElement = Collections.singletonList(FilledCrateModel.make2dElement(1, 4, 2, 12, 14, -0.002f));
-			var quads = UnbakedGeometryHelper.bakeElements(fluidElement, $ -> fluidSprite, modelState, modelLocation);
+			var quads = UnbakedGeometryHelper.bakeElements(fluidElement, $ -> fluidSprite, modelState);
 
 			var emissive = this.applyFluidLuminosity && this.fluid.getFluidType().getLightLevel() > 0;
 			var renderTypes = DynamicFluidContainerModel.getLayerRenderTypes(emissive);
@@ -95,7 +95,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 			if (sprite != null) {
 				// no edges
 				var coverElement = Collections.singletonList(FilledCrateModel.make2dElement(2, 0, 0, 16, 16, 0.002f)); // Use cover as mask
-				var quads = UnbakedGeometryHelper.bakeElements(coverElement, $ -> sprite, modelState, modelLocation); // Bake with selected texture
+				var quads = UnbakedGeometryHelper.bakeElements(coverElement, $ -> sprite, modelState); // Bake with selected texture
 				modelBuilder.addQuads(normalRenderTypes, quads);
 			}
 		}
