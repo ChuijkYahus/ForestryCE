@@ -22,8 +22,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import forestry.core.blocks.BlockBase;
+import net.minecraft.core.Direction;
 import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -48,8 +51,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		for (BlockTypePlanter farmType : BlockTypePlanter.values()) {
 			ModelFile file = models().getExistingFile(modBlock(farmType.getSerializedName()));
-			horizontalBlock(CultivationBlocks.MANAGED_PLANTER.get(farmType).block(), file);
-			horizontalBlock(CultivationBlocks.MANUAL_PLANTER.get(farmType).block(), file);
+			horizontalForestryBlock(CultivationBlocks.MANAGED_PLANTER.get(farmType).block(), file);
+			horizontalForestryBlock(CultivationBlocks.MANUAL_PLANTER.get(farmType).block(), file);
 		}
 
 		// Resources
@@ -118,6 +121,23 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 	public static ModelFile particleOnly(BlockModelProvider models, String path, ResourceLocation particleTexture) {
 		return models.getBuilder(path).texture("particle", particleTexture);
+	}
+
+	/**
+	 * BlockStateProvider#horizontalBlock keys off vanilla's BlockStateProperties.HORIZONTAL_FACING,
+	 * which Forestry's BlockBase doesn't carry — its FACING is a custom EnumProperty<Direction>
+	 * (different identity, same name). Build the variant manually using BlockBase.FACING so the
+	 * lookup succeeds.
+	 */
+	private void horizontalForestryBlock(Block block, ModelFile model) {
+		getVariantBuilder(block).forAllStates(state -> {
+			Direction facing = state.getValue(BlockBase.FACING);
+			int yRot = ((int) facing.toYRot() + 180) % 360;
+			return ConfiguredModel.builder()
+				.modelFile(model)
+				.rotationY(yRot)
+				.build();
+		});
 	}
 
 	private void singleFarm(FarmBlock block) {
