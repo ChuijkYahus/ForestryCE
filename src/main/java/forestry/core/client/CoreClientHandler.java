@@ -40,7 +40,6 @@ import forestry.modules.ModuleUtil;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -78,6 +77,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(CoreClientHandler::onClientSetup);
+		modBus.addListener(CoreClientHandler::registerMenuScreens);
 		modBus.addListener(CoreClientHandler::registerModelLoaders);
 		modBus.addListener(CoreClientHandler::additionalBakedModels);
 		modBus.addListener(CoreClientHandler::bakeModels);
@@ -101,14 +101,17 @@ public class CoreClientHandler implements IClientModuleHandler {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFlowing(), RenderType.translucent());
 			}
 
-			MenuScreens.register(CoreMenuTypes.ALYZER.menuType(), PortableAnalyzerScreen::new);
-			MenuScreens.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
-			MenuScreens.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
-			MenuScreens.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
-			MenuScreens.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());
+	}
+
+	private static void registerMenuScreens(RegisterMenuScreensEvent event) {
+		event.register(CoreMenuTypes.ALYZER.menuType(), PortableAnalyzerScreen::new);
+		event.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
+		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
+		event.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
+		event.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
 	}
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
