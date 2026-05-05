@@ -42,4 +42,3 @@ public class LeafSprite implements ILeafSprite {
 		return this.fancy;
 	}
 }
-
