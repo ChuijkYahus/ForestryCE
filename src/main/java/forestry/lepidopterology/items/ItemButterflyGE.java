@@ -139,7 +139,7 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-		if (tintIndex == 1 && stack.hasTag()) {
+		if (tintIndex == 1 && NBTUtilForestry.getItemStackTag(stack) != null) {
 			IButterflySpecies species = getSpecies(stack);
 			return species.getSerumColor();
 		}
