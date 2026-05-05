@@ -107,7 +107,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 		int cycles = this.currentRecipe.getCyclesPerUnit();
 		FluidStack output = this.currentRecipe.getOutput();
 
-		FluidStack product = new FluidStack(output, output.getAmount() * cycles);
+		FluidStack product = output.copyWithAmount(output.getAmount() * cycles);
         this.productTank.fillInternal(product, IFluidHandler.FluidAction.EXECUTE);
 
         this.bufferedLiquid = FluidStack.EMPTY;
@@ -146,7 +146,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 				FluidStack drained = this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
 				hasLiquidResource = !drained.isEmpty() && drained.getAmount() == drainAmount;
 				if (hasLiquidResource) {
-                    this.bufferedLiquid = new FluidStack(input, drainAmount);
+                    this.bufferedLiquid = input.copyWithAmount(drainAmount);
                     this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
 				}
 			}
