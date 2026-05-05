@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "lit=false,waterlogged=false": {
+      "model": "forestry:block/candles/rgb_big"
+    },
+    "lit=false,waterlogged=true": {
+      "model": "forestry:block/candles/rgb_big"
+    },
+    "lit=true,waterlogged=false": {
+      "model": "forestry:block/candles/rgb_big"
+    },
+    "lit=true,waterlogged=true": {
+      "model": "forestry:block/candles/rgb_big"
+    }
+  }
+}

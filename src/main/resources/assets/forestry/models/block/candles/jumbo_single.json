@@ -3,10 +3,10 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"bottom": "forestry:block/candles/bottom",
+		"particle": "forestry:block/candles/side",
 		"side": "forestry:block/candles/side",
 		"top": "forestry:block/candles/top",
-		"wick": "forestry:block/candles/wick",
-		"particle": "forestry:block/candles/side"
+		"wick": "forestry:block/candles/wick"
 	},
 	"elements": [
 		{
@@ -23,13 +23,13 @@
 		},
 		{
 			"name": "wick",
-			"from": [2.5, 16, 13],
-			"to": [18.5, 32, 13],
-			"rotation": {"angle": 45, "axis": "y", "origin": [3, 18, 13]},
+			"from": [7.5, 16, 8],
+			"to": [8.5, 18, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 17, 8]},
 			"faces": {
-				"north": {"uv": [16, 0, 0, 16], "texture": "#wick"},
+				"north": {"uv": [8, 14, 7, 16], "texture": "#wick"},
 				"east": {"uv": [2, 0, 2, 16], "texture": "#missing"},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#wick"},
+				"south": {"uv": [7, 14, 8, 16], "texture": "#wick"},
 				"west": {"uv": [0, 0, 0, 16], "texture": "#missing"},
 				"up": {"uv": [0, 0, 16, 0], "texture": "#missing"},
 				"down": {"uv": [0, 2, 16, 2], "texture": "#missing"}
@@ -37,13 +37,13 @@
 		},
 		{
 			"name": "wick",
-			"from": [2.5, 16, 3],
-			"to": [18.5, 32, 3],
-			"rotation": {"angle": -45, "axis": "y", "origin": [3, 18, 3]},
+			"from": [7.5, 16, 8],
+			"to": [8.5, 18, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 17, 8]},
 			"faces": {
-				"north": {"uv": [16, 0, 0, 16], "texture": "#wick"},
+				"north": {"uv": [8, 14, 7, 16], "texture": "#wick"},
 				"east": {"uv": [2, 0, 2, 16], "texture": "#missing"},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#wick"},
+				"south": {"uv": [7, 14, 8, 16], "texture": "#wick"},
 				"west": {"uv": [0, 0, 0, 16], "texture": "#missing"},
 				"up": {"uv": [0, 0, 16, 0], "texture": "#missing"},
 				"down": {"uv": [0, 2, 16, 2], "texture": "#missing"}

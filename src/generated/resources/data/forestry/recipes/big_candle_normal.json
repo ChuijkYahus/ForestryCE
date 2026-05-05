@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "forestry:beeswax"
+    },
+    "|": {
+      "tag": "forge:string"
+    }
+  },
+  "pattern": [
+    " | ",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "forestry:big_candle_normal"
+  },
+  "show_notification": true
+}

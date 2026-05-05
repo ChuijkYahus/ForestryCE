@@ -16,27 +16,31 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class BlockBigCandle extends Block {
+public class BlockBigCandle extends Block implements SimpleWaterloggedBlock {
 
 	//TODO: Wouldn't it be be cool if you could STACK BIG CANDLES ON TOP OF EACH OTHER???????
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
+	public static final BooleanProperty WATERLOGGED =  BlockStateProperties.WATERLOGGED;
 
 	public BlockBigCandle(BlockTypeBigCandle type){
 		super(Properties.copy(Blocks.CANDLE)
@@ -46,12 +50,14 @@ public class BlockBigCandle extends Block {
 			})
 		);
 		this.registerDefaultState(this.getStateDefinition().any()
-			.setValue(LIT, false));
+			.setValue(LIT, false)
+			.setValue(WATERLOGGED, false));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(LIT);
+		builder.add(WATERLOGGED);
 	}
 
 	@Override
@@ -78,7 +84,8 @@ public class BlockBigCandle extends Block {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (!state.getValue(LIT)
-			&& !player.isShiftKeyDown()) {
+			&& !player.isShiftKeyDown()
+			&& !state.getValue(WATERLOGGED)) {
 
 			if (stack.is(Items.FLINT_AND_STEEL)) {
 				if (!level.isClientSide) {
@@ -92,7 +99,7 @@ public class BlockBigCandle extends Block {
 				if (!level.isClientSide) {
 					level.setBlock(pos, state.setValue(LIT, true), 3);
 					if (!player.isCreative())
-						stack = stack.copyWithCount(stack.getCount() - 1);
+						stack.setCount(stack.getCount()-1);
 				}
 				level.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS);
 				return InteractionResult.sidedSuccess(level.isClientSide);
@@ -109,6 +116,25 @@ public class BlockBigCandle extends Block {
 		return InteractionResult.PASS;
 	}
 
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
+		return this.defaultBlockState().setValue(WATERLOGGED, fluid.getType() == Fluids.WATER);
+	}
+
+	@Override
+	public FluidState getFluidState(BlockState state) {
+		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+		if (state.getValue(WATERLOGGED)) {
+			state = state.setValue(LIT, false);
+			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+		}
+		return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level,

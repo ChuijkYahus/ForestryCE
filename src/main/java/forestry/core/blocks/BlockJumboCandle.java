@@ -162,7 +162,7 @@ public class BlockJumboCandle extends Block {
 				if (!level.isClientSide) {
 					level.setBlock(pos, state.setValue(LIT, true), 3);
 					if (!player.isCreative())
-						stack = stack.copyWithCount(stack.getCount() - 1);
+						stack.setCount(stack.getCount() - 1);
 				}
 				level.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS);
 				return InteractionResult.sidedSuccess(level.isClientSide);

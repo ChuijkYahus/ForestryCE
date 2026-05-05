@@ -1,9 +1,15 @@
 {
   "variants": {
-    "lit=false": {
+    "lit=false,waterlogged=false": {
       "model": "forestry:block/candles/orange_big"
     },
-    "lit=true": {
+    "lit=false,waterlogged=true": {
+      "model": "forestry:block/candles/orange_big"
+    },
+    "lit=true,waterlogged=false": {
+      "model": "forestry:block/candles/orange_big"
+    },
+    "lit=true,waterlogged=true": {
       "model": "forestry:block/candles/orange_big"
     }
   }

@@ -6,6 +6,8 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
+import forestry.core.blocks.BlockTypeBigCandle;
+import forestry.core.blocks.BlockTypeJumboCandle;
 import forestry.core.blocks.BlockTypeMetalPlating;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
@@ -19,6 +21,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 import thedarkcolour.modkit.data.MKTagsProvider;
+
+import java.util.Arrays;
 
 public class ForestryItemTagsProvider {
 	public static void addTags(MKTagsProvider<Item> tags) {
@@ -141,6 +145,16 @@ public class ForestryItemTagsProvider {
 				CoreBlocks.METAL_PLATING.get(type).item()
 			);
 		}
+
+		Arrays.stream(BlockTypeBigCandle.values()).forEach(c ->
+			tags.tag(ForestryTags.Items.BIG_CANDLES).add(
+				CoreBlocks.BIG_CANDLES.get(c).item())
+			);
+
+		Arrays.stream(BlockTypeJumboCandle.values()).forEach(c ->
+			tags.tag(ForestryTags.Items.JUMBO_CANDLES).add(
+				CoreBlocks.JUMBO_CANDLES.get(c).item())
+		);
 
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP_PROVEN.item());

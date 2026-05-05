@@ -231,7 +231,7 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 			ItemStack heldItem = player.getItemInHand(hand);
 			if (heldItem.is(Items.FIRE_CHARGE)) {
 				if (!player.isCreative())
-					heldItem = heldItem.copyWithCount(heldItem.getCount() - 1);
+					heldItem.setCount(heldItem.getCount() - 1);
 				this.preheatTime = 5;
 				if (level instanceof ServerLevel serverLevel) {
 					serverLevel.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS);

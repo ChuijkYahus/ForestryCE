@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-04T23:57:18.7600529	Loot Tables
+// 1.20.1	2026-05-05T21:56:48.7257156	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -150,6 +150,7 @@ a6484c54e8f7d50b767b5ea7a39d1be2bd63bcf4 data/forestry/loot_tables/blocks/big_ca
 8c2f95a80a5a0716da8692d3097774196b4a6fbb data/forestry/loot_tables/blocks/big_candle_pink.json
 f87125a37b4780a618919b540049e34a285500a2 data/forestry/loot_tables/blocks/big_candle_purple.json
 332d4ae57e114bb1c9485b836b0efd9efa8c63ed data/forestry/loot_tables/blocks/big_candle_red.json
+e48ae9ef3f5eaa4184e86e6ebe8c9ecfb69abae2 data/forestry/loot_tables/blocks/big_candle_rgb.json
 722603a7e10d69058ac17dc24069d658504ef674 data/forestry/loot_tables/blocks/big_candle_white.json
 6939bca2d46361eb9ebc629a84ede9a614daaed2 data/forestry/loot_tables/blocks/big_candle_yellow.json
 313c1537c5f59ca03dc4d5e259df4497f5ce00bd data/forestry/loot_tables/blocks/birch_fireproof_fence.json
@@ -658,6 +659,7 @@ f7516ee419780b158b0d894402de7265baed35c7 data/forestry/loot_tables/blocks/jumbo_
 8fe3f53400c0e8080c0823589149b2bd20c20cf8 data/forestry/loot_tables/blocks/jumbo_candle_pink.json
 243804ea680d25be53f7f9dc86fd22ea85fd27ca data/forestry/loot_tables/blocks/jumbo_candle_purple.json
 d5a2c1811cfd9c5de53df1fa18d739774ffbadbc data/forestry/loot_tables/blocks/jumbo_candle_red.json
+4ff54c0bb7cf8100260c53b2cb9a09cb568facf8 data/forestry/loot_tables/blocks/jumbo_candle_rgb.json
 00bccb5424fe77075f06a754891cfbf6f33e8bfd data/forestry/loot_tables/blocks/jumbo_candle_white.json
 28814c87fb2b8097854a210fde1dc48cfc42e94c data/forestry/loot_tables/blocks/jumbo_candle_yellow.json
 cf00ade65b20d9b3f37b5a526b83c0f83fb3354d data/forestry/loot_tables/blocks/jungle_fireproof_fence.json

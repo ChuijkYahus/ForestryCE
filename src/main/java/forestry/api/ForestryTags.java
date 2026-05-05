@@ -239,6 +239,8 @@ public class ForestryTags {
 
 		public static final TagKey<Item> BEES = itemTag("bees");
 		public static final TagKey<Item> METAL_PLATING = itemTag("metal_plating");
+		public static final TagKey<Item> JUMBO_CANDLES = itemTag("jumbo_candles");
+		public static final TagKey<Item> BIG_CANDLES = itemTag("big_candles");
         public static final TagKey<Item> BURN_BARREL_BLACKLIST = itemTag("burn_barrel_blacklist");
 
         private static TagKey<Item> forgeTag(String name) {

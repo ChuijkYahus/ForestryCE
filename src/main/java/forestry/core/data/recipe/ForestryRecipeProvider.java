@@ -25,9 +25,7 @@ import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.blocks.BlockTypeCoreTesr;
-import forestry.core.blocks.BlockTypeMetalPlating;
-import forestry.core.blocks.EnumResourceType;
+import forestry.core.blocks.*;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.circuits.ItemCircuitBoard;
 import forestry.core.config.Constants;
@@ -911,8 +909,170 @@ public class ForestryRecipeProvider {
 			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
 			.save(consumer, "forestry:ash_brick_wall_from_stonecutting");
 
+		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.NORMAL),
+			recipe -> {
+			recipe.define('|', Tags.Items.STRING);
+			recipe.define('#', CoreItems.BEESWAX);
+			recipe.pattern(" | ");
+			recipe.pattern("###");
+			recipe.pattern("###");
+		});
 
+		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.NORMAL),
+			recipe -> {
+			recipe.define('|', Tags.Items.STRING);
+			recipe.define('#', ApicultureBlocks.WAX_BLOCK.item());
+			recipe.pattern("|");
+			recipe.pattern("#");
+		});
 
+		//Could this be done with a for loop? Probably. Does it matter? Probably not.
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.RED), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_RED));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.RED), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_RED));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.ORANGE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_ORANGE));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.ORANGE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_ORANGE));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.YELLOW), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_YELLOW));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.YELLOW), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_YELLOW));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.LIME), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_LIME));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.LIME), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_LIME));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.GREEN), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_GREEN));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.GREEN), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_GREEN));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.CYAN), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_CYAN));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.CYAN), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_CYAN));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.LIGHT_BLUE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_LIGHT_BLUE));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.LIGHT_BLUE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_LIGHT_BLUE));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.BLUE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_BLUE));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.BLUE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_BLUE));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.PURPLE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_PURPLE));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.PURPLE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_PURPLE));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.MAGENTA), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_MAGENTA));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.MAGENTA), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_MAGENTA));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.PINK), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_PINK));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.PINK), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_PINK));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.BROWN), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_BROWN));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.BROWN), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_BROWN));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.WHITE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_WHITE));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.WHITE), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_WHITE));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.LIGHT_GRAY), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_LIGHT_GRAY));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.LIGHT_GRAY), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_LIGHT_GRAY));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.GRAY), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_GRAY));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.GRAY), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_GRAY));
+
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.BLACK), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_BLACK));
+		recipes.shapelessCrafting(RecipeCategory.DECORATIONS,
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.BLACK), 1,
+			ForestryTags.Items.BIG_CANDLES,
+			Ingredient.of(Tags.Items.DYES_BLACK));
+
+		//rn RGB candle is uncraftable because idk what to make the recipe and it's fun to have secrets
 
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
@@ -2028,6 +2188,7 @@ public class ForestryRecipeProvider {
 			BlockTypeMetalPlating type = map.get(dye);
 			metalPlating(consumer, type.getName(), CoreBlocks.METAL_PLATING.get(type).item(), ForestryTags.Items.METAL_PLATING, 8, dye);
 		}
+
 
 
 		for (ForestryWoodType type : ForestryWoodType.values()) {
