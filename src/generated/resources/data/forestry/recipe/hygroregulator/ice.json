@@ -1,9 +1,10 @@
 {
   "type": "forestry:hygroregulator",
   "humidity_steps": 2,
+  "id": "forestry:hygroregulator/ice",
   "liquid": {
-    "Amount": 1,
-    "FluidName": "forestry:ice"
+    "amount": 1,
+    "id": "forestry:ice"
   },
   "temperature_steps": -2,
   "time": 10

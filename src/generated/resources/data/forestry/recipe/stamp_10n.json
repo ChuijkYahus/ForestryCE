@@ -6,7 +6,7 @@
       "item": "minecraft:paper"
     },
     "X": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "Z": [
       {
@@ -24,7 +24,6 @@
   ],
   "result": {
     "count": 9,
-    "item": "forestry:stamp_10n"
-  },
-  "show_notification": true
+    "id": "forestry:stamp_10n"
+  }
 }

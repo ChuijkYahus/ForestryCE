@@ -3,13 +3,13 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "X": {
       "item": "forestry:butterfly_ge"
     },
     "Y": {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   },
   "pattern": [
@@ -18,7 +18,7 @@
     "XXX"
   ],
   "result": {
-    "item": "forestry:butterfly_chest"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:butterfly_chest"
+  }
 }

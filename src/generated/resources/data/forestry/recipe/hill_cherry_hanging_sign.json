@@ -20,7 +20,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:hill_cherry_hanging_sign"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:hill_cherry_hanging_sign"
+  }
 }

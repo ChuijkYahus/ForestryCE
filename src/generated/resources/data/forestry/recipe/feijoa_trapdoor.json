@@ -18,7 +18,6 @@
   ],
   "result": {
     "count": 2,
-    "item": "forestry:feijoa_trapdoor"
-  },
-  "show_notification": true
+    "id": "forestry:feijoa_trapdoor"
+  }
 }

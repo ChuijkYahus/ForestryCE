@@ -10,11 +10,12 @@
         "tag": "forestry:propolis"
       },
       {
-        "tag": "forge:slimeballs"
+        "tag": "c:slimeballs"
       }
     ]
   ],
   "result": {
-    "item": "forestry:letter_empty_fresh"
+    "count": 1,
+    "id": "forestry:letter_empty_fresh"
   }
 }

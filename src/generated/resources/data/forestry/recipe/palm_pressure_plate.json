@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:palm_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:palm_pressure_plate"
+  }
 }

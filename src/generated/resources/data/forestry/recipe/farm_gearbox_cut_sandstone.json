@@ -14,7 +14,7 @@
     "TTT"
   ],
   "result": {
-    "item": "forestry:farm_gearbox_cut_sandstone"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:farm_gearbox_cut_sandstone"
+  }
 }

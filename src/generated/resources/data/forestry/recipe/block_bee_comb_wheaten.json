@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:block_bee_comb_wheaten"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:block_bee_comb_wheaten"
+  }
 }

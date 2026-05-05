@@ -9,7 +9,7 @@
       "item": "minecraft:piston"
     },
     "I": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "P": {
       "tag": "minecraft:planks"
@@ -24,7 +24,7 @@
     "QDC"
   ],
   "result": {
-    "item": "forestry:engine_clockwork"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:engine_clockwork"
+  }
 }

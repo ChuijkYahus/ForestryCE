@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:oak_fireproof_stairs"
-  },
-  "show_notification": true
+    "id": "forestry:oak_fireproof_stairs"
+  }
 }

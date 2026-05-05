@@ -3,16 +3,16 @@
   "box": {
     "item": "forestry:crate"
   },
+  "id": "forestry:carpenter/crates/pack/minecraft/lapis_lazuli",
   "liquid": {
-    "Amount": 100,
-    "FluidName": "minecraft:water"
+    "amount": 100,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
-        "tag": "forge:gems/lapis"
+        "tag": "c:gems/lapis"
       }
     },
     "pattern": [
@@ -21,9 +21,9 @@
       "###"
     ],
     "result": {
-      "item": "forestry:crated_lapis"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:crated_lapis"
+    }
   },
   "time": 5
 }

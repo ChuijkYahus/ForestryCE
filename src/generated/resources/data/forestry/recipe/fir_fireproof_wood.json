@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:fir_fireproof_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:fir_fireproof_wood"
+  }
 }

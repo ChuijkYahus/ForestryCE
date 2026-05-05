@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:ipe_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:ipe_pressure_plate"
+  }
 }

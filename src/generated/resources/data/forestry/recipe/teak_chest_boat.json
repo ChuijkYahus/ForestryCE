@@ -6,10 +6,11 @@
       "item": "forestry:teak_boat"
     },
     {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   ],
   "result": {
-    "item": "forestry:teak_chest_boat"
+    "count": 1,
+    "id": "forestry:teak_chest_boat"
   }
 }

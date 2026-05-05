@@ -20,7 +20,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:ipe_hanging_sign"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:ipe_hanging_sign"
+  }
 }

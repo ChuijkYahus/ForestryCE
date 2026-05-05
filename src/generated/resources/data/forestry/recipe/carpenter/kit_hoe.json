@@ -3,8 +3,8 @@
   "box": {
     "item": "forestry:carton"
   },
+  "id": "forestry:carpenter/kit_hoe",
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "equipment",
     "key": {
       "#": {
@@ -20,9 +20,9 @@
       " X "
     ],
     "result": {
-      "item": "forestry:hoe_kit"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:hoe_kit"
+    }
   },
   "time": 20
 }

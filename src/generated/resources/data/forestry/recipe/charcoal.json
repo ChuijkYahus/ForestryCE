@@ -12,7 +12,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:charcoal"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:charcoal"
+  }
 }

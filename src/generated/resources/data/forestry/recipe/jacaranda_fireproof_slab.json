@@ -12,7 +12,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "forestry:jacaranda_fireproof_slab"
-  },
-  "show_notification": true
+    "id": "forestry:jacaranda_fireproof_slab"
+  }
 }

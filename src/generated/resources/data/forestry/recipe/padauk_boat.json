@@ -16,7 +16,7 @@
     "PPP"
   ],
   "result": {
-    "item": "forestry:padauk_boat"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:padauk_boat"
+  }
 }

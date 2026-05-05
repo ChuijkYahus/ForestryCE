@@ -2,9 +2,10 @@
   "type": "forestry:fermenter",
   "fermentationValue": 50,
   "fluidResource": {
-    "Amount": 1,
-    "FluidName": "minecraft:water"
+    "amount": 1,
+    "id": "minecraft:water"
   },
+  "id": "forestry:fermenter/cactus",
   "modifier": 1.0,
   "output": "forestry:biomass",
   "resource": {

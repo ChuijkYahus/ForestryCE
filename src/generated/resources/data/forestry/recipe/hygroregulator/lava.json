@@ -1,9 +1,10 @@
 {
   "type": "forestry:hygroregulator",
   "humidity_steps": -1,
+  "id": "forestry:hygroregulator/lava",
   "liquid": {
-    "Amount": 1,
-    "FluidName": "minecraft:lava"
+    "amount": 1,
+    "id": "minecraft:lava"
   },
   "temperature_steps": 1,
   "time": 0

@@ -1,16 +1,16 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/stamp_50n",
   "liquid": {
-    "Amount": 300,
-    "FluidName": "forestry:seed_oil"
+    "amount": 300,
+    "id": "forestry:seed_oil"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
-        "tag": "forge:gems/emerald"
+        "tag": "c:gems/emerald"
       },
       "P": {
         "item": "minecraft:paper"
@@ -22,9 +22,8 @@
     ],
     "result": {
       "count": 9,
-      "item": "forestry:stamp_50n"
-    },
-    "show_notification": true
+      "id": "forestry:stamp_50n"
+    }
   },
   "time": 5
 }

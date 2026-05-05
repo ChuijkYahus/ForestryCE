@@ -19,7 +19,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:fir_door"
-  },
-  "show_notification": true
+    "id": "forestry:fir_door"
+  }
 }

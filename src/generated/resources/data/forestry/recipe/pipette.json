@@ -6,7 +6,7 @@
       "tag": "minecraft:wool"
     },
     "X": {
-      "tag": "forge:glass_panes"
+      "tag": "c:glass_panes"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     "X  "
   ],
   "result": {
-    "item": "forestry:pipette"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:pipette"
+  }
 }

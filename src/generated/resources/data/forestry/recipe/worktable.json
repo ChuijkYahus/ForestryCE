@@ -6,7 +6,7 @@
       "item": "minecraft:book"
     },
     "C": {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     },
     "T": {
       "tag": "forestry:crafting_tables"
@@ -18,7 +18,7 @@
     "C"
   ],
   "result": {
-    "item": "forestry:worktable"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:worktable"
+  }
 }

@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/scented_paneling",
   "liquid": {
-    "Amount": 500,
-    "FluidName": "forestry:honey"
+    "amount": 500,
+    "id": "forestry:honey"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -28,9 +28,9 @@
       "WPW"
     ],
     "result": {
-      "item": "forestry:scented_paneling"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:scented_paneling"
+    }
   },
   "time": 50
 }

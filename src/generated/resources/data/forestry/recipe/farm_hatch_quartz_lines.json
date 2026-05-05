@@ -17,7 +17,7 @@
     "TDT"
   ],
   "result": {
-    "item": "forestry:farm_hatch_quartz_lines"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:farm_hatch_quartz_lines"
+  }
 }

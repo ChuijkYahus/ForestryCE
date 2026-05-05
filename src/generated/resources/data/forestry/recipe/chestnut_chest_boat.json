@@ -6,10 +6,11 @@
       "item": "forestry:chestnut_boat"
     },
     {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   ],
   "result": {
-    "item": "forestry:chestnut_chest_boat"
+    "count": 1,
+    "id": "forestry:chestnut_chest_boat"
   }
 }

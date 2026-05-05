@@ -16,7 +16,7 @@
     "PPP"
   ],
   "result": {
-    "item": "forestry:elm_boat"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:elm_boat"
+  }
 }

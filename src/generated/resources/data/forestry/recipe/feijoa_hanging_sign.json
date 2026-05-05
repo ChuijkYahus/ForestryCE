@@ -20,7 +20,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:feijoa_hanging_sign"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:feijoa_hanging_sign"
+  }
 }

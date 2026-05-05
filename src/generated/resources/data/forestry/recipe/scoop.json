@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "#": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "X": {
       "tag": "minecraft:wool"
@@ -15,7 +15,7 @@
     " # "
   ],
   "result": {
-    "item": "forestry:scoop"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:scoop"
+  }
 }

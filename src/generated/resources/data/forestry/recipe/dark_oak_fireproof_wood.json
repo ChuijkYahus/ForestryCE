@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:dark_oak_fireproof_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:dark_oak_fireproof_wood"
+  }
 }

@@ -6,7 +6,7 @@
       "item": "minecraft:piston"
     },
     "I": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "P": {
       "tag": "forge:ingots/bronze"
@@ -21,7 +21,7 @@
     "QDQ"
   ],
   "result": {
-    "item": "forestry:engine_biogas"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:engine_biogas"
+  }
 }

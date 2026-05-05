@@ -1,5 +1,6 @@
 {
   "type": "forestry:centrifuge",
+  "id": "forestry:centrifuge/silky_comb",
   "input": {
     "item": "forestry:bee_comb_silky"
   },

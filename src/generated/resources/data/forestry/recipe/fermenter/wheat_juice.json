@@ -2,12 +2,13 @@
   "type": "forestry:fermenter",
   "fermentationValue": 50,
   "fluidResource": {
-    "Amount": 1,
-    "FluidName": "forestry:juice"
+    "amount": 1,
+    "id": "forestry:juice"
   },
+  "id": "forestry:fermenter/wheat_juice",
   "modifier": 1.5,
   "output": "forestry:biomass",
   "resource": {
-    "tag": "forge:crops/wheat"
+    "tag": "c:crops/wheat"
   }
 }

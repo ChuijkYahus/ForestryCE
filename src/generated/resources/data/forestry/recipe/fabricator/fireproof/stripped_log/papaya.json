@@ -1,12 +1,11 @@
 {
   "type": "forestry:fabricator",
+  "id": "forestry:fabricator/fireproof/stripped_log/papaya",
   "molten": {
-    "Amount": 500,
-    "FluidName": "forestry:glass"
+    "amount": 500,
+    "id": "forestry:glass"
   },
-  "plan": [],
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "building",
     "key": {
       "#": {
@@ -23,8 +22,7 @@
     ],
     "result": {
       "count": 2,
-      "item": "forestry:papaya_fireproof_stripped_log"
-    },
-    "show_notification": true
+      "id": "forestry:papaya_fireproof_stripped_log"
+    }
   }
 }

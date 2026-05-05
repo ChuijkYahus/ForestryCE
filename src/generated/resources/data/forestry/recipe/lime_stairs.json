@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:lime_stairs"
-  },
-  "show_notification": true
+    "id": "forestry:lime_stairs"
+  }
 }

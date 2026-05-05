@@ -14,7 +14,7 @@
     "TTT"
   ],
   "result": {
-    "item": "forestry:farm_gearbox_quartz_lines"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:farm_gearbox_quartz_lines"
+  }
 }

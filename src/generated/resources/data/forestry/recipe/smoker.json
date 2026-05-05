@@ -9,10 +9,10 @@
       "item": "minecraft:flint_and_steel"
     },
     "L": {
-      "tag": "forge:leather"
+      "tag": "c:leathers"
     },
     "S": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "pattern": [
@@ -21,7 +21,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:smoker"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:smoker"
+  }
 }

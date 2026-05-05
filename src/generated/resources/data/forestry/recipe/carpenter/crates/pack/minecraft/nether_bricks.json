@@ -3,12 +3,12 @@
   "box": {
     "item": "forestry:crate"
   },
+  "id": "forestry:carpenter/crates/pack/minecraft/nether_bricks",
   "liquid": {
-    "Amount": 100,
-    "FluidName": "minecraft:water"
+    "amount": 100,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -21,9 +21,9 @@
       "###"
     ],
     "result": {
-      "item": "forestry:crated_nether_bricks"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:crated_nether_bricks"
+    }
   },
   "time": 5
 }

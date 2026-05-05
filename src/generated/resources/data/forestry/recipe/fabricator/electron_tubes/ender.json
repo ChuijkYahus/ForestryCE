@@ -1,12 +1,11 @@
 {
   "type": "forestry:fabricator",
+  "id": "forestry:fabricator/electron_tubes/ender",
   "molten": {
-    "Amount": 500,
-    "FluidName": "forestry:glass"
+    "amount": 500,
+    "id": "forestry:glass"
   },
-  "plan": [],
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -23,8 +22,7 @@
     ],
     "result": {
       "count": 4,
-      "item": "forestry:electron_tube_ender"
-    },
-    "show_notification": true
+      "id": "forestry:electron_tube_ender"
+    }
   }
 }

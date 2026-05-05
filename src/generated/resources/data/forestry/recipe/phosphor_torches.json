@@ -6,7 +6,7 @@
       "item": "forestry:phosphor"
     },
     "|": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "pattern": [
@@ -15,7 +15,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "minecraft:torch"
-  },
-  "show_notification": true
+    "id": "minecraft:torch"
+  }
 }

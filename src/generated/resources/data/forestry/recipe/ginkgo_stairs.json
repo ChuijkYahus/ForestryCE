@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:ginkgo_stairs"
-  },
-  "show_notification": true
+    "id": "forestry:ginkgo_stairs"
+  }
 }

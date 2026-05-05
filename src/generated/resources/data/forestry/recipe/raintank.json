@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "X": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "Y": {
       "item": "forestry:sturdy_machine"
@@ -18,7 +18,7 @@
     "X#X"
   ],
   "result": {
-    "item": "forestry:raintank"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:raintank"
+  }
 }

@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/impregnated_stick",
   "liquid": {
-    "Amount": 100,
-    "FluidName": "forestry:seed_oil"
+    "amount": 100,
+    "id": "forestry:seed_oil"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -19,9 +19,8 @@
     ],
     "result": {
       "count": 2,
-      "item": "forestry:impregnated_stick"
-    },
-    "show_notification": true
+      "id": "forestry:impregnated_stick"
+    }
   },
   "time": 50
 }

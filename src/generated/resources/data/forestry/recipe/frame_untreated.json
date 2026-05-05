@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "S": {
-      "tag": "forge:string"
+      "tag": "c:strings"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:frame_untreated"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:frame_untreated"
+  }
 }

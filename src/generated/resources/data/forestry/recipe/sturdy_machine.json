@@ -12,7 +12,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:sturdy_machine"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:sturdy_machine"
+  }
 }

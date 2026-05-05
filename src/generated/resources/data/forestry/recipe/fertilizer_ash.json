@@ -16,7 +16,6 @@
   ],
   "result": {
     "count": 16,
-    "item": "forestry:fertilizer_compound"
-  },
-  "show_notification": true
+    "id": "forestry:fertilizer_compound"
+  }
 }

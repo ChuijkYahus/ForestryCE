@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:wenge_fireproof_stairs"
-  },
-  "show_notification": true
+    "id": "forestry:wenge_fireproof_stairs"
+  }
 }

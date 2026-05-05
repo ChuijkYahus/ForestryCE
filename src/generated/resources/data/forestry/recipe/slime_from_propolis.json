@@ -15,7 +15,7 @@
     "#X#"
   ],
   "result": {
-    "item": "minecraft:slime_ball"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "minecraft:slime_ball"
+  }
 }

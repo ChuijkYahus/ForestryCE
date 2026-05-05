@@ -12,7 +12,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "forestry:birch_fireproof_slab"
-  },
-  "show_notification": true
+    "id": "forestry:birch_fireproof_slab"
+  }
 }

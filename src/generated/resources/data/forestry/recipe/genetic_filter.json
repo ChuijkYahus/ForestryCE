@@ -6,21 +6,26 @@
       "tag": "forge:gears/bronze"
     },
     "D": {
-      "tag": "forge:gems/diamond"
+      "tag": "c:gems/diamond"
     },
     "F": [
       {
-        "item": "forestry:caterpillar_ge"
-      },
-      {
-        "item": "forestry:propolis_normal"
+        "type": "neoforge:compound",
+        "children": [
+          {
+            "item": "forestry:caterpillar_ge"
+          },
+          {
+            "item": "forestry:propolis_normal"
+          }
+        ]
       },
       {
         "tag": "forestry:forestry_fruits"
       }
     ],
     "G": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "W": {
       "tag": "minecraft:planks"
@@ -33,7 +38,6 @@
   ],
   "result": {
     "count": 2,
-    "item": "forestry:genetic_filter"
-  },
-  "show_notification": true
+    "id": "forestry:genetic_filter"
+  }
 }

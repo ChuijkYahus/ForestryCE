@@ -1,8 +1,8 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/crates/unpack/forestry/propolis_normal",
   "recipe": {
-    "type": "minecraft:crafting_shapeless",
     "category": "misc",
     "ingredients": [
       {
@@ -11,7 +11,7 @@
     ],
     "result": {
       "count": 9,
-      "item": "forestry:propolis_normal"
+      "id": "forestry:propolis_normal"
     }
   },
   "time": 5

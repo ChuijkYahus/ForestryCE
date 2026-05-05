@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:olive_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:olive_pressure_plate"
+  }
 }

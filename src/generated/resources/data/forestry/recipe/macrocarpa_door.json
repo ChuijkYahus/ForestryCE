@@ -19,7 +19,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:macrocarpa_door"
-  },
-  "show_notification": true
+    "id": "forestry:macrocarpa_door"
+  }
 }

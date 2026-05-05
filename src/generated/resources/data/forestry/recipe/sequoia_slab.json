@@ -12,7 +12,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "forestry:sequoia_slab"
-  },
-  "show_notification": true
+    "id": "forestry:sequoia_slab"
+  }
 }

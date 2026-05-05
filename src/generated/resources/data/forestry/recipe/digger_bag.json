@@ -6,13 +6,13 @@
       "tag": "minecraft:wool"
     },
     "V": {
-      "tag": "forge:stone"
+      "tag": "c:stones"
     },
     "X": {
-      "tag": "forge:string"
+      "tag": "c:strings"
     },
     "Y": {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   },
   "pattern": [
@@ -21,7 +21,7 @@
     "X#X"
   ],
   "result": {
-    "item": "forestry:digger_bag"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:digger_bag"
+  }
 }

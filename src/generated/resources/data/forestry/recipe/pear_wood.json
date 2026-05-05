@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:pear_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:pear_wood"
+  }
 }

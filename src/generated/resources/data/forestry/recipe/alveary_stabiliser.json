@@ -4,7 +4,7 @@
   "group": "alveary",
   "key": {
     "G": {
-      "tag": "forge:gems/quartz"
+      "tag": "c:gems/quartz"
     },
     "X": {
       "item": "forestry:alveary_plain"
@@ -16,7 +16,7 @@
     "G G"
   ],
   "result": {
-    "item": "forestry:alveary_stabiliser"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:alveary_stabiliser"
+  }
 }

@@ -6,10 +6,10 @@
       "item": "minecraft:piston"
     },
     "I": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "P": {
-      "tag": "forge:ingots/copper"
+      "tag": "c:ingots/copper"
     },
     "Q": {
       "tag": "forge:gears/copper"
@@ -21,7 +21,7 @@
     "QDQ"
   ],
   "result": {
-    "item": "forestry:engine_peat"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:engine_peat"
+  }
 }

@@ -4,10 +4,10 @@
   "group": "alveary",
   "key": {
     "G": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "X": {
       "item": "forestry:alveary_plain"
@@ -19,7 +19,7 @@
     "GIG"
   ],
   "result": {
-    "item": "forestry:alveary_hygro"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:alveary_hygro"
+  }
 }

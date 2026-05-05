@@ -1,12 +1,13 @@
 {
   "type": "forestry:squeezer",
   "chance": 0.02,
+  "id": "forestry:squeezer/fruit/olive",
   "output": {
-    "Amount": 100,
-    "FluidName": "forestry:seed_oil"
+    "amount": 100,
+    "id": "forestry:seed_oil"
   },
   "remnant": {
-    "Count": 1,
+    "count": 1,
     "id": "forestry:mulch"
   },
   "resources": [

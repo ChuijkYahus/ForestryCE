@@ -1,12 +1,11 @@
 {
   "type": "forestry:fabricator",
+  "id": "forestry:fabricator/fireproof/wood/chestnut",
   "molten": {
-    "Amount": 500,
-    "FluidName": "forestry:glass"
+    "amount": 500,
+    "id": "forestry:glass"
   },
-  "plan": [],
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "building",
     "key": {
       "#": {
@@ -23,8 +22,7 @@
     ],
     "result": {
       "count": 2,
-      "item": "forestry:chestnut_fireproof_wood"
-    },
-    "show_notification": true
+      "id": "forestry:chestnut_fireproof_wood"
+    }
   }
 }

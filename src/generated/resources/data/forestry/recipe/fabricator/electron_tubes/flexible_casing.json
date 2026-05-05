@@ -1,22 +1,21 @@
 {
   "type": "forestry:fabricator",
+  "id": "forestry:fabricator/electron_tubes/flexible_casing",
   "molten": {
-    "Amount": 500,
-    "FluidName": "forestry:glass"
+    "amount": 500,
+    "id": "forestry:glass"
   },
-  "plan": [],
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
         "tag": "forge:ingots/bronze"
       },
       "B": {
-        "tag": "forge:slimeballs"
+        "tag": "c:slimeballs"
       },
       "E": {
-        "tag": "forge:gems/emerald"
+        "tag": "c:gems/emerald"
       }
     },
     "pattern": [
@@ -25,8 +24,8 @@
       "#E#"
     ],
     "result": {
-      "item": "forestry:flexible_casing"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:flexible_casing"
+    }
   }
 }

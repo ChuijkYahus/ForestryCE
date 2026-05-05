@@ -12,7 +12,7 @@
     " L "
   ],
   "result": {
-    "item": "forestry:log_pile"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:log_pile"
+  }
 }

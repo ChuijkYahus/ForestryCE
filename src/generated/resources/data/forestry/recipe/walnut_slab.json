@@ -12,7 +12,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "forestry:walnut_slab"
-  },
-  "show_notification": true
+    "id": "forestry:walnut_slab"
+  }
 }

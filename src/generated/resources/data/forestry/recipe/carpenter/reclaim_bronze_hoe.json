@@ -1,8 +1,8 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/reclaim_bronze_hoe",
   "recipe": {
-    "type": "minecraft:crafting_shapeless",
     "category": "misc",
     "ingredients": [
       {
@@ -10,7 +10,8 @@
       }
     ],
     "result": {
-      "item": "forestry:ingot_bronze"
+      "count": 1,
+      "id": "forestry:ingot_bronze"
     }
   },
   "time": 5

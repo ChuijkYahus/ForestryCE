@@ -16,7 +16,7 @@
     "PPP"
   ],
   "result": {
-    "item": "forestry:mahoe_boat"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:mahoe_boat"
+  }
 }

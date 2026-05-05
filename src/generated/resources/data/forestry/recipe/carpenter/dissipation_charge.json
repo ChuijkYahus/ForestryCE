@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/dissipation_charge",
   "liquid": {
-    "Amount": 1000,
-    "FluidName": "minecraft:water"
+    "amount": 1000,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -28,9 +28,9 @@
       "X#X"
     ],
     "result": {
-      "item": "forestry:dissipation_charge"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:dissipation_charge"
+    }
   },
   "time": 5
 }

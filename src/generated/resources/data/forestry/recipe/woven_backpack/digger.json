@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:woven_backpack/digger",
   "liquid": {
-    "Amount": 1000,
-    "FluidName": "minecraft:water"
+    "amount": 1000,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "equipment",
     "key": {
       "T": {
@@ -25,9 +25,9 @@
       "WWW"
     ],
     "result": {
-      "item": "forestry:digger_bag_woven"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:digger_bag_woven"
+    }
   },
   "time": 200
 }

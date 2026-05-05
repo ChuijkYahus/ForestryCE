@@ -1,12 +1,13 @@
 {
   "type": "forestry:still",
+  "id": "forestry:still/ethanol",
   "input": {
-    "Amount": 10,
-    "FluidName": "forestry:biomass"
+    "amount": 10,
+    "id": "forestry:biomass"
   },
   "output": {
-    "Amount": 3,
-    "FluidName": "forestry:bio_ethanol"
+    "amount": 3,
+    "id": "forestry:bio_ethanol"
   },
   "time": 100
 }

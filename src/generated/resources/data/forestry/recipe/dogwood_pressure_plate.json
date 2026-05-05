@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:dogwood_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:dogwood_pressure_plate"
+  }
 }

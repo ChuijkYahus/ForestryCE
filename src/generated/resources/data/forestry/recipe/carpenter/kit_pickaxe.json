@@ -3,8 +3,8 @@
   "box": {
     "item": "forestry:carton"
   },
+  "id": "forestry:carpenter/kit_pickaxe",
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "equipment",
     "key": {
       "#": {
@@ -20,9 +20,9 @@
       " X "
     ],
     "result": {
-      "item": "forestry:kit_pickaxe"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:kit_pickaxe"
+    }
   },
   "time": 20
 }

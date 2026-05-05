@@ -24,7 +24,6 @@
   ],
   "result": {
     "count": 9,
-    "item": "forestry:stamp_5n"
-  },
-  "show_notification": true
+    "id": "forestry:stamp_5n"
+  }
 }

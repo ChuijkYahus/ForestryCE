@@ -3,13 +3,13 @@
   "category": "equipment",
   "key": {
     "#": {
-      "tag": "forge:glass_panes"
+      "tag": "c:glass_panes"
     },
     "D": {
-      "tag": "forge:gems/diamond"
+      "tag": "c:gems/diamond"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "X": {
       "tag": "forge:ingots/tin"
@@ -21,7 +21,7 @@
     "RDR"
   ],
   "result": {
-    "item": "forestry:portable_alyzer"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:portable_alyzer"
+  }
 }

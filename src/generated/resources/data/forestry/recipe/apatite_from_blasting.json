@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:blasting",
+  "type": "minecraft:smelting",
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.5,
@@ -11,5 +11,8 @@
       "item": "forestry:deepslate_apatite_ore"
     }
   ],
-  "result": "forestry:apatite"
+  "result": {
+    "count": 1,
+    "id": "forestry:apatite"
+  }
 }

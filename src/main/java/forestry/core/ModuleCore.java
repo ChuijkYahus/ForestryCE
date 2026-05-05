@@ -41,7 +41,8 @@ import forestry.modules.features.FeatureItem;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
@@ -72,8 +73,15 @@ public class ModuleCore extends BlankForestryModule {
 		return ForestryModuleIds.CORE;
 	}
 
+	private static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS =
+			DeferredRegister.create(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, ForestryConstants.MOD_ID);
+	static {
+		ENTITY_DATA_SERIALIZERS.register("game_profile", () -> GameProfileDataSerializer.INSTANCE);
+	}
+
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		ENTITY_DATA_SERIALIZERS.register(modBus);
 		modBus.addListener(ModuleCore::onCommonSetup);
 		modBus.addListener(ModuleCore::registerCapabilities);
 		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
@@ -91,13 +99,7 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
-		event.enqueueWork(() -> {
-			PluginManager.registerCircuits();
-			postItemRegistry();
-			((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
-			EntityDataSerializers.registerSerializer(GameProfileDataSerializer.INSTANCE);
-			registerComposts();
-		});
+		event.enqueueWork(ModuleCore::ensureApiInitialized);
 	}
 
 	private static void registerForestryRegistries(NewRegistryEvent event) {
@@ -109,10 +111,26 @@ public class ModuleCore extends BlankForestryModule {
 	private static void onGatherData(net.neoforged.neoforge.data.event.GatherDataEvent event) {
 		// Datagen skips FMLCommonSetupEvent, so initialize the API here so data
 		// providers can resolve TreeManager / BeeManager / ButterflyManager.
+		ensureApiInitialized();
+	}
+
+	private static volatile boolean apiInitialized = false;
+
+	/**
+	 * Idempotent bootstrap of Forestry's runtime API. Some client-side events
+	 * (e.g. ModelEvent.RegisterGeometryLoaders) fire before FMLCommonSetupEvent
+	 * is processed and need TreeManager / BeeManager / etc. already wired up.
+	 * Safe to call from any post-RegisterEvent context.
+	 */
+	public static synchronized void ensureApiInitialized() {
+		if (apiInitialized) {
+			return;
+		}
 		PluginManager.registerCircuits();
 		postItemRegistry();
 		((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
 		registerComposts();
+		apiInitialized = true;
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {

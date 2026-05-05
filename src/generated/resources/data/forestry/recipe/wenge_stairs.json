@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:wenge_stairs"
-  },
-  "show_notification": true
+    "id": "forestry:wenge_stairs"
+  }
 }

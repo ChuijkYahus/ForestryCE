@@ -19,7 +19,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:acacia_desert_door"
-  },
-  "show_notification": true
+    "id": "forestry:acacia_desert_door"
+  }
 }

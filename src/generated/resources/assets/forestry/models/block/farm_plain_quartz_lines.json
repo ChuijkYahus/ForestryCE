@@ -18,5 +18,5 @@
     "base",
     "overlay"
   ],
-  "loader": "forge:composite"
+  "loader": "neoforge:composite"
 }

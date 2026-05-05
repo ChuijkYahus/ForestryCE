@@ -18,7 +18,7 @@
     "PPP"
   ],
   "result": {
-    "item": "forestry:apiary"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:apiary"
+  }
 }

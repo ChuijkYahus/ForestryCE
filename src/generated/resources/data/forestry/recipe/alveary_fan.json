@@ -7,7 +7,7 @@
       "item": "forestry:electron_tube_gold"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "X": {
       "item": "forestry:alveary_plain"
@@ -19,7 +19,7 @@
     "I#I"
   ],
   "result": {
-    "item": "forestry:alveary_fan"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:alveary_fan"
+  }
 }

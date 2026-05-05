@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:palm_stairs"
-  },
-  "show_notification": true
+    "id": "forestry:palm_stairs"
+  }
 }

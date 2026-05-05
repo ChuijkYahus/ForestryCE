@@ -75,8 +75,9 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 		for (ForestryWoodType type : ForestryWoodType.VALUES) {
 			event.registerLayerDefinition(ForestryBoatRenderer.createBoatModelLocation(type, false), BoatModel::createBodyModel);
 			event.registerLayerDefinition(ForestryBoatRenderer.createBoatModelLocation(type, true), ChestBoatModel::createBodyModel);
-			//event.registerLayerDefinition(ModelLayers.createSignModelName(type.getWoodType()), SignRenderer::createSignLayer);
-			event.registerLayerDefinition(ModelLayers.createHangingSignModelName(type.getWoodType()), HangingSignRenderer::createHangingSignLayer);
+			// Vanilla / NeoForge auto-registers hanging-sign and standing-sign layers for any
+			// WoodType added via Sheets.addWoodType (see beforeResourceLoad). Registering them
+			// manually here causes a duplicate-key crash at boot.
 		}
 	}
 }

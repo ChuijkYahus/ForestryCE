@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:blasting",
+  "type": "minecraft:smelting",
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.5,
@@ -14,5 +14,8 @@
       "item": "forestry:raw_tin"
     }
   ],
-  "result": "forestry:ingot_tin"
+  "result": {
+    "count": 1,
+    "id": "forestry:ingot_tin"
+  }
 }

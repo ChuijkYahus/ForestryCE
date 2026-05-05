@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "#": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "B": {
       "tag": "forge:ingots/bronze"
@@ -15,7 +15,7 @@
     "#  "
   ],
   "result": {
-    "item": "forestry:grafter"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:grafter"
+  }
 }

@@ -19,7 +19,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:dogwood_door"
-  },
-  "show_notification": true
+    "id": "forestry:dogwood_door"
+  }
 }

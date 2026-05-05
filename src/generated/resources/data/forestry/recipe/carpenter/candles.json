@@ -1,8 +1,8 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/candles",
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -19,9 +19,8 @@
     ],
     "result": {
       "count": 4,
-      "item": "minecraft:candle"
-    },
-    "show_notification": true
+      "id": "minecraft:candle"
+    }
   },
   "time": 5
 }

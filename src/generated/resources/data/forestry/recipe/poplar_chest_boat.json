@@ -6,10 +6,11 @@
       "item": "forestry:poplar_boat"
     },
     {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   ],
   "result": {
-    "item": "forestry:poplar_chest_boat"
+    "count": 1,
+    "id": "forestry:poplar_chest_boat"
   }
 }

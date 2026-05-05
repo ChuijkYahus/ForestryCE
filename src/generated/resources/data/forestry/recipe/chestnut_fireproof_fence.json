@@ -4,7 +4,7 @@
   "group": "wooden_fence",
   "key": {
     "#": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "W": {
       "item": "forestry:chestnut_fireproof_planks"
@@ -16,7 +16,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:chestnut_fireproof_fence"
-  },
-  "show_notification": true
+    "id": "forestry:chestnut_fireproof_fence"
+  }
 }

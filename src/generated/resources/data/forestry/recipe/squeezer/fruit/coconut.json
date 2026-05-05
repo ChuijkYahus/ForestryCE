@@ -1,12 +1,13 @@
 {
   "type": "forestry:squeezer",
   "chance": 0.25,
+  "id": "forestry:squeezer/fruit/coconut",
   "output": {
-    "Amount": 500,
-    "FluidName": "minecraft:milk"
+    "amount": 500,
+    "id": "minecraft:milk"
   },
   "remnant": {
-    "Count": 1,
+    "count": 1,
     "id": "forestry:mulch"
   },
   "resources": [

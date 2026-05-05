@@ -20,7 +20,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:plum_hanging_sign"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:plum_hanging_sign"
+  }
 }

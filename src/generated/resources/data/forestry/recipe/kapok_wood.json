@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:kapok_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:kapok_wood"
+  }
 }

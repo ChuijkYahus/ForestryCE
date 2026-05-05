@@ -3,13 +3,13 @@
   "category": "misc",
   "key": {
     "G": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "X": {
       "tag": "forestry:combs"
     },
     "Y": {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   },
   "pattern": [
@@ -18,7 +18,7 @@
     "XXX"
   ],
   "result": {
-    "item": "forestry:bee_chest"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:bee_chest"
+  }
 }

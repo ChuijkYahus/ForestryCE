@@ -22,7 +22,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StorageClientHandler implements IClientModuleHandler {
-	public static final ModelResourceLocation FILLED_CRATE_MODEL = ModelResourceLocation.inventory(ForestryConstants.forestry("filled_crate"));
+	public static final ModelResourceLocation FILLED_CRATE_MODEL = ModelResourceLocation.standalone(ForestryConstants.forestry("filled_crate"));
 
 	@Override
 	public void registerEvents(IEventBus modBus) {

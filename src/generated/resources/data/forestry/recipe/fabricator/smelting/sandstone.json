@@ -1,9 +1,10 @@
 {
   "type": "forestry:fabricator_smelting",
+  "id": "forestry:fabricator/smelting/sandstone",
   "melting": 4800,
   "product": {
-    "Amount": 4000,
-    "FluidName": "forestry:glass"
+    "amount": 4000,
+    "id": "forestry:glass"
   },
   "resource": [
     {

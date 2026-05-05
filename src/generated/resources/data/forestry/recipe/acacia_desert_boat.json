@@ -16,7 +16,7 @@
     "PPP"
   ],
   "result": {
-    "item": "forestry:acacia_desert_boat"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:acacia_desert_boat"
+  }
 }

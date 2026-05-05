@@ -1,4 +1,4 @@
 {
-  "parent": "forge:block/default",
+  "parent": "neoforge:block/default",
   "loader": "forestry:sapling_ge"
 }

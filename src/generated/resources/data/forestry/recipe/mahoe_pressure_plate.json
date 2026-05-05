@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:mahoe_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:mahoe_pressure_plate"
+  }
 }

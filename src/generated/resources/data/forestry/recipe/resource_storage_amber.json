@@ -11,7 +11,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:resource_storage_amber"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:resource_storage_amber"
+  }
 }

@@ -6,10 +6,11 @@
       "item": "forestry:sequoia_boat"
     },
     {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   ],
   "result": {
-    "item": "forestry:sequoia_chest_boat"
+    "count": 1,
+    "id": "forestry:sequoia_chest_boat"
   }
 }

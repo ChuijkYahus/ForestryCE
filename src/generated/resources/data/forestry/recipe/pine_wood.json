@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:pine_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:pine_wood"
+  }
 }

@@ -6,7 +6,7 @@
       "item": "minecraft:paper"
     },
     "X": {
-      "tag": "forge:gems/emerald"
+      "tag": "c:gems/emerald"
     },
     "Z": [
       {
@@ -24,7 +24,6 @@
   ],
   "result": {
     "count": 9,
-    "item": "forestry:stamp_50n"
-  },
-  "show_notification": true
+    "id": "forestry:stamp_50n"
+  }
 }

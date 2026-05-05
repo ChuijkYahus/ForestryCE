@@ -12,7 +12,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "forestry:plum_slab"
-  },
-  "show_notification": true
+    "id": "forestry:plum_slab"
+  }
 }

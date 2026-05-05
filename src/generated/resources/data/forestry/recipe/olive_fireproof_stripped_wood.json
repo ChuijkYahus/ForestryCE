@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:olive_fireproof_stripped_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:olive_fireproof_stripped_wood"
+  }
 }

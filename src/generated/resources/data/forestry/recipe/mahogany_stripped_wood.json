@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:mahogany_stripped_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:mahogany_stripped_wood"
+  }
 }

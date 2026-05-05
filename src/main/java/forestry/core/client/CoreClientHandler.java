@@ -117,6 +117,10 @@ public class CoreClientHandler implements IClientModuleHandler {
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
 		event.register(ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "fluid_container"), FluidContainerModel.Loader.INSTANCE);
 
+		// Client model registration depends on TreeManager / BeeManager / etc. being
+		// initialized. RegisterGeometryLoaders fires before FMLCommonSetupEvent, so make
+		// sure the API is bootstrapped before plugin client registration runs.
+		forestry.core.ModuleCore.ensureApiInitialized();
 		PluginManager.registerClient();
 	}
 

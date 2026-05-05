@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/escritoire",
   "liquid": {
-    "Amount": 500,
-    "FluidName": "forestry:seed_oil"
+    "amount": 500,
+    "id": "forestry:seed_oil"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -19,9 +19,9 @@
       "# #"
     ],
     "result": {
-      "item": "forestry:escritoire"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:escritoire"
+    }
   },
   "time": 50
 }

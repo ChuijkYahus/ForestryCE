@@ -18,7 +18,7 @@
     "PPP"
   ],
   "result": {
-    "item": "forestry:bee_house"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:bee_house"
+  }
 }

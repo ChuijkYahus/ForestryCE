@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:padauk_stairs"
-  },
-  "show_notification": true
+    "id": "forestry:padauk_stairs"
+  }
 }

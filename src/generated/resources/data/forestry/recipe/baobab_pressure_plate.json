@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:baobab_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:baobab_pressure_plate"
+  }
 }

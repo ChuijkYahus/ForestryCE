@@ -12,7 +12,7 @@
     " # "
   ],
   "result": {
-    "item": "forestry:wrench"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:wrench"
+  }
 }

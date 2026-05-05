@@ -6,10 +6,11 @@
       "item": "forestry:elm_boat"
     },
     {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   ],
   "result": {
-    "item": "forestry:elm_chest_boat"
+    "count": 1,
+    "id": "forestry:elm_chest_boat"
   }
 }

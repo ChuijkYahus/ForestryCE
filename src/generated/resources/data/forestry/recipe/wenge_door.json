@@ -19,7 +19,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:wenge_door"
-  },
-  "show_notification": true
+    "id": "forestry:wenge_door"
+  }
 }

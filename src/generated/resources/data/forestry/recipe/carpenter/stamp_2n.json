@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/stamp_2n",
   "liquid": {
-    "Amount": 300,
-    "FluidName": "forestry:seed_oil"
+    "amount": 300,
+    "id": "forestry:seed_oil"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -22,9 +22,8 @@
     ],
     "result": {
       "count": 9,
-      "item": "forestry:stamp_2n"
-    },
-    "show_notification": true
+      "id": "forestry:stamp_2n"
+    }
   },
   "time": 5
 }

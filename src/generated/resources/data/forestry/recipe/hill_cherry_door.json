@@ -19,7 +19,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:hill_cherry_door"
-  },
-  "show_notification": true
+    "id": "forestry:hill_cherry_door"
+  }
 }

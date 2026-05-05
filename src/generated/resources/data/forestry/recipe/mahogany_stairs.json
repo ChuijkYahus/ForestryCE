@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:mahogany_stairs"
-  },
-  "show_notification": true
+    "id": "forestry:mahogany_stairs"
+  }
 }

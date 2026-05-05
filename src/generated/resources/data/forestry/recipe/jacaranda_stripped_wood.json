@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:jacaranda_stripped_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:jacaranda_stripped_wood"
+  }
 }

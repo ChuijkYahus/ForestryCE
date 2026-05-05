@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:walnut_stripped_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:walnut_stripped_wood"
+  }
 }

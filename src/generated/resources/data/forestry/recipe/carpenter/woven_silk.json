@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/woven_silk",
   "liquid": {
-    "Amount": 500,
-    "FluidName": "minecraft:water"
+    "amount": 500,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "X": {
@@ -18,9 +18,9 @@
       "XX"
     ],
     "result": {
-      "item": "forestry:woven_silk"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:woven_silk"
+    }
   },
   "time": 10
 }

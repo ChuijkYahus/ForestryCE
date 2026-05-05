@@ -6,10 +6,11 @@
       "item": "forestry:mahogany_boat"
     },
     {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   ],
   "result": {
-    "item": "forestry:mahogany_chest_boat"
+    "count": 1,
+    "id": "forestry:mahogany_chest_boat"
   }
 }

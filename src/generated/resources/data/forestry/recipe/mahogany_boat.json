@@ -16,7 +16,7 @@
     "PPP"
   ],
   "result": {
-    "item": "forestry:mahogany_boat"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:mahogany_boat"
+  }
 }

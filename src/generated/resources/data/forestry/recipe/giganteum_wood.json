@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:giganteum_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:giganteum_wood"
+  }
 }

@@ -12,7 +12,6 @@
   ],
   "result": {
     "count": 6,
-    "item": "forestry:acacia_desert_slab"
-  },
-  "show_notification": true
+    "id": "forestry:acacia_desert_slab"
+  }
 }

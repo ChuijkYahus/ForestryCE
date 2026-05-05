@@ -3,16 +3,16 @@
   "box": {
     "item": "forestry:crate"
   },
+  "id": "forestry:carpenter/crates/pack/minecraft/stone",
   "liquid": {
-    "Amount": 100,
-    "FluidName": "minecraft:water"
+    "amount": 100,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
-        "tag": "forge:stone"
+        "tag": "c:stones"
       }
     },
     "pattern": [
@@ -21,9 +21,9 @@
       "###"
     ],
     "result": {
-      "item": "forestry:crated_stone"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:crated_stone"
+    }
   },
   "time": 5
 }

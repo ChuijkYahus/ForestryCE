@@ -19,7 +19,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:padauk_door"
-  },
-  "show_notification": true
+    "id": "forestry:padauk_door"
+  }
 }

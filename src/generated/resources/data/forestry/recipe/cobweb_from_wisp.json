@@ -13,7 +13,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "minecraft:cobweb"
-  },
-  "show_notification": true
+    "id": "minecraft:cobweb"
+  }
 }

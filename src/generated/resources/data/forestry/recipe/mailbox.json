@@ -6,7 +6,7 @@
       "tag": "forge:ingots/tin"
     },
     "X": {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     },
     "Y": {
       "item": "forestry:sturdy_machine"
@@ -18,7 +18,7 @@
     "XXX"
   ],
   "result": {
-    "item": "forestry:mailbox"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:mailbox"
+  }
 }

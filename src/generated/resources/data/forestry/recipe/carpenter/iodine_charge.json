@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/iodine_charge",
   "liquid": {
-    "Amount": 1000,
-    "FluidName": "minecraft:water"
+    "amount": 1000,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -28,9 +28,9 @@
       "X#X"
     ],
     "result": {
-      "item": "forestry:iodine_capsule"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:iodine_capsule"
+    }
   },
   "time": 5
 }

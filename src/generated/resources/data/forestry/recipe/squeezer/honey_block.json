@@ -1,13 +1,10 @@
 {
   "type": "forestry:squeezer",
   "chance": 0.0,
+  "id": "forestry:squeezer/honey_block",
   "output": {
-    "Amount": 800,
-    "FluidName": "forestry:honey"
-  },
-  "remnant": {
-    "Count": 0,
-    "id": "minecraft:air"
+    "amount": 800,
+    "id": "forestry:honey"
   },
   "resources": [
     {

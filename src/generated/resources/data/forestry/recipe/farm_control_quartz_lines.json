@@ -9,7 +9,7 @@
       "item": "forestry:electron_tube_gold"
     },
     "X": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     }
   },
   "pattern": [
@@ -17,7 +17,7 @@
     "XTX"
   ],
   "result": {
-    "item": "forestry:farm_control_quartz_lines"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:farm_control_quartz_lines"
+  }
 }

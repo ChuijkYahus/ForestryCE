@@ -12,7 +12,7 @@
     "VVV"
   ],
   "result": {
-    "item": "minecraft:honey_block"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "minecraft:honey_block"
+  }
 }

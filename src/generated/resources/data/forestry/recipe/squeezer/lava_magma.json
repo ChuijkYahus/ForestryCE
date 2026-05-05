@@ -1,13 +1,10 @@
 {
   "type": "forestry:squeezer",
   "chance": 0.0,
+  "id": "forestry:squeezer/lava_magma",
   "output": {
-    "Amount": 1000,
-    "FluidName": "minecraft:lava"
-  },
-  "remnant": {
-    "Count": 0,
-    "id": "minecraft:air"
+    "amount": 1000,
+    "id": "minecraft:lava"
   },
   "resources": [
     {

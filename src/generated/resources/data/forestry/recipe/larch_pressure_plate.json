@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:larch_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:larch_pressure_plate"
+  }
 }

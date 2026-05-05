@@ -6,7 +6,7 @@
       "item": "minecraft:dirt"
     },
     "X": {
-      "tag": "forge:crops/wheat"
+      "tag": "c:crops/wheat"
     }
   },
   "pattern": [
@@ -16,7 +16,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "forestry:fertilizer_bio"
-  },
-  "show_notification": true
+    "id": "forestry:fertilizer_bio"
+  }
 }

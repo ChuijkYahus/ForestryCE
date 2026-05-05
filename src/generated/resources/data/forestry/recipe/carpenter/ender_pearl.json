@@ -1,8 +1,8 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/ender_pearl",
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -15,9 +15,9 @@
       " # "
     ],
     "result": {
-      "item": "minecraft:ender_pearl"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "minecraft:ender_pearl"
+    }
   },
   "time": 100
 }

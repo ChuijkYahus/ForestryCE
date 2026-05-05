@@ -18,7 +18,6 @@
   ],
   "result": {
     "count": 2,
-    "item": "forestry:orange_trapdoor"
-  },
-  "show_notification": true
+    "id": "forestry:orange_trapdoor"
+  }
 }

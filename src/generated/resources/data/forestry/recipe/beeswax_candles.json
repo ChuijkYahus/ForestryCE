@@ -6,7 +6,7 @@
       "item": "forestry:beeswax"
     },
     "|": {
-      "tag": "forge:string"
+      "tag": "c:strings"
     }
   },
   "pattern": [
@@ -14,7 +14,7 @@
     " ^ "
   ],
   "result": {
-    "item": "minecraft:candle"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "minecraft:candle"
+  }
 }

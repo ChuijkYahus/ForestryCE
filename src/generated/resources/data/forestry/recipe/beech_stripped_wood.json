@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:beech_stripped_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:beech_stripped_wood"
+  }
 }

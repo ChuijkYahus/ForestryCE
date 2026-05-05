@@ -6,5 +6,8 @@
   "ingredient": {
     "item": "forestry:peat"
   },
-  "result": "forestry:ash"
+  "result": {
+    "count": 1,
+    "id": "forestry:ash"
+  }
 }

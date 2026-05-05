@@ -6,10 +6,11 @@
       "item": "forestry:citrus_boat"
     },
     {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   ],
   "result": {
-    "item": "forestry:citrus_chest_boat"
+    "count": 1,
+    "id": "forestry:citrus_chest_boat"
   }
 }

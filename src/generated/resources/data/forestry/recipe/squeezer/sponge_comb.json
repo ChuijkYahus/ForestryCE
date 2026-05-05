@@ -1,12 +1,13 @@
 {
   "type": "forestry:squeezer",
   "chance": 0.02,
+  "id": "forestry:squeezer/sponge_comb",
   "output": {
-    "Amount": 100,
-    "FluidName": "forestry:honey"
+    "amount": 100,
+    "id": "forestry:honey"
   },
   "remnant": {
-    "Count": 1,
+    "count": 1,
     "id": "minecraft:sponge"
   },
   "resources": [

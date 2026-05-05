@@ -20,7 +20,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:papaya_hanging_sign"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:papaya_hanging_sign"
+  }
 }

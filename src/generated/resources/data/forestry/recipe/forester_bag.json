@@ -9,10 +9,10 @@
       "tag": "minecraft:logs"
     },
     "X": {
-      "tag": "forge:string"
+      "tag": "c:strings"
     },
     "Y": {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     }
   },
   "pattern": [
@@ -21,7 +21,7 @@
     "X#X"
   ],
   "result": {
-    "item": "forestry:forester_bag"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:forester_bag"
+  }
 }

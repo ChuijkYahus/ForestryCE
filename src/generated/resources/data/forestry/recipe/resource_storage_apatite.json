@@ -12,7 +12,7 @@
     "###"
   ],
   "result": {
-    "item": "forestry:resource_storage_apatite"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:resource_storage_apatite"
+  }
 }

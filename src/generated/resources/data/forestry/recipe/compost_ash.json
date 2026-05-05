@@ -15,7 +15,7 @@
     " X "
   ],
   "result": {
-    "item": "forestry:fertilizer_bio"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:fertilizer_bio"
+  }
 }

@@ -18,7 +18,7 @@
     " # "
   ],
   "result": {
-    "item": "forestry:bituminous_peat"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:bituminous_peat"
+  }
 }

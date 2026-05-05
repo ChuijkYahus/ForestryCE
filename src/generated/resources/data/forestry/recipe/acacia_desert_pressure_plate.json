@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:acacia_desert_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:acacia_desert_pressure_plate"
+  }
 }

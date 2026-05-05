@@ -15,7 +15,7 @@
     "PP"
   ],
   "result": {
-    "item": "forestry:giganteum_pressure_plate"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:giganteum_pressure_plate"
+  }
 }

@@ -14,7 +14,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "minecraft:oak_door"
-  },
-  "show_notification": true
+    "id": "minecraft:oak_door"
+  }
 }

@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:dogwood_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:dogwood_wood"
+  }
 }

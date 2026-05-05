@@ -1,8 +1,8 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/crates/unpack/minecraft/birch_log",
   "recipe": {
-    "type": "minecraft:crafting_shapeless",
     "category": "misc",
     "ingredients": [
       {
@@ -11,7 +11,7 @@
     ],
     "result": {
       "count": 9,
-      "item": "minecraft:birch_log"
+      "id": "minecraft:birch_log"
     }
   },
   "time": 5

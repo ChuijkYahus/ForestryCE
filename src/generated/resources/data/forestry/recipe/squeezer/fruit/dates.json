@@ -1,12 +1,13 @@
 {
   "type": "forestry:squeezer",
   "chance": 0.2,
+  "id": "forestry:squeezer/fruit/dates",
   "output": {
-    "Amount": 50,
-    "FluidName": "forestry:juice"
+    "amount": 50,
+    "id": "forestry:juice"
   },
   "remnant": {
-    "Count": 1,
+    "count": 1,
     "id": "forestry:mulch"
   },
   "resources": [

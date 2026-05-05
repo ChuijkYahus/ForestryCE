@@ -16,7 +16,7 @@
     "PPP"
   ],
   "result": {
-    "item": "forestry:wenge_boat"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:wenge_boat"
+  }
 }

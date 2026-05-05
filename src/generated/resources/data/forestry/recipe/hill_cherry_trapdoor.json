@@ -18,7 +18,6 @@
   ],
   "result": {
     "count": 2,
-    "item": "forestry:hill_cherry_trapdoor"
-  },
-  "show_notification": true
+    "id": "forestry:hill_cherry_trapdoor"
+  }
 }

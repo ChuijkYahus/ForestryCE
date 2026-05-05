@@ -12,7 +12,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:hill_cherry_wood"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:hill_cherry_wood"
+  }
 }

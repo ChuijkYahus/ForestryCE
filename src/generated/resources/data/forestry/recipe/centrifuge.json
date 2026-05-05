@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     },
     "X": {
-      "tag": "forge:ingots/copper"
+      "tag": "c:ingots/copper"
     },
     "Y": {
       "item": "forestry:sturdy_machine"
@@ -18,7 +18,7 @@
     "X#X"
   ],
   "result": {
-    "item": "forestry:centrifuge"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:centrifuge"
+  }
 }

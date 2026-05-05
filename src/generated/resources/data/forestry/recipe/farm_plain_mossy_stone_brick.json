@@ -9,7 +9,7 @@
       "item": "forestry:electron_tube_tin"
     },
     "I": {
-      "tag": "forge:ingots/copper"
+      "tag": "c:ingots/copper"
     },
     "W": {
       "tag": "minecraft:wooden_slabs"
@@ -20,7 +20,7 @@
     "WCW"
   ],
   "result": {
-    "item": "forestry:farm_plain_mossy_stone_brick"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:farm_plain_mossy_stone_brick"
+  }
 }

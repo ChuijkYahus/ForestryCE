@@ -1,19 +1,19 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/circuits/intricate",
   "liquid": {
-    "Amount": 1000,
-    "FluidName": "minecraft:water"
+    "amount": 1000,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
-        "tag": "forge:ingots/gold"
+        "tag": "c:ingots/gold"
       },
       "R": {
-        "tag": "forge:dusts/redstone"
+        "tag": "c:dusts/redstone"
       }
     },
     "pattern": [
@@ -22,16 +22,16 @@
       "R#R"
     ],
     "result": {
-      "item": "forestry:circuit_board_intricate"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:circuit_board_intricate"
+    }
   },
   "result": {
-    "Count": 1,
-    "id": "forestry:circuit_board_intricate",
-    "tag": {
-      "T": 3
-    }
+    "components": {
+      "minecraft:custom_data": {}
+    },
+    "count": 1,
+    "id": "forestry:circuit_board_intricate"
   },
   "time": 80
 }

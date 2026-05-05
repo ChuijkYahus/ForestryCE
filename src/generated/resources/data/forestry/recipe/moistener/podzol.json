@@ -1,7 +1,8 @@
 {
   "type": "forestry:moistener",
+  "id": "forestry:moistener/podzol",
   "product": {
-    "Count": 1,
+    "count": 1,
     "id": "minecraft:podzol"
   },
   "resource": {

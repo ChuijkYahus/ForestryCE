@@ -9,7 +9,7 @@
       "tag": "forge:gears/tin"
     },
     "X": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks/colorless"
     }
   },
   "pattern": [
@@ -17,7 +17,7 @@
     "XTX"
   ],
   "result": {
-    "item": "forestry:farm_valve_stone_brick"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:farm_valve_stone_brick"
+  }
 }

@@ -7,10 +7,10 @@
       "item": "forestry:electron_tube_gold"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "S": {
-      "tag": "forge:stone"
+      "tag": "c:stones"
     },
     "X": {
       "item": "forestry:alveary_plain"
@@ -22,7 +22,7 @@
     "SSS"
   ],
   "result": {
-    "item": "forestry:alveary_heater"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:alveary_heater"
+  }
 }

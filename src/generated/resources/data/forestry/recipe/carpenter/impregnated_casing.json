@@ -1,12 +1,12 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/impregnated_casing",
   "liquid": {
-    "Amount": 250,
-    "FluidName": "forestry:seed_oil"
+    "amount": 250,
+    "id": "forestry:seed_oil"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "#": {
@@ -19,9 +19,9 @@
       "###"
     ],
     "result": {
-      "item": "forestry:impregnated_casing"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:impregnated_casing"
+    }
   },
   "time": 50
 }

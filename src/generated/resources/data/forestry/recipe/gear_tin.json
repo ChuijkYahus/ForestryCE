@@ -6,7 +6,7 @@
       "tag": "forge:ingots/tin"
     },
     "X": {
-      "tag": "forge:nuggets/iron"
+      "tag": "c:nuggets/iron"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     " # "
   ],
   "result": {
-    "item": "forestry:gear_tin"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:gear_tin"
+  }
 }

@@ -6,7 +6,7 @@
       "tag": "forge:ingots/bronze"
     },
     "Y": {
-      "tag": "forge:glass_panes"
+      "tag": "c:glass_panes"
     }
   },
   "pattern": [
@@ -14,7 +14,7 @@
     "Y Y"
   ],
   "result": {
-    "item": "forestry:naturalist_helmet"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:naturalist_helmet"
+  }
 }

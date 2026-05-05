@@ -1,16 +1,16 @@
 {
   "type": "forestry:carpenter",
   "box": [],
+  "id": "forestry:carpenter/hardened_casing",
   "liquid": {
-    "Amount": 5000,
-    "FluidName": "minecraft:water"
+    "amount": 5000,
+    "id": "minecraft:water"
   },
   "recipe": {
-    "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
       "X": {
-        "tag": "forge:gems/diamond"
+        "tag": "c:gems/diamond"
       },
       "Y": {
         "item": "forestry:sturdy_machine"
@@ -22,9 +22,9 @@
       "X X"
     ],
     "result": {
-      "item": "forestry:hardened_machine"
-    },
-    "show_notification": true
+      "count": 1,
+      "id": "forestry:hardened_machine"
+    }
   },
   "time": 75
 }

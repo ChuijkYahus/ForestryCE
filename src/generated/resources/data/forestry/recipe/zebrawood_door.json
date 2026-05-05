@@ -19,7 +19,6 @@
   ],
   "result": {
     "count": 3,
-    "item": "forestry:zebrawood_door"
-  },
-  "show_notification": true
+    "id": "forestry:zebrawood_door"
+  }
 }

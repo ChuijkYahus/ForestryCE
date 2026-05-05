@@ -1,7 +1,8 @@
 {
   "type": "forestry:moistener",
+  "id": "forestry:moistener/mycelium",
   "product": {
-    "Count": 1,
+    "count": 1,
     "id": "minecraft:mycelium"
   },
   "resource": {

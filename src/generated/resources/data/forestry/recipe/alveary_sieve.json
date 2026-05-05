@@ -4,7 +4,7 @@
   "group": "alveary",
   "key": {
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "W": {
       "item": "forestry:woven_silk"
@@ -19,7 +19,7 @@
     "WWW"
   ],
   "result": {
-    "item": "forestry:alveary_sieve"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "forestry:alveary_sieve"
+  }
 }

@@ -1,12 +1,13 @@
 {
   "type": "forestry:squeezer",
   "chance": 0.05,
+  "id": "forestry:squeezer/honey_drop",
   "output": {
-    "Amount": 100,
-    "FluidName": "forestry:honey"
+    "amount": 100,
+    "id": "forestry:honey"
   },
   "remnant": {
-    "Count": 1,
+    "count": 1,
     "id": "forestry:propolis_normal"
   },
   "resources": [
