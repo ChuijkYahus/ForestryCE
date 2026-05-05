@@ -12,6 +12,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
 import forestry.arboriculture.client.ArboricultureClientHandler;
 import forestry.arboriculture.commands.CommandTree;
+import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.items.ForestryBoatDispenserBehavior;
 import forestry.core.genetics.ItemGE;
