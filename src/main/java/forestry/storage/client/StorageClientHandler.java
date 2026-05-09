@@ -22,7 +22,11 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StorageClientHandler implements IClientModuleHandler {
-	public static final ModelResourceLocation FILLED_CRATE_MODEL = ModelResourceLocation.standalone(ForestryConstants.forestry("filled_crate"));
+	// Standalone models resolve through ModelBakery.MODEL_LISTER ("models/<path>.json"),
+	// without the legacy "item/" prefix that vanilla item lookups added in pre-1.21
+	// versions. Use the explicit "item/filled_crate" path so the loader finds
+	// assets/forestry/models/item/filled_crate.json.
+	public static final ModelResourceLocation FILLED_CRATE_MODEL = ModelResourceLocation.standalone(ForestryConstants.forestry("item/filled_crate"));
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
