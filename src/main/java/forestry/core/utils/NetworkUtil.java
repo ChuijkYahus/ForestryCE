@@ -80,7 +80,7 @@ public class NetworkUtil {
 	public static void writeItemStacks(RegistryFriendlyByteBuf buffer, List<ItemStack> itemStacks) {
 		buffer.writeVarInt(itemStacks.size());
 		for (ItemStack stack : itemStacks) {
-			ItemStack.STREAM_CODEC.encode(buffer, stack);
+			ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, stack);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class NetworkUtil {
 		int stackCount = buffer.readVarInt();
 		NonNullList<ItemStack> itemStacks = NonNullList.create();
 		for (int i = 0; i < stackCount; i++) {
-			itemStacks.add(ItemStack.STREAM_CODEC.decode(buffer));
+			itemStacks.add(ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer));
 		}
 		return itemStacks;
 	}
@@ -99,7 +99,7 @@ public class NetworkUtil {
 
 		for (int i = 0; i < size; i++) {
 			ItemStack stack = inventory.getItem(i);
-			ItemStack.STREAM_CODEC.encode(buffer, stack);
+			ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, stack);
 		}
 	}
 
@@ -107,7 +107,7 @@ public class NetworkUtil {
 		int size = buffer.readVarInt();
 
 		for (int i = 0; i < size; i++) {
-			ItemStack stack = ItemStack.STREAM_CODEC.decode(buffer);
+			ItemStack stack = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
 			inventory.setItem(i, stack);
 		}
 	}
