@@ -193,6 +193,10 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.REFRACTORY_WAX);
 		// todo merge more items into crafting materials
 		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
+
+		// Escritoire output — research notes ship players hint about mutations. Worth
+		// surfacing in creative so they can be inspected without needing the workflow.
+		items.accept(CoreItems.RESEARCH_NOTE);
 	}
 
 	private static void addApicultureItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
@@ -234,6 +238,7 @@ public class ForestryCreativeTabs {
 		// Food
 		items.accept(ApicultureItems.HONEYED_SLICE);
 		items.accept(ApicultureItems.AMBROSIA);
+		items.accept(ApicultureItems.HONEY_POT);
 
 		// Misc items
 		ApicultureItems.BEE_COMBS.getItems().forEach(items::accept);
@@ -284,6 +289,11 @@ public class ForestryCreativeTabs {
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.TREE);
 		items.accept(ArboricultureItems.AMBER_SAPLING);
 		ArboricultureBlocks.LEAVES_DECORATIVE.getItems().forEach(items::accept);
+		// Default species leaf blocks (and the fruit-bearing variants) are spawned by
+		// genetic trees but were missing from any creative tab — surface them next to
+		// the decorative leaves so they're discoverable in JEI and the creative menu.
+		ArboricultureBlocks.LEAVES_DEFAULT.getItems().forEach(items::accept);
+		ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.getItems().forEach(items::accept);
 	}
 
 	private static void addLepidopterologyItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
