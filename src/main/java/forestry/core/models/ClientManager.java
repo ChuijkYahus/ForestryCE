@@ -32,10 +32,14 @@ public enum ClientManager {
 
 	public static final ItemColor FORESTRY_ITEM_COLOR = (stack, tintIndex) -> {
 		Item item = stack.getItem();
+		int color = 0xffffff;
 		if (item instanceof IColoredItem coloredItem) {
-			return coloredItem.getColorFromItemStack(stack, tintIndex);
+			color = coloredItem.getColorFromItemStack(stack, tintIndex);
 		}
-		return 0xffffff;
+		// 1.21 ItemRenderer reads ARGB; legacy IColoredItem returns 0xRRGGBB (alpha 0),
+		// which renders as fully transparent. Force alpha to 0xff so opaque-tint multiply
+		// passes the texture through unchanged.
+		return color | 0xff000000;
 	};
 	public static final BlockColor FORESTRY_BLOCK_COLOR = (state, level, pos, tintIndex) -> {
 		Block block = state.getBlock();
