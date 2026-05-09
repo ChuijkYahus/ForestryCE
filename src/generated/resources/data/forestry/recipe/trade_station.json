@@ -11,7 +11,9 @@
         "minecraft:attribute_modifiers": {
           "modifiers": []
         },
-        "minecraft:custom_data": {},
+        "minecraft:custom_data": {
+          "T": 2
+        },
         "minecraft:enchantments": {
           "levels": {}
         },

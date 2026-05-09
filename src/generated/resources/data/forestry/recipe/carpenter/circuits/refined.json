@@ -28,7 +28,9 @@
   },
   "result": {
     "components": {
-      "minecraft:custom_data": {}
+      "minecraft:custom_data": {
+        "T": 2
+      }
     },
     "count": 1,
     "id": "forestry:circuit_board_refined"
