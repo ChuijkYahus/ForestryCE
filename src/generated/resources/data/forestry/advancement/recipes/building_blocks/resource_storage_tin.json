@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "forestry:ingot_tin"
+            "items": "#forge:ingots/tin"
           }
         ]
       },

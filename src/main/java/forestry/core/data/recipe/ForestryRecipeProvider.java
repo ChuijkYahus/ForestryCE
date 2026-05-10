@@ -617,7 +617,16 @@ public class ForestryRecipeProvider {
 		});
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE), CoreItems.APATITE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.INGOT_BRONZE);
-		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN), CoreItems.INGOT_TIN);
+		// Tin storage block crafted from any tin ingot (forge:ingots/tin tag) so cross-mod
+		// tin from Mekanism, Railcraft, etc. is accepted. Decomposition still produces
+		// Forestry's specific tin ingot.
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN), recipe -> {
+			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
+			recipe.pattern("###");
+			recipe.pattern("###");
+			recipe.pattern("###");
+		});
+		recipes.shapelessCrafting("ingot_tin_from_resource_storage_tin", RecipeCategory.MISC, CoreItems.INGOT_TIN.item(), 9, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN));
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER), recipe -> {
 			recipe.define('#', CoreItems.AMBER);
 			recipe.pattern("##");
