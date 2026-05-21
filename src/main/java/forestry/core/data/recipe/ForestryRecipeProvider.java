@@ -1074,6 +1074,20 @@ public class ForestryRecipeProvider {
 
 		//rn RGB candle is uncraftable because idk what to make the recipe and it's fun to have secrets
 
+		//Should this be made at the carpenter? I think so.
+		/*recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 9,
+			recipe -> {
+				recipe.define('^', ForestryTags.Items.SAWDUST);
+				recipe.define('_', ItemTags.WOODEN_SLABS);
+				recipe.pattern("___");
+				recipe.pattern("^^^");
+			});*/
+
+		recipes.grid3x3(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_BLOCK, Ingredient.of(CoreBlocks.PLYWOOD_SHEET));
+		recipes.shapelessCrafting("plywood_from_block", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 9, CoreBlocks.PLYWOOD_BLOCK);
+
+
+
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
@@ -1752,6 +1766,16 @@ public class ForestryRecipeProvider {
 				.pattern("XX")
 				.define('X', Blocks.GRASS_BLOCK))
 			.build(consumer, id("carpenter", "turf_blocks"));
+
+		new CarpenterRecipeBuilder()
+			.setBox(Ingredient.EMPTY)
+			.setLiquid(new FluidStack(Fluids.WATER, 100))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 9)
+				.pattern("___")
+				.pattern("^^^")
+				.define('_', ItemTags.WOODEN_SLABS)
+				.define('^', ForestryTags.Items.SAWDUST))
+			.build(consumer, id("carpenter", "plywood"));
 
 		// Crates
 		new CarpenterRecipeBuilder()

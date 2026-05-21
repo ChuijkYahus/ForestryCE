@@ -182,6 +182,8 @@ public class ForestryCreativeTabs {
 		CoreBlocks.JUMBO_CANDLES.getItems().forEach(items::accept);
 		items.accept(CoreBlocks.TURF_BLOCK);
 		items.accept(CoreBlocks.TURF);
+		items.accept(CoreBlocks.PLYWOOD_BLOCK);
+		items.accept(CoreBlocks.PLYWOOD_SHEET);
 
 		// Gears
 		items.accept(CoreItems.GEAR_COPPER);

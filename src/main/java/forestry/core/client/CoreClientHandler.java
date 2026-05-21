@@ -99,6 +99,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 			CoreBlocks.JUMBO_CANDLES.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
 			CoreBlocks.BIG_CANDLES.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.BURN_BARREL.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PLYWOOD_SHEET.block(), RenderType.cutout());
 
 			for (ForestryFluids fluid : ForestryFluids.values()) {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFluid(), RenderType.translucent());

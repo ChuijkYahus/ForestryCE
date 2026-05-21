@@ -1,0 +1,30 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "liquid": {
+    "Amount": 100,
+    "FluidName": "minecraft:water"
+  },
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "key": {
+      "^": {
+        "tag": "forge:sawdust"
+      },
+      "_": {
+        "tag": "minecraft:wooden_slabs"
+      }
+    },
+    "pattern": [
+      "___",
+      "^^^"
+    ],
+    "result": {
+      "count": 9,
+      "item": "forestry:plywood"
+    },
+    "show_notification": true
+  },
+  "time": 5
+}

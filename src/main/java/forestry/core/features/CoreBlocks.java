@@ -1,13 +1,11 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.blocks.BlockBeeHive;
-import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.core.blocks.*;
 import forestry.core.items.ItemBlockForestry;
 import forestry.core.items.ItemBlockTesr;
-import forestry.core.tiles.TileBurnBarrel;
+import forestry.core.items.ItemProperties;
 import forestry.modules.features.*;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -15,9 +13,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
-
-import java.util.Collection;
-import java.util.List;
 
 @FeatureProvider
 public class CoreBlocks {
@@ -40,6 +35,22 @@ public class CoreBlocks {
 	public static final FeatureBlock<Block, BlockItem> TURF_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK)), ItemBlockForestry::new, "turf_block");
 
 	public static final FeatureBlock<Block, BlockItem> TURF = REGISTRY.block(() -> new CarpetBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK)), ItemBlockForestry::new, "turf");
+
+
+	//public static final FeatureBlock<DecorativeLogPileBlock, BlockItem> DECORATIVE_LOG_PILE = REGISTRY.block(DecorativeLogPileBlock::new, (block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(1200)), "decorative_log_pile");
+
+	public static final FeatureBlock<SheetBlock, BlockItem> PLYWOOD_SHEET = REGISTRY.block(SheetBlock::new, (block) ->
+		new ItemBlockForestry<>(block, new ItemProperties().burnTime(50)), "plywood");
+
+
+	public static final FeatureBlock<RotatedPillarBlock, BlockItem> PLYWOOD_BLOCK = REGISTRY.block(
+		() -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)),
+		(block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(300)),
+		"plywood_block");
+
+		//() -> new BlockSheet(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)), ItemBlockForestry::new, "plywood");
+
+	//public static final FeatureBlock<Block, BlockItem> PLYWOOD_BLOCK = REGISTRY.block(() -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)), ItemBlockForestry::new, "plywood_block");
 
 	/* Block Sets */
 	//TODO: Helper method?

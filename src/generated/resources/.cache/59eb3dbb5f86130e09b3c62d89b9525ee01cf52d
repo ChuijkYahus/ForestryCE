@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-05T21:56:48.7257156	Loot Tables
+// 1.20.1	2026-05-21T22:33:43.7110013	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -1117,6 +1117,8 @@ d0d7581d11e634c17e746f3478d3d13954d6572c data/forestry/loot_tables/blocks/plum_s
 33eb5bb503f80430d58833f1e810c1c89138b892 data/forestry/loot_tables/blocks/plum_stripped_wood.json
 ccea6405cda21ac811f14d4160c24511498568e8 data/forestry/loot_tables/blocks/plum_trapdoor.json
 0bb3152b037bfbaf174813d391b1dcb04606a4a6 data/forestry/loot_tables/blocks/plum_wood.json
+c99374cc928437fe2a82d64dbad9d23849e064ed data/forestry/loot_tables/blocks/plywood.json
+cf567151ee407987b3f2105c25eed86fd3076f7f data/forestry/loot_tables/blocks/plywood_block.json
 32a85ae44ca5db21d5e4f347a3ce01f8abe460d8 data/forestry/loot_tables/blocks/pods_cocoa.json
 584334075e0d51c76f31132a5330d0e457e810a6 data/forestry/loot_tables/blocks/pods_coconut.json
 6faea1888eab9704c5069131b8fa65eb2b269505 data/forestry/loot_tables/blocks/pods_dates.json

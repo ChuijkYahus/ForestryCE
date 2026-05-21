@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-05T20:51:55.0483601	Recipes
+// 1.20.1	2026-05-21T23:22:55.8535697	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -588,6 +588,8 @@ c57dd06dee87201c4547170dfe42f5926e21ae03 data/forestry/advancements/recipes/buil
 3f06ce082800cc1113184f8774eb5f078cf85bff data/forestry/advancements/recipes/building_blocks/plum_stairs.json
 4f393b131f3758947b8d812bc0e642ec00485661 data/forestry/advancements/recipes/building_blocks/plum_stripped_wood.json
 a7d1e44d25540b39aafcacfff17d703192632607 data/forestry/advancements/recipes/building_blocks/plum_wood.json
+0e647cc19a176c6a03c1e96403017342fc2d633a data/forestry/advancements/recipes/building_blocks/plywood_block.json
+73d64bfa5a1d62577a19bc18989a77f3dd632c9f data/forestry/advancements/recipes/building_blocks/plywood_from_block.json
 9407a34bb8baf595eafaee646a7cfd8fe0e1c08f data/forestry/advancements/recipes/building_blocks/poplar_fence.json
 5bcaa7e684fb4b59db6f8307cd57d902d2ab6c9a data/forestry/advancements/recipes/building_blocks/poplar_fence_gate.json
 dae9251e4a12764fa780c4a1051be35f19559c76 data/forestry/advancements/recipes/building_blocks/poplar_fireproof_fence.json
@@ -1670,6 +1672,7 @@ bd59554a9677908193ca16870ce6816152d710ce data/forestry/recipes/carpenter/kit_pic
 2154bfb49848f71a457c89b9a17e7028ad641dc0 data/forestry/recipes/carpenter/kit_sword.json
 2b3d8cb6a42bddb120d4af90b098b0318ed7d68b data/forestry/recipes/carpenter/letter_pulp.json
 1a579a1397983fb96f5077600d422d3b8b24707d data/forestry/recipes/carpenter/paper.json
+dfdcc76cc1d08deaf30109a5dcf57ee499387940 data/forestry/recipes/carpenter/plywood.json
 33dbb6fa79bf485784c1a73a3733729da30f9114 data/forestry/recipes/carpenter/portable_analyzer.json
 33cc5188972aa3c9fa5ce6e58734293fb34537fb data/forestry/recipes/carpenter/reclaim_bronze_axe.json
 67b1e39aae324f4a37ae474f99e6f2ce7458d85b data/forestry/recipes/carpenter/reclaim_bronze_hoe.json
@@ -2907,6 +2910,8 @@ e1265b00169ba8383f12af9437a63c6233a0b341 data/forestry/recipes/plum_slab.json
 6268c71c123037db4a53489cca3edadd0fab23ab data/forestry/recipes/plum_stripped_wood.json
 d62b2eb15ebf57d4fb9ead8cce0cf5bcb4a6915e data/forestry/recipes/plum_trapdoor.json
 489489f9dc2f0340a03da905ca4750a3f20a18ee data/forestry/recipes/plum_wood.json
+e2f86b59625cd91127647ab2f1d5d4c576c53ceb data/forestry/recipes/plywood_block.json
+ae44bf2ebd7d36494334de5dec1f6a8f2348abac data/forestry/recipes/plywood_from_block.json
 3338006f387d9b182d93a76392d42e212b02e62a data/forestry/recipes/poplar_boat.json
 15f9e99526dd33faac94216e2a79fe8a9de97690 data/forestry/recipes/poplar_button.json
 a68033b4f91d934ff336046fc2e51318b64d4473 data/forestry/recipes/poplar_chest_boat.json
