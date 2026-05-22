@@ -1,12 +1,12 @@
 package forestry.core.features;
 
+import forestry.api.genetics.IGenome;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -28,27 +28,58 @@ public class CoreDataComponents {
 	/**
 	 * Generic fluid content component used by Forestry fluid-holding items (pipettes, capsules, cans, etc.).
 	 */
-	@SuppressWarnings("unchecked")
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<SimpleFluidContent>> FLUID_CONTENT =
-			(DeferredHolder<DataComponentType<?>, DataComponentType<SimpleFluidContent>>) (DeferredHolder<?, ?>) DATA_COMPONENT_TYPES.register(
-					"fluid_content",
-					() -> DataComponentType.<SimpleFluidContent>builder()
-							.persistent(SimpleFluidContent.CODEC)
-							.networkSynchronized(SimpleFluidContent.STREAM_CODEC)
-							.build());
+		DATA_COMPONENT_TYPES.register(
+				"fluid_content",
+				() -> DataComponentType.<SimpleFluidContent>builder()
+						.persistent(SimpleFluidContent.CODEC)
+						.networkSynchronized(SimpleFluidContent.STREAM_CODEC)
+						.build());
 
-	/**
-	 * Holds the serialized {@link forestry.api.genetics.IIndividual} payload for genetic items
-	 * (bees, trees, butterflies, leaves dropped as items, etc.). Replaces the legacy
-	 * {@code CUSTOM_DATA -> "ForgeCaps" -> "Parent"} storage path used in 1.20.
-	 */
-	@SuppressWarnings("unchecked")
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<CompoundTag>> INDIVIDUAL =
-			(DeferredHolder<DataComponentType<?>, DataComponentType<CompoundTag>>) (DeferredHolder<?, ?>) DATA_COMPONENT_TYPES.register(
-					"individual",
-					() -> DataComponentType.<CompoundTag>builder()
-							.persistent(CompoundTag.CODEC)
-							.networkSynchronized(ByteBufCodecs.TRUSTED_COMPOUND_TAG)
-							.cacheEncoding()
-							.build());
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<IGenome>> GENOME =
+		DATA_COMPONENT_TYPES.register(
+				"genome",
+				() -> DataComponentType.<IGenome>builder()
+						.persistent(IGenome.CODEC)
+						.networkSynchronized(ByteBufCodecs.fromCodec(IGenome.CODEC))
+						.cacheEncoding()
+						.build());
+
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<IGenome>> MATE_GENOME =
+		DATA_COMPONENT_TYPES.register(
+				"mate_genome",
+				() -> DataComponentType.<IGenome>builder()
+						.persistent(IGenome.CODEC)
+						.networkSynchronized(ByteBufCodecs.fromCodec(IGenome.CODEC))
+						.cacheEncoding()
+						.build());
+
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ANALYZED =
+		booleanComponent("analyzed");
+
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> HEALTH =
+		intComponent("health");
+
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAX_HEALTH =
+		intComponent("max_health");
+
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BEE_PRISTINE =
+		booleanComponent("bee_pristine");
+
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BEE_GENERATION =
+		intComponent("bee_generation");
+
+	private static DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> booleanComponent(String id) {
+		return DATA_COMPONENT_TYPES.register(id, () -> DataComponentType.<Boolean>builder()
+			.persistent(com.mojang.serialization.Codec.BOOL)
+			.networkSynchronized(ByteBufCodecs.BOOL)
+			.build());
+	}
+
+	private static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> intComponent(String id) {
+		return DATA_COMPONENT_TYPES.register(id, () -> DataComponentType.<Integer>builder()
+			.persistent(com.mojang.serialization.Codec.INT)
+			.networkSynchronized(ByteBufCodecs.VAR_INT)
+			.build());
+	}
 }

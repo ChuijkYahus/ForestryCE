@@ -18,17 +18,19 @@ import forestry.api.ForestryCapabilities;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.ISpectacleVision;
+import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.arboriculture.capabilities.SpectacleVision;
 import forestry.compat.curios.CuriosCompat;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.genetics.ItemGE;
 import forestry.core.tiles.TileUtil;
 
@@ -89,9 +91,9 @@ public class GeneticsUtil {
 	}
 
 	public static ItemStack convertToGeneticEquivalent(ItemStack foreign) {
-		IIndividualHandlerItem individual = IIndividualHandlerItem.get(foreign);
-		if (individual != null && !individual.isGeneticForm()) {
-			ItemStack equivalent = individual.getIndividual().getSpecies().createStack(individual.getStage());
+		IIndividual tree = SpeciesUtil.TREE_TYPE.get().getVanillaIndividual(foreign.getItem());
+		if (tree != null) {
+			ItemStack equivalent = tree.getSpecies().createStack(TreeLifeStage.SAPLING);
 			equivalent.setCount(foreign.getCount());
 			return equivalent;
 		}

@@ -2,7 +2,6 @@ package forestry.api;
 
 import forestry.api.apiculture.IBeeProtection;
 import forestry.api.core.ISpectacleVision;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.filter.IFilterLogic;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.ItemCapability;
@@ -22,11 +21,6 @@ public class ForestryCapabilities {
 	 * Grants the wearer the ability to see wild bee hives and pollinated leaves more easily.
 	 */
 	public static final ItemCapability<ISpectacleVision, Void> SPECTACLE_VISION = ItemCapability.createVoid(forestry("spectacle_vision"), ISpectacleVision.class);
-
-	/**
-	 * Items with this capability support Forestry's genetic data.
-	 */
-	public static final ItemCapability<IIndividualHandlerItem, Void> INDIVIDUAL_HANDLER_ITEM = ItemCapability.createVoid(forestry("individual"), IIndividualHandlerItem.class);
 
 	/**
 	 * Genetic filters expose their configurable sorting logic through this block capability.

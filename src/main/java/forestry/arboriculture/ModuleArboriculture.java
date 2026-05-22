@@ -1,10 +1,6 @@
 package forestry.arboriculture;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.ForestryCapabilities;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
@@ -15,15 +11,11 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.items.ForestryBoatDispenserBehavior;
-import forestry.core.genetics.ItemGE;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.arboriculture.villagers.ArboricultureVillagers;
-import forestry.core.genetics.capability.IndividualHandlerItem;
 import forestry.core.network.PacketIdClient;
-import forestry.core.utils.SpeciesUtil;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -97,14 +89,6 @@ public class ModuleArboriculture extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> {
-			ITree individual = SpeciesUtil.TREE_TYPE.get().getVanillaIndividual(stack.getItem());
-			return individual != null ? new IndividualHandlerItem(SpeciesUtil.TREE_TYPE.get(), stack, individual, TreeLifeStage.SAPLING) : null;
-		},
-			BuiltInRegistries.ITEM.stream().filter(item -> SpeciesUtil.TREE_TYPE.get().getVanillaIndividual(item) != null).toArray(net.minecraft.world.item.Item[]::new));
-		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> ((ItemGE) stack.getItem()).createIndividualHandler(stack),
-			ArboricultureItems.SAPLING.item(),
-			ArboricultureItems.POLLEN_FERTILE.item());
 		event.registerEntity(Capabilities.ItemHandler.ENTITY, ArboricultureEntities.CHEST_BOAT.entityType(), (boat, context) -> boat.isAlive() ? new InvWrapper(boat) : null);
 	}
 

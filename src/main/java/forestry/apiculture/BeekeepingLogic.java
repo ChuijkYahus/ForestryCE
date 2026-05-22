@@ -164,8 +164,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		errorLogic.setCondition(!hasSpace, ForestryError.NO_SPACE_INVENTORY);
 
 		ItemStack newQueenStack = beeInventory.getQueen();
-		IIndividualHandlerItem handler = IIndividualHandlerItem.get(newQueenStack);
-		ILifeStage beeType = handler == null ? null : handler.getStage();
+		ILifeStage beeType = IIndividualHandlerItem.getLifeStage(newQueenStack);
 		// check if we're breeding
 		if (beeType == BeeLifeStage.PRINCESS) {
 			boolean hasDrone = SpeciesUtil.BEE_TYPE.get().isDrone(beeInventory.getDrone());
@@ -175,7 +174,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 			return !errorLogic.hasErrors();
 		}
 		if (beeType == BeeLifeStage.QUEEN) {
-			IBee queen = (IBee) handler.getIndividual();
+			IBee queen = (IBee) IIndividualHandlerItem.getIndividual(newQueenStack);
 
 			if (!queen.isAlive()) {
 				Collection<ItemStack> spawned = killQueen(queen, this.housing, this.beeListener);
@@ -328,9 +327,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		ItemStack droneStack = beeInventory.getDrone();
 		ItemStack princessStack = beeInventory.getQueen();
 
-		IIndividualHandlerItem droneType = IIndividualHandlerItem.get(droneStack);
-		IIndividualHandlerItem princessType = IIndividualHandlerItem.get(princessStack);
-		if (droneType == null || princessType == null || droneType.getStage() != BeeLifeStage.DRONE || princessType.getStage() != BeeLifeStage.PRINCESS) {
+		if (IIndividualHandlerItem.getLifeStage(droneStack) != BeeLifeStage.DRONE || IIndividualHandlerItem.getLifeStage(princessStack) != BeeLifeStage.PRINCESS) {
 			this.beeProgress = 0;
 			return;
 		}

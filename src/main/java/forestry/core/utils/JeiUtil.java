@@ -1,7 +1,7 @@
 package forestry.core.utils;
 
 import forestry.Forestry;
-import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
@@ -140,8 +140,8 @@ public class JeiUtil {
 		ISubtypeInterpreter<ItemStack> interpreter = new ISubtypeInterpreter<>() {
 			@Override
 			public Object getSubtypeData(ItemStack stack, UidContext context) {
-				IIndividualHandlerItem individual = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
-				return individual != null ? individual.getIndividual().getGenome().getActiveValue(species).getBinomial() : null;
+				IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
+				return individual != null ? individual.getGenome().getActiveValue(species).getBinomial() : null;
 			}
 
 			@Override

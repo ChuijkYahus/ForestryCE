@@ -7,6 +7,7 @@ import forestry.api.genetics.IIndividualLiving;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class AgingBeeEffect extends NonStackingBeeEffect {
@@ -20,10 +21,9 @@ public class AgingBeeEffect extends NonStackingBeeEffect {
 	@Override
 	protected void doEffectForHive(Level level, IBeeHousing housing) {
 		if (!housing.getErrorLogic().hasErrors()) {
-			IIndividualHandlerItem handler = IIndividualHandlerItem.get(housing.getBeeInventory().getQueen());
-
-			if (handler != null && handler.getStage() == BeeLifeStage.QUEEN) {
-				IIndividual individual = handler.getIndividual();
+			ItemStack queenStack = housing.getBeeInventory().getQueen();
+			if (IIndividualHandlerItem.getLifeStage(queenStack) == BeeLifeStage.QUEEN) {
+				IIndividual individual = IIndividualHandlerItem.getIndividual(queenStack);
 
 				if (individual instanceof IIndividualLiving queen) {
 					RandomSource rand = level.getRandom();
@@ -38,7 +38,7 @@ public class AgingBeeEffect extends NonStackingBeeEffect {
 					} else {
 						queen.setHealth((int) Math.min(queen.getMaxHealth(), Math.min(Integer.MAX_VALUE, queen.getHealth() + (long) life)));
 					}
-					queen.saveToStack(housing.getBeeInventory().getQueen());
+					queen.saveToStack(queenStack);
 				}
 			}
 		}

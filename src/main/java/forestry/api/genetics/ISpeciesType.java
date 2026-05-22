@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.plugin.IApicultureRegistration;
@@ -162,8 +161,8 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 
 	@SuppressWarnings({"DataFlowIssue", "ConstantValue"})
 	default boolean isMember(ItemStack stack) {
-		IIndividualHandlerItem individual = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
-		return individual != null && isMember(individual.getIndividual());
+		IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
+		return individual != null && isMember(individual);
 	}
 
 	/**

@@ -3,6 +3,8 @@ package forestry.api.genetics.alleles;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import forestry.api.IForestryApi;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpecies;
 import forestry.api.plugin.IGenomeBuilder;
@@ -16,6 +18,16 @@ import java.util.Collection;
  * The karyotype also creates a {@link Codec} for genomes of members of this species.
  */
 public interface IKaryotype {
+	Codec<IKaryotype> CODEC = ResourceLocation.CODEC.comapFlatMap(id -> {
+		var type = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(id);
+		return type != null ? DataResult.success(type.getKaryotype()) : DataResult.error(() -> "Unknown karyotype: " + id);
+	}, IKaryotype::id);
+
+	/**
+	 * @return The stable ID used to serialize this karyotype.
+	 */
+	ResourceLocation id();
+
 	/**
 	 * @return All chromosomes types of this IKaryotype, in the order they were defined.
 	 */

@@ -1,10 +1,11 @@
 package forestry.sorting.tiles;
 
-import forestry.api.ForestryCapabilities;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.filter.FilterData;
 import forestry.core.inventory.AdjacentInventoryCache;
 import forestry.core.inventory.InventoryAdapterTile;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.network.IStreamableGui;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;
@@ -130,13 +131,13 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	}
 
 	public List<Direction> getValidDirections(ItemStack stack, Direction from) {
-		IIndividualHandlerItem handler = IIndividualHandlerItem.get(stack);
-
-		if (handler == null) {
+		IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
+		ILifeStage stage = IIndividualHandlerItem.getLifeStage(stack);
+		if (individual == null || stage == null) {
 			return List.of();
 		}
 
-		FilterData filterData = new FilterData(handler.getIndividual(), handler.getStage());
+		FilterData filterData = new FilterData(individual, stage);
 		List<Direction> validFacings = new ArrayList<>();
 
 		for (Direction facing : Direction.VALUES) {

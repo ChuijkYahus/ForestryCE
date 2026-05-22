@@ -2,9 +2,10 @@ package forestry.lepidopterology.recipe;
 
 import forestry.Forestry;
 import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.genetics.ILifeStage;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.lepidopterology.features.LepidopterologyRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
@@ -29,18 +30,17 @@ public class ButterflyMatingRecipe extends CustomRecipe {
 			ItemStack stack = grid.getItem(i);
 
 			if (!stack.isEmpty()) {
-				IIndividualHandlerItem handler = IIndividualHandlerItem.get(stack);
-
-				if (handler == null) {
+				ButterflyLifeStage stage = (ButterflyLifeStage) IIndividualHandlerItem.getLifeStage(stack);
+				if (stage == null) {
 					return false;
 				} else {
-					if (handler.getStage() == ButterflyLifeStage.BUTTERFLY) {
+					if (stage == ButterflyLifeStage.BUTTERFLY) {
 						if (hasButterfly) {
 							return false;
 						} else {
 							hasButterfly = true;
 						}
-					} else if (handler.getStage() == ButterflyLifeStage.SERUM) {
+					} else if (stage == ButterflyLifeStage.SERUM) {
 						if (hasSerum) {
 							return false;
 						} else {
@@ -63,13 +63,16 @@ public class ButterflyMatingRecipe extends CustomRecipe {
 		int containerSize = grid.size();
 
 		for (int i = 0; i < containerSize; i++) {
-			IIndividualHandlerItem handler = IIndividualHandlerItem.get(grid.getItem(i));
+			ItemStack stack = grid.getItem(i);
+			IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
 
-			if (handler != null) {
-				if (handler.getStage() == ButterflyLifeStage.BUTTERFLY) {
-					butterfly = (IButterfly) handler.getIndividual();
-				} else if (handler.getStage() == ButterflyLifeStage.SERUM) {
-					serum = handler.getIndividual();
+			if (individual != null) {
+				ILifeStage stage = IIndividualHandlerItem.getLifeStage(stack);
+
+				if (stage == ButterflyLifeStage.BUTTERFLY) {
+					butterfly = (IButterfly) individual;
+				} else if (stage == ButterflyLifeStage.SERUM) {
+					serum = individual;
 				}
 			}
 		}

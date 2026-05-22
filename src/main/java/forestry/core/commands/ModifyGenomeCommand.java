@@ -13,6 +13,7 @@ import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.plugin.IGenomeBuilder;
 import net.minecraft.commands.CommandSourceStack;
@@ -56,11 +57,10 @@ public class ModifyGenomeCommand {
 				CommandSourceStack source = ctx.getSource();
 				ServerPlayer player = source.getPlayerOrException();
 				ItemStack stack = player.getMainHandItem();
-				IIndividualHandlerItem handler = IIndividualHandlerItem.get(stack);
+				IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
+				ILifeStage stage = IIndividualHandlerItem.getLifeStage(stack);
 
-				if (handler != null) {
-					IIndividual individual = handler.getIndividual();
-
+				if (individual != null && stage != null) {
 					if (individual.getType() != type) {
 						throw LifeStageArgument.INVALID_VALUE.create(individual.getClass().getSimpleName());
 					}
@@ -81,7 +81,7 @@ public class ModifyGenomeCommand {
 					IGenome newGenome = builder.build();
 					IIndividual newIndividual = individual.copyWithGenome(newGenome);
 					newIndividual.analyze();
-					ItemStack newStack = newIndividual.createStack(handler.getStage());
+					ItemStack newStack = newIndividual.createStack(stage);
 					newStack.setCount(stack.getCount());
 					player.setItemInHand(InteractionHand.MAIN_HAND, newStack);
 					source.sendSuccess(() -> Component.literal("Modified genome of ").append(newStack.getDisplayName()), true);

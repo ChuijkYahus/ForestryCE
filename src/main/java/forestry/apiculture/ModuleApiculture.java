@@ -16,7 +16,6 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.apiculture.items.ItemArmorApiarist;
-import forestry.core.genetics.ItemGE;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
@@ -79,11 +78,6 @@ public class ModuleApiculture extends BlankForestryModule {
 			ApicultureItems.APIARIST_CHEST.item(),
 			ApicultureItems.APIARIST_LEGS.item(),
 			ApicultureItems.APIARIST_BOOTS.item());
-		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> ((ItemGE) stack.getItem()).createIndividualHandler(stack),
-			ApicultureItems.BEE_QUEEN.item(),
-			ApicultureItems.BEE_DRONE.item(),
-			ApicultureItems.BEE_PRINCESS.item(),
-			ApicultureItems.BEE_LARVAE.item());
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_PLAIN.tileType(), (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SIEVE.tileType(), (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SWARMER.tileType(), (tile, side) -> tile.getItemHandler(side));

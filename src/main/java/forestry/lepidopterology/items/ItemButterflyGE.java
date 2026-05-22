@@ -1,11 +1,11 @@
 package forestry.lepidopterology.items;
 
 import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.genetics.ItemGE;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.BlockUtil;
@@ -40,7 +40,7 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 	}
 
 	@Override
-	protected ISpeciesType<?, ?> getType() {
+	public ISpeciesType<?, ?> getType() {
 		return SpeciesUtil.BUTTERFLY_TYPE.get();
 	}
 
@@ -139,7 +139,7 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-		if (tintIndex == 1 && NBTUtilForestry.getItemStackTag(stack) != null) {
+		if (tintIndex == 1 && hasIndividual(stack)) {
 			IButterflySpecies species = getSpecies(stack);
 			return species.getSerumColor();
 		}

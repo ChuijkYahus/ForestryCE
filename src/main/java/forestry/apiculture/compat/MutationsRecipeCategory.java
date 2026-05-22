@@ -80,8 +80,8 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 
 		// special handling for the result individual who might have a special genome
 		ItemStack result = recipe.result;
-		IIndividualHandlerItem resultHandler = IIndividualHandlerItem.get(result);
-		IGenome resultGenome = resultHandler == null ? mutation.getResult().getDefaultGenome() : resultHandler.getIndividual().getGenome();
+		IIndividual resultIndividual = IIndividualHandlerItem.getIndividual(result);
+		IGenome resultGenome = resultIndividual == null ? mutation.getResult().getDefaultGenome() : resultIndividual.getGenome();
 
 		// makes all (default) members of the species show the recipe instead of just the drone or princess
 		for (ILifeStage stage : mutation.getType().getLifeStages()) {
