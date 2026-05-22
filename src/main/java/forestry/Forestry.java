@@ -32,18 +32,5 @@ public class Forestry {
 		ForestryConfig.register(modContainer);
 
 		NeoForgeMod.enableMilkFluid();
-
-		// The recipe-test integration shim is only compiled when the kit jar is in run/mods/
-		// (see build.gradle). Reflective dispatch keeps Forestry.java compilable on machines
-		// without the kit — the class is also gated by ModList so it only loads at runtime
-		// when the kit mod is actually present.
-		if (ModList.get().isLoaded("recipe_test")) {
-			try {
-				Class.forName("forestry.compat.recipetest.ForestryRecipeTestIntegration")
-						.getMethod("register").invoke(null);
-			} catch (ReflectiveOperationException e) {
-				LOGGER.warn("recipe_test mod loaded but Forestry adapter shim missing on classpath", e);
-			}
-		}
 	}
 }
