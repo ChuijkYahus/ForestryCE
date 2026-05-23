@@ -11,12 +11,14 @@ import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.items.definitions.EnumElectronTube;
 import forestry.core.items.definitions.ToolTier;
 import forestry.modules.features.*;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.component.ItemContainerContents;
 
 @FeatureProvider
 public class CoreItems {
@@ -38,7 +40,10 @@ public class CoreItems {
 	public static final FeatureItem<ItemResearchNote> RESEARCH_NOTE = REGISTRY.item(ItemResearchNote::new, "research_note");
 
 	/* Alyzer */
-	public static final FeatureItem<ItemAlyzer> PORTABLE_ALYZER = REGISTRY.item(ItemAlyzer::new, "portable_alyzer");
+	public static final FeatureItem<ItemAlyzer> PORTABLE_ALYZER = REGISTRY.item(ItemAlyzer::new, () -> new Item.Properties()
+		.stacksTo(1)
+		.component(DataComponents.CONTAINER, ItemContainerContents.EMPTY)
+		.component(CoreDataComponents.ALYZER_CHARGES.get(), 0), "portable_alyzer");
 
 	/* Ingots */
 	public static final FeatureItem<ItemForestry> INGOT_TIN = REGISTRY.item(ItemForestry::new, "ingot_tin");
@@ -77,7 +82,9 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> GEAR_TIN = REGISTRY.item(ItemForestry::new, "gear_tin");
 
 	/* Soldering */
-	public static final FeatureItem<ItemSolderingIron> SOLDERING_IRON = REGISTRY.item(ItemSolderingIron::new, "soldering_iron");
+	public static final FeatureItem<ItemSolderingIron> SOLDERING_IRON = REGISTRY.item(ItemSolderingIron::new, () -> new Item.Properties()
+		.durability(5)
+		.component(DataComponents.CONTAINER, ItemContainerContents.EMPTY), "soldering_iron");
 	public static final FeatureItemGroup<ItemCircuitBoard, EnumCircuitBoardType> CIRCUITBOARDS = REGISTRY.itemGroup(ItemCircuitBoard::new, "circuit_board", EnumCircuitBoardType.values());
 	public static final FeatureItemGroup<ItemElectronTube, EnumElectronTube> ELECTRON_TUBES = REGISTRY.itemGroup(ItemElectronTube::new, "electron_tube", EnumElectronTube.values());
 

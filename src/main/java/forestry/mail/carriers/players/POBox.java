@@ -7,7 +7,6 @@ import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.NBTUtilForestry;
 import forestry.mail.IWatchable;
 import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
@@ -51,7 +50,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 			this.address = new MailAddress(tag.getCompound("address"));
 		}
 
-        this.letters.read(tag, registries);
+		this.letters.read(tag, registries);
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 			this.address.write(nbt, registries);
 			compoundNBT.put("address", nbt);
 		}
-        this.letters.write(compoundNBT, registries);
+		this.letters.write(compoundNBT, registries);
 		return compoundNBT;
 	}
 
@@ -74,7 +73,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 		letter.invalidatePostage();
 		CompoundTag compoundNBT = new CompoundTag();
 		letter.write(compoundNBT, registries);
-		NBTUtilForestry.setItemStackTag(letterstack, compoundNBT);
+		LetterUtils.setLetterData(letterstack, compoundNBT);
 
 		this.setDirty();
 
@@ -88,7 +87,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 			if (this.letters.getItem(i).isEmpty()) {
 				continue;
 			}
-			CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(this.letters.getItem(i));
+			CompoundTag tagCompound = LetterUtils.getLetterData(this.letters.getItem(i));
 			if (tagCompound != null) {
 				ILetter letter = new Letter(tagCompound, registries);
 				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.value())) {
@@ -111,8 +110,8 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 	@Override
 	public void setDirty() {
-        this.updateWatchers.forEach(Watcher::onWatchableUpdate);
-        this.letters.setChanged();
+		this.updateWatchers.forEach(Watcher::onWatchableUpdate);
+		this.letters.setChanged();
 	}
 
 	@Override
@@ -128,7 +127,7 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 	@Override
 	public void setItem(int var1, ItemStack var2) {
 		this.setDirty();
-        this.letters.setItem(var1, var2);
+		this.letters.setItem(var1, var2);
 	}
 
 	@Override

@@ -48,8 +48,8 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	private final IBackpackDefinition definition;
 	private final EnumBackpackType type;
 
-	public ItemBackpack(IBackpackDefinition definition, EnumBackpackType type) {
-		super(new Item.Properties().stacksTo(1));
+	public ItemBackpack(IBackpackDefinition definition, EnumBackpackType type, Item.Properties properties) {
+		super(properties);
 
 		this.definition = definition;
 		this.type = type;

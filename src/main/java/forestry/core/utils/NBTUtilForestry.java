@@ -15,9 +15,6 @@ import net.neoforged.neoforge.network.connection.ConnectionType;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-/**
- * @author CovertJaguar <http://www.railcraft.info/>
- */
 public abstract class NBTUtilForestry {
 	private static final String GAME_PROFILE_ID = "Id";
 	private static final String GAME_PROFILE_NAME = "Name";

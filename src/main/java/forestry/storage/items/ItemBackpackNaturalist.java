@@ -8,14 +8,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemBackpackNaturalist extends ItemBackpack {
 	public final ResourceLocation typeId;
 
-	public ItemBackpackNaturalist(ResourceLocation typeId, IBackpackDefinition definition, CreativeModeTab tab) {
-		super(definition, EnumBackpackType.NATURALIST);
+	public ItemBackpackNaturalist(ResourceLocation typeId, IBackpackDefinition definition, Item.Properties properties) {
+		super(definition, EnumBackpackType.NATURALIST, properties);
 		this.typeId = typeId;
 	}
 

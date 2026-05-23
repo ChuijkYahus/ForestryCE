@@ -9,12 +9,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemSolderingIron extends ItemWithGui implements ISolderingIron {
-	public ItemSolderingIron() {
-		super(new Item.Properties().durability(5));
+	public ItemSolderingIron(Item.Properties properties) {
+		super(properties);
 	}
 
 	@Override
-	public AbstractContainerMenu getContainer(int windowId, Player player, ItemStack heldItem) {
-		return new ContainerSolderingIron(windowId, player, new ItemInventorySolderingIron(player, heldItem));
+	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
+		return new ContainerSolderingIron(containerId, player, new ItemInventorySolderingIron(player, heldItem));
 	}
 }

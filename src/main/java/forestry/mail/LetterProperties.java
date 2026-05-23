@@ -1,7 +1,7 @@
 package forestry.mail;
 
 import forestry.api.mail.ILetter;
-import forestry.core.utils.NBTUtilForestry;
+import forestry.core.features.CoreDataComponents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import forestry.mail.features.MailItems;
@@ -41,12 +41,10 @@ public class LetterProperties {
 			case EMPTIED:
 		}
 		ItemStack ret = MailItems.LETTERS.stack(size, state, parent.getCount());
-		CompoundTag tag = NBTUtilForestry.getItemStackTag(parent);
-		if (tag == null) {
-			tag = new CompoundTag();
-		}
+		ret.copyFrom(parent, CoreDataComponents.ITEM_INVENTORY_UID.get());
+		CompoundTag tag = new CompoundTag();
 		letter.write(tag, registries);
-		NBTUtilForestry.setItemStackTag(ret, tag);
+		LetterUtils.setLetterData(ret, tag);
 		return ret;
 	}
 
@@ -60,9 +58,10 @@ public class LetterProperties {
 		if (state == ItemLetter.State.FRESH || state == ItemLetter.State.STAMPED) {
 			ItemLetter.Size size = itemLetter.getSize();
 			ItemStack ret = MailItems.LETTERS.stack(size, state, parent.getCount());
-			CompoundTag tag = NBTUtilForestry.getItemStackTag(parent);
+			ret.copyFrom(parent, CoreDataComponents.ITEM_INVENTORY_UID.get());
+			CompoundTag tag = LetterUtils.getLetterData(parent);
 			if (tag != null) {
-				NBTUtilForestry.setItemStackTag(ret, tag);
+				LetterUtils.setLetterData(ret, tag);
 			}
 			return ret;
 		} else {

@@ -8,6 +8,7 @@ import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.world.item.component.CustomData;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -30,29 +31,29 @@ public class CoreDataComponents {
 	 */
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<SimpleFluidContent>> FLUID_CONTENT =
 		DATA_COMPONENT_TYPES.register(
-				"fluid_content",
-				() -> DataComponentType.<SimpleFluidContent>builder()
-						.persistent(SimpleFluidContent.CODEC)
-						.networkSynchronized(SimpleFluidContent.STREAM_CODEC)
-						.build());
+			"fluid_content",
+			() -> DataComponentType.<SimpleFluidContent>builder()
+				.persistent(SimpleFluidContent.CODEC)
+				.networkSynchronized(SimpleFluidContent.STREAM_CODEC)
+				.build());
 
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<IGenome>> GENOME =
 		DATA_COMPONENT_TYPES.register(
-				"genome",
-				() -> DataComponentType.<IGenome>builder()
-						.persistent(IGenome.CODEC)
-						.networkSynchronized(ByteBufCodecs.fromCodec(IGenome.CODEC))
-						.cacheEncoding()
-						.build());
+			"genome",
+			() -> DataComponentType.<IGenome>builder()
+				.persistent(IGenome.CODEC)
+				.networkSynchronized(ByteBufCodecs.fromCodec(IGenome.CODEC))
+				.cacheEncoding()
+				.build());
 
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<IGenome>> MATE_GENOME =
 		DATA_COMPONENT_TYPES.register(
-				"mate_genome",
-				() -> DataComponentType.<IGenome>builder()
-						.persistent(IGenome.CODEC)
-						.networkSynchronized(ByteBufCodecs.fromCodec(IGenome.CODEC))
-						.cacheEncoding()
-						.build());
+			"mate_genome",
+			() -> DataComponentType.<IGenome>builder()
+				.persistent(IGenome.CODEC)
+				.networkSynchronized(ByteBufCodecs.fromCodec(IGenome.CODEC))
+				.cacheEncoding()
+				.build());
 
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ANALYZED =
 		booleanComponent("analyzed");
@@ -69,6 +70,16 @@ public class CoreDataComponents {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BEE_GENERATION =
 		intComponent("bee_generation");
 
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ALYZER_CHARGES =
+		intComponent("alyzer_charges");
+
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ITEM_INVENTORY_UID =
+		intComponent("item_inventory_uid");
+
+	// todo make a Codec<Letter> and use that instead
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<CustomData>> LETTER_DATA =
+		customDataComponent("letter_data");
+
 	private static DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> booleanComponent(String id) {
 		return DATA_COMPONENT_TYPES.register(id, () -> DataComponentType.<Boolean>builder()
 			.persistent(com.mojang.serialization.Codec.BOOL)
@@ -80,6 +91,13 @@ public class CoreDataComponents {
 		return DATA_COMPONENT_TYPES.register(id, () -> DataComponentType.<Integer>builder()
 			.persistent(com.mojang.serialization.Codec.INT)
 			.networkSynchronized(ByteBufCodecs.VAR_INT)
+			.build());
+	}
+
+	private static DeferredHolder<DataComponentType<?>, DataComponentType<CustomData>> customDataComponent(String id) {
+		return DATA_COMPONENT_TYPES.register(id, () -> DataComponentType.<CustomData>builder()
+			.persistent(CustomData.CODEC)
+			.networkSynchronized(CustomData.STREAM_CODEC)
 			.build());
 	}
 }

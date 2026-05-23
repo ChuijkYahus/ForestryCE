@@ -2,9 +2,10 @@ package forestry.mail.items;
 
 import forestry.api.core.IItemSubtype;
 import forestry.api.mail.ILetter;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.items.ItemWithGui;
-import forestry.core.utils.NBTUtilForestry;
 import forestry.mail.Letter;
+import forestry.mail.LetterUtils;
 import forestry.mail.gui.ContainerLetter;
 import forestry.mail.inventory.ItemInventoryLetter;
 import net.minecraft.ChatFormatting;
@@ -17,6 +18,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -47,7 +49,7 @@ public class ItemLetter extends ItemWithGui {
 	private final State state;
 
 	public ItemLetter(Size size, State state) {
-		super(new Item.Properties().stacksTo(64));
+		super(new Item.Properties().stacksTo(64).component(CoreDataComponents.LETTER_DATA.get(), CustomData.EMPTY));
 		this.size = size;
 		this.state = state;
 	}
@@ -81,7 +83,7 @@ public class ItemLetter extends ItemWithGui {
 	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, context, list, flag);
 
-		CompoundTag compoundNBT = NBTUtilForestry.getItemStackTag(itemstack);
+		CompoundTag compoundNBT = LetterUtils.getLetterData(itemstack);
 		if (compoundNBT == null) {
 			list.add(Component.literal("<")
 				.append(Component.translatable("for.gui.blank").append(">"))

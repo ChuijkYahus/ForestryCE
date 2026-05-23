@@ -1,6 +1,5 @@
 package forestry.mail.inventory;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
@@ -8,10 +7,10 @@ import forestry.api.core.IErrorSource;
 import forestry.api.mail.ILetter;
 import forestry.core.inventory.ItemInventory;
 import forestry.core.items.ItemWithGui;
-import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.SlotUtil;
 import forestry.mail.Letter;
 import forestry.mail.LetterProperties;
+import forestry.mail.LetterUtils;
 import forestry.mail.items.ItemStamp;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -24,13 +23,20 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 
 	public ItemInventoryLetter(Player player, ItemStack itemstack) {
 		super(player, 0, itemstack);
-		CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(itemstack);
-		Preconditions.checkNotNull(tagCompound);
+		CompoundTag tagCompound = LetterUtils.getLetterData(itemstack);
+		if (tagCompound == null) {
+			tagCompound = new CompoundTag();
+		}
         this.letter = new Letter(tagCompound, player.level().registryAccess());
 	}
 
 	private HolderLookup.Provider getRegistries() {
 		return this.player.level().registryAccess();
+	}
+
+	@Override
+	protected boolean usesComponentInventoryStorage() {
+		return false;
 	}
 
 	public ILetter getLetter() {
@@ -50,26 +56,18 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 	@Override
 	public ItemStack removeItem(int index, int count) {
 		ItemStack result = this.letter.removeItem(index, count);
-		CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(getParent());
-		if (tagCompound == null) {
-			tagCompound = new CompoundTag();
-		}
-		Preconditions.checkNotNull(tagCompound);
+		CompoundTag tagCompound = new CompoundTag();
         this.letter.write(tagCompound, getRegistries());
-		NBTUtilForestry.setItemStackTag(getParent(), tagCompound);
+		LetterUtils.setLetterData(getParent(), tagCompound);
 		return result;
 	}
 
 	@Override
 	public void setItem(int index, ItemStack itemstack) {
         this.letter.setItem(index, itemstack);
-		CompoundTag tagCompound = NBTUtilForestry.getItemStackTag(getParent());
-		if (tagCompound == null) {
-			tagCompound = new CompoundTag();
-		}
-		Preconditions.checkNotNull(tagCompound);
+		CompoundTag tagCompound = new CompoundTag();
         this.letter.write(tagCompound, getRegistries());
-		NBTUtilForestry.setItemStackTag(getParent(), tagCompound);
+		LetterUtils.setLetterData(getParent(), tagCompound);
 	}
 
 	@Override

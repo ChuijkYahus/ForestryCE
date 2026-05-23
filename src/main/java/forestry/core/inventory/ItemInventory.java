@@ -1,17 +1,20 @@
 package forestry.core.inventory;
 
 import com.google.common.base.Preconditions;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.tiles.IFilterSlotDelegate;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NBTUtilForestry;
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
@@ -27,7 +30,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 
 	protected final Player player;
 	private ItemStack parent;    //TODO not final any more. Is this a problem
-	private final NonNullList<ItemStack> inventoryStacks;
+	protected final NonNullList<ItemStack> inventoryStacks;
 
 	public ItemInventory(Player player, int size, ItemStack parent) {
 		Preconditions.checkArgument(!parent.isEmpty(), "Parent cannot be empty.");
@@ -36,13 +39,37 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 		this.parent = parent;
 		this.inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 
+		ensureInventoryId(parent);
+		loadInventoryStacks(parent);
+	}
+
+	protected void ensureInventoryId(ItemStack parent) {
+		DataComponentType<Integer> uidComponent = getInventoryUidComponent();
+		if (uidComponent != null) {
+			if (!parent.has(uidComponent)) {
+				parent.set(uidComponent, newInventoryId());
+			}
+			return;
+		}
+
 		CompoundTag nbt = NBTUtilForestry.getItemStackTag(parent);
 		if (nbt == null) {
 			nbt = new CompoundTag();
 		}
 		setUID(nbt); // Set a uid to identify the itemStack on SMP
 		NBTUtilForestry.setItemStackTag(parent, nbt);
+	}
 
+	protected void loadInventoryStacks(ItemStack parent) {
+		if (usesComponentInventoryStorage()) {
+			parent.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(this.inventoryStacks);
+			return;
+		}
+
+		CompoundTag nbt = NBTUtilForestry.getItemStackTag(parent);
+		if (nbt == null) {
+			return;
+		}
 		CompoundTag nbtSlots = nbt.getCompound(KEY_SLOTS);
 		for (int i = 0; i < this.inventoryStacks.size(); i++) {
 			String slotKey = getSlotNBTKey(i);
@@ -57,6 +84,15 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	}
 
 	public static int getOccupiedSlotCount(ItemStack itemStack) {
+		ItemContainerContents container = itemStack.get(DataComponents.CONTAINER);
+		if (container != null) {
+			int occupied = 0;
+			for (ItemStack ignored : container.nonEmptyItemsCopy()) {
+				occupied++;
+			}
+			return occupied;
+		}
+
 		CompoundTag nbt = NBTUtilForestry.getItemStackTag(itemStack);
 		if (nbt == null) {
 			return 0;
@@ -66,9 +102,13 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 		return slotNbt.size();
 	}
 
+	protected static int newInventoryId() {
+		return rand.nextInt();
+	}
+
 	private void setUID(CompoundTag nbt) {
 		if (!nbt.contains(KEY_UID)) {
-			nbt.putInt(KEY_UID, rand.nextInt());
+			nbt.putInt(KEY_UID, newInventoryId());
 		}
 	}
 
@@ -102,13 +142,20 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 		return null;
 	}
 
-	private static boolean isSameItemInventory(ItemStack base, ItemStack comparison) {
+	protected boolean isSameItemInventory(ItemStack base, ItemStack comparison) {
 		if (base.isEmpty() || comparison.isEmpty()) {
 			return false;
 		}
 
 		if (base.getItem() != comparison.getItem()) {
 			return false;
+		}
+
+		DataComponentType<Integer> uidComponent = getInventoryUidComponent();
+		if (uidComponent != null) {
+			Integer baseUid = base.get(uidComponent);
+			Integer comparisonUid = comparison.get(uidComponent);
+			return baseUid != null && baseUid.equals(comparisonUid);
 		}
 
 		CompoundTag baseTagCompound = NBTUtilForestry.getItemStackTag(base);
@@ -128,6 +175,14 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 
 	private void writeToParentNBT() {
 		ItemStack parent = getParent();
+		writeInventoryToParent(parent);
+	}
+
+	protected void writeInventoryToParent(ItemStack parent) {
+		if (usesComponentInventoryStorage()) {
+			parent.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(this.inventoryStacks));
+			return;
+		}
 
 		CompoundTag nbt = NBTUtilForestry.getItemStackTag(parent);
 		if (nbt == null) {
@@ -154,6 +209,14 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	}
 
 	protected void onWriteNBT(CompoundTag nbt) {
+	}
+
+	protected DataComponentType<Integer> getInventoryUidComponent() {
+		return CoreDataComponents.ITEM_INVENTORY_UID.get();
+	}
+
+	protected boolean usesComponentInventoryStorage() {
+		return true;
 	}
 
 	public void onSlotClick(int slotIndex, Player player) {
@@ -187,6 +250,14 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 		this.inventoryStacks.set(index, itemstack);
 
 		ItemStack parent = getParent();
+		writeSlotToParent(parent, index, itemstack);
+	}
+
+	protected void writeSlotToParent(ItemStack parent, int index, ItemStack itemstack) {
+		if (usesComponentInventoryStorage()) {
+			writeInventoryToParent(parent);
+			return;
+		}
 
 		CompoundTag nbt = NBTUtilForestry.getItemStackTag(parent);
 		if (nbt == null) {

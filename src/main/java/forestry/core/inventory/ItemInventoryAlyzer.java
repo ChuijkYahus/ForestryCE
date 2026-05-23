@@ -7,8 +7,8 @@ import forestry.api.core.IErrorSource;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.utils.GeneticsUtil;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -25,6 +25,13 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 
 	public ItemInventoryAlyzer(Player player, ItemStack itemstack) {
 		super(player, 7, itemstack);
+		updateChargesComponent();
+	}
+
+	@Override
+	protected void writeInventoryToParent(ItemStack parent) {
+		super.writeInventoryToParent(parent);
+		updateChargesComponent(parent);
 	}
 
 	public static boolean isAlyzingFuel(ItemStack stack) {
@@ -64,6 +71,18 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 		} else if (index == SLOT_ENERGY) {
 			analyzeSpecimen(getItem(SLOT_SPECIMEN));
 		}
+		if (index == SLOT_ENERGY) {
+			updateChargesComponent();
+		}
+	}
+
+	@Override
+	public ItemStack removeItem(int index, int count) {
+		ItemStack removed = super.removeItem(index, count);
+		if (index == SLOT_ENERGY) {
+			updateChargesComponent();
+		}
+		return removed;
 	}
 
 	private void analyzeSpecimen(ItemStack specimen) {
@@ -96,6 +115,7 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 
 					// Decrease energy
 					removeItem(SLOT_ENERGY, 1);
+					updateChargesComponent();
 				}
 			}
 		}
@@ -133,13 +153,20 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 		return !getSpecimen().isEmpty();
 	}
 
-	@Override
-	protected void onWriteNBT(CompoundTag nbt) {
+	private void updateChargesComponent() {
+		updateChargesComponent(getParent());
+	}
+
+	private void updateChargesComponent(ItemStack parent) {
 		ItemStack energy = getItem(ItemInventoryAlyzer.SLOT_ENERGY);
 		int amount = 0;
 		if (!energy.isEmpty()) {
 			amount = energy.getCount();
 		}
-		nbt.putInt("Charges", amount);
+		if (amount > 0) {
+			parent.set(CoreDataComponents.ALYZER_CHARGES, amount);
+		} else {
+			parent.remove(CoreDataComponents.ALYZER_CHARGES);
+		}
 	}
 }
