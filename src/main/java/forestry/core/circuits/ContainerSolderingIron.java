@@ -6,7 +6,7 @@ import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.IGuiSelectable;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotOutput;
-import forestry.core.inventory.ItemInventorySolderingIron;
+import forestry.core.inventory.SolderingIronInventory;
 import forestry.core.network.packets.PacketGuiLayoutSelect;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.utils.NetworkUtil;
@@ -16,15 +16,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 
-public class ContainerSolderingIron extends ContainerItemInventory<ItemInventorySolderingIron> implements IGuiSelectable {
+public class ContainerSolderingIron extends ContainerItemInventory<SolderingIronInventory> implements IGuiSelectable {
 	public static ContainerSolderingIron fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		InteractionHand hand = extraData.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 		Player player = playerInv.player;
-		ItemInventorySolderingIron inv = new ItemInventorySolderingIron(player, player.getItemInHand(hand));
+		SolderingIronInventory inv = new SolderingIronInventory(player, player.getItemInHand(hand));
 		return new ContainerSolderingIron(windowId, player, inv);
 	}
 
-	public ContainerSolderingIron(int windowId, Player player, ItemInventorySolderingIron inventory) {
+	public ContainerSolderingIron(int windowId, Player player, SolderingIronInventory inventory) {
 		super(windowId, inventory, player.getInventory(), 8, 123, CoreMenuTypes.SOLDERING_IRON.menuType());
 
 		// Input

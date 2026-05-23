@@ -1,14 +1,14 @@
 package forestry.mail.network.packets;
 
 import forestry.core.network.PacketIdServer;
-import forestry.mail.gui.ContainerLetter;
+import forestry.mail.gui.LetterMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
 public record PacketLetterTextSet(String string) implements CustomPacketPayload {
 	public static void handle(PacketLetterTextSet msg, ServerPlayer player) {
-		if (player.containerMenu instanceof ContainerLetter letterMenu) {
+		if (player.containerMenu instanceof LetterMenu letterMenu) {
 			letterMenu.handleSetText(msg.string());
 		}
 	}

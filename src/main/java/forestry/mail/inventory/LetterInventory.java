@@ -6,7 +6,7 @@ import forestry.api.core.IError;
 import forestry.api.core.IErrorSource;
 import forestry.api.mail.ILetter;
 import forestry.core.inventory.ItemInventory;
-import forestry.core.items.ItemWithGui;
+import forestry.core.items.WithScreenItem;
 import forestry.core.utils.SlotUtil;
 import forestry.mail.Letter;
 import forestry.mail.LetterProperties;
@@ -18,10 +18,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
+public class LetterInventory extends ItemInventory implements IErrorSource {
 	private final ILetter letter;
 
-	public ItemInventoryLetter(Player player, ItemStack itemstack) {
+	public LetterInventory(Player player, ItemStack itemstack) {
 		super(player, 0, itemstack);
 		CompoundTag tagCompound = LetterUtils.getLetterData(itemstack);
 		if (tagCompound == null) {
@@ -103,7 +103,7 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 			Item item = stack.getItem();
 			return item instanceof ItemStamp;
 		} else if (SlotUtil.isSlotInRange(slotIndex, Letter.SLOT_ATTACHMENT_1, Letter.SLOT_ATTACHMENT_COUNT)) {
-			return !(stack.getItem() instanceof ItemWithGui);
+			return !(stack.getItem() instanceof WithScreenItem);
 		}
 		return false;
 	}

@@ -12,7 +12,7 @@ import forestry.apiimpl.client.genetics.AnalyzerScreenGraphics;
 import forestry.core.ForestryColors;
 import forestry.core.config.Constants;
 import forestry.core.gui.widgets.WidgetManager;
-import forestry.core.inventory.ItemInventoryAlyzer;
+import forestry.core.inventory.PortableAnalyzerInventory;
 import forestry.core.render.ColourProperties;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -22,10 +22,10 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 // Portable analyzer
-public class PortableAnalyzerScreen extends GuiForestry<ContainerAlyzer> {
-	private final ItemInventoryAlyzer itemInventory;
+public class PortableAnalyzerScreen extends GuiForestry<PortableAnalyzerMenu> {
+	private final PortableAnalyzerInventory itemInventory;
 
-	public PortableAnalyzerScreen(ContainerAlyzer container, Inventory playerInv, Component name) {
+	public PortableAnalyzerScreen(PortableAnalyzerMenu container, Inventory playerInv, Component name) {
 		super(Constants.TEXTURE_PATH_GUI + "/portablealyzer.png", container, playerInv, name);
 
 		this.itemInventory = container.inventory;
@@ -43,7 +43,7 @@ public class PortableAnalyzerScreen extends GuiForestry<ContainerAlyzer> {
 		this.widgetManager.clear();
 
 		int specimenSlot = getSpecimenSlot();
-		if (specimenSlot < ItemInventoryAlyzer.SLOT_ANALYZE_1) {
+		if (specimenSlot < PortableAnalyzerInventory.SLOT_ANALYZE_1) {
 			drawAnalyticsOverview(graphics);
 			return;
 		}
@@ -64,11 +64,11 @@ public class PortableAnalyzerScreen extends GuiForestry<ContainerAlyzer> {
 			IAnalyzerGraphics<S, I> analyzerGraphics = new AnalyzerScreenGraphics<>(graphics, this, mouseX, mouseY, individual);
 
 			switch (slot) {
-				case ItemInventoryAlyzer.SLOT_ANALYZE_1 -> plugin.drawPage1(analyzerGraphics, individual, stage, stack);
-				case ItemInventoryAlyzer.SLOT_ANALYZE_2 -> plugin.drawPage2(analyzerGraphics, individual, stage, stack);
-				case ItemInventoryAlyzer.SLOT_ANALYZE_3 -> plugin.drawPage3(analyzerGraphics, individual, stage, stack);
-				case ItemInventoryAlyzer.SLOT_ANALYZE_4 -> plugin.drawPage4(analyzerGraphics, individual, stage, stack);
-				case ItemInventoryAlyzer.SLOT_ANALYZE_5 -> plugin.drawPage5(analyzerGraphics, individual, stage, stack);
+				case PortableAnalyzerInventory.SLOT_ANALYZE_1 -> plugin.drawPage1(analyzerGraphics, individual, stage, stack);
+				case PortableAnalyzerInventory.SLOT_ANALYZE_2 -> plugin.drawPage2(analyzerGraphics, individual, stage, stack);
+				case PortableAnalyzerInventory.SLOT_ANALYZE_3 -> plugin.drawPage3(analyzerGraphics, individual, stage, stack);
+				case PortableAnalyzerInventory.SLOT_ANALYZE_4 -> plugin.drawPage4(analyzerGraphics, individual, stage, stack);
+				case PortableAnalyzerInventory.SLOT_ANALYZE_5 -> plugin.drawPage5(analyzerGraphics, individual, stage, stack);
 				default -> drawAnalyticsOverview(graphics);
 			}
 		} else {
@@ -77,7 +77,7 @@ public class PortableAnalyzerScreen extends GuiForestry<ContainerAlyzer> {
 	}
 
 	private int getSpecimenSlot() {
-		for (int k = ItemInventoryAlyzer.SLOT_SPECIMEN; k <= ItemInventoryAlyzer.SLOT_ANALYZE_5; k++) {
+		for (int k = PortableAnalyzerInventory.SLOT_SPECIMEN; k <= PortableAnalyzerInventory.SLOT_ANALYZE_5; k++) {
 			ItemStack stackInSlot = this.itemInventory.getItem(k);
 
 			if (!stackInSlot.isEmpty() && IIndividualHandlerItem.filter(stackInSlot, IIndividual::isAnalyzed)) {

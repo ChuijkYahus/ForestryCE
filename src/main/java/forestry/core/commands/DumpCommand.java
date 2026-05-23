@@ -22,7 +22,7 @@ import forestry.api.genetics.alleles.IChromosome;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.features.FeatureItem;
 import forestry.storage.features.BackpackItems;
-import forestry.storage.items.ItemBackpack;
+import forestry.storage.items.BackpackItem;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.Holder;
@@ -112,7 +112,7 @@ public class DumpCommand {
 	private static int backpacks(CommandContext<CommandSourceStack> ctx) {
 		// is there a reason not to hardcode this?
 		@SuppressWarnings({"unchecked", "rawtypes"})
-		List<FeatureItem<ItemBackpack>> definitions = (List) List.of(
+		List<FeatureItem<BackpackItem>> definitions = (List) List.of(
 			BackpackItems.MINER_BACKPACK,
 			BackpackItems.DIGGER_BACKPACK,
 			BackpackItems.FORESTER_BACKPACK,
@@ -123,7 +123,7 @@ public class DumpCommand {
 
 		Forestry.LOGGER.debug("Listing Forestry backpack filters for {} backpack types (excluding Naturalist bags)", definitions.size());
 
-		for (FeatureItem<ItemBackpack> backpack : definitions) {
+		for (FeatureItem<BackpackItem> backpack : definitions) {
 			Predicate<ItemStack> filter = backpack.get().getDefinition().getFilter();
 			ArrayList<Item> allowedItems = new ArrayList<>();
 

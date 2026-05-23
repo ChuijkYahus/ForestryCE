@@ -40,7 +40,7 @@ public class CoreItems {
 	public static final FeatureItem<ItemResearchNote> RESEARCH_NOTE = REGISTRY.item(ItemResearchNote::new, "research_note");
 
 	/* Alyzer */
-	public static final FeatureItem<ItemAlyzer> PORTABLE_ALYZER = REGISTRY.item(ItemAlyzer::new, () -> new Item.Properties()
+	public static final FeatureItem<PortableAnalyzerItem> PORTABLE_ALYZER = REGISTRY.item(PortableAnalyzerItem::new, () -> new Item.Properties()
 		.stacksTo(1)
 		.component(DataComponents.CONTAINER, ItemContainerContents.EMPTY)
 		.component(CoreDataComponents.ALYZER_CHARGES.get(), 0), "portable_alyzer");
@@ -82,7 +82,7 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> GEAR_TIN = REGISTRY.item(ItemForestry::new, "gear_tin");
 
 	/* Soldering */
-	public static final FeatureItem<ItemSolderingIron> SOLDERING_IRON = REGISTRY.item(ItemSolderingIron::new, () -> new Item.Properties()
+	public static final FeatureItem<SolderingIronItem> SOLDERING_IRON = REGISTRY.item(SolderingIronItem::new, () -> new Item.Properties()
 		.durability(5)
 		.component(DataComponents.CONTAINER, ItemContainerContents.EMPTY), "soldering_iron");
 	public static final FeatureItemGroup<ItemCircuitBoard, EnumCircuitBoardType> CIRCUITBOARDS = REGISTRY.itemGroup(ItemCircuitBoard::new, "circuit_board", EnumCircuitBoardType.values());

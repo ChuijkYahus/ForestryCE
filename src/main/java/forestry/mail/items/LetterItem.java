@@ -3,11 +3,11 @@ package forestry.mail.items;
 import forestry.api.core.IItemSubtype;
 import forestry.api.mail.ILetter;
 import forestry.core.features.CoreDataComponents;
-import forestry.core.items.ItemWithGui;
+import forestry.core.items.WithScreenItem;
 import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
-import forestry.mail.gui.ContainerLetter;
-import forestry.mail.inventory.ItemInventoryLetter;
+import forestry.mail.gui.LetterMenu;
+import forestry.mail.inventory.LetterInventory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -26,7 +26,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import java.util.List;
 import java.util.Locale;
 
-public class ItemLetter extends ItemWithGui {
+public class LetterItem extends WithScreenItem {
 	public enum State implements IItemSubtype {
 		FRESH, STAMPED, OPENED, EMPTIED;
 
@@ -48,7 +48,7 @@ public class ItemLetter extends ItemWithGui {
 	private final Size size;
 	private final State state;
 
-	public ItemLetter(Size size, State state) {
+	public LetterItem(Size size, State state) {
 		super(new Item.Properties().stacksTo(64).component(CoreDataComponents.LETTER_DATA.get(), CustomData.EMPTY));
 		this.size = size;
 		this.state = state;
@@ -96,7 +96,7 @@ public class ItemLetter extends ItemWithGui {
 	}
 
 	@Override
-	public AbstractContainerMenu getContainer(int windowId, Player player, ItemStack heldItem) {
-		return new ContainerLetter(windowId, player, new ItemInventoryLetter(player, heldItem));
+	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
+		return new LetterMenu(containerId, player, new LetterInventory(player, heldItem));
 	}
 }

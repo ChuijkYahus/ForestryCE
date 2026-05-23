@@ -11,7 +11,7 @@ import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailMenuTypes;
-import forestry.mail.inventory.ItemInventoryLetter;
+import forestry.mail.inventory.LetterInventory;
 import forestry.mail.network.packets.PacketLetterInfoResponsePlayer;
 import forestry.mail.network.packets.PacketLetterInfoResponseTrader;
 import forestry.mail.network.packets.PacketLetterTextSet;
@@ -29,19 +29,19 @@ import net.neoforged.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 
-public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter> implements ILetterInfoReceiver {
+public class LetterMenu extends ContainerItemInventory<LetterInventory> implements ILetterInfoReceiver {
 	private IPostalCarrier carrier = PostalCarriers.PLAYER.value();
 	@Nullable
 	private ITradeStationInfo tradeInfo = null;
 
-	public static ContainerLetter fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
+	public static LetterMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		InteractionHand hand = extraData.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 		Player player = playerInv.player;
-		ItemInventoryLetter inv = new ItemInventoryLetter(player, player.getItemInHand(hand));
-		return new ContainerLetter(windowId, player, inv);
+		LetterInventory inv = new LetterInventory(player, player.getItemInHand(hand));
+		return new LetterMenu(windowId, player, inv);
 	}
 
-	public ContainerLetter(int windowId, Player player, ItemInventoryLetter inventory) {
+	public LetterMenu(int windowId, Player player, LetterInventory inventory) {
 		super(windowId, inventory, player.getInventory(), 17, 145, MailMenuTypes.LETTER.menuType());
 
 		// Init slots

@@ -8,10 +8,10 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class ItemInventoryBackpackPaged extends ItemInventoryBackpack implements IPagedInventory {
+public class PagedBackpackInventory extends BackpackInventory implements IPagedInventory {
 	private final ResourceLocation typeId;
 
-	public ItemInventoryBackpackPaged(Player player, int size, ItemStack itemstack, ResourceLocation typeId) {
+	public PagedBackpackInventory(Player player, int size, ItemStack itemstack, ResourceLocation typeId) {
 		super(player, size, itemstack);
 		this.typeId = typeId;
 	}

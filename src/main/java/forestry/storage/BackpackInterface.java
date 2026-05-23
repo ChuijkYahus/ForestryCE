@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import forestry.api.storage.EnumBackpackType;
 import forestry.api.storage.IBackpackDefinition;
 import forestry.api.storage.IBackpackInterface;
-import forestry.storage.items.ItemBackpack;
-import forestry.storage.items.ItemBackpackNaturalist;
+import forestry.storage.items.BackpackItem;
+import forestry.storage.items.NaturalistBackpackItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,7 +23,7 @@ public class BackpackInterface implements IBackpackInterface {
 		Preconditions.checkNotNull(type, "type must not be null");
 		Preconditions.checkArgument(type != EnumBackpackType.NATURALIST, "type must not be NATURALIST. Use createNaturalistBackpack instead.");
 
-		return new ItemBackpack(definition, type, new Item.Properties()
+		return new BackpackItem(definition, type, new Item.Properties()
 			.stacksTo(1)
 			.component(DataComponents.CONTAINER, ItemContainerContents.EMPTY));
 	}
@@ -33,7 +33,7 @@ public class BackpackInterface implements IBackpackInterface {
 		Preconditions.checkNotNull(definition, "definition must not be null");
 		Preconditions.checkNotNull(speciesTypeId, "rootUid must not be null");
 
-		return new ItemBackpackNaturalist(speciesTypeId, definition, new Item.Properties()
+		return new NaturalistBackpackItem(speciesTypeId, definition, new Item.Properties()
 			.stacksTo(1)
 			.component(DataComponents.CONTAINER, ItemContainerContents.EMPTY));
 	}

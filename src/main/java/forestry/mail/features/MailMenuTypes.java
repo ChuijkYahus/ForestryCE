@@ -12,7 +12,7 @@ public class MailMenuTypes {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.MAIL);
 
 	public static final FeatureMenuType<ContainerCatalogue> CATALOGUE = REGISTRY.menuType(ContainerCatalogue::fromNetwork, "catalogue");
-	public static final FeatureMenuType<ContainerLetter> LETTER = REGISTRY.menuType(ContainerLetter::fromNetwork, "letter");
+	public static final FeatureMenuType<LetterMenu> LETTER = REGISTRY.menuType(LetterMenu::fromNetwork, "letter");
 	public static final FeatureMenuType<ContainerMailbox> MAILBOX = REGISTRY.menuType(ContainerMailbox::fromNetwork, "mailbox");
 	public static final FeatureMenuType<ContainerStampCollector> STAMP_COLLECTOR = REGISTRY.menuType(ContainerStampCollector::fromNetwork, "stamp_collector");
 	public static final FeatureMenuType<ContainerTradeName> TRADE_NAME = REGISTRY.menuType(ContainerTradeName::fromNetwork, "trade_name");

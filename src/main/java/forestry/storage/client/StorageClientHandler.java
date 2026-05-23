@@ -9,7 +9,7 @@ import forestry.modules.features.ModFeatureRegistry;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.gui.ContainerNaturalistBackpack;
 import forestry.storage.gui.GuiBackpack;
-import forestry.storage.items.ItemBackpack;
+import forestry.storage.items.BackpackItem;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -40,10 +40,10 @@ public class StorageClientHandler implements IClientModuleHandler {
 	@SuppressWarnings("deprecation")
 	private static void registerBackpackItemProperties(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemBackpack.getMode(stack).ordinal();
+			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> BackpackItem.getMode(stack).ordinal();
 			IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.STORAGE);
 			for (DeferredHolder<Item, ? extends Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
-				if (entry.get() instanceof ItemBackpack) {
+				if (entry.get() instanceof BackpackItem) {
 					ItemProperties.register(entry.get(), ResourceLocation.withDefaultNamespace("mode"), itemPropertyFunction);
 				}
 			}

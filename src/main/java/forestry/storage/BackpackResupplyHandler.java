@@ -2,8 +2,8 @@ package forestry.storage;
 
 import forestry.api.storage.BackpackResupplyEvent;
 import forestry.core.inventory.ItemInventory;
-import forestry.storage.inventory.ItemInventoryBackpack;
-import forestry.storage.items.ItemBackpack;
+import forestry.storage.inventory.BackpackInventory;
+import forestry.storage.items.BackpackItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +18,7 @@ public class BackpackResupplyHandler {
 	private static NonNullList<ItemStack> getBackpacks(Inventory playerInventory) {
 		NonNullList<ItemStack> backpacks = NonNullList.create();
 		for (ItemStack itemStack : playerInventory.items) {
-			if (itemStack.getItem() instanceof ItemBackpack) {
+			if (itemStack.getItem() instanceof BackpackItem) {
 				backpacks.add(itemStack);
 			}
 		}
@@ -29,10 +29,10 @@ public class BackpackResupplyHandler {
 		// Do not attempt resupplying if this backpack is already opened.
 		if (player.containerMenu instanceof InventoryMenu) {
 			for (ItemStack backpack : getBackpacks(player.getInventory())) {
-				if (ItemBackpack.getMode(backpack) == BackpackMode.RESUPPLY) {
+				if (BackpackItem.getMode(backpack) == BackpackMode.RESUPPLY) {
 					// Load their inventory
-					ItemBackpack backpackItem = (ItemBackpack) backpack.getItem();
-					ItemInventory backpackInventory = new ItemInventoryBackpack(player, backpackItem.getBackpackSize(), backpack);
+					BackpackItem backpackItem = (BackpackItem) backpack.getItem();
+					ItemInventory backpackInventory = new BackpackInventory(player, backpackItem.getBackpackSize(), backpack);
 
 					BackpackResupplyEvent event = new BackpackResupplyEvent(player, backpackItem.getDefinition(), backpackInventory);
 					if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {

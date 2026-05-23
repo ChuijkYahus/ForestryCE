@@ -5,36 +5,36 @@ import forestry.core.features.CoreDataComponents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import forestry.mail.features.MailItems;
-import forestry.mail.items.ItemLetter;
+import forestry.mail.items.LetterItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class LetterProperties {
 	public static ItemStack createStampedLetterStack(ILetter letter) {
-		ItemLetter.Size size = getSize(letter);
-		return MailItems.LETTERS.stack(size, ItemLetter.State.STAMPED, 1);
+		LetterItem.Size size = getSize(letter);
+		return MailItems.LETTERS.stack(size, LetterItem.State.STAMPED, 1);
 	}
 
 	public static ItemStack closeLetter(ItemStack parent, ILetter letter, HolderLookup.Provider registries) {
 		Item item = parent.getItem();
-		if (!(item instanceof ItemLetter itemLetter)) {
+		if (!(item instanceof LetterItem itemLetter)) {
 			return parent;
 		}
-		ItemLetter.State state = itemLetter.getState();
-		ItemLetter.Size size = itemLetter.getSize();
+		LetterItem.State state = itemLetter.getState();
+		LetterItem.Size size = itemLetter.getSize();
 
 		switch (state) {
 			case OPENED:
 				if (letter.countAttachments() <= 0) {
-					state = ItemLetter.State.EMPTIED;
+					state = LetterItem.State.EMPTIED;
 				}
 				break;
 			case FRESH:
 			case STAMPED:
 				if (letter.isMailable() && letter.isPostPaid()) {
-					state = ItemLetter.State.STAMPED;
+					state = LetterItem.State.STAMPED;
 				} else {
-					state = ItemLetter.State.FRESH;
+					state = LetterItem.State.FRESH;
 				}
 				size = getSize(letter);
 				break;
@@ -50,13 +50,13 @@ public class LetterProperties {
 
 	public static ItemStack openLetter(ItemStack parent) {
 		Item item = parent.getItem();
-		if (!(item instanceof ItemLetter itemLetter)) {
+		if (!(item instanceof LetterItem itemLetter)) {
 			return parent;
 		}
 
-		ItemLetter.State state = itemLetter.getState();
-		if (state == ItemLetter.State.FRESH || state == ItemLetter.State.STAMPED) {
-			ItemLetter.Size size = itemLetter.getSize();
+		LetterItem.State state = itemLetter.getState();
+		if (state == LetterItem.State.FRESH || state == LetterItem.State.STAMPED) {
+			LetterItem.Size size = itemLetter.getSize();
 			ItemStack ret = MailItems.LETTERS.stack(size, state, parent.getCount());
 			ret.copyFrom(parent, CoreDataComponents.ITEM_INVENTORY_UID.get());
 			CompoundTag tag = LetterUtils.getLetterData(parent);
@@ -69,15 +69,15 @@ public class LetterProperties {
 		}
 	}
 
-	private static ItemLetter.Size getSize(ILetter letter) {
+	private static LetterItem.Size getSize(ILetter letter) {
 		int count = letter.countAttachments();
 
 		if (count > 5) {
-			return ItemLetter.Size.BIG;
+			return LetterItem.Size.BIG;
 		} else if (count > 1) {
-			return ItemLetter.Size.SMALL;
+			return LetterItem.Size.SMALL;
 		} else {
-			return ItemLetter.Size.EMPTY;
+			return LetterItem.Size.EMPTY;
 		}
 	}
 }

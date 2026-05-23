@@ -12,7 +12,7 @@ import forestry.core.gui.widgets.Widget;
 import forestry.core.render.ColourProperties;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.carriers.PostalCarriers;
-import forestry.mail.inventory.ItemInventoryLetter;
+import forestry.mail.inventory.LetterInventory;
 import forestry.mail.network.packets.PacketLetterInfoRequest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -28,8 +28,8 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class GuiLetter extends GuiForestry<ContainerLetter> {
-	private final ItemInventoryLetter itemInventory;
+public class GuiLetter extends GuiForestry<LetterMenu> {
+	private final LetterInventory itemInventory;
 	private final boolean isProcessedLetter;
 	private boolean checkedSessionVars;
 
@@ -41,7 +41,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 
 	private final ArrayList<Widget> tradeInfoWidgets;
 
-	public GuiLetter(ContainerLetter container, Inventory inv, Component title) {
+	public GuiLetter(LetterMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/letter.png", container, inv, title);
 		this.minecraft = Minecraft.getInstance(); //not 100% why this is needed, maybe side issues
 

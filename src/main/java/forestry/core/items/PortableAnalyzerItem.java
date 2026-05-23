@@ -1,8 +1,8 @@
 package forestry.core.items;
 
 import forestry.core.features.CoreDataComponents;
-import forestry.core.gui.ContainerAlyzer;
-import forestry.core.inventory.ItemInventoryAlyzer;
+import forestry.core.gui.PortableAnalyzerMenu;
+import forestry.core.inventory.PortableAnalyzerInventory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -12,8 +12,8 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public class ItemAlyzer extends ItemWithGui {
-	public ItemAlyzer(Properties properties) {
+public class PortableAnalyzerItem extends WithScreenItem {
+	public PortableAnalyzerItem(Properties properties) {
 		super(properties);
 	}
 
@@ -26,6 +26,6 @@ public class ItemAlyzer extends ItemWithGui {
 
 	@Override
 	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
-		return new ContainerAlyzer(containerId, new ItemInventoryAlyzer(player, heldItem), player);
+		return new PortableAnalyzerMenu(containerId, new PortableAnalyzerInventory(player, heldItem), player);
 	}
 }

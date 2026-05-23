@@ -3,13 +3,13 @@ package forestry.storage.gui;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFilteredInventory;
 import forestry.storage.features.BackpackMenuTypes;
-import forestry.storage.inventory.ItemInventoryBackpack;
+import forestry.storage.inventory.BackpackInventory;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackpack> {
+public class ContainerBackpack extends ContainerItemInventory<BackpackInventory> {
 	public enum Size {
 		DEFAULT(3, 5, 44, 19),
 		T2(5, 9, 8, 8);
@@ -40,7 +40,7 @@ public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackp
 	}
 
 	public ContainerBackpack(int windowID, Player player, Size size, ItemStack parent) {
-		super(windowID, new ItemInventoryBackpack(player, size.getSize(), parent), player.getInventory(), 8, 11 + size.startY + size.rows * 18, BackpackMenuTypes.BACKPACK.menuType());
+		super(windowID, new BackpackInventory(player, size.getSize(), parent), player.getInventory(), 8, 11 + size.startY + size.rows * 18, BackpackMenuTypes.BACKPACK.menuType());
 		this.size = size;
 		// Inventory
 		for (int j = 0; j < size.rows; j++) {

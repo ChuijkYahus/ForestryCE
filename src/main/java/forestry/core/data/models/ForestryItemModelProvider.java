@@ -2,14 +2,11 @@ package forestry.core.data.models;
 
 import com.google.common.collect.Iterables;
 import forestry.api.ForestryConstants;
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.data.builder.FilledCrateModelBuilder;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.utils.ModUtil;
-import forestry.core.utils.SpeciesUtil;
 import forestry.cultivation.blocks.BlockPlanter;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
@@ -18,7 +15,7 @@ import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureItem;
 import forestry.modules.features.ModFeatureRegistry;
 import forestry.storage.features.CrateItems;
-import forestry.storage.items.ItemBackpack;
+import forestry.storage.items.BackpackItem;
 import forestry.storage.items.ItemCrated;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -102,7 +99,7 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 
 		// Backpacks
 		for (DeferredHolder<Item, ? extends Item> object : ModFeatureRegistry.get(ForestryModuleIds.STORAGE).getRegistry(Registries.ITEM).getEntries()) {
-			if (object.get() instanceof ItemBackpack) {
+			if (object.get() instanceof BackpackItem) {
 				String path = object.getId().getPath();
 				boolean woven = path.endsWith("woven");
 

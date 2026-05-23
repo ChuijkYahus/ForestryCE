@@ -7,7 +7,7 @@ import forestry.api.circuits.ICircuitLayout;
 import forestry.api.farming.HorizontalDirection;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
-import forestry.core.inventory.ItemInventorySolderingIron;
+import forestry.core.inventory.SolderingIronInventory;
 import forestry.core.render.ColourProperties;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Locale;
 
 public class GuiSolderingIron extends GuiForestry<ContainerSolderingIron> {
-	private final ItemInventorySolderingIron itemInventory;
+	private final SolderingIronInventory itemInventory;
 
 	public GuiSolderingIron(ContainerSolderingIron container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/solder.png", container, inv, title);

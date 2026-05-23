@@ -42,7 +42,7 @@ import forestry.farming.features.FarmingBlocks;
 import forestry.mail.blocks.BlockTypeMail;
 import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
-import forestry.mail.items.ItemLetter;
+import forestry.mail.items.LetterItem;
 import forestry.modules.features.*;
 import forestry.sorting.features.SortingBlocks;
 import forestry.storage.features.BackpackItems;
@@ -436,7 +436,7 @@ public class ForestryCreativeTabs {
 		MailBlocks.BASE.getItems().forEach(items::accept);
 		items.accept(MailItems.CATALOGUE);
 		MailItems.STAMPS.getItems().forEach(items::accept);
-		items.accept(MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH));
+		items.accept(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH));
 	}
 
 	private static void addAllWoodBlocks(CreativeModeTab.Output items, IWoodAccess access, IWoodType type, boolean fireproof) {

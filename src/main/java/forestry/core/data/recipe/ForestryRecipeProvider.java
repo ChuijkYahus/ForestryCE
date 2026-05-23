@@ -56,7 +56,7 @@ import forestry.mail.blocks.BlockTypeMail;
 import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
-import forestry.mail.items.ItemLetter;
+import forestry.mail.items.LetterItem;
 import forestry.mail.items.ItemStamp;
 import forestry.modules.features.FeatureItem;
 import forestry.sorting.features.SortingBlocks;
@@ -1060,7 +1060,7 @@ public class ForestryRecipeProvider {
 	private static void registerMailRecipes(MKRecipeProvider recipes) {
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.CATALOGUE, 1, Items.BOOK, ForestryTags.Items.STAMPS);
 		Ingredient sealant = CompoundIngredient.of(Ingredient.of(ForestryTags.Items.PROPOLIS), Ingredient.of(Tags.Items.SLIMEBALLS));
-		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH), 1, Items.PAPER, sealant);
+		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH), 1, Items.PAPER, sealant);
 
 		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.MAILBOX).block(), recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
@@ -1071,7 +1071,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XXX");
 		});
 
-		Item[] emptiedLetter = MailItems.LETTERS.getRowFeatures(ItemLetter.Size.EMPTY).stream()
+		Item[] emptiedLetter = MailItems.LETTERS.getRowFeatures(LetterItem.Size.EMPTY).stream()
 			.map(FeatureItem::item)
 			.toArray(Item[]::new);
 		recipes.shapedCrafting("paper_from_letters", RecipeCategory.MISC, Items.PAPER, recipe -> {
@@ -1589,7 +1589,7 @@ public class ForestryRecipeProvider {
 			.setPackagingTime(10)
 			.setLiquid(new FluidStack(Fluids.WATER, 250))
 			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH).item())
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH).item())
 				.pattern("###")
 				.pattern("###")
 				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))

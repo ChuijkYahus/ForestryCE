@@ -7,8 +7,8 @@ import forestry.core.gui.ContainerNaturalistInventory;
 import forestry.core.gui.IGuiSelectable;
 import forestry.core.gui.INaturalistMenu;
 import forestry.storage.features.BackpackMenuTypes;
-import forestry.storage.inventory.ItemInventoryBackpackPaged;
-import forestry.storage.items.ItemBackpack;
+import forestry.storage.inventory.PagedBackpackInventory;
+import forestry.storage.items.BackpackItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,11 +16,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class ContainerNaturalistBackpack extends ContainerItemInventory<ItemInventoryBackpackPaged> implements IGuiSelectable, INaturalistMenu {
+public class ContainerNaturalistBackpack extends ContainerItemInventory<PagedBackpackInventory> implements IGuiSelectable, INaturalistMenu {
 	private final int currentPage;
 	private final ISpeciesType<?, ?> speciesRoot;
 
-	public ContainerNaturalistBackpack(int windowId, Inventory inv, ItemInventoryBackpackPaged inventory, int selectedPage, ResourceLocation rootUid) {
+	public ContainerNaturalistBackpack(int windowId, Inventory inv, PagedBackpackInventory inventory, int selectedPage, ResourceLocation rootUid) {
 		super(windowId, inventory, inv, 18, 120, BackpackMenuTypes.NATURALIST_BACKPACK.menuType());
 
 		ContainerNaturalistInventory.addInventory(this, inventory, selectedPage);
@@ -30,7 +30,7 @@ public class ContainerNaturalistBackpack extends ContainerItemInventory<ItemInve
 	}
 
 	public static ContainerNaturalistBackpack makeContainer(int windowId, Player player, ItemStack heldItem, int page, ResourceLocation typeId) {
-		ItemInventoryBackpackPaged inventory = new ItemInventoryBackpackPaged(player, ItemBackpack.SLOTS_BACKPACK_APIARIST, heldItem, typeId);
+		PagedBackpackInventory inventory = new PagedBackpackInventory(player, BackpackItem.SLOTS_BACKPACK_APIARIST, heldItem, typeId);
 		return new ContainerNaturalistBackpack(windowId, player.getInventory(), inventory, page, typeId);
 	}
 

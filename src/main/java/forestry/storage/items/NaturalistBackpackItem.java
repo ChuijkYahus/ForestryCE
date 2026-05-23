@@ -11,10 +11,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class ItemBackpackNaturalist extends ItemBackpack {
+public class NaturalistBackpackItem extends BackpackItem {
 	public final ResourceLocation typeId;
 
-	public ItemBackpackNaturalist(ResourceLocation typeId, IBackpackDefinition definition, Item.Properties properties) {
+	public NaturalistBackpackItem(ResourceLocation typeId, IBackpackDefinition definition, Item.Properties properties) {
 		super(definition, EnumBackpackType.NATURALIST, properties);
 		this.typeId = typeId;
 	}
@@ -26,7 +26,7 @@ public class ItemBackpackNaturalist extends ItemBackpack {
 	}
 
 	@Override
-	public AbstractContainerMenu getContainer(int windowId, Player player, ItemStack heldItem) {
-		return ContainerNaturalistBackpack.makeContainer(windowId, player, heldItem, 0, this.typeId);
+	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
+		return ContainerNaturalistBackpack.makeContainer(containerId, player, heldItem, 0, this.typeId);
 	}
 }

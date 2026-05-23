@@ -8,13 +8,13 @@ import forestry.core.config.ForestryConfig;
 import forestry.core.inventory.ItemHandlerInventoryManipulator;
 import forestry.core.inventory.ItemInventory;
 import forestry.core.inventory.StandardStackFilters;
-import forestry.core.items.ItemWithGui;
+import forestry.core.items.WithScreenItem;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.storage.BackpackMode;
 import forestry.storage.gui.ContainerBackpack;
-import forestry.storage.inventory.ItemInventoryBackpack;
+import forestry.storage.inventory.BackpackInventory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,14 +41,14 @@ import net.neoforged.neoforge.items.IItemHandler;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemBackpack extends ItemWithGui implements IColoredItem {
+public class BackpackItem extends WithScreenItem implements IColoredItem {
 	public static final int SLOTS_BACKPACK_DEFAULT = 15;
 	public static final int SLOTS_BACKPACK_WOVEN = 45;
 	public static final int SLOTS_BACKPACK_APIARIST = 125;
 	private final IBackpackDefinition definition;
 	private final EnumBackpackType type;
 
-	public ItemBackpack(IBackpackDefinition definition, EnumBackpackType type, Item.Properties properties) {
+	public BackpackItem(IBackpackDefinition definition, EnumBackpackType type, Item.Properties properties) {
 		super(properties);
 
 		this.definition = definition;
@@ -101,8 +101,8 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 			return;
 		}
 
-		ItemBackpack backpack = (ItemBackpack) backpackStack.getItem();
-		ItemInventory inventory = new ItemInventoryBackpack(player, backpack.getBackpackSize(), backpackStack);
+		BackpackItem backpack = (BackpackItem) backpackStack.getItem();
+		ItemInventory inventory = new BackpackInventory(player, backpack.getBackpackSize(), backpackStack);
 
 		if (NeoForge.EVENT_BUS.post(new BackpackStowEvent(player, backpack.getDefinition(), inventory, stack)).isCanceled()) {
 			return;
@@ -149,7 +149,7 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 
 			if (!world.isClientSide) {
 				// Create our own backpack inventory
-				ItemInventoryBackpack backpackInventory = new ItemInventoryBackpack(player, getBackpackSize(), stack);
+				BackpackInventory backpackInventory = new BackpackInventory(player, getBackpackSize(), stack);
 
 				BackpackMode mode = getMode(stack);
 				if (mode == BackpackMode.RECEIVE) {
@@ -165,12 +165,12 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 		return false;
 	}
 
-	private static void transferToChest(ItemInventoryBackpack backpackInventory, IItemHandler target) {
+	private static void transferToChest(BackpackInventory backpackInventory, IItemHandler target) {
 		ItemHandlerInventoryManipulator manipulator = new ItemHandlerInventoryManipulator(backpackInventory.getItemHandler());
 		manipulator.transferStacks(target, StandardStackFilters.ALL);
 	}
 
-	private void receiveFromChest(ItemInventoryBackpack backpackInventory, IItemHandler target) {
+	private void receiveFromChest(BackpackInventory backpackInventory, IItemHandler target) {
 		ItemHandlerInventoryManipulator manipulator = new ItemHandlerInventoryManipulator(target);
 		manipulator.transferStacks(backpackInventory.getItemHandler(), this.definition.getFilter());
 	}
@@ -219,7 +219,7 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	}
 
 	public static BackpackMode getMode(ItemStack backpack) {
-		if (!(backpack.getItem() instanceof ItemBackpack)) {
+		if (!(backpack.getItem() instanceof BackpackItem)) {
 			return BackpackMode.NEUTRAL;
 		}
 
@@ -229,8 +229,8 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	}
 
 	public static EnumBackpackType getType(ItemStack backpack) {
-		Preconditions.checkArgument(backpack.getItem() instanceof ItemBackpack, "Item must be a backpack");
-		return ((ItemBackpack) backpack.getItem()).type;
+		Preconditions.checkArgument(backpack.getItem() instanceof BackpackItem, "Item must be a backpack");
+		return ((BackpackItem) backpack.getItem()).type;
 	}
 
 	@Override
@@ -242,14 +242,14 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 
 	@Override
 	@Nullable
-	public AbstractContainerMenu getContainer(int windowId, Player player, ItemStack heldItem) {
+	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
 		Item item = heldItem.getItem();
-		if (!(item instanceof ItemBackpack backpack)) {
+		if (!(item instanceof BackpackItem backpack)) {
 			return null;
 		}
 		return switch (backpack.type) {
-			case NORMAL -> new ContainerBackpack(windowId, player, ContainerBackpack.Size.DEFAULT, heldItem);
-			case WOVEN -> new ContainerBackpack(windowId, player, ContainerBackpack.Size.T2, heldItem);
+			case NORMAL -> new ContainerBackpack(containerId, player, ContainerBackpack.Size.DEFAULT, heldItem);
+			case WOVEN -> new ContainerBackpack(containerId, player, ContainerBackpack.Size.T2, heldItem);
 			default -> null;
 		};
 	}

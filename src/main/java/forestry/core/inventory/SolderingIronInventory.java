@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class ItemInventorySolderingIron extends ItemInventory implements IErrorSource {
+public class SolderingIronInventory extends ItemInventory implements IErrorSource {
 	private final List<ICircuitLayout> layouts = IForestryApi.INSTANCE.getCircuitManager().getLayouts();
 	private final int layoutCount = this.layouts.size();
 	private int layoutIndex;
@@ -25,7 +25,7 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 	private static final short ingredientSlot1 = 2;
 	private static final short ingredientSlotCount = 4;
 
-	public ItemInventorySolderingIron(Player player, ItemStack itemStack) {
+	public SolderingIronInventory(Player player, ItemStack itemStack) {
 		super(player, 6, itemStack);
 
 		this.layoutIndex = 0;

@@ -11,18 +11,18 @@ import net.minecraft.client.gui.GuiGraphics;
 
 public class AddresseeSlot extends Widget {
 
-	private final ContainerLetter containerLetter;
+	private final LetterMenu menu;
 
-	public AddresseeSlot(WidgetManager widgetManager, int xPos, int yPos, ContainerLetter containerLetter) {
+	public AddresseeSlot(WidgetManager widgetManager, int xPos, int yPos, LetterMenu menu) {
 		super(widgetManager, xPos, yPos);
-		this.containerLetter = containerLetter;
+		this.menu = menu;
 		this.width = 26;
 		this.height = 15;
 	}
 
 	@Override
 	public void draw(GuiGraphics graphics, int startX, int startY) {
-		IPostalCarrier carrier = this.containerLetter.getCarrier();
+		IPostalCarrier carrier = this.menu.getCarrier();
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0F);
 		RenderSystem.setShaderTexture(0, ForestrySprites.TEXTURE_ATLAS);
 		graphics.blit(startX + this.xPos, startY + this.yPos, 0, 32, 32, carrier.getSprite());
@@ -31,14 +31,14 @@ public class AddresseeSlot extends Widget {
 	@Override
 	public ToolTip getToolTip(int mouseX, int mouseY) {
 		ToolTip tooltip = new ToolTip();
-		tooltip.translated(this.containerLetter.getCarrier().getDescriptionId());
+		tooltip.translated(this.menu.getCarrier().getDescriptionId());
 		return tooltip;
 	}
 
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
-		if (!this.containerLetter.getLetter().isProcessed()) {
-            this.containerLetter.advanceCarrierType();
+		if (!this.menu.getLetter().isProcessed()) {
+            this.menu.advanceCarrierType();
 			SoundUtil.playButtonClick();
 		}
 	}

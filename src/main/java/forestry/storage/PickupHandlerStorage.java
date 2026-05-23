@@ -3,7 +3,7 @@ package forestry.storage;
 import forestry.api.storage.IBackpackDefinition;
 import forestry.storage.gui.ContainerBackpack;
 import forestry.storage.gui.ContainerNaturalistBackpack;
-import forestry.storage.items.ItemBackpack;
+import forestry.storage.items.BackpackItem;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,13 +28,13 @@ public class PickupHandlerStorage {
 				break;
 			}
 
-			if (pack.isEmpty() || !(pack.getItem() instanceof ItemBackpack backpack)) {
+			if (pack.isEmpty() || !(pack.getItem() instanceof BackpackItem backpack)) {
 				continue;
 			}
 
 			IBackpackDefinition backpackDefinition = backpack.getDefinition();
 			if (backpackDefinition.getFilter().test(itemstack)) {
-				ItemBackpack.tryStowing(player, pack, itemstack);
+				BackpackItem.tryStowing(player, pack, itemstack);
 			}
 		}
 

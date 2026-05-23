@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Set;
 
-public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
+public class PortableAnalyzerInventory extends ItemInventory implements IErrorSource {
 	public static final int SLOT_ENERGY = 0;
 	public static final int SLOT_SPECIMEN = 1;
 	public static final int SLOT_ANALYZE_1 = 2;
@@ -23,7 +23,7 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 	public static final int SLOT_ANALYZE_4 = 5;
 	public static final int SLOT_ANALYZE_5 = 6;
 
-	public ItemInventoryAlyzer(Player player, ItemStack itemstack) {
+	public PortableAnalyzerInventory(Player player, ItemStack itemstack) {
 		super(player, 7, itemstack);
 		updateChargesComponent();
 	}
@@ -158,7 +158,7 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 	}
 
 	private void updateChargesComponent(ItemStack parent) {
-		ItemStack energy = getItem(ItemInventoryAlyzer.SLOT_ENERGY);
+		ItemStack energy = getItem(PortableAnalyzerInventory.SLOT_ENERGY);
 		int amount = 0;
 		if (!energy.isEmpty()) {
 			amount = energy.getCount();

@@ -14,8 +14,8 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
-public abstract class ItemWithGui extends ItemForestry {
-	public ItemWithGui(Item.Properties properties) {
+public abstract class WithScreenItem extends ItemForestry {
+	public WithScreenItem(Item.Properties properties) {
 		super(properties);
 	}
 
@@ -52,5 +52,5 @@ public abstract class ItemWithGui extends ItemForestry {
 	}
 
 	@Nullable
-	public abstract AbstractContainerMenu getContainer(int windowId, Player player, ItemStack heldItem);
+	public abstract AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem);
 }
