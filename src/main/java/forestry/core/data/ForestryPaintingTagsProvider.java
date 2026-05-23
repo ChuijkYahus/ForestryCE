@@ -18,6 +18,8 @@ public class ForestryPaintingTagsProvider {
 			.add(CorePaintings.DEKU)
 			.add(CorePaintings.MYSTICAL_TREE)
 			.add(CorePaintings.SUSPICIOUS_LOOKING_TREE)
-			.add(CorePaintings.WISDOM);
+			.add(CorePaintings.WISDOM)
+			.add(CorePaintings.JAZZ)
+			.add(CorePaintings.TOOLS);
 	}
 }
