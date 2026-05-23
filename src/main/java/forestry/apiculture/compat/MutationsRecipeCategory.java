@@ -63,11 +63,6 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 	}
 
 	@Override
-	public void createRecipeExtras(IRecipeExtrasBuilder builder, MutationRecipe recipe, IFocusGroup focuses) {
-		builder.addDrawable(this.background, 0, 0);
-	}
-
-	@Override
 	public IDrawable getIcon() {
 		return this.icon;
 	}
@@ -112,6 +107,8 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 
 	@Override
 	public void draw(MutationRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		this.background.draw(graphics);
+
 		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getFirstParent().getDisplayName(), SPECIES_SLOT_0_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
 		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getSecondParent().getDisplayName(), SPECIES_SLOT_1_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
 		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getResult().getDisplayName(), SPECIES_SLOT_2_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);

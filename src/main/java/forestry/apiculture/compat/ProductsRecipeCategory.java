@@ -121,12 +121,8 @@ public class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 	}
 
 	@Override
-	public void createRecipeExtras(IRecipeExtrasBuilder builder, ProductRecipe recipe, IFocusGroup focuses) {
-		builder.addDrawable(this.background, 0, 0);
-	}
-
-	@Override
 	public void draw(ProductRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		this.background.draw(graphics);
 		JeiUtil.drawCenteredMulti(graphics, recipe.species.getDisplayName(), SPECIES_SLOT_X + 9, SPECIES_SLOT_Y + 22, 0xffffff);
 	}
 }
