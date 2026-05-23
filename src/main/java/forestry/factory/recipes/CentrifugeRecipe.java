@@ -30,9 +30,12 @@ public class CentrifugeRecipe implements ICentrifugeRecipe {
 		Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(CentrifugeRecipe::getInput),
 		Product.CODEC.listOf().fieldOf("products").forGetter(CentrifugeRecipe::getAllProducts)
 	).apply(instance, CentrifugeRecipe::new));
-	private static final StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> STREAM_CODEC = StreamCodec.of(
-		Serializer::toNetwork,
-		Serializer::fromNetwork
+	private static final StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> STREAM_CODEC = StreamCodec.composite(
+		ResourceLocation.STREAM_CODEC, CentrifugeRecipe::getId,
+		ByteBufCodecs.INT, CentrifugeRecipe::getProcessingTime,
+		Ingredient.CONTENTS_STREAM_CODEC, CentrifugeRecipe::getInput,
+		Product.STREAM_CODEC.apply(ByteBufCodecs.list()), CentrifugeRecipe::getAllProducts,
+		CentrifugeRecipe::new
 	);
 
 	private final ResourceLocation id;
@@ -110,29 +113,6 @@ public class CentrifugeRecipe implements ICentrifugeRecipe {
 		@Override
 		public StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> streamCodec() {
 			return STREAM_CODEC;
-		}
-
-		private static CentrifugeRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-			ResourceLocation recipeId = ResourceLocation.STREAM_CODEC.decode(buffer);
-			int processingTime = ByteBufCodecs.VAR_INT.decode(buffer);
-			Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			int count = ByteBufCodecs.VAR_INT.decode(buffer);
-			List<Product> products = new ArrayList<>(count);
-			for (int i = 0; i < count; i++) {
-				products.add(Product.fromNetwork(buffer));
-			}
-
-			return new CentrifugeRecipe(recipeId, processingTime, input, products);
-		}
-
-		private static void toNetwork(RegistryFriendlyByteBuf buffer, CentrifugeRecipe recipe) {
-			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
-			ByteBufCodecs.VAR_INT.encode(buffer, recipe.processingTime);
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
-			ByteBufCodecs.VAR_INT.encode(buffer, recipe.products.size());
-			for (Product product : recipe.products) {
-				Product.toNetwork(buffer, product);
-			}
 		}
 	}
 }

@@ -67,8 +67,9 @@
     },
     "icon": {
       "components": {
-        "forestry:individual": {
-          "analyzed": 0,
+        "forestry:bee_generation": 0,
+        "forestry:bee_pristine": true,
+        "forestry:genome": {
           "genome": {
             "forestry:activity": {
               "active": "forestry:activity_diurnal",
@@ -123,10 +124,10 @@
               "inactive": "forestry:falsed"
             }
           },
-          "health": 40,
-          "max_heath": 40,
-          "pristine": 1
-        }
+          "karyotype": "forestry:bee_species"
+        },
+        "forestry:health": 40,
+        "forestry:max_health": 40
       },
       "count": 1,
       "id": "forestry:bee_queen_ge"

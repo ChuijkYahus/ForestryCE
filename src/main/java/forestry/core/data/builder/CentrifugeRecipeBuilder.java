@@ -3,9 +3,7 @@ package forestry.core.data.builder;
 import com.google.common.base.Preconditions;
 import forestry.api.core.Product;
 import forestry.factory.recipes.CentrifugeRecipe;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -28,8 +26,7 @@ public class CentrifugeRecipeBuilder {
 	}
 
 	public CentrifugeRecipeBuilder product(float chance, ItemStack stack) {
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-		this.outputs.add(new Product(stack.getItem(), stack.getCount(), customData == null ? null : customData.copyTag(), chance));
+		this.outputs.add(new Product(stack.getItem(), stack.getCount(), stack.getComponentsPatch(), chance));
 		return this;
 	}
 
