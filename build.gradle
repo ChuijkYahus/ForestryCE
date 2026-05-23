@@ -18,11 +18,6 @@ group = 'thedarkcolour.forestry'
 version = forestryVersion
 base.archivesName = "forestry-$minecraftVersion"
 
-// Optional NeoForge Recipe Test Kit dev jar. When present, the Forestry shim under
-// forestry.compat.recipetest is compiled against it; otherwise the shim and its SPI
-// service file are excluded so contributors and CI can build without the kit.
-def recipeTestKitJar = file('run/mods/recipe_test-1.0.0-rc.2-dev.jar')
-
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 
@@ -128,23 +123,6 @@ dependencies {
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
 	// ModKit DEV ONLY
 	implementation 'com.github.thedarkcolour:ModKit:0cfafa780c'
-	// NeoForge Recipe Test Kit OPTIONAL — compileOnly so the integration shim only
-	// references SPI types when the kit jar is in run/mods/. Pinned at the local dev jar
-	// so iterating on the kit (rebuild → drop into run/mods/) doesn't need a Maven publish
-	// cycle. Replace with a Maven coordinate (`dev.recipetest:recipe_test:<version>`) once
-	// we adopt a published artifact for compile-time reference. The dependency and the
-	// shim sources are skipped when the jar is absent so contributors and CI can build
-	// without the kit.
-	if (recipeTestKitJar.exists()) {
-		compileOnly files(recipeTestKitJar)
-	}
-}
-
-// Skip the shim sources and SPI service file when the kit jar is absent. Forestry.java
-// loads the shim reflectively so it stays compilable either way.
-if (!recipeTestKitJar.exists()) {
-	sourceSets.main.java.exclude 'forestry/compat/recipetest/**'
-	sourceSets.main.resources.exclude 'META-INF/services/dev.recipetest.api.RecipeTestExtension'
 }
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
