@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 		setDirty();
 	}
 
+	@Nullable
 	public POBox getPOBox(IMailAddress address) {
 		return this.cachedPOBoxes.get(address);
 	}

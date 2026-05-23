@@ -3,7 +3,6 @@ package forestry.mail;
 import forestry.api.mail.ILetter;
 import forestry.core.features.CoreDataComponents;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.LetterItem;
 import net.minecraft.world.item.Item;
@@ -42,9 +41,7 @@ public class LetterProperties {
 		}
 		ItemStack ret = MailItems.LETTERS.stack(size, state, parent.getCount());
 		ret.copyFrom(parent, CoreDataComponents.ITEM_INVENTORY_UID.get());
-		CompoundTag tag = new CompoundTag();
-		letter.write(tag, registries);
-		LetterUtils.setLetterData(ret, tag);
+		LetterUtils.setLetterData(ret, letter);
 		return ret;
 	}
 
@@ -59,9 +56,9 @@ public class LetterProperties {
 			LetterItem.Size size = itemLetter.getSize();
 			ItemStack ret = MailItems.LETTERS.stack(size, state, parent.getCount());
 			ret.copyFrom(parent, CoreDataComponents.ITEM_INVENTORY_UID.get());
-			CompoundTag tag = LetterUtils.getLetterData(parent);
-			if (tag != null) {
-				LetterUtils.setLetterData(ret, tag);
+			Letter letter = LetterUtils.getLetterData(parent);
+			if (letter != null) {
+				LetterUtils.setLetterData(ret, letter);
 			}
 			return ret;
 		} else {

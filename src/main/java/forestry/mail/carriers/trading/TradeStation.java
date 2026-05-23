@@ -166,7 +166,7 @@ public class TradeStation implements ITradeStation {
 	public IPostalState handleLetter(ServerLevel world, IMailAddress recipient, ItemStack letterstack, boolean doLodge) {
 		boolean sendOwnerNotice = doLodge && this.owner != null;
 
-		ILetter letter = LetterUtils.getLetter(letterstack, world.registryAccess());
+		ILetter letter = LetterUtils.getLetter(letterstack);
 
 		if (!isVirtual() && !hasPaper(sendOwnerNotice ? 2 : 1)) {
 			return EnumTradeStationState.INSUFFICIENT_PAPER;
@@ -231,7 +231,7 @@ public class TradeStation implements ITradeStation {
 		}
 
 		// Send the letter
-		ItemStack mailstack = LetterUtils.createLetterStack(mail, world.registryAccess());
+		ItemStack mailstack = LetterUtils.createLetterStack(mail);
 
 		IPostalState responseState = PostOffice.getOrCreate(world).lodgeLetter(world, mailstack, doLodge);
 
@@ -272,7 +272,7 @@ public class TradeStation implements ITradeStation {
 			confirm.setText(orderFilledMessage);
 			confirm.addStamps(MailItems.STAMPS.stack(EnumStampDefinition.P_1, 1));
 
-			ItemStack confirmstack = LetterUtils.createLetterStack(confirm, world.registryAccess());
+			ItemStack confirmstack = LetterUtils.createLetterStack(confirm);
 
 			PostOffice.getOrCreate(world).lodgeLetter(world, confirmstack, doLodge);
 

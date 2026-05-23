@@ -38,6 +38,9 @@ public class GuiLetter extends GuiForestry<LetterMenu> {
 
 	private boolean addressFocus;
 	private boolean textFocus;
+	private String lastSyncedRecipient = "";
+	private IPostalCarrier lastSyncedCarrier;
+	private String lastSyncedText = "";
 
 	private final ArrayList<Widget> tradeInfoWidgets;
 
@@ -64,6 +67,9 @@ public class GuiLetter extends GuiForestry<LetterMenu> {
 		if (recipient != null) {
             this.address.setValue(recipient.getName());
 		}
+        this.lastSyncedRecipient = this.address.getValue();
+        this.lastSyncedCarrier = this.menu.getCarrier();
+        this.address.setResponder(recipientName -> setRecipient(recipientName, this.menu.getCarrier()));
 
         this.text = new GuiTextBox(this.minecraft.font, this.leftPos + 17, this.topPos + 31, 122, 57);
         this.text.setMaxLength(128);
@@ -71,6 +77,8 @@ public class GuiLetter extends GuiForestry<LetterMenu> {
 		if (!this.menu.getText().isEmpty()) {
             this.text.setValue(this.menu.getText());
 		}
+        this.lastSyncedText = this.text.getValue();
+        this.text.setResponder(this::setText);
 
 		addWidget(this.address);
 		addWidget(this.text);
@@ -150,6 +158,9 @@ public class GuiLetter extends GuiForestry<LetterMenu> {
 			}
 		}
         this.addressFocus = this.address.isFocused();
+		if (this.lastSyncedCarrier != this.menu.getCarrier() && StringUtils.isNotBlank(this.address.getValue())) {
+			setRecipient(this.address.getValue(), this.menu.getCarrier());
+		}
 		if (this.textFocus != this.text.isFocused()) {
 			setText();
 		}
@@ -230,9 +241,8 @@ public class GuiLetter extends GuiForestry<LetterMenu> {
 		IPostalCarrier carrier = ForestryRegistries.POSTAL_CARRIER.get(carrierId);
 
 		if (StringUtils.isNotBlank(recipient) && carrier != null) {
-            this.address.setValue(recipient);
-
             this.menu.setCarrier(carrier);
+            this.address.setValue(recipient);
 		}
 
 		SessionVars.clearStringVar("mail.letter.recipient");
@@ -243,18 +253,29 @@ public class GuiLetter extends GuiForestry<LetterMenu> {
 		if (this.isProcessedLetter || StringUtils.isBlank(recipientName)) {
 			return;
 		}
+		if (recipientName.equals(this.lastSyncedRecipient) && carrier == this.lastSyncedCarrier) {
+			return;
+		}
 
+        this.lastSyncedRecipient = recipientName;
+        this.lastSyncedCarrier = carrier;
 		PacketLetterInfoRequest packet = new PacketLetterInfoRequest(recipientName, carrier);
 		NetworkUtil.sendToServer(packet);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	private void setText() {
-		if (this.isProcessedLetter) {
+		setText(this.text.getValue());
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	private void setText(String text) {
+		if (this.isProcessedLetter || this.lastSyncedText.equals(text)) {
 			return;
 		}
 
-        this.menu.setText(this.text.getValue());
+        this.lastSyncedText = text;
+        this.menu.setText(text);
 	}
 
 	@Override

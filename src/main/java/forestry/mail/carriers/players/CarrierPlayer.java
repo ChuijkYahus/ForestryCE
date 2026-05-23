@@ -42,16 +42,13 @@ public class CarrierPlayer implements IPostalCarrier {
 	@Override
 	public IPostalState deliverLetter(ServerLevel level, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
 		POBox pobox = POBoxRegistry.getOrCreate(level).getOrCreatePOBox(recipient);
-		if (pobox == null) {
-			return EnumDeliveryState.NO_MAILBOX;
-		}
 
-		if (!pobox.storeLetter(letterStack.copy(), level.registryAccess())) {
+		if (!pobox.storeLetter(letterStack.copy())) {
 			return EnumDeliveryState.MAILBOX_FULL;
 		} else {
 			Player player = PlayerUtil.getPlayer(level, recipient.getPlayerProfile());
 			if (player instanceof ServerPlayer) {
-				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(level.registryAccess()), false), (ServerPlayer) player);
+				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false), (ServerPlayer) player);
 			}
 		}
 
@@ -60,7 +57,7 @@ public class CarrierPlayer implements IPostalCarrier {
 
 	@Override
 	public IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName) {
-		return minecraftServer.getProfileCache().get(recipientName).map(MailAddress::new).orElse(null);
+		return minecraftServer.getProfileCache().get(recipientName).map(MailAddress::new).orElse(MailAddress.INVALID);
 	}
 
 	@Override

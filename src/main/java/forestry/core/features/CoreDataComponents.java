@@ -2,13 +2,13 @@ package forestry.core.features;
 
 import forestry.api.genetics.IGenome;
 import forestry.api.modules.ForestryModuleIds;
+import forestry.mail.Letter;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.world.item.component.CustomData;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -76,9 +76,13 @@ public class CoreDataComponents {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ITEM_INVENTORY_UID =
 		intComponent("item_inventory_uid");
 
-	// todo make a Codec<Letter> and use that instead
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<CustomData>> LETTER_DATA =
-		customDataComponent("letter_data");
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Letter>> LETTER_DATA =
+		DATA_COMPONENT_TYPES.register(
+			"letter_data",
+			() -> DataComponentType.<Letter>builder()
+				.persistent(Letter.CODEC)
+				.networkSynchronized(ByteBufCodecs.fromCodec(Letter.CODEC))
+				.build());
 
 	private static DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> booleanComponent(String id) {
 		return DATA_COMPONENT_TYPES.register(id, () -> DataComponentType.<Boolean>builder()
@@ -94,10 +98,4 @@ public class CoreDataComponents {
 			.build());
 	}
 
-	private static DeferredHolder<DataComponentType<?>, DataComponentType<CustomData>> customDataComponent(String id) {
-		return DATA_COMPONENT_TYPES.register(id, () -> DataComponentType.<CustomData>builder()
-			.persistent(CustomData.CODEC)
-			.networkSynchronized(CustomData.STREAM_CODEC)
-			.build());
-	}
 }

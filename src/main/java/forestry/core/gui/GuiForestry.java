@@ -83,7 +83,6 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 
 	@Override
 	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-		renderBackground(graphics, mouseX, mouseY, partialTicks);
 		super.render(graphics, mouseX, mouseY, partialTicks);
 		renderTooltip(graphics, mouseX, mouseY);
 	}

@@ -151,20 +151,20 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	@Override
 	public void writeData(RegistryFriendlyByteBuf data) {
-		FluidStack.STREAM_CODEC.encode(data, this.fluid);
+		FluidStack.OPTIONAL_STREAM_CODEC.encode(data, this.fluid);
 	}
 
 	public void writeData(FriendlyByteBuf data) {
-		FluidStack.STREAM_CODEC.encode((RegistryFriendlyByteBuf) data, this.fluid);
+		FluidStack.OPTIONAL_STREAM_CODEC.encode((RegistryFriendlyByteBuf) data, this.fluid);
 	}
 
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-        this.fluid = FluidStack.STREAM_CODEC.decode(data);
+        this.fluid = FluidStack.OPTIONAL_STREAM_CODEC.decode(data);
 	}
 
 	public void readData(FriendlyByteBuf data) {
-        this.fluid = FluidStack.STREAM_CODEC.decode((RegistryFriendlyByteBuf) data);
+        this.fluid = FluidStack.OPTIONAL_STREAM_CODEC.decode((RegistryFriendlyByteBuf) data);
 	}
 
 	@OnlyIn(Dist.CLIENT)

@@ -1,15 +1,12 @@
 package forestry.mail.items;
 
 import forestry.api.core.IItemSubtype;
-import forestry.api.mail.ILetter;
-import forestry.core.features.CoreDataComponents;
 import forestry.core.items.WithScreenItem;
 import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
 import forestry.mail.gui.LetterMenu;
 import forestry.mail.inventory.LetterInventory;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -18,10 +15,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 import java.util.Locale;
@@ -49,7 +43,7 @@ public class LetterItem extends WithScreenItem {
 	private final State state;
 
 	public LetterItem(Size size, State state) {
-		super(new Item.Properties().stacksTo(64).component(CoreDataComponents.LETTER_DATA.get(), CustomData.EMPTY));
+		super(new Item.Properties().stacksTo(64));
 		this.size = size;
 		this.state = state;
 	}
@@ -79,19 +73,17 @@ public class LetterItem extends WithScreenItem {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, context, list, flag);
 
-		CompoundTag compoundNBT = LetterUtils.getLetterData(itemstack);
-		if (compoundNBT == null) {
+		Letter letter = LetterUtils.getLetterData(itemstack);
+		if (letter == null) {
 			list.add(Component.literal("<")
 				.append(Component.translatable("for.gui.blank").append(">"))
 				.withStyle(ChatFormatting.GRAY));
 			return;
 		}
 
-		ILetter letter = new Letter(compoundNBT, context.registries());
 		letter.addTooltip(list);
 	}
 

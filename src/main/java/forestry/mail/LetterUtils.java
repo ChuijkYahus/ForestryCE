@@ -3,57 +3,59 @@ package forestry.mail;
 import forestry.api.mail.ILetter;
 import forestry.core.features.CoreDataComponents;
 import forestry.mail.features.MailItems;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 
 import javax.annotation.Nullable;
 
 public class LetterUtils {
-	public static ItemStack createLetterStack(ILetter letter, HolderLookup.Provider registries) {
-		CompoundTag compoundNBT = new CompoundTag();
-		letter.write(compoundNBT, registries);
-
+	public static ItemStack createLetterStack(ILetter letter) {
 		ItemStack letterStack = LetterProperties.createStampedLetterStack(letter);
-		setLetterData(letterStack, compoundNBT);
+		setLetterData(letterStack, letter);
 
 		return letterStack;
 	}
 
 	@Nullable
-	public static ILetter getLetter(ItemStack itemstack, HolderLookup.Provider registries) {
-		if (itemstack.isEmpty()) {
+	public static ILetter getLetter(ItemStack stack) {
+		if (stack.isEmpty()) {
 			return null;
 		}
 
-		if (!LetterUtils.isLetter(itemstack)) {
+		if (!LetterUtils.isLetter(stack)) {
 			return null;
 		}
 
-		CompoundTag tag = getLetterData(itemstack);
-		if (tag == null) {
-			return null;
-		}
-
-		return new Letter(tag, registries);
+		return getLetterData(stack);
 	}
 
-	public static boolean isLetter(ItemStack itemstack) {
-		return MailItems.LETTERS.itemEqual(itemstack);
+	public static boolean isLetter(ItemStack stack) {
+		return MailItems.LETTERS.itemEqual(stack);
 	}
 
 	@Nullable
-	public static CompoundTag getLetterData(ItemStack stack) {
-		CustomData data = stack.get(CoreDataComponents.LETTER_DATA);
-		return data == null || data.isEmpty() ? null : data.copyTag();
+	public static Letter getLetterData(ItemStack stack) {
+		Letter letter = stack.get(CoreDataComponents.LETTER_DATA);
+		return letter == null ? null : letter.copy();
 	}
 
-	public static void setLetterData(ItemStack stack, CompoundTag tag) {
-		if (tag.isEmpty()) {
-			stack.remove(CoreDataComponents.LETTER_DATA);
-		} else {
-			stack.set(CoreDataComponents.LETTER_DATA, CustomData.of(tag.copy()));
+	public static void setLetterData(ItemStack stack, ILetter letter) {
+		stack.set(CoreDataComponents.LETTER_DATA, letter instanceof Letter forestryLetter ? forestryLetter.copy() : fromLetter(letter));
+	}
+
+	private static Letter fromLetter(ILetter letter) {
+		if (letter instanceof Letter forestryLetter) {
+			return forestryLetter.copy();
 		}
+
+		Letter copy = new Letter(MailAddress.copyOf(letter.getSender()), letter.getRecipient() == null ? null : MailAddress.copyOf(letter.getRecipient()));
+		copy.setProcessed(letter.isProcessed());
+		copy.setText(letter.getText());
+		copy.addAttachments(letter.getAttachments());
+		for (ItemStack stamp : letter.getPostage()) {
+			if (!stamp.isEmpty()) {
+				copy.addStamps(stamp.copy());
+			}
+		}
+		return copy;
 	}
 }

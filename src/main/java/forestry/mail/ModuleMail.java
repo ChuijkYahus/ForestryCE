@@ -46,7 +46,7 @@ public class ModuleMail extends BlankForestryModule {
 
 		IMailAddress address = new MailAddress(player.getGameProfile());
 		POBox pobox = POBoxRegistry.getOrCreate((ServerLevel) player.level()).getOrCreatePOBox(address);
-		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(player.level().registryAccess()), false);
+		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false);
 		NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
 	}
 

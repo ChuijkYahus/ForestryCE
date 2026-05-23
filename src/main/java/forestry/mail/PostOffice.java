@@ -63,7 +63,7 @@ public class PostOffice extends SavedData implements IPostOffice {
 	// / DELIVERY
 	@Override
 	public IPostalState lodgeLetter(ServerLevel world, ItemStack itemstack, boolean doLodge) {
-		ILetter letter = LetterUtils.getLetter(itemstack, world.registryAccess());
+		ILetter letter = LetterUtils.getLetter(itemstack);
 		if (letter == null) {
 			return EnumDeliveryState.NOT_MAILABLE;
 		}

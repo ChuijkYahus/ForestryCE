@@ -11,9 +11,10 @@ import forestry.core.utils.SlotUtil;
 import forestry.mail.Letter;
 import forestry.mail.LetterProperties;
 import forestry.mail.LetterUtils;
+import forestry.mail.MailAddress;
 import forestry.mail.items.ItemStamp;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,11 +24,8 @@ public class LetterInventory extends ItemInventory implements IErrorSource {
 
 	public LetterInventory(Player player, ItemStack itemstack) {
 		super(player, 0, itemstack);
-		CompoundTag tagCompound = LetterUtils.getLetterData(itemstack);
-		if (tagCompound == null) {
-			tagCompound = new CompoundTag();
-		}
-        this.letter = new Letter(tagCompound, player.level().registryAccess());
+		Letter letter = LetterUtils.getLetterData(itemstack);
+        this.letter = letter == null ? new Letter(new MailAddress(player.getGameProfile()), null) : letter;
 	}
 
 	private HolderLookup.Provider getRegistries() {
@@ -39,35 +37,44 @@ public class LetterInventory extends ItemInventory implements IErrorSource {
 		return false;
 	}
 
+	@Override
+	protected void writeInventoryToParent(ItemStack parent) {
+		// Letter contents are stored in CoreDataComponents.LETTER_DATA, not ItemInventory's legacy custom_data storage.
+	}
+
 	public ILetter getLetter() {
 		return this.letter;
 	}
 
 	public void onLetterClosed() {
 		ItemStack parent = getParent();
-		setParent(LetterProperties.closeLetter(parent, this.letter, getRegistries()));
+		setParentStack(LetterProperties.closeLetter(parent, this.letter, getRegistries()));
 	}
 
 	public void onLetterOpened() {
 		ItemStack parent = getParent();
-		setParent(LetterProperties.openLetter(parent));
+		setParentStack(LetterProperties.openLetter(parent));
+	}
+
+	private void setParentStack(ItemStack stack) {
+		InteractionHand hand = getHand();
+		setParent(stack);
+		if (hand != null) {
+			this.player.setItemInHand(hand, stack);
+		}
 	}
 
 	@Override
 	public ItemStack removeItem(int index, int count) {
 		ItemStack result = this.letter.removeItem(index, count);
-		CompoundTag tagCompound = new CompoundTag();
-        this.letter.write(tagCompound, getRegistries());
-		LetterUtils.setLetterData(getParent(), tagCompound);
+		LetterUtils.setLetterData(getParent(), this.letter);
 		return result;
 	}
 
 	@Override
 	public void setItem(int index, ItemStack itemstack) {
         this.letter.setItem(index, itemstack);
-		CompoundTag tagCompound = new CompoundTag();
-        this.letter.write(tagCompound, getRegistries());
-		LetterUtils.setLetterData(getParent(), tagCompound);
+		LetterUtils.setLetterData(getParent(), this.letter);
 	}
 
 	@Override

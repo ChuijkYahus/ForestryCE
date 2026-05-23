@@ -68,10 +68,10 @@ public class ToastMailboxInfo implements Toast {
 
 	public static void addOrUpdate(ToastComponent toastGui, POBoxInfo poBox, boolean modifiedThroughPlayer) {
 		ToastMailboxInfo toast = toastGui.getToast(ToastMailboxInfo.class, NO_TOKEN);
-		if (toast == null && !modifiedThroughPlayer) {
-			toastGui.addToast(new ToastMailboxInfo(poBox));
-		} else {
+		if (toast != null) {
 			toast.poBox = poBox;
+		} else if (!modifiedThroughPlayer) {
+			toastGui.addToast(new ToastMailboxInfo(poBox));
 		}
 
 	}

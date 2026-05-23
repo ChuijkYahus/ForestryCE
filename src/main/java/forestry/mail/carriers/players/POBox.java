@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class POBox implements Container, IWatchable, INbtReadable, INbtWritable {
-
 	public static final short SLOT_SIZE = 84;
 
 	@Nullable
@@ -64,32 +63,29 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 		return compoundNBT;
 	}
 
-	public boolean storeLetter(ItemStack letterstack, HolderLookup.Provider registries) {
-		ILetter letter = LetterUtils.getLetter(letterstack, registries);
+	public boolean storeLetter(ItemStack stack) {
+		ILetter letter = LetterUtils.getLetter(stack);
 		Preconditions.checkNotNull(letter, "Letter stack must be a valid letter");
 
 		// Mark letter as processed
 		letter.setProcessed(true);
 		letter.invalidatePostage();
-		CompoundTag compoundNBT = new CompoundTag();
-		letter.write(compoundNBT, registries);
-		LetterUtils.setLetterData(letterstack, compoundNBT);
+		LetterUtils.setLetterData(stack, letter);
 
 		this.setDirty();
 
-		return InventoryUtil.tryAddStack(this.letters, letterstack, true);
+		return InventoryUtil.tryAddStack(this.letters, stack, true);
 	}
 
-	public POBoxInfo getPOBoxInfo(HolderLookup.Provider registries) {
+	public POBoxInfo getPOBoxInfo() {
 		int playerLetters = 0;
 		int tradeLetters = 0;
 		for (int i = 0; i < this.letters.getContainerSize(); i++) {
 			if (this.letters.getItem(i).isEmpty()) {
 				continue;
 			}
-			CompoundTag tagCompound = LetterUtils.getLetterData(this.letters.getItem(i));
-			if (tagCompound != null) {
-				ILetter letter = new Letter(tagCompound, registries);
+			Letter letter = LetterUtils.getLetterData(this.letters.getItem(i));
+			if (letter != null) {
 				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.value())) {
 					playerLetters++;
 				} else {
@@ -100,8 +96,6 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 		return new POBoxInfo(playerLetters, tradeLetters);
 	}
-
-	/* IINVENTORY */
 
 	@Override
 	public boolean isEmpty() {
@@ -150,11 +144,6 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 		return this.letters.removeItemNoUpdate(index);
 	}
 
-	//	@Override
-	//	public String getName() {
-	//		return letters.getName();
-	//	}
-
 	@Override
 	public int getMaxStackSize() {
 		return this.letters.getMaxStackSize();
@@ -162,20 +151,11 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 	@Override
 	public void setChanged() {
-
 	}
 
 	@Override
 	public boolean stillValid(Player var1) {
 		return this.letters.stillValid(var1);
-	}
-
-	@Override
-	public void startOpen(Player var1) {
-	}
-
-	@Override
-	public void stopOpen(Player var1) {
 	}
 
 	@Override
@@ -186,5 +166,4 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 	@Override
 	public void clearContent() {
 	}
-
 }

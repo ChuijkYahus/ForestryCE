@@ -1,24 +1,37 @@
 package forestry.mail;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IStamps;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 
 public class Letter implements ILetter {
+	public static final Codec<Letter> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+		Codec.BOOL.optionalFieldOf("processed", false).forGetter(Letter::isProcessed),
+		MailAddress.CODEC.fieldOf("sender").forGetter(letter -> MailAddress.copyOf(letter.sender)),
+		MailAddress.CODEC.optionalFieldOf("recipient").forGetter(letter -> Optional.ofNullable(letter.recipient).map(MailAddress::copyOf)),
+		Codec.STRING.optionalFieldOf("text", "").forGetter(Letter::getText),
+		Codec.INT.fieldOf("uid").forGetter(letter -> letter.uid),
+		ItemContainerContents.CODEC.optionalFieldOf("inventory", ItemContainerContents.EMPTY).forGetter(Letter::getInventoryContents)
+	).apply(instance, Letter::new));
+
 	private static final Random rand = new Random();
 	public static final short SLOT_ATTACHMENT_1 = 0;
 	public static final short SLOT_ATTACHMENT_COUNT = 18;
@@ -35,41 +48,29 @@ public class Letter implements ILetter {
 	private final InventoryAdapter inventory = new InventoryAdapter(22, "INV");
 	private final int uid;
 
-	public Letter(IMailAddress sender, IMailAddress recipient) {
+	public Letter(IMailAddress sender, @Nullable IMailAddress recipient) {
 		this.sender = sender;
 		this.recipient = recipient;
 		this.uid = rand.nextInt();
 	}
 
-	public Letter(CompoundTag compoundNBT, HolderLookup.Provider registries) {
-		this.isProcessed = compoundNBT.getBoolean("PRC");
-		this.sender = new MailAddress(compoundNBT.getCompound("SDR"));
-		this.recipient = new MailAddress(compoundNBT.getCompound("RC"));
-
-		this.text = compoundNBT.getString("TXT");
-		this.uid = compoundNBT.getInt("UID");
-		this.inventory.read(compoundNBT, registries);
+	private Letter(boolean processed, MailAddress sender, Optional<MailAddress> recipient, String text, int uid, ItemContainerContents contents) {
+		this.isProcessed = processed;
+		this.sender = sender;
+		this.recipient = recipient.orElse(null);
+		this.text = text;
+		this.uid = uid;
+		for (int i = 0; i < Math.min(this.inventory.getContainerSize(), contents.getSlots()); i++) {
+			this.inventory.setItem(i, contents.getStackInSlot(i));
+		}
 	}
 
-	@Override
-	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+	public Letter copy() {
+		return new Letter(this.isProcessed, MailAddress.copyOf(this.sender), Optional.ofNullable(this.recipient).map(MailAddress::copyOf), this.text, this.uid, getInventoryContents());
+	}
 
-		compoundNBT.putBoolean("PRC", this.isProcessed);
-
-		CompoundTag subcompound = new CompoundTag();
-		this.sender.write(subcompound, registries);
-		compoundNBT.put("SDR", subcompound);
-
-		if (this.recipient != null) {
-			subcompound = new CompoundTag();
-			this.recipient.write(subcompound, registries);
-			compoundNBT.put("RC", subcompound);
-		}
-
-		compoundNBT.putString("TXT", this.text);
-		compoundNBT.putInt("UID", this.uid);
-        this.inventory.write(compoundNBT, registries);
-		return compoundNBT;
+	private ItemContainerContents getInventoryContents() {
+		return ItemContainerContents.fromItems(getInventoryStacks());
 	}
 
 	@Override
@@ -223,6 +224,38 @@ public class Letter implements ILetter {
 				.append(": " + this.getRecipientString())
 				.withStyle(ChatFormatting.GRAY));
 		}
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (!(object instanceof Letter letter)) {
+			return false;
+		}
+		if (this.isProcessed != letter.isProcessed || this.uid != letter.uid || !this.sender.equals(letter.sender) || !Objects.equals(this.recipient, letter.recipient) || !this.text.equals(letter.text)) {
+			return false;
+		}
+		for (int i = 0; i < this.inventory.getContainerSize(); i++) {
+			if (!ItemStack.matches(this.inventory.getItem(i), letter.inventory.getItem(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.isProcessed, this.sender, this.recipient, this.text, this.uid, ItemStack.hashStackList(getInventoryStacks()));
+	}
+
+	private List<ItemStack> getInventoryStacks() {
+		List<ItemStack> stacks = new ArrayList<>(this.inventory.getContainerSize());
+		for (int i = 0; i < this.inventory.getContainerSize(); i++) {
+			stacks.add(this.inventory.getItem(i));
+		}
+		return stacks;
 	}
 
 	// / IINVENTORY
