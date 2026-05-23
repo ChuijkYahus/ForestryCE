@@ -46,9 +46,9 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
-		super.saveAdditional(compoundNBT, registries);
-        this.game.write(compoundNBT, registries);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+        this.game.write(nbt, registries);
 	}
 
 	/* GAME */
