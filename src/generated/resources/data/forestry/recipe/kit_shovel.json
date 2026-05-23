@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "forestry:bronze_shovel"
+    },
+    {
+      "item": "forestry:carton"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "forestry:kit_shovel"
+  }
+}

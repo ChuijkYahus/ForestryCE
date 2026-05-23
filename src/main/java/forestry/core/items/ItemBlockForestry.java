@@ -24,7 +24,9 @@ public class ItemBlockForestry<B extends Block> extends BlockItem {
 		if (builder instanceof ItemProperties properties) {
 			this.burnTime = properties.burnTime;
 		} else {
-            this.burnTime = -1;
+			// 0 = "not a fuel". NeoForge 1.21 IItemStackExtension#getBurnTime throws on
+			// negative returns, so the legacy -1 sentinel is no longer valid.
+			this.burnTime = 0;
 		}
 	}
 

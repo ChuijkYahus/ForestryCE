@@ -1,47 +1,27 @@
 package forestry.core.owner;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.syncher.EntityDataAccessor;
+
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public enum GameProfileDataSerializer implements EntityDataSerializer<Optional<GameProfile>> {
-	INSTANCE;
-
-	@Override
-	public void write(FriendlyByteBuf buf, Optional<GameProfile> value) {
-		if (!value.isPresent()) {
-			buf.writeBoolean(false);
-		} else {
-			buf.writeBoolean(true);
-			GameProfile gameProfile = value.get();
-			buf.writeUUID(gameProfile.getId());
-			buf.writeUtf(gameProfile.getName());
-		}
+public final class GameProfileDataSerializer {
+	private GameProfileDataSerializer() {
 	}
 
-	@Override
-	public Optional<GameProfile> read(FriendlyByteBuf buf) {
-		if (buf.readBoolean()) {
-			UUID uuid = buf.readUUID();
-			String name = buf.readUtf(1024);
-			GameProfile gameProfile = new GameProfile(uuid, name);
-			return Optional.of(gameProfile);
-		} else {
-			return Optional.empty();
-		}
-	}
+	private static final StreamCodec<RegistryFriendlyByteBuf, GameProfile> GAME_PROFILE_STREAM_CODEC = StreamCodec.composite(
+			UUIDUtil.STREAM_CODEC, GameProfile::getId,
+			ByteBufCodecs.STRING_UTF8, GameProfile::getName,
+			GameProfile::new
+	);
 
-	@Override
-	public EntityDataAccessor<Optional<GameProfile>> createAccessor(int id) {
-		return new EntityDataAccessor<>(id, this);
-	}
-
-	@Override
-	public Optional<GameProfile> copy(Optional<GameProfile> value) {
-		return value;
-	}
+	public static final EntityDataSerializer<Optional<GameProfile>> INSTANCE = EntityDataSerializer.forValueType(
+			GAME_PROFILE_STREAM_CODEC.apply(ByteBufCodecs::optional)
+	);
 }

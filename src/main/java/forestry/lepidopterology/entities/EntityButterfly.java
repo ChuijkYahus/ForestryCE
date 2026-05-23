@@ -19,6 +19,8 @@ import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.ModuleLepidopterology;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -35,8 +37,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -112,12 +118,12 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
 
-        this.entityData.define(DATAWATCHER_ID_SPECIES, "");
-        this.entityData.define(DATAWATCHER_ID_SIZE, (int) (DEFAULT_BUTTERFLY_SIZE * 100));
-        this.entityData.define(DATAWATCHER_ID_STATE, (byte) DEFAULT_STATE.ordinal());
+        builder.define(DATAWATCHER_ID_SPECIES, "");
+        builder.define(DATAWATCHER_ID_SIZE, (int) (DEFAULT_BUTTERFLY_SIZE * 100));
+        builder.define(DATAWATCHER_ID_STATE, (byte) DEFAULT_STATE.ordinal());
 	}
 
 	@Override
@@ -173,7 +179,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 		Tag pollenNbt = nbt.get(NBT_POLLEN);
 		if (pollenNbt != null && nbt.contains(NBT_POLLEN_TYPE)) {
-			IPollenType<?> type = IForestryApi.INSTANCE.getPollenManager().getPollenType(new ResourceLocation(nbt.getString(NBT_POLLEN_TYPE)));
+			IPollenType<?> type = IForestryApi.INSTANCE.getPollenManager().getPollenType(ResourceLocation.parse(nbt.getString(NBT_POLLEN_TYPE)));
 
 			if (type != null) {
 				this.pollen = type.readNbt(pollenNbt);
@@ -296,7 +302,11 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		int depth = 0;
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos(xx, 0, zz);
 
-		for (int y = chunk.getHighestSectionPosition() + 15; y > 0; --y) {
+		int highestFilledSection = chunk.getHighestFilledSectionIndex();
+		int top = highestFilledSection == -1
+				? chunk.getMinBuildHeight()
+				: net.minecraft.core.SectionPos.sectionToBlockCoord(chunk.getSectionYFromSectionIndex(highestFilledSection));
+		for (int y = top + 15; y > 0; --y) {
 			BlockState blockState = chunk.getBlockState(cursor.setY(y));
 			if (blockState.liquid()) {
 				depth++;
@@ -362,7 +372,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	}
 
 	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn) {
 		if (!level().isClientSide) {
 			setIndividual(this.contained);
 		}
@@ -383,7 +393,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	}
 
 	@Override
-	public int getPortalWaitTime() {
+	public int getDimensionChangingDelay() {
 		return 1000;
 	}
 
@@ -439,9 +449,21 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 	/* LOOT */
 	@Override
-	protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHitIn) {
+	protected void dropCustomDeathLoot(ServerLevel serverLevel, DamageSource source, boolean recentlyHitIn) {
 		Level level = level();
-		for (ItemStack stack : this.contained.getLootDrop(this, recentlyHitIn, looting)) {
+		// MC 1.21: looting is no longer passed as a parameter to dropCustomDeathLoot.
+		// Derive it from the killer's equipped enchantments when the attacker is a
+		// LivingEntity (covers melee kills and most mob-on-mob kills). Projectile
+		// kills where the shooter is offline/non-living fall back to 0; vanilla's
+		// LootParams-based path would be needed to fully cover those cases.
+		int lootLevel = 0;
+		if (source.getEntity() instanceof LivingEntity attacker) {
+			Holder<Enchantment> looting = serverLevel.registryAccess()
+					.lookupOrThrow(Registries.ENCHANTMENT)
+					.getOrThrow(Enchantments.LOOTING);
+			lootLevel = EnchantmentHelper.getEnchantmentLevel(looting, attacker);
+		}
+		for (ItemStack stack : this.contained.getLootDrop(this, recentlyHitIn, lootLevel)) {
 			ItemStackUtil.dropItemStackAsEntity(stack, level, getX(), getY(), getZ());
 		}
 
@@ -463,7 +485,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		if (level().isClientSide) {
 			if (this.species == null) {
 				String speciesUid = this.entityData.get(DATAWATCHER_ID_SPECIES);
-				IButterflySpecies species = SpeciesUtil.BUTTERFLY_TYPE.get().getSpeciesSafe(new ResourceLocation(speciesUid));
+				IButterflySpecies species = SpeciesUtil.BUTTERFLY_TYPE.get().getSpeciesSafe(ResourceLocation.parse(speciesUid));
 
 				if (species != null) {
 					this.species = species;

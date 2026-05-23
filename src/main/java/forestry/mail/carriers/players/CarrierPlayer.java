@@ -46,12 +46,12 @@ public class CarrierPlayer implements IPostalCarrier {
 			return EnumDeliveryState.NO_MAILBOX;
 		}
 
-		if (!pobox.storeLetter(letterStack.copy())) {
+		if (!pobox.storeLetter(letterStack.copy(), level.registryAccess())) {
 			return EnumDeliveryState.MAILBOX_FULL;
 		} else {
 			Player player = PlayerUtil.getPlayer(level, recipient.getPlayerProfile());
 			if (player instanceof ServerPlayer) {
-				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false), (ServerPlayer) player);
+				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(level.registryAccess()), false), (ServerPlayer) player);
 			}
 		}
 

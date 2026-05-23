@@ -18,7 +18,7 @@ public class TextureHabitatLocator extends TextureAtlasSprite {
 
 	public TextureHabitatLocator(String iconName) {
 		//TODO texture size
-		super(new ResourceLocation(iconName), 0, 0);
+		super(ResourceLocation.parse(iconName), 0, 0);
 		instance = this;
 	}
 

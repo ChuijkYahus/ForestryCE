@@ -1,24 +1,40 @@
 package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.recipes.ISqueezerRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SqueezerRecipe implements ISqueezerRecipe {
+	private static final MapCodec<SqueezerRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+		ResourceLocation.CODEC.fieldOf("id").forGetter(SqueezerRecipe::getId),
+		Codec.INT.fieldOf("time").forGetter(SqueezerRecipe::getProcessingTime),
+		Ingredient.CODEC_NONEMPTY.listOf().fieldOf("resources").forGetter(SqueezerRecipe::getInputs),
+		FluidStack.CODEC.fieldOf("output").forGetter(SqueezerRecipe::getFluidOutput),
+		// "remnant" is optional: many squeezer recipes drop no remnant.
+		// ItemStack.STRICT_CODEC rejects EMPTY at serialization, so map EMPTY to absent.
+		ItemStack.STRICT_CODEC.optionalFieldOf("remnant").forGetter(r -> r.remnants.isEmpty() ? java.util.Optional.<ItemStack>empty() : java.util.Optional.of(r.remnants)),
+		Codec.FLOAT.fieldOf("chance").forGetter(SqueezerRecipe::getRemnantsChance)
+	).apply(instance, (id, time, resources, fluid, remnants, chance) -> new SqueezerRecipe(id, time, resources, fluid, remnants.orElse(ItemStack.EMPTY), chance)));
+	private static final StreamCodec<RegistryFriendlyByteBuf, SqueezerRecipe> STREAM_CODEC = StreamCodec.of(
+		Serializer::toNetwork,
+		Serializer::fromNetwork
+	);
+
 	private final ResourceLocation id;
 	private final int processingTime;
 	private final List<Ingredient> resources;
@@ -88,38 +104,33 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 
 	public static class Serializer implements RecipeSerializer<SqueezerRecipe> {
 		@Override
-		public SqueezerRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			int processingTime = GsonHelper.getAsInt(json, "time");
-			ArrayList<Ingredient> resources = new ArrayList<>();
-			FluidStack fluidOutput = RecipeSerializers.deserializeFluid(GsonHelper.getAsJsonObject(json, "output"));
-			ItemStack remnants = RecipeSerializers.item(GsonHelper.getAsJsonObject(json, "remnant"));
-			float remnantsChance = GsonHelper.getAsFloat(json, "chance");
+		public MapCodec<SqueezerRecipe> codec() {
+			return CODEC;
+		}
 
-			for (JsonElement element : GsonHelper.getAsJsonArray(json, "resources")) {
-				resources.add(RecipeSerializers.deserialize(element));
-			}
+		@Override
+		public StreamCodec<RegistryFriendlyByteBuf, SqueezerRecipe> streamCodec() {
+			return STREAM_CODEC;
+		}
+
+		private static SqueezerRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+			ResourceLocation recipeId = ResourceLocation.STREAM_CODEC.decode(buffer);
+			int processingTime = ByteBufCodecs.VAR_INT.decode(buffer);
+			List<Ingredient> resources = Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()).decode(buffer);
+			FluidStack fluidOutput = FluidStack.STREAM_CODEC.decode(buffer);
+			ItemStack remnants = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
+			float remnantsChance = ByteBufCodecs.FLOAT.decode(buffer);
 
 			return new SqueezerRecipe(recipeId, processingTime, resources, fluidOutput, remnants, remnantsChance);
 		}
 
-		@Override
-		public SqueezerRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			int processingTime = buffer.readVarInt();
-			List<Ingredient> resources = RecipeSerializers.read(buffer, Ingredient::fromNetwork);
-			FluidStack fluidOutput = FluidStack.readFromPacket(buffer);
-			ItemStack remnants = buffer.readItem();
-			float remnantsChance = buffer.readFloat();
-
-			return new SqueezerRecipe(recipeId, processingTime, resources, fluidOutput, remnants, remnantsChance);
-		}
-
-		@Override
-		public void toNetwork(FriendlyByteBuf buffer, SqueezerRecipe recipe) {
-			buffer.writeVarInt(recipe.processingTime);
-			RecipeSerializers.write(buffer, recipe.resources, (packetBuffer, ingredient) -> ingredient.toNetwork(packetBuffer));
-			recipe.fluidOutput.writeToPacket(buffer);
-			buffer.writeItem(recipe.remnants);
-			buffer.writeFloat(recipe.remnantsChance);
+		private static void toNetwork(RegistryFriendlyByteBuf buffer, SqueezerRecipe recipe) {
+			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
+			ByteBufCodecs.VAR_INT.encode(buffer, recipe.processingTime);
+			Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()).encode(buffer, recipe.resources);
+			FluidStack.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
+			ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, recipe.remnants);
+			ByteBufCodecs.FLOAT.encode(buffer, recipe.remnantsChance);
 		}
 	}
 }

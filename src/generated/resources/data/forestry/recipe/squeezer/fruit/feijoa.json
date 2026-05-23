@@ -1,0 +1,19 @@
+{
+  "type": "forestry:squeezer",
+  "chance": 0.2,
+  "id": "forestry:squeezer/fruit/feijoa",
+  "output": {
+    "amount": 100,
+    "id": "forestry:juice"
+  },
+  "remnant": {
+    "count": 1,
+    "id": "forestry:mulch"
+  },
+  "resources": [
+    {
+      "tag": "forge:fruits/feijoa"
+    }
+  ],
+  "time": 10
+}

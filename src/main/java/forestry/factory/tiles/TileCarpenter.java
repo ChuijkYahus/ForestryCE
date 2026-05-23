@@ -22,6 +22,7 @@ import forestry.factory.gui.ContainerCarpenter;
 import forestry.factory.inventory.InventoryCarpenter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -73,18 +74,18 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 	/* LOADING & SAVING */
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
-        this.tankManager.write(compoundNBT);
-        this.craftingInventory.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
+        this.craftingInventory.write(compoundNBT, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.tankManager.read(compoundNBT);
-        this.craftingInventory.read(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
+        this.tankManager.read(compoundNBT, registries);
+        this.craftingInventory.read(compoundNBT, registries);
 	}
 
 	@Override
@@ -155,7 +156,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 		FluidStack fluid = this.currentRecipe.getInputFluid();
 		if (!fluid.isEmpty()) {
 			FluidStack drained = this.resourceTank.drainInternal(fluid, IFluidHandler.FluidAction.SIMULATE);
-			if (!fluid.isFluidStackIdentical(drained)) {
+			if (!FluidStack.matches(fluid, drained)) {
 				return false;
 			}
 			if (doRemove) {

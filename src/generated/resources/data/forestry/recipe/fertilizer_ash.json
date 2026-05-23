@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "forge:dusts/ash"
+    },
+    "X": {
+      "tag": "forge:gems/apatite"
+    }
+  },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "result": {
+    "count": 16,
+    "id": "forestry:fertilizer_compound"
+  }
+}

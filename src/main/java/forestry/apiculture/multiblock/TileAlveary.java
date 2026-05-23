@@ -42,7 +42,7 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 
 	// For Forestry only
 	public TileAlveary(BlockAlveary.Type type, BlockPos pos, BlockState state) {
-		this(type.getTileType().tileType(), ApicultureBlocks.ALVEARY.get(type).getTranslationKey(), pos, state);
+		this(type.tileFeature().tileType(), ApicultureBlocks.ALVEARY.get(type).getTranslationKey(), pos, state);
 	}
 
 	// For addons

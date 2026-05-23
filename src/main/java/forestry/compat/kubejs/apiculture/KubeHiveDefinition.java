@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 // I was told that KubeJS cannot make classes that implement an interface with more than one method. So...
 public record KubeHiveDefinition(IHiveGen placement, BlockState hiveState, Predicate<Holder<Biome>> isGoodBiome,
 								 Predicate<HumidityType> isGoodHumidity, Predicate<TemperatureType> isGoodTemperature,
-								 float genChance, PostGenFunction postGen) implements IHiveDefinition {
+								 PostGenFunction postGen) implements IHiveDefinition {
 	@Override
 	public IHiveGen getHiveGen() {
 		return this.placement;
@@ -40,11 +40,6 @@ public record KubeHiveDefinition(IHiveGen placement, BlockState hiveState, Predi
 	@Override
 	public boolean isGoodTemperature(TemperatureType temperature) {
 		return this.isGoodTemperature.test(temperature);
-	}
-
-	@Override
-	public float getGenChance() {
-		return this.genChance;
 	}
 
 	@Override

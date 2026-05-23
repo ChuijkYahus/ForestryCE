@@ -88,7 +88,7 @@ public class BlockSapling extends Block implements BonemealableBlock, EntityBloc
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
 		TileSapling sapling = TileUtil.getTile(level, pos, TileSapling.class);
 		if (sapling == null || sapling.getTree() == null) {
 			return ItemStack.EMPTY;
@@ -108,7 +108,7 @@ public class BlockSapling extends Block implements BonemealableBlock, EntityBloc
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
 		return true;
 	}
 

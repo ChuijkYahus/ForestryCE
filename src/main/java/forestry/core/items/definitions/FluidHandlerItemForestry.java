@@ -1,5 +1,6 @@
 package forestry.core.items.definitions;
 
+import forestry.core.features.CoreDataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -13,7 +14,7 @@ public class FluidHandlerItemForestry extends FluidHandlerItemStackSimple.Consum
 	private final EnumContainerType containerType;
 
 	public FluidHandlerItemForestry(ItemStack container, EnumContainerType containerType) {
-		super(container, FluidType.BUCKET_VOLUME);
+		super(CoreDataComponents.FLUID_CONTENT, container, FluidType.BUCKET_VOLUME);
 		this.containerType = containerType;
 	}
 
@@ -51,4 +52,3 @@ public class FluidHandlerItemForestry extends FluidHandlerItemStackSimple.Consum
         this.container.setDamageValue(1); // show the filled container model
 	}
 }
-

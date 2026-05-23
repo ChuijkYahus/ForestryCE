@@ -1,0 +1,19 @@
+{
+  "type": "forestry:squeezer",
+  "chance": 0.1,
+  "id": "forestry:squeezer/fruit/papaya",
+  "output": {
+    "amount": 600,
+    "id": "forestry:juice"
+  },
+  "remnant": {
+    "count": 1,
+    "id": "forestry:mulch"
+  },
+  "resources": [
+    {
+      "tag": "forge:fruits/papaya"
+    }
+  ],
+  "time": 10
+}

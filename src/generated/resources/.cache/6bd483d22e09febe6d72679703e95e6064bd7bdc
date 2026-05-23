@@ -1,4 +1,4 @@
-// 1.20.1	2024-11-21T17:52:29.5745199	damage_type generator for forestry
+// 1.21.1	2026-05-05T12:47:22.382719327	damage_type generator for forestry
 cc54f81c46640ec5dbe091e74982d81b90bfc501 data/forestry/damage_type/aggressive.json
 e8fda71d775d5e73dfb952180f4cdfed84e28b92 data/forestry/damage_type/clockwork.json
 7123e4b4112a4e24c218c6c66a559e012ad2660b data/forestry/damage_type/heroic.json

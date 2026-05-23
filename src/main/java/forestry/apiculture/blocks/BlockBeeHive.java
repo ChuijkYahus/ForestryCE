@@ -21,7 +21,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
@@ -71,10 +74,10 @@ public class BlockBeeHive extends Block implements EntityBlock {
 	}
 
 	@Override
-	public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
-		super.playerWillDestroy(world, pos, state, player);
+	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
 		boolean canHarvest = canHarvestBlock(state, world, pos, player);
 		TileUtil.actOnTile(world, pos, IHiveTile.class, tile -> tile.onBroken(world, pos, player, canHarvest));
+		return super.playerWillDestroy(world, pos, state, player);
 	}
 
 	@Nullable
@@ -94,10 +97,13 @@ public class BlockBeeHive extends Block implements EntityBlock {
 		ItemStack tool = builder.getParameter(LootContextParams.TOOL);
 
 		if (tool.is(ForestryTags.Items.SCOOPS)) {
-			if(EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, tool)>0){
+			HolderLookup.RegistryLookup<Enchantment> enchantments = builder.getLevel().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+			Holder<Enchantment> silkTouch = enchantments.getOrThrow(Enchantments.SILK_TOUCH);
+			if(EnchantmentHelper.getItemEnchantmentLevel(silkTouch, tool)>0){
 				return List.of(new ItemStack(this));
 			}
-			int fortune = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, tool);
+			Holder<Enchantment> fortuneEnchantment = enchantments.getOrThrow(Enchantments.FORTUNE);
+			int fortune = EnchantmentHelper.getItemEnchantmentLevel(fortuneEnchantment, tool);
 			return getDrops(builder.getLevel(), pos, fortune);
 		}
 		return List.of();

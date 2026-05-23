@@ -23,6 +23,7 @@ import forestry.api.genetics.pollen.IPollenManager;
 import forestry.api.genetics.pollen.IPollenType;
 import forestry.core.config.Constants;
 import forestry.core.config.ForestryConfig;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.genetics.IndividualLiving;
 import forestry.core.genetics.mutations.Mutation;
 import forestry.core.utils.SpeciesUtil;
@@ -84,6 +85,20 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 	@Override
 	public int getGeneration() {
 		return this.generation;
+	}
+
+	@Override
+	protected void savePropertiesToStack(ItemStack stack) {
+		super.savePropertiesToStack(stack);
+		stack.set(CoreDataComponents.BEE_PRISTINE, this.pristine);
+		stack.set(CoreDataComponents.BEE_GENERATION, this.generation);
+	}
+
+	@Override
+	public void loadPropertiesFromStack(ItemStack stack) {
+		super.loadPropertiesFromStack(stack);
+		this.pristine = stack.getOrDefault(CoreDataComponents.BEE_PRISTINE, Boolean.TRUE);
+		this.generation = stack.getOrDefault(CoreDataComponents.BEE_GENERATION, 0);
 	}
 
 	/* EFFECTS */

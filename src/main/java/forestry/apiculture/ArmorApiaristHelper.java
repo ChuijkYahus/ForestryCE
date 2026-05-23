@@ -2,6 +2,7 @@ package forestry.apiculture;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.apiculture.IArmorApiaristHelper;
+import forestry.api.apiculture.IBeeProtection;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;

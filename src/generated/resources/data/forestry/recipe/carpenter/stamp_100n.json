@@ -1,0 +1,29 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/stamp_100n",
+  "liquid": {
+    "amount": 300,
+    "id": "forestry:seed_oil"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "#": {
+        "item": "minecraft:nether_star"
+      },
+      "P": {
+        "item": "minecraft:paper"
+      }
+    },
+    "pattern": [
+      "###",
+      "PPP"
+    ],
+    "result": {
+      "count": 9,
+      "id": "forestry:stamp_100n"
+    }
+  },
+  "time": 5
+}

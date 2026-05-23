@@ -7,7 +7,6 @@ import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
@@ -55,16 +54,6 @@ public abstract class TileTreeContainer extends BlockEntity implements IStreamab
 		if (treeNbt != null) {
 			this.containedTree = SpeciesUtil.deserializeIndividual(SpeciesUtil.TREE_TYPE.get(), treeNbt);
 		}
-	}
-
-	@Deprecated(forRemoval = true)
-	public void load(CompoundTag nbt) {
-		loadAdditional(nbt, getRegistries());
-	}
-
-	@Deprecated(forRemoval = true)
-	public void saveAdditional(CompoundTag nbt) {
-		saveAdditional(nbt, getRegistries());
 	}
 
 	@Override
@@ -131,9 +120,5 @@ public abstract class TileTreeContainer extends BlockEntity implements IStreamab
 	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
 		super.handleUpdateTag(tag, registries);
 		NBTUtilForestry.readStreamableFromNbt(this, tag, registries);
-	}
-
-	protected HolderLookup.Provider getRegistries() {
-		return this.level != null ? this.level.registryAccess() : RegistryAccess.EMPTY;
 	}
 }

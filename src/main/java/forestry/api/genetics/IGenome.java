@@ -2,6 +2,7 @@ package forestry.api.genetics;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.mojang.serialization.Codec;
 import forestry.api.genetics.alleles.*;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -12,6 +13,8 @@ import java.util.Map;
  * Holds the {@link AllelePair}s which comprise the traits of a given individual.
  */
 public interface IGenome {
+	Codec<IGenome> CODEC = IKaryotype.CODEC.dispatch("karyotype", IGenome::getKaryotype, karyotype -> karyotype.getGenomeCodec().fieldOf("genome"));
+
 	/**
 	 * @return A array with all chromosomes of this genome.
 	 */

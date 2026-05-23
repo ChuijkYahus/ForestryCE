@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "forestry:farm_nether_managed"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "forestry:farm_nether_manual"
+  }
+}

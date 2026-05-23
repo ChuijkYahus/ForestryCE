@@ -32,7 +32,7 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 
 	private static void setupClient(FMLClientSetupEvent event) {
 		// todo use JSON render_type field
-		event.enqueueWork(() -> ApicultureBlocks.BEE_COMB.getBlocks().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout())));
+		event.enqueueWork(() -> ApicultureBlocks.BEE_COMB.getList().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout())));
 	}
 
 	private static void registerMenus(RegisterMenuScreensEvent event) {
@@ -40,7 +40,7 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 		event.register(ApicultureMenuTypes.ALVEARY_HYGROREGULATOR.menuType(), GuiAlvearyHygroregulator::new);
 		event.register(ApicultureMenuTypes.ALVEARY_SIEVE.menuType(), GuiAlvearySieve::new);
 		event.register(ApicultureMenuTypes.ALVEARY_SWARMER.menuType(), GuiAlvearySwarmer::new);
-		event.register(ApicultureMenuTypes.BEE_HOUSING.menuType(), GuiBeeHousing::new);
+		event.register(ApicultureMenuTypes.BEE_HOUSING.menuType(), (MenuScreens.ScreenConstructor<ContainerBeeHousing, GuiBeeHousing<ContainerBeeHousing>>) GuiBeeHousing::new);
 	}
 
 	private static void registerParticleFactory(RegisterParticleProvidersEvent event) {

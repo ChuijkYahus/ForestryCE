@@ -23,6 +23,7 @@ import forestry.factory.gui.ContainerFabricator;
 import forestry.factory.inventory.InventoryFabricator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -66,21 +67,21 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	/* SAVING & LOADING */
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
-		super.saveAdditional(compound);
+	public void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.saveAdditional(compound, registries);
 
 		compound.putInt("Heat", this.heat);
-        this.tankManager.write(compound);
-        this.craftingInventory.write(compound);
+        this.tankManager.write(compound, registries);
+        this.craftingInventory.write(compound, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.loadAdditional(compound, registries);
 
         this.heat = compound.getInt("Heat");
-        this.tankManager.read(compound);
-        this.craftingInventory.read(compound);
+        this.tankManager.read(compound, registries);
+        this.craftingInventory.read(compound, registries);
 	}
 
 	@Override
@@ -156,7 +157,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		ItemStack plan = inventory.getItem(InventoryFabricator.SLOT_PLAN);
 		FluidStack liquid = this.moltenTank.getFluid();
 		IFabricatorRecipe recipe = RecipeUtils.getFabricatorRecipe(this.level.getRecipeManager(), this.level, liquid, plan, this.craftingInventory);
-		if (!liquid.isEmpty() && recipe != null && !liquid.containsFluid(recipe.getResultFluid())) {
+		if (!liquid.isEmpty() && recipe != null && !(FluidStack.isSameFluidSameComponents(liquid, recipe.getResultFluid()) && liquid.getAmount() >= recipe.getResultFluid().getAmount())) {
 			return null;
 		}
 		return recipe;
@@ -188,7 +189,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 			// Remove resources
 			if (removeFromInventory(myRecipe, false)) {
 				FluidStack drained = this.moltenTank.drainInternal(liquid, IFluidHandler.FluidAction.SIMULATE);
-				if (!drained.isEmpty() && drained.isFluidStackIdentical(liquid)) {
+				if (!drained.isEmpty() && FluidStack.matches(drained, liquid)) {
 					removeFromInventory(myRecipe, true);
                     this.moltenTank.drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
 
@@ -224,7 +225,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 			hasResources = removeFromInventory(recipe, false);
 			FluidStack toDrain = recipe.getResultFluid();
 			FluidStack drained = this.moltenTank.drainInternal(toDrain, IFluidHandler.FluidAction.SIMULATE);
-			hasLiquidResources = !drained.isEmpty() && drained.isFluidStackIdentical(toDrain);
+			hasLiquidResources = !drained.isEmpty() && FluidStack.matches(drained, toDrain);
 		} else {
 			hasRecipe = RecipeUtils.getFabricatorMeltingRecipe(this.level.getRecipeManager(), getItem(InventoryFabricator.SLOT_METAL)) != null;
 		}

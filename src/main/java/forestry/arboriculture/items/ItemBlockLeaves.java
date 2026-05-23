@@ -21,6 +21,10 @@ public class ItemBlockLeaves extends ItemBlockForestry<BlockAbstractLeaves> impl
 		super(block, properties);
 	}
 
+	public ItemBlockLeaves(BlockAbstractLeaves block) {
+		this(block, new Item.Properties());
+	}
+
 	@Override
 	public Component getName(ItemStack itemstack) {
 		CompoundTag tag = NBTUtilForestry.getItemStackTag(itemstack);
@@ -29,7 +33,7 @@ public class ItemBlockLeaves extends ItemBlockForestry<BlockAbstractLeaves> impl
 		}
 
 		TileLeaves tileLeaves = new TileLeaves(BlockPos.ZERO, getBlock().defaultBlockState());
-		tileLeaves.load(tag);
+		tileLeaves.loadAdditional(tag, net.minecraft.core.RegistryAccess.EMPTY);
 
 		ITree tree = tileLeaves.getTree();
 		if (tree == null) {
@@ -51,7 +55,7 @@ public class ItemBlockLeaves extends ItemBlockForestry<BlockAbstractLeaves> impl
 		}
 
 		TileLeaves tileLeaves = new TileLeaves(BlockPos.ZERO, getBlock().defaultBlockState());
-		tileLeaves.load(tag);
+		tileLeaves.loadAdditional(tag, net.minecraft.core.RegistryAccess.EMPTY);
 
 		if (renderPass == BlockAbstractLeaves.FRUIT_COLOR_INDEX) {
 			return tileLeaves.getFruitColour();

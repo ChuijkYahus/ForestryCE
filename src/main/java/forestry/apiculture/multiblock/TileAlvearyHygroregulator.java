@@ -16,6 +16,7 @@ import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.utils.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -89,29 +90,27 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.tankManager.read(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
+        this.tankManager.read(compoundNBT, registries);
 
         this.heatTicks = compoundNBT.getInt("TransferTime");
 
 		if (compoundNBT.contains("CurrentLiquid")) {
-			FluidStack liquid = FluidStack.loadFluidStackFromNBT(compoundNBT.getCompound("CurrentLiquid"));
+			FluidStack liquid = FluidStack.parseOptional(registries, compoundNBT.getCompound("CurrentLiquid"));
             this.currentRecipe = RecipeUtils.getHygroRegulatorRecipe(RecipeUtils.getRecipeManager(), liquid);
 		}
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.tankManager.write(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
+        this.tankManager.write(compoundNBT, registries);
 
 		compoundNBT.putInt("TransferTime", this.heatTicks);
 		if (this.currentRecipe != null) {
-			CompoundTag subcompound = new CompoundTag();
-            this.currentRecipe.getInputFluid().writeToNBT(subcompound);
-			compoundNBT.put("CurrentLiquid", subcompound);
+			compoundNBT.put("CurrentLiquid", this.currentRecipe.getInputFluid().save(registries));
 		}
 	}
 

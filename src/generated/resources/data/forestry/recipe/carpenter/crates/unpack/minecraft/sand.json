@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/crates/unpack/minecraft/sand",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:crated_sand"
+      }
+    ],
+    "result": {
+      "count": 9,
+      "id": "minecraft:sand"
+    }
+  },
+  "time": 5
+}

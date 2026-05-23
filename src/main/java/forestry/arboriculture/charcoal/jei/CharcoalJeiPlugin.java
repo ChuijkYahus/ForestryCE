@@ -1,9 +1,9 @@
 package forestry.arboriculture.charcoal.jei;
 
 import forestry.api.ForestryConstants;
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ICharcoalPileWall;
-import forestry.api.arboriculture.TreeManager;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.features.CharcoalBlocks;
 import mezz.jei.api.IModPlugin;
@@ -32,11 +32,7 @@ public class CharcoalJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
-		ICharcoalManager charcoalManager = TreeManager.charcoalManager;
-		if (charcoalManager == null) {
-			return;
-		}
-
+		ICharcoalManager charcoalManager = IForestryApi.INSTANCE.getTreeManager().getCharcoalManager();
 		registration.addRecipes(RECIPE_TYPE, charcoalManager.getWalls());
 	}
 

@@ -23,11 +23,11 @@ public record PacketTankLevelUpdate(BlockPos pos, int tankIndex, FluidStack cont
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketTankLevelUpdate msg) {
 		buffer.writeBlockPos(msg.pos);
 		buffer.writeVarInt(msg.tankIndex);
-		FluidStack.STREAM_CODEC.encode(buffer, msg.contents);
+		FluidStack.OPTIONAL_STREAM_CODEC.encode(buffer, msg.contents);
 	}
 
 	public static PacketTankLevelUpdate decode(RegistryFriendlyByteBuf buffer) {
-		return new PacketTankLevelUpdate(buffer.readBlockPos(), buffer.readVarInt(), FluidStack.STREAM_CODEC.decode(buffer));
+		return new PacketTankLevelUpdate(buffer.readBlockPos(), buffer.readVarInt(), FluidStack.OPTIONAL_STREAM_CODEC.decode(buffer));
 	}
 
 	public static void handle(PacketTankLevelUpdate msg, Player player) {

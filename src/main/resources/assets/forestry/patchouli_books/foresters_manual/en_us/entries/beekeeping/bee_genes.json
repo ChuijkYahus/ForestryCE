@@ -1,7 +1,7 @@
 {
   "name": "for.gui.book.patchouli.entry.beekeeping.genes",
   "category": "forestry:beekeeping",
-  "icon": "forestry:bee_larvae_ge{Genome:{Chromosomes:[{UID1:\"forestry.speciesDiligent\",UID0:\"forestry.speciesDiligent\",Slot:0b}]}}",
+  "icon": "forestry:bee_larvae_ge",
   "pages": [
     {
       "type": "patchouli:text",

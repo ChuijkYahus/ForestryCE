@@ -12,7 +12,26 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.SimpleContainerData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContainerRaintank extends ContainerLiquidTanks<TileRaintank> {
+	private final List<ContainerListener> trackedListeners = new ArrayList<>();
+
+	@Override
+	public void addSlotListener(ContainerListener listener) {
+		super.addSlotListener(listener);
+		if (!this.trackedListeners.contains(listener)) {
+			this.trackedListeners.add(listener);
+		}
+	}
+
+	@Override
+	public void removeSlotListener(ContainerListener listener) {
+		super.removeSlotListener(listener);
+		this.trackedListeners.remove(listener);
+	}
+
 	public static ContainerRaintank fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TileRaintank tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileRaintank.class);
 		return new ContainerRaintank(windowId, inv, tile);
@@ -37,7 +56,7 @@ public class ContainerRaintank extends ContainerLiquidTanks<TileRaintank> {
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		for (ContainerListener crafter : this.containerListeners) {
+		for (ContainerListener crafter : this.trackedListeners) {
             this.tile.sendGUINetworkData(this, crafter);
 		}
 	}

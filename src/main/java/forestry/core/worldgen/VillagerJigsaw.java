@@ -13,9 +13,10 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class VillagerJigsaw {
-	private static final ResourceKey<StructureProcessorList> EMPTY_PROCESSOR_LIST_KEY = ResourceKey.create(Registries.PROCESSOR_LIST, new ResourceLocation("minecraft", "empty"));
+	private static final ResourceKey<StructureProcessorList> EMPTY_PROCESSOR_LIST_KEY = ResourceKey.create(Registries.PROCESSOR_LIST, ResourceLocation.fromNamespaceAndPath("minecraft", "empty"));
 
 	public static void init(Registry<StructureTemplatePool> pools, Registry<StructureProcessorList> processors) {
 		addVillagerHouse(pools, processors, "plains", 15);
@@ -26,7 +27,7 @@ public class VillagerJigsaw {
 	}
 
 	private static void addVillagerHouse(Registry<StructureTemplatePool> pools, Registry<StructureProcessorList> processors, String biome, int weight) {
-		addToJigsawPattern(pools, new ResourceLocation("village/" + biome + "/houses"), new ApiaristPoolElement(Either.left(ForestryConstants.forestry("village/apiarist_house_" + biome + "_1")), processors.getHolderOrThrow(EMPTY_PROCESSOR_LIST_KEY)), weight);
+		addToJigsawPattern(pools, ResourceLocation.parse("village/" + biome + "/houses"), new ApiaristPoolElement(Either.left(ForestryConstants.forestry("village/apiarist_house_" + biome + "_1")), processors.getHolderOrThrow(EMPTY_PROCESSOR_LIST_KEY), StructureTemplatePool.Projection.RIGID, Optional.empty()), weight);
 	}
 
 	public static void addToJigsawPattern(Registry<StructureTemplatePool> pools, ResourceLocation pool, StructurePoolElement newPiece, int weight) {

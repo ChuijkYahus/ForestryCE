@@ -72,9 +72,9 @@ public class RenderNaturalistChest implements BlockEntityRenderer<TileNaturalist
 
 		// render
 		VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(this.texture));
-		this.lid.render(stack, buffer, light, overlay);
-		this.lock.render(stack, buffer, light, overlay);
-		this.base.render(stack, buffer, light, overlay);
+		this.lid.render(stack, buffer, light, overlay, 0xFFFFFFFF);
+		this.lock.render(stack, buffer, light, overlay, 0xFFFFFFFF);
+		this.base.render(stack, buffer, light, overlay, 0xFFFFFFFF);
 
 		stack.popPose();
 	}

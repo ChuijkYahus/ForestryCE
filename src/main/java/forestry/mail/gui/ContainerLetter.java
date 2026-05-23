@@ -1,6 +1,7 @@
 package forestry.mail.gui;
 
 import forestry.Forestry;
+import forestry.api.ForestryRegistries;
 import forestry.api.mail.*;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFiltered;
@@ -29,7 +30,7 @@ import javax.annotation.Nullable;
 import java.util.Iterator;
 
 public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter> implements ILetterInfoReceiver {
-	private IPostalCarrier carrier = PostalCarriers.PLAYER.get();
+	private IPostalCarrier carrier = PostalCarriers.PLAYER.value();
 	@Nullable
 	private ITradeStationInfo tradeInfo = null;
 
@@ -100,7 +101,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 	}
 
 	public void advanceCarrierType() {
-		Iterator<IPostalCarrier> it = PostalCarriers.REGISTRY.get().iterator();
+		Iterator<IPostalCarrier> it = ForestryRegistries.POSTAL_CARRIER.iterator();
 		while (it.hasNext()) {
 			if (it.next().equals(this.carrier)) {
 				break;
@@ -111,7 +112,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 		if (it.hasNext()) {
 			postal = it.next();
 		} else {
-			postal = PostalCarriers.REGISTRY.get().iterator().next();
+			postal = ForestryRegistries.POSTAL_CARRIER.iterator().next();
 		}
 
 		setCarrier(postal);
@@ -128,13 +129,13 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 		getLetter().setRecipient(recipient);
 
 		// Update the trading info
-		if (recipient.getCarrier().equals(PostalCarriers.TRADER.get())) {
+		if (recipient.getCarrier().equals(PostalCarriers.TRADER.value())) {
 			updateTradeInfo(player.level(), recipient);
 		}
 
 		// TODO: Move this to the carrier to make it more extensible
 		// Update info on client
-		if (carrier.equals(PostalCarriers.PLAYER.get())) {
+		if (carrier.equals(PostalCarriers.PLAYER.value())) {
 			NetworkUtil.sendToPlayer(new PacketLetterInfoResponsePlayer(recipient), (ServerPlayer) player);
 		} else {
 			NetworkUtil.sendToPlayer(new PacketLetterInfoResponseTrader(this.tradeInfo), (ServerPlayer) player);
@@ -189,9 +190,9 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 	@Override
 	public void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
 		this.carrier = carrier;
-		if (carrier.equals(PostalCarriers.PLAYER.get())) {
+		if (carrier.equals(PostalCarriers.PLAYER.value())) {
 			getLetter().setRecipient(address);
-		} else if (carrier.equals(PostalCarriers.TRADER.get())) {
+		} else if (carrier.equals(PostalCarriers.TRADER.value())) {
 			this.setTradeInfo(tradeInfo);
 		}
 	}

@@ -1,0 +1,28 @@
+{
+  "type": "forestry:carpenter",
+  "box": {
+    "item": "forestry:carton"
+  },
+  "id": "forestry:carpenter/kit_axe",
+  "recipe": {
+    "category": "equipment",
+    "key": {
+      "#": {
+        "tag": "forge:ingots/bronze"
+      },
+      "X": {
+        "item": "minecraft:stick"
+      }
+    },
+    "pattern": [
+      "## ",
+      "#X ",
+      " X "
+    ],
+    "result": {
+      "count": 1,
+      "id": "forestry:axe_kit"
+    }
+  },
+  "time": 20
+}

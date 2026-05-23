@@ -32,8 +32,8 @@ public class ItemGrafter extends ItemForestry implements IToolGrafter {
 	}
 
 	@Override
-	public boolean isCorrectToolForDrops(BlockState state) {
-		return state.getBlock() instanceof LeavesBlock || state.is(BlockTags.LEAVES) || super.isCorrectToolForDrops(state);
+	public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+		return state.getBlock() instanceof LeavesBlock || state.is(BlockTags.LEAVES) || super.isCorrectToolForDrops(stack, state);
 	}
 
 	@Override

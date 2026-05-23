@@ -15,7 +15,7 @@ import forestry.apiculture.commands.CommandBee;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.items.EnumPollenCluster;
-import forestry.core.genetics.ItemGE;
+import forestry.apiculture.items.ItemArmorApiarist;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
@@ -37,12 +37,14 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.common.brewing.BrewingRecipeRegistry;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 @ForestryModule
@@ -56,12 +58,15 @@ public class ModuleApiculture extends BlankForestryModule {
 	public static int maxFlowersSpawnedPerHive = 20;
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
+	}
+
+	private static void registerBrewingRecipes(RegisterBrewingRecipesEvent event) {
 		// BREWING RECIPES
-		BrewingRecipeRegistry.addRecipe(
+		event.getBuilder().addRecipe(
 			Ingredient.of(PotionContents.createItemStack(Items.POTION, Potions.AWKWARD)),
 			Ingredient.of(ApicultureItems.POLLEN_CLUSTER.stack(EnumPollenCluster.NORMAL, 1)),
 			PotionContents.createItemStack(Items.POTION, Potions.HEALING));
-		BrewingRecipeRegistry.addRecipe(
+		event.getBuilder().addRecipe(
 			Ingredient.of(PotionContents.createItemStack(Items.POTION, Potions.AWKWARD)),
 			Ingredient.of(ApicultureItems.POLLEN_CLUSTER.stack(EnumPollenCluster.CRYSTALLINE, 1)),
 			PotionContents.createItemStack(Items.POTION, Potions.REGENERATION));
@@ -73,11 +78,6 @@ public class ModuleApiculture extends BlankForestryModule {
 			ApicultureItems.APIARIST_CHEST.item(),
 			ApicultureItems.APIARIST_LEGS.item(),
 			ApicultureItems.APIARIST_BOOTS.item());
-		event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, context) -> ((ItemGE) stack.getItem()).createIndividualHandler(stack),
-			ApicultureItems.BEE_QUEEN.item(),
-			ApicultureItems.BEE_DRONE.item(),
-			ApicultureItems.BEE_PRINCESS.item(),
-			ApicultureItems.BEE_LARVAE.item());
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_PLAIN.tileType(), (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SIEVE.tileType(), (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SWARMER.tileType(), (tile, side) -> tile.getItemHandler(side));
@@ -101,9 +101,8 @@ public class ModuleApiculture extends BlankForestryModule {
 			LootPool main = event.getTable().getPool("main");
 
 			if (main != null) {
-				LootPoolEntryContainer[] entries = new LootPoolEntryContainer[main.entries.length + 1];
-				System.arraycopy(main.entries, 0, entries, 0, main.entries.length);
-				entries[main.entries.length] = LootItem.lootTableItem(ApicultureItems.AMBER_DRONE).build();
+				List<LootPoolEntryContainer> entries = new ArrayList<>(main.entries);
+				entries.add(LootItem.lootTableItem(ApicultureItems.AMBER_DRONE).build());
 				main.entries = entries;
 			}
 		}
@@ -124,6 +123,7 @@ public class ModuleApiculture extends BlankForestryModule {
 		modBus.addListener(ModuleApiculture::registerCapabilities);
 		modBus.addListener(ModuleApiculture::onCommonSetup);
 
+		NeoForge.EVENT_BUS.addListener(ModuleApiculture::registerBrewingRecipes);
 		NeoForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);

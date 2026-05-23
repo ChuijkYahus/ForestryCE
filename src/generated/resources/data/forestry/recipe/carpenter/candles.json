@@ -1,0 +1,26 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/candles",
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "#": {
+        "item": "forestry:beeswax"
+      },
+      "X": {
+        "item": "minecraft:string"
+      }
+    },
+    "pattern": [
+      "# #",
+      " X ",
+      "# #"
+    ],
+    "result": {
+      "count": 4,
+      "id": "minecraft:candle"
+    }
+  },
+  "time": 5
+}

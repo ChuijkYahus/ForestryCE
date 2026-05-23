@@ -1,7 +1,6 @@
 package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableMap;
-import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
@@ -20,7 +19,7 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 	private final Registrar<ResourceLocation, IFruit, IFruit> fruits = new Registrar<>(IFruit.class);
 	private final Registrar<ResourceLocation, ITreeEffect, ITreeEffect> effects = new Registrar<>(ITreeEffect.class);
 	private final ImmutableMap.Builder<Block, Block> refractoryWaxables = ImmutableMap.builder();
-	private final ICharcoalManager charcoalPitWalls = new CharcoalManager();
+	private final CharcoalManager charcoalPitWalls = new CharcoalManager();
 
 	public ArboricultureRegistration(ISpeciesType<ITreeSpecies, ?> type) {
 		super(type);
@@ -56,7 +55,7 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 
 	@Override
 	public void registerCharcoalPitWall(BlockState state, int charcoal) {
-		this.charcoalPitWalls.registerWall(state, charcoal);
+		this.charcoalPitWalls.addWall(state, charcoal);
 	}
 
 	public ImmutableMap<ResourceLocation, IFruit> getFruits() {
@@ -68,6 +67,9 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 	}
 
 	public TreeManager buildTreeManager() {
-		return new TreeManager(this.refractoryWaxables.build(), new CharcoalManager());
+		// Reuse the same CharcoalManager registrations were collected into; otherwise the
+		// runtime ITreeManager.getCharcoalManager() instance would be empty and pit walls
+		// registered through registerCharcoalPitWall would never be matched at lookup time.
+		return new TreeManager(this.refractoryWaxables.build(), this.charcoalPitWalls);
 	}
 }

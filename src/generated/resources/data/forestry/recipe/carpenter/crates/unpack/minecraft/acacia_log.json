@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/crates/unpack/minecraft/acacia_log",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:crated_acacia_log"
+      }
+    ],
+    "result": {
+      "count": 9,
+      "id": "minecraft:acacia_log"
+    }
+  },
+  "time": 5
+}

@@ -5,19 +5,9 @@ import forestry.api.arboriculture.WoodBlockKind;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.IWoodTyped;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.features.ArboricultureTiles;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WallHangingSignBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.HangingSignBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
-
-import javax.annotation.Nullable;
 
 public class BlockForestryWallHangingSign extends WallHangingSignBlock implements IWoodTyped {
 	private final ForestryWoodType type;
@@ -43,14 +33,7 @@ public class BlockForestryWallHangingSign extends WallHangingSignBlock implement
 		return this.type;
 	}
 
-	@Nullable
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> actual) {
-		return createTickerHelper(actual, ArboricultureTiles.HANGING_SIGN.tileType(), HangingSignBlockEntity::tick);
-	}
-
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new HangingSignBlockEntity(ArboricultureTiles.HANGING_SIGN.tileType(), pos, state);
-	}
+	// newBlockEntity / getTicker are inherited from WallHangingSignBlock and use vanilla
+	// BlockEntityType.HANGING_SIGN. Forestry registers this block as a valid block for that
+	// BE type via BlockEntityTypeAddBlocksEvent in ModuleArboriculture.
 }

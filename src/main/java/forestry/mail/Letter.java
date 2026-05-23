@@ -6,6 +6,7 @@ import forestry.api.mail.IStamps;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -40,34 +41,34 @@ public class Letter implements ILetter {
 		this.uid = rand.nextInt();
 	}
 
-	public Letter(CompoundTag compoundNBT) {
+	public Letter(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		this.isProcessed = compoundNBT.getBoolean("PRC");
 		this.sender = new MailAddress(compoundNBT.getCompound("SDR"));
 		this.recipient = new MailAddress(compoundNBT.getCompound("RC"));
 
 		this.text = compoundNBT.getString("TXT");
 		this.uid = compoundNBT.getInt("UID");
-		this.inventory.read(compoundNBT);
+		this.inventory.read(compoundNBT, registries);
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 
 		compoundNBT.putBoolean("PRC", this.isProcessed);
 
 		CompoundTag subcompound = new CompoundTag();
-		this.sender.write(subcompound);
+		this.sender.write(subcompound, registries);
 		compoundNBT.put("SDR", subcompound);
 
 		if (this.recipient != null) {
 			subcompound = new CompoundTag();
-			this.recipient.write(subcompound);
+			this.recipient.write(subcompound, registries);
 			compoundNBT.put("RC", subcompound);
 		}
 
 		compoundNBT.putString("TXT", this.text);
 		compoundNBT.putInt("UID", this.uid);
-        this.inventory.write(compoundNBT);
+        this.inventory.write(compoundNBT, registries);
 		return compoundNBT;
 	}
 

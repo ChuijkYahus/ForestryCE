@@ -8,7 +8,9 @@ import forestry.api.genetics.IIndividualLiving;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.alleles.IIntegerChromosome;
+import forestry.core.features.CoreDataComponents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -96,6 +98,28 @@ public abstract class IndividualLiving<S extends ISpecies<I>, I extends IIndivid
 		IndividualLiving<?, ?, ?> living = (IndividualLiving<?, ?, ?>) other;
 		living.health = this.health;
 		living.maxHealth = this.maxHealth;
+	}
+
+	@Override
+	protected void savePropertiesToStack(ItemStack stack) {
+		super.savePropertiesToStack(stack);
+		stack.set(CoreDataComponents.HEALTH, this.health);
+		stack.set(CoreDataComponents.MAX_HEALTH, this.maxHealth);
+	}
+
+	@Override
+	public void loadPropertiesFromStack(ItemStack stack) {
+		super.loadPropertiesFromStack(stack);
+
+		Integer maxHealth = stack.get(CoreDataComponents.MAX_HEALTH);
+		if (maxHealth != null) {
+			this.maxHealth = maxHealth;
+		}
+
+		Integer health = stack.get(CoreDataComponents.HEALTH);
+		if (health != null) {
+			setHealth(health);
+		}
 	}
 
 	private void decreaseHealth() {

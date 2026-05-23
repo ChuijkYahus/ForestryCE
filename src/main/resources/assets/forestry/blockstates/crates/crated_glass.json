@@ -1,13 +1,13 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model": "forge:multi-layer",
+        "model": "neoforge:multi-layer",
         "custom": {
             "base": "forestry:crate#crate",
             "Solid": "forestry:crate#crate",
             "Cutout": "forestry:crates/cratedWood#wood"
         },
-        "transform": "forge:default-item"
+        "transform": "neoforge:default-item"
      },
     "variants": {
       "": [

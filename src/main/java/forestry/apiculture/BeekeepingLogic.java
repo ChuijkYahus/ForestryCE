@@ -23,6 +23,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -79,7 +80,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		compoundNBT.putBoolean("Active", this.active);
 
-		this.hasFlowersCache.write(compoundNBT);
+		this.hasFlowersCache.write(compoundNBT, registries);
 
 		ArrayDeque<ItemStack> spawnCopy = new ArrayDeque<>(this.spawn);
 		ListTag nbttaglist = new ListTag();
@@ -92,14 +93,14 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	}
 
 	@Override
-	public void read(CompoundTag compoundNBT) {
+	public void read(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		this.beeProgress = compoundNBT.getInt("BreedingTime");
 		this.workThrottleCounter = compoundNBT.getInt("Throttle");
 
 		// sadly this means duplicated NBT
 		if (compoundNBT.contains("queen")) {
 			CompoundTag queenNBT = compoundNBT.getCompound("queen");
-			this.queenStack = ItemStack.of(queenNBT);
+			this.queenStack = ItemStack.parse(registries, queenNBT).orElse(ItemStack.EMPTY);
 			this.queen = (IBee) IIndividualHandlerItem.getIndividual(this.queenStack);
 			if (this.queen != null) {
 				this.beeProgressMax = this.queen.getMaxHealth();
@@ -108,11 +109,11 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		setActive(compoundNBT.getBoolean("Active"));
 
-		this.hasFlowersCache.read(compoundNBT);
+		this.hasFlowersCache.read(compoundNBT, registries);
 
 		ListTag list = compoundNBT.getList("Offspring", 10);
 		for (int i = 0; i < list.size(); i++) {
-			this.spawn.add(ItemStack.of(list.getCompound(i)));
+			this.spawn.add(ItemStack.parse(registries, list.getCompound(i)).orElse(ItemStack.EMPTY));
 		}
 	}
 
@@ -120,7 +121,10 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	public void writeData(FriendlyByteBuf data) {
 		data.writeBoolean(this.active);
 		if (this.active) {
-			data.writeItem(this.queenStack);
+			// PacketBeeLogicActive sends this through a RegistryFriendlyByteBuf payload.
+			// OPTIONAL_STREAM_CODEC tolerates ItemStack.EMPTY — the queen slot can be empty
+			// when the apiary has no queen yet, and STREAM_CODEC throws on empty.
+			ItemStack.OPTIONAL_STREAM_CODEC.encode((RegistryFriendlyByteBuf) data, this.queenStack);
 			this.hasFlowersCache.writeData(data);
 		}
 	}
@@ -132,7 +136,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		setActive(active);
 
 		if (active) {
-			this.queenStack = data.readItem();
+			this.queenStack = ItemStack.OPTIONAL_STREAM_CODEC.decode((RegistryFriendlyByteBuf) data);
 			this.queen = (IBee) IIndividualHandlerItem.getIndividual(this.queenStack);
 			this.hasFlowersCache.readData(data);
 		}
@@ -160,8 +164,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		errorLogic.setCondition(!hasSpace, ForestryError.NO_SPACE_INVENTORY);
 
 		ItemStack newQueenStack = beeInventory.getQueen();
-		IIndividualHandlerItem handler = IIndividualHandlerItem.get(newQueenStack);
-		ILifeStage beeType = handler == null ? null : handler.getStage();
+		ILifeStage beeType = IIndividualHandlerItem.getLifeStage(newQueenStack);
 		// check if we're breeding
 		if (beeType == BeeLifeStage.PRINCESS) {
 			boolean hasDrone = SpeciesUtil.BEE_TYPE.get().isDrone(beeInventory.getDrone());
@@ -171,7 +174,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 			return !errorLogic.hasErrors();
 		}
 		if (beeType == BeeLifeStage.QUEEN) {
-			IBee queen = (IBee) handler.getIndividual();
+			IBee queen = (IBee) IIndividualHandlerItem.getIndividual(newQueenStack);
 
 			if (!queen.isAlive()) {
 				Collection<ItemStack> spawned = killQueen(queen, this.housing, this.beeListener);
@@ -324,9 +327,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		ItemStack droneStack = beeInventory.getDrone();
 		ItemStack princessStack = beeInventory.getQueen();
 
-		IIndividualHandlerItem droneType = IIndividualHandlerItem.get(droneStack);
-		IIndividualHandlerItem princessType = IIndividualHandlerItem.get(princessStack);
-		if (droneType == null || princessType == null || droneType.getStage() != BeeLifeStage.DRONE || princessType.getStage() != BeeLifeStage.PRINCESS) {
+		if (IIndividualHandlerItem.getLifeStage(droneStack) != BeeLifeStage.DRONE || IIndividualHandlerItem.getLifeStage(princessStack) != BeeLifeStage.PRINCESS) {
 			this.beeProgress = 0;
 			return;
 		}

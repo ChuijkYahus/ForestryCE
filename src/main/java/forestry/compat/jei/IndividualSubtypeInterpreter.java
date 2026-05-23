@@ -1,6 +1,6 @@
 package forestry.compat.jei;
 
-import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
@@ -17,7 +17,7 @@ public class IndividualSubtypeInterpreter implements ISubtypeInterpreter<ItemSta
 
 	@Override
 	public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context) {
-		IIndividualHandlerItem handler = ingredient.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
-		return handler != null ? handler.getIndividual().getGenome().getActiveSpecies().getBinomial() : "";
+		IIndividual individual = IIndividualHandlerItem.getIndividual(ingredient);
+		return individual != null ? individual.getGenome().getActiveSpecies().getBinomial() : "";
 	}
 }

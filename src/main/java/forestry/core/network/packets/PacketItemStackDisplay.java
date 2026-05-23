@@ -22,11 +22,11 @@ public record PacketItemStackDisplay(BlockPos pos, ItemStack itemStack) implemen
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketItemStackDisplay msg) {
 		buffer.writeBlockPos(msg.pos);
-		buffer.writeItem(msg.itemStack);
+		ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, msg.itemStack);
 	}
 
 	public static PacketItemStackDisplay decode(RegistryFriendlyByteBuf buffer) {
-		return new PacketItemStackDisplay(buffer.readBlockPos(), buffer.readItem());
+		return new PacketItemStackDisplay(buffer.readBlockPos(), ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer));
 	}
 
 	public static void handle(PacketItemStackDisplay msg, Player player) {

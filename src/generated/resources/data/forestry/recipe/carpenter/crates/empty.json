@@ -1,0 +1,27 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/crates/empty",
+  "liquid": {
+    "amount": 1000,
+    "id": "minecraft:water"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "#": {
+        "tag": "minecraft:logs"
+      }
+    },
+    "pattern": [
+      " # ",
+      "# #",
+      " # "
+    ],
+    "result": {
+      "count": 24,
+      "id": "forestry:crate"
+    }
+  },
+  "time": 20
+}

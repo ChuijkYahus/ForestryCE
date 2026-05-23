@@ -27,7 +27,7 @@ public final class FluidHelper {
 		if (fluidStack1 == null) {
 			return fluidStack2 == null;
 		} else {
-			return fluidStack1.isFluidStackIdentical(fluidStack2);
+			return FluidStack.matches(fluidStack1, fluidStack2);
 		}
 	}
 
@@ -209,7 +209,7 @@ public final class FluidHelper {
 			return false;
 		}
 
-		return fluidHandlerCap.filter(handler -> handler.fill(new FluidStack(content, 1), IFluidHandler.FluidAction.SIMULATE) > 0).isPresent();
+		return fluidHandlerCap.filter(handler -> handler.fill(content.copyWithAmount(1), IFluidHandler.FluidAction.SIMULATE) > 0).isPresent();
 	}
 
 	public static boolean isFillableContainerAndEmpty(ItemStack container, FluidStack content) {
@@ -218,7 +218,7 @@ public final class FluidHelper {
 			return false;
 		}
 
-		return fluidHandlerCap.filter(handler -> handler.fill(new FluidStack(content, 1), IFluidHandler.FluidAction.SIMULATE) > 0 && handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE).isEmpty()).isPresent();
+		return fluidHandlerCap.filter(handler -> handler.fill(content.copyWithAmount(1), IFluidHandler.FluidAction.SIMULATE) > 0 && handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE).isEmpty()).isPresent();
 	}
 
 	public static ItemStack getEmptyContainer(ItemStack container) {

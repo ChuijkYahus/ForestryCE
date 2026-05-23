@@ -46,7 +46,6 @@ public class Registrar<K, I, V extends I> {
 		return build((key, value) -> build.apply(value));
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	public <T> ImmutableMap<K, T> build(BiFunction<K, V, T> build) {
 		HashMap<K, V> values = getValues();
 		ImmutableMap.Builder<K, T> builder = ImmutableMap.builderWithExpectedSize(values.size());

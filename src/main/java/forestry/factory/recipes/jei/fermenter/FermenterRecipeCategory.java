@@ -91,8 +91,10 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 
 		IRecipeSlotBuilder fluidOutputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 91, 1)
 			.setFluidRenderer(3000, false, 16, 58)
-			.setOverlay(this.tankOverlay, 0, 0)
-			.addFluidStacks(outputs);
+			.setOverlay(this.tankOverlay, 0, 0);
+		for (FluidStack output : outputs) {
+			fluidOutputSlot.addFluidStack(output.getFluid(), output.getAmount());
+		}
 
 		builder.createFocusLink(ingredientInputSlot, fluidOutputSlot);
 	}

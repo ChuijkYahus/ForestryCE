@@ -15,6 +15,7 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.IActivatable;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
@@ -119,7 +120,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 	private void trySpawnSwarm() {
 		ItemStack toSpawn = this.pendingSpawns.peek();
 		HiveDefinitionSwarmer hiveDescription = new HiveDefinitionSwarmer(toSpawn);
-		Hive hive = new Hive(hiveDescription, hiveDescription.getGenChance(), List.of());
+		Hive hive = new Hive(hiveDescription, HiveDefinitionSwarmer.SWARMER_GEN_CHANCE, List.of());
 
 		ServerLevel level = (ServerLevel) this.level;
 
@@ -133,25 +134,25 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
 		ListTag nbttaglist = compoundNBT.getList("PendingSpawns", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag compoundNBT1 = nbttaglist.getCompound(i);
-            this.pendingSpawns.add(ItemStack.of(compoundNBT1));
+            this.pendingSpawns.add(ItemStack.parse(registries, compoundNBT1).orElse(ItemStack.EMPTY));
 		}
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
 		ListTag nbttaglist = new ListTag();
 		ItemStack[] offspring = this.pendingSpawns.toArray(new ItemStack[0]);
 		for (int i = 0; i < offspring.length; i++) {
 			if (offspring[i] != null) {
-				CompoundTag compoundNBT1 = (CompoundTag) offspring[i].saveOptional(getRegistries());
+				CompoundTag compoundNBT1 = (CompoundTag) offspring[i].saveOptional(registries);
 				compoundNBT1.putByte("Slot", (byte) i);
 				nbttaglist.add(compoundNBT1);
 			}

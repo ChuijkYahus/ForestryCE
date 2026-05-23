@@ -6,8 +6,10 @@ import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
 import mezz.jei.api.gui.builder.IIngredientAcceptor;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -51,8 +53,13 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 	}
 
 	@Override
-	public IDrawable getBackground() {
-		return this.background;
+	public int getWidth() {
+		return this.background.getWidth();
+	}
+
+	@Override
+	public int getHeight() {
+		return this.background.getHeight();
 	}
 
 	@Override
@@ -68,8 +75,8 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 
 		// special handling for the result individual who might have a special genome
 		ItemStack result = recipe.result;
-		IIndividualHandlerItem resultHandler = IIndividualHandlerItem.get(result);
-		IGenome resultGenome = resultHandler == null ? mutation.getResult().getDefaultGenome() : resultHandler.getIndividual().getGenome();
+		IIndividual resultIndividual = IIndividualHandlerItem.getIndividual(result);
+		IGenome resultGenome = resultIndividual == null ? mutation.getResult().getDefaultGenome() : resultIndividual.getGenome();
 
 		// makes all (default) members of the species show the recipe instead of just the drone or princess
 		for (ILifeStage stage : mutation.getType().getLifeStages()) {
@@ -100,6 +107,8 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 
 	@Override
 	public void draw(MutationRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		this.background.draw(graphics);
+
 		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getFirstParent().getDisplayName(), SPECIES_SLOT_0_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
 		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getSecondParent().getDisplayName(), SPECIES_SLOT_1_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
 		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getResult().getDisplayName(), SPECIES_SLOT_2_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
@@ -115,13 +124,11 @@ public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> 
 	}
 
 	@Override
-	public List<Component> getTooltipStrings(MutationRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+	public void getTooltip(ITooltipBuilder tooltip, MutationRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 		List<Component> mutation = recipe.mutation.getSpecialConditions();
 
 		if (!mutation.isEmpty() && mouseX >= 90 && mouseX <= 120 && mouseY >= 11 && mouseY <= 19) {
-			return mutation;
-		} else {
-			return List.of();
+			tooltip.addAll(mutation);
 		}
 	}
 }

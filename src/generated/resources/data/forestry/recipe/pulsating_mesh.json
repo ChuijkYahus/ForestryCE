@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "forestry:propolis_pulsating"
+    }
+  },
+  "pattern": [
+    "# #",
+    " # ",
+    "# #"
+  ],
+  "result": {
+    "count": 1,
+    "id": "forestry:pulsating_mesh"
+  }
+}

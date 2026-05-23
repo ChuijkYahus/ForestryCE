@@ -143,7 +143,7 @@ public class RecipeUtils {
 
 	@Nullable
 	public static IHygroregulatorRecipe getHygroRegulatorRecipe(RecipeManager manager, FluidStack input) {
-		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> input.containsFluid(recipe.getInputFluid()));
+		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> FluidStack.isSameFluidSameComponents(input, recipe.getInputFluid()) && input.getAmount() >= recipe.getInputFluid().getAmount());
 	}
 
 	@Nullable

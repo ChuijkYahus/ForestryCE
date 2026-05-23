@@ -4,6 +4,7 @@ import forestry.api.mail.*;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.postalstates.EnumDeliveryState;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -26,7 +27,7 @@ public class PostOffice extends SavedData implements IPostOffice {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compoundNBT) {
+	public CompoundTag save(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		for (int i = 0; i < this.collectedPostage.length; i++) {
 			compoundNBT.putInt("CPS" + i, this.collectedPostage[i]);
 		}
@@ -62,7 +63,7 @@ public class PostOffice extends SavedData implements IPostOffice {
 	// / DELIVERY
 	@Override
 	public IPostalState lodgeLetter(ServerLevel world, ItemStack itemstack, boolean doLodge) {
-		ILetter letter = LetterUtils.getLetter(itemstack);
+		ILetter letter = LetterUtils.getLetter(itemstack, world.registryAccess());
 		if (letter == null) {
 			return EnumDeliveryState.NOT_MAILABLE;
 		}
@@ -112,6 +113,7 @@ public class PostOffice extends SavedData implements IPostOffice {
 	}
 
 	public static PostOffice getOrCreate(ServerLevel level) {
-		return level.getDataStorage().computeIfAbsent(PostOffice::new, PostOffice::new, PostOffice.SAVE_NAME);
+		SavedData.Factory<PostOffice> factory = new SavedData.Factory<>(PostOffice::new, (tag, registries) -> new PostOffice(tag));
+		return level.getDataStorage().computeIfAbsent(factory, PostOffice.SAVE_NAME);
 	}
 }

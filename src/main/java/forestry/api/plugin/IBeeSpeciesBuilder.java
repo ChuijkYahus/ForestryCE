@@ -5,6 +5,7 @@ import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.core.Product;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
@@ -31,8 +32,7 @@ public interface IBeeSpeciesBuilder extends ISpeciesBuilder<IBeeSpeciesType, IBe
 	 * @param chance A float between 0 and 1. The chance that this product is produced during a single work cycle.
 	 */
 	default IBeeSpeciesBuilder addProduct(ItemStack stack, float chance) {
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-		return addProduct(new Product(stack.getItem(), stack.getCount(), customData == null ? null : customData.copyTag(), chance));
+		return addProduct(new Product(stack.getItem(), stack.getCount(), stack.getComponentsPatch(), chance));
 	}
 
 	/**
@@ -49,8 +49,7 @@ public interface IBeeSpeciesBuilder extends ISpeciesBuilder<IBeeSpeciesType, IBe
 	 * @param chance A float between 0 and 1. The chance that this product is produced during a single work cycle.
 	 */
 	default IBeeSpeciesBuilder addSpecialty(ItemStack stack, float chance) {
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-		return addSpecialty(new Product(stack.getItem(), stack.getCount(), customData == null ? null : customData.copyTag(), chance));
+		return addSpecialty(new Product(stack.getItem(), stack.getCount(), stack.getComponentsPatch(), chance));
 	}
 
 	/**

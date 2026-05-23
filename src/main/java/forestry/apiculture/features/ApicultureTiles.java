@@ -17,7 +17,7 @@ import forestry.modules.features.ModFeatureRegistry;
 public class ApicultureTiles {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.APICULTURE);
 
-	public static final FeatureTileType<TileHive> HIVE = REGISTRY.tile(TileHive::new, "hive", () -> ApicultureBlocks.BEEHIVE.getBlocks());
+	public static final FeatureTileType<TileHive> HIVE = REGISTRY.tile(TileHive::new, "hive", () -> ApicultureBlocks.BEEHIVE.getList());
 	public static final FeatureTileType<TileApiary> APIARY = REGISTRY.tile(TileApiary::new, "apiary", () -> ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).collect());
 	public static final FeatureTileType<TileBeeHouse> BEE_HOUSE = REGISTRY.tile(TileBeeHouse::new, "bee_house", () -> ApicultureBlocks.BASE.get(BlockTypeApiculture.BEE_HOUSE).collect());
 	public static final FeatureTileType<TileAlvearyPlain> ALVEARY_PLAIN = REGISTRY.tile(TileAlvearyPlain::new, "alveary", () -> ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.PLAIN).collect());

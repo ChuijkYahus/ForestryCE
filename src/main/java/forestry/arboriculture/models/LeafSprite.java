@@ -21,10 +21,10 @@ public class LeafSprite implements ILeafSprite {
 		String path = "block/leaves/" + id.getPath();
 
 		return new LeafSprite(
-			new ResourceLocation(namespace, path + "_fast"),
-			new ResourceLocation(namespace, path),
-			new ResourceLocation(namespace, path + "_pollinated_fast"),
-			new ResourceLocation(namespace, path + "_pollinated")
+			ResourceLocation.fromNamespaceAndPath(namespace, path + "_fast"),
+			ResourceLocation.fromNamespaceAndPath(namespace, path),
+			ResourceLocation.fromNamespaceAndPath(namespace, path + "_pollinated_fast"),
+			ResourceLocation.fromNamespaceAndPath(namespace, path + "_pollinated")
 		);
 	}
 
@@ -42,4 +42,3 @@ public class LeafSprite implements ILeafSprite {
 		return this.fancy;
 	}
 }
-

@@ -58,11 +58,11 @@ public class ButterflyModel extends EntityModel<EntityButterfly> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer builder, int light, int overlay, float ageInTicks, float netHeadYaw, float headPitch, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer builder, int light, int overlay, int color) {
 		poseStack.scale(this.scale, this.scale, this.scale);
 		poseStack.translate(0.0F, 1.45f / this.scale, 0.0F);
 
-        this.root.render(poseStack, builder, light, overlay);
+        this.root.render(poseStack, builder, light, overlay, color);
 	}
 
 	@Override

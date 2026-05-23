@@ -39,7 +39,7 @@ public enum WoodAccess implements IWoodAccess {
 	}
 
 	public <T extends Block & IWoodTyped> void registerFeatures(FeatureBlockGroup<? extends T, ? extends IWoodType> featureGroup, WoodBlockKind kind) {
-		for (T block : featureGroup.getBlocks()) {
+		for (T block : featureGroup.getList()) {
 			registerWithoutVariants(block, kind);
 		}
 	}

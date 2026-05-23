@@ -1,0 +1,24 @@
+{
+  "type": "forestry:squeezer",
+  "chance": 0.2,
+  "id": "forestry:squeezer/mulch",
+  "output": {
+    "amount": 200,
+    "id": "forestry:juice"
+  },
+  "remnant": {
+    "count": 1,
+    "id": "forestry:mulch"
+  },
+  "resources": [
+    [
+      {
+        "item": "minecraft:apple"
+      },
+      {
+        "item": "minecraft:carrot"
+      }
+    ]
+  ],
+  "time": 10
+}

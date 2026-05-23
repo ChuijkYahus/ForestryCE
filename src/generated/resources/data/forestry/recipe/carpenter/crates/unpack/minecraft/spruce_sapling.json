@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/crates/unpack/minecraft/spruce_sapling",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:crated_spruce_sapling"
+      }
+    ],
+    "result": {
+      "count": 9,
+      "id": "minecraft:spruce_sapling"
+    }
+  },
+  "time": 5
+}

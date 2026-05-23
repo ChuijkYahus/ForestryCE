@@ -53,7 +53,7 @@ public class FertileBeeEffect extends ThrottledBeeEffect {
 		for (int y = maxY; y >= minY; --y) {
 			BlockState state = level.getBlockState(new BlockPos(x, y, z));
 			Block block = state.getBlock();
-			if (block.isRandomlyTicking(state) && (block instanceof BonemealableBlock || state.is(BlockTags.SAPLINGS))) {
+			if (state.isRandomlyTicking() && (block instanceof BonemealableBlock || state.is(BlockTags.SAPLINGS))) {
 				level.scheduleTick(new BlockPos(x, y, z), block, 5);
 				return true;
 			}

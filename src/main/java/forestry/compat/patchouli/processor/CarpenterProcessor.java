@@ -5,6 +5,7 @@ import forestry.api.recipes.ICarpenterRecipe;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -21,7 +22,7 @@ public class CarpenterProcessor implements IComponentProcessor {
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		ItemStack stack = variables.get("item").as(ItemStack.class, ItemStack.EMPTY);
+		ItemStack stack = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
 
 		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), stack);
 	}
@@ -29,12 +30,13 @@ public class CarpenterProcessor implements IComponentProcessor {
 	@Override
 	public IVariable process(Level level, String key) {
 		Preconditions.checkNotNull(this.recipe);
+		HolderLookup.Provider registries = level.registryAccess();
 		if (key.equals("output")) {
-			return IVariable.from(this.recipe.getResultItem(level.registryAccess()));
+			return IVariable.from(this.recipe.getResultItem(registries), registries);
 		} else if (key.equals("fluid")) {
-			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getInputFluid().getFluid()).toString());
+			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getInputFluid().getFluid()).toString(), registries);
 		} else if (key.equals("fluidAmount")) {
-			return IVariable.wrap(this.recipe.getInputFluid().getAmount());
+			return IVariable.wrap(this.recipe.getInputFluid().getAmount(), registries);
 		} else if (key.startsWith("ingredient")) {
 			int index = Integer.parseInt(key.substring("ingredient".length()));
 			if (index < 1 || index > 9) {
@@ -47,7 +49,7 @@ public class CarpenterProcessor implements IComponentProcessor {
 			} catch (Exception e) {
 				ingredient = Ingredient.EMPTY;
 			}
-			return IVariable.from(ingredient.getItems());
+			return IVariable.from(ingredient.getItems(), registries);
 		} else {
 			return IVariable.empty();
 		}

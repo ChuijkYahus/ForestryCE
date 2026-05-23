@@ -18,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.NeoForge;
@@ -70,10 +71,9 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 
 			// Don't want to call canWork twice in one tick
 			if (housing != null && !housing.getErrorLogic().hasErrors()) {
-				IIndividualHandlerItem handler = IIndividualHandlerItem.get(housing.getBeeInventory().getQueen());
-
-				if (handler != null && handler.getStage() == BeeLifeStage.QUEEN) {
-					IIndividual queen = handler.getIndividual();
+				ItemStack queenStack = housing.getBeeInventory().getQueen();
+				if (IIndividualHandlerItem.getLifeStage(queenStack) == BeeLifeStage.QUEEN) {
+					IIndividual queen = IIndividualHandlerItem.getIndividual(queenStack);
 					IGenome genome = queen.getGenome();
 
 					if (genome.getActiveValue(BeeChromosomes.EFFECT) == this || genome.getInactiveValue(BeeChromosomes.EFFECT) == this) {

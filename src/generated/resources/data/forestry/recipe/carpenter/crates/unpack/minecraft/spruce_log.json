@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/crates/unpack/minecraft/spruce_log",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:crated_spruce_log"
+      }
+    ],
+    "result": {
+      "count": 9,
+      "id": "minecraft:spruce_log"
+    }
+  },
+  "time": 5
+}

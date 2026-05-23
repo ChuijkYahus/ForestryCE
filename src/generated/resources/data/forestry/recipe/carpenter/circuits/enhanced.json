@@ -1,0 +1,39 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/circuits/enhanced",
+  "liquid": {
+    "amount": 1000,
+    "id": "minecraft:water"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "#": {
+        "tag": "forge:ingots/bronze"
+      },
+      "R": {
+        "tag": "c:dusts/redstone"
+      }
+    },
+    "pattern": [
+      "R#R",
+      "R#R",
+      "R#R"
+    ],
+    "result": {
+      "count": 1,
+      "id": "forestry:circuit_board_enhanced"
+    }
+  },
+  "result": {
+    "components": {
+      "minecraft:custom_data": {
+        "T": 1
+      }
+    },
+    "count": 1,
+    "id": "forestry:circuit_board_enhanced"
+  },
+  "time": 40
+}

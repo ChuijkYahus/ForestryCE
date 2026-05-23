@@ -1,10 +1,11 @@
 package forestry.sorting.tiles;
 
-import forestry.api.ForestryCapabilities;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.filter.FilterData;
 import forestry.core.inventory.AdjacentInventoryCache;
 import forestry.core.inventory.InventoryAdapterTile;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.network.IStreamableGui;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;
@@ -15,6 +16,7 @@ import forestry.sorting.gui.ContainerGeneticFilter;
 import forestry.sorting.inventory.ItemHandlerFilter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -48,17 +50,17 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
 
-		data.put("Logic", this.logic.write(new CompoundTag()));
+		data.put("Logic", this.logic.write(new CompoundTag(), registries));
 	}
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
 
-        this.logic.read(data.getCompound("Logic"));
+        this.logic.read(data.getCompound("Logic"), registries);
 	}
 
 	@Override
@@ -129,13 +131,13 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	}
 
 	public List<Direction> getValidDirections(ItemStack stack, Direction from) {
-		IIndividualHandlerItem handler = IIndividualHandlerItem.get(stack);
-
-		if (handler == null) {
+		IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
+		ILifeStage stage = IIndividualHandlerItem.getLifeStage(stack);
+		if (individual == null || stage == null) {
 			return List.of();
 		}
 
-		FilterData filterData = new FilterData(handler.getIndividual(), handler.getStage());
+		FilterData filterData = new FilterData(individual, stage);
 		List<Direction> validFacings = new ArrayList<>();
 
 		for (Direction facing : Direction.VALUES) {

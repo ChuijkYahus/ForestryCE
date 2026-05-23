@@ -184,49 +184,60 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		Supplier<List<ItemStack>> simmerComb = getHoneyComb(EnumHoneyComb.SIMMERING);
 
 		apiculture.registerHive(ForestryBeeSpecies.FOREST, HiveDefinition.FOREST)
+			.setGenerationChance(HiveDefinition.FOREST.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.FOREST, honeyComb, 0.7f)
 			.addDrop(0.08, ForestryBeeSpecies.FOREST, honeyComb, 0.0f, Map.of(BeeChromosomes.TOLERATES_RAIN, ForestryAlleles.TRUE))
 			.addDrop(0.08, ForestryBeeSpecies.VALIANT, honeyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.MEADOWS, HiveDefinition.MEADOWS)
+			.setGenerationChance(HiveDefinition.MEADOWS.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.MEADOWS, honeyComb, 0.7f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, honeyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.MODEST, HiveDefinition.DESERT)
+			.setGenerationChance(HiveDefinition.DESERT.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.MODEST, parchedComb, 0.7f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.TROPICAL, HiveDefinition.JUNGLE)
+			.setGenerationChance(HiveDefinition.JUNGLE.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.TROPICAL, silkyComb, 0.7f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, silkyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.ENDED, HiveDefinition.END)
+			.setGenerationChance(HiveDefinition.END.defaultGenChance())
 			.addDrop(0.90, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f)
 			.addDrop(0.09, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_PHASING))
 			.addDrop(0.03, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_ASCENSION));
 
 		apiculture.registerHive(ForestryBeeSpecies.WINTRY, HiveDefinition.SNOW)
+			.setGenerationChance(HiveDefinition.SNOW.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.WINTRY, frozenComb, 0.5f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, frozenComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.MARSHY, HiveDefinition.SWAMP)
+			.setGenerationChance(HiveDefinition.SWAMP.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.MARSHY, mossyComb, 0.7f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, mossyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.SAVANNA, HiveDefinition.SAVANNA)
+			.setGenerationChance(HiveDefinition.SAVANNA.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f)
 			.addDrop(0.35, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_AGGRESSIVE))
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.LUSH, HiveDefinition.LUSH)
+			.setGenerationChance(HiveDefinition.LUSH.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.LUSH, honeyComb, 0.5F)
 			.addDrop(0.08, ForestryBeeSpecies.VALIANT, honeyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.AQUATIC, HiveDefinition.AQUATIC)
+			.setGenerationChance(HiveDefinition.AQUATIC.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.AQUATIC, spongeComb, 0.4F)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, spongeComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.EMBITTERED, HiveDefinition.NETHER)
+			.setGenerationChance(HiveDefinition.NETHER.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.EMBITTERED, simmerComb, 0.7F);
 
 		// Common village bees

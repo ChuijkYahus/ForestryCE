@@ -67,7 +67,7 @@ public class CentrifugeRecipeCategory extends ForestryRecipeCategory<ICentrifuge
 			Product product = sortedProducts.get(i);
 			outputSlots.get(i)
 				.addItemStack(product.createStack())
-				.addTooltipCallback(new ChanceTooltipCallback(product.chance()));
+				.addRichTooltipCallback(new ChanceTooltipCallback(product.chance()));
 		}
 	}
 

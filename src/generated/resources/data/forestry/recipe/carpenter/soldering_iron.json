@@ -1,0 +1,30 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/soldering_iron",
+  "liquid": {
+    "amount": 1000,
+    "id": "minecraft:water"
+  },
+  "recipe": {
+    "category": "equipment",
+    "key": {
+      "#": {
+        "tag": "c:ingots/iron"
+      },
+      "B": {
+        "tag": "forge:ingots/bronze"
+      }
+    },
+    "pattern": [
+      " # ",
+      "# #",
+      "  B"
+    ],
+    "result": {
+      "count": 1,
+      "id": "forestry:soldering_iron"
+    }
+  },
+  "time": 40
+}

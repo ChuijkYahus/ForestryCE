@@ -1,0 +1,14 @@
+{
+  "type": "forestry:fermenter",
+  "fermentationValue": 50,
+  "fluidResource": {
+    "amount": 1,
+    "id": "forestry:honey"
+  },
+  "id": "forestry:fermenter/wheat_honey",
+  "modifier": 1.5,
+  "output": "forestry:biomass",
+  "resource": {
+    "tag": "c:crops/wheat"
+  }
+}

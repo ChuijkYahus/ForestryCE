@@ -10,6 +10,7 @@ import forestry.core.gui.buttons.GuiBetterButton;
 import forestry.core.gui.buttons.StandardButtonTextureSets;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.render.ColourProperties;
+import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -115,7 +116,7 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 			return null;
 		}
 
-		if (!slot.getItem().hasTag()) {
+		if (NBTUtilForestry.getItemStackTag(slot.getItem()) == null) {
 			return null;
 		}
 

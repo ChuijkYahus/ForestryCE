@@ -10,6 +10,7 @@ import forestry.energy.features.EnergyTiles;
 import forestry.energy.inventory.InventoryEnginePeat;
 import forestry.energy.menu.PeatEngineMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
@@ -217,12 +218,12 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 	// / LOADING AND SAVING
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
 		if (compoundNBT.contains("EngineFuelItemStack")) {
 			CompoundTag fuelItemNbt = compoundNBT.getCompound("EngineFuelItemStack");
-            this.fuel = ItemStack.of(fuelItemNbt);
+            this.fuel = ItemStack.parse(registries, fuelItemNbt).orElse(ItemStack.EMPTY);
 		}
 
         this.burnTime = compoundNBT.getInt("EngineBurnTime");
@@ -234,11 +235,11 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		if (!this.fuel.isEmpty()) {
-			nbt.put("EngineFuelItemStack", this.fuel.serializeNBT());
+			nbt.put("EngineFuelItemStack", this.fuel.save(registries, new CompoundTag()));
 		}
 
 		nbt.putInt("EngineBurnTime", this.burnTime);

@@ -1,32 +1,30 @@
 package forestry.core.genetics;
 
 import forestry.Forestry;
-import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.IIndividualLiving;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.config.ForestryConfig;
-import forestry.core.genetics.capability.SerializableIndividualHandlerItem;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.items.ItemForestry;
 import forestry.core.utils.GeneticsUtil;
-import forestry.core.utils.SpeciesUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public abstract class ItemGE extends ItemForestry {
 	protected final ILifeStage stage;
@@ -39,37 +37,107 @@ public abstract class ItemGE extends ItemForestry {
 
 	protected abstract ISpecies<?> getSpecies(ItemStack stack);
 
-	protected abstract ISpeciesType<?, ?> getType();
+	public abstract ISpeciesType<?, ?> getType();
 
-	public IIndividualHandlerItem createIndividualHandler(ItemStack stack) {
-		Tag parent;
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+	@Nullable
+	public static IIndividual getIndividual(ItemStack stack) {
+		return stack.getItem() instanceof ItemGE item ? item.getIndividualFromComponent(stack) : null;
+	}
 
-		if (customData != null && customData.contains("ForgeCaps")) {
-			// Individual.saveToStack saves to NBT manually to bypass the cap nbt being null without setting the field
-			CompoundTag forgeCaps = customData.copyTag().getCompound("ForgeCaps");
-			parent = forgeCaps.contains("Parent") ? forgeCaps.get("Parent") : null;
+	@Nullable
+	public static IGenome getGenome(ItemStack stack) {
+		return stack.get(CoreDataComponents.GENOME);
+	}
+
+	@Nullable
+	public static ILifeStage getLifeStage(ItemStack stack) {
+		return stack.getItem() instanceof ItemGE item ? item.stage : null;
+	}
+
+	@Nullable
+	public static ISpeciesType<?, ?> getSpeciesType(ItemStack stack) {
+		return stack.getItem() instanceof ItemGE item ? item.getType() : null;
+	}
+
+	public IIndividual getIndividualFromComponent(ItemStack stack) {
+		IGenome genome = getGenome(stack);
+		ISpeciesType<?, ?> type = getType();
+
+		if (genome == null) {
+			return type.getDefaultSpecies().createIndividual();
+		}
+		if (genome.getKaryotype() != type.getKaryotype()) {
+			return type.getDefaultSpecies().createIndividual();
+		}
+
+		IIndividual individual = genome.getActiveSpecies().createIndividual(genome);
+		if (individual instanceof Individual<?, ?, ?> forestryIndividual) {
+			forestryIndividual.loadPropertiesFromStack(stack);
 		} else {
-			parent = null;
+			individual.setMate(stack.get(CoreDataComponents.MATE_GENOME));
+			if (stack.getOrDefault(CoreDataComponents.ANALYZED, Boolean.FALSE)) {
+				individual.analyze();
+			}
+			if (individual instanceof IIndividualLiving living) {
+				Integer health = stack.get(CoreDataComponents.HEALTH);
+				if (health != null) {
+					living.setHealth(health);
+				}
+			}
 		}
+		return individual;
+	}
 
-		if (parent == null) {
-			return new SerializableIndividualHandlerItem(getType(), stack, getType().getDefaultSpecies().createIndividual(), this.stage);
+	public static boolean hasIndividual(ItemStack stack) {
+		return stack.has(CoreDataComponents.GENOME);
+	}
+
+	public static boolean isIndividual(ItemStack stack) {
+		return getIndividual(stack) != null;
+	}
+
+	public static void ifPresent(ItemStack stack, Consumer<IIndividual> action) {
+		IIndividual individual = getIndividual(stack);
+		if (individual != null) {
+			action.accept(individual);
 		}
+	}
 
-		return new SerializableIndividualHandlerItem(getType(), stack, SpeciesUtil.deserializeIndividual(getType(), parent), this.stage);
+	public static void ifPresent(ItemStack stack, BiConsumer<IIndividual, ILifeStage> action) {
+		IIndividual individual = getIndividual(stack);
+		ILifeStage lifeStage = getLifeStage(stack);
+		if (individual != null && lifeStage != null) {
+			action.accept(individual, lifeStage);
+		}
+	}
+
+	public static boolean filter(ItemStack stack, Predicate<IIndividual> predicate) {
+		IIndividual individual = getIndividual(stack);
+		return individual != null && predicate.test(individual);
+	}
+
+	public static boolean filter(ItemStack stack, BiPredicate<IIndividual, ILifeStage> predicate) {
+		IIndividual individual = getIndividual(stack);
+		ILifeStage lifeStage = getLifeStage(stack);
+		return individual != null && lifeStage != null && predicate.test(individual, lifeStage);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <S extends ISpecies<?>> S getSpecies(ItemStack stack, ISpeciesType<S, ?> type) {
+		IIndividual individual = getIndividual(stack);
+		return individual != null ? (S) individual.getSpecies() : type.getDefaultSpecies();
 	}
 
 	@Override
 	public Component getName(ItemStack stack) {
-		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
-		return handler != null ? GeneticsUtil.getItemName(handler.getStage(), handler.getIndividual().getSpecies()) : super.getName(stack);
+		IIndividual individual = getIndividual(stack);
+		ILifeStage lifeStage = getLifeStage(stack);
+		return individual != null && lifeStage != null ? GeneticsUtil.getItemName(lifeStage, individual.getSpecies()) : super.getName(stack);
 	}
 
 	@Override
 	public boolean isFoil(ItemStack stack) {
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-		if (customData == null || customData.isEmpty()) { // villager trade wildcard bees
+		if (!hasIndividual(stack)) { // villager trade wildcard bees
 			return false;
 		}
 		ISpecies<?> species = getSpecies(stack);
@@ -77,13 +145,13 @@ public abstract class ItemGE extends ItemForestry {
 	}
 
 	public static void appendGeneticsTooltip(ItemStack stack, List<Component> tooltip) {
-		CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-		if (customData == null || customData.isEmpty()) {
+		if (!hasIndividual(stack)) {
 			return;
 		}
 
 		MutableBoolean analyzed = new MutableBoolean();
-		IIndividualHandlerItem.ifPresent(stack, individual -> {
+		IIndividual individual = getIndividual(stack);
+		if (individual != null) {
 			if (individual.isAnalyzed()) {
 				if (Screen.hasShiftDown()) {
 					((ISpecies<IIndividual>) individual.getSpecies()).addTooltip(individual, tooltip);
@@ -93,7 +161,7 @@ public abstract class ItemGE extends ItemForestry {
 
 				analyzed.setTrue();
 			}
-		});
+		}
 		if (analyzed.isFalse()) {
 			tooltip.add(Component.translatable("for.gui.unknown", "< %s >").withStyle(ChatFormatting.GRAY));
 		}

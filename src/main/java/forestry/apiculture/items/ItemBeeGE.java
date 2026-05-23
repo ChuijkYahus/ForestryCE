@@ -3,21 +3,18 @@ package forestry.apiculture.items;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.genetics.ItemGE;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemBeeGE extends ItemGE implements IColoredItem {
@@ -26,7 +23,7 @@ public class ItemBeeGE extends ItemGE implements IColoredItem {
 	}
 
 	@Override
-	protected ISpeciesType<?, ?> getType() {
+	public ISpeciesType<?, ?> getType() {
 		return SpeciesUtil.BEE_TYPE.get();
 	}
 
@@ -37,7 +34,7 @@ public class ItemBeeGE extends ItemGE implements IColoredItem {
 
 	@Override
 	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
-		if (!stack.has(DataComponents.CUSTOM_DATA)) {
+		if (!hasIndividual(stack)) {
 			return;
 		}
 
@@ -56,7 +53,17 @@ public class ItemBeeGE extends ItemGE implements IColoredItem {
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-		if (!stack.has(DataComponents.CUSTOM_DATA)) {
+		IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
+		if (individual instanceof IBee bee) {
+			IBeeSpecies species = bee.getSpecies();
+
+			return switch (tintIndex) {
+				case 2 -> species.getStripes();
+				case 1 -> species.getBody();
+				case 0 -> species.getOutline();
+				default -> 0xffffff;
+			};
+		} else {
 			if (tintIndex == 1) {
 				// 1 = body
 				return 0xffdc16;
@@ -67,15 +74,6 @@ public class ItemBeeGE extends ItemGE implements IColoredItem {
 				// 0 = outline
 				return 0xffffff;
 			}
-		} else {
-			IBeeSpecies species = getSpecies(stack);
-
-			return switch (tintIndex) {
-				case 2 -> species.getStripes();
-				case 1 -> species.getBody();
-				case 0 -> species.getOutline();
-				default -> 0xffffff;
-			};
 		}
 	}
 

@@ -20,6 +20,9 @@ import net.minecraft.world.item.ItemStack;
 import javax.annotation.Nullable;
 
 public class EscritoireGameToken implements INbtWritable, IStreamable {
+	public static final String NBT_TOKEN_SPECIES = "tokenSpecies";
+	public static final String NBT_TOKEN_TYPE = "tokenSpeciesType";
+
 	private enum State {
 		UNREVEALED,// face down
 		PROBED,    // shown by escritoire probe action
@@ -144,14 +147,11 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
 		nbt.putInt("state", this.state.ordinal());
 
-		if (this.tokenIndividual != null) {
-			nbt.putString("tokenSpecies", this.tokenIndividual.getSpecies().id().toString());
+		if (this.tokenIndividual != null && this.tokenType != null) {
+			nbt.putString(NBT_TOKEN_SPECIES, this.tokenIndividual.getSpecies().id().toString());
+			nbt.putString(NBT_TOKEN_TYPE, this.tokenType.id().toString());
 		}
 		return nbt;
-	}
-
-	private void read(CompoundTag nbt, HolderLookup.Provider registries) {
-		readFromTag(nbt);
 	}
 
 	private void readFromTag(CompoundTag nbt) {
@@ -160,16 +160,20 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 			this.state = State.VALUES[stateOrdinal];
 		}
 
-		String tokenSpecies = nbt.getString("tokenSpecies");
-		String tokenType = nbt.getString("tokenSpeciesType");
+		String tokenSpecies = nbt.getString(NBT_TOKEN_SPECIES);
+		String tokenType = nbt.getString(NBT_TOKEN_TYPE);
 
 		if (!tokenSpecies.isEmpty() && !tokenType.isEmpty()) {
-			setTokenSpecies(new ResourceLocation(tokenType), new ResourceLocation(tokenSpecies));
+			setTokenSpecies(ResourceLocation.parse(tokenType), ResourceLocation.parse(tokenSpecies));
 		}
 	}
 
 	@Override
 	public void writeData(RegistryFriendlyByteBuf data) {
+		writeData((FriendlyByteBuf) data);
+	}
+
+	public void writeData(FriendlyByteBuf data) {
 		NetworkUtil.writeEnum(data, this.state);
 		if (this.tokenIndividual != null && this.tokenType != null) {
 			data.writeBoolean(true);
@@ -182,23 +186,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-        this.state = NetworkUtil.readEnum(data, State.VALUES);
-		if (data.readBoolean()) {
-			ResourceLocation speciesId = data.readResourceLocation();
-			ResourceLocation typeId = data.readResourceLocation();
-			setTokenSpecies(typeId, speciesId);
-		}
-	}
-
-	public void writeData(FriendlyByteBuf data) {
-		NetworkUtil.writeEnum(data, this.state);
-		if (this.tokenIndividual != null && this.tokenType != null) {
-			data.writeBoolean(true);
-			data.writeResourceLocation(this.tokenIndividual.getSpecies().id());
-			data.writeResourceLocation(this.tokenType.id());
-		} else {
-			data.writeBoolean(false);
-		}
+		readData((FriendlyByteBuf) data);
 	}
 
 	public void readData(FriendlyByteBuf data) {

@@ -73,10 +73,10 @@ public class RenderAnalyzer implements BlockEntityRenderer<TileAnalyzer> {
 		RenderUtil.rotateByHorizontalDirection(stack, facing);
 
 		VertexConsumer buffer0 = buffers.getBuffer(RenderType.entityCutout(TEXTURE0));
-		this.pedestal.render(stack, buffer0, light, overlay);
-		this.cover.render(stack, buffer0, light, overlay);
-		this.tower1.render(stack, buffers.getBuffer(RenderType.entityCutout(TEXTURE1)), light, overlay);
-		this.tower2.render(stack, buffers.getBuffer(RenderType.entityCutout(TEXTURE2)), light, overlay);
+		this.pedestal.render(stack, buffer0, light, overlay, 0xFFFFFFFF);
+		this.cover.render(stack, buffer0, light, overlay, 0xFFFFFFFF);
+		this.tower1.render(stack, buffers.getBuffer(RenderType.entityCutout(TEXTURE1)), light, overlay, 0xFFFFFFFF);
+		this.tower2.render(stack, buffers.getBuffer(RenderType.entityCutout(TEXTURE2)), light, overlay, 0xFFFFFFFF);
 
 		stack.popPose();
 

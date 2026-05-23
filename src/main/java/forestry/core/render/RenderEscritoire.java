@@ -68,7 +68,7 @@ public class RenderEscritoire implements BlockEntityRenderer<TileEscritoire> {
 		RenderUtil.rotateByHorizontalDirection(stack, facing);
 		VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(TEXTURE));
 
-		this.root.render(stack, buffer, light, overlay);
+		this.root.render(stack, buffer, light, overlay, 0xFFFFFFFF);
 
 		ItemStack displayStack = escritoire.getIndividualOnDisplay();
 		if (!displayStack.isEmpty()) {

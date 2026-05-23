@@ -18,13 +18,15 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class HiveBuilder implements IHiveBuilder {
+	/** Documented default per IHiveDefinition javadoc: 1.0 = baseline chance, higher = more, lower = fewer. */
+	public static final float DEFAULT_GEN_CHANCE = 1.0f;
+
 	private final IHiveDefinition definition;
 	private final ArrayList<IHiveDrop> drops = new ArrayList<>();
-	private float generationChance;
+	private float generationChance = DEFAULT_GEN_CHANCE;
 
 	public HiveBuilder(IHiveDefinition definition) {
 		this.definition = definition;
-		this.generationChance = definition.getGenChance();
 	}
 
 	@Override
@@ -40,8 +42,9 @@ public class HiveBuilder implements IHiveBuilder {
 	}
 
 	@Override
-	public void setGenerationChance(float generationChance) {
+	public IHiveBuilder setGenerationChance(float generationChance) {
 		this.generationChance = generationChance;
+		return this;
 	}
 
 	public IHive build() {

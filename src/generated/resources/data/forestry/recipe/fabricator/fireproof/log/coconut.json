@@ -1,0 +1,28 @@
+{
+  "type": "forestry:fabricator",
+  "id": "forestry:fabricator/fireproof/log/coconut",
+  "molten": {
+    "amount": 500,
+    "id": "forestry:glass"
+  },
+  "recipe": {
+    "category": "building",
+    "key": {
+      "#": {
+        "item": "forestry:refractory_wax"
+      },
+      "X": {
+        "item": "forestry:coconut_log"
+      }
+    },
+    "pattern": [
+      "   ",
+      "X#X",
+      "   "
+    ],
+    "result": {
+      "count": 2,
+      "id": "forestry:coconut_fireproof_log"
+    }
+  }
+}

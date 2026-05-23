@@ -2,6 +2,7 @@ package forestry.mail;
 
 import forestry.api.mail.ILetter;
 import forestry.core.utils.NBTUtilForestry;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.ItemLetter;
@@ -14,7 +15,7 @@ public class LetterProperties {
 		return MailItems.LETTERS.stack(size, ItemLetter.State.STAMPED, 1);
 	}
 
-	public static ItemStack closeLetter(ItemStack parent, ILetter letter) {
+	public static ItemStack closeLetter(ItemStack parent, ILetter letter, HolderLookup.Provider registries) {
 		Item item = parent.getItem();
 		if (!(item instanceof ItemLetter itemLetter)) {
 			return parent;
@@ -44,7 +45,7 @@ public class LetterProperties {
 		if (tag == null) {
 			tag = new CompoundTag();
 		}
-		letter.write(tag);
+		letter.write(tag, registries);
 		NBTUtilForestry.setItemStackTag(ret, tag);
 		return ret;
 	}

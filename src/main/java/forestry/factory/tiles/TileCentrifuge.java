@@ -18,6 +18,7 @@ import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerCentrifuge;
 import forestry.factory.inventory.InventoryCentrifuge;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -57,16 +58,16 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	/* LOADING & SAVING */
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
-		super.saveAdditional(compound);
+	public void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.saveAdditional(compound, registries);
 
-		this.sockets.write(compound);
+		this.sockets.write(compound, registries);
 
 		ListTag nbttaglist = new ListTag();
 		ItemStack[] offspring = this.pendingProducts.toArray(new ItemStack[0]);
 		for (int i = 0; i < offspring.length; i++) {
 			if (offspring[i] != null) {
-				CompoundTag products = (CompoundTag) offspring[i].saveOptional(getRegistries());
+				CompoundTag products = (CompoundTag) offspring[i].saveOptional(registries);
 				products.putByte("Slot", (byte) i);
 				nbttaglist.add(products);
 			}
@@ -75,15 +76,15 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.loadAdditional(compound, registries);
 
 		ListTag nbttaglist = compound.getList("PendingProducts", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag CompoundNBT1 = nbttaglist.getCompound(i);
-			this.pendingProducts.add(ItemStack.of(CompoundNBT1));
+			this.pendingProducts.add(ItemStack.parse(registries, CompoundNBT1).orElse(ItemStack.EMPTY));
 		}
-		this.sockets.read(compound);
+		this.sockets.read(compound, registries);
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {

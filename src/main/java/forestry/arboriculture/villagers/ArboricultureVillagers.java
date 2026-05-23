@@ -1,8 +1,8 @@
 package forestry.arboriculture.villagers;
 
 import com.google.common.collect.ImmutableSet;
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.genetics.ILifeStage;
@@ -28,6 +28,7 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -81,10 +82,10 @@ public class ArboricultureVillagers {
 		@Override
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
 			ForestryWoodType woodType = ForestryWoodType.getRandom(rand);
-			ItemStack sellStack = TreeManager.woodAccess.getStack(woodType, WoodBlockKind.PLANKS, false);
+			ItemStack sellStack = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getStack(woodType, WoodBlockKind.PLANKS, false);
 			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
+			return new MerchantOffer(new ItemCost(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 
@@ -95,10 +96,10 @@ public class ArboricultureVillagers {
 		@Override
 		public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource rand) {
 			ForestryWoodType woodType = ForestryWoodType.getRandom(rand);
-			ItemStack sellStack = TreeManager.woodAccess.getStack(woodType, WoodBlockKind.LOG, false);
+			ItemStack sellStack = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getStack(woodType, WoodBlockKind.LOG, false);
 			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
+			return new MerchantOffer(new ItemCost(Items.EMERALD, this.emeraldsPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 
@@ -128,7 +129,7 @@ public class ArboricultureVillagers {
 			ItemStack sellStack = chosenSpecies.createStack(this.stage);
 			sellStack.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.buyingPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
+			return new MerchantOffer(new ItemCost(Items.EMERALD, this.buyingPriceInfo.getPrice(rand)), sellStack, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 }

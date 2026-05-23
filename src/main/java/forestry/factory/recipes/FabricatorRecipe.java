@@ -1,13 +1,14 @@
 package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.recipes.IFabricatorRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -18,6 +19,20 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class FabricatorRecipe implements IFabricatorRecipe {
+
+	private static final MapCodec<FabricatorRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+		ResourceLocation.CODEC.fieldOf("id").forGetter(FabricatorRecipe::getId),
+		// "plan" is optional: many fabricator recipes (e.g. electron tubes) require no plan.
+		// Ingredient.CODEC_NONEMPTY rejects empty ingredients at serialization, so we map
+		// Ingredient.EMPTY to absent and back.
+		Ingredient.CODEC_NONEMPTY.optionalFieldOf("plan").forGetter(r -> r.plan.isEmpty() ? java.util.Optional.<Ingredient>empty() : java.util.Optional.of(r.plan)),
+		FluidStack.CODEC.fieldOf("molten").forGetter(FabricatorRecipe::getResultFluid),
+		RecipeSerializer.SHAPED_RECIPE.codec().codec().fieldOf("recipe").forGetter(FabricatorRecipe::getCraftingGridRecipe)
+	).apply(instance, (id, plan, molten, recipe) -> new FabricatorRecipe(id, plan.orElse(Ingredient.EMPTY), molten, recipe)));
+	private static final StreamCodec<RegistryFriendlyByteBuf, FabricatorRecipe> STREAM_CODEC = StreamCodec.of(
+		Serializer::toNetwork,
+		Serializer::fromNetwork
+	);
 
 	private final ResourceLocation id;
 	private final Ingredient plan;
@@ -57,7 +72,7 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 
 	@Override
 	public boolean matches(Level level, FluidStack liquid, ItemStack stack, Container inventory) {
-		return liquid.containsFluid(this.resultFluid) && this.plan.test(stack) && this.recipe.matches(FakeCraftingInventory.of(inventory), level);
+		return FluidStack.isSameFluidSameComponents(liquid, this.resultFluid) && liquid.getAmount() >= this.resultFluid.getAmount() && this.plan.test(stack) && this.recipe.matches(FakeCraftingInventory.of(inventory), level);
 	}
 
 	@Override
@@ -76,30 +91,30 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 	}
 
 	public static class Serializer implements RecipeSerializer<FabricatorRecipe> {
-
 		@Override
-		public FabricatorRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			Ingredient plan = RecipeSerializers.deserialize(json.get("plan"));
-			FluidStack molten = RecipeSerializers.deserializeFluid(GsonHelper.getAsJsonObject(json, "molten"));
-			ShapedRecipe internal = RecipeSerializer.SHAPED_RECIPE.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe"));
-
-			return new FabricatorRecipe(recipeId, plan, molten, internal);
+		public MapCodec<FabricatorRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public FabricatorRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			Ingredient plan = Ingredient.fromNetwork(buffer);
-			FluidStack molten = buffer.readFluidStack();
-			ShapedRecipe internal = RecipeSerializer.SHAPED_RECIPE.fromNetwork(recipeId, buffer);
-
-			return new FabricatorRecipe(recipeId, plan, molten, internal);
+		public StreamCodec<RegistryFriendlyByteBuf, FabricatorRecipe> streamCodec() {
+			return STREAM_CODEC;
 		}
 
-		@Override
-		public void toNetwork(FriendlyByteBuf buffer, FabricatorRecipe recipe) {
-			recipe.getPlan().toNetwork(buffer);
-			buffer.writeFluidStack(recipe.getResultFluid());
-			RecipeSerializer.SHAPED_RECIPE.toNetwork(buffer, recipe.getCraftingGridRecipe());
+		private static FabricatorRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+			ResourceLocation id = ResourceLocation.STREAM_CODEC.decode(buffer);
+			Ingredient plan = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+			FluidStack molten = FluidStack.STREAM_CODEC.decode(buffer);
+			ShapedRecipe shapedRecipe = RecipeSerializer.SHAPED_RECIPE.streamCodec().decode(buffer);
+
+			return new FabricatorRecipe(id, plan, molten, shapedRecipe);
+		}
+
+		private static void toNetwork(RegistryFriendlyByteBuf buffer, FabricatorRecipe recipe) {
+			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
+			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.plan);
+			FluidStack.STREAM_CODEC.encode(buffer, recipe.resultFluid);
+			RecipeSerializer.SHAPED_RECIPE.streamCodec().encode(buffer, recipe.recipe);
 		}
 	}
 }

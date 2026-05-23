@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "minecraft:wool"
+    },
+    "V": {
+      "tag": "c:stones"
+    },
+    "X": {
+      "tag": "c:strings"
+    },
+    "Y": {
+      "tag": "c:chests/wooden"
+    }
+  },
+  "pattern": [
+    "X#X",
+    "VYV",
+    "X#X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "forestry:digger_bag"
+  }
+}

@@ -108,7 +108,7 @@ public class ForestryTags {
 		public static final TagKey<Block> SWARM_BEE_GROUND = blockTag("hive_grounds/swarm");
 
 		private static TagKey<Block> forgeTag(String name) {
-			return BlockTags.create(new ResourceLocation("forge", name));
+			return BlockTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
 		}
 	}
 
@@ -233,7 +233,7 @@ public class ForestryTags {
 		public static final TagKey<Item> BEES = itemTag("bees");
 
 		private static TagKey<Item> forgeTag(String name) {
-			return ItemTags.create(new ResourceLocation("forge", name));
+			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
 		}
 	}
 
@@ -264,7 +264,7 @@ public class ForestryTags {
 		public static final TagKey<Fluid> HONEY = forgeTag("honey");
 
 		private static TagKey<Fluid> forgeTag(String name) {
-			return FluidTags.create(new ResourceLocation("forge", name));
+			return FluidTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
 		}
 	}
 

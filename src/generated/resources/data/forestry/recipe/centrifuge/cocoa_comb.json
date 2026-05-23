@@ -1,0 +1,18 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "forestry:centrifuge/cocoa_comb",
+  "input": {
+    "item": "forestry:bee_comb_cocoa"
+  },
+  "products": [
+    {
+      "chance": 1.0,
+      "item": "forestry:beeswax"
+    },
+    {
+      "chance": 0.5,
+      "item": "minecraft:cocoa_beans"
+    }
+  ],
+  "time": 20
+}

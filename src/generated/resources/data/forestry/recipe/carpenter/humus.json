@@ -1,0 +1,30 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/humus",
+  "liquid": {
+    "amount": 1000,
+    "id": "minecraft:water"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "#": {
+        "item": "minecraft:dirt"
+      },
+      "X": {
+        "item": "forestry:mulch"
+      }
+    },
+    "pattern": [
+      "###",
+      "#X#",
+      "###"
+    ],
+    "result": {
+      "count": 9,
+      "id": "forestry:humus"
+    }
+  },
+  "time": 5
+}

@@ -33,8 +33,9 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
-import mezz.jei.api.ingredients.ITypedIngredient;
-import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
+import mezz.jei.api.gui.builder.IClickableIngredientFactory;
+import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IClickableIngredient;
 import mezz.jei.api.runtime.IIngredientManager;
@@ -43,8 +44,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.Comparator;
@@ -135,12 +134,22 @@ public class FactoryJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration subtypeRegistry) {
-		IIngredientSubtypeInterpreter<ItemStack> subtypeInterpreter = (itemStack, context) -> {
-			Optional<IFluidHandlerItem> fluidHandler = FluidUtil.getFluidHandler(itemStack);
-			return fluidHandler.map(handler -> handler.getFluidInTank(0))
-				.map(fluid -> ModUtil.getRegistryName(fluid.getFluid()))
-				.map(ResourceLocation::toString)
-				.orElse(IIngredientSubtypeInterpreter.NONE);
+		ISubtypeInterpreter<ItemStack> subtypeInterpreter = new ISubtypeInterpreter<>() {
+			private Optional<ResourceLocation> currentFluidId(ItemStack itemStack) {
+				return FluidUtil.getFluidHandler(itemStack)
+					.map(handler -> handler.getFluidInTank(0))
+					.map(fluid -> ModUtil.getRegistryName(fluid.getFluid()));
+			}
+
+			@Override
+			public Object getSubtypeData(ItemStack itemStack, UidContext context) {
+				return currentFluidId(itemStack).orElse(null);
+			}
+
+			@Override
+			public String getLegacyStringSubtypeInfo(ItemStack itemStack, UidContext context) {
+				return currentFluidId(itemStack).map(ResourceLocation::toString).orElse("");
+			}
 		};
 
 		for (Item container : FluidsItems.CONTAINERS.itemArray()) {
@@ -162,24 +171,16 @@ public class FactoryJeiPlugin implements IModPlugin {
 		}
 
 		@Override
-		public Optional<IClickableIngredient<?>> getClickableIngredientUnderMouse(GuiForestry<?> guiContainer, double mouseX, double mouseY) {
+		public Optional<? extends IClickableIngredient<?>> getClickableIngredientUnderMouse(IClickableIngredientFactory factory, GuiForestry<?> guiContainer, double mouseX, double mouseY) {
 			TankWidget widget = guiContainer.getTankAtPosition(mouseX, mouseY);
 
-			if (widget != null && widget.getTank() != null) {
-				return this.manager.createTypedIngredient(widget.getTank().getFluid()).map(ingredient -> new IClickableIngredient<FluidStack>() {
-					@Override
-					public ITypedIngredient<FluidStack> getTypedIngredient() {
-						return ingredient;
-					}
-
-					@Override
-					public Rect2i getArea() {
-						return new Rect2i(widget.getX(), widget.getY(), widget.getWidth(), widget.getHeight());
-					}
-				});
-			} else {
+			if (widget == null || widget.getTank() == null) {
 				return Optional.empty();
 			}
+
+			return this.manager.createTypedIngredient(widget.getTank().getFluid(), false)
+				.flatMap(typed -> factory.createBuilder(typed)
+					.buildWithArea(widget.getX(), widget.getY(), widget.getWidth(), widget.getHeight()));
 		}
 	}
 }

@@ -1,7 +1,5 @@
 package forestry.api.genetics;
 
-import forestry.api.ForestryConstants;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -12,8 +10,6 @@ import java.util.Optional;
  * It can be mated with another individual to produce offspring.
  */
 public interface IIndividual {
-	ResourceLocation CAPABILITY_ID = ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "individual");
-
 	/**
 	 * @return The genome of this individual.
 	 */

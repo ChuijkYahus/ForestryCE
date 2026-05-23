@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "forestry:farm_ender_managed"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "forestry:farm_ender_manual"
+  }
+}

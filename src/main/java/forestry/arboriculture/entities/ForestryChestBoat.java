@@ -4,8 +4,9 @@ import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Containers;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,7 +25,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 
@@ -33,7 +33,7 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 
 	private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 	@Nullable
-	private ResourceLocation lootTable;
+	private ResourceKey<LootTable> lootTable;
 	private long lootTableSeed;
 
 	public ForestryChestBoat(EntityType<? extends Boat> type, Level level) {
@@ -68,13 +68,13 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 	@Override
 	protected void addAdditionalSaveData(CompoundTag pCompound) {
 		super.addAdditionalSaveData(pCompound);
-		addChestVehicleSaveData(pCompound);
+		addChestVehicleSaveData(pCompound, level().registryAccess());
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag pCompound) {
 		super.readAdditionalSaveData(pCompound);
-		readChestVehicleSaveData(pCompound);
+		readChestVehicleSaveData(pCompound, level().registryAccess());
 	}
 
 	@Override
@@ -173,12 +173,12 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 
 	@Nullable
 	@Override
-	public ResourceLocation getLootTable() {
+	public ResourceKey<LootTable> getLootTable() {
 		return this.lootTable;
 	}
 
 	@Override
-	public void setLootTable(@Nullable ResourceLocation lootTable) {
+	public void setLootTable(@Nullable ResourceKey<LootTable> lootTable) {
 		this.lootTable = lootTable;
 	}
 
@@ -202,10 +202,6 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 		this.items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 	}
 	// </editor-fold>
-
-	public InvWrapper getItemHandler() {
-		return new InvWrapper(this);
-	}
 
 	public void stopOpen(Player player) {
 		level().gameEvent(GameEvent.CONTAINER_CLOSE, position(), GameEvent.Context.of(player));

@@ -4,15 +4,13 @@ import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.genetics.*;
-import forestry.core.utils.NBTUtilForestry;
-import forestry.core.utils.SpeciesUtil;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import forestry.core.features.CoreDataComponents;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public abstract class Individual<S extends ISpecies<I>, I extends IIndividual, T extends ISpeciesType<S, I>> implements IIndividual {
 	protected final S species;
@@ -113,21 +111,30 @@ public abstract class Individual<S extends ISpecies<I>, I extends IIndividual, T
 
 	@OverridingMethodsMustInvokeSuper
 	protected void copyPropertiesTo(I other) {
+		// todo should we copy the mate here? currently, /forestry bee modify erases the mate because it isn't copied here
 	}
 
 	@Override
 	public void saveToStack(ItemStack stack) {
-		Tag individual = SpeciesUtil.serializeIndividual(this);
+		stack.set(CoreDataComponents.GENOME, this.genome);
+		setOptional(stack, CoreDataComponents.MATE_GENOME, this.mate);
+		setOptional(stack, CoreDataComponents.ANALYZED, this.analyzed ? Boolean.TRUE : null);
+		savePropertiesToStack(stack);
+	}
 
-		if (individual != null) {
-			CompoundTag stackTag = NBTUtilForestry.getItemStackTag(stack);
-			if (stackTag == null) {
-				stackTag = new CompoundTag();
-			}
-			CompoundTag forgeCaps = new CompoundTag();
-			forgeCaps.put("Parent", individual);
-			stackTag.put("ForgeCaps", forgeCaps);
-			NBTUtilForestry.setItemStackTag(stack, stackTag);
+	protected void savePropertiesToStack(ItemStack stack) {
+	}
+
+	public void loadPropertiesFromStack(ItemStack stack) {
+		setMate(stack.get(CoreDataComponents.MATE_GENOME));
+		this.analyzed = stack.getOrDefault(CoreDataComponents.ANALYZED, Boolean.FALSE);
+	}
+
+	protected static <V> void setOptional(ItemStack stack, Supplier<net.minecraft.core.component.DataComponentType<V>> component, @Nullable V value) {
+		if (value != null) {
+			stack.set(component.get(), value);
+		} else {
+			stack.remove(component.get());
 		}
 	}
 

@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/crates/unpack/minecraft/grass_block",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:crated_grass_block"
+      }
+    ],
+    "result": {
+      "count": 9,
+      "id": "minecraft:grass_block"
+    }
+  },
+  "time": 5
+}

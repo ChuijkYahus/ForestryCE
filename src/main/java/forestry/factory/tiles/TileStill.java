@@ -18,6 +18,7 @@ import forestry.factory.gui.ContainerStill;
 import forestry.factory.inventory.InventoryStill;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
@@ -53,25 +54,23 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.tankManager.write(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
+        this.tankManager.write(compoundNBT, registries);
 
 		if (!this.bufferedLiquid.isEmpty()) {
-			CompoundTag buffer = new CompoundTag();
-            this.bufferedLiquid.writeToNBT(buffer);
-			compoundNBT.put("Buffer", buffer);
+			compoundNBT.put("Buffer", this.bufferedLiquid.save(registries));
 		}
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.tankManager.read(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
+        this.tankManager.read(compoundNBT, registries);
 
 		if (compoundNBT.contains("Buffer")) {
 			CompoundTag buffer = compoundNBT.getCompound("Buffer");
-            this.bufferedLiquid = FluidStack.loadFluidStackFromNBT(buffer);
+            this.bufferedLiquid = FluidStack.parseOptional(registries, buffer);
 		}
 	}
 
@@ -107,7 +106,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 		int cycles = this.currentRecipe.getCyclesPerUnit();
 		FluidStack output = this.currentRecipe.getOutput();
 
-		FluidStack product = new FluidStack(output, output.getAmount() * cycles);
+		FluidStack product = output.copyWithAmount(output.getAmount() * cycles);
         this.productTank.fillInternal(product, IFluidHandler.FluidAction.EXECUTE);
 
         this.bufferedLiquid = FluidStack.EMPTY;
@@ -146,7 +145,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 				FluidStack drained = this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
 				hasLiquidResource = !drained.isEmpty() && drained.getAmount() == drainAmount;
 				if (hasLiquidResource) {
-                    this.bufferedLiquid = new FluidStack(input, drainAmount);
+                    this.bufferedLiquid = input.copyWithAmount(drainAmount);
                     this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
 				}
 			}

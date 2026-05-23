@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:paper"
+    },
+    "X": {
+      "tag": "c:gems/diamond"
+    },
+    "Z": [
+      {
+        "tag": "forestry:drop_honey"
+      },
+      {
+        "item": "minecraft:slime_ball"
+      }
+    ]
+  },
+  "pattern": [
+    "XXX",
+    "###",
+    "ZZZ"
+  ],
+  "result": {
+    "count": 9,
+    "id": "forestry:stamp_20n"
+  }
+}

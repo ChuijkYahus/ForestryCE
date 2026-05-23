@@ -96,7 +96,7 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 					.customLoader(DynamicFluidContainerModelBuilder::begin)
 					.fluid(fluid.getFluid())
 					.end()
-					.parent(getExistingFile(ResourceLocation.parse("forge:item/bucket")));
+					.parent(getExistingFile(ResourceLocation.parse("neoforge:item/bucket")));
 			}
 		}
 

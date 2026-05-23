@@ -2,11 +2,13 @@ package forestry.mail;
 
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
+import forestry.api.ForestryRegistries;
 import forestry.core.utils.NBTUtilForestry;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
 import forestry.core.utils.PlayerUtil;
 import forestry.mail.carriers.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +26,7 @@ public class MailAddress implements IMailAddress {
 
 	public MailAddress(GameProfile gameProfile) {
 
-		this.carrier = PostalCarriers.PLAYER.get();
+		this.carrier = PostalCarriers.PLAYER.value();
 		this.gameProfile = gameProfile;
 	}
 
@@ -32,7 +34,7 @@ public class MailAddress implements IMailAddress {
 		Preconditions.checkNotNull(name, "name must not be null");
 		Preconditions.checkArgument(StringUtils.isNotBlank(name), "name must not be blank");
 
-		this.carrier = PostalCarriers.TRADER.get();
+		this.carrier = PostalCarriers.TRADER.value();
 		this.gameProfile = new GameProfile(null, name);
 	}
 
@@ -40,11 +42,11 @@ public class MailAddress implements IMailAddress {
 		IPostalCarrier carrier = null;
 		GameProfile gameProfile = invalidGameProfile;
 		if (nbt.contains("carrier")) {
-			carrier = PostalCarriers.REGISTRY.get().getValue(ResourceLocation.tryParse(nbt.getString("carrier")));
+			carrier = ForestryRegistries.POSTAL_CARRIER.get(ResourceLocation.tryParse(nbt.getString("carrier")));
 		}
 
 		if (carrier == null) {
-			carrier = PostalCarriers.PLAYER.get();
+			carrier = PostalCarriers.PLAYER.value();
 			gameProfile = invalidGameProfile;
 		} else if (nbt.contains("profile")) {
 			CompoundTag profileTag = nbt.getCompound("profile");
@@ -75,7 +77,7 @@ public class MailAddress implements IMailAddress {
 
 	@Override
 	public GameProfile getPlayerProfile() {
-		if (!this.carrier.equals(PostalCarriers.PLAYER.get())) {
+		if (!this.carrier.equals(PostalCarriers.PLAYER.value())) {
 			return invalidGameProfile;
 		}
 		return this.gameProfile;
@@ -98,7 +100,7 @@ public class MailAddress implements IMailAddress {
 	@Override
 	public String toString() {
 		String name = getName().toLowerCase(Locale.ENGLISH);
-		if (getCarrier().equals(PostalCarriers.PLAYER.get())) {
+		if (getCarrier().equals(PostalCarriers.PLAYER.value())) {
 			return this.carrier + "-" + name + '-' + this.gameProfile.getId();
 		} else {
 			return this.carrier + "-" + name;
@@ -106,8 +108,8 @@ public class MailAddress implements IMailAddress {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
-		compoundNBT.putString("carrier", PostalCarriers.REGISTRY.get().getKey(this.carrier).toString());
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		compoundNBT.putString("carrier", ForestryRegistries.POSTAL_CARRIER.getKey(this.carrier).toString());
 
 		if (this.gameProfile != invalidGameProfile) {
 			CompoundTag profileNbt = new CompoundTag();

@@ -1,19 +1,33 @@
 package forestry.factory.recipes;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.recipes.IStillRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class StillRecipe implements IStillRecipe {
+	private static final MapCodec<StillRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+		ResourceLocation.CODEC.fieldOf("id").forGetter(StillRecipe::getId),
+		Codec.INT.fieldOf("time").forGetter(StillRecipe::getCyclesPerUnit),
+		FluidStack.CODEC.fieldOf("input").forGetter(StillRecipe::getInput),
+		FluidStack.CODEC.fieldOf("output").forGetter(StillRecipe::getOutput)
+	).apply(instance, StillRecipe::new));
+	private static final StreamCodec<RegistryFriendlyByteBuf, StillRecipe> STREAM_CODEC = StreamCodec.of(
+		Serializer::toNetwork,
+		Serializer::fromNetwork
+	);
+
 	private final ResourceLocation id;
 	private final int timePerUnit;
 	private final FluidStack input;
@@ -47,7 +61,7 @@ public class StillRecipe implements IStillRecipe {
 
 	@Override
 	public boolean matches(FluidStack input) {
-		return input.containsFluid(this.input);
+		return FluidStack.isSameFluidSameComponents(input, this.input) && input.getAmount() >= this.input.getAmount();
 	}
 
 	@Override
@@ -72,28 +86,29 @@ public class StillRecipe implements IStillRecipe {
 
 	public static class Serializer implements RecipeSerializer<StillRecipe> {
 		@Override
-		public StillRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			int timePerUnit = GsonHelper.getAsInt(json, "time");
-			FluidStack input = RecipeSerializers.deserializeFluid(GsonHelper.getAsJsonObject(json, "input"));
-			FluidStack output = RecipeSerializers.deserializeFluid(GsonHelper.getAsJsonObject(json, "output"));
-
-			return new StillRecipe(recipeId, timePerUnit, input, output);
+		public MapCodec<StillRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public StillRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			int timePerUnit = buffer.readVarInt();
-			FluidStack input = FluidStack.readFromPacket(buffer);
-			FluidStack output = FluidStack.readFromPacket(buffer);
-
-			return new StillRecipe(recipeId, timePerUnit, input, output);
+		public StreamCodec<RegistryFriendlyByteBuf, StillRecipe> streamCodec() {
+			return STREAM_CODEC;
 		}
 
-		@Override
-		public void toNetwork(FriendlyByteBuf buffer, StillRecipe recipe) {
-			buffer.writeVarInt(recipe.timePerUnit);
-			recipe.input.writeToPacket(buffer);
-			recipe.output.writeToPacket(buffer);
+		private static StillRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+			ResourceLocation id = ResourceLocation.STREAM_CODEC.decode(buffer);
+			int timePerUnit = ByteBufCodecs.VAR_INT.decode(buffer);
+			FluidStack input = FluidStack.STREAM_CODEC.decode(buffer);
+			FluidStack output = FluidStack.STREAM_CODEC.decode(buffer);
+
+			return new StillRecipe(id, timePerUnit, input, output);
+		}
+
+		private static void toNetwork(RegistryFriendlyByteBuf buffer, StillRecipe recipe) {
+			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
+			ByteBufCodecs.VAR_INT.encode(buffer, recipe.timePerUnit);
+			FluidStack.STREAM_CODEC.encode(buffer, recipe.input);
+			FluidStack.STREAM_CODEC.encode(buffer, recipe.output);
 		}
 	}
 }

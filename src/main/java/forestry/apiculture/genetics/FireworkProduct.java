@@ -1,17 +1,22 @@
 package forestry.apiculture.genetics;
 
 import forestry.api.core.IProduct;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import it.unimi.dsi.fastutil.ints.IntList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.FireworkExplosion;
+import net.minecraft.world.item.component.Fireworks;
+
+import java.util.List;
 
 // used by secret Patriotic bee species
 public record FireworkProduct(float chance) implements IProduct {
 	private static final DyeColor[] COLORS = {DyeColor.RED, DyeColor.WHITE, DyeColor.BLUE};
+	private static final FireworkExplosion.Shape[] SHAPES = FireworkExplosion.Shape.values();
 
 	@Override
 	public Item item() {
@@ -26,23 +31,19 @@ public record FireworkProduct(float chance) implements IProduct {
 	@Override
 	public ItemStack createRandomStack(RandomSource random) {
 		ItemStack firework = new ItemStack(Items.FIREWORK_ROCKET);
-		// firework data
-		CompoundTag fireworksTag = firework.getOrCreateTagElement("Fireworks");
-		// list of explosions (firework stars)
-		ListTag explosionsTag = new ListTag();
 
-		// one explosion with random dye color, shape, and 50% chance for flicker
-		CompoundTag explosion = new CompoundTag();
-		DyeColor color = COLORS[random.nextInt(3)];
-		explosion.putIntArray("Colors", new int[]{color.getFireworkColor()});
-		explosion.putByte("Type", (byte) random.nextInt(5));
-		explosion.putBoolean("Flicker", random.nextBoolean());
+		// 1.21 stores fireworks via the FIREWORKS data component instead of NBT tags.
+		DyeColor color = COLORS[random.nextInt(COLORS.length)];
+		FireworkExplosion.Shape shape = SHAPES[random.nextInt(SHAPES.length)];
+		FireworkExplosion explosion = new FireworkExplosion(
+			shape,
+			IntList.of(color.getFireworkColor()),
+			IntList.of(),
+			false,
+			random.nextBoolean()
+		);
 
-		// add to tag
-		explosionsTag.add(explosion);
-		fireworksTag.put("Explosions", explosionsTag);
-		fireworksTag.putByte("Flight", (byte) 2);
-
+		firework.set(DataComponents.FIREWORKS, new Fireworks(2, List.of(explosion)));
 		return firework;
 	}
 }

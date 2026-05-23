@@ -7,6 +7,7 @@ import forestry.core.gui.GuiNaturalistInventory;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import forestry.storage.features.BackpackMenuTypes;
+import forestry.storage.gui.ContainerNaturalistBackpack;
 import forestry.storage.gui.GuiBackpack;
 import forestry.storage.items.ItemBackpack;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -21,7 +22,11 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StorageClientHandler implements IClientModuleHandler {
-	public static final ModelResourceLocation FILLED_CRATE_MODEL = new ModelResourceLocation(ForestryConstants.MOD_ID, "filled_crate", "inventory");
+	// Standalone models resolve through ModelBakery.MODEL_LISTER ("models/<path>.json"),
+	// without the legacy "item/" prefix that vanilla item lookups added in pre-1.21
+	// versions. Use the explicit "item/filled_crate" path so the loader finds
+	// assets/forestry/models/item/filled_crate.json.
+	public static final ModelResourceLocation FILLED_CRATE_MODEL = ModelResourceLocation.standalone(ForestryConstants.forestry("item/filled_crate"));
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
@@ -29,13 +34,14 @@ public class StorageClientHandler implements IClientModuleHandler {
 		modBus.addListener(StorageClientHandler::registerModelLoaders);
 		modBus.addListener(StorageClientHandler::onModelBake);
 		modBus.addListener(StorageClientHandler::onClientSetup);
+		modBus.addListener(StorageClientHandler::registerBackpackItemProperties);
+	}
 
-		IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.STORAGE);
-
-		registry.addRegistryListener(Registries.ITEM, () -> {
-			@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
+	private static void registerBackpackItemProperties(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+		event.enqueueWork(() -> {
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemBackpack.getMode(stack).ordinal();
-
+			IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.STORAGE);
 			for (DeferredHolder<Item, ? extends Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
 				if (entry.get() instanceof ItemBackpack) {
 					ItemProperties.register(entry.get(), ResourceLocation.withDefaultNamespace("mode"), itemPropertyFunction);
@@ -60,6 +66,6 @@ public class StorageClientHandler implements IClientModuleHandler {
 
 	private static void onClientSetup(RegisterMenuScreensEvent event) {
 		event.register(BackpackMenuTypes.BACKPACK.menuType(), GuiBackpack::new);
-		event.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<NaturalistBackpackMenu>::new);
+		event.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<ContainerNaturalistBackpack>::new);
 	}
 }

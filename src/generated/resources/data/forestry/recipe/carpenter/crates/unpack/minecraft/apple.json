@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/crates/unpack/minecraft/apple",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:crated_apple"
+      }
+    ],
+    "result": {
+      "count": 9,
+      "id": "minecraft:apple"
+    }
+  },
+  "time": 5
+}

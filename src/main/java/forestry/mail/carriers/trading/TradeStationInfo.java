@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
 import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.IMailAddress;
+import forestry.api.mail.ITradeStationInfo;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.world.item.ItemStack;
 
@@ -15,7 +16,7 @@ public record TradeStationInfo(
 	ItemStack tradegood,
 	List<ItemStack> required,
 	EnumTradeStationState state
-) {
+) implements ITradeStationInfo {
 	public TradeStationInfo {
 		Preconditions.checkArgument(address.getCarrier().equals(PostalCarriers.TRADER.value()), "TradeStation address must be a trader");
 	}

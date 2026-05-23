@@ -1,5 +1,6 @@
 package forestry.apiculture.features;
 
+import forestry.api.ForestryConstants;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
@@ -20,7 +21,7 @@ public class ApicultureEffects {
 
 	public static final DeferredHolder<MobEffect, MobEffect> HAKUNA_MATATA = MOB_EFFECTS.register("hakuna_matata", () -> {
 		return new ForestryMobEffect(MobEffectCategory.BENEFICIAL, 0x069af3)
-			.addAttributeModifier(Attributes.FOLLOW_RANGE, "07FB7192-49C7-4f77-BE0B-D182BD391AFD", 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+			.addAttributeModifier(Attributes.FOLLOW_RANGE, ForestryConstants.forestry("hakuna_matata_follow_range"), 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	});
 	public static final DeferredHolder<MobEffect, MobEffect> MATATA = MOB_EFFECTS.register("matata", () -> {
 		return new ForestryMobEffect(MobEffectCategory.NEUTRAL, 0x380835);
@@ -33,7 +34,7 @@ public class ApicultureEffects {
 
 		// we have no ongoing effects
 		@Override
-		public boolean isDurationEffectTick(int duration, int amplifier) {
+		public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
 			return false;
 		}
 	}

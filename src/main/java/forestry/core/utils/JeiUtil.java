@@ -1,7 +1,7 @@
 package forestry.core.utils;
 
 import forestry.Forestry;
-import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
@@ -15,7 +15,8 @@ import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.ingredients.ITypedIngredient;
-import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
@@ -136,9 +137,18 @@ public class JeiUtil {
 	}
 
 	public static <S extends ISpecies<?>> void registerItemSubtypes(ISubtypeRegistration registry, IRegistryChromosome<S> species, ISpeciesType<S, ?> type) {
-		IIngredientSubtypeInterpreter<ItemStack> interpreter = (stack, context) -> {
-			IIndividualHandlerItem individual = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
-			return individual != null ? individual.getIndividual().getGenome().getActiveValue(species).getBinomial() : IIngredientSubtypeInterpreter.NONE;
+		ISubtypeInterpreter<ItemStack> interpreter = new ISubtypeInterpreter<>() {
+			@Override
+			public Object getSubtypeData(ItemStack stack, UidContext context) {
+				IIndividual individual = IIndividualHandlerItem.getIndividual(stack);
+				return individual != null ? individual.getGenome().getActiveValue(species).getBinomial() : null;
+			}
+
+			@Override
+			public String getLegacyStringSubtypeInfo(ItemStack stack, UidContext context) {
+				Object data = getSubtypeData(stack, context);
+				return data == null ? "" : data.toString();
+			}
 		};
 
 		for (ILifeStage stage : type.getLifeStages()) {

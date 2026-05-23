@@ -49,7 +49,8 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 	// Note: The fluid mask is ignored, the fluid element is always from (4, 2) to (12, 14).
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
+		ResourceLocation modelLocation = ResourceLocation.parse(context.getModelName());
 		Material baseLocation = context.hasMaterial("base") ? context.getMaterial("base") : null;
 		Material fluidMaskLocation = context.hasMaterial("fluid") ? context.getMaterial("fluid") : null;
 		Material coverLocation = context.hasMaterial("cover") ? context.getMaterial("cover") : null;
@@ -69,8 +70,8 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 		var normalRenderTypes = DynamicFluidContainerModel.getLayerRenderTypes(false);
 
 		if (baseLocation != null && baseSprite != null) {
-			var baseElement = UnbakedGeometryHelper.createUnbakedItemElements(0, baseSprite.contents());
-			var quads = UnbakedGeometryHelper.bakeElements(baseElement, $ -> baseSprite, modelState, modelLocation);
+			var baseElement = UnbakedGeometryHelper.createUnbakedItemElements(0, baseSprite);
+			var quads = UnbakedGeometryHelper.bakeElements(baseElement, $ -> baseSprite, modelState);
 			modelBuilder.addQuads(normalRenderTypes, quads);
 		}
 
@@ -78,7 +79,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 		if (fluidMaskLocation != null && fluidSprite != null) {
 			// no edges
 			var fluidElement = Collections.singletonList(FilledCrateModel.make2dElement(1, 4, 2, 12, 14, -0.002f));
-			var quads = UnbakedGeometryHelper.bakeElements(fluidElement, $ -> fluidSprite, modelState, modelLocation);
+			var quads = UnbakedGeometryHelper.bakeElements(fluidElement, $ -> fluidSprite, modelState);
 
 			var emissive = this.applyFluidLuminosity && this.fluid.getFluidType().getLightLevel() > 0;
 			var renderTypes = DynamicFluidContainerModel.getLayerRenderTypes(emissive);
@@ -94,7 +95,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 			if (sprite != null) {
 				// no edges
 				var coverElement = Collections.singletonList(FilledCrateModel.make2dElement(2, 0, 0, 16, 16, 0.002f)); // Use cover as mask
-				var quads = UnbakedGeometryHelper.bakeElements(coverElement, $ -> sprite, modelState, modelLocation); // Bake with selected texture
+				var quads = UnbakedGeometryHelper.bakeElements(coverElement, $ -> sprite, modelState); // Bake with selected texture
 				modelBuilder.addQuads(normalRenderTypes, quads);
 			}
 		}
@@ -138,7 +139,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 					if (!this.cache.containsKey(name)) {
 						FluidContainerModel unbaked = this.parent.withFluid(fluid);
-						BakedModel bakedModel = unbaked.bake(this.owner, this.bakery, Material::sprite, BlockModelRotation.X0_Y0, this, new ResourceLocation("forge:bucket_override"));
+						BakedModel bakedModel = unbaked.bake(this.owner, this.bakery, Material::sprite, BlockModelRotation.X0_Y0, this);
                         this.cache.put(name, bakedModel);
 						return bakedModel;
 					}

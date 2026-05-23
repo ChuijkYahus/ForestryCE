@@ -16,6 +16,7 @@ import forestry.sorting.network.packets.PacketFilterChangeRule;
 import forestry.sorting.network.packets.PacketGuiFilterUpdate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -44,7 +45,7 @@ public class FilterLogic implements IFilterLogic {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
 		for (int i = 0; i < this.filterRules.length; i++) {
 			data.putString("TypeFilter" + i, this.filterRules[i].getId());
 		}
@@ -67,7 +68,7 @@ public class FilterLogic implements IFilterLogic {
 	}
 
 	@Override
-	public void read(CompoundTag data) {
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
 		for (int i = 0; i < this.filterRules.length; i++) {
 			this.filterRules[i] = IForestryApi.INSTANCE.getFilterManager().getRuleOrDefault(data.getString("TypeFilter" + i));
 		}
@@ -76,10 +77,10 @@ public class FilterLogic implements IFilterLogic {
 			for (int j = 0; j < 3; j++) {
 				AlleleFilter filter = new AlleleFilter();
 				if (data.contains("GenomeFilterS" + i + "-" + j + "-" + 0)) {
-					filter.activeSpecies = SpeciesUtil.getAnySpecies(new ResourceLocation(data.getString("GenomeFilterS" + i + "-" + j + "-" + 0)));
+					filter.activeSpecies = SpeciesUtil.getAnySpecies(ResourceLocation.parse(data.getString("GenomeFilterS" + i + "-" + j + "-" + 0)));
 				}
 				if (data.contains("GenomeFilterS" + i + "-" + j + "-" + 1)) {
-					filter.inactiveSpecies = SpeciesUtil.getAnySpecies(new ResourceLocation(data.getString("GenomeFilterS" + i + "-" + j + "-" + 1)));
+					filter.inactiveSpecies = SpeciesUtil.getAnySpecies(ResourceLocation.parse(data.getString("GenomeFilterS" + i + "-" + j + "-" + 1)));
 				}
 				this.genomeFilter[i][j] = filter;
 			}

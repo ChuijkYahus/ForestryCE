@@ -1,69 +1,58 @@
 package forestry.api.core;
 
+import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
-
-import javax.annotation.Nullable;
-import java.util.Optional;
 
 /**
  * Default implementation of {@link IProduct}. Used in most cases.
  *
  * @param item   The item this product represents.
  * @param count  The count the produced stack should have.
- * @param tag    The NBT tag
- * @param chance
+ * @param patch  The data components to apply to the item. Use {@link DataComponentPatch#EMPTY} in place of {@code null}.
+ * @param chance The chance (from 0.0 to 1.0) that this product is produced. Support for values higher than 1.0 varies by machine.
  */
-public record Product(Item item, int count, @Nullable CompoundTag tag, float chance) implements IProduct {
+public record Product(Item item, int count, DataComponentPatch patch, float chance) implements IProduct {
+	public Product {
+		Preconditions.checkNotNull(patch);
+	}
+
 	public static final Codec<Product> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 		BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(Product::item),
 		Codec.intRange(1, 64).optionalFieldOf("count", 1).forGetter(Product::count),
-		CompoundTag.CODEC.optionalFieldOf("tag").forGetter(product -> Optional.ofNullable(product.tag)),
+		DataComponentPatch.CODEC.optionalFieldOf("tag", DataComponentPatch.EMPTY).forGetter(Product::patch),
 		Codec.floatRange(0f, 1f).fieldOf("chance").forGetter(Product::chance)
-	).apply(instance, (item, count, tag, chance) -> new Product(item, count, tag.orElse(null), chance)));
-	// todo StreamCodec in 1.21
+	).apply(instance, Product::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, Product> STREAM_CODEC = StreamCodec.composite(
+		ByteBufCodecs.registry(Registries.ITEM), Product::item,
+		ByteBufCodecs.INT, Product::count,
+		DataComponentPatch.STREAM_CODEC, Product::patch,
+		ByteBufCodecs.FLOAT, Product::chance,
+		Product::new
+	);
 
 	@Override
 	public ItemStack createStack() {
-		ItemStack stack = new ItemStack(this.item, this.count);
-		if (this.tag != null) {
-			stack.set(DataComponents.CUSTOM_DATA, CustomData.of(this.tag.copy()));
+		if (this.patch.isEmpty()) {
+			return new ItemStack(this.item, this.count);
+		} else {
+			return new ItemStack(this.item.builtInRegistryHolder(), this.count, this.patch);
 		}
-		return stack;
 	}
 
 	public static Product of(Item item) {
-		return new Product(item, 1, null, 1f);
+		return new Product(item, 1, DataComponentPatch.EMPTY, 1f);
 	}
 
 	public static Product of(Item item, int amount, float chance) {
-		return new Product(item, amount, null, chance);
-	}
-
-	public static void toNetwork(FriendlyByteBuf buffer, Product product) {
-		buffer.writeById(BuiltInRegistries.ITEM::getId, product.item);
-		buffer.writeByte(product.count);
-		buffer.writeNbt(product.tag);
-		buffer.writeFloat(product.chance);
-	}
-
-	public static Product fromNetwork(FriendlyByteBuf buffer) {
-		Item item = buffer.readById(BuiltInRegistries.ITEM::byId);
-		int count = buffer.readByte();
-		CompoundTag tag = buffer.readNbt();
-		float chance = buffer.readFloat();
-
-		if (item == null) {
-			throw new IllegalStateException("Received invalid item ID");
-		}
-
-		return new Product(item, count, tag, chance);
+		return new Product(item, amount, DataComponentPatch.EMPTY, chance);
 	}
 }

@@ -94,13 +94,13 @@ public class RenderEngine implements BlockEntityRenderer<EngineBlockEntity> {
 		stack.translate(-0.5, -0.5, -0.5);
 
 		// render base
-		this.boiler.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.BASE.ordinal()])), light, overlay);
+		this.boiler.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.BASE.ordinal()])), light, overlay, 0xFFFFFFFF);
 
 		// render piston with smooth lerp
 		float step = getPistonStep(engine, partialTick);
 		float tfactor = step / 16;
 		stack.translate(0, tfactor, 0);
-		this.piston.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.PISTON.ordinal()])), light, overlay);
+		this.piston.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.PISTON.ordinal()])), light, overlay, 0xFFFFFFFF);
 		stack.translate(0, -tfactor, 0);
 
 		// render trunk with color based on heat
@@ -112,7 +112,7 @@ public class RenderEngine implements BlockEntityRenderer<EngineBlockEntity> {
 			case WARMED_UP -> this.textures[Textures.TRUNK_MEDIUM.ordinal()];
 			default -> this.textures[Textures.TRUNK_LOW.ordinal()];
 		};
-		this.trunk.render(stack, buffers.getBuffer(RenderType.entityCutout(texture)), light, overlay);
+		this.trunk.render(stack, buffers.getBuffer(RenderType.entityCutout(texture)), light, overlay, 0xFFFFFFFF);
 
 		// render piston sleeve
 		float chamberf = 2F / 16F;
@@ -120,7 +120,7 @@ public class RenderEngine implements BlockEntityRenderer<EngineBlockEntity> {
 			VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.EXTENSION.ordinal()]));
 
 			for (int i = 0; i <= step + 2; i += 2) {
-				this.extension.render(stack, buffer, light, overlay);
+				this.extension.render(stack, buffer, light, overlay, 0xFFFFFFFF);
 				stack.translate(0, chamberf, 0);
 			}
 		}

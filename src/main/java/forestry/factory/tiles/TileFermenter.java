@@ -20,6 +20,7 @@ import forestry.factory.gui.ContainerFermenter;
 import forestry.factory.inventory.InventoryFermenter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
@@ -63,8 +64,8 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
 		compoundNBT.putInt("FermentationTime", this.fermentationTime);
 		compoundNBT.putInt("FermentationTotalTime", this.fermentationTotalTime);
@@ -72,12 +73,12 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		compoundNBT.putInt("FuelTotalTime", this.fuelTotalTime);
 		compoundNBT.putInt("FuelCurrentFerment", this.fuelCurrentFerment);
 
-        this.tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
         this.fermentationTime = compoundNBT.getInt("FermentationTime");
         this.fermentationTotalTime = compoundNBT.getInt("FermentationTotalTime");
@@ -85,7 +86,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
         this.fuelTotalTime = compoundNBT.getInt("FuelTotalTime");
         this.fuelCurrentFerment = compoundNBT.getInt("FuelCurrentFerment");
 
-        this.tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT, registries);
 	}
 
 	@Override

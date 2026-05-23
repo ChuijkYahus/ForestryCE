@@ -83,7 +83,7 @@ public class ModelLeaves extends ModelBlockCached<BlockForestryLeaves, ModelLeav
 		TileLeaves leaves = new TileLeaves(BlockPos.ZERO, ArboricultureBlocks.LEAVES.defaultState());
 		CompoundTag tag = NBTUtilForestry.getItemStackTag(stack);
 		if (tag != null) {
-			leaves.load(tag);
+			leaves.loadAdditional(tag, net.minecraft.core.RegistryAccess.EMPTY);
 		} else {
 			leaves.setTree(SpeciesUtil.TREE_TYPE.get().getDefaultSpecies().createIndividual());
 		}

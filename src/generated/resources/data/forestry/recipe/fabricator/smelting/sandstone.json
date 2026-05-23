@@ -1,0 +1,20 @@
+{
+  "type": "forestry:fabricator_smelting",
+  "id": "forestry:fabricator/smelting/sandstone",
+  "melting": 4800,
+  "product": {
+    "amount": 4000,
+    "id": "forestry:glass"
+  },
+  "resource": [
+    {
+      "item": "minecraft:sandstone"
+    },
+    {
+      "item": "minecraft:smooth_sandstone"
+    },
+    {
+      "item": "minecraft:chiseled_sandstone"
+    }
+  ]
+}

@@ -140,7 +140,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		ItemStack displayStack = getIndividualOnDisplay();
-		ItemStack.STREAM_CODEC.encode(data, displayStack);
+		ItemStack.OPTIONAL_STREAM_CODEC.encode(data, displayStack);
         this.tankManager.writeData(data);
 	}
 
@@ -148,7 +148,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
-        this.individualOnDisplayClient = ItemStack.STREAM_CODEC.decode(data);
+        this.individualOnDisplayClient = ItemStack.OPTIONAL_STREAM_CODEC.decode(data);
         this.tankManager.readData(data);
 	}
 

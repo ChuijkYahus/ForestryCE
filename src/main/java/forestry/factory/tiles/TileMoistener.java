@@ -23,6 +23,7 @@ import forestry.factory.gui.ContainerMoistener;
 import forestry.factory.inventory.InventoryMoistener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
@@ -65,44 +66,44 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 
 	/* LOADING & SAVING */
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
 
 		compoundNBT.putInt("BurnTime", this.burnTime);
 		compoundNBT.putInt("TotalTime", this.totalTime);
 		compoundNBT.putInt("ProductionTime", this.productionTime);
 
-        this.tankManager.write(compoundNBT);
+        this.tankManager.write(compoundNBT, registries);
 
 		// Write pending product
 		if (this.pendingProduct != null) {
-			CompoundTag CompoundNBTP = (CompoundTag) this.pendingProduct.saveOptional(getRegistries());
+			CompoundTag CompoundNBTP = (CompoundTag) this.pendingProduct.saveOptional(registries);
 			compoundNBT.put("PendingProduct", CompoundNBTP);
 		}
 		if (this.currentProduct != null) {
-			CompoundTag CompoundNBTP = (CompoundTag) this.currentProduct.saveOptional(getRegistries());
+			CompoundTag CompoundNBTP = (CompoundTag) this.currentProduct.saveOptional(registries);
 			compoundNBT.put("CurrentProduct", CompoundNBTP);
 		}
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
 
         this.burnTime = compoundNBT.getInt("BurnTime");
         this.totalTime = compoundNBT.getInt("TotalTime");
         this.productionTime = compoundNBT.getInt("ProductionTime");
 
-        this.tankManager.read(compoundNBT);
+        this.tankManager.read(compoundNBT, registries);
 
 		// Load pending product
 		if (compoundNBT.contains("PendingProduct")) {
 			CompoundTag compoundNBTP = compoundNBT.getCompound("PendingProduct");
-            this.pendingProduct = ItemStack.of(compoundNBTP);
+            this.pendingProduct = ItemStack.parse(registries, compoundNBTP).orElse(ItemStack.EMPTY);
 		}
 		if (compoundNBT.contains("CurrentProduct")) {
 			CompoundTag compoundNBTP = compoundNBT.getCompound("CurrentProduct");
-            this.currentProduct = ItemStack.of(compoundNBTP);
+            this.currentProduct = ItemStack.parse(registries, compoundNBTP).orElse(ItemStack.EMPTY);
 		}
 
 		checkRecipe();

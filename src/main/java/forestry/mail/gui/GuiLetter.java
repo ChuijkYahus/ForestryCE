@@ -1,5 +1,6 @@
 package forestry.mail.gui;
 
+import forestry.api.ForestryRegistries;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
 import forestry.core.config.Constants;
@@ -162,7 +163,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		} else {
 			clearTradeInfoWidgets();
             this.address.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
-			if (this.menu.getCarrier().equals(PostalCarriers.TRADER.get())) {
+			if (this.menu.getCarrier().equals(PostalCarriers.TRADER.value())) {
 				drawTradePreview(graphics, 18, 32);
 			} else {
                 this.text.render(graphics, mouseX, mouseY, partialTicks);
@@ -226,7 +227,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		String recipient = SessionVars.getStringVar("mail.letter.recipient");
 		String typeName = SessionVars.getStringVar("mail.letter.carrier");
 		ResourceLocation carrierId = ResourceLocation.tryParse(typeName);
-		IPostalCarrier carrier = PostalCarriers.REGISTRY.get().getValue(carrierId);
+		IPostalCarrier carrier = ForestryRegistries.POSTAL_CARRIER.get(carrierId);
 
 		if (StringUtils.isNotBlank(recipient) && carrier != null) {
             this.address.setValue(recipient);

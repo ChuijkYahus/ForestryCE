@@ -1,6 +1,6 @@
 package forestry.arboriculture.loot;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.arboriculture.IToolGrafter;
 import forestry.api.arboriculture.genetics.IFruit;
@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class GrafterLootModifier extends LootModifier {
-	public static final Codec<GrafterLootModifier> CODEC = RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, GrafterLootModifier::new));
+	public static final MapCodec<GrafterLootModifier> CODEC = RecordCodecBuilder.mapCodec(inst -> codecStart(inst).apply(inst, GrafterLootModifier::new));
 
 	public GrafterLootModifier(LootItemCondition[] conditionsIn) {
 		super(conditionsIn);
@@ -61,7 +61,7 @@ public class GrafterLootModifier extends LootModifier {
 		if (generatedLoot.stream().noneMatch((stack) -> stack.is(ItemTags.SAPLINGS))) {
 			handleLoot(generatedLoot, player, harvestingTool, state, context);
 		}
-		harvestingTool.hurt(1, context.getRandom(), (ServerPlayer) player);
+		harvestingTool.hurtAndBreak(1, context.getLevel(), (ServerPlayer) player, item -> {});
 		if (harvestingTool.isEmpty()) {
 			EventHooks.onPlayerDestroyItem(player, harvestingTool, InteractionHand.MAIN_HAND);
 		}
@@ -115,7 +115,7 @@ public class GrafterLootModifier extends LootModifier {
 	}
 
 	@Override
-	public Codec<? extends IGlobalLootModifier> codec() {
+	public MapCodec<? extends IGlobalLootModifier> codec() {
 		return CODEC;
 	}
 }

@@ -10,6 +10,7 @@ import forestry.core.network.IStreamable;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -49,6 +50,16 @@ public class NetworkUtil {
 		PacketDistributor.sendToServer(packet);
 	}
 
+	public static void sendToAllPlayers(CustomPacketPayload packet) {
+		// Skip if no server is available (e.g. dedicated server's initial datapack
+		// reload happens before the server is registered with ServerLifecycleHooks,
+		// and the integrated client never has clients connected during startup).
+		if (net.neoforged.neoforge.server.ServerLifecycleHooks.getCurrentServer() == null) {
+			return;
+		}
+		PacketDistributor.sendToAllPlayers(packet);
+	}
+
 	// Used for Streamable to prepare FriendlyByteBuf for sending over the network
 	public static void writePayloadBuffer(RegistryFriendlyByteBuf buffer, Consumer<RegistryFriendlyByteBuf> dataWriter) {
 		// write a placeholder value for the number of bytes, keeping its index for replacing later
@@ -69,15 +80,15 @@ public class NetworkUtil {
 	public static void writeItemStacks(RegistryFriendlyByteBuf buffer, List<ItemStack> itemStacks) {
 		buffer.writeVarInt(itemStacks.size());
 		for (ItemStack stack : itemStacks) {
-			ItemStack.STREAM_CODEC.encode(buffer, stack);
+			ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, stack);
 		}
 	}
 
-	public static List<ItemStack> readItemStacks(RegistryFriendlyByteBuf buffer) {
+	public static NonNullList<ItemStack> readItemStacks(RegistryFriendlyByteBuf buffer) {
 		int stackCount = buffer.readVarInt();
-		ArrayList<ItemStack> itemStacks = new ArrayList<>(stackCount);
+		NonNullList<ItemStack> itemStacks = NonNullList.create();
 		for (int i = 0; i < stackCount; i++) {
-			itemStacks.add(ItemStack.STREAM_CODEC.decode(buffer));
+			itemStacks.add(ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer));
 		}
 		return itemStacks;
 	}
@@ -88,7 +99,7 @@ public class NetworkUtil {
 
 		for (int i = 0; i < size; i++) {
 			ItemStack stack = inventory.getItem(i);
-			ItemStack.STREAM_CODEC.encode(buffer, stack);
+			ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, stack);
 		}
 	}
 
@@ -96,7 +107,7 @@ public class NetworkUtil {
 		int size = buffer.readVarInt();
 
 		for (int i = 0; i < size; i++) {
-			ItemStack stack = ItemStack.STREAM_CODEC.decode(buffer);
+			ItemStack stack = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
 			inventory.setItem(i, stack);
 		}
 	}

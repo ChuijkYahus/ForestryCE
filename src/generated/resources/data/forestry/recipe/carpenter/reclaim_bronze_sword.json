@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/reclaim_bronze_sword",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:broken_sword"
+      }
+    ],
+    "result": {
+      "count": 1,
+      "id": "forestry:ingot_bronze"
+    }
+  },
+  "time": 5
+}

@@ -62,7 +62,7 @@ public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerReci
 		JeiUtil.setCraftingItems(craftingSlots, recipe.getInputs(), 3, 3, this.craftingGridHelper);
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 88, 44)
-			.addTooltipCallback(new ChanceTooltipCallback(recipe.getRemnantsChance()))
+			.addRichTooltipCallback(new ChanceTooltipCallback(recipe.getRemnantsChance()))
 			.addItemStack(recipe.getRemnants());
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 2)

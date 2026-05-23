@@ -49,7 +49,9 @@ import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import forestry.storage.items.ItemCrated;
 import forestry.worktable.features.WorktableBlocks;
+import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -191,6 +193,10 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.REFRACTORY_WAX);
 		// todo merge more items into crafting materials
 		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
+
+		// Escritoire output — research notes ship players hint about mutations. Worth
+		// surfacing in creative so they can be inspected without needing the workflow.
+		items.accept(CoreItems.RESEARCH_NOTE);
 	}
 
 	private static void addApicultureItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
@@ -223,13 +229,16 @@ public class ForestryCreativeTabs {
 		items.accept(ApicultureItems.FRAME_IMPREGNATED);
 		items.accept(ApicultureItems.FRAME_PROVEN);
 		ItemStack creativeFrameMaxMutation = ApicultureItems.FRAME_CREATIVE.stack();
-		creativeFrameMaxMutation.addTagElement(ItemCreativeHiveFrame.NBT_FORCE_MUTATIONS, ByteTag.valueOf((byte) 1));
+		CompoundTag forceMutationsTag = new CompoundTag();
+		forceMutationsTag.put(ItemCreativeHiveFrame.NBT_FORCE_MUTATIONS, ByteTag.valueOf((byte) 1));
+		NBTUtilForestry.setItemStackTag(creativeFrameMaxMutation, forceMutationsTag);
 		items.accept(ApicultureItems.FRAME_CREATIVE);
 		items.accept(creativeFrameMaxMutation);
 
 		// Food
 		items.accept(ApicultureItems.HONEYED_SLICE);
 		items.accept(ApicultureItems.AMBROSIA);
+		items.accept(ApicultureItems.HONEY_POT);
 
 		// Misc items
 		ApicultureItems.BEE_COMBS.getItems().forEach(items::accept);
@@ -280,6 +289,11 @@ public class ForestryCreativeTabs {
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.TREE);
 		items.accept(ArboricultureItems.AMBER_SAPLING);
 		ArboricultureBlocks.LEAVES_DECORATIVE.getItems().forEach(items::accept);
+		// Default species leaf blocks (and the fruit-bearing variants) are spawned by
+		// genetic trees but were missing from any creative tab — surface them next to
+		// the decorative leaves so they're discoverable in JEI and the creative menu.
+		ArboricultureBlocks.LEAVES_DEFAULT.getItems().forEach(items::accept);
+		ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.getItems().forEach(items::accept);
 	}
 
 	private static void addLepidopterologyItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {

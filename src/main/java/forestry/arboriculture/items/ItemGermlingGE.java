@@ -6,9 +6,9 @@ import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.recipes.IVariableFermentable;
 import forestry.arboriculture.tiles.TileLeaves;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.genetics.ItemGE;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.BlockUtil;
@@ -42,7 +42,7 @@ public class ItemGermlingGE extends ItemGE implements IVariableFermentable, ICol
 	}
 
 	@Override
-	protected ISpeciesType<?, ?> getType() {
+	public ISpeciesType<?, ?> getType() {
 		return SpeciesUtil.TREE_TYPE.get();
 	}
 

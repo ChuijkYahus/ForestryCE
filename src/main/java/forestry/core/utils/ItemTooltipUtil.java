@@ -35,4 +35,9 @@ public class ItemTooltipUtil {
 		toolTip.addAll(stack.getTooltipLines(context, player, flag));
 		return toolTip;
 	}
+
+	@Nullable
+	public static ToolTip getInformation(ItemStack stack) {
+		return getInformation(stack, null, TooltipFlag.Default.NORMAL);
+	}
 }

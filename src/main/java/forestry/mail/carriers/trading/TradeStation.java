@@ -14,6 +14,7 @@ import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.postalstates.EnumDeliveryState;
 import forestry.mail.postalstates.ResponseNotMailable;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -54,7 +55,7 @@ public class TradeStation implements ITradeStation {
 	private final Set<Watcher> updateWatchers = new HashSet<>();
 
 	public TradeStation(@Nullable GameProfile owner, IMailAddress address) {
-		if (!address.getCarrier().equals(PostalCarriers.TRADER.get())) {
+		if (!address.getCarrier().equals(PostalCarriers.TRADER.value())) {
 			throw new IllegalArgumentException("TradeStation address must be a trader");
 		}
 
@@ -62,8 +63,8 @@ public class TradeStation implements ITradeStation {
 		this.address = address;
 	}
 
-	public TradeStation(CompoundTag tag) {
-		read(tag);
+	public TradeStation(CompoundTag tag, HolderLookup.Provider registries) {
+		read(tag, registries);
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class TradeStation implements ITradeStation {
 	}
 
 	// / SAVING & LOADING
-	public CompoundTag save(CompoundTag compoundNBT) {
+	public CompoundTag save(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
 			NBTUtilForestry.writeGameProfile(nbt, this.owner);
@@ -81,23 +82,23 @@ public class TradeStation implements ITradeStation {
 
 		if (this.address != null) {
 			CompoundTag nbt = new CompoundTag();
-            this.address.write(nbt);
+            this.address.write(nbt, registries);
 			compoundNBT.put("address", nbt);
 		}
 
 		compoundNBT.putBoolean("VRT", this.isVirtual);
 		compoundNBT.putBoolean("IVL", this.isInvalid);
-        this.inventory.write(compoundNBT);
+        this.inventory.write(compoundNBT, registries);
 		return compoundNBT;
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag nbt) {
-		return save(nbt);
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
+		return save(nbt, registries);
 	}
 
 	@Override
-	public void read(CompoundTag nbt) {
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
 		if (nbt.contains("owner")) {
             this.owner = NBTUtilForestry.readGameProfile(nbt.getCompound("owner"));
 		}
@@ -108,7 +109,7 @@ public class TradeStation implements ITradeStation {
 
 		this.isVirtual = nbt.getBoolean("VRT");
 		this.isInvalid = nbt.getBoolean("IVL");
-        this.inventory.read(nbt);
+        this.inventory.read(nbt, registries);
 	}
 
 	/* INVALIDATING */
@@ -165,7 +166,7 @@ public class TradeStation implements ITradeStation {
 	public IPostalState handleLetter(ServerLevel world, IMailAddress recipient, ItemStack letterstack, boolean doLodge) {
 		boolean sendOwnerNotice = doLodge && this.owner != null;
 
-		ILetter letter = LetterUtils.getLetter(letterstack);
+		ILetter letter = LetterUtils.getLetter(letterstack, world.registryAccess());
 
 		if (!isVirtual() && !hasPaper(sendOwnerNotice ? 2 : 1)) {
 			return EnumTradeStationState.INSUFFICIENT_PAPER;
@@ -230,11 +231,7 @@ public class TradeStation implements ITradeStation {
 		}
 
 		// Send the letter
-		CompoundTag compoundNBT = new CompoundTag();
-		mail.write(compoundNBT);
-
-		ItemStack mailstack = LetterProperties.createStampedLetterStack(mail);
-		NBTUtilForestry.setItemStackTag(mailstack, compoundNBT);
+		ItemStack mailstack = LetterUtils.createLetterStack(mail, world.registryAccess());
 
 		IPostalState responseState = PostOffice.getOrCreate(world).lodgeLetter(world, mailstack, doLodge);
 
@@ -260,8 +257,6 @@ public class TradeStation implements ITradeStation {
 
 		// Send confirmation message to seller
 		if (sendOwnerNotice) {
-			compoundNBT = new CompoundTag();
-
 			ILetter confirm = new Letter(this.address, new MailAddress(this.owner));
 
 			String orderFilledMessage;
@@ -276,10 +271,8 @@ public class TradeStation implements ITradeStation {
 
 			confirm.setText(orderFilledMessage);
 			confirm.addStamps(MailItems.STAMPS.stack(EnumStampDefinition.P_1, 1));
-			confirm.write(compoundNBT);
 
-			ItemStack confirmstack = LetterProperties.createStampedLetterStack(confirm);
-			NBTUtilForestry.setItemStackTag(confirmstack, compoundNBT);
+			ItemStack confirmstack = LetterUtils.createLetterStack(confirm, world.registryAccess());
 
 			PostOffice.getOrCreate(world).lodgeLetter(world, confirmstack, doLodge);
 
@@ -303,7 +296,7 @@ public class TradeStation implements ITradeStation {
 		float orderCount = 0;
 
 		for (ItemStack stack : InventoryUtil.getStacks(this.inventory, SLOT_SEND_BUFFER, SLOT_SEND_BUFFER_COUNT)) {
-			if (stack != null && ItemStack.isSameItemSameTags(stack, tradegood)) {
+			if (stack != null && ItemStack.isSameItemSameComponents(stack, tradegood)) {
 				orderCount += stack.getCount() / (float) tradegood.getCount();
 				if (orderCount >= max) {
 					return max;
@@ -344,7 +337,7 @@ public class TradeStation implements ITradeStation {
 			for (int i = SLOT_SEND_BUFFER; i < SLOT_SEND_BUFFER + SLOT_SEND_BUFFER_COUNT; i++) {
 				ItemStack buffer = this.inventory.getItem(i);
 
-				if (!buffer.isEmpty() && ItemStack.isSameItemSameTags(buffer, this.inventory.getItem(SLOT_TRADEGOOD))) {
+				if (!buffer.isEmpty() && ItemStack.isSameItemSameComponents(buffer, this.inventory.getItem(SLOT_TRADEGOOD))) {
 					ItemStack decrease = this.inventory.removeItem(i, toRemove);
 					toRemove -= decrease.getCount();
 

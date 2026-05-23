@@ -24,6 +24,7 @@ import forestry.core.config.Constants;
 import forestry.core.features.*;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.gui.*;
+import forestry.core.items.ItemBlockTesr;
 import forestry.core.models.ClientManager;
 import forestry.core.models.FluidContainerModel;
 import forestry.core.models.ModelBlockCached;
@@ -32,6 +33,7 @@ import forestry.core.render.*;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;
 import forestry.core.utils.SpeciesUtil;
+import forestry.modules.features.FeatureFluid;
 import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryTiles;
 import forestry.lepidopterology.features.LepidopterologyItems;
@@ -40,8 +42,8 @@ import forestry.modules.ModuleUtil;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
@@ -51,7 +53,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -77,6 +83,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(CoreClientHandler::onClientSetup);
+		modBus.addListener(CoreClientHandler::registerMenuScreens);
 		modBus.addListener(CoreClientHandler::registerModelLoaders);
 		modBus.addListener(CoreClientHandler::additionalBakedModels);
 		modBus.addListener(CoreClientHandler::bakeModels);
@@ -86,6 +93,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::registerBlockColors);
 		modBus.addListener(CoreClientHandler::registerItemColors);
 		modBus.addListener(CoreClientHandler::registerParticleFactory);
+		modBus.addListener(CoreClientHandler::registerClientExtensions);
 		NeoForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
 
 		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, ((ForestryClientApiImpl) IForestryClientApi.INSTANCE)::initializeTextureManager);
@@ -93,26 +101,33 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 	private static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-			CoreBlocks.BASE.getBlocks().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
+			CoreBlocks.BASE.getList().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
 
 			for (ForestryFluids fluid : ForestryFluids.values()) {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFluid(), RenderType.translucent());
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFlowing(), RenderType.translucent());
 			}
 
-			MenuScreens.register(CoreMenuTypes.ALYZER.menuType(), PortableAnalyzerScreen::new);
-			MenuScreens.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
-			MenuScreens.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
-			MenuScreens.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
-			MenuScreens.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());
 	}
 
-	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
-		event.register("fluid_container", FluidContainerModel.Loader.INSTANCE);
+	private static void registerMenuScreens(RegisterMenuScreensEvent event) {
+		event.register(CoreMenuTypes.ALYZER.menuType(), PortableAnalyzerScreen::new);
+		event.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
+		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
+		event.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
+		event.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
+	}
 
+	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
+		event.register(ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "fluid_container"), FluidContainerModel.Loader.INSTANCE);
+
+		// Client model registration depends on TreeManager / BeeManager / etc. being
+		// initialized. RegisterGeometryLoaders fires before FMLCommonSetupEvent, so make
+		// sure the API is bootstrapped before plugin client registration runs.
+		forestry.core.ModuleCore.ensureApiInitialized();
 		PluginManager.registerClient();
 	}
 
@@ -123,15 +138,15 @@ public class CoreClientHandler implements IClientModuleHandler {
 			Map<IBeeSpecies, ResourceLocation> models = beeManager.getBeeModels(stage);
 
 			for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
-				event.register(models.get(species));
+				event.register(ModelResourceLocation.standalone(models.get(species)));
 			}
 		}
 
 		ITreeClientManager treeManager = IForestryClientApi.INSTANCE.getTreeManager();
 
 		for (Pair<ResourceLocation, ResourceLocation> pair : treeManager.getAllSaplingModels()) {
-			event.register(pair.getFirst());
-			event.register(pair.getSecond());
+			event.register(ModelResourceLocation.standalone(pair.getFirst()));
+			event.register(ModelResourceLocation.standalone(pair.getSecond()));
 		}
 	}
 
@@ -182,6 +197,43 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 	private static void registerParticleFactory(RegisterParticleProvidersEvent event) {
 		event.registerSpriteSet(CoreParticles.REFRACTORY_WAX.get(), RefractoryWaxParticle::new);
+	}
+
+	private static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+		// Replaces the deprecated per-instance Item#initializeClient override on ItemBlockTesr.
+		IClientItemExtensions tesrExtensions = new IClientItemExtensions() {
+			@Override
+			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+				return bewlr;
+			}
+		};
+		for (ItemBlockTesr<?> item : ItemBlockTesr.getInstances()) {
+			event.registerItem(tesrExtensions, item);
+		}
+
+		// Replaces the deprecated per-instance FluidType#initializeClient override on ForestryFluidType.
+		for (ForestryFluids fluid : ForestryFluids.values()) {
+			FluidType type = fluid.getFluid().getFluidType();
+			if (!(type instanceof FeatureFluid.ForestryFluidType forestryType)) {
+				continue;
+			}
+			event.registerFluidType(new IClientFluidTypeExtensions() {
+				@Override
+				public ResourceLocation getStillTexture() {
+					return forestryType.getStillTexture();
+				}
+
+				@Override
+				public ResourceLocation getFlowingTexture() {
+					return forestryType.getFlowingTexture();
+				}
+
+				@Override
+				public int getTintColor() {
+					return forestryType.getColor();
+				}
+			}, type);
+		}
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
@@ -277,7 +329,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 					BlockPos playerPos = minecraft.player.blockPosition();
 					ChunkPos playerChunkPos = new ChunkPos(playerPos);
 
-					Color color = RenderUtil.getRainbowColor(minecraft.level.getGameTime(), event.getPartialTick());
+					Color color = RenderUtil.getRainbowColor(minecraft.level.getGameTime(), event.getPartialTick().getGameTimeDeltaPartialTick(false));
 
 					float r = color.getRed() / 255f;
 					float g = color.getGreen() / 255f;

@@ -1,0 +1,28 @@
+{
+  "type": "forestry:fabricator",
+  "id": "forestry:fabricator/fireproof/log/mahogany",
+  "molten": {
+    "amount": 500,
+    "id": "forestry:glass"
+  },
+  "recipe": {
+    "category": "building",
+    "key": {
+      "#": {
+        "item": "forestry:refractory_wax"
+      },
+      "X": {
+        "item": "forestry:mahogany_log"
+      }
+    },
+    "pattern": [
+      "   ",
+      "X#X",
+      "   "
+    ],
+    "result": {
+      "count": 2,
+      "id": "forestry:mahogany_fireproof_log"
+    }
+  }
+}

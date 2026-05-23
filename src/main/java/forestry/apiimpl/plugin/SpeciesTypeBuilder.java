@@ -10,6 +10,7 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.core.genetics.Karyotype;
 import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
 import javax.annotation.Nullable;
@@ -86,11 +87,11 @@ public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 		this.researchMaterials.accept(materialMap);
 	}
 
-	public ISpeciesType<?, ?> build() {
+	public ISpeciesType<?, ?> build(ResourceLocation id) {
 		Preconditions.checkState(this.karyotype != null, "Missing karyotype for species type");
 
 		Karyotype.Builder builder = new Karyotype.Builder();
 		this.karyotype.accept(builder);
-		return this.typeFactory.create(builder.build(), this);
+		return this.typeFactory.create(builder.build(id), this);
 	}
 }

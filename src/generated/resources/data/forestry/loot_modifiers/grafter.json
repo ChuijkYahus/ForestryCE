@@ -7,17 +7,13 @@
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "items": [
-              "forestry:grafter"
-            ]
+            "items": "forestry:grafter"
           }
         },
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "items": [
-              "forestry:grafter_proven"
-            ]
+            "items": "forestry:grafter_proven"
           }
         }
       ]

@@ -73,20 +73,20 @@ public class RenderMill implements BlockEntityRenderer<TileMill> {
 		Direction orientation = Direction.SOUTH;//mill.getBlockState().getValue(BlockBase.FACING);
 		RenderUtil.rotateByHorizontalDirection(stack, orientation);
 
-		this.pedestal.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.PEDESTAL.ordinal()])), light, overlay);
-		this.column.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.CHARGE.ordinal() + mill.charge])), light, overlay);
-		this.extension.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.EXTENSION.ordinal()])), light, overlay);
+		this.pedestal.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.PEDESTAL.ordinal()])), light, overlay, 0xFFFFFFFF);
+		this.column.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.CHARGE.ordinal() + mill.charge])), light, overlay, 0xFFFFFFFF);
+		this.extension.render(stack, buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.EXTENSION.ordinal()])), light, overlay, 0xFFFFFFFF);
 
 		float step = getBladeStep(mill, partialTick) / 16f;
 		VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(this.textures[Textures.BLADE.ordinal()]));
 		stack.pushPose();
 		stack.translate(step, 0, 0);
-		this.blade.render(stack, buffer, light, overlay);
+		this.blade.render(stack, buffer, light, overlay, 0xFFFFFFFF);
 		stack.popPose();
 		stack.translate(1, 0, 1);
 		stack.mulPose(Axis.YP.rotation(Mth.PI));
 		stack.translate(step, 0, 0);
-		this.blade.render(stack, buffer, light, overlay);
+		this.blade.render(stack, buffer, light, overlay, 0xFFFFFFFF);
 
 		stack.popPose();
 	}

@@ -1,7 +1,7 @@
 {
   "name": "for.gui.book.patchouli.entry.beekeeping.mutations",
   "category": "forestry:beekeeping",
-  "icon": "forestry:bee_queen_ge{Genome:{Chromosomes:[{UID1:\"forestry.speciesCommon\",UID0:\"forestry.speciesCommon\",Slot:0b}]}}",
+  "icon": "forestry:bee_queen_ge",
   "pages": [
     {
       "type": "patchouli:text",

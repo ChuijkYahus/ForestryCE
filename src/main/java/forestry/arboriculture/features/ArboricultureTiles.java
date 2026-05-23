@@ -18,8 +18,12 @@ public class ArboricultureTiles {
 
 	public static final FeatureTileType<TileSapling> SAPLING = REGISTRY.tile(TileSapling::new, "sapling", ArboricultureBlocks.SAPLING_GE::collect);
 	public static final FeatureTileType<TileLeaves> LEAVES = REGISTRY.tile(TileLeaves::new, "leaves", ArboricultureBlocks.LEAVES::collect);
-	public static final FeatureTileType<TileFruitPod> PODS = REGISTRY.tile(TileFruitPod::new, "pods", ArboricultureBlocks.PODS::getBlocks);
+	public static final FeatureTileType<TileFruitPod> PODS = REGISTRY.tile(TileFruitPod::new, "pods", ArboricultureBlocks.PODS::getList);
 
 	public static final FeatureTileType<SignBlockEntity> SIGN = REGISTRY.tile((pos, state) -> new SignBlockEntity(ArboricultureTiles.SIGN.tileType(), pos, state), "sign", () -> Stream.concat(ArboricultureBlocks.SIGN.getList().stream(), ArboricultureBlocks.WALL_SIGN.getList().stream()).toList());
-	public static final FeatureTileType<SignBlockEntity> HANGING_SIGN = REGISTRY.tile((pos, state) -> new SignBlockEntity(ArboricultureTiles.SIGN.tileType(), pos, state), "hanging_sign", () -> Stream.concat(ArboricultureBlocks.HANGING_SIGN.getList().stream(), ArboricultureBlocks.WALL_HANGING_SIGN.getList().stream()).toList());
+	// Hanging signs deliberately do NOT register a Forestry-owned BlockEntityType.
+	// HangingSignBlockEntity's only public constructor hardcodes vanilla BlockEntityType.HANGING_SIGN, so any
+	// Forestry-owned type would never actually be used at runtime (breaking save validation and tickers).
+	// Instead, Forestry's hanging-sign blocks are added to vanilla's BlockEntityType.HANGING_SIGN#validBlocks
+	// via BlockEntityTypeAddBlocksEvent in ModuleArboriculture.
 }

@@ -91,6 +91,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import forestry.api.ForestryConstants;
 import thedarkcolour.modkit.data.MKRecipeProvider;
 
 import java.util.List;
@@ -127,7 +128,7 @@ public class ForestryRecipeProvider {
 		registerCultivationRecipes(recipes);
 		registerFactoryRecipes(recipes);
 		registerFarmingRecipes(recipes);
-		registerFluidsRecipes(recipes);
+		registerFluidsRecipes(output);
 		registerLepidopterologyRecipes(recipes);
 		registerMailRecipes(recipes);
 		registerSortingRecipes(recipes);
@@ -616,7 +617,16 @@ public class ForestryRecipeProvider {
 		});
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE), CoreItems.APATITE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.INGOT_BRONZE);
-		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN), CoreItems.INGOT_TIN);
+		// Tin storage block crafted from any tin ingot (forge:ingots/tin tag) so cross-mod
+		// tin from Mekanism, Railcraft, etc. is accepted. Decomposition still produces
+		// Forestry's specific tin ingot.
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN), recipe -> {
+			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
+			recipe.pattern("###");
+			recipe.pattern("###");
+			recipe.pattern("###");
+		});
+		recipes.shapelessCrafting("ingot_tin_from_resource_storage_tin", RecipeCategory.MISC, CoreItems.INGOT_TIN.item(), 9, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN));
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER), recipe -> {
 			recipe.define('#', CoreItems.AMBER);
 			recipe.pattern("##");
@@ -1015,17 +1025,23 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void registerFluidsRecipes(MKRecipeProvider recipes) {
+	private static void registerFluidsRecipes(RecipeOutput output) {
+		// Bypass MKRecipeProvider's shapedCrafting wrapper here: its
+		// attemptAutoCriterion calls Ingredient#getValues, which throws on
+		// DataComponentIngredient. Build with vanilla ShapedRecipeBuilder
+		// and set the unlock criterion via MKRecipeProvider.unlockedByHaving.
 		for (EnumContainerType containerType : EnumContainerType.values()) {
-			recipes.shapedCrafting("cake_" + containerType.getSerializedName(), RecipeCategory.FOOD, Items.CAKE, recipe -> {
-				recipe.define('A', DataComponentIngredient.of(true, getContainer(containerType, NeoForgeMod.MILK.get())));
-				recipe.define('B', Items.SUGAR);
-				recipe.define('C', Items.WHEAT);
-				recipe.define('E', Items.EGG);
-				recipe.pattern("AAA");
-				recipe.pattern("BEB");
-				recipe.pattern("CCC");
-			});
+			MKRecipeProvider.unlockedByHaving(
+				ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, Items.CAKE)
+					.define('A', DataComponentIngredient.of(true, getContainer(containerType, NeoForgeMod.MILK.get())))
+					.define('B', Items.SUGAR)
+					.define('C', Items.WHEAT)
+					.define('E', Items.EGG)
+					.pattern("AAA")
+					.pattern("BEB")
+					.pattern("CCC"),
+				Items.MILK_BUCKET
+			).save(output, ForestryConstants.forestry("cake_" + containerType.getSerializedName()));
 		}
 	}
 
@@ -1523,7 +1539,15 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONES));
 		crate(consumer, CrateItems.CRATED_DIRT.get(), Ingredient.of(Items.DIRT));
 		crate(consumer, CrateItems.CRATED_GRASS_BLOCK.get(), Ingredient.of(Items.GRASS_BLOCK));
-		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Tags.Items.STONES));
+		// Use Items.STONE rather than Tags.Items.STONES (= c:stones) so this recipe doesn't
+		// shadow the per-stone-variant recipes below. The c:stones tag includes diorite,
+		// granite, andesite, deepslate, and any modded stone variants — when the carpenter
+		// looks up a recipe for a given crafting-grid input, this recipe matches ANYTHING in
+		// the tag, masking the more specific crated_diorite/granite/andesite recipes whenever
+		// the BE finds it first in registry-iteration order. Per-item ingredient leaves the
+		// crated_stone recipe meaning "actual minecraft:stone" and the variant recipes meaning
+		// "actual minecraft:granite/diorite/andesite".
+		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Items.STONE));
 		crate(consumer, CrateItems.CRATED_GRANITE.get(), Ingredient.of(Items.GRANITE));
 		crate(consumer, CrateItems.CRATED_DIORITE.get(), Ingredient.of(Items.DIORITE));
 		crate(consumer, CrateItems.CRATED_ANDESITE.get(), Ingredient.of(Items.ANDESITE));

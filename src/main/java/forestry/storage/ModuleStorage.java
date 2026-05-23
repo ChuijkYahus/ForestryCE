@@ -53,8 +53,10 @@ public class ModuleStorage extends BlankForestryModule {
 		}
 	}
 
-	private static void onItemPickup(ItemEntityPickupEvent event) {
-		PickupHandlerStorage.onItemPickup(event.getPlayer(), event.getItemEntity());
+	private static void onItemPickup(ItemEntityPickupEvent.Pre event) {
+		if (PickupHandlerStorage.onItemPickup(event.getPlayer(), event.getItemEntity())) {
+			event.setCanPickup(net.neoforged.neoforge.common.util.TriState.FALSE);
+		}
 	}
 
 	@Override

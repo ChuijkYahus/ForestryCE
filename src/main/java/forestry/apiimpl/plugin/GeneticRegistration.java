@@ -84,7 +84,7 @@ public final class GeneticRegistration implements IGeneticRegistration {
 	}
 
 	public ImmutableMap<ResourceLocation, ISpeciesType<?, ?>> buildSpeciesTypes() {
-		return this.speciesTypes.build(SpeciesTypeBuilder::build);
+		return this.speciesTypes.build((id, builder) -> builder.build(id));
 	}
 
 	// Creates a new taxon builder and puts it in the registry, or returns the existing one if it is already registered

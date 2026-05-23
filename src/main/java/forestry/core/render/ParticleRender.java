@@ -82,7 +82,7 @@ public class ParticleRender {
 					LivingEntity entity = entitiesInRange.get(world.random.nextInt(entitiesInRange.size()));
 					//Particle particle = new ParticleBeeTargetEntity(world, particleStart, entity, color);
 					//effectRenderer.add(particle);
-					world.addParticle(new BeeTargetParticleData(entity, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
+					world.addParticle(new BeeTargetParticleData(entity.getId(), color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
 					return;
 				}
 			}

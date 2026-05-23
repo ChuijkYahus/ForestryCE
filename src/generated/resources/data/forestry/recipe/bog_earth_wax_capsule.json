@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:dirt"
+    },
+    "X": {
+      "type": "neoforge:components",
+      "components": {},
+      "items": "minecraft:air",
+      "strict": true
+    },
+    "Y": {
+      "tag": "minecraft:sand"
+    }
+  },
+  "pattern": [
+    "#Y#",
+    "YXY",
+    "#Y#"
+  ],
+  "result": {
+    "count": 8,
+    "id": "forestry:bog_earth"
+  }
+}

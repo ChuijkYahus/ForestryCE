@@ -23,11 +23,13 @@ public class Karyotype implements IKaryotype {
 	private final IRegistryChromosome<? extends ISpecies<?>> speciesChromosome;
 	private final ImmutableMap<IChromosome<?>, ? extends IAllele> defaultAlleles;
 	private final ResourceLocation defaultSpecies;
+	private final ResourceLocation id;
 	private final Set<IChromosome<?>> weaklyInheritedChromosomes;
 	private final Codec<IGenome> genomeCodec;
 
 	// Used in Karyotype.Builder
-	public Karyotype(ImmutableMap<IChromosome<?>, ImmutableSet<? extends IAllele>> chromosomes, ImmutableMap<IChromosome<?>, ? extends IAllele> defaultAlleles, ResourceLocation defaultSpecies, Set<IChromosome<?>> weaklyInheritedChromosomes) {
+	public Karyotype(ResourceLocation id, ImmutableMap<IChromosome<?>, ImmutableSet<? extends IAllele>> chromosomes, ImmutableMap<IChromosome<?>, ? extends IAllele> defaultAlleles, ResourceLocation defaultSpecies, Set<IChromosome<?>> weaklyInheritedChromosomes) {
+		this.id = id;
 		this.chromosomes = chromosomes;
 		this.speciesChromosome = (IRegistryChromosome<? extends ISpecies<?>>) chromosomes.keySet().asList().get(0);
 		this.defaultAlleles = defaultAlleles;
@@ -37,6 +39,11 @@ public class Karyotype implements IKaryotype {
 		Keyable chromosomesKeyable = Keyable.forStrings(() -> this.chromosomes.keySet().stream().map(chromosome -> chromosome.id().toString()));
 		this.genomeCodec = Codec.simpleMap(IForestryApi.INSTANCE.getAlleleManager().chromosomeCodec(), AllelePair.CODEC, chromosomesKeyable)
 			.xmap(map -> Genome.sanitizeAlleles(this, map), IGenome::getChromosomes).codec();
+	}
+
+	@Override
+	public ResourceLocation id() {
+		return this.id;
 	}
 
 	@Override
@@ -156,8 +163,7 @@ public class Karyotype implements IKaryotype {
 			return (IChromosomeBuilder<A>) this.chromosomes.computeIfAbsent(chromosome, key -> new ChromosomeBuilder<>(chromosome));
 		}
 
-		@SuppressWarnings("UnstableApiUsage")
-		public Karyotype build() {
+		public Karyotype build(ResourceLocation id) {
 			Preconditions.checkState(this.defaultSpeciesId != null && this.speciesChromosome != null, "IKaryotypeBuilder is missing a species chromosome.");
 
 			ImmutableMap.Builder<IChromosome<?>, ImmutableSet<? extends IAllele>> permittedAlleles = ImmutableMap.builderWithExpectedSize(this.chromosomes.size() + 1);
@@ -187,7 +193,7 @@ public class Karyotype implements IKaryotype {
 				}
 			}
 
-			return new Karyotype(permittedAlleles.build(), defaultAlleles.build(), this.defaultSpeciesId, weaklyInheritedChromosomes);
+			return new Karyotype(id, permittedAlleles.build(), defaultAlleles.build(), this.defaultSpeciesId, weaklyInheritedChromosomes);
 		}
 	}
 }

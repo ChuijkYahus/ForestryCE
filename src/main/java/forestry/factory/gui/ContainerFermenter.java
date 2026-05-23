@@ -16,7 +16,26 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContainerFermenter extends ContainerLiquidTanks<TileFermenter> {
+	private final List<ContainerListener> trackedListeners = new ArrayList<>();
+
+	@Override
+	public void addSlotListener(ContainerListener listener) {
+		super.addSlotListener(listener);
+		if (!this.trackedListeners.contains(listener)) {
+			this.trackedListeners.add(listener);
+		}
+	}
+
+	@Override
+	public void removeSlotListener(ContainerListener listener) {
+		super.removeSlotListener(listener);
+		this.trackedListeners.remove(listener);
+	}
+
 	public static ContainerFermenter fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TileFermenter tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileFermenter.class);
 		return new ContainerFermenter(windowId, inv, tile);
@@ -45,7 +64,7 @@ public class ContainerFermenter extends ContainerLiquidTanks<TileFermenter> {
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		for (ContainerListener crafter : this.containerListeners) {
+		for (ContainerListener crafter : this.trackedListeners) {
             this.tile.sendGUINetworkData(this, crafter);
 		}
 	}

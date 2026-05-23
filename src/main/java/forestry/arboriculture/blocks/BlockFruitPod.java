@@ -36,7 +36,7 @@ public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
 		TileFruitPod tile = TileUtil.getTile(level, pos, TileFruitPod.class);
 		if (tile == null) {
 			return ItemStack.EMPTY;
@@ -86,7 +86,7 @@ public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 
 	/* IGrowable */
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
 		TileFruitPod podTile = TileUtil.getTile(level, pos, TileFruitPod.class);
 		return podTile != null && podTile.canMature();
 	}

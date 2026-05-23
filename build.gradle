@@ -255,6 +255,15 @@ jar {
 	from sourceSets.main.output.classesDirs
 	from sourceSets.main.output.resourcesDir
 
+	// Datagen providers reference ModKit types (com.github.thedarkcolour:ModKit) that
+	// aren't shipped to end users. FML's annotation scanner resolves method signatures
+	// at boot via getDeclaredMethods0; the lambda method-reference synthetics in
+	// forestry.core.data.Data carry MKTagsProvider parameters, which crashes the JVM
+	// link step in production with NoClassDefFoundError. Strip the datagen package
+	// from the production jar — runData uses build/classes directly, not the jar, so
+	// datagen still works in dev. Nothing outside this package references it.
+	exclude 'forestry/core/data/**'
+
 	manifest {
 		attributes([
 				'Specification-Title'     : 'Forestry',

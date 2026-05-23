@@ -5,10 +5,12 @@ import forestry.api.recipes.IFabricatorRecipe;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
@@ -23,7 +25,7 @@ public class FabricatorProcessor implements IComponentProcessor {
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		ItemStack stack = variables.get("item").as(ItemStack.class, ItemStack.EMPTY);
+		ItemStack stack = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
 
 		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, level.registryAccess(), stack);
 	}
@@ -31,12 +33,13 @@ public class FabricatorProcessor implements IComponentProcessor {
 	@Override
 	public IVariable process(Level level, String key) {
 		Preconditions.checkNotNull(this.recipe);
+		HolderLookup.Provider registries = level.registryAccess();
 		if (key.equals("output")) {
-			return IVariable.from(this.recipe.getCraftingGridRecipe().getResultItem(level.registryAccess()));
+			return IVariable.from(this.recipe.getCraftingGridRecipe().getResultItem(registries), registries);
 		} else if (key.equals("fluid")) {
-			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getResultFluid().getFluid()).toString());
+			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getResultFluid().getFluid()).toString(), registries);
 		} else if (key.equals("fluidAmount")) {
-			return IVariable.wrap(this.recipe.getResultFluid().getAmount());
+			return IVariable.wrap(this.recipe.getResultFluid().getAmount(), registries);
 		} else if (key.startsWith("ingredient")) {
 			int index = Integer.parseInt(key.substring("ingredient".length()));
 			if (index < 1 || index > 9) {
@@ -49,19 +52,19 @@ public class FabricatorProcessor implements IComponentProcessor {
 			} catch (Exception e) {
 				ingredient = Ingredient.EMPTY;
 			}
-			return IVariable.from(ingredient.getItems());
+			return IVariable.from(ingredient.getItems(), registries);
 		} else if (key.equals("plan")) {
-			return IVariable.from(this.recipe.getPlan());
+			return IVariable.from(this.recipe.getPlan(), registries);
 		} else if (key.equals("metal")) {
 			if (ModUtil.getRegistryName(this.recipe.getResultFluid().getFluid()).getPath().contains("glass")) {
-				return IVariable.from(new ItemStack(Items.SAND));
+				return IVariable.from(new ItemStack(Items.SAND), registries);
 			}
 
 			return RecipeUtils.getRecipes(RecipeUtils.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
-				.filter(recipe -> recipe.getResultFluid().isFluidEqual(this.recipe.getResultFluid()))
+				.filter(recipe -> FluidStack.isSameFluidSameComponents(recipe.getResultFluid(), this.recipe.getResultFluid()))
 				.flatMap(recipe -> Arrays.stream(recipe.getInput().getItems()))
 				.findFirst()
-				.map(IVariable::from)
+				.map(stack -> IVariable.from(stack, registries))
 				.orElseGet(IVariable::empty);
 		} else {
 			return IVariable.empty();

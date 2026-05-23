@@ -1,0 +1,19 @@
+{
+  "type": "forestry:squeezer",
+  "chance": 0.1,
+  "id": "forestry:squeezer/fruit/lemon",
+  "output": {
+    "amount": 400,
+    "id": "forestry:juice"
+  },
+  "remnant": {
+    "count": 1,
+    "id": "forestry:mulch"
+  },
+  "resources": [
+    {
+      "tag": "forge:fruits/lemon"
+    }
+  ],
+  "time": 10
+}

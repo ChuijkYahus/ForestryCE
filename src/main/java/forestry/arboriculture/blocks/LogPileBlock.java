@@ -1,9 +1,9 @@
 package forestry.arboriculture.blocks;
 
 import com.google.common.base.Preconditions;
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ICharcoalPileWall;
-import forestry.api.arboriculture.TreeManager;
 import forestry.arboriculture.charcoal.CharcoalManager;
 import forestry.arboriculture.features.CharcoalBlocks;
 import net.minecraft.core.BlockPos;
@@ -164,7 +164,7 @@ public class LogPileBlock extends Block {
 	}
 
 	private int getCharcoalFaceAmount(Level world, BlockPos pos, Direction facing) {
-		ICharcoalManager charcoalManager = Preconditions.checkNotNull(TreeManager.charcoalManager);
+		ICharcoalManager charcoalManager = Preconditions.checkNotNull(IForestryApi.INSTANCE.getTreeManager().getCharcoalManager());
 
 		BlockPos.MutableBlockPos testPos = pos.mutable();
 		testPos.move(facing);

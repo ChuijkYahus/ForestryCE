@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "alveary",
+  "key": {
+    "#": {
+      "item": "forestry:electron_tube_diamond"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "X": {
+      "item": "forestry:alveary_plain"
+    }
+  },
+  "pattern": [
+    "#G#",
+    " X ",
+    "#G#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "forestry:alveary_swarmer"
+  }
+}

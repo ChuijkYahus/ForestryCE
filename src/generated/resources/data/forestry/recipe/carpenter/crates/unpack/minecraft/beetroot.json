@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/crates/unpack/minecraft/beetroot",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:crated_beetroot"
+      }
+    ],
+    "result": {
+      "count": 9,
+      "id": "minecraft:beetroot"
+    }
+  },
+  "time": 5
+}

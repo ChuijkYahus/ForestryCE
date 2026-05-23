@@ -1,0 +1,18 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "forestry:centrifuge/mysterious_comb",
+  "input": {
+    "item": "forestry:bee_comb_mysterious"
+  },
+  "products": [
+    {
+      "chance": 1.0,
+      "item": "forestry:propolis_pulsating"
+    },
+    {
+      "chance": 0.4,
+      "item": "forestry:honey_drop"
+    }
+  ],
+  "time": 20
+}
