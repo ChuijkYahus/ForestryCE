@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-21T22:33:43.7110013	Loot Tables
+// 1.20.1	2026-05-28T23:16:35.8083118	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -293,6 +293,7 @@ e9384fe48de8a717d16d0405ea65e86df077dbac data/forestry/loot_tables/blocks/coconu
 2b816aa8a35cd2995b7875c95b63943dafaee0c8 data/forestry/loot_tables/blocks/coconut_wood.json
 8383e8b85a8e7417ae39ad8cd0139b2bf3209277 data/forestry/loot_tables/blocks/cocoon.json
 4799e51e747a4916e8623dee68cd0ad89fa10c3f data/forestry/loot_tables/blocks/cocoon_solid.json
+e3844d47204997577285cec15602b58f37f2bd61 data/forestry/loot_tables/blocks/cork.json
 ef2ed161b556b9485ca31a3a15fbed4c8fc71f26 data/forestry/loot_tables/blocks/dark_oak_fireproof_fence.json
 113d8bdedf8f168911b0c9a4ce3f2799da5a8ed0 data/forestry/loot_tables/blocks/dark_oak_fireproof_fence_gate.json
 ee6d5c004fad16e4d6bc39e9a54a0bc429f362e2 data/forestry/loot_tables/blocks/dark_oak_fireproof_log.json

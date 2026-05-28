@@ -1777,6 +1777,15 @@ public class ForestryRecipeProvider {
 				.define('^', ForestryTags.Items.SAWDUST))
 			.build(consumer, id("carpenter", "plywood"));
 
+		new CarpenterRecipeBuilder()
+			.setBox(Ingredient.EMPTY)
+			.setLiquid(new FluidStack(Fluids.WATER, 200))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.CORK, 4)
+				.pattern("**")
+				.pattern("**")
+				.define('*', ForestryTags.Items.SAWDUST))
+			.build(consumer, id("carpenter", "cork"));
+
 		// Crates
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(20)

@@ -108,6 +108,9 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		machineBlock(BlockTypeFactoryPlain.SQUEEZER, TankLayout.PRODUCT);
 		machineBlock(BlockTypeFactoryPlain.STILL, TankLayout.BOTH);
 
+		simpleBlock(CoreBlocks.CORK.block());
+		generic3d(CoreBlocks.CORK.block());
+
 		jumboCandles();
 		bigCandles();
 

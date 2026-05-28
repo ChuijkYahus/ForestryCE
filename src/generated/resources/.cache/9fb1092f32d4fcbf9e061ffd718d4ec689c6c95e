@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-21T23:22:55.8535697	Recipes
+// 1.20.1	2026-05-28T23:16:35.8367639	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1490,6 +1490,7 @@ bffc374f47bd3338e5bda12efedb8ed92b7bbcf9 data/forestry/recipes/carpenter/carton.
 f550fdb63a365a394548875488b240c4e0129136 data/forestry/recipes/carpenter/circuits/enhanced.json
 1ec30634933815c314fbda980c13ecf6aeb13cd4 data/forestry/recipes/carpenter/circuits/intricate.json
 9f961eea6fdcb15987eefc210674c0b721e49f98 data/forestry/recipes/carpenter/circuits/refined.json
+1bee9388893f3a2f11cb73507c47cabe269173cb data/forestry/recipes/carpenter/cork.json
 950acd00c6f2b0693faf71ac5e0de1daafd4fad9 data/forestry/recipes/carpenter/crates/empty.json
 01b125f24c2ac656992c434cfd7eef116e77f150 data/forestry/recipes/carpenter/crates/pack/forestry/apatite.json
 6cae4416a6d9880a811f14a0d71c112a5d818b80 data/forestry/recipes/carpenter/crates/pack/forestry/ash.json

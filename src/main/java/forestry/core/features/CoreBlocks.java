@@ -48,6 +48,9 @@ public class CoreBlocks {
 		(block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(300)),
 		"plywood_block");
 
+	//TODO: needs to have less hardness and stuff to make it 'softer'
+	public static final FeatureBlock<Block, BlockItem> CORK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.CHERRY_WOOD)), ItemBlockForestry::new, "cork");
+
 		//() -> new BlockSheet(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)), ItemBlockForestry::new, "plywood");
 
 	//public static final FeatureBlock<Block, BlockItem> PLYWOOD_BLOCK = REGISTRY.block(() -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)), ItemBlockForestry::new, "plywood_block");

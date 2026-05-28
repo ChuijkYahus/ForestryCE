@@ -184,6 +184,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.TURF);
 		items.accept(CoreBlocks.PLYWOOD_BLOCK);
 		items.accept(CoreBlocks.PLYWOOD_SHEET);
+		items.accept(CoreBlocks.CORK);
 
 		// Gears
 		items.accept(CoreItems.GEAR_COPPER);
