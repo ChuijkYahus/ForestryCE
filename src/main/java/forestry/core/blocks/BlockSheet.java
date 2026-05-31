@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -17,7 +18,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class SheetBlock extends Block {
+public class BlockSheet extends BlockBurnable {
 
 	//I'm being a little lazy here. Facing is used to essentially say which way the 15/16ths of the block being empty is at.
 	//That makes no sense. 'UP' means that the sheet block is placed on the top of a block.
@@ -25,8 +26,8 @@ public class SheetBlock extends Block {
 
 	private static final float DEPTH = 1/16f;
 
-	public SheetBlock() {
-		//TODO: Currently sheet blocks can only be wood. Tee hee, i suppose
+	public BlockSheet() {
+		//TODO: Currently sheet blocks can only be wood.
 		super(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS));
 		this.registerDefaultState(this.getStateDefinition().any()
 			.setValue(FACING, Direction.UP));
@@ -73,6 +74,18 @@ public class SheetBlock extends Block {
 	@Override
 	public PushReaction getPistonPushReaction(BlockState state) {
 		return PushReaction.DESTROY;
+	}
+
+
+
+	@Override
+	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return state.isFaceSturdy(level, pos, direction);
+	}
+
+	@Override
+	public boolean isFireSource(BlockState state, LevelReader level, BlockPos pos, Direction direction) {
+		return state.isFaceSturdy(level, pos, direction);
 	}
 
 }

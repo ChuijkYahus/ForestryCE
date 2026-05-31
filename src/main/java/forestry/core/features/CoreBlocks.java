@@ -39,21 +39,17 @@ public class CoreBlocks {
 
 	//public static final FeatureBlock<DecorativeLogPileBlock, BlockItem> DECORATIVE_LOG_PILE = REGISTRY.block(DecorativeLogPileBlock::new, (block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(1200)), "decorative_log_pile");
 
-	public static final FeatureBlock<SheetBlock, BlockItem> PLYWOOD_SHEET = REGISTRY.block(SheetBlock::new, (block) ->
+	public static final FeatureBlock<BlockSheet, BlockItem> PLYWOOD_SHEET = REGISTRY.block(BlockSheet::new, (block) ->
 		new ItemBlockForestry<>(block, new ItemProperties().burnTime(50)), "plywood");
 
 
-	public static final FeatureBlock<RotatedPillarBlock, BlockItem> PLYWOOD_BLOCK = REGISTRY.block(
-		() -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)),
+	public static final FeatureBlock<BlockPlywoodBlock, BlockItem> PLYWOOD_BLOCK = REGISTRY.block(
+		() -> new BlockPlywoodBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).ignitedByLava()),
 		(block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(300)),
 		"plywood_block");
 
-	//TODO: needs to have less hardness and stuff to make it 'softer'
-	public static final FeatureBlock<Block, BlockItem> CORK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.CHERRY_WOOD)), ItemBlockForestry::new, "cork");
+	public static final FeatureBlock<CorkBlock, BlockItem> CORK = REGISTRY.block(CorkBlock::new, (block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(300)), "cork");
 
-		//() -> new BlockSheet(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)), ItemBlockForestry::new, "plywood");
-
-	//public static final FeatureBlock<Block, BlockItem> PLYWOOD_BLOCK = REGISTRY.block(() -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)), ItemBlockForestry::new, "plywood_block");
 
 	/* Block Sets */
 	//TODO: Helper method?
