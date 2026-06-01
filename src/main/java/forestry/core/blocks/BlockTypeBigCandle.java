@@ -23,6 +23,7 @@ public enum BlockTypeBigCandle implements IBlockSubtype {
 	PURPLE,
 	MAGENTA,
 	PINK,
+	REFRACTORY,
 	RGB;
 
 

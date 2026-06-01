@@ -3,7 +3,9 @@ package forestry.core.blocks;
 import forestry.api.ForestryTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -42,9 +44,12 @@ public class BlockBigCandle extends Block implements SimpleWaterloggedBlock {
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 	public static final BooleanProperty WATERLOGGED =  BlockStateProperties.WATERLOGGED;
 
+	private final SimpleParticleType FLAME;
+
 	public BlockBigCandle(BlockTypeBigCandle type){
 		super(Properties.copy(Blocks.CANDLE)
 			.lightLevel(b -> {
+				if (type == BlockTypeBigCandle.REFRACTORY && b.getValue(LIT)) return 10;
 				if (b.getValue(LIT)) return 15;
 				return 0;
 			})
@@ -52,6 +57,8 @@ public class BlockBigCandle extends Block implements SimpleWaterloggedBlock {
 		this.registerDefaultState(this.getStateDefinition().any()
 			.setValue(LIT, false)
 			.setValue(WATERLOGGED, false));
+		if (type == BlockTypeBigCandle.REFRACTORY) FLAME = ParticleTypes.SOUL_FIRE_FLAME;
+		else FLAME = ParticleTypes.FLAME;
 	}
 
 	@Override
@@ -69,7 +76,7 @@ public class BlockBigCandle extends Block implements SimpleWaterloggedBlock {
 			float y = pos.getY() + 0.875f;
 			float z = pos.getZ() + 0.5f;
 
-			level.addParticle(ParticleTypes.FLAME, x, y, z, 0.0, 0.0, 0.0);
+			level.addParticle(FLAME, x, y, z, 0.0, 0.0, 0.0);
 
 			if (random.nextInt(2) == 0) {
 				level.addParticle(ParticleTypes.SMOKE, x, y, z, 0.001, 0.001, 0.001);

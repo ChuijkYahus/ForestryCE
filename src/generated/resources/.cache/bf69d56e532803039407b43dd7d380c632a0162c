@@ -1,9 +1,9 @@
-// 1.20.1	2026-05-05T21:56:48.7490193	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-06-01T17:43:44.5699057	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
 785dde211dbc936b7d115a3e9def251869c30882 data/forestry/tags/blocks/beech_logs.json
-8eee38f59adb4e071e9cd07f91d9243600d005fa data/forestry/tags/blocks/big_candle.json
+01b7c9481bad42f5f3bd4cb12a5aa82cf91c16c4 data/forestry/tags/blocks/big_candle.json
 141bc440331efa5e4af4022e97208e56e9d66954 data/forestry/tags/blocks/chestnut_logs.json
 aabf22e400a3909e316b0f004cfd21e59a80c1e1 data/forestry/tags/blocks/citrus_logs.json
 bc7896f819c64d7001e44ae623800293d1e776d3 data/forestry/tags/blocks/cocobolo_logs.json
@@ -92,7 +92,7 @@ af10429d2ec86cd12fa17c8bdeb5aeef7d124e8b data/forestry/tags/blocks/hive_grounds/
 316eaacbc5d5ce516d9d3506a2f1b21e2d166bcf data/forestry/tags/blocks/hive_grounds/wintry.json
 81b97000ddba97fbbdbf58916267f030d30ad273 data/forestry/tags/blocks/ipe_logs.json
 17b71fa9d7d1ff768ce1ad98661ac75cf29f965b data/forestry/tags/blocks/jacaranda_logs.json
-abb4dd36a3553f7e93d3483838e313d94a579b60 data/forestry/tags/blocks/jumbo_candle.json
+cc0a1e6c6851e9e01e3e67dc4f0a0cb6bdf7a49d data/forestry/tags/blocks/jumbo_candle.json
 7a95d22458851736fe4129bc0db56587186a4425 data/forestry/tags/blocks/kapok_logs.json
 dfd8a969ecfc0502587e8158d7db44fd6426913c data/forestry/tags/blocks/kauri_logs.json
 ccea1a3e9b54b711b1558345c85b1e31f79baf0c data/forestry/tags/blocks/larch_logs.json

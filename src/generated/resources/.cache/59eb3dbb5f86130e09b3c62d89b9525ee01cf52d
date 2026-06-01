@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-28T23:16:35.8083118	Loot Tables
+// 1.20.1	2026-06-01T17:43:44.5533867	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -150,6 +150,7 @@ a6484c54e8f7d50b767b5ea7a39d1be2bd63bcf4 data/forestry/loot_tables/blocks/big_ca
 8c2f95a80a5a0716da8692d3097774196b4a6fbb data/forestry/loot_tables/blocks/big_candle_pink.json
 f87125a37b4780a618919b540049e34a285500a2 data/forestry/loot_tables/blocks/big_candle_purple.json
 332d4ae57e114bb1c9485b836b0efd9efa8c63ed data/forestry/loot_tables/blocks/big_candle_red.json
+90ef9bfcf583bab8b58548e982b636036b4208bc data/forestry/loot_tables/blocks/big_candle_refractory.json
 e48ae9ef3f5eaa4184e86e6ebe8c9ecfb69abae2 data/forestry/loot_tables/blocks/big_candle_rgb.json
 722603a7e10d69058ac17dc24069d658504ef674 data/forestry/loot_tables/blocks/big_candle_white.json
 6939bca2d46361eb9ebc629a84ede9a614daaed2 data/forestry/loot_tables/blocks/big_candle_yellow.json
@@ -219,6 +220,9 @@ dd54b5b2e3be8dea517eae5dcb48c97553e7d6ae data/forestry/loot_tables/blocks/chestn
 7c8af267c5075a99ea73358aa0fc59170fce27c5 data/forestry/loot_tables/blocks/chestnut_stripped_wood.json
 bed2ee7ecf5e16d3c968307b584ba2abb312ebca data/forestry/loot_tables/blocks/chestnut_trapdoor.json
 d6d1ea84b33fa26b62c922d31ab3e53743ffbe39 data/forestry/loot_tables/blocks/chestnut_wood.json
+2fd0fdcaa10c640d133bd26a2b5abc090c7b34b6 data/forestry/loot_tables/blocks/chiseled_ash_bricks.json
+2d9fa6791e5950dc103790a05ecdef072ea3aafe data/forestry/loot_tables/blocks/chiseled_refractory_wax_bricks.json
+901ac081de9783f531a206825e77f5abd97133b1 data/forestry/loot_tables/blocks/chiseled_wax_bricks.json
 515cac3d7bf12d3c85d856086a7dcaddcda27168 data/forestry/loot_tables/blocks/citrus_button.json
 4f3fae396fd30d8a3e5dad47e46109da23fb93c0 data/forestry/loot_tables/blocks/citrus_door.json
 7fb7e261d4f9cadc67be1353e3880174318f6050 data/forestry/loot_tables/blocks/citrus_fence.json
@@ -660,6 +664,7 @@ f7516ee419780b158b0d894402de7265baed35c7 data/forestry/loot_tables/blocks/jumbo_
 8fe3f53400c0e8080c0823589149b2bd20c20cf8 data/forestry/loot_tables/blocks/jumbo_candle_pink.json
 243804ea680d25be53f7f9dc86fd22ea85fd27ca data/forestry/loot_tables/blocks/jumbo_candle_purple.json
 d5a2c1811cfd9c5de53df1fa18d739774ffbadbc data/forestry/loot_tables/blocks/jumbo_candle_red.json
+dfa00e6c0210b6fefd55ad05a78c8cbe54f1122d data/forestry/loot_tables/blocks/jumbo_candle_refractory.json
 4ff54c0bb7cf8100260c53b2cb9a09cb568facf8 data/forestry/loot_tables/blocks/jumbo_candle_rgb.json
 00bccb5424fe77075f06a754891cfbf6f33e8bfd data/forestry/loot_tables/blocks/jumbo_candle_white.json
 28814c87fb2b8097854a210fde1dc48cfc42e94c data/forestry/loot_tables/blocks/jumbo_candle_yellow.json

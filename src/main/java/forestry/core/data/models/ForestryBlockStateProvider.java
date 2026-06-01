@@ -161,22 +161,25 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			CoreBlocks.ASH_BRICK_STAIRS.block(),
 			CoreBlocks.ASH_BRICK_SLAB.block(),
 			CoreBlocks.ASH_BRICK_WALL.block(),
+			CoreBlocks.ASH_BRICKS_CHISELED.block(),
 			modLoc("block/ash_bricks"));
 
 		stoneBlockSet(CoreBlocks.WAX_BRICKS.block(),
 			CoreBlocks.WAX_BRICK_STAIRS.block(),
 			CoreBlocks.WAX_BRICK_SLAB.block(),
 			CoreBlocks.WAX_BRICK_WALL.block(),
+			CoreBlocks.WAX_BRICKS_CHISELED.block(),
 			modLoc("block/wax_bricks"));
 
 		stoneBlockSet(CoreBlocks.REFRACTORY_WAX_BRICKS.block(),
 			CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block(),
 			CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block(),
 			CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block(),
+			CoreBlocks.REFRACTORY_WAX_BRICKS_CHISELED.block(),
 			modLoc("block/refractory_wax_bricks"));
 	}
 
-	public void stoneBlockSet(Block base, StairBlock stairs, SlabBlock slab, WallBlock wall, ResourceLocation modelLocation){
+	public void stoneBlockSet(Block base, StairBlock stairs, SlabBlock slab, WallBlock wall, Block chiseled, ResourceLocation modelLocation){
 		simpleBlock(base);
 		generic3d(base);
 
@@ -188,6 +191,9 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		wallBlock(wall, modelLocation);
 		wallBlockItem(wall, modelLocation);
+
+		simpleBlock(chiseled);
+		generic3d(chiseled);
 	}
 
 	private void wallBlockItem(WallBlock block, ResourceLocation resourceLocation) {

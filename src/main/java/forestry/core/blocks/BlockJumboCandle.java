@@ -4,6 +4,7 @@ import forestry.api.ForestryTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -49,11 +50,13 @@ public class BlockJumboCandle extends Block {
 
 	public static final EnumProperty<CandleShape> SHAPE = EnumProperty.create("shape", CandleShape.class);
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
+	private final SimpleParticleType FLAME;
 
 	public BlockJumboCandle(BlockTypeJumboCandle type){
 		super(BlockBehaviour.Properties.copy(Blocks.CANDLE)
 			.mapColor(type.getMapColor())
 			.lightLevel(b -> {
+				if (type == BlockTypeJumboCandle.REFRACTORY && b.getValue(LIT)) return 10;
 				if (b.getValue(LIT)) return 15;
 				return 0;
 			})
@@ -61,6 +64,8 @@ public class BlockJumboCandle extends Block {
 		this.registerDefaultState(this.getStateDefinition().any()
 			.setValue(LIT, false)
 			.setValue(SHAPE, CandleShape.SINGLE));
+		if (type == BlockTypeJumboCandle.REFRACTORY) FLAME = ParticleTypes.SOUL_FIRE_FLAME;
+		else FLAME = ParticleTypes.FLAME;
 	}
 
 	@Override
@@ -131,7 +136,7 @@ public class BlockJumboCandle extends Block {
 			float y = pos.getY() + 1.125f;
 			float z = pos.getZ() + 0.5f;
 
-			level.addParticle(ParticleTypes.FLAME, x, y, z, 0.0, 0.0, 0.0);
+			level.addParticle(FLAME, x, y, z, 0.0, 0.0, 0.0);
 
 			if (random.nextInt(2) == 0) {
 				level.addParticle(ParticleTypes.SMOKE, x, y, z, 0.001, 0.001, 0.001);

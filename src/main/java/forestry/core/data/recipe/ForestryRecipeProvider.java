@@ -908,6 +908,13 @@ public class ForestryRecipeProvider {
 				CoreBlocks.ASH_BRICK_WALL.get())
 			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
 			.save(consumer, "forestry:ash_brick_wall_from_stonecutting");
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
+				RecipeCategory.BUILDING_BLOCKS,
+				CoreBlocks.ASH_BRICKS_CHISELED.get())
+			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
+			.save(consumer, "forestry:ash_bricks_chiseled_from_stonecutting");
+
+		//TODO: This but for all other brick types LOL
 
 		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.NORMAL),
 			recipe -> {
@@ -925,6 +932,23 @@ public class ForestryRecipeProvider {
 			recipe.pattern("|");
 			recipe.pattern("#");
 		});
+
+		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.REFRACTORY),
+			recipe -> {
+				recipe.define('|', Tags.Items.STRING);
+				recipe.define('#', CoreItems.REFRACTORY_WAX);
+				recipe.pattern(" | ");
+				recipe.pattern("###");
+				recipe.pattern("###");
+			});
+
+		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.REFRACTORY),
+			recipe -> {
+				recipe.define('|', Tags.Items.STRING);
+				recipe.define('#', ApicultureBlocks.REFRACTORY_WAX_BLOCK.item());
+				recipe.pattern("|");
+				recipe.pattern("#");
+			});
 
 		//Could this be done with a for loop? Probably. Does it matter? Probably not.
 
