@@ -227,6 +227,7 @@ public final class ForestryBlockTagsProvider {
 		CoreBlocks.BIG_CANDLES.getBlocks().forEach(block ->
 			tags.tag(ForestryTags.Blocks.BIG_CANDLE).add(block)
 		);
+		tags.tag(Tags.Blocks.PIGLIN_REPELLANTS);
 
 		tags.tag(BlockTags.WALLS).add(
 			CoreBlocks.ASH_BRICK_WALL.block(),
