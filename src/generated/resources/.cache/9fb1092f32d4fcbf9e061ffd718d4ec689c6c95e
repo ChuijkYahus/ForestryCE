@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-01T17:43:44.5803533	Recipes
+// 1.20.1	2026-06-01T20:37:44.2694033	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -29,6 +29,7 @@ d8c48dd22c6f15e1a8e84895611a326a634a72b6 data/forestry/advancements/recipes/buil
 a24885f2ef881570497629c5a7b2470b24290430 data/forestry/advancements/recipes/building_blocks/alveary_swarmer.json
 9b20a6b89528aaa8ec979004433293e1508e099d data/forestry/advancements/recipes/building_blocks/ash_block.json
 b3184c1212ac9cc6fb53f91215b12fd9e07cf40e data/forestry/advancements/recipes/building_blocks/ash_bricks.json
+ed128440b6164c650baceea41f6c9fc3fad439a0 data/forestry/advancements/recipes/building_blocks/ash_bricks_chiseled_from_stonecutting.json
 66b196ef9c78be0b494ef1617ea889b5345ff4ac data/forestry/advancements/recipes/building_blocks/ash_brick_slab.json
 8c45c3302095efedcd632e9562e22ed00cec4ef2 data/forestry/advancements/recipes/building_blocks/ash_brick_slab_from_stonecutting.json
 4515ff06d66d9ba1b1782683356017f7d4fe80ca data/forestry/advancements/recipes/building_blocks/ash_brick_stairs.json
@@ -1343,6 +1344,7 @@ c433fc0651320545d6becaf86ceaa1495945398d data/forestry/recipes/arboretum_manual.
 11c5f405967d2c3df954a952c25a4b562ab87b2a data/forestry/recipes/ash.json
 b8f7677762d7ad0b09f03509632fcddd86d30fdc data/forestry/recipes/ash_block.json
 133e38c338beeb21d93045d7cc0740fc137bff6c data/forestry/recipes/ash_bricks.json
+2b412da7823a117309d10cde05ebbc14911187c9 data/forestry/recipes/ash_bricks_chiseled_from_stonecutting.json
 df4b5ead23c006253583417f05cab35a1ab7f853 data/forestry/recipes/ash_brick_slab.json
 853e5614278462cffc944649db119127ef20950c data/forestry/recipes/ash_brick_slab_from_stonecutting.json
 8bd16dd302f0b0523a63e28152ffb0e4ab0b4d3d data/forestry/recipes/ash_brick_stairs.json

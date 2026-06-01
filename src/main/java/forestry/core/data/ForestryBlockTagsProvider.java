@@ -6,6 +6,8 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.blocks.BlockTypeBigCandle;
+import forestry.core.blocks.BlockTypeJumboCandle;
 import forestry.core.blocks.EnumResourceType;
 import forestry.core.features.CoreBlocks;
 import forestry.energy.features.EnergyBlocks;
@@ -19,6 +21,7 @@ import forestry.modules.features.FeatureBlockGroup;
 import forestry.worktable.features.WorktableBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -31,6 +34,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public final class ForestryBlockTagsProvider {
+
+	//I have to do this here because it doesn't seem to exist in the BlockTags class
+	public static final TagKey<Block> PIGLIN_REPELLENTS = BlockTags.create(new ResourceLocation("minecraft", "piglin_repellents"));
+
 	public static void addTags(MKTagsProvider<Block> tags, HolderLookup.Provider lookup) {
 		tags.tag(ForestryTags.Blocks.MINEABLE_SCOOP).add(ApicultureBlocks.BEEHIVE.blockArray());
 		tags.tag(ForestryTags.Blocks.MINEABLE_GRAFTER).addTag(BlockTags.LEAVES);
@@ -227,7 +234,10 @@ public final class ForestryBlockTagsProvider {
 		CoreBlocks.BIG_CANDLES.getBlocks().forEach(block ->
 			tags.tag(ForestryTags.Blocks.BIG_CANDLE).add(block)
 		);
-		tags.tag(Tags.Blocks.PIGLIN_REPELLANTS);
+		tags.tag(PIGLIN_REPELLENTS).add(
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.REFRACTORY).block(),
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.REFRACTORY).block()
+		);
 
 		tags.tag(BlockTags.WALLS).add(
 			CoreBlocks.ASH_BRICK_WALL.block(),

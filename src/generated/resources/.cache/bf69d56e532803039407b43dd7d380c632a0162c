@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-01T17:43:44.5699057	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-06-01T20:37:44.258368	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
@@ -157,6 +157,7 @@ ca07be9e8b0ddc7e17419720d88fab28c5f9455e data/minecraft/tags/blocks/mineable/sho
 40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/moss_replaceable.json
 4f0f5d3a71d5e122fb2e1f8e6ba54801b535d904 data/minecraft/tags/blocks/needs_stone_tool.json
 26d5ff819d4e2e63dbe6b17047c63e675ed57c2f data/minecraft/tags/blocks/overworld_natural_logs.json
+b0f01b2ee0752542446118a76f49d2adab999854 data/minecraft/tags/blocks/piglin_repellents.json
 d7937e93ba131f356b253c9eb27aa4427291417d data/minecraft/tags/blocks/planks.json
 aa3ef881a072a72a240e6e382073be189586b71b data/minecraft/tags/blocks/saplings.json
 40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/sculk_replaceable.json
