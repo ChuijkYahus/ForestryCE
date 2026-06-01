@@ -24,6 +24,7 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.blocks.BlockBurnBarrel;
 import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.blocks.BlockTypeMetalPlating;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.CoreTiles;
@@ -73,10 +74,16 @@ public class ForestryCreativeTabs {
 		tab.withTabsBefore(CreativeModeTabs.SPAWN_EGGS);
 		tab.withTabsAfter(ForestryCreativeTabs.STORAGE.getKey(), ForestryCreativeTabs.APICULTURE.getKey(), ForestryCreativeTabs.ARBORICULTURE.getKey(), ForestryCreativeTabs.LEPIDOPTEROLOGY.getKey());
 	});
+	public static final FeatureCreativeTab BUILDING = REGISTRY.creativeTab("building_blocks", tab -> {
+		tab.icon(() -> CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.BLUE).stack());
+		tab.displayItems(ForestryCreativeTabs::addBuildingItems);
+		tab.withTabsBefore(ForestryCreativeTabs.FORESTRY.getKey());
+		tab.withTabsAfter(ForestryCreativeTabs.ARBORICULTURE.getKey());
+	});
 	public static final FeatureCreativeTab APICULTURE = REGISTRY.creativeTab("apiculture", tab -> {
 		tab.icon(() -> SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.FOREST, BeeLifeStage.QUEEN));
 		tab.displayItems(ForestryCreativeTabs::addApicultureItems);
-		tab.withTabsBefore(ForestryCreativeTabs.FORESTRY.getKey());
+		tab.withTabsBefore(ForestryCreativeTabs.BUILDING.getKey());
 		tab.withTabsAfter(ForestryCreativeTabs.ARBORICULTURE.getKey());
 	});
 	public static final FeatureCreativeTab ARBORICULTURE = REGISTRY.creativeTab("arboriculture", tab -> {
@@ -163,31 +170,7 @@ public class ForestryCreativeTabs {
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);
 		items.accept(CharcoalBlocks.CHARCOAL);
 		//Building Blocks
-		items.accept(CoreBlocks.ASH_BRICKS);
-		items.accept(CoreBlocks.ASH_BRICK_STAIRS);
-		items.accept(CoreBlocks.ASH_BRICK_SLAB);
-		items.accept(CoreBlocks.ASH_BRICK_WALL);
-		items.accept(CoreBlocks.ASH_BRICKS_CHISELED);
-		items.accept(CoreBlocks.HARDENED_WAX_BLOCK);
-		items.accept(CoreBlocks.WAX_BRICKS);
-		items.accept(CoreBlocks.WAX_BRICK_STAIRS);
-		items.accept(CoreBlocks.WAX_BRICK_SLAB);
-		items.accept(CoreBlocks.WAX_BRICK_WALL);
-		items.accept(CoreBlocks.WAX_BRICKS_CHISELED);
-		items.accept(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK);
-		items.accept(CoreBlocks.REFRACTORY_WAX_BRICKS);
-		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS);
-		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB);
-		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_WALL);
-		items.accept(CoreBlocks.REFRACTORY_WAX_BRICKS_CHISELED);
-		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
-		CoreBlocks.BIG_CANDLES.getItems().forEach(items::accept);
-		CoreBlocks.JUMBO_CANDLES.getItems().forEach(items::accept);
-		items.accept(CoreBlocks.TURF_BLOCK);
-		items.accept(CoreBlocks.TURF);
-		items.accept(CoreBlocks.PLYWOOD_BLOCK);
-		items.accept(CoreBlocks.PLYWOOD_SHEET);
-		items.accept(CoreBlocks.CORK);
+		//addAllBuildingBlocks(items);
 
 		// Gears
 		items.accept(CoreItems.GEAR_COPPER);
@@ -224,6 +207,21 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.REFRACTORY_WAX);
 		// todo merge more items into crafting materials
 		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
+	}
+
+	private static void addBuildingItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
+
+		addAllBuildingBlocks(items);
+
+		//Wood blocks
+		IWoodAccess access = WoodAccess.INSTANCE;
+		for (IWoodType type : access.getRegisteredWoodTypes()) {
+			addAllWoodBlocks(items, access, type, false);
+		}
+		for (IWoodType type : access.getRegisteredWoodTypes()) {
+			addAllWoodBlocks(items, access, type, true);
+		}
+
 	}
 
 	private static void addApicultureItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
@@ -488,5 +486,45 @@ public class ForestryCreativeTabs {
 		items.accept(ApicultureItems.HONEYDEW);
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE));
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER));
+	}
+
+	private static void addAllBuildingBlocks(CreativeModeTab.Output items) {
+
+		items.accept(CharcoalBlocks.LOG_PILE);
+		items.accept(CharcoalBlocks.DECORATIVE_LOG_PILE);
+		items.accept(CoreBlocks.TURF_BLOCK);
+		items.accept(CoreBlocks.TURF);
+		items.accept(CoreBlocks.PLYWOOD_BLOCK);
+		items.accept(CoreBlocks.PLYWOOD_SHEET);
+		items.accept(CoreBlocks.CORK);
+
+		items.accept(CharcoalBlocks.ASH);
+		items.accept(CoreBlocks.ASH_BRICKS);
+		items.accept(CoreBlocks.ASH_BRICK_STAIRS);
+		items.accept(CoreBlocks.ASH_BRICK_SLAB);
+		items.accept(CoreBlocks.ASH_BRICK_WALL);
+		items.accept(CoreBlocks.ASH_BRICKS_CHISELED);
+
+		items.accept(ApicultureBlocks.WAX_BLOCK);
+		items.accept(CoreBlocks.HARDENED_WAX_BLOCK);
+		items.accept(CoreBlocks.WAX_BRICKS);
+		items.accept(CoreBlocks.WAX_BRICK_STAIRS);
+		items.accept(CoreBlocks.WAX_BRICK_SLAB);
+		items.accept(CoreBlocks.WAX_BRICK_WALL);
+		items.accept(CoreBlocks.WAX_BRICKS_CHISELED);
+
+		items.accept(ApicultureBlocks.REFRACTORY_WAX_BLOCK);
+		items.accept(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICKS);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_WALL);
+		items.accept(CoreBlocks.REFRACTORY_WAX_BRICKS_CHISELED);
+
+		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
+
+		CoreBlocks.BIG_CANDLES.getItems().forEach(items::accept);
+		CoreBlocks.JUMBO_CANDLES.getItems().forEach(items::accept);
+
 	}
 }

@@ -620,6 +620,7 @@
   "item.forestry.wrench": "Wrench",
   "item.forestry.wrench.tooltip": "Shift-Use to rotate block.",
   "itemGroup.apiculture": "Forestry Apiculture",
+  "itemGroup.building_blocks": "Forestry Building Blocks",
   "itemGroup.arboriculture": "Forestry Arboriculture",
   "itemGroup.forestry": "Forestry",
   "itemGroup.lepidopterology": "Forestry Lepidopterology",

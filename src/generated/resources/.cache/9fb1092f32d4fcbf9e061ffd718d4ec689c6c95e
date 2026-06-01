@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-01T20:37:44.2694033	Recipes
+// 1.20.1	2026-06-01T23:16:28.1926036	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -128,6 +128,7 @@ e256fbd882b9bb7993c103261e9a7f25fa5bd0a5 data/forestry/advancements/recipes/buil
 36fb58fbf020df86d969af943aa30beff78eb15d data/forestry/advancements/recipes/building_blocks/chestnut_stairs.json
 d6d5b3a2f27e5fc9098bf4c4d275155be295958c data/forestry/advancements/recipes/building_blocks/chestnut_stripped_wood.json
 46158e66994baa0ec0cc3ed03868b1902dcddd21 data/forestry/advancements/recipes/building_blocks/chestnut_wood.json
+a16e8c094e076580cf5a68f5ca3047bdc3a0d57d data/forestry/advancements/recipes/building_blocks/chiseled_ash_bricks.json
 16fb1cefcc609a214c69b6bf756432701b163d99 data/forestry/advancements/recipes/building_blocks/citrus_fence.json
 8a4afc3bb31cd5a2b97a21f3d70d300219ca0a4d data/forestry/advancements/recipes/building_blocks/citrus_fence_gate.json
 b2d605902480528aee7e6749048ca24f1b8c17e9 data/forestry/advancements/recipes/building_blocks/citrus_fireproof_fence.json
@@ -1751,6 +1752,7 @@ ef9e6ec426432b212d15a2bc87af42b3b8d89d5f data/forestry/recipes/chestnut_stairs.j
 b83d0fab4cc4451f61c7d26e352d1b6ca9a7d1ac data/forestry/recipes/chestnut_stripped_wood.json
 9ba3bb2a5fa26942552c1354a7f6f0466b26aad6 data/forestry/recipes/chestnut_trapdoor.json
 e6e62a7bd4d23dc1da4ab26626ef702e72ebc889 data/forestry/recipes/chestnut_wood.json
+3f566a34ae5bac71a1a41970b363be91785805af data/forestry/recipes/chiseled_ash_bricks.json
 4dc885354e56ae5e2e9a3add8f64a4a7f325b3e3 data/forestry/recipes/citrus_boat.json
 cc85bf19cc0e598dab2ca6960804c946884b965b data/forestry/recipes/citrus_button.json
 b51941ac50d1c4e9d476e64bb99e0c000980e011 data/forestry/recipes/citrus_chest_boat.json

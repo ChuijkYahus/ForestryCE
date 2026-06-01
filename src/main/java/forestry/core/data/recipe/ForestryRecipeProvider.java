@@ -913,6 +913,11 @@ public class ForestryRecipeProvider {
 				CoreBlocks.ASH_BRICKS_CHISELED.get())
 			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
 			.save(consumer, "forestry:ash_bricks_chiseled_from_stonecutting");
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.ASH_BRICKS_CHISELED, 1, recipe -> {
+			recipe.define('X', CoreBlocks.ASH_BRICK_SLAB);
+			recipe.pattern("X");
+			recipe.pattern("X");
+		});
 
 		//TODO: This but for all other brick types LOL
 
