@@ -58,6 +58,7 @@ import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.items.ItemLetter;
 import forestry.mail.items.ItemStamp;
+import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureItem;
 import forestry.sorting.features.SortingBlocks;
 import forestry.storage.features.BackpackItems;
@@ -72,6 +73,7 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -130,6 +132,7 @@ public class ForestryRecipeProvider {
 		registerFactoryRecipes(recipes);
 		registerFarmingRecipes(recipes);
 		registerFluidsRecipes(recipes);
+		registerFurnaceRecipes(recipes);
 		registerLepidopterologyRecipes(recipes);
 		registerMailRecipes(recipes);
 		registerSortingRecipes(recipes);
@@ -850,9 +853,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XX");
 			recipe.pattern("XX");
 		});
-		recipes.stairs(CoreBlocks.ASH_BRICK_STAIRS, CoreBlocks.ASH_BRICKS);
-		recipes.slab(CoreBlocks.ASH_BRICK_SLAB, CoreBlocks.ASH_BRICKS);
-		recipes.woodenFence(CoreBlocks.ASH_BRICK_WALL, CoreBlocks.ASH_BRICKS);
 
 		//WAX BRICKS
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HARDENED_WAX_BLOCK, 2, recipe -> {
@@ -869,9 +869,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XX");
 			recipe.pattern("XX");
 		});
-		recipes.stairs(CoreBlocks.WAX_BRICK_STAIRS, CoreBlocks.WAX_BRICKS);
-		recipes.slab(CoreBlocks.WAX_BRICK_SLAB, CoreBlocks.WAX_BRICKS);
-		recipes.woodenFence(CoreBlocks.WAX_BRICK_WALL, CoreBlocks.WAX_BRICKS);
 
 		//REFRACTORY WAX BRICKS
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK, 2, recipe -> {
@@ -888,38 +885,111 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XX");
 			recipe.pattern("XX");
 		});
-		recipes.stairs(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS, CoreBlocks.REFRACTORY_WAX_BRICKS);
-		recipes.slab(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB, CoreBlocks.REFRACTORY_WAX_BRICKS);
-		recipes.woodenFence(CoreBlocks.REFRACTORY_WAX_BRICK_WALL, CoreBlocks.REFRACTORY_WAX_BRICKS);
 
-		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
-			RecipeCategory.BUILDING_BLOCKS,
-			CoreBlocks.ASH_BRICK_STAIRS.get())
-			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
-				.save(consumer, "forestry:ash_brick_stairs_from_stonecutting");
-		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
-				RecipeCategory.BUILDING_BLOCKS,
-				CoreBlocks.ASH_BRICK_SLAB.get(),
-				2)
-			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
-			.save(consumer, "forestry:ash_brick_slab_from_stonecutting");
-		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
-				RecipeCategory.BUILDING_BLOCKS,
-				CoreBlocks.ASH_BRICK_WALL.get())
-			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
-			.save(consumer, "forestry:ash_brick_wall_from_stonecutting");
-		SingleItemRecipeBuilder.stonecutting(Ingredient.of(CoreBlocks.ASH_BRICKS.get()),
-				RecipeCategory.BUILDING_BLOCKS,
-				CoreBlocks.ASH_BRICKS_CHISELED.get())
-			.unlockedBy("has_ash_bricks", InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.ASH_BRICKS))
-			.save(consumer, "forestry:ash_bricks_chiseled_from_stonecutting");
+
+		stairs(recipes, CoreBlocks.ASH_BRICK_STAIRS, CoreBlocks.ASH_BRICKS, "ash_bricks", consumer);
+		slabs(recipes, CoreBlocks.ASH_BRICK_SLAB, CoreBlocks.ASH_BRICKS, "ash_bricks", consumer);
+		walls(recipes, CoreBlocks.ASH_BRICK_WALL, CoreBlocks.ASH_BRICKS, "ash_bricks", consumer);
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.ASH_BRICKS_CHISELED, 1, recipe -> {
 			recipe.define('X', CoreBlocks.ASH_BRICK_SLAB);
 			recipe.pattern("X");
 			recipe.pattern("X");
 		});
 
-		//TODO: This but for all other brick types LOL
+		stairs(recipes, CoreBlocks.WAX_BRICK_STAIRS, CoreBlocks.WAX_BRICKS, "wax_bricks", consumer);
+		slabs(recipes, CoreBlocks.WAX_BRICK_SLAB, CoreBlocks.WAX_BRICKS, "wax_bricks", consumer);
+		walls(recipes, CoreBlocks.WAX_BRICK_WALL, CoreBlocks.WAX_BRICKS, "wax_bricks", consumer);
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAX_BRICKS_CHISELED, 1, recipe -> {
+			recipe.define('X', CoreBlocks.WAX_BRICK_SLAB);
+			recipe.pattern("X");
+			recipe.pattern("X");
+		});
+
+		stairs(recipes, CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS, CoreBlocks.WAX_BRICKS, "refractory_wax_bricks", consumer);
+		slabs(recipes, CoreBlocks.REFRACTORY_WAX_BRICK_SLAB, CoreBlocks.WAX_BRICKS, "refractory_wax_bricks", consumer);
+		walls(recipes, CoreBlocks.REFRACTORY_WAX_BRICK_WALL, CoreBlocks.WAX_BRICKS, "refractory_wax_bricks", consumer);
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.REFRACTORY_WAX_BRICKS_CHISELED, 1, recipe -> {
+			recipe.define('X', CoreBlocks.REFRACTORY_WAX_BRICK_SLAB);
+			recipe.pattern("X");
+			recipe.pattern("X");
+		});
+
+
+
+		recipes.shapedCrafting("waxstone_crafting", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAXSTONE, 8, recipe -> {
+			recipe.define('X', CoreItems.BEESWAX);
+			recipe.define('#', Blocks.STONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		stairs(recipes, CoreBlocks.WAXSTONE_STAIRS, CoreBlocks.WAXSTONE, "waxstone", consumer);
+		slabs(recipes, CoreBlocks.WAXSTONE_SLAB, CoreBlocks.WAXSTONE, "waxstone", consumer);
+		walls(recipes, CoreBlocks.WAXSTONE_WALL, CoreBlocks.WAXSTONE, "waxstone", consumer);
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAXSTONE_CHISELED, 1, recipe -> {
+			recipe.define('X', CoreBlocks.WAXSTONE_SLAB);
+			recipe.pattern("X");
+			recipe.pattern("X");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.COBBLED_WAXSTONE, 8, recipe -> {
+			recipe.define('X', CoreItems.BEESWAX);
+			recipe.define('#', Blocks.COBBLESTONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		stairs(recipes, CoreBlocks.COBBLED_WAXSTONE_STAIRS, CoreBlocks.WAXSTONE, "cobbled_waxstone", consumer);
+		slabs(recipes, CoreBlocks.COBBLED_WAXSTONE_SLAB, CoreBlocks.WAXSTONE, "cobbled_waxstone", consumer);
+		walls(recipes, CoreBlocks.COBBLED_WAXSTONE_WALL, CoreBlocks.WAXSTONE, "cobbled_waxstone", consumer);
+
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.POLISHED_WAXSTONE, 4, Ingredient.of(CoreBlocks.COBBLED_WAXSTONE));
+		stairs(recipes, CoreBlocks.POLISHED_WAXSTONE_STAIRS, CoreBlocks.POLISHED_WAXSTONE, "polished_waxstone", consumer);
+		slabs(recipes, CoreBlocks.POLISHED_WAXSTONE_SLAB, CoreBlocks.POLISHED_WAXSTONE, "polished_waxstone", consumer);
+		walls(recipes, CoreBlocks.POLISHED_WAXSTONE_WALL, CoreBlocks.POLISHED_WAXSTONE, "polished_waxstone", consumer);
+
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAXSTONE_BRICKS, 4, Ingredient.of(CoreBlocks.WAXSTONE));
+		stairs(recipes, CoreBlocks.WAXSTONE_BRICK_STAIRS, CoreBlocks.WAXSTONE_BRICKS, "waxstone_bricks", consumer);
+		slabs(recipes, CoreBlocks.WAXSTONE_BRICK_SLAB, CoreBlocks.WAXSTONE_BRICKS, "waxstone_bricks", consumer);
+		walls(recipes, CoreBlocks.WAXSTONE_BRICK_WALL, CoreBlocks.WAXSTONE_BRICKS, "waxstone_bricks", consumer);
+
+
+		recipes.shapedCrafting("honeystone_crafting", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HONEYSTONE, 8, recipe -> {
+			recipe.define('X', Ingredient.of(ApicultureItems.HONEY_DROP, ApicultureItems.HONEYDEW));
+			recipe.define('#', Blocks.STONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		stairs(recipes, CoreBlocks.HONEYSTONE_STAIRS, CoreBlocks.HONEYSTONE, "honeystone", consumer);
+		slabs(recipes, CoreBlocks.HONEYSTONE_SLAB, CoreBlocks.HONEYSTONE, "honeystone", consumer);
+		walls(recipes, CoreBlocks.HONEYSTONE_WALL, CoreBlocks.HONEYSTONE, "honeystone", consumer);
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HONEYSTONE_CHISELED, 1, recipe -> {
+			recipe.define('X', CoreBlocks.HONEYSTONE_SLAB);
+			recipe.pattern("X");
+			recipe.pattern("X");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.COBBLED_HONEYSTONE, 8, recipe -> {
+			recipe.define('X', Ingredient.of(ApicultureItems.HONEY_DROP, ApicultureItems.HONEYDEW));
+			recipe.define('#', Blocks.COBBLESTONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		stairs(recipes, CoreBlocks.COBBLED_HONEYSTONE_STAIRS, CoreBlocks.HONEYSTONE, "cobbled_honeystone", consumer);
+		slabs(recipes, CoreBlocks.COBBLED_HONEYSTONE_SLAB, CoreBlocks.HONEYSTONE, "cobbled_honeystone", consumer);
+		walls(recipes, CoreBlocks.COBBLED_HONEYSTONE_WALL, CoreBlocks.HONEYSTONE, "cobbled_honeystone", consumer);
+
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.POLISHED_HONEYSTONE, 4, Ingredient.of(CoreBlocks.COBBLED_HONEYSTONE));
+		stairs(recipes, CoreBlocks.POLISHED_HONEYSTONE_STAIRS, CoreBlocks.POLISHED_HONEYSTONE, "polished_honeystone", consumer);
+		slabs(recipes, CoreBlocks.POLISHED_HONEYSTONE_SLAB, CoreBlocks.POLISHED_HONEYSTONE, "polished_honeystone", consumer);
+		walls(recipes, CoreBlocks.POLISHED_HONEYSTONE_WALL, CoreBlocks.POLISHED_HONEYSTONE, "polished_honeystone", consumer);
+
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HONEYSTONE_BRICKS, 4, Ingredient.of(CoreBlocks.HONEYSTONE));
+		stairs(recipes, CoreBlocks.HONEYSTONE_BRICK_STAIRS, CoreBlocks.HONEYSTONE_BRICKS, "honeystone_bricks", consumer);
+		slabs(recipes, CoreBlocks.HONEYSTONE_BRICK_SLAB, CoreBlocks.HONEYSTONE_BRICKS, "honeystone_bricks", consumer);
+		walls(recipes, CoreBlocks.HONEYSTONE_BRICK_WALL, CoreBlocks.HONEYSTONE_BRICKS, "honeystone_bricks", consumer);
 
 		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.NORMAL),
 			recipe -> {
@@ -1123,6 +1193,45 @@ public class ForestryRecipeProvider {
 		recipes.shapelessCrafting("foresters_manual_butterfly", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, LepidopterologyItems.BUTTERFLY_GE);
 	}
 
+	private static void slabs(MKRecipeProvider recipes, FeatureBlock o, FeatureBlock i, String base, Consumer<FinishedRecipe> consumer){
+		Item input = i.item();
+		Item output = o.item();
+		recipes.slab(output, input);
+
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(input),
+				RecipeCategory.BUILDING_BLOCKS,
+				output,
+				2)
+			.unlockedBy("has_"+base, InventoryChangeTrigger.TriggerInstance.hasItems(input))
+			.save(consumer, "forestry:"+base+"_slabs_from_stonecutting");
+	}
+
+	private static void stairs(MKRecipeProvider recipes, FeatureBlock o, FeatureBlock i, String base, Consumer<FinishedRecipe> consumer){
+		Item input = i.item();
+		Item output = o.item();
+		recipes.stairs(output, input);
+
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(input),
+				RecipeCategory.BUILDING_BLOCKS,
+				output,
+				1)
+			.unlockedBy("has_"+base, InventoryChangeTrigger.TriggerInstance.hasItems(input))
+			.save(consumer, "forestry:"+base+"_stairs_from_stonecutting");
+	}
+
+	private static void walls(MKRecipeProvider recipes, FeatureBlock o, FeatureBlock i, String base, Consumer<FinishedRecipe> consumer){
+		Item input = i.item();
+		Item output = o.item();
+		recipes.woodenTrapdoor(output, input);
+
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(input),
+				RecipeCategory.BUILDING_BLOCKS,
+				output,
+				1)
+			.unlockedBy("has_"+base, InventoryChangeTrigger.TriggerInstance.hasItems(input))
+			.save(consumer, "forestry:"+base+"_walls_from_stonecutting");
+	}
+
 	private static void bogRecipe(MKRecipeProvider recipes, int amount, ItemStack container, String name) {
 		recipes.shapedCrafting("bog_earth_" + name, RecipeCategory.BUILDING_BLOCKS, CoreBlocks.BOG_EARTH, amount, recipe -> {
 			recipe.define('#', Blocks.DIRT);
@@ -1176,6 +1285,13 @@ public class ForestryRecipeProvider {
 			recipes.shapelessCrafting(RecipeCategory.MISC, manual, 1, managed);
 			recipes.shapelessCrafting(path(managed) + "_from_manual", RecipeCategory.MISC, managed, 1, manual);
 		}
+	}
+
+	private static void registerFurnaceRecipes(MKRecipeProvider recipes){
+		recipes.smelting(CoreBlocks.COBBLED_WAXSTONE, CoreBlocks.WAXSTONE, 0.1f);
+		recipes.smelting(CoreBlocks.COBBLED_HONEYSTONE, CoreBlocks.HONEYSTONE, 0.1f);
+		recipes.smelting(ApicultureBlocks.WAX_BLOCK, CoreBlocks.ASHEN_WAX_BLOCK, 0.1f);
+		recipes.smelting(Blocks.HONEY_BLOCK, CoreBlocks.CRISPY_HONEY_BLOCK, 0.1f);
 	}
 
 	private static void registerFactoryRecipes(MKRecipeProvider recipes) {

@@ -95,6 +95,14 @@
     "forestry:cherry_fireproof_slab",
     "forestry:ash_brick_slab",
     "forestry:wax_brick_slab",
-    "forestry:refractory_wax_brick_slab"
+    "forestry:refractory_wax_brick_slab",
+    "forestry:waxstone_slab",
+    "forestry:cobbled_waxstone_slab",
+    "forestry:waxstone_brick_slab",
+    "forestry:polished_waxstone_slab",
+    "forestry:honeystone_slab",
+    "forestry:cobbled_honeystone_slab",
+    "forestry:honeystone_brick_slab",
+    "forestry:polished_honeystone_slab"
   ]
 }

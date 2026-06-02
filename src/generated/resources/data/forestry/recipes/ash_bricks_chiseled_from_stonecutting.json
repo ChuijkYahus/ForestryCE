@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "forestry:ash_bricks"
-  },
-  "result": "forestry:chiseled_ash_bricks"
-}

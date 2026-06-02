@@ -521,6 +521,45 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_WALL);
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICKS_CHISELED);
 
+		items.accept(CoreBlocks.WAXSTONE);
+		items.accept(CoreBlocks.WAXSTONE_STAIRS);
+		items.accept(CoreBlocks.WAXSTONE_SLAB);
+		items.accept(CoreBlocks.WAXSTONE_WALL);
+		items.accept(CoreBlocks.WAXSTONE_CHISELED);
+		items.accept(CoreBlocks.COBBLED_WAXSTONE);
+		items.accept(CoreBlocks.COBBLED_WAXSTONE_STAIRS);
+		items.accept(CoreBlocks.COBBLED_WAXSTONE_SLAB);
+		items.accept(CoreBlocks.COBBLED_WAXSTONE_WALL);
+		items.accept(CoreBlocks.WAXSTONE_BRICKS);
+		items.accept(CoreBlocks.WAXSTONE_BRICK_STAIRS);
+		items.accept(CoreBlocks.WAXSTONE_BRICK_SLAB);
+		items.accept(CoreBlocks.WAXSTONE_BRICK_WALL);
+		items.accept(CoreBlocks.POLISHED_WAXSTONE);
+		items.accept(CoreBlocks.POLISHED_WAXSTONE_STAIRS);
+		items.accept(CoreBlocks.POLISHED_WAXSTONE_SLAB);
+		items.accept(CoreBlocks.POLISHED_WAXSTONE_WALL);
+
+		items.accept(CoreBlocks.HONEYSTONE);
+		items.accept(CoreBlocks.HONEYSTONE_STAIRS);
+		items.accept(CoreBlocks.HONEYSTONE_SLAB);
+		items.accept(CoreBlocks.HONEYSTONE_WALL);
+		items.accept(CoreBlocks.HONEYSTONE_CHISELED);
+		items.accept(CoreBlocks.COBBLED_HONEYSTONE);
+		items.accept(CoreBlocks.COBBLED_HONEYSTONE_STAIRS);
+		items.accept(CoreBlocks.COBBLED_HONEYSTONE_SLAB);
+		items.accept(CoreBlocks.COBBLED_HONEYSTONE_WALL);
+		items.accept(CoreBlocks.HONEYSTONE_BRICKS);
+		items.accept(CoreBlocks.HONEYSTONE_BRICK_STAIRS);
+		items.accept(CoreBlocks.HONEYSTONE_BRICK_SLAB);
+		items.accept(CoreBlocks.HONEYSTONE_BRICK_WALL);
+		items.accept(CoreBlocks.POLISHED_HONEYSTONE);
+		items.accept(CoreBlocks.POLISHED_HONEYSTONE_STAIRS);
+		items.accept(CoreBlocks.POLISHED_HONEYSTONE_SLAB);
+		items.accept(CoreBlocks.POLISHED_HONEYSTONE_WALL);
+
+		items.accept(CoreBlocks.ASHEN_WAX_BLOCK);
+		items.accept(CoreBlocks.CRISPY_HONEY_BLOCK);
+
 		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
 
 		CoreBlocks.BIG_CANDLES.getItems().forEach(items::accept);

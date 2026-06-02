@@ -156,6 +156,10 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic3d(CoreBlocks.HARDENED_WAX_BLOCK.block());
 		simpleBlock(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK.block());
 		generic3d(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK.block());
+		simpleBlock(CoreBlocks.ASHEN_WAX_BLOCK.block());
+		generic3d(CoreBlocks.ASHEN_WAX_BLOCK.block());
+		simpleBlock(CoreBlocks.CRISPY_HONEY_BLOCK.block());
+		generic3d(CoreBlocks.CRISPY_HONEY_BLOCK.block());
 
 		stoneBlockSet(CoreBlocks.ASH_BRICKS.block(),
 			CoreBlocks.ASH_BRICK_STAIRS.block(),
@@ -177,6 +181,62 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block(),
 			CoreBlocks.REFRACTORY_WAX_BRICKS_CHISELED.block(),
 			modLoc("block/refractory_wax_bricks"));
+
+		stoneBlockSet(CoreBlocks.WAXSTONE.block(),
+			CoreBlocks.WAXSTONE_STAIRS.block(),
+			CoreBlocks.WAXSTONE_SLAB.block(),
+			CoreBlocks.WAXSTONE_WALL.block(),
+			null, //Chiseled Waxstone has a special model
+			modLoc("block/waxstone"));
+
+		stoneBlockSet(CoreBlocks.COBBLED_WAXSTONE.block(),
+			CoreBlocks.COBBLED_WAXSTONE_STAIRS.block(),
+			CoreBlocks.COBBLED_WAXSTONE_SLAB.block(),
+			CoreBlocks.COBBLED_WAXSTONE_WALL.block(),
+			null,
+			modLoc("block/cobbled_waxstone"));
+
+		stoneBlockSet(CoreBlocks.POLISHED_WAXSTONE.block(),
+			CoreBlocks.POLISHED_WAXSTONE_STAIRS.block(),
+			CoreBlocks.POLISHED_WAXSTONE_SLAB.block(),
+			CoreBlocks.POLISHED_WAXSTONE_WALL.block(),
+			null,
+			modLoc("block/polished_waxstone"));
+
+		stoneBlockSet(CoreBlocks.WAXSTONE_BRICKS.block(),
+			CoreBlocks.WAXSTONE_BRICK_STAIRS.block(),
+			CoreBlocks.WAXSTONE_BRICK_SLAB.block(),
+			CoreBlocks.WAXSTONE_BRICK_WALL.block(),
+			null,
+			modLoc("block/waxstone_bricks"));
+
+		stoneBlockSet(CoreBlocks.HONEYSTONE.block(),
+			CoreBlocks.HONEYSTONE_STAIRS.block(),
+			CoreBlocks.HONEYSTONE_SLAB.block(),
+			CoreBlocks.HONEYSTONE_WALL.block(),
+			null, //Chiseled Honeystone has a special model
+			modLoc("block/honeystone"));
+
+		stoneBlockSet(CoreBlocks.COBBLED_HONEYSTONE.block(),
+			CoreBlocks.COBBLED_HONEYSTONE_STAIRS.block(),
+			CoreBlocks.COBBLED_HONEYSTONE_SLAB.block(),
+			CoreBlocks.COBBLED_HONEYSTONE_WALL.block(),
+			null,
+			modLoc("block/cobbled_honeystone"));
+
+		stoneBlockSet(CoreBlocks.POLISHED_HONEYSTONE.block(),
+			CoreBlocks.POLISHED_HONEYSTONE_STAIRS.block(),
+			CoreBlocks.POLISHED_HONEYSTONE_SLAB.block(),
+			CoreBlocks.POLISHED_HONEYSTONE_WALL.block(),
+			null,
+			modLoc("block/polished_honeystone"));
+
+		stoneBlockSet(CoreBlocks.HONEYSTONE_BRICKS.block(),
+			CoreBlocks.HONEYSTONE_BRICK_STAIRS.block(),
+			CoreBlocks.HONEYSTONE_BRICK_SLAB.block(),
+			CoreBlocks.HONEYSTONE_BRICK_WALL.block(),
+			null,
+			modLoc("block/honeystone_bricks"));
 	}
 
 	public void stoneBlockSet(Block base, StairBlock stairs, SlabBlock slab, WallBlock wall, Block chiseled, ResourceLocation modelLocation){
@@ -192,8 +252,10 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		wallBlock(wall, modelLocation);
 		wallBlockItem(wall, modelLocation);
 
-		simpleBlock(chiseled);
-		generic3d(chiseled);
+		if (chiseled != null){
+			simpleBlock(chiseled);
+			generic3d(chiseled);
+		}
 	}
 
 	private void wallBlockItem(WallBlock block, ResourceLocation resourceLocation) {

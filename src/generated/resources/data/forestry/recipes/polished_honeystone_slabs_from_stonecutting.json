@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "forestry:polished_honeystone"
+  },
+  "result": "forestry:polished_honeystone_slab"
+}

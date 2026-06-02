@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "forestry:waxstone"
+  },
+  "result": "forestry:cobbled_waxstone_stairs"
+}

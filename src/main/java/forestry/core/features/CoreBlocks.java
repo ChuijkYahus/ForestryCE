@@ -54,17 +54,18 @@ public class CoreBlocks {
 	/* Block Sets */
 	//TODO: Helper method?
 
+	//Ash Bricks
 	public static final FeatureBlock<Block, BlockItem> ASH_BRICKS = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_LIGHT_GRAY)), ItemBlockForestry::new, "ash_bricks");
-	public static final FeatureBlock<Block, BlockItem> ASH_BRICKS_CHISELED  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_LIGHT_GRAY)), ItemBlockForestry::new, "chiseled_ash_bricks");
 
 	public static final FeatureBlock<StairBlock, BlockItem> ASH_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.COLOR_LIGHT_GRAY)), ItemBlockForestry::new, "ash_brick_stairs");
 
 	public static final FeatureBlock<SlabBlock, BlockItem> ASH_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.COLOR_LIGHT_GRAY)), ItemBlockForestry::new, "ash_brick_slab");
 
 	public static final FeatureBlock<WallBlock, BlockItem> ASH_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.COLOR_LIGHT_GRAY)), ItemBlockForestry::new, "ash_brick_wall");
-	//TODO: Chiseled Ash Bricks?
+	public static final FeatureBlock<Block, BlockItem> ASH_BRICKS_CHISELED  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_LIGHT_GRAY)), ItemBlockForestry::new, "chiseled_ash_bricks");
 
 
+	//Wax Bricks
 	public static final FeatureBlock<Block, BlockItem> HARDENED_WAX_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "hardened_wax_block");
 	public static final FeatureBlock<Block, BlockItem> WAX_BRICKS = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "wax_bricks");
 	public static final FeatureBlock<Block, BlockItem> WAX_BRICKS_CHISELED = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "chiseled_wax_bricks");
@@ -72,7 +73,7 @@ public class CoreBlocks {
 	public static final FeatureBlock<SlabBlock, BlockItem> WAX_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "wax_brick_slab");
 	public static final FeatureBlock<WallBlock, BlockItem> WAX_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "wax_brick_wall");
 
-
+	//Refractory Wax Bricks
 	public static final FeatureBlock<Block, BlockItem> HARDENED_REFRACTORY_WAX_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_RED)), ItemBlockForestry::new, "hardened_refractory_wax_block");
 
 	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAX_BRICKS = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_RED)), ItemBlockForestry::new, "refractory_wax_bricks");
@@ -80,6 +81,79 @@ public class CoreBlocks {
 	public static final FeatureBlock<StairBlock, BlockItem> REFRACTORY_WAX_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).sound(SoundType.MUD).mapColor(MapColor.COLOR_RED)), ItemBlockForestry::new, "refractory_wax_brick_stairs");
 	public static final FeatureBlock<SlabBlock, BlockItem> REFRACTORY_WAX_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).sound(SoundType.MUD).mapColor(MapColor.COLOR_RED)), ItemBlockForestry::new, "refractory_wax_brick_slab");
 	public static final FeatureBlock<WallBlock, BlockItem> REFRACTORY_WAX_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).sound(SoundType.MUD).mapColor(MapColor.COLOR_RED)), ItemBlockForestry::new, "refractory_wax_brick_wall");
+
+
+	//Honeystone and variants
+	public static final FeatureBlock<Block, BlockItem> WAXSTONE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "waxstone");
+	public static final FeatureBlock<StairBlock, BlockItem> WAXSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "waxstone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> WAXSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.SAND)), ItemBlockForestry::new, "waxstone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> WAXSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND)), ItemBlockForestry::new, "waxstone_wall");
+
+	public static final FeatureBlock<Block, BlockItem> COBBLED_WAXSTONE  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "cobbled_waxstone");
+	public static final FeatureBlock<StairBlock, BlockItem> COBBLED_WAXSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "cobbled_waxstone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> COBBLED_WAXSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.SAND)), ItemBlockForestry::new, "cobbled_waxstone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> COBBLED_WAXSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND)), ItemBlockForestry::new, "cobbled_waxstone_wall");
+
+
+	public static final FeatureBlock<Block, BlockItem> WAXSTONE_BRICKS  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "waxstone_bricks");
+
+	public static final FeatureBlock<StairBlock, BlockItem> WAXSTONE_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "waxstone_brick_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> WAXSTONE_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.SAND)), ItemBlockForestry::new, "waxstone_brick_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> WAXSTONE_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND)), ItemBlockForestry::new, "waxstone_brick_wall");
+	public static final FeatureBlock<Block, BlockItem> WAXSTONE_CHISELED  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "chiseled_waxstone");
+
+	public static final FeatureBlock<Block, BlockItem> POLISHED_WAXSTONE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "polished_waxstone");
+	public static final FeatureBlock<StairBlock, BlockItem> POLISHED_WAXSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "polished_waxstone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> POLISHED_WAXSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.SAND)), ItemBlockForestry::new, "polished_waxstone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> POLISHED_WAXSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND)), ItemBlockForestry::new, "polished_waxstone_wall");
+
+
+
+
+	//Honeystone and variants
+	public static final FeatureBlock<Block, BlockItem> HONEYSTONE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "honeystone");
+	public static final FeatureBlock<StairBlock, BlockItem> HONEYSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "honeystone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> HONEYSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "honeystone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> HONEYSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "honeystone_wall");
+
+	public static final FeatureBlock<Block, BlockItem> COBBLED_HONEYSTONE  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "cobbled_honeystone");
+	public static final FeatureBlock<StairBlock, BlockItem> COBBLED_HONEYSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "cobbled_honeystone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> COBBLED_HONEYSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "cobbled_honeystone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> COBBLED_HONEYSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "cobbled_honeystone_wall");
+
+
+	public static final FeatureBlock<Block, BlockItem> HONEYSTONE_BRICKS  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "honeystone_bricks");
+
+	public static final FeatureBlock<StairBlock, BlockItem> HONEYSTONE_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "honeystone_brick_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> HONEYSTONE_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "honeystone_brick_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> HONEYSTONE_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "honeystone_brick_wall");
+	public static final FeatureBlock<Block, BlockItem> HONEYSTONE_CHISELED  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "chiseled_honeystone");
+
+	public static final FeatureBlock<Block, BlockItem> POLISHED_HONEYSTONE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "polished_honeystone");
+	public static final FeatureBlock<StairBlock, BlockItem> POLISHED_HONEYSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "polished_honeystone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> POLISHED_HONEYSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "polished_honeystone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> POLISHED_HONEYSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.COLOR_ORANGE)), ItemBlockForestry::new, "polished_honeystone_wall");
+
+
+	//Misc
+	public static final FeatureBlock<Block, BlockItem> ASHEN_WAX_BLOCK  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND)), ItemBlockForestry::new, "ashen_wax_block");
+	public static final FeatureBlock<Block, BlockItem> CRISPY_HONEY_BLOCK  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.COLOR_BROWN)), ItemBlockForestry::new, "crispy_honey_block");
 
 	public static final FeatureBlockGroup<BlockMetalPlating, BlockTypeMetalPlating> METAL_PLATING = REGISTRY.blockGroup(BlockMetalPlating::new, BlockTypeMetalPlating.values()).itemWithType((block, type) -> new ItemBlockForestry<>(block, new Item.Properties())).identifier("metal_plating").create();
 

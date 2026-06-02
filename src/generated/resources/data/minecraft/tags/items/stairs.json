@@ -95,6 +95,14 @@
     "forestry:cherry_fireproof_stairs",
     "forestry:ash_brick_stairs",
     "forestry:wax_brick_stairs",
-    "forestry:refractory_wax_brick_stairs"
+    "forestry:refractory_wax_brick_stairs",
+    "forestry:waxstone_stairs",
+    "forestry:cobbled_waxstone_stairs",
+    "forestry:waxstone_brick_stairs",
+    "forestry:polished_waxstone_stairs",
+    "forestry:honeystone_stairs",
+    "forestry:cobbled_honeystone_stairs",
+    "forestry:honeystone_brick_stairs",
+    "forestry:polished_honeystone_stairs"
   ]
 }

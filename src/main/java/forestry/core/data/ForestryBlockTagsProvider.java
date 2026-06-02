@@ -242,19 +242,43 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(BlockTags.WALLS).add(
 			CoreBlocks.ASH_BRICK_WALL.block(),
 			CoreBlocks.WAX_BRICK_WALL.block(),
-			CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block()
+			CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block(),
+			CoreBlocks.WAXSTONE_WALL.block(),
+			CoreBlocks.COBBLED_WAXSTONE_WALL.block(),
+			CoreBlocks.WAXSTONE_BRICK_WALL.block(),
+			CoreBlocks.POLISHED_WAXSTONE_WALL.block(),
+			CoreBlocks.HONEYSTONE_WALL.block(),
+			CoreBlocks.COBBLED_HONEYSTONE_WALL.block(),
+			CoreBlocks.HONEYSTONE_BRICK_WALL.block(),
+			CoreBlocks.POLISHED_HONEYSTONE_WALL.block()
 		);
 
 		tags.tag(BlockTags.STAIRS).add(
 			CoreBlocks.ASH_BRICK_STAIRS.block(),
 			CoreBlocks.WAX_BRICK_STAIRS.block(),
-			CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block()
+			CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block(),
+			CoreBlocks.WAXSTONE_STAIRS.block(),
+			CoreBlocks.COBBLED_WAXSTONE_STAIRS.block(),
+			CoreBlocks.WAXSTONE_BRICK_STAIRS.block(),
+			CoreBlocks.POLISHED_WAXSTONE_STAIRS.block(),
+			CoreBlocks.HONEYSTONE_STAIRS.block(),
+			CoreBlocks.COBBLED_HONEYSTONE_STAIRS.block(),
+			CoreBlocks.HONEYSTONE_BRICK_STAIRS.block(),
+			CoreBlocks.POLISHED_HONEYSTONE_STAIRS.block()
 		);
 
 		tags.tag(BlockTags.SLABS).add(
 			CoreBlocks.ASH_BRICK_SLAB.block(),
 			CoreBlocks.WAX_BRICK_SLAB.block(),
-			CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block()
+			CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block(),
+			CoreBlocks.WAXSTONE_SLAB.block(),
+			CoreBlocks.COBBLED_WAXSTONE_SLAB.block(),
+			CoreBlocks.WAXSTONE_BRICK_SLAB.block(),
+			CoreBlocks.POLISHED_WAXSTONE_SLAB.block(),
+			CoreBlocks.HONEYSTONE_SLAB.block(),
+			CoreBlocks.COBBLED_HONEYSTONE_SLAB.block(),
+			CoreBlocks.HONEYSTONE_BRICK_SLAB.block(),
+			CoreBlocks.POLISHED_HONEYSTONE_SLAB.block()
 		);
 
 		//Turf needs to simulate a lot of grass tags.
