@@ -164,7 +164,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 
 				@Override
 				public int getTintColor() {
-					return ForestryFluidType.this.color;
+					return 0xFFFFFFFF;
 				}
 			});
 		}
