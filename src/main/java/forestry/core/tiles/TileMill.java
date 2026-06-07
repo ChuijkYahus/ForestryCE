@@ -1,16 +1,22 @@
 package forestry.core.tiles;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Vector3f;
 
 public abstract class TileMill extends TileBase {
 	public float speed;
 	public int stage = 0;
 	public int charge = 0;
 	public float progress;
+
+	private final DustParticleOptions PARTICLES = new DustParticleOptions(new Vector3f(1.0f, 1.0f, 1.0f), 1.0f);
 
 	protected TileMill(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -69,6 +75,18 @@ public abstract class TileMill extends TileBase {
             this.stage = 2;
 			if (this.charge < 7 && isSimulating) {
                 this.charge++;
+				if (level instanceof ServerLevel serverLevel){
+					serverLevel.sendParticles(PARTICLES,
+						this.getBlockPos().getX()+0.5,
+						this.getBlockPos().getY()+0.5,
+						this.getBlockPos().getZ()+0.5,
+						10,
+						0.125f,
+						0.25f,
+						0.125f,
+						0.01f
+					);
+				}
 				sendNetworkUpdate();
 			}
 		}

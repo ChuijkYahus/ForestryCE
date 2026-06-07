@@ -1,5 +1,6 @@
 package forestry.factory.tiles;
 
+import forestry.Forestry;
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.RainSubstrate;
 import forestry.core.advancements.AdvancementHelper;
@@ -8,8 +9,10 @@ import forestry.core.tiles.TileMill;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.inventory.InventoryRainmaker;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -102,6 +105,35 @@ public class TileMillRainmaker extends TileMill {
 			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 - f3);
 			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 + f3);
 		} else {
+
+			if (level instanceof ServerLevel serverLevel) {
+				final float HEIGHT = 128;
+				final float BASE_PARTICLE_COUNT = 10;
+
+				int yStart = this.getBlockPos().getY()+2;
+
+				for(int y = yStart; y < yStart + HEIGHT; y+=3) {
+
+					float dy = y - yStart; //(0 -> height)
+
+					//Lots of particles at the base, less at the top. I think this math tracks.
+					int amount = (int)(BASE_PARTICLE_COUNT * (1f-(dy/HEIGHT)));
+					Forestry.LOGGER.info("Y: " + y + ", Count: " + amount);
+
+					serverLevel.sendParticles(ParticleTypes.CLOUD,
+						this.getBlockPos().getX() + 0.5,
+						y,
+						this.getBlockPos().getZ() + 0.5,
+						amount,
+						0.025f,
+						1f,
+						0.025f,
+						0.01f
+					);
+				}
+			}
+
+
 			if (this.reverse) {
 				level.getLevelData().setRaining(false);
 			} else {

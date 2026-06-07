@@ -69,8 +69,8 @@ public class ModuleFactory extends BlankForestryModule {
 		// Set rain substrates
 		ItemStack iodineCharge = CoreItems.IODINE_CHARGE.stack();
 		ItemStack dissipationCharge = CoreItems.DISSIPATION_CHARGE.stack();
-		FuelManager.rainSubstrate.put(iodineCharge, new RainSubstrate(iodineCharge, 10000, 0.01f));
-		FuelManager.rainSubstrate.put(dissipationCharge, new RainSubstrate(dissipationCharge, 0.075f));
+		FuelManager.rainSubstrate.put(iodineCharge, new RainSubstrate(iodineCharge, 10000, 0.075f));
+		FuelManager.rainSubstrate.put(dissipationCharge, new RainSubstrate(dissipationCharge, 0.01f));
 	}
 
 	@Override
