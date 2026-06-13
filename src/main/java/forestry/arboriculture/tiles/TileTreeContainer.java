@@ -82,6 +82,10 @@ public abstract class TileTreeContainer extends BlockEntity implements IStreamab
 		this.containedTree = tree;
 
 		if (this.level != null && this.level.isClientSide) {
+			// NeoForge's ModelDataManager only refreshes cached ModelData when requestModelDataUpdate() is
+			// called; setBlocksDirty alone re-meshes the section with stale (EMPTY) data, leaving freshly
+			// placed saplings rendering as Oak until the BE is reloaded. See TileLeaves#setTree for the same.
+			requestModelDataUpdate();
 			ClientsideCode.markForUpdate(this.worldPosition);
         }
 	}
