@@ -6,7 +6,7 @@
       "item": "minecraft:cracked_stone_bricks"
     },
     "T": {
-      "tag": "forge:gears/tin"
+      "tag": "c:gears/tin"
     }
   },
   "pattern": [

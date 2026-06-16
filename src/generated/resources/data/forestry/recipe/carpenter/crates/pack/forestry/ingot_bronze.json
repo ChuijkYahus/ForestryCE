@@ -12,7 +12,7 @@
     "category": "misc",
     "key": {
       "#": {
-        "tag": "forge:ingots/bronze"
+        "tag": "c:ingots/bronze"
       }
     },
     "pattern": [

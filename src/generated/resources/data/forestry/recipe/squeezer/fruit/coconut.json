@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/coconut"
+      "tag": "c:fruits/coconut"
     }
   ],
   "time": 10

@@ -81,8 +81,8 @@
     "forestry:mailbox",
     "forestry:trade_station",
     "forestry:stamp_collector",
-    "#forge:ores/tin",
-    "#forge:ores/apatite",
-    "#forge:storage_blocks/raw_tin"
+    "#c:ores/tin",
+    "#c:ores/apatite",
+    "#c:storage_blocks/raw_tin"
   ]
 }

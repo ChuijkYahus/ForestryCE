@@ -10,7 +10,7 @@
     "category": "misc",
     "key": {
       "#": {
-        "tag": "forge:ingots/bronze"
+        "tag": "c:ingots/bronze"
       },
       "R": {
         "tag": "c:dusts/redstone"

@@ -6,7 +6,7 @@
       "item": "minecraft:cut_sandstone"
     },
     "T": {
-      "tag": "forge:gears/tin"
+      "tag": "c:gears/tin"
     },
     "X": {
       "tag": "c:glass_blocks/colorless"

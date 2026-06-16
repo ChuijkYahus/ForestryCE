@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/plum"
+      "tag": "c:fruits/plum"
     }
   ],
   "time": 10
