@@ -30,6 +30,10 @@ import javax.annotation.Nullable;
 public class TileMillRainmaker extends TileMill {
 	private int duration;
 	private boolean reverse;
+
+	private int yParticle = 0;
+	private int particleCount = 0;
+	private final int MAX_PARTICLE_COUNT = 64;
 	private static final ResourceLocation USE_RAINMAKER = new ResourceLocation("forestry:use_rainmaker");
 
 	public TileMillRainmaker(BlockPos pos, BlockState state) {
@@ -89,6 +93,29 @@ public class TileMillRainmaker extends TileMill {
 		sendNetworkUpdate();
 	}
 
+
+	@Override
+	protected void update(Level level, BlockPos pos, boolean isSimulating) {
+		super.update(level, pos, isSimulating);
+
+		if (particleCount < MAX_PARTICLE_COUNT && level instanceof ServerLevel serverLevel ) {
+
+			serverLevel.sendParticles(ParticleTypes.CLOUD,
+				this.getBlockPos().getX() + 0.5,
+				yParticle,
+				this.getBlockPos().getZ() + 0.5,
+				10,
+				0.025f,
+				1f,
+				0.025f,
+				0.01f
+			);
+
+			yParticle += 2;
+			particleCount += 1;
+		}
+	}
+
 	@Override
 	public void activate(Level level, BlockPos pos) {
 		if (level.isClientSide) {
@@ -106,34 +133,23 @@ public class TileMillRainmaker extends TileMill {
 			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 + f3);
 		} else {
 
-			if (level instanceof ServerLevel serverLevel) {
-				final float HEIGHT = 128;
-				final float BASE_PARTICLE_COUNT = 10;
+			particleCount = 0;
+			yParticle = this.getBlockPos().getY()+2;
 
-				int yStart = this.getBlockPos().getY()+2;
+			if (level instanceof ServerLevel serverLevel ) {
+				serverLevel.sendParticles(ParticleTypes.CLOUD,
+					this.getBlockPos().getX() + 0.5,
+					this.getBlockPos().getY(),
+					this.getBlockPos().getZ() + 0.5,
+					10,
+					0.025f,
+					0.025f,
+					0.025f,
+					0.1f
+				);
 
-				for(int y = yStart; y < yStart + HEIGHT; y+=3) {
-
-					float dy = y - yStart; //(0 -> height)
-
-					//Lots of particles at the base, less at the top. I think this math tracks.
-					int amount = (int)(BASE_PARTICLE_COUNT * (1f-(dy/HEIGHT)));
-					Forestry.LOGGER.info("Y: " + y + ", Count: " + amount);
-
-					serverLevel.sendParticles(ParticleTypes.CLOUD,
-						this.getBlockPos().getX() + 0.5,
-						y,
-						this.getBlockPos().getZ() + 0.5,
-						amount,
-						0.025f,
-						1f,
-						0.025f,
-						0.01f
-					);
-				}
+				serverLevel.playSound(null, this.getBlockPos(), SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.BLOCKS);
 			}
-
-
 			if (this.reverse) {
 				level.getLevelData().setRaining(false);
 			} else {
