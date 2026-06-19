@@ -1,10 +1,18 @@
-// 1.21.1	2026-05-05T12:47:22.357520327	Tags for minecraft:block mod id forestry
+// 1.21.1	2026-06-16T16:08:37.773583	Tags for minecraft:block mod id forestry
 e736c96d74e1d9b8799f108ba1e8b1e2173926fb data/c/tags/block/chests.json
 d96521ed9e35f1dd037c67f6374622063d9657ac data/c/tags/block/fence_gates.json
 d96521ed9e35f1dd037c67f6374622063d9657ac data/c/tags/block/fence_gates/wooden.json
 42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/c/tags/block/fences.json
-bb21d3539a79b0026a6f6669c4d05d2cf714868b data/c/tags/block/ores.json
-fdcc98a3a1492b2a5ba702cb1baa3c4dee37d705 data/c/tags/block/storage_blocks.json
+0f4693a539b6911206aa8897628149b96e03ef6b data/c/tags/block/ores.json
+8bc630a1df34e3623f9a5554a01ae2dfc2362023 data/c/tags/block/ores/apatite.json
+6b5b215353862ea81225290f3c38054df67a245f data/c/tags/block/ores/tin.json
+183be5cdaa59302d83a7b36b515ad6a3751cf79f data/c/tags/block/storage_blocks.json
+7f299f5fe40240c3488786528143777b5c57f267 data/c/tags/block/storage_blocks/amber.json
+fd9e00b1f00fab97ef5a20ca100e33e709036606 data/c/tags/block/storage_blocks/apatite.json
+a50813a6215611330b9e7a32904eb8f174d3741a data/c/tags/block/storage_blocks/bronze.json
+c74d64c654da6d15a76cd4167268fc9965ef23ca data/c/tags/block/storage_blocks/charcoal.json
+8b3a8ecaabc2db91e27ad34b051647d52a0ad47e data/c/tags/block/storage_blocks/raw_tin.json
+ed974f25f4057a6e2a627a4ee061decd56b7d274 data/c/tags/block/storage_blocks/tin.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/block/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/block/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/block/baobab_logs.json
@@ -123,14 +131,6 @@ b841a00870fdcf55fc0e81960a6fefeec9a84f96 data/forestry/tags/block/valid_farm_bas
 535e4a12b54227547e2f80904d5d1efc9d049d70 data/forestry/tags/block/wenge_logs.json
 76c2959a0df83d4bb8cfe0f282b1c0f0a59ef6bb data/forestry/tags/block/willow_logs.json
 a53617c07723524a62f108cef691b2adbfdbfe51 data/forestry/tags/block/zebrawood_logs.json
-8bc630a1df34e3623f9a5554a01ae2dfc2362023 data/forge/tags/block/ores/apatite.json
-6b5b215353862ea81225290f3c38054df67a245f data/forge/tags/block/ores/tin.json
-7f299f5fe40240c3488786528143777b5c57f267 data/forge/tags/block/storage_blocks/amber.json
-fd9e00b1f00fab97ef5a20ca100e33e709036606 data/forge/tags/block/storage_blocks/apatite.json
-a50813a6215611330b9e7a32904eb8f174d3741a data/forge/tags/block/storage_blocks/bronze.json
-c74d64c654da6d15a76cd4167268fc9965ef23ca data/forge/tags/block/storage_blocks/charcoal.json
-8b3a8ecaabc2db91e27ad34b051647d52a0ad47e data/forge/tags/block/storage_blocks/raw_tin.json
-ed974f25f4057a6e2a627a4ee061decd56b7d274 data/forge/tags/block/storage_blocks/tin.json
 187c2975f45d9928dc3a105b7ff7a0c58aa589d0 data/minecraft/tags/block/ceiling_hanging_signs.json
 fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/block/dirt.json
 6d6cb2e736c663ed2002b30cf61222cb5e870f09 data/minecraft/tags/block/doors.json
@@ -139,9 +139,9 @@ e73ebe50f3648320322f96fec6c45537167124bb data/minecraft/tags/block/leaves.json
 c72164ff1b6d852fa51f3c0e98004cacb660a295 data/minecraft/tags/block/logs.json
 a3f470e9eccaa5cf9d4bc2a389bad4a21ce49be5 data/minecraft/tags/block/logs_that_burn.json
 ce86ae664316536a146dedd54abd318dbb38d299 data/minecraft/tags/block/mineable/axe.json
-b04128c35ab033732667e53c98455fe30cfe4fb0 data/minecraft/tags/block/mineable/pickaxe.json
+76cff58388fab99f736201d5e3b2ff97100b4d1f data/minecraft/tags/block/mineable/pickaxe.json
 a74d324eaacf17486a9612367d49a24299a17723 data/minecraft/tags/block/mineable/shovel.json
-4f0f5d3a71d5e122fb2e1f8e6ba54801b535d904 data/minecraft/tags/block/needs_stone_tool.json
+e012beda248f3fca4a05545ebf9943d31e352d04 data/minecraft/tags/block/needs_stone_tool.json
 26d5ff819d4e2e63dbe6b17047c63e675ed57c2f data/minecraft/tags/block/overworld_natural_logs.json
 d7937e93ba131f356b253c9eb27aa4427291417d data/minecraft/tags/block/planks.json
 aa3ef881a072a72a240e6e382073be189586b71b data/minecraft/tags/block/saplings.json

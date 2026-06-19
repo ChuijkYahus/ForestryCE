@@ -15,7 +15,7 @@
       "tag": "minecraft:planks"
     },
     "Q": {
-      "tag": "forge:gears/copper"
+      "tag": "c:gears/copper"
     }
   },
   "pattern": [

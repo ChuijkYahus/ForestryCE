@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "#forge:gears/tin"
+            "items": "#c:gears/tin"
           }
         ]
       },

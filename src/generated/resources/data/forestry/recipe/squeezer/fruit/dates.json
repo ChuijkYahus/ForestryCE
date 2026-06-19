@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/date"
+      "tag": "c:fruits/date"
     }
   ],
   "time": 10

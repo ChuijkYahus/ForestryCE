@@ -6,7 +6,7 @@
       "item": "minecraft:dirt"
     },
     "X": {
-      "tag": "forge:dusts/ash"
+      "tag": "c:dusts/ash"
     }
   },
   "pattern": [

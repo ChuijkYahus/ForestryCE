@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/cherry"
+      "tag": "c:fruits/cherry"
     }
   ],
   "time": 20

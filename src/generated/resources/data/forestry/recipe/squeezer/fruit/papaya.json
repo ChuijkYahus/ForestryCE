@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/papaya"
+      "tag": "c:fruits/papaya"
     }
   ],
   "time": 10

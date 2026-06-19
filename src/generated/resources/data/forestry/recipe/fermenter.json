@@ -6,7 +6,7 @@
       "tag": "c:glass_blocks/colorless"
     },
     "X": {
-      "tag": "forge:gears/bronze"
+      "tag": "c:gears/bronze"
     },
     "Y": {
       "item": "forestry:sturdy_machine"

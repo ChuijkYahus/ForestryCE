@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/chestnut"
+      "tag": "c:fruits/chestnut"
     }
   ],
   "time": 70

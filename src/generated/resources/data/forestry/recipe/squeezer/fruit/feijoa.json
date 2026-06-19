@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/feijoa"
+      "tag": "c:fruits/feijoa"
     }
   ],
   "time": 10

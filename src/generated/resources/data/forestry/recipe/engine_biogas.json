@@ -9,10 +9,10 @@
       "tag": "c:glass_blocks/colorless"
     },
     "P": {
-      "tag": "forge:ingots/bronze"
+      "tag": "c:ingots/bronze"
     },
     "Q": {
-      "tag": "forge:gears/bronze"
+      "tag": "c:gears/bronze"
     }
   },
   "pattern": [

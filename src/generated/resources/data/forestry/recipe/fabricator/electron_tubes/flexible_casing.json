@@ -9,7 +9,7 @@
     "category": "misc",
     "key": {
       "#": {
-        "tag": "forge:ingots/bronze"
+        "tag": "c:ingots/bronze"
       },
       "B": {
         "tag": "c:slimeballs"

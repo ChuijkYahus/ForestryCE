@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/orange"
+      "tag": "c:fruits/orange"
     }
   ],
   "time": 10

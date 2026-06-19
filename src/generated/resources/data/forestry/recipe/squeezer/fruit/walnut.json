@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/walnut"
+      "tag": "c:fruits/walnut"
     }
   ],
   "time": 60

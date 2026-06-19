@@ -12,7 +12,7 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/pear"
+      "tag": "c:fruits/pear"
     }
   ],
   "time": 10
