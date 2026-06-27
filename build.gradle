@@ -68,8 +68,15 @@ neoForge {
 	mods {
 		forestry {
 			sourceSet sourceSets.main
+			// GameTest suite lives in src/test (forestry.gametest). It is part of the forestry mod so the
+			// gameTestServer run loads it, but stays out of the published jar (jar/apiJar use main only).
+			sourceSet sourceSets.test
 		}
 	}
+
+	// src/test has no Minecraft/NeoForge on its classpath by default — moddev only wires that into source sets
+	// it's told about. Without this the gametest sources won't compile.
+	addModdingDependenciesTo sourceSets.test
 }
 
 repositories {
