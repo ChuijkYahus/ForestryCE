@@ -9,13 +9,13 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class MutationRecipe {
+public class MutationDisplay {
 	final ItemStack firstParent;
 	final ItemStack secondParent;
 	final ItemStack result;
 	final IMutation<?> mutation;
 
-	public MutationRecipe(IMutation<?> mutation) {
+	public MutationDisplay(IMutation<?> mutation) {
 		ISpeciesType<?, ?> speciesType = mutation.getType();
 
 		ILifeStage firstStage = speciesType.getTypeForMutation(0);
