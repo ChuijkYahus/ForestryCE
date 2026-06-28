@@ -5,32 +5,24 @@ import java.util.List;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Engine-agnostic test/diagnostic seam for the multiblock <b>inventory-conservation</b> regression suite.
- *
- * <p>An {@link IMultiblockController} implementation exposes the machine's <em>shared</em> inventory through this
- * interface so a test harness can assert conservation (items before == items kept + items dropped) across real game
- * operations — chunk unload/reload, controller merges, and block break/replace — <b>without</b> reaching into engine
- * internals. The current ("Erogenous Beef") engine and the upcoming multiblock overhaul must <em>both</em> implement
- * this method; that is precisely what lets the same GameTests run against either engine and so verify the rewrite.
- *
- * <p>This is deliberately the <i>only</i> coupling point between the harness and a specific engine. Everything else the
- * tests do (build a machine, drive it, count drops) goes through vanilla APIs. Keep it minimal: it reports contents,
- * it does not mutate them.
+ * Used for testing the new multiblock engine without coupling tests to either the old BigReactors implementation
+ * or this new Forestry-specific implementation. Exposes the inventory contents of a multiblock to allow checking
+ * for data loss/duplication.
  *
  * @see forestry.api.multiblock.IMultiblockController
  */
+@ApiStatus.Internal
 public interface IMultiblockInventoryProbe {
 	/**
-	 * @return a snapshot — independent {@linkplain ItemStack#copy() copies} — of every non-empty stack in this
-	 * multiblock's shared inventory at the moment of the call. The list is owned by the caller; mutating it (or the
-	 * stacks in it) does not affect the machine. Returns an empty list if the shared inventory is empty.
+	 * @return A deep copy of this multiblock's current inventory contents.
 	 */
 	List<ItemStack> snapshotSharedInventory();
 
 	/**
-	 * Helper for implementors whose shared inventory is a vanilla {@link Container}: snapshots every non-empty slot.
+	 * Deep-copies inventory contents into a list.
 	 */
 	static List<ItemStack> snapshotContainer(Container container) {
 		List<ItemStack> snapshot = new ArrayList<>();
