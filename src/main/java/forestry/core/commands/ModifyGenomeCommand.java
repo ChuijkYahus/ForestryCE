@@ -21,7 +21,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import javax.annotation.Nullable;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -53,7 +53,12 @@ public class ModifyGenomeCommand {
 		IChromosome<?> chromosome = ctx.getArgument("chromosome", IChromosome.class);
 
 		if (karyotype.contains(chromosome)) {
-			Allele<?> allele = ctx.getArgument("allele", Allele.class);
+			String alleleKey = ctx.getArgument("allele", String.class);
+			Allele<?> allele = findAllele(chromosome, alleleKey);
+
+			if (allele == null) {
+				throw LifeStageArgument.INVALID_VALUE.create(alleleKey);
+			}
 
 			CommandSourceStack source = ctx.getSource();
 			ServerPlayer player = source.getPlayerOrException();
@@ -73,7 +78,7 @@ public class ModifyGenomeCommand {
 					IChromosome<?> key = entry.getKey();
 					AllelePair<?> pair = entry.getValue();
 					if (key == chromosome) {
-						pair = replaceAllele(key, pair, allele, active, inactive);
+						pair = replaceAllele(pair, allele, active, inactive);
 					}
 
 					builder.setUnchecked(key, pair);
@@ -96,29 +101,29 @@ public class ModifyGenomeCommand {
 		}
 	}
 
-	// Replaces the active and/or inactive allele of a chromosome's pair. For reference chromosomes the parsed allele
-	// only carries the referenced id (see AlleleArgument), so its intrinsic dominance is resolved here, mirroring
-	// IGenome#copyWith.
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	private static AllelePair<?> replaceAllele(IChromosome<?> chromosome, AllelePair<?> pair, Allele<?> allele, boolean active, boolean inactive) {
-		Allele replacement = allele;
-		IChromosome.IReferenceResolver<?> resolver = chromosome.resolver();
-		if (resolver != null) {
-			ResourceLocation id = (ResourceLocation) allele.value();
-			replacement = new Allele<>(id, resolver.isDominant(id));
+	// Finds the known allele of a chromosome whose value matches the typed token (see GeneticsUtil.alleleKey). Candidate
+	// alleles are computed from the default genomes of all registered species, replacing the old karyotype whitelist.
+	@Nullable
+	private static <V> Allele<V> findAllele(IChromosome<V> chromosome, String key) {
+		for (Allele<V> allele : GeneticsUtil.getKnownAlleles(chromosome)) {
+			if (GeneticsUtil.alleleKey(allele).equals(key)) {
+				return allele;
+			}
 		}
+		return null;
+	}
 
-		Allele newActive = active ? replacement : pair.active();
-		Allele newInactive = inactive ? replacement : pair.inactive();
+	// Replaces the active and/or inactive allele of a chromosome's pair. The replacement is a known allele (already
+	// carrying its intrinsic dominance), so no further resolution is needed.
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	private static AllelePair<?> replaceAllele(AllelePair<?> pair, Allele<?> allele, boolean active, boolean inactive) {
+		Allele newActive = active ? allele : pair.active();
+		Allele newInactive = inactive ? allele : pair.inactive();
 		return new AllelePair(newActive, newInactive);
 	}
 
 	private static CompletableFuture<Suggestions> suggestAlleles(ISpeciesType<?, ?> type, CommandContext<CommandSourceStack> ctx, SuggestionsBuilder builder) {
 		IChromosome<?> chromosome = ctx.getArgument("chromosome", IChromosome.class);
-		// Alleles have no id anymore; only reference chromosomes (value = ResourceLocation) can be suggested as resources.
-		return SharedSuggestionProvider.suggestResource(GeneticsUtil.getKnownAlleles(chromosome).stream()
-			.map(Allele::value)
-			.filter(value -> value instanceof ResourceLocation)
-			.map(value -> (ResourceLocation) value), builder);
+		return SharedSuggestionProvider.suggest(GeneticsUtil.getKnownAlleles(chromosome).stream().map(GeneticsUtil::alleleKey), builder);
 	}
 }
