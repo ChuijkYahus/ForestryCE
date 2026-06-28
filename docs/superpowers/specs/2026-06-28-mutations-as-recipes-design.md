@@ -22,8 +22,8 @@ keyed by parent+result species ids, which are unchanged), but there is no save d
    a registered type id; addons register their own. Semantics unchanged (each condition is a chance modifier).
 2. **One `RecipeType` per species type** — `forestry:bee_mutation`, `forestry:tree_mutation`,
    `forestry:butterfly_mutation` — mirroring today's per-type `MutationManager`s and per-type JEI categories. The recipe
-   class and serializer are shared/generic to avoid literal 3× duplication; the three `RecipeType`/`RecipeSerializer`
-   instances stay distinct.
+   class and the serializer **class** are shared to avoid literal 3× duplication; there are three `RecipeType`s and
+   three serializer **instances** (one per species type, each bound to that type's karyotype — see Component 1).
 3. **Datagen, drop the runtime API.** Built-in mutations move to generated recipe JSON via a `MutationProvider` that
    reuses the familiar builder shape. The runtime `IMutationsRegistration` / `IMutationBuilder` /
    `ISpeciesBuilder.addMutations` API is removed (consistent with Stage 1's builders→datagen move).
@@ -56,23 +56,27 @@ keyed by parent+result species ids, which are unchanged), but there is no save d
 
 ### Component 1 — `MutationRecipe` (the recipe)
 
-A single class `forestry.core.genetics.mutations.MutationRecipe implements Recipe<RecipeInput>` (package may differ;
-keep near the existing mutation code). It is a **data holder**, never grid-crafted:
+A single class `MutationRecipe implements forestry.api.recipes.IForestryRecipe` (which is `Recipe<RecipeInput>` with
+`matches`→false, `assemble`/`getResultItem`→EMPTY, `canCraftInDimensions`→false — the established no-op pattern here,
+see `HygroregulatorRecipe`). It is a **data holder**, never grid-crafted. Place it near the existing mutation code
+(e.g. `forestry.core.genetics.mutations`).
 
-- Fields: `ResourceLocation speciesTypeId`, `ResourceLocation firstParentId`, `ResourceLocation secondParentId`,
-  `ResourceLocation resultId`, `float chance`, `List<IMutationCondition> conditions`,
-  `Map<ResourceLocation, Allele<?>> resultAlleles` (optional, default empty; keyed by chromosome id).
-- `Recipe` overrides: `matches`/`assemble` return false/empty (never called); `canCraftInDimensions` false;
-  `getResultItem` empty; `getType()` returns the `RecipeType` whose species type matches `speciesTypeId`;
-  `getSerializer()` returns the shared serializer.
+- Fields: `ResourceLocation firstParentId`, `ResourceLocation secondParentId`, `ResourceLocation resultId`,
+  `float chance`, `List<IMutationCondition> conditions`, `Map<ResourceLocation, Allele<?>> resultAlleles` (optional,
+  default empty; keyed by chromosome id). The owning species type is **not** stored as a record field — it is supplied
+  by the serializer/`RecipeType` binding (below), so it cannot drift from the file's location.
+- `getType()`/`getSerializer()` return the species-type-bound `RecipeType`/`RecipeSerializer` the recipe was loaded
+  under (injected by the bound serializer at decode time).
 - A `toMutation(ISpeciesType<S,?> type, ImmutableMap<ResourceLocation, S> speciesLookup)` adapter builds a runtime
   `Mutation<S>` (reusing the existing `Mutation` class) so downstream breeding/JEI logic is unchanged. Resolution of
   parent/result species and result-allele chromosome lookup uses the species type's karyotype.
 
-**Codec / StreamCodec** (in the serializer): `MapCodec`/`StreamCodec` via `RecordCodecBuilder` over the fields above.
-`resultAlleles` uses a karyotype-aware codec (dispatched per chromosome, like the Stage 1 genome codec) resolved from
-`speciesTypeId`; since no built-in uses it, it is `optionalFieldOf` with an empty default. Conditions use the condition
-codec from Component 2.
+**Serializer binding.** There is one generic `MutationRecipe.Serializer` **class**, instantiated **once per species
+type** (three instances), each bound to that type's `RecipeType` and karyotype. Each instance's `MapCodec`/`StreamCodec`
+(built via `RecordCodecBuilder` over the fields above) therefore closes over its karyotype **statically** — the
+`resultAlleles` codec is a karyotype-aware dispatched-per-chromosome map (like the Stage 1 genome codec), and conditions
+use the Component 2 codec. `resultAlleles` is `optionalFieldOf` with an empty default (no built-in uses it). This avoids
+any intra-record field dependency (no "decode `speciesTypeId`, then dispatch the rest of the record on it").
 
 ### Component 2 — Condition codec registry
 
@@ -95,17 +99,28 @@ Mutations are decoupled from species registration:
 - `ISpeciesType.handleSpeciesRegistration` returns **species only** (drop the mutations half of the `Pair`);
   `onSpeciesRegistered` drops its `IMutationManager` parameter. `buildAll()` stops building mutations.
 - A new core **reload hook** rebuilds each species type's `MutationManager` from the recipe manager:
-  `manager.byType(beeMutationType)` → `MutationRecipe.toMutation(...)` per recipe → `new MutationManager<>(...)` →
+  `recipeManager.byType(beeMutationType)` → `MutationRecipe.toMutation(...)` per recipe → `new MutationManager<>(...)` →
   assign to the species type via a new internal `SpeciesType.setMutations(IMutationManager)` (replaces the old
-  registration-time assignment).
-  - **Server:** rebuild on server start and on `/reload` (datapack reload). The recipe manager is reached via the
-    server; the rebuild iterates the registered species types from `IGeneticManager`.
+  registration-time assignment). The rebuild iterates the registered species types from `IGeneticManager`.
+  - **Server:** register a reload listener via NeoForge `AddReloadListenerEvent` that runs **after** the vanilla
+    `RecipeManager` has applied (so `byType` reflects the just-loaded recipes); this covers both initial server start and
+    `/reload`. (Pin the exact ordering mechanism — listener dependency vs. reading the event's applied `RecipeManager` —
+    in the plan.)
   - **Client:** rebuild on NeoForge `RecipesUpdatedEvent` (recipes already sync to the client automatically), so the
     Portable Analyzer and JEI see the current set.
+- **Single source of truth for the index.** Mutations are stored in exactly one place: `SpeciesType.mutations`
+  (via `getMutations()`). The duplicate `GeneticManager.mutationsByType` map (set today at
+  `PluginManager.registerGenetics`) is **removed**, and `IGeneticManager.getMutations(ISpeciesType)` is collapsed to
+  delegate to `type.getMutations()`. The lone runtime consumer of that path, `ApiaristTracker.registerPickup`
+  (`getGeneticManager().getMutations(BEE_TYPE)`), continues to work through the delegation (or is redirected to
+  `BEE_TYPE.getMutations()` directly). This is required — otherwise that map stays unset and throws at runtime.
+- **Lifecycle ordering is safe:** species types/karyotypes are created at `PluginManager.registerGenetics`
+  (post-`RegisterEvent`, setup time), strictly before any server start or datapack load, so the karyotype-bound
+  serializers and the index rebuild always have their species types available.
 - `ISpeciesType.getMutations()` returns an **empty** `MutationManager` before the first rebuild (instead of throwing),
   so early access is safe; by the time breeding/JEI run, recipes are loaded.
-- Research keying is **unchanged** (parent+result species id string), so breeding-tracker state survives reloads and is
-  independent of recipe ids.
+- Research keying is **unchanged** (parent+result species id string via `BreedingTracker.getMutationString`), so
+  breeding-tracker state survives reloads and is independent of recipe ids.
 
 ### Component 4 — Datagen & API removal
 
@@ -126,6 +141,11 @@ The three per-type JEI categories remain, but each is fed from its registered `R
 `RecipeManager.byType(...)` rather than `IMutationManager.getAllMutations()`. The displayed object is the
 `MutationRecipe` (adapted through `toMutation` for the existing display logic), removing the ad-hoc unregistered
 `RecipeType` and the manual mutation iteration in `ApicultureJeiPlugin` / the tree & butterfly JEI plugins.
+
+The existing JEI POJO `forestry.apiculture.compat.MutationRecipe` (a non-`Recipe` display wrapper) is **removed/replaced**
+by the real `MutationRecipe`, both to avoid a simple-name collision and because the recipe object is now the displayed
+thing. The category classes (`MutationsRecipeCategory` and tree/butterfly equivalents) are retained but retyped to the
+real recipe.
 
 ## Data flow
 
