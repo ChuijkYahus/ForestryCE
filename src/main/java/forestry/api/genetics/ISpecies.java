@@ -84,7 +84,7 @@ public interface ISpecies<I extends IIndividual> {
 	 * @param alleles A map of alleles to set on this individual upon creation. Any missing chromosomes use default alleles.
 	 * @return An individual along with any specified alleles.
 	 */
-	I createIndividual(Map<IChromosome<?>, IAllele> alleles);
+	I createIndividual(Map<IChromosome<?>, Allele<?>> alleles);
 
 	I createIndividualFromPairs(Map<IChromosome<?>, AllelePair<?>> allelePairs);
 

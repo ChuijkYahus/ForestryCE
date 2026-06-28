@@ -216,16 +216,16 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 
 	@Override
 	public boolean trySpawnFruitBlock(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos pos) {
-		return genome.getActiveValue(TreeChromosomes.FRUIT).trySpawnFruitBlock(genome, level, rand, pos);
+		return genome.resolveActive(TreeChromosomes.FRUIT).trySpawnFruitBlock(genome, level, rand, pos);
 	}
 
 	@Override
 	public List<IProduct> getProducts() {
-		return this.defaultGenome.getActiveValue(TreeChromosomes.FRUIT).getProducts();
+		return this.defaultGenome.resolveActive(TreeChromosomes.FRUIT).getProducts();
 	}
 
 	@Override
 	public List<IProduct> getSpecialties() {
-		return this.defaultGenome.getActiveValue(TreeChromosomes.FRUIT).getSpecialties();
+		return this.defaultGenome.resolveActive(TreeChromosomes.FRUIT).getSpecialties();
 	}
 }

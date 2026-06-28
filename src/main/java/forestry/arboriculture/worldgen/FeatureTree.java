@@ -51,7 +51,7 @@ public abstract class FeatureTree extends FeatureArboriculture {
 
 	@Override
 	protected void generateExtras(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos startPos, TreeContour contour) {
-		if (genome.getActiveValue(TreeChromosomes.FRUIT).requiresFruitBlocks()) {
+		if (genome.resolveActive(TreeChromosomes.FRUIT).requiresFruitBlocks()) {
 			FeatureHelper.generatePods(genome, level, rand, startPos, this.height, minPodHeight, this.girth, contour, FeatureHelper.EnumReplaceMode.AIR);
 		}
 	}

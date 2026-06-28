@@ -136,7 +136,7 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 
 		Component tempToleranceAllele = GeneticsUtil.getActiveName(genome, BeeChromosomes.TEMPERATURE_TOLERANCE);
 		Component humidToleranceAllele = GeneticsUtil.getActiveName(genome, BeeChromosomes.HUMIDITY_TOLERANCE);
-		IBeeSpecies active = genome.getActiveValue(BeeChromosomes.SPECIES);
+		IBeeSpecies active = genome.resolveActive(BeeChromosomes.SPECIES);
 
 		tooltip.add(Component.literal("T: ").append(ClimateHelper.toDisplay(active.getTemperature())).append(" / ").append(tempToleranceAllele).withStyle(ChatFormatting.GREEN));
 		tooltip.add(Component.literal("H: ").append(ClimateHelper.toDisplay(active.getHumidity())).append(" / ").append(humidToleranceAllele).withStyle(ChatFormatting.GREEN));

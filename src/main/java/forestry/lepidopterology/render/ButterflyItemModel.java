@@ -62,7 +62,7 @@ public class ButterflyItemModel extends AbstractBakedModel {
 		public BakedModel resolve(BakedModel model, ItemStack stack, @Nullable ClientLevel worldIn, @Nullable LivingEntity entityIn, int p_173469_) {
 			IIndividual individual = Objects.requireNonNull(IIndividualHandlerItem.getIndividual(stack));
 			IGenome genome = individual.getGenome();
-			IButterflySpecies species = genome.getActiveValue(ButterflyChromosomes.SPECIES);
+			IButterflySpecies species = genome.resolveActive(ButterflyChromosomes.SPECIES);
 			float size = genome.getActiveValue(ButterflyChromosomes.SIZE);
 			// should this be using the path? or the ID?
 			try {

@@ -139,7 +139,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		}
 
 		IGenome genome = tree.getGenome();
-		ITreeSpecies primary = genome.getActiveValue(TreeChromosomes.SPECIES);
+		ITreeSpecies primary = genome.resolveActive(TreeChromosomes.SPECIES);
 
 		boolean isDestroyed = isDestroyed(tree, this.damage);
 		for (ILeafTickHandler tickHandler : primary.getType().getLeafTickHandlers()) {
@@ -180,7 +180,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		super.setTree(tree);
 
 		IGenome genome = tree.getGenome();
-		this.species = genome.getActiveValue(TreeChromosomes.SPECIES);
+		this.species = genome.resolveActive(TreeChromosomes.SPECIES);
 
 		// update fruit state if genome changed
 		if (oldTree != null && tree.getSpecies() != oldTree.getSpecies() || (this.level != null && this.level.isClientSide)) {
@@ -196,14 +196,14 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		IGenome genome = tree.getGenome();
 
 		if (tree.hasFruitLeaves() && this.level != null && !this.level.isClientSide) {
-			IFruit fruitProvider = genome.getActiveValue(TreeChromosomes.FRUIT);
+			IFruit fruitProvider = genome.resolveActive(TreeChromosomes.FRUIT);
 			if (fruitProvider.isFruitLeaf()) {
 				this.isFruitLeaf = alwaysFruit || fruitProvider.getFruitChance(genome, this.level) >= this.level.random.nextFloat();
 			}
 		}
 
 		if (this.isFruitLeaf) {
-			IFruit fruit = genome.getActiveValue(TreeChromosomes.FRUIT);
+			IFruit fruit = genome.resolveActive(TreeChromosomes.FRUIT);
 			if (this.level != null && this.level.isClientSide) {
 				this.fruitSprite = fruit.getSprite(genome, this.level, getBlockPos(), getRipeningTime());
 			}
@@ -251,7 +251,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			tree = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.SOUR_CHERRY).createIndividual();
 		}
 		IGenome genome = tree.getGenome();
-		IFruit fruit = genome.getActiveValue(TreeChromosomes.FRUIT);
+		IFruit fruit = genome.resolveActive(TreeChromosomes.FRUIT);
 		return fruit.getColour(genome, this.level, getBlockPos(), getRipeningTime());
 	}
 

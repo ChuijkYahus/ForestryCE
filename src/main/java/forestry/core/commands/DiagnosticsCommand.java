@@ -56,7 +56,7 @@ public class DiagnosticsCommand {
 				IKaryotype karyotype = type.getKaryotype();
 
 				for (IChromosome<?> chromosome : karyotype.getChromosomes()) {
-					if (chromosome == karyotype.getSpeciesChromosome() || chromosome instanceof IBooleanChromosome || chromosome == BeeChromosomes.FERTILITY || chromosome == ButterflyChromosomes.FERTILITY) {
+					if (chromosome == karyotype.getSpeciesChromosome() || chromosome instanceof IChromosome<Boolean> || chromosome == BeeChromosomes.FERTILITY || chromosome == ButterflyChromosomes.FERTILITY) {
 						continue;
 					}
 

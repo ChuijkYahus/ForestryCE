@@ -55,7 +55,7 @@ public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, 
 		baker.addBlockModel(textureSprite, BlockAbstractLeaves.FOLIAGE_COLOR_INDEX);
 
 		// Render overlay for fruit leaves.
-		ResourceLocation fruitSpriteLocation = species.getDefaultGenome().getActiveValue(TreeChromosomes.FRUIT).getDecorativeSprite();
+		ResourceLocation fruitSpriteLocation = species.getDefaultGenome().resolveActive(TreeChromosomes.FRUIT).getDecorativeSprite();
 		if (fruitSpriteLocation != null) {
 			TextureAtlasSprite fruitSprite = ResourceUtil.getBlockSprite(fruitSpriteLocation);
 			baker.addBlockModel(fruitSprite, BlockAbstractLeaves.FRUIT_COLOR_INDEX);

@@ -7,7 +7,7 @@ import forestry.api.genetics.IMutation;
 import forestry.api.genetics.IMutationCondition;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.IAllele;
+import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IChromosome;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -74,7 +74,7 @@ public interface IMutationBuilder {
 	 */
 	IMutationBuilder addMutationCondition(IMutationCondition condition);
 
-	<A extends IAllele> IMutationBuilder addSpecialAllele(IChromosome<A> chromosome, A allele);
+	<V> IMutationBuilder addSpecialAllele(IChromosome<V> chromosome, Allele<V> allele);
 
 	/**
 	 * Override the chance set in {@link forestry.api.plugin.IMutationsRegistration#add}.

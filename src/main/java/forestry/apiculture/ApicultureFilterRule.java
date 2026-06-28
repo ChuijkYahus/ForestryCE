@@ -31,7 +31,7 @@ public enum ApicultureFilterRule implements IFilterRule {
 	PURE_NOCTURNAL(DefaultFilterRuleType.PURE_NOCTURNAL) {
 		@Override
 		protected boolean isValid(IBee bee) {
-			return bee.getGenome().getActiveValue(BeeChromosomes.ACTIVITY).isActive(0, IActivityType.NIGHT_TIME, BlockPos.ZERO);
+			return bee.getGenome().resolveActive(BeeChromosomes.ACTIVITY).isActive(0, IActivityType.NIGHT_TIME, BlockPos.ZERO);
 		}
 	},
 	FLYER(DefaultFilterRuleType.FLYER) {

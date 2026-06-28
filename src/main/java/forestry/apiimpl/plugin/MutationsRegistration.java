@@ -8,7 +8,7 @@ import forestry.api.genetics.IMutation;
 import forestry.api.genetics.IMutationCondition;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.IAllele;
+import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.plugin.IMutationBuilder;
 import forestry.api.plugin.IMutationsRegistration;
@@ -75,7 +75,7 @@ public class MutationsRegistration implements IMutationsRegistration {
 		private final ArrayList<IMutationCondition> conditions = new ArrayList<>();
 		private final MutationPair pair;
 		private final ResourceLocation result;
-		private final ImmutableMap.Builder<IChromosome<?>, IAllele> extraAlleles = new ImmutableMap.Builder<>();
+		private final ImmutableMap.Builder<IChromosome<?>, Allele<?>> extraAlleles = new ImmutableMap.Builder<>();
 		private float chance = -1;
 
 		private MutationBuilder(MutationPair pair, ResourceLocation result) {
@@ -144,7 +144,7 @@ public class MutationsRegistration implements IMutationsRegistration {
 		}
 
 		@Override
-		public <A extends IAllele> IMutationBuilder addSpecialAllele(IChromosome<A> chromosome, A allele) {
+		public <V> IMutationBuilder addSpecialAllele(IChromosome<V> chromosome, Allele<V> allele) {
 			this.extraAlleles.put(chromosome, allele);
 			return this;
 		}

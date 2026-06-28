@@ -61,7 +61,7 @@ public class ButterflyAnalyzerPlugin implements IAnalyzerPlugin<IButterflySpecie
 		graphics.drawText(Component.translatable("for.gui.loot.cocoon").append(":"));
 		graphics.addLineSpacing(1);
 		// since we're haploid, we can just return a list and it will only be used once
-		graphics.drawProductList(s -> individual.getGenome().getActiveValue(ButterflyChromosomes.COCOON).getProducts());
+		graphics.drawProductList(s -> individual.getGenome().resolveActive(ButterflyChromosomes.COCOON).getProducts());
 	}
 
 	@Override

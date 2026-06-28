@@ -265,7 +265,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		if (stack.isEmpty()) {
 			return 0f;
 		}
-		IFruit fruit = species.getDefaultGenome().getActiveValue(TreeChromosomes.FRUIT);
+		IFruit fruit = species.getDefaultGenome().resolveActive(TreeChromosomes.FRUIT);
 		for (IProduct product : Iterables.concat(fruit.getProducts(), fruit.getSpecialty())) {
 			if (stack.is(product.item())) {
 				return 1f;

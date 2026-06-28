@@ -124,7 +124,7 @@ public abstract class Species<T extends ISpeciesType<? extends ISpecies<I>, I>, 
 	}
 
 	@Override
-	public I createIndividual(Map<IChromosome<?>, IAllele> alleles) {
+	public I createIndividual(Map<IChromosome<?>, Allele<?>> alleles) {
 		return createIndividual(this.defaultGenome.copyWith(alleles));
 	}
 
@@ -137,11 +137,11 @@ public abstract class Species<T extends ISpeciesType<? extends ISpecies<I>, I>, 
 		tooltip.add(Component.literal("<").append(Component.translatable("for.gui.unknown")).append(">").withStyle(ChatFormatting.GRAY));
 	}
 
-	protected <S extends ISpecies<?>> void addHybridTooltip(List<Component> tooltip, IGenome genome, IRegistryChromosome<S> species, String hybridKey) {
-		AllelePair<IValueAllele<S>> speciesPair = genome.getAllelePair(species);
-		S primary = speciesPair.active().value();
-		S secondary = speciesPair.inactive().value();
+	protected <S extends ISpecies<?>> void addHybridTooltip(List<Component> tooltip, IGenome genome, IChromosome<ResourceLocation> species, String hybridKey) {
+		AllelePair<ResourceLocation> speciesPair = genome.getAllelePair(species);
 		if (!speciesPair.isSameAlleles()) {
+			S primary = genome.resolveActive(species);
+			S secondary = genome.resolveInactive(species);
 			tooltip.add(Component.translatable(hybridKey, primary.getDisplayName(), secondary.getDisplayName()).withStyle(ChatFormatting.BLUE));
 		}
 	}

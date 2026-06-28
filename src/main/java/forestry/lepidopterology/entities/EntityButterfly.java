@@ -356,7 +356,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 		this.isImmuneToFire = genome.getActiveValue(ButterflyChromosomes.FIREPROOF);
 		this.size = genome.getActiveValue(ButterflyChromosomes.SIZE);
-		this.species = genome.getActiveValue(ButterflyChromosomes.SPECIES);
+		this.species = genome.resolveActive(ButterflyChromosomes.SPECIES);
 
 		if (!level().isClientSide) {
             this.entityData.set(DATAWATCHER_ID_SIZE, (int) (this.size * 100));

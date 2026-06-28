@@ -84,7 +84,7 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 		if (tree == null) {
 			species = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.OAK);
 		} else {
-			species = tree.getGenome().getActiveValue(TreeChromosomes.SPECIES);
+			species = tree.getGenome().resolveActive(TreeChromosomes.SPECIES);
 		}
 		ItemStack decorativeLeaves = species.getDecorativeLeaves();
 		if (decorativeLeaves.isEmpty()) {
@@ -163,7 +163,7 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 
 		if (tree != null) {
 			IGenome genome = tree.getGenome();
-			genome.getActiveValue(TreeChromosomes.EFFECT).doAnimationEffect(genome, level, pos, rand);
+			genome.resolveActive(TreeChromosomes.EFFECT).doAnimationEffect(genome, level, pos, rand);
 		}
 	}
 }
