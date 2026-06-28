@@ -62,6 +62,9 @@ neoForge {
 			type = "gameTestServer"
 			gameDirectory.set(project.layout.projectDirectory.dir('run/gametest'))
 			systemProperty 'neoforge.enabledGameTestNamespaces', 'forestry'
+			// Forwards `-Pforestry.genomeBaseline=generate` to the forked gametest JVM so GenomeBaselineTest
+			// can (re)generate its golden-master snapshot. Empty/absent => assert mode.
+			systemProperty 'forestry.genomeBaseline', providers.gradleProperty('forestry.genomeBaseline').getOrElse('')
 		}
 	}
 
