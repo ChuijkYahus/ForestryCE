@@ -84,14 +84,14 @@ public final class ClimateCodecs {
 		s -> HumidityType.valueOf(s.toUpperCase(Locale.ROOT)),
 		h -> h.name().toLowerCase(Locale.ROOT));
 	public static final StreamCodec<io.netty.buffer.ByteBuf, TemperatureType> TEMPERATURE_STREAM =
-		ByteBufCodecs.idMapper(i -> TemperatureType.VALUES[i], TemperatureType::ordinal);
+		ByteBufCodecs.idMapper(TemperatureType.VALUES::get, TemperatureType::ordinal);
 	public static final StreamCodec<io.netty.buffer.ByteBuf, HumidityType> HUMIDITY_STREAM =
-		ByteBufCodecs.idMapper(i -> HumidityType.VALUES[i], HumidityType::ordinal);
+		ByteBufCodecs.idMapper(HumidityType.VALUES::get, HumidityType::ordinal);
 
 	private ClimateCodecs() {}
 }
 ```
-Verify `TemperatureType.VALUES`/`HumidityType.VALUES` exist (they're used elsewhere, e.g. `ClimateCodecs` analog in Stage 1); if not, use `TemperatureType.values()[i]`.
+Note: `TemperatureType.VALUES`/`HumidityType.VALUES` are `List<...>` (`List.of(values())`), so use `VALUES.get(i)` (NOT `VALUES[i]`). Confirm the field exists; otherwise use `values()[i]`.
 
 - [ ] **Step 2:** Compile: `./gradlew compileJava`. Expected: PASS.
 - [ ] **Step 3:** Commit: `git commit -am "feat(genetics): codecs for TemperatureType/HumidityType"`.
@@ -172,7 +172,7 @@ public final class MutationConditionTypes {
 	private MutationConditionTypes() {}
 }
 ```
-Note: the built-in types are registered in Task 3 Step 9. (`registerBuiltins()` will be called from the genetics registration path; see Task 7.)
+Add a `public static void registerBuiltins()` (idempotent, via the `putIfAbsent` guard) that registers all 7 built-in types. **CRITICAL TIMING:** this must run at **setup time, before any datapack load/parse** — recipe JSON `conditions` arrays dispatch on `type` at `RecipeManager` parse time (which happens *before* the reload handler runs, and before client `RecipesUpdatedEvent` on sync-decode). If the types aren't registered by then, `LIST_CODEC` fails and **every conditioned mutation recipe is silently dropped** (the built-ins use ~25 temperature / 23 humidity / 13 biome / 5 date / 6 custom conditions). The concrete registration call site is **`PluginManager.registerGenetics`** (Task 6 Step 6) — which runs at `postItemRegistry`, before worlds/datapacks. Also call it (harmlessly, idempotent) from `MutationReloadHandler.rebuild` as a safety net.
 
 - [ ] **Step 4:** Compile: `./gradlew compileJava`. Expected: FAIL — the 7 condition classes don't implement `type()` yet. That's the next task.
 - [ ] **Step 5:** Commit after Task 3 compiles (these two tasks land together).
@@ -229,14 +229,17 @@ public class GeneticsRecipeTypes {
 	public static final FeatureRecipeType<MutationRecipe> BUTTERFLY_MUTATION =
 		REGISTRY.recipeType("butterfly_mutation", () -> new MutationRecipe.Serializer(ForestrySpeciesTypes.BUTTERFLY));
 
+	@Nullable
 	public static FeatureRecipeType<MutationRecipe> forType(ResourceLocation speciesTypeId) {
 		if (speciesTypeId.equals(ForestrySpeciesTypes.BEE)) return BEE_MUTATION;
 		if (speciesTypeId.equals(ForestrySpeciesTypes.TREE)) return TREE_MUTATION;
 		if (speciesTypeId.equals(ForestrySpeciesTypes.BUTTERFLY)) return BUTTERFLY_MUTATION;
-		throw new IllegalArgumentException("No mutation recipe type for species type: " + speciesTypeId);
+		return null; // unknown/third-party species type — caller skips with a warning
 	}
 }
 ```
+`forType` returns `null` for species types without a mutation recipe type (e.g. a third-party species type), so the rebuild loop skips them with a warning instead of crashing.
+
 (`MutationRecipe.Serializer` is created in Task 5; this task will not compile until then — land Tasks 4+5 together.)
 
 ---
@@ -284,7 +287,7 @@ public static class Serializer implements RecipeSerializer<MutationRecipe> {
 	// buildStreamCodec(): mirror with STREAM codecs (MutationConditionTypes.LIST_STREAM_CODEC).
 }
 ```
-The `resultAlleles` map codec mirrors Stage 1 `Karyotype.pairCodecFor` keyed by chromosome id; resolve the karyotype via `IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.speciesTypeId).getKaryotype()` inside `buildCodec()`. Since no built-in uses it, `optionalFieldOf("result_alleles", Map.of())`.
+The `resultAlleles` map codec follows Stage 1 `Karyotype.buildGenomeCodec`'s `Codec.dispatchedMap(keyCodec, chromosome -> valueCodec)` pattern — but the value is a single `Allele<V>` (the inner `alleleCodec` from `Karyotype.pairCodecFor`), not an `AllelePair<V>`. Key codec = chromosome-by-id. Resolve the karyotype via `IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.speciesTypeId).getKaryotype()` inside `buildCodec()`. Since no built-in uses it, `optionalFieldOf("result_alleles", Map.of())`.
 
 - [ ] **Step 4:** Compile (Tasks 4+5 together): `./gradlew compileJava`. Expected: PASS.
 - [ ] **Step 5:** Commit: `git commit -am "feat(genetics): MutationRecipe + per-type serializers + recipe types"`.
@@ -305,7 +308,7 @@ private IMutationManager<S> mutations = new MutationManager<>(ImmutableList.of()
 - [ ] **Step 3:** `SpeciesRegistration.buildAll`: return `ImmutableMap<ResourceLocation, S>` only — delete the "build mutations once species are available" block (extraction §D.18) and the final `Pair.of(...)`.
 - [ ] **Step 4:** `ISpeciesBuilder`/`SpeciesBuilder`: remove `addMutations` + `buildMutations` (and the `MutationsRegistration mutations` field / its uses in `SpeciesRegistration.register`).
 - [ ] **Step 5:** `IGeneticManager`/`GeneticManager`: remove `mutationsByType`, its setter, and the constructor wiring; collapse `getMutations(ISpeciesType)` to `return (IMutationManager<S>) speciesType.getMutations();` (keep the default `getMutations(ResourceLocation)`).
-- [ ] **Step 6:** `PluginManager.registerGenetics`: the species loop calls `speciesType.handleSpeciesRegistration(...)` → `onSpeciesRegistered(species)`; drop `allMutations`, the `getMutations()` assertion, and `geneticManager.setMutations(...)` (extraction §D.16).
+- [ ] **Step 6:** `PluginManager.registerGenetics`: the species loop calls `speciesType.handleSpeciesRegistration(...)` → `onSpeciesRegistered(species)`; drop `allMutations`, the `getMutations()` assertion, and `geneticManager.setMutations(...)` (extraction §D.16). **Also add `MutationConditionTypes.registerBuiltins();` here** (e.g. right after species types are built) so condition `type` ids are registered before any datapack parse — see Task 2/3.
 - [ ] **Step 7:** Delete `IMutationsRegistration.java`, `IMutationBuilder.java`, `MutationsRegistration.java` via `git rm`.
 - [ ] **Step 8:** Compile: `./gradlew compileJava`. Expected: FAIL only in `DefaultBeeSpecies`/`DefaultTreeSpecies`/`DefaultButterflySpecies` (the `.addMutations(...)` calls). Leave those temporarily compiling by deleting the `.addMutations(...)` blocks now (they move to datagen in Task 8) — or comment-delete and re-add in Task 8. Re-compile to PASS.
 - [ ] **Step 9:** Commit: `git commit -am "refactor(genetics): single mutation index on species type; drop runtime mutation API"`.
@@ -331,6 +334,7 @@ public static void rebuild(RecipeManager recipeManager) {
 @SuppressWarnings({"unchecked","rawtypes"})
 private static <S extends ISpecies<?>> void rebuildOne(ISpeciesType<S,?> type, RecipeManager rm) {
 	FeatureRecipeType<MutationRecipe> featureType = GeneticsRecipeTypes.forType(type.id());
+	if (featureType == null) { return; } // third-party species type without a mutation recipe type
 	ImmutableMap<ResourceLocation, S> lookup = /* type.getAllSpecies() keyed by id */;
 	ImmutableList.Builder<IMutation<S>> builder = ImmutableList.builder();
 	for (RecipeHolder<MutationRecipe> holder : rm.getAllRecipesFor(featureType.type())) {
@@ -374,7 +378,7 @@ public void build(RecipeOutput output, ResourceLocation id) {
 
 **Files:** `apiculture/compat/MutationsRecipeCategory.java`, `apiculture/compat/MutationRecipe.java` (POJO), `apiculture/compat/ApicultureJeiPlugin.java`.
 
-> Scope note: today **only apiculture** has a mutation JEI category (trees/butterflies never did). Keep that scope: migrate the apiculture category to be fed from `RecipeManager.byType(GeneticsRecipeTypes.BEE_MUTATION.type())` via the existing `getMutations()` (which now reflects recipes), adapting each `IMutation` for display exactly as before. Adding tree/butterfly mutation categories is an easy follow-on but is out of scope for Stage 2 (no behavior change).
+> Scope note (corrected): the **single** `ApicultureJeiPlugin` already registers a `MutationsRecipeCategory` for **all three** species types — `registerCategories` loops `getGeneticManager().getSpeciesTypes()` and `registerRecipes` feeds each from `category.speciesType.getMutations().getAllMutations()` (extraction §E.21). This reconciles the spec's "three categories" (they all live in the one apiculture plugin). **Preserve that `getSpeciesTypes()` loop unchanged** — do NOT add a bee-only filter (that would regress the tree/butterfly mutation pages). Because `getMutations()` now reflects the recipe-backed index, the feed keeps working with no logic change; the only required edit is renaming the colliding display POJO.
 
 - [ ] **Step 1:** The JEI POJO `apiculture/compat/MutationRecipe` collides in simple-name with the new recipe. Rename the POJO to `MutationDisplay` (or fold its display-stack logic into the category) to remove the collision. Update `MutationsRecipeCategory`/`ApicultureJeiPlugin` references.
 - [ ] **Step 2:** `ApicultureJeiPlugin.registerRecipes` already feeds from `category.speciesType.getMutations().getAllMutations()` (extraction §E.21) — since `getMutations()` now reflects the loaded recipes, this keeps working. Verify it still compiles after the rename; no logic change needed.
