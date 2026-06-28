@@ -52,6 +52,12 @@ public interface IKaryotype {
 	IChromosome<?> getChromosome(ResourceLocation id);
 
 	/**
+	 * @return A codec mapping a chromosome ID to its {@link IChromosome} in this karyotype, erroring on unknown IDs.
+	 * Used as the key codec for genome and mutation-result dispatched maps.
+	 */
+	Codec<IChromosome<?>> chromosomeKeyCodec();
+
+	/**
 	 * @return The number of chromosomes in this karyotype.
 	 */
 	int size();

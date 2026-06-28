@@ -1,5 +1,11 @@
 package forestry.api.genetics.alleles;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -36,5 +42,27 @@ public record Allele<V>(V value, boolean dominant) {
 	 */
 	public static Allele<ResourceLocation> reference(ResourceLocation id) {
 		return new Allele<>(id, false);
+	}
+
+	/**
+	 * @return A codec for a single allele, serializing its value inline via the given value codec as
+	 * {@code { "value": ..., "dominant": false }} (dominance defaults to false when omitted).
+	 */
+	public static <V> Codec<Allele<V>> codec(Codec<V> valueCodec) {
+		return RecordCodecBuilder.create(instance -> instance.group(
+			valueCodec.fieldOf("value").forGetter(Allele::value),
+			Codec.BOOL.optionalFieldOf("dominant", false).forGetter(allele -> allele.dominant())
+		).apply(instance, (value, dominant) -> new Allele<>(value, dominant)));
+	}
+
+	/**
+	 * @return A stream codec for a single allele: its value (via the given value stream codec) followed by a boolean dominance flag.
+	 */
+	public static <V> StreamCodec<RegistryFriendlyByteBuf, Allele<V>> streamCodec(StreamCodec<RegistryFriendlyByteBuf, V> valueStreamCodec) {
+		return StreamCodec.composite(
+			valueStreamCodec, Allele::value,
+			ByteBufCodecs.BOOL, allele -> allele.dominant(),
+			(value, dominant) -> new Allele<>(value, dominant)
+		);
 	}
 }

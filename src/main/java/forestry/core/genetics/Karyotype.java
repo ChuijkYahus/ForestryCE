@@ -63,22 +63,12 @@ public class Karyotype implements IKaryotype {
 	}
 
 	private Codec<IGenome> buildGenomeCodec() {
-		Codec<IChromosome<?>> keyCodec = ResourceLocation.CODEC.flatXmap(
-				rid -> {
-					IChromosome<?> chromosome = this.byId.get(rid);
-					return chromosome != null ? DataResult.success(chromosome) : DataResult.error(() -> "Unknown chromosome: " + rid);
-				},
-				chromosome -> DataResult.success(chromosome.id())
-		);
-		return Codec.<IChromosome<?>, AllelePair<?>>dispatchedMap(keyCodec, chromosome -> pairCodecFor(chromosome))
+		return Codec.<IChromosome<?>, AllelePair<?>>dispatchedMap(chromosomeKeyCodec(), chromosome -> pairCodecFor(chromosome))
 				.xmap(map -> Genome.sanitizeAlleles(this, map), IGenome::getChromosomes);
 	}
 
 	private static <V> Codec<AllelePair<V>> pairCodecFor(IChromosome<V> chromosome) {
-		Codec<Allele<V>> alleleCodec = RecordCodecBuilder.create(instance -> instance.group(
-				chromosome.valueCodec().fieldOf("value").forGetter(Allele::value),
-				Codec.BOOL.optionalFieldOf("dominant", false).forGetter(allele -> allele.dominant())
-		).apply(instance, (value, dominant) -> new Allele<>(value, dominant)));
+		Codec<Allele<V>> alleleCodec = Allele.codec(chromosome.valueCodec());
 		return RecordCodecBuilder.create(instance -> instance.group(
 				alleleCodec.fieldOf("active").forGetter(AllelePair::active),
 				alleleCodec.fieldOf("inactive").forGetter(AllelePair::inactive)
@@ -103,26 +93,17 @@ public class Karyotype implements IKaryotype {
 	}
 
 	private static <V> void writePair(RegistryFriendlyByteBuf buf, IGenome genome, IChromosome<V> chromosome) {
+		StreamCodec<RegistryFriendlyByteBuf, Allele<V>> alleleCodec = Allele.streamCodec(chromosome.valueStreamCodec());
 		AllelePair<V> pair = genome.getAllelePair(chromosome);
-		writeAllele(buf, chromosome, pair.active());
-		writeAllele(buf, chromosome, pair.inactive());
-	}
-
-	private static <V> void writeAllele(RegistryFriendlyByteBuf buf, IChromosome<V> chromosome, Allele<V> allele) {
-		chromosome.valueStreamCodec().encode(buf, allele.value());
-		buf.writeBoolean(allele.dominant());
+		alleleCodec.encode(buf, pair.active());
+		alleleCodec.encode(buf, pair.inactive());
 	}
 
 	private static <V> AllelePair<V> readPair(RegistryFriendlyByteBuf buf, IChromosome<V> chromosome) {
-		Allele<V> active = readAllele(buf, chromosome);
-		Allele<V> inactive = readAllele(buf, chromosome);
+		StreamCodec<RegistryFriendlyByteBuf, Allele<V>> alleleCodec = Allele.streamCodec(chromosome.valueStreamCodec());
+		Allele<V> active = alleleCodec.decode(buf);
+		Allele<V> inactive = alleleCodec.decode(buf);
 		return new AllelePair<>(active, inactive);
-	}
-
-	private static <V> Allele<V> readAllele(RegistryFriendlyByteBuf buf, IChromosome<V> chromosome) {
-		V value = chromosome.valueStreamCodec().decode(buf);
-		boolean dominant = buf.readBoolean();
-		return new Allele<>(value, dominant);
 	}
 
 	@Override
@@ -149,6 +130,17 @@ public class Karyotype implements IKaryotype {
 	@Override
 	public IChromosome<?> getChromosome(ResourceLocation id) {
 		return this.byId.get(id);
+	}
+
+	@Override
+	public Codec<IChromosome<?>> chromosomeKeyCodec() {
+		return ResourceLocation.CODEC.flatXmap(
+				rid -> {
+					IChromosome<?> chromosome = this.byId.get(rid);
+					return chromosome != null ? DataResult.success(chromosome) : DataResult.error(() -> "Unknown chromosome: " + rid);
+				},
+				chromosome -> DataResult.success(chromosome.id())
+		);
 	}
 
 	@Override
