@@ -204,7 +204,7 @@ public static final StreamCodec<RegistryFriendlyByteBuf, MutationConditionTemper
 - [ ] **RequiresResource** — field `blocks` as `List<BlockState>` via `BlockState.CODEC.listOf()` / `ByteBufCodecs` list of `ByteBufCodecs.fromCodecWithRegistries(BlockState.CODEC)`; add a `List<BlockState>` constructor alongside the existing varargs one (the varargs one delegates).
 - [ ] **Cave** — no fields: `MapCodec.unit(new MutationConditionCave())` and `StreamCodec.unit(...)`.
 
-- [ ] **Step 8 (register builtins):** Add a static `registerBuiltins()` to `MutationConditionTypes` that calls `register(forestry("temperature"), MutationConditionTemperature.TYPE)` etc. for all 7 (ids: `temperature`,`humidity`,`biome`,`daytime`,`time_range`,`requires_resource`,`cave`). It must be idempotent (the `putIfAbsent` guard) and is invoked from the genetics-registration path (Task 7).
+- [ ] **Step 8 (register builtins):** Add a static `registerBuiltins()` to `MutationConditionTypes` that calls `register(forestry("temperature"), MutationConditionTemperature.TYPE)` etc. for all 7 (ids: `temperature`,`humidity`,`biome`,`daytime`,`time_range`,`requires_resource`,`cave`). It must be idempotent (the `putIfAbsent` guard) and is invoked at setup from `PluginManager.registerGenetics` (Task 6 Step 6), with an idempotent safety-net call in `MutationReloadHandler.rebuild` (Task 7).
 - [ ] **Step 9:** Compile: `./gradlew compileJava`. Expected: PASS.
 - [ ] **Step 10:** Commit: `git commit -am "feat(genetics): mutation condition codecs + dispatch registry"`.
 
