@@ -58,9 +58,8 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public S getDefaultSpecies() {
-		return (S) this.karyotype.getDefaultAllele(this.karyotype.getSpeciesChromosome()).value();
+		return getSpecies(this.karyotype.getDefaultSpecies());
 	}
 
 	@Override
