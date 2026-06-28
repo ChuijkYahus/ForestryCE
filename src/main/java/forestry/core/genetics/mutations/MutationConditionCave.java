@@ -38,4 +38,16 @@ public class MutationConditionCave implements IMutationCondition {
 	public MutationConditionType<?> type() {
 		return TYPE;
 	}
+
+	// Stateless value object: all instances are equal. Required so the unit stream codec (which validates
+	// value.equals(expectedValue) on encode) can serialize JSON-parsed cave conditions during recipe sync.
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof MutationConditionCave;
+	}
+
+	@Override
+	public int hashCode() {
+		return MutationConditionCave.class.hashCode();
+	}
 }
