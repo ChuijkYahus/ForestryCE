@@ -11,6 +11,7 @@ import forestry.api.arboriculture.ILeafTickHandler;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.*;
@@ -57,8 +58,24 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	private final IdentityHashMap<BlockState, ITree> vanillaIndividuals = new IdentityHashMap<>();
 	private final IdentityHashMap<Item, ITree> vanillaItems = new IdentityHashMap<>();
 
+	// Reference-value registries backing the fruits and tree_effect chromosomes.
+	@Nullable
+	private ImmutableMap<ResourceLocation, IFruit> fruits;
+	@Nullable
+	private ImmutableMap<ResourceLocation, ITreeEffect> treeEffects;
+
 	public TreeSpeciesType(IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		super(ForestrySpeciesTypes.TREE, karyotype, builder);
+	}
+
+	@Override
+	public IFruit getFruit(ResourceLocation id) {
+		return requireValue(this.fruits, id, "fruit");
+	}
+
+	@Override
+	public ITreeEffect getTreeEffect(ResourceLocation id) {
+		return requireValue(this.treeEffects, id, "tree effect");
 	}
 
 	@Override
@@ -97,9 +114,9 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 			plugin.registerArboriculture(registration);
 		}
 
-		// populate tree registry chromosomes
-		TreeChromosomes.EFFECT.populate(registration.getEffects());
-		TreeChromosomes.FRUIT.populate(registration.getFruits());
+		// store the reference-value registries backing the fruits and tree_effect chromosomes
+		this.treeEffects = registration.getEffects();
+		this.fruits = registration.getFruits();
 
 		// initialize tree manager
 		((ForestryApiImpl) IForestryApi.INSTANCE).setTreeManager(registration.buildTreeManager());

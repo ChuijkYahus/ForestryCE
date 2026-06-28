@@ -5,14 +5,16 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import forestry.api.IForestryApi;
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IApiaristTracker;
+import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.*;
-import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.plugin.IForestryPlugin;
@@ -33,8 +35,31 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IBeeSpeciesType {
+	// Reference-value registries backing the flower_type, bee_effect, and activity chromosomes.
+	@Nullable
+	private ImmutableMap<ResourceLocation, IFlowerType> flowerTypes;
+	@Nullable
+	private ImmutableMap<ResourceLocation, IBeeEffect> beeEffects;
+	@Nullable
+	private ImmutableMap<ResourceLocation, IActivityType> activityTypes;
+
 	public BeeSpeciesType(IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		super(ForestrySpeciesTypes.BEE, karyotype, builder);
+	}
+
+	@Override
+	public IFlowerType getFlowerType(ResourceLocation id) {
+		return requireValue(this.flowerTypes, id, "flower type");
+	}
+
+	@Override
+	public IBeeEffect getBeeEffect(ResourceLocation id) {
+		return requireValue(this.beeEffects, id, "bee effect");
+	}
+
+	@Override
+	public IActivityType getActivityType(ResourceLocation id) {
+		return requireValue(this.activityTypes, id, "activity type");
 	}
 
 	@Override
@@ -130,10 +155,10 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 			plugin.registerApiculture(registration);
 		}
 
-		// populate bee registry chromosomes
-		BeeChromosomes.EFFECT.populate(registration.getBeeEffects());
-		BeeChromosomes.FLOWER_TYPE.populate(registration.getFlowerTypes());
-		BeeChromosomes.ACTIVITY.populate(registration.getActivityTypes());
+		// store the reference-value registries backing the flower_type, bee_effect, and activity chromosomes
+		this.beeEffects = registration.getBeeEffects();
+		this.flowerTypes = registration.getFlowerTypes();
+		this.activityTypes = registration.getActivityTypes();
 
 		// initialize hive manager
 		((ForestryApiImpl) IForestryApi.INSTANCE).setHiveManager(registration.buildHiveManager());

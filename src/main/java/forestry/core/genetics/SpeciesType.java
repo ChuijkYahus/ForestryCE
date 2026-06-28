@@ -159,6 +159,24 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 		}
 	}
 
+	/**
+	 * Looks up a reference value (flower type, effect, cocoon, ...) registered for this species type. These maps back
+	 * the reference chromosomes; resolution happens on demand once registration is complete.
+	 *
+	 * @throws IllegalStateException    If the values have not been registered yet.
+	 * @throws IllegalArgumentException If no value was registered with the given ID.
+	 */
+	protected static <V> V requireValue(@Nullable ImmutableMap<ResourceLocation, V> map, ResourceLocation id, String what) {
+		if (map == null) {
+			throw new IllegalStateException(what + " have not been registered yet (looking up " + id + ").");
+		}
+		V value = map.get(id);
+		if (value == null) {
+			throw new IllegalArgumentException("No " + what + " was registered with the ID: " + id);
+		}
+		return value;
+	}
+
 	@Override
 	public float getResearchSuitability(S species, ItemStack stack) {
 		return this.researchMaterials.getFloat(stack.getItem());

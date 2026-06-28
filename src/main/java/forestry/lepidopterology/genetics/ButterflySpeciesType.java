@@ -6,9 +6,10 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.*;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.lepidopterology.IButterflyCocoon;
+import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.ILepidopteristTracker;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
@@ -45,8 +46,24 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButterfly> implements IButterflySpeciesType {
+	// Reference-value registries backing the cocoon and butterfly_effect chromosomes.
+	@Nullable
+	private ImmutableMap<ResourceLocation, IButterflyCocoon> cocoons;
+	@Nullable
+	private ImmutableMap<ResourceLocation, IButterflyEffect> butterflyEffects;
+
 	public ButterflySpeciesType(IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		super(ForestrySpeciesTypes.BUTTERFLY, karyotype, builder);
+	}
+
+	@Override
+	public IButterflyCocoon getCocoon(ResourceLocation id) {
+		return requireValue(this.cocoons, id, "cocoon");
+	}
+
+	@Override
+	public IButterflyEffect getButterflyEffect(ResourceLocation id) {
+		return requireValue(this.butterflyEffects, id, "butterfly effect");
 	}
 
 	@Override
@@ -57,8 +74,9 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 			plugin.registerLepidopterology(registration);
 		}
 
-		ButterflyChromosomes.EFFECT.populate(registration.getEffects());
-		ButterflyChromosomes.COCOON.populate(registration.getCocoons());
+		// store the reference-value registries backing the cocoon and butterfly_effect chromosomes
+		this.butterflyEffects = registration.getEffects();
+		this.cocoons = registration.getCocoons();
 
 		return registration.buildAll();
 	}
