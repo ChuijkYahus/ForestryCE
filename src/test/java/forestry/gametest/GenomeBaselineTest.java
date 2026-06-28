@@ -22,14 +22,9 @@ import forestry.api.IForestryApi;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IAllele;
-import forestry.api.genetics.alleles.IBooleanAllele;
 import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IFloatAllele;
-import forestry.api.genetics.alleles.IIntegerAllele;
-import forestry.api.genetics.alleles.IRegistryAllele;
-import forestry.api.genetics.alleles.IValueAllele;
 
 /**
  * Golden-master regression oracle for the allele-foundation refactor.
@@ -117,25 +112,11 @@ public class GenomeBaselineTest {
 
 	/**
 	 * Canonical, representation-agnostic rendering of an allele as {@code <value>:<dominant>}.
-	 * MUST stay identical to the new-API dumper so the golden master only catches real regressions.
+	 * Reproduces the pre-refactor rendering exactly: reference values render as their {@link ResourceLocation};
+	 * float/int/boolean via their {@code toString}; enums via {@code name()}; {@link Vec3i} as {@code "x,y,z"}.
 	 */
-	private static String canonical(IAllele allele) {
-		String value;
-		// Reference alleles first: their value is identified by the allele id (== the value's ResourceLocation).
-		if (allele instanceof IRegistryAllele<?> registry) {
-			value = registry.alleleId().toString();
-		} else if (allele instanceof IBooleanAllele bool) {
-			value = Boolean.toString(bool.value());
-		} else if (allele instanceof IIntegerAllele integer) {
-			value = Integer.toString(integer.value());
-		} else if (allele instanceof IFloatAllele f) {
-			value = Float.toString(f.value());
-		} else if (allele instanceof IValueAllele<?> valueAllele) {
-			value = renderValue(valueAllele.value());
-		} else {
-			value = allele.alleleId().toString();
-		}
-		return value + ":" + allele.dominant();
+	private static String canonical(Allele<?> allele) {
+		return renderValue(allele.value()) + ":" + allele.dominant();
 	}
 
 	private static String renderValue(Object value) {
