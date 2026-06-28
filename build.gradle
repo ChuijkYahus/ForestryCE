@@ -82,6 +82,12 @@ neoForge {
 	addModdingDependenciesTo sourceSets.test
 }
 
+// The test source set holds GameTests (run via runGameTestServer), not JUnit tests, so the standard `test` task
+// discovers nothing. Gradle 9 fails the build on no-discovered-tests by default; opt out so `./gradlew build` is green.
+tasks.named('test', Test) {
+	failOnNoDiscoveredTests = false
+}
+
 repositories {
 	maven {
 		name = 'jei'
