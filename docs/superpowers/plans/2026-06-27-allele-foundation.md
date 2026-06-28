@@ -73,6 +73,9 @@ gametests `./gradlew runGameTestServer`; full `./gradlew build`.
 **Modified (registration / plugin)**
 - `api/plugin/IGenomeBuilder.java`, `api/plugin/IKaryotypeBuilder.java`, `api/plugin/IChromosomeBuilder.java`, `core/genetics/ChromosomeBuilder.java`, `apiimpl/plugin/SpeciesRegistration.java`, `apiimpl/plugin/PluginManager.java`, `apiimpl/ForestryApiImpl.java`, `api/IForestryApi.java`.
 
+**Modified (reference-resolver backing — replaces deleted `IRegistryChromosome.populate`)**
+- `apiculture/genetics/BeeSpeciesType.java`, `arboriculture/genetics/TreeSpeciesType.java`, `lepidopterology/genetics/ButterflySpeciesType.java` (store the id→value maps + expose getters), `apiimpl/plugin/ArboricultureRegistration.java`, `apiimpl/plugin/LepidopterologyRegistration.java` (already-built maps; `ApicultureRegistration` already exposes `getFlowerTypes`/`getBeeEffects`/`getActivityTypes`).
+
 **Modified (marker drop, keep `isDominant()` — 8 interfaces)**
 - `api/genetics/ISpecies.java`, `api/apiculture/IFlowerType.java`, `api/apiculture/genetics/IBeeEffect.java`, `api/apiculture/IActivityType.java`, `api/arboriculture/genetics/IFruit.java`, `api/arboriculture/genetics/ITreeEffect.java`, `api/lepidopterology/IButterflyCocoon.java`, `api/lepidopterology/IButterflyEffect.java`.
 
@@ -493,9 +496,38 @@ git add -A && git commit -m "wip: species chromosome id-based via builder domina
 git add -A && git commit -m "wip: drop IRegistryAlleleValue marker, keep isDominant() on value interfaces (non-compiling)"
 ```
 
+### Task D3: Reference-resolver backing (replaces deleted `IRegistryChromosome.populate`)
+
+The old reference values were stored on `RegistryChromosome` via `populate(ImmutableMap)`, called inside each
+`handleSpeciesRegistration` (e.g. `BeeSpeciesType.java:134-136` populates `EFFECT`/`FLOWER_TYPE`/`ACTIVITY`).
+Those chromosome types are deleted, so the late-populated maps need a new home and the reference chromosome
+resolvers must read from it.
+
+**Files:** `apiculture/genetics/BeeSpeciesType.java`, `arboriculture/genetics/TreeSpeciesType.java`, `lepidopterology/genetics/ButterflySpeciesType.java`; `apiimpl/plugin/ArboricultureRegistration.java`, `apiimpl/plugin/LepidopterologyRegistration.java`.
+
+- [ ] **Step 1:** Store the registry maps on the species type. In each `handleSpeciesRegistration`, replace the
+  `<chromosome>.populate(map)` calls with storing the `ImmutableMap<ResourceLocation, V>` on the species type
+  (bee: flower types, bee effects, activity — sources already exist as `ApicultureRegistration.getFlowerTypes()`
+  /`getBeeEffects()`/`getActivityTypes()`; tree: fruits, tree effects from `ArboricultureRegistration`;
+  butterfly: cocoons, butterfly effects from `LepidopterologyRegistration`). Add typed getters
+  (e.g. `IBeeSpeciesType.getFlowerType(ResourceLocation)`, `getBeeEffect(...)`, `getActivityType(...)`).
+- [ ] **Step 2:** Wire the reference chromosome resolvers (Task C4 Step 2) to those getters, e.g.
+  `referenceChromosome(FLOWER_TYPE_ID, defaultId, new IReferenceResolver<>() { get = id -> SpeciesUtil.BEE_TYPE.get().getFlowerType(id); getId = IFlowerType::id-or-reverse-map; }, naming)`.
+  The species resolver delegates to `speciesType.getSpecies(id)` / `species.id()`. (If a value type lacks an
+  `id()`, keep a reverse `IdentityHashMap<V, ResourceLocation>` built alongside the forward map.)
+- [ ] **Step 3:** Commit WIP. (Compiles only at the Phase E gate.)
+
+```bash
+git add -A && git commit -m "wip: store reference registries on species types; wire chromosome resolvers (non-compiling)"
+```
+
 ---
 
 ## Phase E — Compiler-guided fixups to the first GREEN build
+
+> Also expect a few local-variable type changes the compiler will flag, e.g.
+> `SpeciesRegistration.buildAll`'s `IRegistryChromosome<? extends ISpecies<?>> speciesChromosome` →
+> `IChromosome<ResourceLocation>` (follows from Task B3).
 
 ### Task E1: Registration data (the largest mechanical churn)
 
