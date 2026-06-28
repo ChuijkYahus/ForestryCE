@@ -6,6 +6,7 @@ import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.hives.IHiveDrop;
 import forestry.api.apiculture.hives.IHiveTile;
+import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.apiculture.features.ApicultureTiles;
@@ -187,7 +188,7 @@ public class BlockBeeHive extends Block implements EntityBlock {
 
 	public IBee adjustForDimension(ServerLevel level, BlockPos pos, IBee bee){
 		if(level.dimension().location().toString().equals("twilightforest:twilight_forest")){
-			return bee.copyWithGenome(bee.getGenome().copyWith(Map.of(BeeChromosomes.ACTIVITY, ForestryActivityTypes.CREPUSCULAR)));
+			return bee.copyWithGenome(bee.getGenome().copyWith(Map.of(BeeChromosomes.ACTIVITY, Allele.reference(ForestryActivityTypes.CREPUSCULAR))));
 		}
 		return bee;
 	}

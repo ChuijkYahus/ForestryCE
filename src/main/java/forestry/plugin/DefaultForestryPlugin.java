@@ -15,6 +15,7 @@ import forestry.api.core.IError;
 import forestry.api.core.Product;
 import forestry.api.farming.ForestryFarmTypes;
 import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.genetics.alleles.ForestryAlleles;
@@ -76,17 +77,12 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		genetics.registerSpeciesType(ForestrySpeciesTypes.BEE, BeeSpeciesType::new)
 			.setKaryotype(karyotype -> {
 				karyotype.setSpecies(BeeChromosomes.SPECIES, ForestryBeeSpecies.FOREST);
-				karyotype.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST)
-					.addAlleles(ForestryAlleles.DEFAULT_SPEEDS);
-				karyotype.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER)
-					.addAlleles(ForestryAlleles.DEFAULT_LIFESPANS);
-				karyotype.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_2)
-					.addAlleles(ForestryAlleles.DEFAULT_BEE_FERTILITIES);
+				karyotype.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
+				karyotype.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER);
+				karyotype.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_2);
 				karyotype.set(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-					.addAlleles(ForestryAlleles.DEFAULT_TEMPERATURE_TOLERANCES)
 					.setWeaklyInherited(true);
 				karyotype.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-					.addAlleles(ForestryAlleles.DEFAULT_HUMIDITY_TOLERANCES)
 					.setWeaklyInherited(true);
 				karyotype.set(BeeChromosomes.ACTIVITY, ForestryActivityTypes.DIURNAL)
 					.setWeaklyInherited(true);
@@ -95,11 +91,9 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 				karyotype.set(BeeChromosomes.TOLERATES_RAIN, false)
 					.setWeaklyInherited(true);
 				karyotype.set(BeeChromosomes.FLOWER_TYPE, ForestryFlowerTypes.VANILLA);
-				karyotype.set(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_AVERAGE)
-					.addAlleles(ForestryAlleles.DEFAULT_TERRITORIES);
+				karyotype.set(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_AVERAGE);
 				karyotype.set(BeeChromosomes.EFFECT, ForestryBeeEffects.NONE);
-				karyotype.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWEST)
-					.addAlleles(ForestryAlleles.DEFAULT_POLLINATIONS);
+				karyotype.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWEST);
 			})
 			.addStages(BeeLifeStage.DRONE, BeeLifeStage.PRINCESS, BeeLifeStage.QUEEN, BeeLifeStage.LARVAE)
 			.setDefaultStage(BeeLifeStage.DRONE);
@@ -108,20 +102,14 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		genetics.registerSpeciesType(ForestrySpeciesTypes.TREE, TreeSpeciesType::new)
 			.setKaryotype(karyotype -> {
 				karyotype.setSpecies(TreeChromosomes.SPECIES, ForestryTreeSpecies.OAK);
-				karyotype.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL)
-					.addAlleles(ForestryAlleles.DEFAULT_HEIGHTS);
-				karyotype.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER)
-					.addAlleles(ForestryAlleles.DEFAULT_SAPLINGS);
+				karyotype.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
+				karyotype.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 				karyotype.set(TreeChromosomes.FRUIT, ForestryFruits.NONE);
-				karyotype.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWEST)
-					.addAlleles(ForestryAlleles.DEFAULT_YIELDS);
-				karyotype.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWEST)
-					.addAlleles(ForestryAlleles.DEFAULT_SAPPINESSES);
+				karyotype.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWEST);
+				karyotype.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWEST);
 				karyotype.set(TreeChromosomes.EFFECT, ForestryConstants.forestry("tree_effect_none"));
-				karyotype.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE)
-					.addAlleles(ForestryAlleles.DEFAULT_MATURATIONS);
-				karyotype.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_1)
-					.addAlleles(ForestryAlleles.DEFAULT_GIRTHS);
+				karyotype.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+				karyotype.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_1);
 				karyotype.set(TreeChromosomes.FIREPROOF, false);
 			})
 			.addStages(TreeLifeStage.SAPLING, TreeLifeStage.POLLEN)
@@ -131,21 +119,14 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		genetics.registerSpeciesType(ForestrySpeciesTypes.BUTTERFLY, ButterflySpeciesType::new)
 			.setKaryotype(karyotype -> {
 				karyotype.setSpecies(ButterflyChromosomes.SPECIES, ForestryButterflySpecies.MONARCH);
-				karyotype.set(ButterflyChromosomes.SIZE, ForestryAlleles.SIZE_SMALL)
-					.addAlleles(ForestryAlleles.DEFAULT_SIZES);
-				karyotype.set(ButterflyChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST)
-					.addAlleles(ForestryAlleles.DEFAULT_SPEEDS);
-				karyotype.set(ButterflyChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER)
-					.addAlleles(ForestryAlleles.DEFAULT_LIFESPANS);
-				karyotype.set(ButterflyChromosomes.METABOLISM, ForestryAlleles.METABOLISM_SLOWER)
-					.addAlleles(ForestryAlleles.DEFAULT_METABOLISMS);
-				karyotype.set(ButterflyChromosomes.FERTILITY, ForestryAlleles.FERTILITY_3)
-					.addAlleles(ForestryAlleles.DEFAULT_BUTTERFLY_FERTILITIES);
+				karyotype.set(ButterflyChromosomes.SIZE, ForestryAlleles.SIZE_SMALL);
+				karyotype.set(ButterflyChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
+				karyotype.set(ButterflyChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER);
+				karyotype.set(ButterflyChromosomes.METABOLISM, ForestryAlleles.METABOLISM_SLOWER);
+				karyotype.set(ButterflyChromosomes.FERTILITY, ForestryAlleles.FERTILITY_3);
 				karyotype.set(ButterflyChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-					.addAlleles(ForestryAlleles.DEFAULT_TEMPERATURE_TOLERANCES)
 					.setWeaklyInherited(true);
 				karyotype.set(ButterflyChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-					.addAlleles(ForestryAlleles.DEFAULT_HUMIDITY_TOLERANCES)
 					.setWeaklyInherited(true);
 				karyotype.set(ButterflyChromosomes.NEVER_SLEEPS, false)
 					.setWeaklyInherited(true);
@@ -212,8 +193,8 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerHive(ForestryBeeSpecies.ENDED, HiveDefinition.END)
 			.setGenerationChance(HiveDefinition.END.defaultGenChance())
 			.addDrop(0.90, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f)
-			.addDrop(0.09, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryBeeEffects.PHASING))
-			.addDrop(0.03, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryBeeEffects.ASCENSION));
+			.addDrop(0.09, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, Allele.reference(ForestryBeeEffects.PHASING)))
+			.addDrop(0.03, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, Allele.reference(ForestryBeeEffects.ASCENSION)));
 
 		apiculture.registerHive(ForestryBeeSpecies.WINTRY, HiveDefinition.SNOW)
 			.setGenerationChance(HiveDefinition.SNOW.defaultGenChance())
@@ -228,7 +209,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerHive(ForestryBeeSpecies.SAVANNA, HiveDefinition.SAVANNA)
 			.setGenerationChance(HiveDefinition.SAVANNA.defaultGenChance())
 			.addDrop(0.80, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f)
-			.addDrop(0.35, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryBeeEffects.AGGRESSIVE))
+			.addDrop(0.35, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f, Map.of(BeeChromosomes.EFFECT, Allele.reference(ForestryBeeEffects.AGGRESSIVE)))
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.LUSH, HiveDefinition.LUSH)

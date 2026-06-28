@@ -43,12 +43,21 @@ public interface IGenome {
 	ImmutableMap<IChromosome<?>, AllelePair<?>> getChromosomes();
 
 	/**
-	 * Copies this genome, setting both alleles of each given chromosome to the given value.
+	 * Copies this genome, setting both alleles of each given chromosome to the given value. For reference chromosomes
+	 * the value's dominance is intrinsic, so it is resolved from the chromosome's resolver here (ignoring the placeholder
+	 * dominance of an {@link Allele#reference} value).
 	 */
 	default IGenome copyWith(Map<IChromosome<?>, Allele<?>> alleles) {
 		IdentityHashMap<IChromosome<?>, AllelePair<?>> pairMap = new IdentityHashMap<>(alleles.size());
 		for (Map.Entry<IChromosome<?>, Allele<?>> entry : alleles.entrySet()) {
-			pairMap.put(entry.getKey(), AllelePair.both(entry.getValue()));
+			IChromosome<?> chromosome = entry.getKey();
+			Allele<?> allele = entry.getValue();
+			IChromosome.IReferenceResolver<?> resolver = chromosome.resolver();
+			if (resolver != null) {
+				ResourceLocation id = (ResourceLocation) allele.value();
+				allele = new Allele<>(id, resolver.isDominant(id));
+			}
+			pairMap.put(chromosome, AllelePair.both(allele));
 		}
 		return copyWithPairs(pairMap);
 	}
