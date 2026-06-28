@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
@@ -134,21 +135,25 @@ public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> impl
 	/* PRODUCTION */
 	@Override
 	public boolean hasFruitLeaves() {
-		return this.genome.resolveActive(TreeChromosomes.FRUIT).isFruitLeaf();
+		IFruit fruit = this.genome.resolveActive(TreeChromosomes.FRUIT);
+		return fruit.isFruitLeaf();
 	}
 
 	@Override
 	public List<IProduct> getProducts() {
-		return this.genome.resolveActive(TreeChromosomes.FRUIT).getProducts();
+		IFruit fruit = this.genome.resolveActive(TreeChromosomes.FRUIT);
+		return fruit.getProducts();
 	}
 
 	@Override
 	public List<IProduct> getSpecialties() {
-		return this.genome.resolveActive(TreeChromosomes.FRUIT).getSpecialty();
+		IFruit fruit = this.genome.resolveActive(TreeChromosomes.FRUIT);
+		return fruit.getSpecialty();
 	}
 
 	@Override
 	public List<ItemStack> produceStacks(Level level, BlockPos pos, int ripeningTime) {
-		return this.genome.resolveActive(TreeChromosomes.FRUIT).getFruits(this.genome, level, ripeningTime);
+		IFruit fruit = this.genome.resolveActive(TreeChromosomes.FRUIT);
+		return fruit.getFruits(this.genome, level, ripeningTime);
 	}
 }

@@ -87,8 +87,8 @@ public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, I
 		TemperatureType biomeTemperature = IForestryApi.INSTANCE.getClimateManager().getTemperature(biome);
 		HumidityType biomeHumidity = IForestryApi.INSTANCE.getClimateManager().getHumidity(biome);
 		return ClimateHelper.isWithinLimits(biomeTemperature, biomeHumidity,
-			getGenome().resolveActive(ButterflyChromosomes.SPECIES).getTemperature(), getGenome().getActiveValue(ButterflyChromosomes.TEMPERATURE_TOLERANCE),
-			getGenome().resolveActive(ButterflyChromosomes.SPECIES).getHumidity(), getGenome().getActiveValue(ButterflyChromosomes.HUMIDITY_TOLERANCE));
+			this.species.getTemperature(), getGenome().getActiveValue(ButterflyChromosomes.TEMPERATURE_TOLERANCE),
+			this.species.getHumidity(), getGenome().getActiveValue(ButterflyChromosomes.HUMIDITY_TOLERANCE));
 	}
 
 	@Nullable
@@ -113,7 +113,7 @@ public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, I
 			return true;
 		}
 
-		return isDayTime != getGenome().resolveActive(ButterflyChromosomes.SPECIES).isNocturnal();
+		return isDayTime != this.species.isNocturnal();
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, I
 	public List<ItemStack> getCaterpillarDrop(IButterflyNursery nursery, boolean playerKill, int lootLevel) {
 		ArrayList<ItemStack> drop = new ArrayList<>();
 		float metabolism = (float) getGenome().getActiveValue(ButterflyChromosomes.METABOLISM) / 10;
-		List<IProduct> products = getGenome().resolveActive(ButterflyChromosomes.SPECIES).getCaterpillarProducts();
+		List<IProduct> products = this.species.getCaterpillarProducts();
 
 		for (IProduct product : products) {
 			if (rand.nextFloat() < product.chance() * metabolism) {

@@ -1,7 +1,6 @@
 package forestry.apiculture;
 
 import com.google.common.base.Preconditions;
-import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBee;
@@ -14,7 +13,6 @@ import forestry.api.genetics.ClimateHelper;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.IValueAllele;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.genetics.Bee;
 import forestry.core.genetics.Species;
@@ -143,9 +141,9 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 
 		tooltip.add(GeneticsUtil.getActiveName(genome, BeeChromosomes.FLOWER_TYPE).withStyle(ChatFormatting.GRAY));
 
-		IValueAllele<IActivityType> activityAllele = genome.getActiveAllele(BeeChromosomes.ACTIVITY);
-		if (activityAllele != ForestryActivityTypes.DIURNAL) {
-			tooltip.add(BeeChromosomes.ACTIVITY.getDisplayName(activityAllele).withStyle(ChatFormatting.GOLD));
+		ResourceLocation activity = genome.getActiveValue(BeeChromosomes.ACTIVITY);
+		if (!activity.equals(ForestryActivityTypes.DIURNAL)) {
+			tooltip.add(GeneticsUtil.getActiveName(genome, BeeChromosomes.ACTIVITY).withStyle(ChatFormatting.GOLD));
 		}
 
 		if (genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN)) {

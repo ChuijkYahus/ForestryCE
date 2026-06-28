@@ -2,6 +2,7 @@ package forestry.arboriculture.models;
 
 import com.google.common.base.Preconditions;
 import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.genetics.alleles.TreeChromosomes;
@@ -55,7 +56,8 @@ public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, 
 		baker.addBlockModel(textureSprite, BlockAbstractLeaves.FOLIAGE_COLOR_INDEX);
 
 		// Render overlay for fruit leaves.
-		ResourceLocation fruitSpriteLocation = species.getDefaultGenome().resolveActive(TreeChromosomes.FRUIT).getDecorativeSprite();
+		IFruit fruit = species.getDefaultGenome().resolveActive(TreeChromosomes.FRUIT);
+		ResourceLocation fruitSpriteLocation = fruit.getDecorativeSprite();
 		if (fruitSpriteLocation != null) {
 			TextureAtlasSprite fruitSprite = ResourceUtil.getBlockSprite(fruitSpriteLocation);
 			baker.addBlockModel(fruitSprite, BlockAbstractLeaves.FRUIT_COLOR_INDEX);

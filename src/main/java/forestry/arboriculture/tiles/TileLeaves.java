@@ -6,7 +6,6 @@ import forestry.api.arboriculture.ILeafTickHandler;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.climate.IBiomeProvider;
 import forestry.api.core.HumidityType;
@@ -48,7 +47,6 @@ import net.neoforged.neoforge.client.model.data.ModelProperty;
 import javax.annotation.Nullable;
 import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Objects;
 import forestry.api.ForestryConstants;
 
 public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButterflyNursery, IRipeningPacketReceiver, IBiomeProvider, ISpectacleBlock {
@@ -307,9 +305,10 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 		byte leafState = 0;
 		IGenome genome = getTree().getGenome();
-		AllelePair<IValueAllele<ITreeEffect>> effects = genome.getAllelePair(TreeChromosomes.EFFECT);
-		boolean hasActiveEffect = effects.active() != ForestryConstants.forestry("tree_effect_none");
-		boolean hasInactiveEffect = effects.inactive() != ForestryConstants.forestry("tree_effect_none");
+		AllelePair<ResourceLocation> effects = genome.getAllelePair(TreeChromosomes.EFFECT);
+		ResourceLocation noneEffect = ForestryConstants.forestry("tree_effect_none");
+		boolean hasActiveEffect = !effects.active().value().equals(noneEffect);
+		boolean hasInactiveEffect = !effects.inactive().value().equals(noneEffect);
 		boolean hasFruit = hasFruit();
 
 		if (isPollinated()) {
@@ -330,19 +329,19 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		data.writeByte(leafState);
 
 		if (hasFruit) {
-			String fruitAlleleUID = genome.getActiveAllele(TreeChromosomes.FRUIT).alleleId().toString();
+			ResourceLocation fruitId = genome.getActiveValue(TreeChromosomes.FRUIT);
 			int colourFruits = getFruitColour();
 
-			data.writeResourceLocation(ResourceLocation.parse(fruitAlleleUID));
+			data.writeResourceLocation(fruitId);
 			data.writeInt(colourFruits);
 		}
 
 		// todo come up with a way to send numeric IDs instead of string IDs
 		if (hasActiveEffect) {
-			data.writeResourceLocation(effects.active().alleleId());
+			data.writeResourceLocation(effects.active().value());
 		}
 		if (hasInactiveEffect) {
-			data.writeResourceLocation(effects.inactive().alleleId());
+			data.writeResourceLocation(effects.inactive().value());
 		}
 	}
 
@@ -374,16 +373,16 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 			// Fruit (used as both active and inactive)
 			if (fruitId != null) {
-				alleles.put(TreeChromosomes.FRUIT, AllelePair.both(Objects.requireNonNull(ForestryAlleles.REGISTRY.getAllele(fruitId))));
+				alleles.put(TreeChromosomes.FRUIT, AllelePair.both(Allele.reference(fruitId)));
 			}
 
 			// Effect (active and inactive are separate since they can stack)
-			IAllele activeEffectAllele = ForestryAlleles.REGISTRY.getAllele(activeEffectAlleleId);
-			IAllele inactiveEffectAllele = ForestryAlleles.REGISTRY.getAllele(inactiveEffectAlleleId);
+			Allele<ResourceLocation> activeEffectAllele = activeEffectAlleleId != null ? Allele.reference(activeEffectAlleleId) : null;
+			Allele<ResourceLocation> inactiveEffectAllele = inactiveEffectAlleleId != null ? Allele.reference(inactiveEffectAlleleId) : null;
 			if (activeEffectAllele != null || inactiveEffectAllele != null) {
 				alleles.put(TreeChromosomes.EFFECT, new AllelePair<>(
-					activeEffectAllele != null ? activeEffectAllele : ForestryConstants.forestry("tree_effect_none"),
-					inactiveEffectAllele != null ? inactiveEffectAllele : ForestryConstants.forestry("tree_effect_none")
+					activeEffectAllele != null ? activeEffectAllele : Allele.reference(ForestryConstants.forestry("tree_effect_none")),
+					inactiveEffectAllele != null ? inactiveEffectAllele : Allele.reference(ForestryConstants.forestry("tree_effect_none"))
 				));
 			}
 

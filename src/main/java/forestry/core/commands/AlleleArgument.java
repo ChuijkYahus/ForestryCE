@@ -2,21 +2,17 @@ package forestry.core.commands;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import forestry.api.IForestryApi;
 import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.IAllele;
+import forestry.api.genetics.alleles.Allele;
 import net.minecraft.resources.ResourceLocation;
 
-public record AlleleArgument(ISpeciesType<?, ?> type) implements ISpeciesArgumentType<IAllele> {
+public record AlleleArgument(ISpeciesType<?, ?> type) implements ISpeciesArgumentType<Allele<?>> {
 	@Override
-	public IAllele parse(StringReader reader) throws CommandSyntaxException {
+	public Allele<?> parse(StringReader reader) throws CommandSyntaxException {
 		ResourceLocation id = ResourceLocation.read(reader);
-		IAllele allele = IForestryApi.INSTANCE.getAlleleManager().getAllele(id);
-
-		if (allele == null) {
-			throw LifeStageArgument.INVALID_VALUE.create(id);
-		} else {
-			return allele;
-		}
+		// Alleles are no longer interned in a global registry, so there is nothing to look up by id here.
+		// Wrap the parsed id as a reference allele; the chromosome-aware resolution/validation happens in the
+		// consuming command (ModifyGenomeCommand), which knows the target chromosome.
+		return Allele.reference(id);
 	}
 }

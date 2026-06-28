@@ -77,12 +77,12 @@ public class Karyotype implements IKaryotype {
 	private static <V> Codec<AllelePair<V>> pairCodecFor(IChromosome<V> chromosome) {
 		Codec<Allele<V>> alleleCodec = RecordCodecBuilder.create(instance -> instance.group(
 				chromosome.valueCodec().fieldOf("value").forGetter(Allele::value),
-				Codec.BOOL.optionalFieldOf("dominant", false).forGetter(Allele::dominant)
-		).apply(instance, Allele::new));
+				Codec.BOOL.optionalFieldOf("dominant", false).forGetter(allele -> allele.dominant())
+		).apply(instance, (value, dominant) -> new Allele<>(value, dominant)));
 		return RecordCodecBuilder.create(instance -> instance.group(
 				alleleCodec.fieldOf("active").forGetter(AllelePair::active),
 				alleleCodec.fieldOf("inactive").forGetter(AllelePair::inactive)
-		).apply(instance, AllelePair::new));
+		).apply(instance, (active, inactive) -> new AllelePair<>(active, inactive)));
 	}
 
 	private StreamCodec<RegistryFriendlyByteBuf, IGenome> buildGenomeStreamCodec() {

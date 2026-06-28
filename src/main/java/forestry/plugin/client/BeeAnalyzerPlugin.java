@@ -14,9 +14,7 @@ import forestry.api.core.ISpecialtyProducer;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IValueAllele;
 import forestry.apiculture.FlowerType;
 import forestry.core.ForestryColors;
 import forestry.core.TranslationKeys;
@@ -31,6 +29,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -40,9 +39,9 @@ import java.util.Map;
 public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 	private final Map<ISpecies<?>, ItemStack> iconStacks = GeneticsUtil.getIconStacks(BeeLifeStage.DRONE, SpeciesUtil.BEE_TYPE.get());
 
-	private static <A extends IAllele> Component addHoverDescription(IAnalyzerGraphics<?, ?> graphics, IChromosome<A> chromosome, A allele, InteractableTextOptions options, Component text) {
+	private static <V> Component addHoverDescription(IAnalyzerGraphics<?, ?> graphics, IChromosome<V> chromosome, V value, InteractableTextOptions options, Component text) {
 		options.setOnHover((x, y) -> {
-			String effectDescription = chromosome.getTranslationKey(allele) + ".desc";
+			String effectDescription = chromosome.translationKey(value) + ".desc";
 
 			if (Translator.canTranslateToLocal(effectDescription)) {
 				graphics.drawTooltip(x, y, Component.translatable(effectDescription));
@@ -53,8 +52,8 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 		return text;
 	}
 
-	private static <A extends IAllele> Component addFlowerTypeTooltip(IAnalyzerGraphics<?, ?> graphics, IChromosome<A> chromosome, A allele, InteractableTextOptions options, Component text) {
-		if (allele instanceof IValueAllele<?> valueAllele && valueAllele.value() instanceof FlowerType type) {
+	private static <V> Component addFlowerTypeTooltip(IAnalyzerGraphics<?, ?> graphics, IChromosome<V> chromosome, V value, InteractableTextOptions options, Component text) {
+		if (value instanceof ResourceLocation id && SpeciesUtil.BEE_TYPE.get().getFlowerType(id) instanceof FlowerType type) {
 			options.setOnHover((x, y) -> {
 				ArrayList<Component> lines = Lists.newArrayList(Component.literal("Accepts the following:"), Component.literal("#" + type.getAcceptableFlowers().location()));
 				ArrayList<TextOptions> lineOptions = Lists.newArrayList(null, new TextOptions().setColor(ForestryColors.LIGHT_GRAY));
@@ -86,7 +85,7 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 				options.setUnderlined(true);
 			});
 		} else {
-			addHoverDescription(graphics, chromosome, allele, options, text);
+			addHoverDescription(graphics, chromosome, value, options, text);
 		}
 
 		return text;

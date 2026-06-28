@@ -1,8 +1,11 @@
 package forestry.core.utils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import forestry.api.ForestryCapabilities;
+import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.ISpectacleVision;
@@ -23,6 +27,8 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.IMutation;
+import forestry.api.genetics.alleles.Allele;
+import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.ISpecies;
@@ -199,6 +205,35 @@ public class GeneticsUtil {
 	 */
 	public static MutableComponent getChromosomeName(IChromosome<?> chromosome) {
 		return Component.translatable(chromosome.chromosomeTranslationKey());
+	}
+
+	/**
+	 * Collects the distinct alleles that appear (active or inactive) for the given chromosome across the default genomes
+	 * of all registered species, sorted by their value's string form. Replaces the old karyotype allele whitelist; used
+	 * by debug commands to enumerate candidate alleles.
+	 */
+	public static <V> List<Allele<V>> getKnownAlleles(IChromosome<V> chromosome) {
+		LinkedHashSet<Allele<V>> set = new LinkedHashSet<>();
+		for (ISpeciesType<?, ?> type : IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypes()) {
+			if (!type.getKaryotype().contains(chromosome)) {
+				continue;
+			}
+			for (ISpecies<?> species : type.getAllSpecies()) {
+				AllelePair<V> pair = species.getDefaultGenome().getAllelePair(chromosome);
+				set.add(pair.active());
+				set.add(pair.inactive());
+			}
+		}
+		List<Allele<V>> list = new ArrayList<>(set);
+		list.sort(Comparator.comparing(allele -> String.valueOf(allele.value())));
+		return list;
+	}
+
+	/**
+	 * @return A stable string key identifying an allele value, used by debug commands for suggestions and matching.
+	 */
+	public static String alleleKey(Allele<?> allele) {
+		return String.valueOf(allele.value());
 	}
 
 	public static IdentityHashMap<ISpecies<?>, ItemStack> getIconStacks(ILifeStage stage, ISpeciesType<?, ?> type) {

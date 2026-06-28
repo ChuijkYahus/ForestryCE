@@ -2,6 +2,7 @@ package forestry.arboriculture;
 
 import forestry.api.arboriculture.ITreeGenerator;
 import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
@@ -10,7 +11,6 @@ import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
@@ -150,10 +150,10 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 		}
 
 		MutableComponent fruitAndEffect = null;
-		if (genome.getActiveAllele(TreeChromosomes.FRUIT) != ForestryFruits.NONE) {
+		if (!genome.getActiveValue(TreeChromosomes.FRUIT).equals(ForestryFruits.NONE)) {
 			fruitAndEffect = Component.literal("F: ").append(GeneticsUtil.getActiveName(genome, TreeChromosomes.FRUIT)).withStyle(ChatFormatting.GREEN);
 		}
-		if (genome.getActiveAllele(TreeChromosomes.EFFECT) != ForestryConstants.forestry("tree_effect_none")) {
+		if (!genome.getActiveValue(TreeChromosomes.EFFECT).equals(ForestryConstants.forestry("tree_effect_none"))) {
 			MutableComponent effect = Component.literal("E: ").append(GeneticsUtil.getActiveName(genome, TreeChromosomes.EFFECT)).withStyle(ChatFormatting.DARK_AQUA);
 
 			if (fruitAndEffect != null) {
@@ -216,16 +216,19 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 
 	@Override
 	public boolean trySpawnFruitBlock(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos pos) {
-		return genome.resolveActive(TreeChromosomes.FRUIT).trySpawnFruitBlock(genome, level, rand, pos);
+		IFruit fruit = genome.resolveActive(TreeChromosomes.FRUIT);
+		return fruit.trySpawnFruitBlock(genome, level, rand, pos);
 	}
 
 	@Override
 	public List<IProduct> getProducts() {
-		return this.defaultGenome.resolveActive(TreeChromosomes.FRUIT).getProducts();
+		IFruit fruit = this.defaultGenome.resolveActive(TreeChromosomes.FRUIT);
+		return fruit.getProducts();
 	}
 
 	@Override
 	public List<IProduct> getSpecialties() {
-		return this.defaultGenome.resolveActive(TreeChromosomes.FRUIT).getSpecialties();
+		IFruit fruit = this.defaultGenome.resolveActive(TreeChromosomes.FRUIT);
+		return fruit.getSpecialties();
 	}
 }

@@ -244,8 +244,8 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 	private boolean isSuitableClimate(TemperatureType temperature, HumidityType humidity) {
 		return ClimateHelper.isWithinLimits(temperature, humidity,
-			this.genome.resolveActive(BeeChromosomes.SPECIES).getTemperature(), this.genome.getActiveValue(BeeChromosomes.TEMPERATURE_TOLERANCE),
-			this.genome.resolveActive(BeeChromosomes.SPECIES).getHumidity(), this.genome.getActiveValue(BeeChromosomes.HUMIDITY_TOLERANCE)
+			this.species.getTemperature(), this.genome.getActiveValue(BeeChromosomes.TEMPERATURE_TOLERANCE),
+			this.species.getHumidity(), this.genome.getActiveValue(BeeChromosomes.HUMIDITY_TOLERANCE)
 		);
 	}
 
@@ -299,7 +299,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 	@Override
 	public List<ItemStack> getSpecialtyList() {
-		List<IProduct> products = this.genome.resolveActive(BeeChromosomes.SPECIES).getSpecialties();
+		List<IProduct> products = this.species.getSpecialties();
 		ArrayList<ItemStack> stacks = new ArrayList<>(products.size());
 
 		for (var product : products) {
@@ -349,7 +349,8 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		}
 
 		BlockPos housingCoordinates = housing.getCoordinates();
-		return this.genome.resolveActive(BeeChromosomes.FLOWER_TYPE).affectProducts(level, housingCoordinates, this, stacks);
+		IFlowerType flowerType = this.genome.resolveActive(BeeChromosomes.FLOWER_TYPE);
+		return flowerType.affectProducts(level, housingCoordinates, this, stacks);
 	}
 
 	/* REPRODUCTION */
@@ -427,7 +428,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 	@Nullable
 	@SuppressWarnings("CodeBlock2Expr")
 	private static ImmutableList<AllelePair<?>> mutateSpecies(IBeeHousing housing, IGenome parent1, IGenome parent2) {
-		return SpeciesUtil.mutateSpecies(housing.getWorldObj(), housing.getCoordinates(), housing.getOwner(), parent1, parent2, BeeChromosomes.SPECIES, (mutation, level, pos, firstGenome, secondGenome, climate) -> {
+		return SpeciesUtil.<IBeeSpecies>mutateSpecies(housing.getWorldObj(), housing.getCoordinates(), housing.getOwner(), parent1, parent2, BeeChromosomes.SPECIES, (mutation, level, pos, firstGenome, secondGenome, climate) -> {
 			return getChance(mutation, housing, firstGenome, secondGenome);
 		});
 	}

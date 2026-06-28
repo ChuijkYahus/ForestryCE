@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.core.blocks.IColoredBlock;
@@ -163,7 +164,8 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 
 		if (tree != null) {
 			IGenome genome = tree.getGenome();
-			genome.resolveActive(TreeChromosomes.EFFECT).doAnimationEffect(genome, level, pos, rand);
+			ITreeEffect effect = genome.resolveActive(TreeChromosomes.EFFECT);
+			effect.doAnimationEffect(genome, level, pos, rand);
 		}
 	}
 }

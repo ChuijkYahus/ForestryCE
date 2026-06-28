@@ -2,8 +2,9 @@ package forestry.arboriculture.blocks;
 
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.core.IBlockSubtype;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.IValueAllele;
+import forestry.core.utils.SpeciesUtil;
+
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Locale;
 import forestry.api.arboriculture.ForestryFruits;
@@ -15,10 +16,10 @@ public enum ForestryPodType implements IBlockSubtype {
 	PAPAYA(ForestryFruits.PAPAYA),
 	COCONUT(ForestryFruits.COCONUT);
 
-	private final IValueAllele<IFruit> allele;
+	private final ResourceLocation fruitId;
 
-	ForestryPodType(IValueAllele<IFruit> allele) {
-		this.allele = allele;
+	ForestryPodType(ResourceLocation fruitId) {
+		this.fruitId = fruitId;
 	}
 
 	@Override
@@ -27,6 +28,6 @@ public enum ForestryPodType implements IBlockSubtype {
 	}
 
 	public IFruit getFruit() {
-		return this.allele.value();
+		return SpeciesUtil.TREE_TYPE.get().getFruit(this.fruitId);
 	}
 }

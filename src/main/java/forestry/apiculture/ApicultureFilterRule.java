@@ -5,7 +5,6 @@ import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.filter.FilterData;
 import forestry.api.genetics.filter.IFilterRule;
 import forestry.api.genetics.filter.IFilterRuleType;
@@ -25,13 +24,13 @@ public enum ApicultureFilterRule implements IFilterRule {
 	NOCTURNAL(DefaultFilterRuleType.NOCTURNAL) {
 		@Override
 		protected boolean isValid(IBee bee) {
-			return bee.getGenome().getActiveAllele(BeeChromosomes.ACTIVITY) == ForestryActivityTypes.METATURNAL;
+			return bee.getGenome().getActiveValue(BeeChromosomes.ACTIVITY).equals(ForestryActivityTypes.METATURNAL);
 		}
 	},
 	PURE_NOCTURNAL(DefaultFilterRuleType.PURE_NOCTURNAL) {
 		@Override
 		protected boolean isValid(IBee bee) {
-			return bee.getGenome().resolveActive(BeeChromosomes.ACTIVITY).isActive(0, IActivityType.NIGHT_TIME, BlockPos.ZERO);
+			return bee.getGenome().<IActivityType>resolveActive(BeeChromosomes.ACTIVITY).isActive(0, IActivityType.NIGHT_TIME, BlockPos.ZERO);
 		}
 	},
 	FLYER(DefaultFilterRuleType.FLYER) {
