@@ -145,6 +145,12 @@ public class Karyotype implements IKaryotype {
 		return this.speciesChromosome;
 	}
 
+	@Nullable
+	@Override
+	public IChromosome<?> getChromosome(ResourceLocation id) {
+		return this.byId.get(id);
+	}
+
 	@Override
 	public int size() {
 		return this.chromosomes.size();

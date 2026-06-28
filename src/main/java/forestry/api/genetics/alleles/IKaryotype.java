@@ -11,6 +11,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
+import javax.annotation.Nullable;
+
 /**
  * A karyotype is the set of all chromosomes that make up a species type's genome.
  * It defines the chromosome list, each chromosome's default allele, and the genome codecs.
@@ -42,6 +44,12 @@ public interface IKaryotype {
 	 * @return The chromosome that determines this individual's species. The genome stores the species' ID.
 	 */
 	IChromosome<ResourceLocation> getSpeciesChromosome();
+
+	/**
+	 * @return The chromosome in this karyotype with the given ID, or {@code null} if no such chromosome exists.
+	 */
+	@Nullable
+	IChromosome<?> getChromosome(ResourceLocation id);
 
 	/**
 	 * @return The number of chromosomes in this karyotype.
