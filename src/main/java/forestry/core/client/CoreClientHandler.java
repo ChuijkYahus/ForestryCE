@@ -96,7 +96,9 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::registerParticleFactory);
 		modBus.addListener(CoreClientHandler::registerClientExtensions);
 		NeoForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
-		NeoForge.EVENT_BUS.addListener(CoreClientHandler::onRecipesUpdated);
+		// HIGH priority so the client mutation index is rebuilt before NORMAL-priority consumers (e.g. JEI, which can
+		// start synchronously during RecipesUpdatedEvent on a dedicated-server connection) read it.
+		NeoForge.EVENT_BUS.addListener(EventPriority.HIGH, CoreClientHandler::onRecipesUpdated);
 
 		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, ((ForestryClientApiImpl) IForestryClientApi.INSTANCE)::initializeTextureManager);
 	}

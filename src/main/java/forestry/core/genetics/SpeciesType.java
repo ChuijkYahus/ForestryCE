@@ -33,8 +33,9 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	private int speciesCount = -1;
 	@Nullable
 	private ImmutableMap<ResourceLocation, S> allSpecies;
-	// Empty until the mutation recipes are loaded by a later reload handler. Never null.
-	private IMutationManager<S> mutations = new MutationManager<>(com.google.common.collect.ImmutableList.of());
+	// Empty until the mutation recipes are loaded by the reload handler. Never null. Volatile: rebuilt from the server
+	// game executor (AddReloadListenerEvent) and the client thread (RecipesUpdatedEvent), read by gameplay/JEI/GUI.
+	private volatile IMutationManager<S> mutations = new MutationManager<>(com.google.common.collect.ImmutableList.of());
 
 	public SpeciesType(ResourceLocation id, IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		this.id = id;
