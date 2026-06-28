@@ -43,6 +43,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import forestry.api.apiculture.ForestryActivityTypes;
 
 // Hives where wild bees live
 public class BlockBeeHive extends Block implements EntityBlock {
@@ -186,7 +187,7 @@ public class BlockBeeHive extends Block implements EntityBlock {
 
 	public IBee adjustForDimension(ServerLevel level, BlockPos pos, IBee bee){
 		if(level.dimension().location().toString().equals("twilightforest:twilight_forest")){
-			return bee.copyWithGenome(bee.getGenome().copyWith(Map.of(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_CREPUSCULAR)));
+			return bee.copyWithGenome(bee.getGenome().copyWith(Map.of(BeeChromosomes.ACTIVITY, ForestryActivityTypes.CREPUSCULAR)));
 		}
 		return bee;
 	}

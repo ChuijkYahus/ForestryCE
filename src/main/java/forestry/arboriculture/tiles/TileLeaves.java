@@ -49,6 +49,7 @@ import javax.annotation.Nullable;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Objects;
+import forestry.api.ForestryConstants;
 
 public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButterflyNursery, IRipeningPacketReceiver, IBiomeProvider, ISpectacleBlock {
 	private static final String NBT_RIPENING = "RT";
@@ -307,8 +308,8 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		byte leafState = 0;
 		IGenome genome = getTree().getGenome();
 		AllelePair<IValueAllele<ITreeEffect>> effects = genome.getAllelePair(TreeChromosomes.EFFECT);
-		boolean hasActiveEffect = effects.active() != ForestryAlleles.TREE_EFFECT_NONE;
-		boolean hasInactiveEffect = effects.inactive() != ForestryAlleles.TREE_EFFECT_NONE;
+		boolean hasActiveEffect = effects.active() != ForestryConstants.forestry("tree_effect_none");
+		boolean hasInactiveEffect = effects.inactive() != ForestryConstants.forestry("tree_effect_none");
 		boolean hasFruit = hasFruit();
 
 		if (isPollinated()) {
@@ -381,8 +382,8 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			IAllele inactiveEffectAllele = ForestryAlleles.REGISTRY.getAllele(inactiveEffectAlleleId);
 			if (activeEffectAllele != null || inactiveEffectAllele != null) {
 				alleles.put(TreeChromosomes.EFFECT, new AllelePair<>(
-					activeEffectAllele != null ? activeEffectAllele : ForestryAlleles.TREE_EFFECT_NONE,
-					inactiveEffectAllele != null ? inactiveEffectAllele : ForestryAlleles.TREE_EFFECT_NONE
+					activeEffectAllele != null ? activeEffectAllele : ForestryConstants.forestry("tree_effect_none"),
+					inactiveEffectAllele != null ? inactiveEffectAllele : ForestryConstants.forestry("tree_effect_none")
 				));
 			}
 

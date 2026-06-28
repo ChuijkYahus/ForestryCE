@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
 
 import java.util.List;
+import forestry.api.arboriculture.ForestryFruits;
 
 public class DefaultFarms {
 	public static void registerFarmTypes(IFarmingRegistration farming) {
@@ -102,7 +103,7 @@ public class DefaultFarms {
 		for (ITreeSpecies species : SpeciesUtil.TREE_TYPE.get().getAllSpecies()) {
 			IValueAllele<IFruit> fruitAllele = species.getDefaultGenome().getActiveAllele(TreeChromosomes.FRUIT);
 
-			if (fruitAllele != ForestryAlleles.FRUIT_NONE) {
+			if (fruitAllele != ForestryFruits.NONE) {
 				IFruit fruit = fruitAllele.value();
 				orchard.addGermling(species.createStack(TreeLifeStage.SAPLING))
 					.addProducts(fruit.getProducts().stream().map(IProduct::createStack).toList())

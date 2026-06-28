@@ -24,6 +24,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 
 import java.util.List;
+import forestry.api.apiculture.ForestryActivityTypes;
+import forestry.core.utils.GeneticsUtil;
 
 public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSpecies {
 	private final List<IProduct> products;
@@ -129,20 +131,20 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 			tooltip.add(Component.translatable("for.gui.beealyzer.generations", generation).withStyle(rarity.getStyleModifier()));
 		}
 
-		tooltip.add(genome.getActiveName(BeeChromosomes.LIFESPAN).append(" ").append(Component.translatable("for.gui.life")).withStyle(ChatFormatting.GRAY));
-		tooltip.add(genome.getActiveName(BeeChromosomes.SPEED).append(" ").append(Component.translatable("for.gui.worker")).withStyle(ChatFormatting.GRAY));
+		tooltip.add(GeneticsUtil.getActiveName(genome, BeeChromosomes.LIFESPAN).append(" ").append(Component.translatable("for.gui.life")).withStyle(ChatFormatting.GRAY));
+		tooltip.add(GeneticsUtil.getActiveName(genome, BeeChromosomes.SPEED).append(" ").append(Component.translatable("for.gui.worker")).withStyle(ChatFormatting.GRAY));
 
-		Component tempToleranceAllele = genome.getActiveName(BeeChromosomes.TEMPERATURE_TOLERANCE);
-		Component humidToleranceAllele = genome.getActiveName(BeeChromosomes.HUMIDITY_TOLERANCE);
+		Component tempToleranceAllele = GeneticsUtil.getActiveName(genome, BeeChromosomes.TEMPERATURE_TOLERANCE);
+		Component humidToleranceAllele = GeneticsUtil.getActiveName(genome, BeeChromosomes.HUMIDITY_TOLERANCE);
 		IBeeSpecies active = genome.getActiveValue(BeeChromosomes.SPECIES);
 
 		tooltip.add(Component.literal("T: ").append(ClimateHelper.toDisplay(active.getTemperature())).append(" / ").append(tempToleranceAllele).withStyle(ChatFormatting.GREEN));
 		tooltip.add(Component.literal("H: ").append(ClimateHelper.toDisplay(active.getHumidity())).append(" / ").append(humidToleranceAllele).withStyle(ChatFormatting.GREEN));
 
-		tooltip.add(genome.getActiveName(BeeChromosomes.FLOWER_TYPE).withStyle(ChatFormatting.GRAY));
+		tooltip.add(GeneticsUtil.getActiveName(genome, BeeChromosomes.FLOWER_TYPE).withStyle(ChatFormatting.GRAY));
 
 		IValueAllele<IActivityType> activityAllele = genome.getActiveAllele(BeeChromosomes.ACTIVITY);
-		if (activityAllele != ForestryAlleles.ACTIVITY_DIURNAL) {
+		if (activityAllele != ForestryActivityTypes.DIURNAL) {
 			tooltip.add(BeeChromosomes.ACTIVITY.getDisplayName(activityAllele).withStyle(ChatFormatting.GOLD));
 		}
 

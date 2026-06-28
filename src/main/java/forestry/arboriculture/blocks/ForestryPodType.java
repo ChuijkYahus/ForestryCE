@@ -6,13 +6,14 @@ import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.IValueAllele;
 
 import java.util.Locale;
+import forestry.api.arboriculture.ForestryFruits;
 
 public enum ForestryPodType implements IBlockSubtype {
-	COCOA(ForestryAlleles.FRUIT_COCOA),
+	COCOA(ForestryFruits.COCOA),
 	//TODO: change all of these to be 'bunches'. Could also be used for Bananas?
-	DATES(ForestryAlleles.FRUIT_DATES),
-	PAPAYA(ForestryAlleles.FRUIT_PAPAYA),
-	COCONUT(ForestryAlleles.FRUIT_COCONUT);
+	DATES(ForestryFruits.DATES),
+	PAPAYA(ForestryFruits.PAPAYA),
+	COCONUT(ForestryFruits.COCONUT);
 
 	private final IValueAllele<IFruit> allele;
 

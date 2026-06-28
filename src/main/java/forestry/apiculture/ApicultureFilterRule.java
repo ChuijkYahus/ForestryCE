@@ -13,6 +13,7 @@ import forestry.sorting.DefaultFilterRuleType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import forestry.api.apiculture.ForestryActivityTypes;
 
 public enum ApicultureFilterRule implements IFilterRule {
 	PURE_BREED(DefaultFilterRuleType.PURE_BREED) {
@@ -24,7 +25,7 @@ public enum ApicultureFilterRule implements IFilterRule {
 	NOCTURNAL(DefaultFilterRuleType.NOCTURNAL) {
 		@Override
 		protected boolean isValid(IBee bee) {
-			return bee.getGenome().getActiveAllele(BeeChromosomes.ACTIVITY) == ForestryAlleles.ACTIVITY_METATURNAL;
+			return bee.getGenome().getActiveAllele(BeeChromosomes.ACTIVITY) == ForestryActivityTypes.METATURNAL;
 		}
 	},
 	PURE_NOCTURNAL(DefaultFilterRuleType.PURE_NOCTURNAL) {

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +19,11 @@ import forestry.api.ForestryCapabilities;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.ISpectacleVision;
+import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.IMutation;
+import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
@@ -167,6 +170,35 @@ public class GeneticsUtil {
 		}
 
 		return translationKey.toString();
+	}
+
+	/**
+	 * Builds the display name for the active allele value of a chromosome. Components are built here, at the UI render
+	 * edge, from the chromosome's translation key; the genetics model itself stores no {@link Component}.
+	 */
+	public static <V> MutableComponent getActiveName(IGenome genome, IChromosome<V> chromosome) {
+		return getName(chromosome, genome.getActiveValue(chromosome));
+	}
+
+	/**
+	 * Builds the display name for the inactive allele value of a chromosome.
+	 */
+	public static <V> MutableComponent getInactiveName(IGenome genome, IChromosome<V> chromosome) {
+		return getName(chromosome, genome.getInactiveValue(chromosome));
+	}
+
+	/**
+	 * Builds the display name for a chromosome value, falling back to the raw value if its translation key is unset.
+	 */
+	public static <V> MutableComponent getName(IChromosome<V> chromosome, V value) {
+		return Component.translatableWithFallback(chromosome.translationKey(value), String.valueOf(value));
+	}
+
+	/**
+	 * Builds the display name of a chromosome itself (e.g. "Speed", "Flower Type").
+	 */
+	public static MutableComponent getChromosomeName(IChromosome<?> chromosome) {
+		return Component.translatable(chromosome.chromosomeTranslationKey());
 	}
 
 	public static IdentityHashMap<ISpecies<?>, ItemStack> getIconStacks(ILifeStage stage, ISpeciesType<?, ?> type) {

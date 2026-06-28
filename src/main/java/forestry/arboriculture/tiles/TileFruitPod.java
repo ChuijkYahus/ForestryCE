@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import forestry.api.arboriculture.ForestryFruits;
 
 public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamable {
 	private static final short MAX_MATURITY = 2;
@@ -97,7 +98,7 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 			this.fruit = TreeChromosomes.FRUIT.getSafe(ResourceLocation.parse(fruitNbt));
 		}
 		if (this.fruit == null) {
-			this.fruit = ForestryAlleles.FRUIT_COCOA.value();
+			this.fruit = ForestryFruits.COCOA.value();
 		}
 
 		this.maturity = nbt.getShort(NBT_MATURITY);
