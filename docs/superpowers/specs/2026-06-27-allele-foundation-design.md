@@ -158,7 +158,9 @@ Removed from the karyotype:
 
 ### 5.5 Validity — fully permissive
 
-- **No `knownValues`, no valid-allele lists, no whitelist.**
+- **No `knownValues`, no valid-allele lists, no whitelist.** (In code today this whitelist is the
+  `validAlleles` field on `core/genetics/Karyotype.java`, surfaced via `IKaryotype#getAlleles` and
+  the value-checking branch of `isAlleleValid`; all of that is deleted.)
 - The only checks are **chromosome membership** (`karyotype.contains` — e.g. a tree karyotype has
   no `FLOWER_TYPE`) and codec type-safety.
 - Rationale (confirmed): alleles only ever originate from **two parents**, or from a **mutation's
@@ -248,9 +250,14 @@ accessors. (Largest mechanical surface; compiler-guided.)
 **Commands:** `DiagnosticsCommand`, `ModifyGenomeCommand` — compute candidates from registered
 species.
 
-**Markers:** `ISpecies`, `IFlowerType` drop `extends IRegistryAlleleValue`.
+**Markers:** delete `IRegistryAlleleValue` and drop `extends IRegistryAlleleValue` from **all**
+implementors — `ISpecies`, `IFlowerType`, `IBeeEffect`, `IActivityType`, `IFruit`, `ITreeEffect`,
+`IButterflyCocoon`, `IButterflyEffect` (8 interfaces). A value's default dominance moves into its
+definition. Compiler-guided.
 
-**Imprinter:** confirmed already absent from the source — no action.
+**Imprinter:** confirmed already absent from the **source** — no Java action. Orphan resources
+remain (`assets/forestry/models/item/imprinter.json` + two `imprinter.png` textures); leave them
+or delete in a trivial cleanup commit (no functional impact).
 
 ## 7. Testing strategy
 
