@@ -2,6 +2,7 @@ package forestry.core.genetics.alleles;
 
 import java.util.Locale;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
@@ -41,8 +42,22 @@ public final class ChromosomeFactory {
 	/**
 	 * A reference chromosome: the genome stores a {@link ResourceLocation}, resolved to a behavior object on demand.
 	 * The translation key reproduces the existing scheme ("allele.&lt;ns&gt;.&lt;chromosome&gt;.&lt;ref path&gt;").
+	 *
+	 * @param get       Resolves an id to its behavior object (lazily, after registries are populated).
+	 * @param dominant  Reads the default dominance of a resolved value.
 	 */
-	public static <R> IChromosome<ResourceLocation> referenceChromosome(ResourceLocation id, IChromosome.IReferenceResolver<R> resolver) {
+	public static <R> IChromosome<ResourceLocation> referenceChromosome(ResourceLocation id, Function<ResourceLocation, R> get, Predicate<R> dominant) {
+		IChromosome.IReferenceResolver<R> resolver = new IChromosome.IReferenceResolver<>() {
+			@Override
+			public R get(ResourceLocation refId) {
+				return get.apply(refId);
+			}
+
+			@Override
+			public boolean isDominant(ResourceLocation refId) {
+				return dominant.test(get.apply(refId));
+			}
+		};
 		return new Chromosome<>(id, ResourceLocation.CODEC, refId -> GeneticsUtil.createTranslationKey("allele", id, refId), resolver);
 	}
 

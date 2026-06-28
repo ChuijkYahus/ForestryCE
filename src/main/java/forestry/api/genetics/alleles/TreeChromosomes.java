@@ -1,51 +1,55 @@
 package forestry.api.genetics.alleles;
 
+import net.minecraft.resources.ResourceLocation;
+
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.core.genetics.alleles.ChromosomeFactory;
+import forestry.core.utils.SpeciesUtil;
 
 import static forestry.api.ForestryConstants.forestry;
 
 public class TreeChromosomes {
 	/**
-	 * The species of a tree.
+	 * The species of a tree. The genome stores the species' ID.
 	 */
-	public static final IRegistryChromosome<ITreeSpecies> SPECIES = ForestryAlleles.REGISTRY.registryChromosome(ForestrySpeciesTypes.TREE, ITreeSpecies.class);
+	public static final IChromosome<ResourceLocation> SPECIES = ChromosomeFactory.referenceChromosome(ForestrySpeciesTypes.TREE, id -> SpeciesUtil.TREE_TYPE.get().getSpecies(id), ITreeSpecies::isDominant);
 	/**
 	 * Modifies the height of a tree.
 	 */
-	public static final IFloatChromosome HEIGHT = ForestryAlleles.REGISTRY.floatChromosome(forestry("height"));
+	public static final IChromosome<Float> HEIGHT = ChromosomeFactory.floatChromosome(forestry("height"));
 	/**
 	 * Chance for saplings.
 	 */
-	public static final IFloatChromosome SAPLINGS = ForestryAlleles.REGISTRY.floatChromosome(forestry("saplings"));
+	public static final IChromosome<Float> SAPLINGS = ChromosomeFactory.floatChromosome(forestry("saplings"));
 	/**
 	 * Determines what fruits are grown on the tree.
 	 */
-	public static final IRegistryChromosome<IFruit> FRUIT = ForestryAlleles.REGISTRY.registryChromosome(forestry("fruits"), IFruit.class);
+	public static final IChromosome<ResourceLocation> FRUIT = ChromosomeFactory.referenceChromosome(forestry("fruits"), id -> SpeciesUtil.TREE_TYPE.get().getFruit(id), IFruit::isDominant);
 	/**
 	 * Chance for fruit leaves and/or drops.
 	 */
-	public static final IFloatChromosome YIELD = ForestryAlleles.REGISTRY.floatChromosome(forestry("yield"));
+	public static final IChromosome<Float> YIELD = ChromosomeFactory.floatChromosome(forestry("yield"));
 	/**
 	 * Determines the speed at which fruit will ripen on this tree.
 	 */
-	public static final IFloatChromosome SAPPINESS = ForestryAlleles.REGISTRY.floatChromosome(forestry("sappiness"));
+	public static final IChromosome<Float> SAPPINESS = ChromosomeFactory.floatChromosome(forestry("sappiness"));
 	/**
-	 * Unimplemented. All trees added by base Forestry have {@link ForestryAlleles#TREE_EFFECT_NONE}.
+	 * Unimplemented. All trees added by base Forestry have the "none" tree effect.
 	 */
-	public static final IRegistryChromosome<ITreeEffect> EFFECT = ForestryAlleles.REGISTRY.registryChromosome(forestry("tree_effect"), ITreeEffect.class);
+	public static final IChromosome<ResourceLocation> EFFECT = ChromosomeFactory.referenceChromosome(forestry("tree_effect"), id -> SpeciesUtil.TREE_TYPE.get().getTreeEffect(id), ITreeEffect::isDominant);
 	/**
 	 * Amount of random ticks which need to elapse before a sapling will grow into a tree.
 	 */
-	public static final IIntegerChromosome MATURATION = ForestryAlleles.REGISTRY.intChromosome(forestry("maturation"));
+	public static final IChromosome<Integer> MATURATION = ChromosomeFactory.intChromosome(forestry("maturation"));
 	/**
 	 * The diameter of the tree. If the allele is 2, then the tree trunk is a 2x2 and requires four saplings to grow.
 	 */
-	public static final IIntegerChromosome GIRTH = ForestryAlleles.REGISTRY.intChromosome(forestry("girth"));
+	public static final IChromosome<Integer> GIRTH = ChromosomeFactory.intChromosome(forestry("girth"));
 	/**
 	 * Determines if the tree can burn.
 	 */
-	public static final IBooleanChromosome FIREPROOF = ButterflyChromosomes.FIREPROOF;
+	public static final IChromosome<Boolean> FIREPROOF = ButterflyChromosomes.FIREPROOF;
 }

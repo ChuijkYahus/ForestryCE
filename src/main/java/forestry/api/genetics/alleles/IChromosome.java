@@ -66,8 +66,6 @@ public interface IChromosome<V> {
 	interface IReferenceResolver<R> {
 		R get(ResourceLocation id);
 
-		ResourceLocation getId(R value);
-
 		/**
 		 * @return The default dominance of the referenced value (its declared {@code isDominant()}). Used when a
 		 * reference allele is created from an id without an explicit dominance (default genomes, genome overrides).
