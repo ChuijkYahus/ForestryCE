@@ -73,9 +73,12 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	public void readData(RegistryFriendlyByteBuf data) {
 		if (data.readBoolean()) {
 			ResourceLocation fruitId = data.readResourceLocation();
-			this.fruit = SpeciesUtil.TREE_TYPE.get().getFruit(fruitId);
-			this.fruitId = fruitId;
-			ClientsideCode.markForUpdate(this.worldPosition);
+			IFruit fruit = SpeciesUtil.TREE_TYPE.get().getFruitSafe(fruitId);
+			if (fruit != null) {
+				this.fruit = fruit;
+				this.fruitId = fruitId;
+				ClientsideCode.markForUpdate(this.worldPosition);
+			}
 		}
 	}
 
@@ -96,7 +99,8 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 		String fruitNbt = nbt.getString(NBT_FRUIT);
 		if (!fruitNbt.isEmpty()) {
 			this.fruitId = ResourceLocation.parse(fruitNbt);
-			this.fruit = SpeciesUtil.TREE_TYPE.get().getFruit(this.fruitId);
+			// Nullable lookup so an unregistered/stale id gracefully falls back to cocoa instead of crashing on load.
+			this.fruit = SpeciesUtil.TREE_TYPE.get().getFruitSafe(this.fruitId);
 		}
 		if (this.fruit == null) {
 			this.fruitId = ForestryFruits.COCOA;

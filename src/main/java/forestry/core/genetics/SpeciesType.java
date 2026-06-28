@@ -176,6 +176,15 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 		return value;
 	}
 
+	/**
+	 * Nullable variant of {@link #requireValue}: returns {@code null} for an unregistered id (or before registration),
+	 * for callers that gracefully fall back instead of failing (e.g. stale saved data, UI tooltips).
+	 */
+	@Nullable
+	protected static <V> V valueSafe(@Nullable ImmutableMap<ResourceLocation, V> map, ResourceLocation id) {
+		return map == null ? null : map.get(id);
+	}
+
 	@Override
 	public float getResearchSuitability(S species, ItemStack stack) {
 		return this.researchMaterials.getFloat(stack.getItem());

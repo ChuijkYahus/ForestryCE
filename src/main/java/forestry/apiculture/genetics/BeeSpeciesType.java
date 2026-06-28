@@ -52,6 +52,12 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		return requireValue(this.flowerTypes, id, "flower type");
 	}
 
+	@Nullable
+	@Override
+	public IFlowerType getFlowerTypeSafe(ResourceLocation id) {
+		return valueSafe(this.flowerTypes, id);
+	}
+
 	@Override
 	public IBeeEffect getBeeEffect(ResourceLocation id) {
 		return requireValue(this.beeEffects, id, "bee effect");

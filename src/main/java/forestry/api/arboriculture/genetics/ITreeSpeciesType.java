@@ -27,6 +27,12 @@ public interface ITreeSpeciesType extends ISpeciesType<ITreeSpecies, ITree> {
 	IFruit getFruit(ResourceLocation id);
 
 	/**
+	 * @return The fruit registered with the given ID, or {@code null} if none is registered (graceful fallback variant).
+	 */
+	@Nullable
+	IFruit getFruitSafe(ResourceLocation id);
+
+	/**
 	 * @return The tree effect registered with the given ID. Backs the {@code tree_effect} reference chromosome.
 	 */
 	ITreeEffect getTreeEffect(ResourceLocation id);

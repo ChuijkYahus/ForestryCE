@@ -124,6 +124,6 @@ public class ModifyGenomeCommand {
 
 	private static CompletableFuture<Suggestions> suggestAlleles(ISpeciesType<?, ?> type, CommandContext<CommandSourceStack> ctx, SuggestionsBuilder builder) {
 		IChromosome<?> chromosome = ctx.getArgument("chromosome", IChromosome.class);
-		return SharedSuggestionProvider.suggest(GeneticsUtil.getKnownAlleles(chromosome).stream().map(GeneticsUtil::alleleKey), builder);
+		return SharedSuggestionProvider.suggest(GeneticsUtil.getKnownAlleles(chromosome).stream().map(GeneticsUtil::alleleKey).distinct(), builder);
 	}
 }

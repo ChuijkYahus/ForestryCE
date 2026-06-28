@@ -25,6 +25,12 @@ public interface IBeeSpeciesType extends ISpeciesType<IBeeSpecies, IBee> {
 	IFlowerType getFlowerType(ResourceLocation id);
 
 	/**
+	 * @return The flower type registered with the given ID, or {@code null} if none is registered (graceful fallback variant).
+	 */
+	@Nullable
+	IFlowerType getFlowerTypeSafe(ResourceLocation id);
+
+	/**
 	 * @return The bee effect registered with the given ID. Backs the {@code bee_effect} reference chromosome.
 	 */
 	IBeeEffect getBeeEffect(ResourceLocation id);

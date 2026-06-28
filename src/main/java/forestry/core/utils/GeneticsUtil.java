@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -230,10 +231,16 @@ public class GeneticsUtil {
 	}
 
 	/**
-	 * @return A stable string key identifying an allele value, used by debug commands for suggestions and matching.
+	 * @return A stable, whitespace-free string key identifying an allele value, used by debug commands for suggestions
+	 * and matching. {@link Vec3i#toString} contains spaces, so it is rendered as {@code x_y_z}; all other built-in
+	 * value types ({@code Float}/{@code Integer}/{@code Boolean}/enum/{@link ResourceLocation}) are already space-free.
 	 */
 	public static String alleleKey(Allele<?> allele) {
-		return String.valueOf(allele.value());
+		Object value = allele.value();
+		if (value instanceof Vec3i vec) {
+			return vec.getX() + "_" + vec.getY() + "_" + vec.getZ();
+		}
+		return String.valueOf(value);
 	}
 
 	public static IdentityHashMap<ISpecies<?>, ItemStack> getIconStacks(ILifeStage stage, ISpeciesType<?, ?> type) {

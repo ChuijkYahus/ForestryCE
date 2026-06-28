@@ -18,7 +18,8 @@ public enum ApicultureFilterRule implements IFilterRule {
 	PURE_BREED(DefaultFilterRuleType.PURE_BREED) {
 		@Override
 		protected boolean isValid(IBee bee) {
-			return bee.getGenome().getActiveAllele(BeeChromosomes.SPECIES) == bee.getGenome().getInactiveAllele(BeeChromosomes.SPECIES);
+			// Alleles are value records (not interned), so compare by value, not reference.
+			return bee.getGenome().getAllelePair(BeeChromosomes.SPECIES).isSameAlleles();
 		}
 	},
 	NOCTURNAL(DefaultFilterRuleType.NOCTURNAL) {

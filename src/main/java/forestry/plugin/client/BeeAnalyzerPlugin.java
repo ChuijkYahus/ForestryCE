@@ -53,7 +53,7 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 	}
 
 	private static <V> Component addFlowerTypeTooltip(IAnalyzerGraphics<?, ?> graphics, IChromosome<V> chromosome, V value, InteractableTextOptions options, Component text) {
-		if (value instanceof ResourceLocation id && SpeciesUtil.BEE_TYPE.get().getFlowerType(id) instanceof FlowerType type) {
+		if (value instanceof ResourceLocation id && SpeciesUtil.BEE_TYPE.get().getFlowerTypeSafe(id) instanceof FlowerType type) {
 			options.setOnHover((x, y) -> {
 				ArrayList<Component> lines = Lists.newArrayList(Component.literal("Accepts the following:"), Component.literal("#" + type.getAcceptableFlowers().location()));
 				ArrayList<TextOptions> lineOptions = Lists.newArrayList(null, new TextOptions().setColor(ForestryColors.LIGHT_GRAY));

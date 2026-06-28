@@ -73,6 +73,12 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		return requireValue(this.fruits, id, "fruit");
 	}
 
+	@Nullable
+	@Override
+	public IFruit getFruitSafe(ResourceLocation id) {
+		return valueSafe(this.fruits, id);
+	}
+
 	@Override
 	public ITreeEffect getTreeEffect(ResourceLocation id) {
 		return requireValue(this.treeEffects, id, "tree effect");
