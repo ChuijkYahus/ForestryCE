@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.Map;
 
-public interface ISpecies<I extends IIndividual> extends IRegistryAlleleValue {
+public interface ISpecies<I extends IIndividual> {
 	/**
 	 * @return The translation key for the human-readable name of this species.
 	 */
@@ -116,7 +116,6 @@ public interface ISpecies<I extends IIndividual> extends IRegistryAlleleValue {
 	/**
 	 * @return Whether the allele for this species is dominant or recessive.
 	 */
-	@Override
 	boolean isDominant();
 
 	String getAuthority();

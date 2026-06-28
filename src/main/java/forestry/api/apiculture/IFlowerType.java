@@ -1,7 +1,6 @@
 package forestry.api.apiculture;
 
 import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -9,7 +8,12 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-public interface IFlowerType extends IRegistryAlleleValue {
+public interface IFlowerType {
+	/**
+	 * @return Whether the allele for this value is dominant or recessive.
+	 */
+	boolean isDominant();
+
 	/**
 	 * Checks if the flower at the specified position is accepted by this rule.
 	 */
