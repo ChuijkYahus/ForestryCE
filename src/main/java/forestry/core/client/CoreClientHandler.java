@@ -21,6 +21,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.circuits.GuiSolderingIron;
 import forestry.core.config.Constants;
+import forestry.core.genetics.mutations.MutationReloadHandler;
 import forestry.core.features.*;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.gui.*;
@@ -95,6 +96,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::registerParticleFactory);
 		modBus.addListener(CoreClientHandler::registerClientExtensions);
 		NeoForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
+		NeoForge.EVENT_BUS.addListener(CoreClientHandler::onRecipesUpdated);
 
 		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, ((ForestryClientApiImpl) IForestryClientApi.INSTANCE)::initializeTextureManager);
 	}
@@ -306,6 +308,11 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 		// Mail
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, MailItems.STAMPS.itemArray());
+	}
+
+	private static void onRecipesUpdated(RecipesUpdatedEvent event) {
+		// Recipes sync to the client automatically; rebuild the client-side mutation index for JEI/analyzer display.
+		MutationReloadHandler.rebuild(event.getRecipeManager());
 	}
 
 	private static void onClientTick(RenderLevelStageEvent event) {

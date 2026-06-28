@@ -23,6 +23,7 @@ import forestry.core.commands.DiagnosticsCommand;
 import forestry.core.commands.DumpCommand;
 import forestry.core.features.CoreItems;
 import forestry.core.features.CoreTiles;
+import forestry.core.genetics.mutations.MutationReloadHandler;
 import forestry.core.items.ItemPipette;
 import forestry.core.items.ItemSpectacles;
 import forestry.core.items.definitions.EnumCraftingMaterial;
@@ -47,6 +48,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -207,6 +209,14 @@ public class ModuleCore extends BlankForestryModule {
 				RecipeManagers.invalidateCaches();
 				NetworkUtil.sendToAllPlayers(new RecipeCachePacket());
 			});
+		});
+
+		// Rebuild each species type's mutation index from the (re)loaded mutation recipes. Mod reload listeners run
+		// after vanilla ones (and the reload barrier applies listeners in order), so by the apply phase the vanilla
+		// RecipeManager is fully populated. Run on the game executor since this mutates shared species-type state.
+		RecipeManager recipeManager = event.getServerResources().getRecipeManager();
+		event.addListener((prepBarrier, resourceManager, prepProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
+			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(() -> MutationReloadHandler.rebuild(recipeManager), gameExecutor);
 		});
 	}
 
