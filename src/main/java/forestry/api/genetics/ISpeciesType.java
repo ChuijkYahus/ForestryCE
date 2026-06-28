@@ -3,7 +3,6 @@ package forestry.api.genetics;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.GameProfile;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
@@ -47,8 +46,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	ILifeStage getLifeStage(ItemStack stack);
 
 	/**
-	 * @return The mutation manager for this species type.
-	 * @throws IllegalStateException If not all mutations have been registered.
+	 * @return The mutation manager for this species type. Empty until mutation recipes are loaded.
 	 */
 	IMutationManager<S> getMutations();
 
@@ -229,18 +227,17 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 *
 	 * @param plugins The list of plugins responsible for registering species and data.
 	 * @return The map of every species registered to this species type, which later gets passed
-	 * to {@link #onSpeciesRegistered}, and the completed mutations manager for this species type.
+	 * to {@link #onSpeciesRegistered}.
 	 * @see IForestryPlugin#registerApiculture(IApicultureRegistration) for an example of what data is registered.
 	 */
-	Pair<ImmutableMap<ResourceLocation, S>, IMutationManager<S>> handleSpeciesRegistration(List<IForestryPlugin> plugins);
+	ImmutableMap<ResourceLocation, S> handleSpeciesRegistration(List<IForestryPlugin> plugins);
 
 	/**
 	 * Called when all species of this type have been registered and modified.
 	 *
 	 * @param allSpecies The map of every species ID to its species.
-	 * @param mutations  The mutations for this species type.
 	 */
-	void onSpeciesRegistered(ImmutableMap<ResourceLocation, S> allSpecies, IMutationManager<S> mutations);
+	void onSpeciesRegistered(ImmutableMap<ResourceLocation, S> allSpecies);
 
 	/**
 	 * @return This species type casted to a subclass of ISpeciesType.

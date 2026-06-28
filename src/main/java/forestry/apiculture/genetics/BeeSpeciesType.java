@@ -2,7 +2,6 @@ package forestry.apiculture.genetics;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.authlib.GameProfile;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IActivityType;
@@ -154,7 +153,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 
 
 	@Override
-	public Pair<ImmutableMap<ResourceLocation, IBeeSpecies>, IMutationManager<IBeeSpecies>> handleSpeciesRegistration(List<IForestryPlugin> plugins) {
+	public ImmutableMap<ResourceLocation, IBeeSpecies> handleSpeciesRegistration(List<IForestryPlugin> plugins) {
 		ApicultureRegistration registration = new ApicultureRegistration(this);
 
 		for (IForestryPlugin plugin : plugins) {

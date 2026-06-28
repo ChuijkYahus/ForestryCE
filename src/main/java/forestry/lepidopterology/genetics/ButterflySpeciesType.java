@@ -2,7 +2,6 @@ package forestry.lepidopterology.genetics;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.authlib.GameProfile;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.*;
@@ -67,7 +66,7 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	}
 
 	@Override
-	public Pair<ImmutableMap<ResourceLocation, IButterflySpecies>, IMutationManager<IButterflySpecies>> handleSpeciesRegistration(List<IForestryPlugin> plugins) {
+	public ImmutableMap<ResourceLocation, IButterflySpecies> handleSpeciesRegistration(List<IForestryPlugin> plugins) {
 		LepidopterologyRegistration registration = new LepidopterologyRegistration(this);
 
 		for (IForestryPlugin plugin : plugins) {
@@ -82,8 +81,8 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	}
 
 	@Override
-	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, IButterflySpecies> allSpecies, IMutationManager<IButterflySpecies> mutations) {
-		super.onSpeciesRegistered(allSpecies, mutations);
+	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, IButterflySpecies> allSpecies) {
+		super.onSpeciesRegistered(allSpecies);
 
 		if (ModuleLepidopterology.spawnButterflysFromLeaves) {
 			SpeciesUtil.TREE_TYPE.get().registerLeafTickHandler(new ButterflySpawner());

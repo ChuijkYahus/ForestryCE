@@ -33,8 +33,8 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	private int speciesCount = -1;
 	@Nullable
 	private ImmutableMap<ResourceLocation, S> allSpecies;
-	@Nullable
-	protected IMutationManager<S> mutations;
+	// Empty until the mutation recipes are loaded by a later reload handler. Never null.
+	private IMutationManager<S> mutations = new MutationManager<>(com.google.common.collect.ImmutableList.of());
 
 	public SpeciesType(ResourceLocation id, IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		this.id = id;
@@ -90,21 +90,21 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 
 	@OverridingMethodsMustInvokeSuper
 	@Override
-	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, S> allSpecies, IMutationManager<S> mutations) {
+	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, S> allSpecies) {
 		this.speciesCount = allSpecies.size();
 
-		// Note for subclasses: you must call this super method or set the allSpecies yourself. same goes for mutations
+		// Note for subclasses: you must call this super method or set the allSpecies yourself.
 		this.allSpecies = allSpecies;
+	}
+
+	@org.jetbrains.annotations.ApiStatus.Internal
+	public void setMutations(IMutationManager<S> mutations) {
 		this.mutations = mutations;
 	}
 
 	@Override
 	public IMutationManager<S> getMutations() {
-		var manager = this.mutations;
-		if (manager == null) {
-			throw new IllegalStateException("Mutations have not been registered yet.");
-		}
-		return manager;
+		return this.mutations;
 	}
 
 	@Override

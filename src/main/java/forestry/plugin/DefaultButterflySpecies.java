@@ -268,9 +268,6 @@ public class DefaultButterflySpecies {
 				genome.set(ButterflyChromosomes.METABOLISM, ForestryAlleles.METABOLISM_SLOW);
 				genome.set(ButterflyChromosomes.COCOON, ForestryCocoons.SILK);
 			})
-			.addMutations(mutations -> {
-				mutations.add(ForestryButterflySpecies.LATTICED_HEATH, ForestryButterflySpecies.BRIMSTONE, 0.07f);
-			})
 			.setAuthority("Nedelosk");
 	}
 }

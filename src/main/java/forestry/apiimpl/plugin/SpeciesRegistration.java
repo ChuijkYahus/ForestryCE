@@ -1,15 +1,12 @@
 package forestry.apiimpl.plugin;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.util.Pair;
 import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.genetics.*;
 import forestry.api.genetics.alleles.*;
 import forestry.api.plugin.IGenomeBuilder;
 import forestry.api.plugin.ISpeciesBuilder;
-import forestry.core.genetics.MutationManager;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
@@ -32,20 +29,20 @@ public abstract class SpeciesRegistration<I extends ISpeciesBuilder<? extends IS
 		this.type = type;
 	}
 
-	protected abstract B createSpeciesBuilder(ResourceLocation id, String genus, String species, MutationsRegistration mutations);
+	protected abstract B createSpeciesBuilder(ResourceLocation id, String genus, String species);
 
 	protected I register(ResourceLocation id, String genus, String species) {
-		return this.species.create(id, createSpeciesBuilder(id, genus, species, new MutationsRegistration(id)));
+		return this.species.create(id, createSpeciesBuilder(id, genus, species));
 	}
 
 	public void modifySpecies(ResourceLocation id, Consumer<I> action) {
 		this.species.modify(id, action);
 	}
 
-	// Creates the final map of species and the mutations manager. The species chromosome is a reference chromosome,
+	// Creates the final map of species. The species chromosome is a reference chromosome,
 	// so it no longer needs to be populated separately; it is resolved on demand via the species type.
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public Pair<ImmutableMap<ResourceLocation, S>, IMutationManager<S>> buildAll() {
+	public ImmutableMap<ResourceLocation, S> buildAll() {
 		IKaryotype karyotype = this.type.getKaryotype();
 		IChromosome<ResourceLocation> speciesChromosome = karyotype.getSpeciesChromosome();
 
@@ -84,12 +81,6 @@ public abstract class SpeciesRegistration<I extends ISpeciesBuilder<? extends IS
 			return builder.createSpeciesFactory().create(id, this.type.cast(), defaultGenome, builder);
 		});
 
-		// build mutations once species are available
-		ImmutableList.Builder<IMutation<S>> mutations = new ImmutableList.Builder<>();
-		for (Map.Entry<ResourceLocation, B> entry : this.species.getValues().entrySet()) {
-			mutations.addAll(entry.getValue().buildMutations(this.type, allSpecies));
-		}
-
-		return Pair.of(allSpecies, new MutationManager<>(mutations.build()));
+		return allSpecies;
 	}
 }

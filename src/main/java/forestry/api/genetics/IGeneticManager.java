@@ -28,11 +28,10 @@ public interface IGeneticManager {
 
 	/**
 	 * Retrieves the registry of possible mutations for a given species type.
-	 * Register mutations using a {@link forestry.api.plugin.IForestryPlugin}.
+	 * Delegates to {@link ISpeciesType#getMutations()}; the manager is empty until mutation recipes are loaded.
 	 *
 	 * @param speciesType The species type.
 	 * @return A registry of possible mutations for the given species type.
-	 * @throws IllegalStateException If mutations have not been registered yet.
 	 */
 	<S extends ISpecies<?>> IMutationManager<S> getMutations(ISpeciesType<?, ?> speciesType);
 

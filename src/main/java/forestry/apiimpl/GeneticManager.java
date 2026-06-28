@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import forestry.api.genetics.*;
 import forestry.core.genetics.Taxon;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -12,8 +11,6 @@ import java.util.Collection;
 public class GeneticManager implements IGeneticManager {
 	private final ImmutableMap<String, ITaxon> taxa;
 	private final ImmutableMap<ResourceLocation, ISpeciesType<?, ?>> speciesTypes;
-	@Nullable
-	private ImmutableMap<ISpeciesType<?, ?>, IMutationManager<?>> mutationsByType;
 
 	public GeneticManager(ImmutableMap<String, ITaxon> taxa, ImmutableMap<ResourceLocation, ISpeciesType<?, ?>> speciesTypes) {
 		this.taxa = taxa;
@@ -46,14 +43,7 @@ public class GeneticManager implements IGeneticManager {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S extends ISpecies<?>> IMutationManager<S> getMutations(ISpeciesType<?, ?> speciesType) {
-		if (this.mutationsByType == null) {
-			throw new IllegalStateException("Mutations have not been registered yet");
-		}
-		IMutationManager<?> manager = this.mutationsByType.get(speciesType);
-		if (manager == null) {
-			throw new IllegalStateException("Invalid or unregistered species type");
-		}
-		return (IMutationManager<S>) manager;
+		return (IMutationManager<S>) speciesType.getMutations();
 	}
 
 	@Override
@@ -74,10 +64,5 @@ public class GeneticManager implements IGeneticManager {
 	@Override
 	public Collection<ISpeciesType<?, ?>> getSpeciesTypes() {
 		return this.speciesTypes.values();
-	}
-
-	@ApiStatus.Internal
-	public void setMutations(ImmutableMap<ISpeciesType<?, ?>, IMutationManager<?>> mutationsByType) {
-		this.mutationsByType = mutationsByType;
 	}
 }

@@ -16,7 +16,6 @@ import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.client.genetics.IAnalyzerPlugin;
 import forestry.api.core.IError;
 import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.ITaxon;
 import forestry.api.genetics.pollen.IPollenType;
@@ -160,6 +159,10 @@ public class PluginManager {
 
 		Forestry.LOGGER.debug("Registered {} species types: {}", speciesTypes.size(), Arrays.toString(speciesTypes.keySet().toArray(new ResourceLocation[0])));
 
+		// Register the built-in mutation condition types so their `type` ids are known before any
+		// datapack/recipe parse populates the mutation managers in a later reload handler.
+		forestry.core.genetics.mutations.MutationConditionTypes.registerBuiltins();
+
 		ForestryApiImpl api = (ForestryApiImpl) IForestryApi.INSTANCE;
 		GeneticManager geneticManager = new GeneticManager(taxa, speciesTypes);
 		api.setGeneticManager(geneticManager);
@@ -167,35 +170,25 @@ public class PluginManager {
 
 		// Register SPECIES for each type
 		LinkedHashMap<ISpeciesType<?, ?>, ImmutableMap<ResourceLocation, ?>> allSpecies = new LinkedHashMap<>(speciesTypes.size());
-		IdentityHashMap<ISpeciesType<?, ?>, IMutationManager<?>> allMutations = new IdentityHashMap<>(speciesTypes.size());
 
 		// go through species builders and build each species
 		for (ISpeciesType<?, ?> speciesType : speciesTypes.values()) {
-			// species and mutations
-			Pair<? extends ImmutableMap<ResourceLocation, ?>, ? extends IMutationManager<?>> pair = speciesType.handleSpeciesRegistration(LOADED_PLUGINS);
-			ImmutableMap<ResourceLocation, ?> species = pair.getFirst();
-			IMutationManager<?> mutations = pair.getSecond();
+			ImmutableMap<ResourceLocation, ?> species = speciesType.handleSpeciesRegistration(LOADED_PLUGINS);
 
 			allSpecies.put(speciesType, species);
-			allMutations.put(speciesType, mutations);
 
 			Forestry.LOGGER.debug("Registered {} species for species type {}", species.size(), speciesType.id());
-			Forestry.LOGGER.debug("Registered {} mutations for species type {}", mutations.getAllMutations().size(), speciesType.id());
 		}
 
 		for (Map.Entry<ISpeciesType<?, ?>, ImmutableMap<ResourceLocation, ?>> entry : allSpecies.entrySet()) {
 			ISpeciesType<?, ?> speciesType = entry.getKey();
 
-			speciesType.onSpeciesRegistered((ImmutableMap) entry.getValue(), (IMutationManager) allMutations.get(speciesType));
+			speciesType.onSpeciesRegistered((ImmutableMap) entry.getValue());
 
 			if (speciesType.getAllSpecies().isEmpty()) {
 				throw new IllegalStateException("Failed to register species for type " + speciesType.id());
 			}
-			// this will throw an exception if mutations aren't populated
-			speciesType.getMutations();
 		}
-
-		geneticManager.setMutations(ImmutableMap.copyOf(allMutations));
 	}
 
 	public static void registerFarming() {

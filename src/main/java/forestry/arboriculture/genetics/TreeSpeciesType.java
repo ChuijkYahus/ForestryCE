@@ -3,7 +3,6 @@ package forestry.arboriculture.genetics;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IArboristTracker;
@@ -85,8 +84,8 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	}
 
 	@Override
-	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies, IMutationManager<ITreeSpecies> mutations) {
-		super.onSpeciesRegistered(allSpecies, mutations);
+	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies) {
+		super.onSpeciesRegistered(allSpecies);
 
 		this.vanillaIndividuals.clear();
 		this.vanillaItems.clear();
@@ -113,7 +112,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	}
 
 	@Override
-	public Pair<ImmutableMap<ResourceLocation, ITreeSpecies>, IMutationManager<ITreeSpecies>> handleSpeciesRegistration(List<IForestryPlugin> plugins) {
+	public ImmutableMap<ResourceLocation, ITreeSpecies> handleSpeciesRegistration(List<IForestryPlugin> plugins) {
 		ArboricultureRegistration registration = new ArboricultureRegistration(this);
 
 		for (IForestryPlugin plugin : plugins) {

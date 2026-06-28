@@ -38,8 +38,8 @@ public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuild
 	}
 
 	@Override
-	protected BeeSpeciesBuilder createSpeciesBuilder(ResourceLocation id, String genus, String species, MutationsRegistration mutations) {
-		return new BeeSpeciesBuilder(id, genus, species, mutations);
+	protected BeeSpeciesBuilder createSpeciesBuilder(ResourceLocation id, String genus, String species) {
+		return new BeeSpeciesBuilder(id, genus, species);
 	}
 
 	@Override

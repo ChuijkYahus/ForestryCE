@@ -64,9 +64,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWER);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.BIRCH, 0.15f);
-				})
 				.setRarity(0.005f);
 
 		// Sour Cherry https://www.catalogueoflife.org/data/taxon/4N8QS
@@ -84,9 +81,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FAST);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.OAK, 0.10f);
-				})
 				.setRarity(0.0015f);
 
 		// Common Walnut https://www.catalogueoflife.org/data/taxon/6NFN8
@@ -102,9 +96,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.SOUR_CHERRY, ForestryTreeSpecies.DARK_OAK, 0.10f);
 				});
 
 		// Sweet Chestnut https://www.catalogueoflife.org/data/taxon/5XCVW
@@ -119,11 +110,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.LIME, 0.05f)
-							.restrictTemperature(TemperatureType.NORMAL, TemperatureType.NORMAL)
-							.restrictHumidity(HumidityType.NORMAL);
 				});
 
 		// Pear (D'Anjou) https://www.catalogueoflife.org/data/taxon/4QWMZ
@@ -138,9 +124,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryFruits.PEAR);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_AVERAGE);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.SOUR_CHERRY, ForestryTreeSpecies.OAK, 0.10f);
 				})
 				.setAuthority("Spear");
 
@@ -157,11 +140,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.PEAR, ForestryTreeSpecies.SOUR_CHERRY, 0.05f)
-							.restrictTemperature(TemperatureType.NORMAL, TemperatureType.NORMAL)
-							.restrictHumidity(HumidityType.NORMAL);
 				})
 				.setRarity(0.005f);
 
@@ -180,11 +158,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGHER); //This is (currently) the highest yield of all trees
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.PEAR, ForestryTreeSpecies.LIME, 0.05f)
-							.restrictTemperature(TemperatureType.NORMAL, TemperatureType.WARM) //Feijoas also thrive in tropical conditions
-							.restrictHumidity(HumidityType.NORMAL, HumidityType.DAMP); //See above
-				})
 				.setAuthority("Spear");
 
 
@@ -199,9 +172,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BIRCH, 0.10f);
-				})
 				.setAuthority("Spear");
 
 		// Sugar Maple https://www.catalogueoflife.org/data/taxon/94JK
@@ -214,9 +184,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.ELM, ForestryTreeSpecies.OAK, 0.05f);
 				})
 				.setRarity(0.0025f);
 
@@ -231,9 +198,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.ELM, ForestryTreeSpecies.LIME, 0.05f);
-				})
 				.setAuthority("Spear");
 
 		// White Poplar https://www.catalogueoflife.org/data/taxon/4LVJ5
@@ -246,9 +210,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.ELM, ForestryTreeSpecies.BIRCH, 0.05f);
 				});
 
 		// SWAMP LINE
@@ -281,11 +242,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FASTER);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.POPLAR, ForestryTreeSpecies.DARK_OAK, 0.10f)
-							.restrictTemperature(TemperatureType.NORMAL)
-							.restrictHumidity(HumidityType.DAMP);
-				})
 				.setRarity(0.0025f);
 
 		//FLORAL LINE
@@ -316,9 +272,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FAST);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.CHERRY_VANILLA, 0.10f);
-				})
 				.setAuthority("Spear");
 
 		// Jacaranda https://www.catalogueoflife.org/data/taxon/99NRZ
@@ -332,11 +285,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.DOGWOOD, ForestryTreeSpecies.CHERRY_VANILLA, 0.05f)
-							.restrictTemperature(TemperatureType.NORMAL, TemperatureType.WARM) // Jacaranda trees are tropical, but because they're bred from temperate trees, it seems fair to be a bit forgiving.
-							.restrictHumidity(HumidityType.NORMAL, HumidityType.DAMP);
-				})
 				.setAuthority("Spear");
 
 		// Ipe (Yellow Ipe) https://www.catalogueoflife.org/data/taxon/99M93
@@ -349,11 +297,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.DOGWOOD, ForestryTreeSpecies.TEAK, 0.05f)
-							.restrictTemperature(TemperatureType.WARM)
-							.restrictHumidity(HumidityType.DAMP);
 				});
 
 		// ANCIENT LINE
@@ -403,9 +346,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.OAK, 0.15f);
-				})
 				.setRarity(0.0025f);
 
 		// Ponderosa Pine https://www.catalogueoflife.org/data/taxon/4J2F3
@@ -420,9 +360,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LARCH, ForestryTreeSpecies.SPRUCE, 0.10f);
-				})
 				.setRarity(0.0025f);
 
 		// Balsam Fir https://www.catalogueoflife.org/data/taxon/63Z6Q
@@ -435,9 +372,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGH);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LARCH, ForestryTreeSpecies.OAK, 0.10f);
 				})
 				.setAuthority("Spear");
 
@@ -459,9 +393,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.PINE, ForestryTreeSpecies.FIR, 0.10f);
-				})
 				.setAuthority("Spear");
 
 		// Coast Sequoia (Coast Redwood) https://www.catalogueoflife.org/data/taxon/4WSQG
@@ -476,9 +407,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
 					genome.set(TreeChromosomes.FIREPROOF, true);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.PINE, ForestryTreeSpecies.LARCH, 0.10f);
 				});
 
 		// Giant Sequoia https://www.catalogueoflife.org/data/taxon/4WSQK
@@ -494,12 +422,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_4);
 					genome.set(TreeChromosomes.FIREPROOF, true);
 				})
-				.setComplexity(10)
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.SEQUOIA, ForestryTreeSpecies.GINKGO, 0.05f)
-							.restrictTemperature(TemperatureType.ICY, TemperatureType.COLD)
-							.restrictHumidity(HumidityType.NORMAL);
-				});
+				.setComplexity(10);
 
 		// Pewen https://www.catalogueoflife.org/data/taxon/G67B
 		arboriculture.registerSpecies(ForestryTreeSpecies.PEWEN, GENUS_ARAUCARIA, SPECIES_PEWEN, true, TextColor.fromRgb(0x455419), ForestryWoodType.PEWEN)
@@ -513,10 +436,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGH);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
-				}).addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.MACROCARPA, ForestryTreeSpecies.FIR, 0.05f)
-							.restrictTemperature(TemperatureType.ICY, TemperatureType.COLD)
-							.restrictHumidity(HumidityType.NORMAL);
 				})
 				.setAuthority("Spear");
 
@@ -532,11 +451,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWEST);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWEST);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.MACROCARPA, ForestryTreeSpecies.PINE, 0.05f)
-							.restrictTemperature(TemperatureType.ICY, TemperatureType.COLD)
-							.restrictHumidity(HumidityType.NORMAL);
 				})
 				.setAuthority("Spear");
 
@@ -570,9 +484,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.DARK_OAK, 0.15f);
-				})
 				.setRarity(0.0025f);
 
 		// Kapok https://www.catalogueoflife.org/data/taxon/S2C6
@@ -585,9 +496,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.JUNGLE, 0.10f);
 				});
 
 		// Balsa https://www.catalogueoflife.org/data/taxon/6SF4P
@@ -603,9 +511,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.BIRCH, 0.10f);
-				})
 				.setRarity(0.0005f);
 
 		// Sweet Orange https://en.wikipedia.org/wiki/Citrus_%C3%97_sinensis
@@ -620,9 +525,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryFruits.ORANGE);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.JUNGLE, 0.10f);
 				})
 				.setAuthority("Spear");
 
@@ -640,9 +542,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.BALSA, ForestryTreeSpecies.TEAK, 0.10f);
-				})
 				.setRarity(0.0005f);
 
 		// Greenheart https://www.catalogueoflife.org/data/taxon/5XW95
@@ -658,10 +557,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 				})
-				.addMutations(mutations -> {
-					//Previously this had a restriction on it, but no longer.
-					mutations.add(ForestryTreeSpecies.KAPOK, ForestryTreeSpecies.TEAK, 0.05f);
-				})
 				.setRarity(0.0025f);
 
 		// Lemon https://www.catalogueoflife.org/data/taxon/9XK4K
@@ -676,9 +571,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLEST);
 
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.ORANGE, ForestryTreeSpecies.LIME, 0.10f);
 				});
 
 		// Zebrano https://www.catalogueoflife.org/data/taxon/42RTY
@@ -694,11 +586,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.EBONY, ForestryTreeSpecies.BALSA, 0.05f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
-							.restrictHumidity(HumidityType.DAMP);
 				})
 				.setRarity(0.0005f);
 
@@ -716,11 +603,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.EBONY, ForestryTreeSpecies.KAPOK, 0.05f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
-							.restrictHumidity(HumidityType.DAMP);
-				})
 				.setRarity(0.0005f);
 
 		// Coconut https://www.catalogueoflife.org/data/taxon/WP6H
@@ -735,11 +617,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FAST);
 					genome.set(TreeChromosomes.FRUIT, ForestryFruits.COCONUT);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.KAPOK, 0.05f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
-							.restrictHumidity(HumidityType.DAMP);
 				})
 				.setAuthority("Spear");
 
@@ -756,11 +633,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.KAPOK, 0.05f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
-							.restrictHumidity(HumidityType.DAMP);
 				})
 				.setRarity(0.005f);
 
@@ -790,9 +662,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.ACACIA_VANILLA, ForestryTreeSpecies.JUNGLE, 0.15f);
-				})
 				.setRarity(0.005f);
 
 		// Padauk (African Padauk) https://www.catalogueoflife.org/data/taxon/4PVKG
@@ -806,9 +675,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.CAMELTHORN, ForestryTreeSpecies.JUNGLE, 0.10f);
-				})
 				.setRarity(0.005f);
 
 		// Cocobolo https://www.catalogueoflife.org/data/taxon/33Z8J
@@ -820,9 +686,6 @@ public class DefaultTreeSpecies {
 				.setTemperature(TemperatureType.WARM)
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGEST);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.CAMELTHORN, ForestryTreeSpecies.DARK_OAK, 0.10f);
 				})
 				.setRarity(0.0005f);
 
@@ -838,9 +701,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWEST);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.CAMELTHORN, ForestryTreeSpecies.ACACIA_VANILLA, 0.10f);
-				})
 				.setRarity(0.0005F);
 
 		// Blue Mahoe  https://www.catalogueoflife.org/data/taxon/54LNR
@@ -854,11 +714,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGH);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWEST);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.COCOBOLO, ForestryTreeSpecies.CAMELTHORN, 0.05f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
-							.restrictHumidity(HumidityType.ARID);
 				})
 				.setRarity(0.000005f);
 
@@ -875,11 +730,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.PADAUK, ForestryTreeSpecies.WENGE, 0.05f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
-							.restrictHumidity(HumidityType.ARID);
 				})
 				.setRarity(0.005f);
 
@@ -899,11 +749,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.COCOBOLO, ForestryTreeSpecies.SOUR_CHERRY, 0.05f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
-							.restrictHumidity(HumidityType.ARID);
-				})
 				.setRarity(0.005f);
 
 		// Olive https://www.catalogueoflife.org/data/taxon/493JT
@@ -919,11 +764,6 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.FRUIT, ForestryFruits.OLIVE);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_AVERAGE);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.WENGE, ForestryTreeSpecies.SOUR_CHERRY, 0.05f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
-							.restrictHumidity(HumidityType.ARID);
 				})
 				.setAuthority("Spear");
 
