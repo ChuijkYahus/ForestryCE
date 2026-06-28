@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Holds the {@link AllelePair}s which comprise the traits of a given individual. Allele values are stored inline;
@@ -93,19 +94,23 @@ public interface IGenome {
 
 	/**
 	 * Resolves the active reference value to its behavior object via the chromosome's resolver.
+	 *
+	 * @throws NullPointerException If the chromosome is a data chromosome (has no resolver).
 	 */
 	@SuppressWarnings("unchecked")
 	default <R> R resolveActive(IChromosome<ResourceLocation> chromosome) {
-		IChromosome.IReferenceResolver<R> resolver = (IChromosome.IReferenceResolver<R>) chromosome.resolver();
+		IChromosome.IReferenceResolver<R> resolver = (IChromosome.IReferenceResolver<R>) Objects.requireNonNull(chromosome.resolver(), () -> "Not a reference chromosome: " + chromosome.id());
 		return resolver.get(getActiveValue(chromosome));
 	}
 
 	/**
 	 * Resolves the inactive reference value to its behavior object via the chromosome's resolver.
+	 *
+	 * @throws NullPointerException If the chromosome is a data chromosome (has no resolver).
 	 */
 	@SuppressWarnings("unchecked")
 	default <R> R resolveInactive(IChromosome<ResourceLocation> chromosome) {
-		IChromosome.IReferenceResolver<R> resolver = (IChromosome.IReferenceResolver<R>) chromosome.resolver();
+		IChromosome.IReferenceResolver<R> resolver = (IChromosome.IReferenceResolver<R>) Objects.requireNonNull(chromosome.resolver(), () -> "Not a reference chromosome: " + chromosome.id());
 		return resolver.get(getInactiveValue(chromosome));
 	}
 

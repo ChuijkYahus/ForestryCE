@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public final class Genome implements IGenome {
 	final ImmutableMap<IChromosome<?>, AllelePair<?>> chromosomes;
@@ -42,7 +43,8 @@ public final class Genome implements IGenome {
 					speciesId = (ResourceLocation) speciesPair.active().value();
 				}
 
-				ISpecies<?> species = (ISpecies<?>) karyotype.getSpeciesChromosome().resolver().get(speciesId);
+				IChromosome.IReferenceResolver<?> speciesResolver = Objects.requireNonNull(karyotype.getSpeciesChromosome().resolver(), "Species chromosome has no resolver");
+				ISpecies<?> species = (ISpecies<?>) speciesResolver.get(speciesId);
 				pair = species.getDefaultGenome().getAllelePair(chromosome);
 			}
 
@@ -150,9 +152,8 @@ public final class Genome implements IGenome {
 
 		@Override
 		public void set(IChromosome<ResourceLocation> chromosome, ResourceLocation id) {
-			IChromosome.IReferenceResolver<?> resolver = chromosome.resolver();
-			boolean dominant = resolver != null && resolver.isDominant(id);
-			Allele<ResourceLocation> allele = new Allele<>(id, dominant);
+			IChromosome.IReferenceResolver<?> resolver = Objects.requireNonNull(chromosome.resolver(), () -> "Not a reference chromosome: " + chromosome.id());
+			Allele<ResourceLocation> allele = new Allele<>(id, resolver.isDominant(id));
 			this.active.put(chromosome, allele);
 			this.inactive.put(chromosome, allele);
 		}

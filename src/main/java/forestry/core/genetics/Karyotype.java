@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class Karyotype implements IKaryotype {
@@ -164,9 +165,9 @@ public class Karyotype implements IKaryotype {
 		if (refId == null) {
 			throw new IllegalArgumentException("Chromosome " + chromosome.id() + " is not part of karyotype " + this.id);
 		}
-		IChromosome.IReferenceResolver<?> resolver = chromosome.resolver();
-		boolean dominant = resolver != null && resolver.isDominant(refId);
-		return new Allele<>(refId, dominant);
+		// A chromosome with a reference (ID) default is by definition a reference chromosome, so it must have a resolver.
+		IChromosome.IReferenceResolver<?> resolver = Objects.requireNonNull(chromosome.resolver(), () -> "Reference chromosome " + chromosome.id() + " has no resolver");
+		return new Allele<>(refId, resolver.isDominant(refId));
 	}
 
 	@Override
