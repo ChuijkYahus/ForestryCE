@@ -71,7 +71,7 @@ BeeSpeciesType.getAllSpecies() / getSpecies(id)  (unchanged read API)
 
 ## §1 The data model: `BeeSpeciesDefinition`
 
-A new immutable record in `forestry.apiculture.genetics` (or `forestry.api.apiculture.genetics`), the registry element and sync payload. Fields mirror the builder; **the runtime `BeeSpecies` is unchanged** and is built *from* a definition.
+A new immutable record in `forestry.apiculture.genetics` (or `forestry.api.apiculture.genetics`), the registry element and sync payload. Fields mirror the builder. **The runtime `BeeSpecies`/`Species` constructors stay unchanged**: a definition is adapted to `IBeeSpeciesBuilder` so the existing `BeeSpecies::new` field-copy path is reused verbatim (see §3, *Projection detail*).
 
 Fields (and source field on the builder):
 
@@ -119,7 +119,9 @@ Today `SpeciesRegistration.buildAll()` composes each species' default genome in 
   1. reads the loaded definition map,
   2. projects each definition → `BeeSpecies` (via §2), collects an `ImmutableMap<id, IBeeSpecies>`, validates references (§7), and calls `BeeSpeciesType.setSpecies(map)`,
   3. rebuilds mutations from the `RecipeManager` (Stage 2 logic), which reads `getAllSpecies()` — now guaranteed populated first.
-- Both the species-manager listener and the rebuild must be ordered so the definition map is parsed before the rebuild projects it. Simplest: one combined apply step (parse definitions, then project, then mutations) or two listeners whose apply phases are sequenced on the game executor.
+- Both the species-manager listener and the rebuild must be ordered so the definition map is parsed before the rebuild projects it. Simplest: one combined apply step (parse definitions, then project, then mutations) or two listeners whose apply phases are sequenced on the game executor. (Reload listeners' apply phases run in registration order behind the prep barrier — register the species manager before the mutation-rebuild listener.)
+
+**Projection detail (definition → `BeeSpecies`):** `BeeSpecies`'s only constructor is `BeeSpecies(id, IBeeSpeciesType type, IGenome defaultGenome, IBeeSpeciesBuilder builder)` and both it and `Species` copy every remaining field from the builder. To keep those constructors untouched, projection wraps a `BeeSpeciesDefinition` (plus the composed default genome from §2) in a small **`DefinitionBeeSpeciesBuilder` adapter** that implements the getter surface of `IBeeSpeciesBuilder`/`ISpeciesBuilder` (delegating to the definition) and throws/no-ops the setters. `BeeSpecies::new` then runs verbatim. (A dedicated definition-taking constructor is an acceptable alternative; the adapter is preferred because it reuses the existing field-copy logic with zero edits to `BeeSpecies`/`Species`.)
 
 ## §4 Sync lifecycle (client)
 
@@ -134,7 +136,8 @@ Today `SpeciesRegistration.buildAll()` composes each species' default genome in 
 - Add an id-keyed registry on the apiculture registration path: `registerBeeJubilance(ResourceLocation, IBeeJubilance)` + `BeeSpeciesType.getJubilance(id)` (mirroring `getBeeEffect`/`getFlowerType`/`getActivityType`).
 - Built-ins: `forestry:default` (`DefaultBeeJubilance`, temp/humidity match) and `forestry:hermit` (`HermitBeeJubilance`). Both stateless singletons → referenced in JSON by id only.
 - Species JSON: `"jubilance": "forestry:hermit"`, defaulting to `forestry:default`.
-- A full dispatch-codec (à la `MutationConditionTypes`) is **not** needed now (no parameterized jubilances); note it as the future extension if params ever appear.
+- One **parameterized** jubilance already exists in code — `RequiresResourceBeeJubilance` (built per-instance via the public `IJubilanceFactory.getRequiresResource(BlockState...)`) — but **no built-in bee uses it** (built-ins use only the two stateless singletons). Under the clean-break posture it stays code-only/unused API; an addon that constructed one in code breaks (consistent with §6). An id-keyed singleton registry is therefore correct for the no-behavior-change goal.
+- A full dispatch-codec (à la `MutationConditionTypes`) is **not** needed now and is the future extension **if** a parameterized jubilance ever needs to be datapack-expressible (e.g. exposing `requires_resource` with its block states in JSON).
 
 ## §6 Lifecycle surgery (the demotion)
 
@@ -199,6 +202,7 @@ Modified:
 - `forestry/apiculture/genetics/BeeSpeciesType.java` + `forestry/core/genetics/SpeciesType.java` — `setSpecies`, volatile map, tolerant checks.
 - `forestry/apiimpl/plugin/SpeciesRegistration.java` — extract reusable genome compose.
 - `forestry/plugin/DefaultForestryPlugin.java` / `DefaultBeeSpecies.java` — demote species building to datagen; keep companion registries.
+- `forestry/apiimpl/plugin/PluginManager.java` — `registerGenetics` (~L186–188): drop/relocate the `onSpeciesRegistered` setup call and remove the `if (getAllSpecies().isEmpty()) throw …` guard (datapack species aren't loaded at setup — this would otherwise throw); plus `registerClient` (lazy id-keyed bake, below).
 - `forestry/core/ModuleCore.java` — register `BeeSpeciesManager`; `OnDatapackSyncEvent` handler.
 - `forestry/core/client/CoreClientHandler.java` — client packet rebuild; neutralize startup species iteration.
 - `forestry/apiculture/models/ModelBee.java` + `forestry/apiimpl/client/BeeClientManager.java` + `forestry/apiimpl/plugin/PluginManager.java` (`registerClient`) — lazy id-keyed bake.
