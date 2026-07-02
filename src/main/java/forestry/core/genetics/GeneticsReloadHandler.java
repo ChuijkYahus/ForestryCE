@@ -14,12 +14,17 @@ import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
+import forestry.arboriculture.TreeSpecies;
+import forestry.arboriculture.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.genetics.TreeSpeciesProjector;
 import forestry.core.features.GeneticsRecipeTypes;
 import forestry.core.genetics.mutations.Mutation;
 import forestry.core.genetics.mutations.MutationConditionTypes;
@@ -66,6 +71,26 @@ public final class GeneticsReloadHandler {
 		ImmutableMap<ResourceLocation, IBeeSpecies> allSpecies = builder.build();
 		((SpeciesType<IBeeSpecies, ?>) type).setSpecies(allSpecies);
 		Forestry.LOGGER.info("Loaded {} bee species", allSpecies.size());
+	}
+
+	/**
+	 * Projects each tree definition into a {@link TreeSpecies} (fail-soft: a bad/binding-less definition is logged and
+	 * dropped by {@link TreeSpeciesProjector#project}) and swaps the resulting map into the live tree species type.
+	 */
+	@SuppressWarnings("unchecked")
+	public static void rebuildTreeSpecies(Map<ResourceLocation, TreeSpeciesDefinition> defs) {
+		ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
+		ImmutableMap.Builder<ResourceLocation, ITreeSpecies> builder = ImmutableMap.builderWithExpectedSize(defs.size());
+		for (Map.Entry<ResourceLocation, TreeSpeciesDefinition> entry : defs.entrySet()) {
+			ResourceLocation id = entry.getKey();
+			TreeSpecies species = TreeSpeciesProjector.project(type, id, entry.getValue());
+			if (species != null) {
+				builder.put(id, species);
+			}
+		}
+		ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies = builder.build();
+		((SpeciesType<ITreeSpecies, ?>) type).setSpecies(allSpecies);
+		Forestry.LOGGER.info("Loaded {} tree species", allSpecies.size());
 	}
 
 	public static void rebuildMutations(RecipeManager recipeManager) {
