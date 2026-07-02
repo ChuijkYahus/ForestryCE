@@ -43,6 +43,15 @@ public record BeeSpeciesSyncPacket(Map<ResourceLocation, BeeSpeciesDefinition> d
 	}
 
 	public static void handle(BeeSpeciesSyncPacket msg, Player player) {
+		// On an integrated server (single-player or LAN host) the client shares the very BeeSpeciesType /
+		// BeeSpeciesManager singletons the server's datapack reload already populated authoritatively. Re-applying the
+		// sync here would build a fresh set of BeeSpecies objects and swap them in, transiently desyncing the server's
+		// identity-keyed mutation index (MutationManager uses an IdentityHashMap keyed by the species objects the
+		// server installed). Skip it - the shared state is already correct. A true remote client has its own
+		// singletons and must apply the sync.
+		if (Minecraft.getInstance().hasSingleplayerServer()) {
+			return;
+		}
 		BeeSpeciesManager.INSTANCE.setDefinitions(msg.definitions);
 		GeneticsReloadHandler.rebuildSpecies(msg.definitions);
 		GeneticsReloadHandler.rebuildMutations(Minecraft.getInstance().getConnection().getRecipeManager());

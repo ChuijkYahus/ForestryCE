@@ -29,7 +29,6 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	private final ImmutableMap<Item, ILifeStage> stages;
 	protected final Reference2FloatOpenHashMap<Item> researchMaterials;
 
-	private int speciesCount = 0;
 	// Empty until species are loaded (datapack on the server, sync packet on the client). Never null. Volatile:
 	// swapped by setSpecies from the reload/sync path, read by gameplay/JEI/GUI on many threads.
 	private volatile ImmutableMap<ResourceLocation, S> allSpecies = ImmutableMap.of();
@@ -98,7 +97,6 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	@org.jetbrains.annotations.ApiStatus.Internal
 	public void setSpecies(ImmutableMap<ResourceLocation, S> allSpecies) {
 		this.allSpecies = allSpecies;
-		this.speciesCount = allSpecies.size();
 	}
 
 	@org.jetbrains.annotations.ApiStatus.Internal
@@ -143,7 +141,9 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 
 	@Override
 	public int getSpeciesCount() {
-		return this.speciesCount;
+		// Derived from the volatile map rather than a separate counter field, so a reader that observes a freshly
+		// swapped species map can never see a stale count from a non-atomic pair of writes.
+		return this.allSpecies.size();
 	}
 
 	/**
