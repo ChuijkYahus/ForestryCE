@@ -52,20 +52,17 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 
 	/**
 	 * @return The list of all members of this species type.
-	 * @throws IllegalStateException If not all species have been registered yet.
 	 */
 	List<S> getAllSpecies();
 
 	/**
 	 * @return The species of this type registered with the given ID.
-	 * @throws RuntimeException      If no species was found with that ID.
-	 * @throws IllegalStateException If not all species have been registered yet.
+	 * @throws RuntimeException If no species was found with that ID.
 	 */
 	S getSpecies(ResourceLocation id);
 
 	/**
 	 * @return The species of this type registered with the given ID, or {@code null} if no species was found with that ID.
-	 * @throws IllegalStateException If not all species have been registered yet.
 	 */
 	@Nullable
 	S getSpeciesSafe(ResourceLocation id);
@@ -82,7 +79,6 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 
 	/**
 	 * @return The number of species of this type, <i>including secret species.</i>
-	 * @throws IllegalStateException If not all species have been registered yet.
 	 */
 	int getSpeciesCount();
 

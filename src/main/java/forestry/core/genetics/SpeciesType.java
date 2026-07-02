@@ -29,10 +29,10 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	private final ImmutableMap<Item, ILifeStage> stages;
 	protected final Reference2FloatOpenHashMap<Item> researchMaterials;
 
-	// Initialized in onSpeciesRegistered
-	private int speciesCount = -1;
-	@Nullable
-	private ImmutableMap<ResourceLocation, S> allSpecies;
+	private int speciesCount = 0;
+	// Empty until species are loaded (datapack on the server, sync packet on the client). Never null. Volatile:
+	// swapped by setSpecies from the reload/sync path, read by gameplay/JEI/GUI on many threads.
+	private volatile ImmutableMap<ResourceLocation, S> allSpecies = ImmutableMap.of();
 	// Empty until the mutation recipes are loaded by the reload handler. Never null. Volatile: rebuilt from the server
 	// game executor (AddReloadListenerEvent) and the client thread (RecipesUpdatedEvent), read by gameplay/JEI/GUI.
 	private volatile IMutationManager<S> mutations = new MutationManager<>(com.google.common.collect.ImmutableList.of());
@@ -92,10 +92,13 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, S> allSpecies) {
-		this.speciesCount = allSpecies.size();
+		setSpecies(allSpecies);
+	}
 
-		// Note for subclasses: you must call this super method or set the allSpecies yourself.
+	@org.jetbrains.annotations.ApiStatus.Internal
+	public void setSpecies(ImmutableMap<ResourceLocation, S> allSpecies) {
 		this.allSpecies = allSpecies;
+		this.speciesCount = allSpecies.size();
 	}
 
 	@org.jetbrains.annotations.ApiStatus.Internal
@@ -110,15 +113,11 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 
 	@Override
 	public List<S> getAllSpecies() {
-		checkSpecies();
-
 		return this.allSpecies.values().asList();
 	}
 
 	@Override
 	public S getSpecies(ResourceLocation id) {
-		checkSpecies();
-
 		S species = this.allSpecies.get(id);
 		if (species == null) {
 			throw new RuntimeException("No species was found with that ID: " + id);
@@ -128,8 +127,6 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 
 	@Override
 	public S getSpeciesSafe(ResourceLocation id) {
-		checkSpecies();
-
 		return this.allSpecies.get(id);
 	}
 
@@ -141,22 +138,12 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 
 	@Override
 	public ImmutableSet<ResourceLocation> getAllSpeciesIds() {
-		checkSpecies();
-
 		return this.allSpecies.keySet();
 	}
 
 	@Override
 	public int getSpeciesCount() {
-		checkSpecies();
-
 		return this.speciesCount;
-	}
-
-	private void checkSpecies() {
-		if (this.allSpecies == null) {
-			throw new IllegalStateException("Not all species have been registered for type: " + this.id);
-		}
 	}
 
 	/**
