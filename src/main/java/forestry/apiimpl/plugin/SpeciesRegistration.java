@@ -10,6 +10,7 @@ import forestry.api.plugin.ISpeciesBuilder;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -37,6 +38,15 @@ public abstract class SpeciesRegistration<I extends ISpeciesBuilder<? extends IS
 
 	public void modifySpecies(ResourceLocation id, Consumer<I> action) {
 		this.species.modify(id, action);
+	}
+
+	/**
+	 * Iterates the registered species builders in registration order, without building any species. Used by datagen
+	 * to read builder state (genus, products, genome overrides, ...) directly, bypassing
+	 * {@link #createDefaultGenomeBuilder}/{@link #buildAll} entirely.
+	 */
+	public void forEachSpeciesBuilder(BiConsumer<ResourceLocation, B> consumer) {
+		this.species.forEach(consumer);
 	}
 
 	// Builds the base genome (taxon defaults + species chromosome + remaining defaults) shared by
