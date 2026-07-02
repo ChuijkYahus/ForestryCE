@@ -63,6 +63,11 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	@Nullable
 	private ImmutableMap<ResourceLocation, ITreeEffect> treeEffects;
 
+	// Code-side per-species block/worldgen bindings, keyed by species id. Captured from the DefaultTreeSpecies builders
+	// at plugin registration (below); merged into runtime TreeSpecies by TreeSpeciesProjector. Never null after
+	// handleSpeciesRegistration. Volatile: written on the registration thread, read from the reload/sync projection path.
+	private volatile ImmutableMap<ResourceLocation, TreeBlockBindings> bindings = ImmutableMap.of();
+
 	public TreeSpeciesType(IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		super(ForestrySpeciesTypes.TREE, karyotype, builder);
 	}
@@ -70,6 +75,11 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	@Override
 	public IFruit getFruit(ResourceLocation id) {
 		return requireValue(this.fruits, id, "fruit");
+	}
+
+	@Nullable
+	public TreeBlockBindings getBindings(ResourceLocation id) {
+		return this.bindings.get(id);
 	}
 
 	@Nullable
@@ -122,6 +132,16 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		// store the reference-value registries backing the fruits and tree_effect chromosomes
 		this.treeEffects = registration.getEffects();
 		this.fruits = registration.getFruits();
+
+		// capture the code-side block/worldgen bindings from the registered builders
+		ImmutableMap.Builder<ResourceLocation, TreeBlockBindings> bindings = ImmutableMap.builder();
+		registration.forEachSpeciesBuilder((id, builder) -> bindings.put(id, new TreeBlockBindings(
+			builder.getGenerator(),
+			builder.getVanillaLeafStates(),
+			builder.getVanillaSaplingItems(),
+			builder.getDecorativeLeaves()
+		)));
+		this.bindings = bindings.build();
 
 		// initialize tree manager
 		((ForestryApiImpl) IForestryApi.INSTANCE).setTreeManager(registration.buildTreeManager());
