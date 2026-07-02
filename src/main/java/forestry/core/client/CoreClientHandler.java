@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.apiculture.IBeeClientManager;
@@ -33,7 +32,6 @@ import forestry.core.particles.CoreParticles;
 import forestry.core.render.*;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;
-import forestry.core.utils.SpeciesUtil;
 import forestry.modules.features.FeatureFluid;
 import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryTiles;
@@ -64,7 +62,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.awt.*;
-import java.util.Map;
 import java.util.OptionalDouble;
 
 public class CoreClientHandler implements IClientModuleHandler {
@@ -139,10 +136,8 @@ public class CoreClientHandler implements IClientModuleHandler {
 		IBeeClientManager beeManager = IForestryClientApi.INSTANCE.getBeeManager();
 
 		for (BeeLifeStage stage : BeeLifeStage.values()) {
-			Map<IBeeSpecies, ResourceLocation> models = beeManager.getBeeModels(stage);
-
-			for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
-				event.register(ModelResourceLocation.standalone(models.get(species)));
+			for (ResourceLocation location : beeManager.getAllModelLocations(stage)) {
+				event.register(ModelResourceLocation.standalone(location));
 			}
 		}
 

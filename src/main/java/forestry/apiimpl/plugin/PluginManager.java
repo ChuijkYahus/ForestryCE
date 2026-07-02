@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.mojang.datafixers.util.Pair;
 import forestry.Forestry;
 import forestry.api.IForestryApi;
-import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.circuits.CircuitHolder;
 import forestry.api.circuits.ICircuit;
@@ -248,27 +247,17 @@ public class PluginManager {
 		}
 
 		// Bees
-		List<IBeeSpecies> beeSpecies = SpeciesUtil.getAllBeeSpecies();
-		IdentityHashMap<ILifeStage, Map<IBeeSpecies, ResourceLocation>> beeModels = new IdentityHashMap<>();
+		// id-keyed: resolving a specific species happens at render time, so the (possibly
+		// datapack-driven) species list is not needed here.
+		IdentityHashMap<ILifeStage, ResourceLocation> defaultBeeModels = new IdentityHashMap<>();
+		IdentityHashMap<ILifeStage, Map<ResourceLocation, ResourceLocation>> customBeeModels = new IdentityHashMap<>();
 
 		for (ILifeStage stage : SpeciesUtil.BEE_TYPE.get().getLifeStages()) {
-			Map<ResourceLocation, ResourceLocation> locationsByStage = registration.getBeeModels().getOrDefault(stage, Map.of());
-			Map<IBeeSpecies, ResourceLocation> modelsByStage = new IdentityHashMap<>(locationsByStage.size());
-
-			for (IBeeSpecies species : beeSpecies) {
-				ResourceLocation modelLocation = locationsByStage.get(species.id());
-
-				if (modelLocation == null) {
-					// use default model location
-					modelLocation = Objects.requireNonNull(registration.getDefaultBeeModel(stage), "IClientRegistration.setDefaultBeeModel has not been called for life stage " + stage.getSerializedName() + ", unable to resolve bee default model");
-				}
-
-				modelsByStage.put(species, modelLocation);
-			}
-
-			beeModels.put(stage, modelsByStage);
+			ResourceLocation defaultModel = Objects.requireNonNull(registration.getDefaultBeeModel(stage), "IClientRegistration.setDefaultBeeModel has not been called for life stage " + stage.getSerializedName() + ", unable to resolve bee default model");
+			defaultBeeModels.put(stage, defaultModel);
+			customBeeModels.put(stage, registration.getBeeModels().getOrDefault(stage, Map.of()));
 		}
-		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setBeeManager(new BeeClientManager(beeModels));
+		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setBeeManager(new BeeClientManager(defaultBeeModels, customBeeModels));
 
 		// Trees
 		HashMap<ResourceLocation, ILeafSprite> spritesById = registration.getLeafSprites();
