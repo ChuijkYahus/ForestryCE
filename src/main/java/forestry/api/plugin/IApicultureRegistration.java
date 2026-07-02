@@ -1,6 +1,7 @@
 package forestry.api.plugin;
 
 import forestry.api.apiculture.IActivityType;
+import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.hives.IHiveDefinition;
@@ -85,6 +86,8 @@ public interface IApicultureRegistration {
 	void registerFlowerType(ResourceLocation id, IFlowerType type);
 
 	void registerBeeEffect(ResourceLocation id, IBeeEffect effect);
+
+	void registerBeeJubilance(ResourceLocation id, IBeeJubilance jubilance);
 
 	/**
 	 * Register an activity type, which defines activity periods for a bee.

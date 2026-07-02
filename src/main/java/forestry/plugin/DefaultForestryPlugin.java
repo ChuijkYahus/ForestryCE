@@ -27,6 +27,8 @@ import forestry.apiculture.*;
 import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.genetics.BeeSpeciesType;
+import forestry.apiculture.genetics.DefaultBeeJubilance;
+import forestry.apiculture.genetics.HermitBeeJubilance;
 import forestry.apiculture.genetics.effects.*;
 import forestry.apiculture.hives.HiveDefinition;
 import forestry.apiculture.items.EnumHoneyComb;
@@ -290,6 +292,9 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.ASCENSION, new AscensionBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.SCULK, new SculkSpreadBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.DARKNESS, new PotionBeeEffect(false, MobEffects.DARKNESS, 150));
+
+		apiculture.registerBeeJubilance(ForestryBeeJubilances.DEFAULT, DefaultBeeJubilance.INSTANCE);
+		apiculture.registerBeeJubilance(ForestryBeeJubilances.HERMIT, HermitBeeJubilance.INSTANCE);
 
 		apiculture.registerActivityType(ForestryActivityTypes.DIURNAL, new SingleActivityType(0, 12000, ForestryError.NOT_DAY, LightPreference.ANY));
 		apiculture.registerActivityType(ForestryActivityTypes.NOCTURNAL, new SingleActivityType(12000, 24000, ForestryError.NOT_NIGHT, LightPreference.DARK));

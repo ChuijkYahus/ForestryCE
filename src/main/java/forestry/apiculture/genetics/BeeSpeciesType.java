@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IApiaristTracker;
+import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
@@ -34,13 +35,15 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IBeeSpeciesType {
-	// Reference-value registries backing the flower_type, bee_effect, and activity chromosomes.
+	// Reference-value registries backing the flower_type, bee_effect, activity, and jubilance chromosomes.
 	@Nullable
 	private ImmutableMap<ResourceLocation, IFlowerType> flowerTypes;
 	@Nullable
 	private ImmutableMap<ResourceLocation, IBeeEffect> beeEffects;
 	@Nullable
 	private ImmutableMap<ResourceLocation, IActivityType> activityTypes;
+	@Nullable
+	private ImmutableMap<ResourceLocation, IBeeJubilance> jubilances;
 
 	public BeeSpeciesType(IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		super(ForestrySpeciesTypes.BEE, karyotype, builder);
@@ -65,6 +68,17 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	@Override
 	public IActivityType getActivityType(ResourceLocation id) {
 		return requireValue(this.activityTypes, id, "activity type");
+	}
+
+	@Override
+	public IBeeJubilance getJubilance(ResourceLocation id) {
+		return requireValue(this.jubilances, id, "bee jubilance");
+	}
+
+	@Nullable
+	@Override
+	public IBeeJubilance getJubilanceSafe(ResourceLocation id) {
+		return valueSafe(this.jubilances, id);
 	}
 
 	@Override
@@ -164,6 +178,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		this.beeEffects = registration.getBeeEffects();
 		this.flowerTypes = registration.getFlowerTypes();
 		this.activityTypes = registration.getActivityTypes();
+		this.jubilances = registration.getJubilances();
 
 		// initialize hive manager
 		((ForestryApiImpl) IForestryApi.INSTANCE).setHiveManager(registration.buildHiveManager());
