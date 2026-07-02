@@ -1,7 +1,6 @@
 package forestry.core.genetics.mutations;
 
 import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -30,6 +29,7 @@ import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.recipes.IForestryRecipe;
 import forestry.core.features.GeneticsRecipeTypes;
+import forestry.core.genetics.GenomeCodecs;
 
 /**
  * A data-holder recipe representing a single mutation, loaded from a datapack. It is not a crafting recipe;
@@ -174,7 +174,7 @@ public class MutationRecipe implements IForestryRecipe {
 		}
 
 		private static MapCodec<MutationRecipe> buildCodec(ResourceLocation speciesTypeId) {
-			Codec<Map<ResourceLocation, Allele<?>>> resultAllelesCodec = resultAllelesCodec(karyotype(speciesTypeId));
+			Codec<Map<ResourceLocation, Allele<?>>> resultAllelesCodec = GenomeCodecs.alleleMapCodec(karyotype(speciesTypeId));
 			return RecordCodecBuilder.mapCodec(instance -> instance.group(
 				ResourceLocation.CODEC.fieldOf("id").forGetter(MutationRecipe::getId),
 				ResourceLocation.CODEC.fieldOf("first").forGetter(MutationRecipe::getFirstParentId),
@@ -189,7 +189,7 @@ public class MutationRecipe implements IForestryRecipe {
 
 		private static StreamCodec<RegistryFriendlyByteBuf, MutationRecipe> buildStreamCodec(ResourceLocation speciesTypeId) {
 			IKaryotype karyotype = karyotype(speciesTypeId);
-			StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> resultAllelesStreamCodec = resultAllelesStreamCodec(karyotype);
+			StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> resultAllelesStreamCodec = GenomeCodecs.alleleMapStreamCodec(karyotype);
 			return StreamCodec.of(
 				(buf, recipe) -> {
 					ResourceLocation.STREAM_CODEC.encode(buf, recipe.id);
@@ -211,66 +211,6 @@ public class MutationRecipe implements IForestryRecipe {
 					return new MutationRecipe(speciesTypeId, id, first, second, result, chance, conditions, resultAlleles);
 				}
 			);
-		}
-
-		/**
-		 * A karyotype-aware codec for the optional {@code result_alleles} map. Keys are chromosome IDs; each value is a
-		 * single {@link Allele} serialized inline via the chromosome's own value codec.
-		 */
-		private static Codec<Map<ResourceLocation, Allele<?>>> resultAllelesCodec(IKaryotype karyotype) {
-			return Codec.<IChromosome<?>, Allele<?>>dispatchedMap(karyotype.chromosomeKeyCodec(), chromosome -> Allele.codec(chromosome.valueCodec()))
-				.xmap(
-					byChromosome -> {
-						Map<ResourceLocation, Allele<?>> byId = new LinkedHashMap<>(byChromosome.size());
-						byChromosome.forEach((chromosome, allele) -> byId.put(chromosome.id(), allele));
-						return byId;
-					},
-					byId -> {
-						Map<IChromosome<?>, Allele<?>> byChromosome = new LinkedHashMap<>(byId.size());
-						byId.forEach((id, allele) -> {
-							// Unknown chromosome ids are dropped on encode; a parsed recipe only ever holds valid ids.
-							IChromosome<?> chromosome = karyotype.getChromosome(id);
-							if (chromosome != null) {
-								byChromosome.put(chromosome, allele);
-							}
-						});
-						return byChromosome;
-					}
-				);
-		}
-
-		private static StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> resultAllelesStreamCodec(IKaryotype karyotype) {
-			return StreamCodec.of(
-				(buf, map) -> {
-					buf.writeVarInt(map.size());
-					map.forEach((id, allele) -> {
-						IChromosome<?> chromosome = karyotype.getChromosome(id);
-						if (chromosome == null) {
-							throw new IllegalStateException("Unknown chromosome in mutation result alleles: " + id);
-						}
-						ResourceLocation.STREAM_CODEC.encode(buf, id);
-						encodeAllele(buf, chromosome, allele);
-					});
-				},
-				buf -> {
-					int size = buf.readVarInt();
-					Map<ResourceLocation, Allele<?>> map = new LinkedHashMap<>(size);
-					for (int i = 0; i < size; i++) {
-						ResourceLocation id = ResourceLocation.STREAM_CODEC.decode(buf);
-						IChromosome<?> chromosome = karyotype.getChromosome(id);
-						if (chromosome == null) {
-							throw new IllegalStateException("Unknown chromosome in mutation result alleles: " + id);
-						}
-						map.put(id, Allele.streamCodec(chromosome.valueStreamCodec()).decode(buf));
-					}
-					return map;
-				}
-			);
-		}
-
-		@SuppressWarnings("unchecked")
-		private static <V> void encodeAllele(RegistryFriendlyByteBuf buf, IChromosome<V> chromosome, Allele<?> allele) {
-			Allele.streamCodec(chromosome.valueStreamCodec()).encode(buf, (Allele<V>) allele);
 		}
 	}
 }
