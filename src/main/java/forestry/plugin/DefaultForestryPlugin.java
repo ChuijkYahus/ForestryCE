@@ -159,7 +159,10 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 
 	@Override
 	public void registerApiculture(IApicultureRegistration apiculture) {
-		DefaultBeeSpecies.register(apiculture);
+		// Bee species themselves are no longer registered here; they are generated as datapack JSON
+		// by BeeSpeciesProvider (which calls DefaultBeeSpecies) and loaded at runtime by the
+		// datapack reload listener (BeeSpeciesManager). DefaultBeeSpecies stays in the source tree
+		// as datagen input only.
 
 		// Default hives
 		Supplier<List<ItemStack>> honeyComb = getHoneyComb(EnumHoneyComb.HONEY);

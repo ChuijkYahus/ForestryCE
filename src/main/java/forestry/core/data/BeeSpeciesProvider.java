@@ -2,6 +2,7 @@ package forestry.core.data;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -27,6 +28,7 @@ import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.DefaultBeeJubilance;
 import forestry.apiculture.genetics.HermitBeeJubilance;
 import forestry.apiimpl.plugin.ApicultureRegistration;
+import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.utils.SpeciesUtil;
 import forestry.plugin.DefaultBeeSpecies;
 
@@ -53,31 +55,55 @@ public class BeeSpeciesProvider implements DataProvider {
 		return this.lookupProvider.thenCompose(provider -> {
 			RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, provider);
 
-			IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
-			ApicultureRegistration reg = new ApicultureRegistration(type);
-			// DefaultBeeSpecies.register never calls registerBeeJubilance itself (it sets IBeeJubilance
-			// *instances* directly on each builder), so this fresh registration needs the same companion
-			// registrations DefaultForestryPlugin#registerApiculture makes, to invert instance -> id below.
-			reg.registerBeeJubilance(ForestryBeeJubilances.DEFAULT, DefaultBeeJubilance.INSTANCE);
-			reg.registerBeeJubilance(ForestryBeeJubilances.HERMIT, HermitBeeJubilance.INSTANCE);
-			DefaultBeeSpecies.register(reg);
-
-			Map<IBeeJubilance, ResourceLocation> jubilanceIds = new IdentityHashMap<>();
-			reg.getJubilances().forEach((id, instance) -> jubilanceIds.put(instance, id));
-
 			List<CompletableFuture<?>> futures = new ArrayList<>();
-			reg.forEachSpeciesBuilder((id, builder) -> futures.add(saveSpecies(cache, ops, jubilanceIds, id, builder)));
+			buildDefinitions().forEach((id, def) -> futures.add(saveSpecies(cache, ops, id, def)));
 			return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
 		});
 	}
 
-	private CompletableFuture<?> saveSpecies(CachedOutput cache, RegistryOps<JsonElement> ops, Map<IBeeJubilance, ResourceLocation> jubilanceIds, ResourceLocation id, IBeeSpeciesBuilder builder) {
+	/**
+	 * Builds every built-in bee species definition straight from the {@code DefaultBeeSpecies} builders - the same
+	 * definitions {@link #run} serializes to {@code bee_species/*.json}. Needs no registry access (unlike {@link
+	 * #run}, which only needs {@link RegistryOps} to encode the result to JSON), so it can also be used to seed the
+	 * live species type - see {@link #seedLiveSpeciesForDatagen()}.
+	 */
+	public static Map<ResourceLocation, BeeSpeciesDefinition> buildDefinitions() {
+		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
+		ApicultureRegistration reg = new ApicultureRegistration(type);
+		// DefaultBeeSpecies.register never calls registerBeeJubilance itself (it sets IBeeJubilance
+		// *instances* directly on each builder), so this fresh registration needs the same companion
+		// registrations DefaultForestryPlugin#registerApiculture makes, to invert instance -> id below.
+		reg.registerBeeJubilance(ForestryBeeJubilances.DEFAULT, DefaultBeeJubilance.INSTANCE);
+		reg.registerBeeJubilance(ForestryBeeJubilances.HERMIT, HermitBeeJubilance.INSTANCE);
+		DefaultBeeSpecies.register(reg);
+
+		Map<IBeeJubilance, ResourceLocation> jubilanceIds = new IdentityHashMap<>();
+		reg.getJubilances().forEach((id, instance) -> jubilanceIds.put(instance, id));
+
+		Map<ResourceLocation, BeeSpeciesDefinition> definitions = new LinkedHashMap<>();
+		reg.forEachSpeciesBuilder((id, builder) -> definitions.put(id, buildDefinition(jubilanceIds, builder)));
+		return definitions;
+	}
+
+	/**
+	 * Populates the live bee species type directly from {@link #buildDefinitions()}, bypassing the datapack JSON
+	 * round trip. Only for use by the standalone data generator ({@code Data#preDataGen}): recipe/loot providers
+	 * (e.g. the centrifuge recipe for {@code bee_relic}) need real bee species objects in memory while they run, but
+	 * a data-generator invocation never fires the {@code AddReloadListenerEvent}/datapack-reload cycle that loads
+	 * them at real server start - species built here come from the identical {@code DefaultBeeSpecies} source the
+	 * generated JSON itself is derived from, so this does not reintroduce a second, divergent species source.
+	 */
+	public static void seedLiveSpeciesForDatagen() {
+		GeneticsReloadHandler.rebuildSpecies(buildDefinitions());
+	}
+
+	private static BeeSpeciesDefinition buildDefinition(Map<IBeeJubilance, ResourceLocation> jubilanceIds, IBeeSpeciesBuilder builder) {
 		RecordingGenomeBuilder rec = new RecordingGenomeBuilder();
 		builder.buildGenome(rec);
 
 		ResourceLocation jubilanceId = jubilanceIds.getOrDefault(builder.getJubilance(), ForestryBeeJubilances.DEFAULT);
 
-		BeeSpeciesDefinition def = new BeeSpeciesDefinition(
+		return new BeeSpeciesDefinition(
 			builder.getGenus(),
 			builder.getSpecies(),
 			builder.isDominant(),
@@ -96,7 +122,9 @@ public class BeeSpeciesProvider implements DataProvider {
 			jubilanceId,
 			rec.overrides
 		);
+	}
 
+	private CompletableFuture<?> saveSpecies(CachedOutput cache, RegistryOps<JsonElement> ops, ResourceLocation id, BeeSpeciesDefinition def) {
 		JsonElement json = BeeSpeciesDefinition.codec().encodeStart(ops, def).getOrThrow();
 		return DataProvider.saveStable(cache, json, this.pathProvider.json(id));
 	}

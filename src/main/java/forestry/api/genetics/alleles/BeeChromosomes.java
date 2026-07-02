@@ -4,10 +4,12 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 
+import forestry.Forestry;
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.core.genetics.alleles.ChromosomeFactory;
@@ -25,7 +27,24 @@ public class BeeChromosomes {
 	/**
 	 * The species of a bee. The genome stores the species' ID.
 	 */
-	public static final IChromosome<ResourceLocation> SPECIES = ChromosomeFactory.referenceChromosome(ForestrySpeciesTypes.BEE, id -> SpeciesUtil.BEE_TYPE.get().getSpecies(id), IBeeSpecies::isDominant);
+	public static final IChromosome<ResourceLocation> SPECIES = ChromosomeFactory.referenceChromosome(ForestrySpeciesTypes.BEE, BeeChromosomes::resolveSpeciesOrDefault, IBeeSpecies::isDominant);
+
+	/**
+	 * Resolves a bee species id stored in a genome (e.g. from a saved item, or an old save) to its species,
+	 * falling back to the default species instead of throwing if a datapack has since removed it. This resolver
+	 * backs every SPECIES chromosome read, so it is exercised whenever a bee item/individual's genome is decoded
+	 * (tooltips, the analyzer, breeding, etc.) - a bad/removed id here must never crash those paths.
+	 */
+	private static IBeeSpecies resolveSpeciesOrDefault(ResourceLocation id) {
+		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
+		IBeeSpecies species = type.getSpeciesSafe(id);
+		if (species != null) {
+			return species;
+		}
+		Forestry.LOGGER.warn("Bee species {} not found (removed by a datapack?); falling back to the default species", id);
+		return type.getDefaultSpecies();
+	}
+
 	/**
 	 * Determines a queen's production speed. Shows up as "worker" in the portable analyzer.
 	 */

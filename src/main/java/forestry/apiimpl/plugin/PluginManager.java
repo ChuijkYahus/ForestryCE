@@ -182,11 +182,9 @@ public class PluginManager {
 		for (Map.Entry<ISpeciesType<?, ?>, ImmutableMap<ResourceLocation, ?>> entry : allSpecies.entrySet()) {
 			ISpeciesType<?, ?> speciesType = entry.getKey();
 
+			// Data-driven species types (e.g. bees) are legitimately empty here; their species map
+			// is populated later by a datapack reload listener, so no empty-species guard is enforced.
 			speciesType.onSpeciesRegistered((ImmutableMap) entry.getValue());
-
-			if (speciesType.getAllSpecies().isEmpty()) {
-				throw new IllegalStateException("Failed to register species for type " + speciesType.id());
-			}
 		}
 	}
 
