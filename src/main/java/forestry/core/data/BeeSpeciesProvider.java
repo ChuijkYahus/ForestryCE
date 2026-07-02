@@ -87,10 +87,11 @@ public class BeeSpeciesProvider implements DataProvider {
 
 	/**
 	 * Populates the live bee species type directly from {@link #buildDefinitions()}, bypassing the datapack JSON
-	 * round trip. Only for use by the standalone data generator ({@code Data#preDataGen}): recipe/loot providers
-	 * (e.g. the centrifuge recipe for {@code bee_relic}) need real bee species objects in memory while they run, but
-	 * a data-generator invocation never fires the {@code AddReloadListenerEvent}/datapack-reload cycle that loads
-	 * them at real server start - species built here come from the identical {@code DefaultBeeSpecies} source the
+	 * round trip. Only for use by the standalone data generator ({@code Data#preDataGen}): a data-generator
+	 * invocation never fires the {@code AddReloadListenerEvent}/datapack-reload cycle that loads species at real
+	 * server start. The sole remaining consumer that needs live species in memory is the centrifuge recipe whose
+	 * result is a concrete bee {@code ItemStack} ({@code BEE_TYPE.createStack(RELIC, DRONE)}) - loot references bees
+	 * by id and needs no lookup. Species built here come from the identical {@code DefaultBeeSpecies} source the
 	 * generated JSON itself is derived from, so this does not reintroduce a second, divergent species source.
 	 */
 	public static void seedLiveSpeciesForDatagen() {
