@@ -71,8 +71,14 @@ public class BeeSpeciesEquivalenceTest {
 		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
 
 		List<IBeeSpecies> allSpecies = type.getAllSpecies();
-		if (allSpecies.size() < 50) {
-			helper.fail("Expected around 60+ built-in bee species, but only found " + allSpecies.size());
+		// Canary against a silent species drop. 69 is the current number of DefaultBeeSpecies registrations, which is
+		// exactly the number of bee_species/*.json files runData generates (one per builder) - so this floor also
+		// tracks the generated-JSON count. A tight floor (not a soft "~50") makes any accidentally-dropped species
+		// fail here immediately rather than passing by iterating a quietly-shortened list; adding a new built-in bee
+		// is expected to bump this constant in lockstep with regenerating the JSON.
+		int expectedBuiltinCount = 69;
+		if (allSpecies.size() < expectedBuiltinCount) {
+			helper.fail("Expected at least " + expectedBuiltinCount + " built-in bee species, but only found " + allSpecies.size() + " (a species was silently dropped?)");
 			return;
 		}
 
@@ -140,14 +146,25 @@ public class BeeSpeciesEquivalenceTest {
 		if (!codeBuilt.getGenus().equals(projected.getGenus())) {
 			return "genus " + codeBuilt.getGenus().name() + " != " + projected.getGenus().name();
 		}
-		// "complexity" (the raw builder field, always 0 for every built-in today) is checked against the generated
-		// definition rather than IBeeSpecies#getComplexity(): that getter lazily derives a research-complexity value
-		// from the *live* MutationManager, which indexes species by object identity (IdentityHashMap). The
-		// freshly-projected species here was never inserted into that index, so its derived complexity would read as
-		// a constant (no known ancestors) while the registered code-built species' derived value reflects real
-		// mutation ancestry - an identity-based mismatch unrelated to whether projection is faithful.
+		// Complexity is NOT compared projected-vs-code-built like the fields above; this is a weaker invariant guard,
+		// called out explicitly so a future reader does not mistake its strength for the surrounding equivalence
+		// assertions. Two facts force this:
+		//   (a) Forestry bee "complexity" is not an authored/stored property - every built-in authors 0, and
+		//       Species#getComplexity() lazily *derives* a research value by walking the mutation tree
+		//       (GeneticsUtil#getResearchComplexity) on first read.
+		//   (b) That derivation reads the *live* MutationManager, which indexes species by object identity
+		//       (IdentityHashMap). The freshly-projected BeeSpecies here was never inserted into that index, so
+		//       projected.getComplexity() would derive a constant (1, no known ancestors) while
+		//       codeBuilt.getComplexity() derives the real mutation-chain depth - an identity-based divergence that
+		//       has nothing to do with whether projection is faithful, and cannot be reconciled at this layer.
+		// The stored raw value (0) also can't be read back honestly: getComplexity() self-derives precisely when the
+		// stored field is 0, and no raw accessor exists (adding one would be a production change, out of scope for a
+		// test fix). So the achievable, honest check is: the generated definition faithfully captured the builder's
+		// authored complexity (0 for all built-ins). DefinitionBeeSpeciesBuilder#getComplexity() returns exactly this
+		// def.complexity() into the Species constructor, so a non-zero here would mean the datagen provider fabricated
+		// a complexity the builder never authored.
 		if (def.complexity() != 0) {
-			return "complexity: expected the generated definition to preserve the builder's raw complexity 0, but got " + def.complexity();
+			return "complexity invariant: generated definition should preserve the builder's authored complexity 0, but got " + def.complexity();
 		}
 
 		String productsMismatch = compareProducts("products", codeBuilt.getProducts(), projected.getProducts());
