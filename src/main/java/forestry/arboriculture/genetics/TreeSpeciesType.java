@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
+import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IArboristTracker;
 import forestry.api.arboriculture.ILeafTickHandler;
@@ -95,14 +96,22 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 
 	@Override
 	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies) {
+		// Base delegates to setSpecies (overridden below), which runs the tree side effects. Kept as an override point.
 		super.onSpeciesRegistered(allSpecies);
+	}
 
+	@Override
+	public void setSpecies(ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies) {
+		super.setSpecies(allSpecies);
+		rebuildVanillaMembership(allSpecies);
+		rebuildLeafTypes(allSpecies);
+	}
+
+	private void rebuildVanillaMembership(ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies) {
 		this.vanillaIndividuals.clear();
 		this.vanillaItems.clear();
-
 		for (ITreeSpecies entry : allSpecies.values()) {
 			ITree defaultIndividual = entry.createIndividual();
-
 			for (BlockState state : entry.getVanillaLeafStates()) {
 				this.vanillaIndividuals.put(state, defaultIndividual);
 			}
@@ -110,13 +119,17 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 				this.vanillaItems.put(item, defaultIndividual);
 			}
 		}
+	}
+
+	private void rebuildLeafTypes(ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies) {
 		for (ForestryLeafType type : ForestryLeafType.allValues()) {
 			ITreeSpecies species = allSpecies.get(type.getSpeciesId());
-
 			if (species != null) {
 				type.setSpecies(species);
 			} else {
-				throw new IllegalStateException("Invalid ForestryLeafType " + type.getSerializedName() + ": no tree species found with ID: " + type.getSpeciesId());
+				// Tolerant: the species may not have loaded yet (empty at setup before the datapack loads, or removed by a
+				// datapack). Leave the last-known back-ref and warn instead of throwing, so startup/reload never crashes.
+				Forestry.LOGGER.warn("ForestryLeafType {} has no tree species with id {} (not yet loaded or removed by a datapack)", type.getSerializedName(), type.getSpeciesId());
 			}
 		}
 	}
