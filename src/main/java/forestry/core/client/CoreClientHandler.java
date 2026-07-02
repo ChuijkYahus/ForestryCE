@@ -20,7 +20,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.circuits.GuiSolderingIron;
 import forestry.core.config.Constants;
-import forestry.core.genetics.mutations.MutationReloadHandler;
+import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.features.*;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.gui.*;
@@ -309,7 +309,8 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 	private static void onRecipesUpdated(RecipesUpdatedEvent event) {
 		// Recipes sync to the client automatically; rebuild the client-side mutation index for JEI/analyzer display.
-		MutationReloadHandler.rebuild(event.getRecipeManager());
+		// Species (BeeSpeciesSyncPacket) arrive separately and are rebuilt there, always before this fires.
+		GeneticsReloadHandler.rebuildMutations(event.getRecipeManager());
 	}
 
 	private static void onClientTick(RenderLevelStageEvent event) {

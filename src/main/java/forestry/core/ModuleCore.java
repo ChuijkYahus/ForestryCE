@@ -11,6 +11,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IPacketRegistry;
 import forestry.apiculture.features.ApicultureItems;
+import forestry.apiculture.genetics.BeeSpeciesManager;
 import forestry.apiculture.items.ItemPollenCluster;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
@@ -23,7 +24,7 @@ import forestry.core.commands.DiagnosticsCommand;
 import forestry.core.commands.DumpCommand;
 import forestry.core.features.CoreItems;
 import forestry.core.features.CoreTiles;
-import forestry.core.genetics.mutations.MutationReloadHandler;
+import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.items.ItemPipette;
 import forestry.core.items.ItemSpectacles;
 import forestry.core.items.definitions.EnumCraftingMaterial;
@@ -54,6 +55,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
@@ -96,6 +98,7 @@ public class ModuleCore extends BlankForestryModule {
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onTagsUpdated);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::onDatapackSync);
 
 		PluginManager.registerAsyncException(modBus);
 	}
@@ -211,13 +214,32 @@ public class ModuleCore extends BlankForestryModule {
 			});
 		});
 
+		// Load bee species from the "bee_species" datapack folder and rebuild the live species map from them.
+		// SimpleJsonResourceReloadListener#apply already runs on the game executor (see
+		// SimplePreparableReloadListener#reload: prepare() -> prepBarrier.wait() -> apply() via thenAcceptAsync(...,
+		// gameExecutor)), so no extra marshalling onto gameExecutor is needed here. Registered before the mutation
+		// listener below: apply order follows registration order, and mutations must resolve species that already
+		// exist in the live map.
+		event.addListener(BeeSpeciesManager.INSTANCE);
+
 		// Rebuild each species type's mutation index from the (re)loaded mutation recipes. Mod reload listeners run
 		// after vanilla ones (and the reload barrier applies listeners in order), so by the apply phase the vanilla
 		// RecipeManager is fully populated. Run on the game executor since this mutates shared species-type state.
 		RecipeManager recipeManager = event.getServerResources().getRecipeManager();
 		event.addListener((prepBarrier, resourceManager, prepProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
-			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(() -> MutationReloadHandler.rebuild(recipeManager), gameExecutor);
+			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(() -> GeneticsReloadHandler.rebuildMutations(recipeManager), gameExecutor);
 		});
+	}
+
+	/**
+	 * Sends the loaded bee species definitions to the client on login/reload, before tags and recipes sync (per
+	 * {@code OnDatapackSyncEvent}'s contract). The client has no datapack access, so this packet is its only source
+	 * for {@code BeeSpeciesManager}'s definitions; {@code BeeSpeciesSyncPacket#handle} rebuilds the client-side
+	 * species (and, in order, mutation) index from them.
+	 */
+	private static void onDatapackSync(OnDatapackSyncEvent event) {
+		BeeSpeciesSyncPacket packet = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
+		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(packet, player));
 	}
 
 	private static void registerCommands(RegisterCommandsEvent event) {
@@ -265,6 +287,7 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.TANK_LEVEL_UPDATE, PacketTankLevelUpdate::encode, PacketTankLevelUpdate::decode, PacketTankLevelUpdate::handle);
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket::encode, RecipeCachePacket::decode, RecipeCachePacket::handle);
 		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax::encode, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
+		registry.clientbound(PacketIdClient.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
 	}
 
 	@Override
