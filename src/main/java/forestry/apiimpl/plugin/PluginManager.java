@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.mojang.datafixers.util.Pair;
 import forestry.Forestry;
 import forestry.api.IForestryApi;
-import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.circuits.CircuitHolder;
 import forestry.api.circuits.ICircuit;
 import forestry.api.circuits.ICircuitLayout;
@@ -29,7 +28,6 @@ import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.client.TreeClientManager;
 import forestry.apiimpl.client.genetics.GeneticClientManager;
 import forestry.apiimpl.client.plugin.ClientRegistration;
-import forestry.arboriculture.client.FixedLeafTint;
 import forestry.core.circuits.CircuitLayout;
 import forestry.core.circuits.CircuitManager;
 import forestry.core.errors.ErrorManager;
@@ -258,38 +256,32 @@ public class PluginManager {
 		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setBeeManager(new BeeClientManager(defaultBeeModels, customBeeModels));
 
 		// Trees
+		// id-keyed: resolving a species happens at render time by id, so the (datapack-driven) species list is not
+		// needed to build the sprite/model maps below.
 		HashMap<ResourceLocation, ILeafSprite> spritesById = registration.getLeafSprites();
 		HashMap<ResourceLocation, ILeafTint> tintsById = registration.getTints();
 		HashMap<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> modelsById = registration.getSaplingModels();
-		List<ITreeSpecies> treeSpecies = SpeciesUtil.getAllTreeSpecies();
-		// Copy everything over to identity maps to minimize Map.get overhead during rendering
-		IdentityHashMap<ITreeSpecies, ILeafSprite> sprites = new IdentityHashMap<>(treeSpecies.size());
-		IdentityHashMap<ITreeSpecies, ILeafTint> tints = new IdentityHashMap<>(treeSpecies.size());
-		IdentityHashMap<ITreeSpecies, Pair<ResourceLocation, ResourceLocation>> models = new IdentityHashMap<>(treeSpecies.size());
 
-		for (ITreeSpecies species : treeSpecies) {
-			ResourceLocation id = species.id();
+		// The escritoire-color tint fallback (for the ~40 built-in species that register no explicit client tint) is
+		// applied lazily at render time in TreeClientManager#getTint from the species object itself, so no species-list
+		// iteration is needed here and datapack-added species get the same fallback reloadably.
 
-			ILeafSprite sprite = Objects.requireNonNull(spritesById.get(id), "No leaf sprite registered for tree species " + id + ", did you call IClientRegistration.setLeafSprite ?");
-			ILeafTint tint = tintsById.getOrDefault(id, new FixedLeafTint(species.getEscritoireColor()));
-			Pair<ResourceLocation, ResourceLocation> modelPair = modelsById.get(id);
-
-			sprites.put(species, sprite);
-			tints.put(species, tint);
-
-			if (modelPair != null) {
-				models.put(species, modelPair);
-			} else {
-				// default sapling block and item models (removes the "tree_" prefix)
-				String path = id.getPath().replace("tree_", "");
-				models.put(species, Pair.of(
-					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + path + "_sapling"),
-					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/" + path + "_sapling")
-				));
-			}
+		// For any species id that has a leaf sprite but no explicit sapling model, synthesize the default-path pair
+		// (removing the "tree_" prefix), exactly as the old per-species loop did.
+		Map<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> models = new HashMap<>(modelsById);
+		for (ResourceLocation id : spritesById.keySet()) {
+			models.computeIfAbsent(id, sid -> {
+				String path = sid.getPath().replace("tree_", "");
+				return Pair.of(
+					ResourceLocation.fromNamespaceAndPath(sid.getNamespace(), "block/" + path + "_sapling"),
+					ResourceLocation.fromNamespaceAndPath(sid.getNamespace(), "item/" + path + "_sapling")
+				);
+			});
 		}
 
-		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setTreeManager(new TreeClientManager(sprites, tints, models));
+		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setTreeManager(new TreeClientManager(
+			new HashMap<>(spritesById), new HashMap<>(tintsById), models
+		));
 
 		// Butterflies
 		HashMap<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> butterflyTexturesById = registration.getButterflyTextures();

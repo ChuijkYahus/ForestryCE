@@ -81,6 +81,10 @@ public class ModelDefaultLeaves extends ModelBlockCached<BlockDefaultLeaves, Mod
 
 		ITreeSpecies species = SpeciesUtil.getTreeSpecies(speciesId);
 		ILeafSprite leafSpriteProvider = IForestryClientApi.INSTANCE.getTreeManager().getLeafSprite(species);
+		if (leafSpriteProvider == null) {
+			species = SpeciesUtil.TREE_TYPE.get().getDefaultSpecies();
+			leafSpriteProvider = IForestryClientApi.INSTANCE.getTreeManager().getLeafSprite(species);
+		}
 
 		ResourceLocation leafSpriteLocation = leafSpriteProvider.get(false, key.fancy);
 		TextureAtlasSprite leafSprite = ResourceUtil.getBlockSprite(leafSpriteLocation);

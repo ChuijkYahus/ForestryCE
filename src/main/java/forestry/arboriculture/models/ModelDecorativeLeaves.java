@@ -49,6 +49,11 @@ public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, 
 
 		ITreeSpecies species = SpeciesUtil.getTreeSpecies(speciesId);
 		ILeafSprite sprite = IForestryClientApi.INSTANCE.getTreeManager().getLeafSprite(species);
+		if (sprite == null) {
+			// species itself is kept as-is (used below for the fruit overlay lookup); only the
+			// sprite falls back, so an unregistered-client species doesn't NPE the leaf render.
+			sprite = IForestryClientApi.INSTANCE.getTreeManager().getLeafSprite(SpeciesUtil.TREE_TYPE.get().getDefaultSpecies());
+		}
 
 		ResourceLocation textureLocation = sprite.get(false, key.fancy);
 		TextureAtlasSprite textureSprite = ResourceUtil.getBlockSprite(textureLocation);
