@@ -16,6 +16,7 @@ import forestry.apiculture.items.ItemPollenCluster;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
+import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.arboriculture.loot.GrafterLootModifier;
 import forestry.core.blocks.TileStreamUpdateTracker;
 import forestry.core.client.CoreClientHandler;
@@ -222,6 +223,11 @@ public class ModuleCore extends BlankForestryModule {
 		// exist in the live map.
 		event.addListener(BeeSpeciesManager.INSTANCE);
 
+		// Load tree species from the "tree_species" datapack folder and rebuild the live species map from them.
+		// Registered right after BeeSpeciesManager and, like it, before the mutation listener below: apply order
+		// follows registration order, and mutations must resolve species that already exist in the live map.
+		event.addListener(TreeSpeciesManager.INSTANCE);
+
 		// Rebuild each species type's mutation index from the (re)loaded mutation recipes. Mod reload listeners run
 		// after vanilla ones (and the reload barrier applies listeners in order), so by the apply phase the vanilla
 		// RecipeManager is fully populated. Run on the game executor since this mutates shared species-type state.
@@ -232,14 +238,19 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	/**
-	 * Sends the loaded bee species definitions to the client on login/reload, before tags and recipes sync (per
-	 * {@code OnDatapackSyncEvent}'s contract). The client has no datapack access, so this packet is its only source
-	 * for {@code BeeSpeciesManager}'s definitions; {@code BeeSpeciesSyncPacket#handle} rebuilds the client-side
-	 * species (and, in order, mutation) index from them.
+	 * Sends the loaded bee and tree species definitions to the client on login/reload, before tags and recipes sync
+	 * (per {@code OnDatapackSyncEvent}'s contract). The client has no datapack access, so these packets are its only
+	 * source for {@code BeeSpeciesManager}'s/{@code TreeSpeciesManager}'s definitions; {@code BeeSpeciesSyncPacket}/
+	 * {@code TreeSpeciesSyncPacket}'s {@code handle} rebuild the client-side species (and, in order, mutation) index
+	 * from them.
 	 */
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
-		BeeSpeciesSyncPacket packet = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
-		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(packet, player));
+		BeeSpeciesSyncPacket beePacket = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
+		TreeSpeciesSyncPacket treePacket = new TreeSpeciesSyncPacket(TreeSpeciesManager.INSTANCE.getDefinitions());
+		event.getRelevantPlayers().forEach(player -> {
+			NetworkUtil.sendToPlayer(beePacket, player);
+			NetworkUtil.sendToPlayer(treePacket, player);
+		});
 	}
 
 	private static void registerCommands(RegisterCommandsEvent event) {
@@ -288,6 +299,7 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket::encode, RecipeCachePacket::decode, RecipeCachePacket::handle);
 		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax::encode, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
 		registry.clientbound(PacketIdClient.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
+		registry.clientbound(PacketIdClient.TREE_SPECIES_SYNC, TreeSpeciesSyncPacket::encode, TreeSpeciesSyncPacket::decode, TreeSpeciesSyncPacket::handle);
 	}
 
 	@Override

@@ -19,19 +19,20 @@ import forestry.api.core.TemperatureType;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.SpeciesType;
 import forestry.core.utils.SpeciesUtil;
 
 /**
- * Note: {@code TreeSpeciesProvider.buildDefinitions()} (Task 8) doesn't exist yet, so this test builds a single
- * definition inline from the live oak species (mirroring {@code TreeSpeciesProjectorTest}). Task 8 will expand this
- * to the full round-trip over every code-registered tree species.
+ * Note: {@code TreeSpeciesProvider.buildDefinitions()} (Task 8) doesn't exist yet, so {@code rebuildRepopulatesSpecies}
+ * builds a single definition inline from the live oak species (mirroring {@code TreeSpeciesProjectorTest}). Task 8
+ * will expand this to the full round-trip over every code-registered tree species.
  * <p>
- * {@code rebuildRepopulatesSpecies} mutates the live {@code TREE_TYPE}'s species map down to a single (oak-only)
- * entry and restores it in a {@code finally} block (mirroring {@code SpeciesFallbackTest}), so other GameTests
- * running later in the same server session - notably {@code MutationRecipeTest}'s tree mutation assertions - still
- * see the full built-in tree species set.
+ * Both tests below mutate the live {@code TREE_TYPE}'s species map and restore it (plus rebuild mutations) in a
+ * {@code finally} block (mirroring {@code SpeciesFallbackTest}), so other GameTests running later in the same
+ * server session - notably {@code MutationRecipeTest}'s tree mutation assertions - still see the full built-in tree
+ * species set.
  */
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
@@ -69,6 +70,48 @@ public class TreeSpeciesReloadTest {
 
 			if (type.getSpeciesSafe(ForestryTreeSpecies.OAK) == null) {
 				helper.fail("Expected rebuildTreeSpecies to repopulate oak from the projected definitions map");
+				return;
+			}
+		} finally {
+			// Restore the live state so later tests in this same server session (e.g. MutationRecipeTest's tree
+			// mutation assertions) still see the full built-in tree species set, and re-pair the mutation index with
+			// the restored species (rebuildMutations rebuilds all species types, mirroring SpeciesFallbackTest).
+			((SpeciesType<ITreeSpecies, ?>) type).setSpecies(snapshot);
+			GeneticsReloadHandler.rebuildMutations(helper.getLevel().getServer().getRecipeManager());
+		}
+
+		helper.succeed();
+	}
+
+	/**
+	 * Confirms {@code TreeSpeciesManager.INSTANCE} actually ran as a server reload listener at server start (Task 9
+	 * cutover): it should have parsed the full 50-entry built-in {@code tree_species} datapack (generated in Task 8,
+	 * byte-faithful to the code-registered species), and re-deriving the live species map from exactly those
+	 * definitions should reproduce the full built-in set. Mutates and restores the live species map exactly like
+	 * {@code rebuildRepopulatesSpecies} above, so it doesn't leak into later tests in the same server session.
+	 */
+	@GameTest(template = "empty")
+	@SuppressWarnings("unchecked")
+	public static void managerLoadedAllSpeciesAtServerStart(GameTestHelper helper) {
+		ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
+
+		Map<ResourceLocation, TreeSpeciesDefinition> definitions = TreeSpeciesManager.INSTANCE.getDefinitions();
+		if (definitions.size() != 50) {
+			helper.fail("Expected TreeSpeciesManager to have loaded 50 tree species from the datapack at server start, got " + definitions.size());
+			return;
+		}
+
+		// Snapshot the live, full species map before re-deriving it from the manager's definitions, so it can be
+		// restored afterwards (mirrors rebuildRepopulatesSpecies above).
+		ImmutableMap<ResourceLocation, ITreeSpecies> snapshot = ImmutableMap.copyOf(
+			type.getAllSpeciesIds().stream().collect(java.util.stream.Collectors.toMap(id -> id, type::getSpecies))
+		);
+
+		try {
+			GeneticsReloadHandler.rebuildTreeSpecies(definitions);
+
+			if (type.getAllSpeciesIds().size() != 50) {
+				helper.fail("Expected rebuildTreeSpecies(manager definitions) to reproduce the full 50-species built-in set, got " + type.getAllSpeciesIds().size());
 				return;
 			}
 		} finally {
