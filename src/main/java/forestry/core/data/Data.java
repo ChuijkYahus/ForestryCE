@@ -59,6 +59,7 @@ public class Data {
 		generator.addProvider(event.includeClient(), new ForestryAtlasProvider(output, lookup, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ForestryFeaturesProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new BeeSpeciesProvider(output, lookup));
+		generator.addProvider(event.includeServer(), new TreeSpeciesProvider(output, lookup));
 		generator.addProvider(event.includeClient(), new ForestryCuriosProvider(output, existingFileHelper, lookup));
 	}
 
@@ -77,5 +78,9 @@ public class Data {
 		// bee by id (see the lazy id-template-stack follow-up), seed the live species type from the same
 		// DefaultBeeSpecies source BeeSpeciesProvider generates its JSON from.
 		BeeSpeciesProvider.seedLiveSpeciesForDatagen();
+
+		// Tree species come from datapack JSON at real server start; datagen never fires that reload, so seed the
+		// live tree type from the same DefaultTreeSpecies source any stack-baking provider/loot needs.
+		TreeSpeciesProvider.seedLiveSpeciesForDatagen();
 	}
 }
