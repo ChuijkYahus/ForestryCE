@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
@@ -83,7 +84,9 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 		ITree tree = getTree(world, pos);
 		ITreeSpecies species;
 		if (tree == null) {
-			species = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.OAK);
+			ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
+			ITreeSpecies oak = type.getSpeciesSafe(ForestryTreeSpecies.OAK);
+			species = oak != null ? oak : type.getDefaultSpecies();
 		} else {
 			species = tree.getGenome().resolveActive(TreeChromosomes.SPECIES);
 		}

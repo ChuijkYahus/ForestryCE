@@ -159,7 +159,10 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		// initialize tree manager
 		((ForestryApiImpl) IForestryApi.INSTANCE).setTreeManager(registration.buildTreeManager());
 
-		return registration.buildAll();
+		// Tree species are no longer built at setup; they come exclusively from the tree_species datapack loader. The
+		// companion reference registries (fruits/effects), the TreeManager, and the block/worldgen bindings above are
+		// still captured here so projection can resolve them.
+		return ImmutableMap.of();
 	}
 
 	@Override

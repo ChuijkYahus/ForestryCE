@@ -47,11 +47,17 @@ public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, 
 	protected void bakeBlock(B block, ModelData extraData, ModelDefaultLeaves.Key key, ModelBaker baker, boolean inventory) {
 		ResourceLocation speciesId = key.speciesId;
 
-		ITreeSpecies species = SpeciesUtil.getTreeSpecies(speciesId);
+		// Resolve fail-soft: a datapack may have removed this species while its leaf block is still placed, so use
+		// getSpeciesSafe (not the throwing getTreeSpecies) and fall the species itself back to default - it's reused
+		// for the fruit-overlay lookup below, so it must be non-null.
+		ITreeSpecies species = SpeciesUtil.TREE_TYPE.get().getSpeciesSafe(speciesId);
+		if (species == null) {
+			species = SpeciesUtil.TREE_TYPE.get().getDefaultSpecies();
+		}
 		ILeafSprite sprite = IForestryClientApi.INSTANCE.getTreeManager().getLeafSprite(species);
 		if (sprite == null) {
-			// species itself is kept as-is (used below for the fruit overlay lookup); only the
-			// sprite falls back, so an unregistered-client species doesn't NPE the leaf render.
+			// species exists but registered no client sprite: keep it as-is (used below for the fruit overlay
+			// lookup); only the sprite falls back, so an unregistered-client species doesn't NPE the leaf render.
 			sprite = IForestryClientApi.INSTANCE.getTreeManager().getLeafSprite(SpeciesUtil.TREE_TYPE.get().getDefaultSpecies());
 		}
 

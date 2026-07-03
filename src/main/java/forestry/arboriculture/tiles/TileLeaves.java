@@ -6,6 +6,7 @@ import forestry.api.arboriculture.ILeafTickHandler;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.climate.IBiomeProvider;
 import forestry.api.core.HumidityType;
@@ -246,7 +247,11 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	private int determineFruitColour() {
 		ITree tree = getTree();
 		if (tree == null) {
-			tree = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.SOUR_CHERRY).createIndividual();
+			// Fallback template for fruit color when this leaf block has no contained tree; fall back to the
+			// default species instead of throwing if a datapack has since removed sour cherry.
+			ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
+			ITreeSpecies sourCherry = type.getSpeciesSafe(ForestryTreeSpecies.SOUR_CHERRY);
+			tree = (sourCherry != null ? sourCherry : type.getDefaultSpecies()).createIndividual();
 		}
 		IGenome genome = tree.getGenome();
 		IFruit fruit = genome.resolveActive(TreeChromosomes.FRUIT);
