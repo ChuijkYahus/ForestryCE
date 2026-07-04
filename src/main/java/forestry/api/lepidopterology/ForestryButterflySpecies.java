@@ -2,6 +2,8 @@ package forestry.api.lepidopterology;
 
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.List;
+
 import static forestry.api.ForestryConstants.forestry;
 
 /**
@@ -46,4 +48,17 @@ public class ForestryButterflySpecies {
 	public static final ResourceLocation LATTICED_HEATH = forestry("butterfly_latticed_heath");
 	public static final ResourceLocation ATLAS = forestry("butterfly_atlas");
 	public static final ResourceLocation BOMBYX_MORI = forestry("butterfly_bombyx_mori");
+
+	/**
+	 * All built-in butterfly species ids, in declaration order. Compile-time constant list (not a view of the
+	 * reloadable species registry), safe to iterate at client-registration time.
+	 */
+	public static final List<ResourceLocation> ALL = List.of(
+		CABBAGE_WHITE, BRIMSTONE, AURORA, CLOUDED_YELLOW, PALAENO_SULPHUR, RESEDA, SPRING_AZURE, GOZORA_AZURE,
+		CITRUS_SWALLOWTAIL, EMERALD_PEACOCK, THOAS_SWALLOWTAIL, SPICEBUSH_SWALLOWTAIL, BLACK_SWALLOWTAIL,
+		ZEBRA_SWALLOWTAIL, GLASSWING, SPECKLED_WOOD, MADEIRAN_SPECKLED_WOOD, CANARY_SPECKLED_WOOD,
+		MENELAUS_BLUE_MORPHO, PELEIDES_BLUE_MORPHO, RHETENOR_BLUE_MORPHO, COMMA, BATESIA, BLUE_WING, MONARCH,
+		BLUE_DUKE, GLASSY_TIGER, POSTMAN, MALACHITE, LEOPARD_LACEWING, DIANA_FRITILLARY,
+		BRIMSTONE_MOTH, LATTICED_HEATH, ATLAS, BOMBYX_MORI
+	);
 }
