@@ -24,9 +24,22 @@ public interface IButterflySpeciesType extends ISpeciesType<IButterflySpecies, I
 	IButterflyCocoon getCocoon(ResourceLocation id);
 
 	/**
+	 * @return The cocoon registered with the given ID, or {@code null} if none is registered (graceful fallback variant).
+	 */
+	@Nullable
+	IButterflyCocoon getCocoonSafe(ResourceLocation id);
+
+	/**
 	 * @return The butterfly effect registered with the given ID. Backs the {@code butterfly_effect} reference chromosome.
 	 */
 	IButterflyEffect getButterflyEffect(ResourceLocation id);
+
+	/**
+	 * @return The butterfly effect registered with the given ID, or {@code null} if none is registered (graceful
+	 * fallback variant).
+	 */
+	@Nullable
+	IButterflyEffect getButterflyEffectSafe(ResourceLocation id);
 
 	/**
 	 * Spawns the given butterfly in the world.

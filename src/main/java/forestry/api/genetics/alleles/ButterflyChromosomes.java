@@ -2,11 +2,13 @@ package forestry.api.genetics.alleles;
 
 import net.minecraft.resources.ResourceLocation;
 
+import forestry.Forestry;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
+import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.genetics.alleles.ChromosomeFactory;
 import forestry.core.utils.SpeciesUtil;
 
@@ -14,9 +16,24 @@ import static forestry.api.ForestryConstants.forestry;
 
 public class ButterflyChromosomes {
 	/**
-	 * Determines the species of a butterfly. The genome stores the species' ID.
+	 * The species of a butterfly. The genome stores the species' ID.
 	 */
-	public static final IChromosome<ResourceLocation> SPECIES = ChromosomeFactory.referenceChromosome(ForestrySpeciesTypes.BUTTERFLY, id -> SpeciesUtil.BUTTERFLY_TYPE.get().getSpecies(id), IButterflySpecies::isDominant);
+	public static final IChromosome<ResourceLocation> SPECIES = ChromosomeFactory.referenceChromosome(ForestrySpeciesTypes.BUTTERFLY, ButterflyChromosomes::resolveSpeciesOrDefault, IButterflySpecies::isDominant);
+
+	/**
+	 * Resolves a butterfly species id stored in a genome to its species, falling back to the default species (instead
+	 * of throwing) if a datapack has since removed it. Backs every SPECIES chromosome read (tooltips, analyzer,
+	 * spawning, saved items), so a removed id must never crash those paths.
+	 */
+	private static IButterflySpecies resolveSpeciesOrDefault(ResourceLocation id) {
+		IButterflySpeciesType type = SpeciesUtil.BUTTERFLY_TYPE.get();
+		IButterflySpecies species = type.getSpeciesSafe(id);
+		if (species != null) {
+			return species;
+		}
+		Forestry.LOGGER.warn("Butterfly species {} not found (removed by a datapack?); falling back to the default species", id);
+		return type.getDefaultSpecies();
+	}
 	/**
 	 * Determines physical size of a butterfly.
 	 */

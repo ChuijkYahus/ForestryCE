@@ -60,9 +60,21 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 		return requireValue(this.cocoons, id, "cocoon");
 	}
 
+	@Nullable
+	@Override
+	public IButterflyCocoon getCocoonSafe(ResourceLocation id) {
+		return valueSafe(this.cocoons, id);
+	}
+
 	@Override
 	public IButterflyEffect getButterflyEffect(ResourceLocation id) {
 		return requireValue(this.butterflyEffects, id, "butterfly effect");
+	}
+
+	@Nullable
+	@Override
+	public IButterflyEffect getButterflyEffectSafe(ResourceLocation id) {
+		return valueSafe(this.butterflyEffects, id);
 	}
 
 	@Override
