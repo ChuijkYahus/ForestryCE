@@ -371,6 +371,31 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		return this.contained;
 	}
 
+	/**
+	 * Re-resolves the cached individual/species from the current live species map after a datapack reload
+	 * (see {@code GeneticsReloadHandler#rebuildButterflySpecies}).
+	 * <p>
+	 * The cached {@link #contained} individual resolved and cached its {@code species}/{@code inactiveSpecies}
+	 * fields (see {@link forestry.core.genetics.Individual}) against the species map that was live at the time it
+	 * was constructed, so after a reload swaps in fresh species instances, that cache goes stale. Rebuilding the
+	 * individual the same way {@link #readAdditionalSaveData} does - serialize to NBT, then decode - re-resolves the
+	 * SPECIES chromosome against the CURRENT live map while preserving the individual's other state (mate, analyzed,
+	 * health). Fail-soft: a null/unserializable individual is left alone, and a removed species is already handled by
+	 * {@link SpeciesUtil#deserializeIndividual} falling back to the default species.
+	 */
+	public void refreshSpeciesFromReload() {
+		IButterfly current = this.contained;
+		if (current == null) {
+			return;
+		}
+		Tag containedNbt = SpeciesUtil.serializeIndividual(current);
+		if (containedNbt == null) {
+			return;
+		}
+		IButterfly refreshed = SpeciesUtil.deserializeIndividual(SpeciesUtil.BUTTERFLY_TYPE.get(), containedNbt);
+		setIndividual(refreshed);
+	}
+
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn) {
 		if (!level().isClientSide) {

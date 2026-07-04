@@ -7,8 +7,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import forestry.Forestry;
 import forestry.api.IForestryApi;
@@ -33,6 +37,7 @@ import forestry.core.genetics.mutations.MutationConditionTypes;
 import forestry.core.genetics.mutations.MutationRecipe;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.ButterflySpecies;
+import forestry.lepidopterology.entities.EntityButterfly;
 import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
 import forestry.lepidopterology.genetics.ButterflySpeciesProjector;
 import forestry.modules.features.FeatureRecipeType;
@@ -117,6 +122,20 @@ public final class GeneticsReloadHandler {
 		ImmutableMap<ResourceLocation, IButterflySpecies> allSpecies = builder.build();
 		((SpeciesType<IButterflySpecies, ?>) type).setSpecies(allSpecies);
 		Forestry.LOGGER.info("Loaded {} butterfly species", allSpecies.size());
+
+		// Any already-loaded EntityButterfly caches its resolved individual/species (see Individual's species
+		// field); refresh those now so they pick up the fresh instances just swapped in above, otherwise a butterfly
+		// that mates after this reload would look up mutations by an identity the (identity-keyed) MutationManager
+		// no longer recognizes. No-op with a null server (e.g. the initial WorldLoader.load, before any world/entity
+		// exists).
+		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+		if (server != null) {
+			for (ServerLevel level : server.getAllLevels()) {
+				for (EntityButterfly entity : level.getEntities(EntityTypeTest.forClass(EntityButterfly.class), e -> true)) {
+					entity.refreshSpeciesFromReload();
+				}
+			}
+		}
 	}
 
 	public static void rebuildMutations(RecipeManager recipeManager) {
