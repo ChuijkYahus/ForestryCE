@@ -17,7 +17,6 @@ import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.ITaxon;
 import forestry.api.genetics.pollen.IPollenType;
-import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.IPollenRegistration;
 import forestry.apiimpl.ForestryApiImpl;
@@ -284,25 +283,10 @@ public class PluginManager {
 		));
 
 		// Butterflies
-		HashMap<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> butterflyTexturesById = registration.getButterflyTextures();
-		List<IButterflySpecies> butterflySpecies = SpeciesUtil.BUTTERFLY_TYPE.get().getAllSpecies();
-		IdentityHashMap<IButterflySpecies, Pair<ResourceLocation, ResourceLocation>> butterflyTextures = new IdentityHashMap<>(butterflySpecies.size());
-
-		for (IButterflySpecies species : butterflySpecies) {
-			ResourceLocation id = species.id();
-			Pair<ResourceLocation, ResourceLocation> texturePair = modelsById.get(id);
-
-			if (texturePair != null) {
-				butterflyTextures.put(species, texturePair);
-			} else {
-				// default butterfly item and entity textures
-				String path = id.getPath().replace("butterfly_", "");
-				butterflyTextures.put(species, butterflyTexturesById.getOrDefault(id, Pair.of(
-					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/butterfly/" + path),
-					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "textures/entity/butterfly/" + path + ".png")
-				)));
-			}
-		}
+		// id-keyed: resolving a species happens at render time by id (ButterflyClientManager#getTextures falls back
+		// to the default naming convention, computed from the id alone, for any id with no explicit registration),
+		// so the (datapack-driven) species list is not needed to build this map.
+		Map<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> butterflyTextures = new HashMap<>(registration.getButterflyTextures());
 		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setButterflyManager(new ButterflyClientManager(butterflyTextures));
 
 		HashMap<ResourceLocation, IAnalyzerPlugin<?, ?>> analyzerPluginsById = registration.getAnalyzerPlugins();
