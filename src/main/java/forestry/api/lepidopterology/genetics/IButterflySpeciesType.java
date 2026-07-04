@@ -19,24 +19,30 @@ public interface IButterflySpeciesType extends ISpeciesType<IButterflySpecies, I
 	IBreedingTracker getBreedingTracker(LevelAccessor level, @Nullable GameProfile profile);
 
 	/**
-	 * @return The cocoon registered with the given ID. Backs the {@code cocoon} reference chromosome.
+	 * @return The cocoon registered with the given ID, throwing if none is registered. For internal/fail-fast callers
+	 * only; the {@code cocoon} reference chromosome itself resolves through {@link #getCocoonSafe} so a
+	 * datapack-authored species referencing an unregistered cocoon id can't crash saved/rendered butterflies.
 	 */
 	IButterflyCocoon getCocoon(ResourceLocation id);
 
 	/**
-	 * @return The cocoon registered with the given ID, or {@code null} if none is registered (graceful fallback variant).
+	 * @return The cocoon registered with the given ID, or {@code null} if none is registered (graceful fallback
+	 * variant; backs the {@code cocoon} reference chromosome).
 	 */
 	@Nullable
 	IButterflyCocoon getCocoonSafe(ResourceLocation id);
 
 	/**
-	 * @return The butterfly effect registered with the given ID. Backs the {@code butterfly_effect} reference chromosome.
+	 * @return The butterfly effect registered with the given ID, throwing if none is registered. For internal/fail-fast
+	 * callers only; the {@code butterfly_effect} reference chromosome itself resolves through
+	 * {@link #getButterflyEffectSafe} so a datapack-authored species referencing an unregistered effect id can't
+	 * crash saved/rendered butterflies.
 	 */
 	IButterflyEffect getButterflyEffect(ResourceLocation id);
 
 	/**
 	 * @return The butterfly effect registered with the given ID, or {@code null} if none is registered (graceful
-	 * fallback variant).
+	 * fallback variant; backs the {@code butterfly_effect} reference chromosome).
 	 */
 	@Nullable
 	IButterflyEffect getButterflyEffectSafe(ResourceLocation id);

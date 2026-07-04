@@ -5,6 +5,8 @@ import net.minecraft.resources.ResourceLocation;
 import forestry.Forestry;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.lepidopterology.ForestryButterflyEffects;
+import forestry.api.lepidopterology.ForestryCocoons;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
@@ -81,9 +83,40 @@ public class ButterflyChromosomes {
 	/**
 	 * Unimplemented.
 	 */
-	public static final IChromosome<ResourceLocation> EFFECT = ChromosomeFactory.referenceChromosome(forestry("butterfly_effect"), id -> SpeciesUtil.BUTTERFLY_TYPE.get().getButterflyEffect(id), IButterflyEffect::isDominant);
+	public static final IChromosome<ResourceLocation> EFFECT = ChromosomeFactory.referenceChromosome(forestry("butterfly_effect"), ButterflyChromosomes::resolveEffectOrDefault, IButterflyEffect::isDominant);
 	/**
 	 * Used for silk moths (Bombyx Mori) to affect cocoon drops.
 	 */
-	public static final IChromosome<ResourceLocation> COCOON = ChromosomeFactory.referenceChromosome(forestry("cocoon"), id -> SpeciesUtil.BUTTERFLY_TYPE.get().getCocoon(id), IButterflyCocoon::isDominant);
+	public static final IChromosome<ResourceLocation> COCOON = ChromosomeFactory.referenceChromosome(forestry("cocoon"), ButterflyChromosomes::resolveCocoonOrDefault, IButterflyCocoon::isDominant);
+
+	/**
+	 * Resolves a butterfly_effect id stored in a genome to its effect, falling back to {@link ForestryButterflyEffects#NONE}
+	 * (instead of throwing) if it isn't registered. Unlike {@link #SPECIES}, this map is code-registered and never
+	 * touched by a datapack reload, but a datapack-authored species (Task 5+) can still reference an unregistered id
+	 * in its genome overrides - that must not crash tooltips/analyzer/cocoon maturation reads.
+	 */
+	private static IButterflyEffect resolveEffectOrDefault(ResourceLocation id) {
+		IButterflySpeciesType type = SpeciesUtil.BUTTERFLY_TYPE.get();
+		IButterflyEffect effect = type.getButterflyEffectSafe(id);
+		if (effect != null) {
+			return effect;
+		}
+		Forestry.LOGGER.warn("Butterfly effect {} not found; falling back to the default (no-op) effect", id);
+		return type.getButterflyEffectSafe(ForestryButterflyEffects.NONE);
+	}
+
+	/**
+	 * Resolves a cocoon id stored in a genome to its cocoon, falling back to {@link ForestryCocoons#DEFAULT} (instead
+	 * of throwing) if it isn't registered. See {@link #resolveEffectOrDefault} for why this can't just be a fixed,
+	 * always-registered set anymore.
+	 */
+	private static IButterflyCocoon resolveCocoonOrDefault(ResourceLocation id) {
+		IButterflySpeciesType type = SpeciesUtil.BUTTERFLY_TYPE.get();
+		IButterflyCocoon cocoon = type.getCocoonSafe(id);
+		if (cocoon != null) {
+			return cocoon;
+		}
+		Forestry.LOGGER.warn("Butterfly cocoon {} not found; falling back to the default cocoon", id);
+		return type.getCocoonSafe(ForestryCocoons.DEFAULT);
+	}
 }

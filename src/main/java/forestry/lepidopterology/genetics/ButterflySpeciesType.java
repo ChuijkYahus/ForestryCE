@@ -89,7 +89,10 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 		this.butterflyEffects = registration.getEffects();
 		this.cocoons = registration.getCocoons();
 
-		return registration.buildAll();
+		// Butterfly species now come solely from the butterfly_species datapack loader (see
+		// GeneticsReloadHandler#rebuildButterflySpecies), populated by the real AddReloadListenerEvent/reload cycle
+		// once setup completes - not from the code-side builders collected above.
+		return ImmutableMap.of();
 	}
 
 	@Override
