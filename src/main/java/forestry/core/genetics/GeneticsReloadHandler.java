@@ -22,6 +22,8 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
+import forestry.api.lepidopterology.genetics.IButterflySpecies;
+import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.arboriculture.TreeSpecies;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesProjector;
@@ -30,6 +32,9 @@ import forestry.core.genetics.mutations.Mutation;
 import forestry.core.genetics.mutations.MutationConditionTypes;
 import forestry.core.genetics.mutations.MutationRecipe;
 import forestry.core.utils.SpeciesUtil;
+import forestry.lepidopterology.ButterflySpecies;
+import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.genetics.ButterflySpeciesProjector;
 import forestry.modules.features.FeatureRecipeType;
 
 /**
@@ -91,6 +96,27 @@ public final class GeneticsReloadHandler {
 		ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies = builder.build();
 		((SpeciesType<ITreeSpecies, ?>) type).setSpecies(allSpecies);
 		Forestry.LOGGER.info("Loaded {} tree species", allSpecies.size());
+	}
+
+	/**
+	 * Projects each butterfly definition into a {@link ButterflySpecies} (fail-soft: a bad definition is logged and
+	 * dropped by {@link ButterflySpeciesProjector#project}) and swaps the resulting map into the live butterfly
+	 * species type.
+	 */
+	@SuppressWarnings("unchecked")
+	public static void rebuildButterflySpecies(Map<ResourceLocation, ButterflySpeciesDefinition> defs) {
+		IButterflySpeciesType type = SpeciesUtil.BUTTERFLY_TYPE.get();
+		ImmutableMap.Builder<ResourceLocation, IButterflySpecies> builder = ImmutableMap.builderWithExpectedSize(defs.size());
+		for (Map.Entry<ResourceLocation, ButterflySpeciesDefinition> entry : defs.entrySet()) {
+			ResourceLocation id = entry.getKey();
+			ButterflySpecies species = ButterflySpeciesProjector.project(type, id, entry.getValue());
+			if (species != null) {
+				builder.put(id, species);
+			}
+		}
+		ImmutableMap<ResourceLocation, IButterflySpecies> allSpecies = builder.build();
+		((SpeciesType<IButterflySpecies, ?>) type).setSpecies(allSpecies);
+		Forestry.LOGGER.info("Loaded {} butterfly species", allSpecies.size());
 	}
 
 	public static void rebuildMutations(RecipeManager recipeManager) {
