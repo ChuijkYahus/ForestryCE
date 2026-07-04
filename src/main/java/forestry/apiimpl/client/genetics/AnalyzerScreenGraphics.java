@@ -140,7 +140,7 @@ public class AnalyzerScreenGraphics<S extends ISpecies<I>, I extends IIndividual
 
 		drawChromosomeRow(chromosome, (active, c, value, options, text) -> {
 			if (value == 0) {
-				return Component.translatable("allele.forestry.fertility.0i");
+				return Component.translatable(chromosome.translationKey(value));
 			} else {
 				Component newText = text.copy().append(" x ");
 

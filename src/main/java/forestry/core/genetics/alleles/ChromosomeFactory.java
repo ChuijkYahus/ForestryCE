@@ -27,7 +27,11 @@ public final class ChromosomeFactory {
 	}
 
 	public static IChromosome<Boolean> booleanChromosome(ResourceLocation id) {
-		return new Chromosome<>(id, Codec.BOOL, dataNaming(id, String::valueOf), null);
+		// Booleans are universally Yes/No, so every boolean chromosome shares one key per value
+		// (allele.<ns>.true / allele.<ns>.false) instead of a per-chromosome key. This matches the long-standing
+		// allele.forestry.true = "Yes" / allele.forestry.false = "No" lang entries.
+		String base = "allele." + id.getNamespace() + '.';
+		return new Chromosome<>(id, Codec.BOOL, value -> base + value, null);
 	}
 
 	/**
