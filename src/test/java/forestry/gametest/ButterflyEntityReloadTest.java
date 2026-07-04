@@ -47,12 +47,13 @@ public class ButterflyEntityReloadTest {
 			type.getAllSpeciesIds().stream().collect(Collectors.toMap(id -> id, type::getSpecies))
 		);
 
+		EntityButterfly entity = null;
 		try {
 			IButterflySpecies defaultSpecies = type.getDefaultSpecies();
 			IButterfly individual = defaultSpecies.createIndividual();
 			BlockPos rel = new BlockPos(2, 2, 2);
 			BlockPos abs = helper.absolutePos(rel);
-			EntityButterfly entity = (EntityButterfly) type.spawnButterflyInWorld(helper.getLevel(), individual, abs.getX(), abs.getY(), abs.getZ());
+			entity = (EntityButterfly) type.spawnButterflyInWorld(helper.getLevel(), individual, abs.getX(), abs.getY(), abs.getZ());
 			IButterflySpecies beforeSpecies = entity.getButterfly().getSpecies();
 
 			ButterflySpeciesDefinition def = new ButterflySpeciesDefinition(
@@ -89,6 +90,9 @@ public class ButterflyEntityReloadTest {
 			helper.assertTrue(afterSpecies.id().equals(beforeSpecies.id()),
 				"refreshed species must be the same id, a fresh instance");
 		} finally {
+			if (entity != null) {
+				entity.discard();
+			}
 			((SpeciesType<IButterflySpecies, ?>) type).setSpecies(snapshot);
 			GeneticsReloadHandler.rebuildMutations(helper.getLevel().getServer().getRecipeManager());
 		}
