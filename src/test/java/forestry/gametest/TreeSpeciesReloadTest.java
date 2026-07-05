@@ -14,8 +14,6 @@ import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
@@ -48,20 +46,10 @@ public class TreeSpeciesReloadTest {
 			type.getAllSpeciesIds().stream().collect(java.util.stream.Collectors.toMap(id -> id, type::getSpecies))
 		);
 
-		TreeSpeciesDefinition def = new TreeSpeciesDefinition(
-			oak.getGenusName(),
-			oak.getSpeciesName(),
-			oak.isDominant(),
-			false,
-			false,
-			0,
-			oak.getAuthority(),
-			oak.getEscritoireColor(),
-			TemperatureType.NORMAL,
-			HumidityType.NORMAL,
-			oak.getRarity(),
-			Map.of(TreeChromosomes.HEIGHT.id(), ForestryAlleles.HEIGHT_AVERAGE)
-		);
+		TreeSpeciesDefinition def = TestSpeciesDefinitions.treeFrom(oak)
+			.escritoireColor(oak.getEscritoireColor())
+			.genome(Map.of(TreeChromosomes.HEIGHT.id(), ForestryAlleles.HEIGHT_AVERAGE))
+			.build();
 
 		Map<ResourceLocation, TreeSpeciesDefinition> defs = Map.of(ForestryTreeSpecies.OAK, def);
 

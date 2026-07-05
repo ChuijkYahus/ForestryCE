@@ -15,7 +15,6 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
@@ -45,25 +44,12 @@ import forestry.core.utils.SpeciesUtil;
 public class BeeSpeciesProjectorTest {
 	@GameTest(template = "empty")
 	public static void projectsMatchingBeeSpecies(GameTestHelper helper) {
-		BeeSpeciesDefinition def = new BeeSpeciesDefinition(
-			ForestryTaxa.GENUS_HONEY,
-			ForestryTaxa.SPECIES_FOREST,
-			true,
-			false,
-			false,
-			0,
-			"Sengir",
-			-1,
-			TemperatureType.NORMAL,
-			HumidityType.NORMAL,
-			0xffdc16,
-			0,
-			0x19d0ec,
-			List.of(Product.of(Items.HONEY_BOTTLE, 1, 0.3f)),
-			List.of(),
-			ForestryBeeJubilances.DEFAULT,
-			Map.of(BeeChromosomes.POLLINATION.id(), ForestryAlleles.POLLINATION_SLOWER)
-		);
+		BeeSpeciesDefinition def = TestSpeciesDefinitions.bee(ForestryTaxa.GENUS_HONEY, ForestryTaxa.SPECIES_FOREST)
+			.dominant(true)
+			.outline(0x19d0ec)
+			.products(List.of(Product.of(Items.HONEY_BOTTLE, 1, 0.3f)))
+			.genome(Map.of(BeeChromosomes.POLLINATION.id(), ForestryAlleles.POLLINATION_SLOWER))
+			.build();
 
 		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
 		BeeSpecies species = BeeSpeciesProjector.project(type, ForestryConstants.forestry("test_bee_species_projector"), def);

@@ -1,7 +1,6 @@
 package forestry.gametest;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
@@ -56,27 +55,7 @@ public class ButterflyEntityReloadTest {
 			entity = (EntityButterfly) type.spawnButterflyInWorld(helper.getLevel(), individual, abs.getX(), abs.getY(), abs.getZ());
 			IButterflySpecies beforeSpecies = entity.getButterfly().getSpecies();
 
-			ButterflySpeciesDefinition def = new ButterflySpeciesDefinition(
-				defaultSpecies.getGenusName(),
-				defaultSpecies.getSpeciesName(),
-				defaultSpecies.isDominant(),
-				false,
-				defaultSpecies.isSecret(),
-				0,
-				defaultSpecies.getAuthority(),
-				-1,
-				defaultSpecies.getTemperature(),
-				defaultSpecies.getHumidity(),
-				defaultSpecies.isNocturnal(),
-				defaultSpecies.isMoth(),
-				defaultSpecies.getRarity(),
-				defaultSpecies.getFlightDistance(),
-				defaultSpecies.getSerumColor(),
-				Optional.ofNullable(defaultSpecies.getSpawnBiomes()),
-				defaultSpecies.getButterflyLoot(),
-				defaultSpecies.getCaterpillarProducts(),
-				Map.of()
-			);
+			ButterflySpeciesDefinition def = TestSpeciesDefinitions.butterflyFrom(defaultSpecies).build();
 			Map<ResourceLocation, ButterflySpeciesDefinition> defs = Map.of(defaultSpecies.id(), def);
 
 			// reload: rebuild the species map (fresh species instances) then refresh loaded entities.

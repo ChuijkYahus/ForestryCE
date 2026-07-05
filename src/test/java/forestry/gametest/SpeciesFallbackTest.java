@@ -15,8 +15,6 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
 import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesManager;
@@ -47,25 +45,9 @@ public class SpeciesFallbackTest {
 	public static void unknownJubilanceIsSkippedGracefully(GameTestHelper helper) {
 		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
 
-		BeeSpeciesDefinition badDefinition = new BeeSpeciesDefinition(
-			"Apis",
-			"nonexistens",
-			false,
-			false,
-			false,
-			0,
-			"Sengir",
-			-1,
-			TemperatureType.NORMAL,
-			HumidityType.NORMAL,
-			0xffdc16,
-			0,
-			-1,
-			List.of(),
-			List.of(),
-			ForestryConstants.forestry("nonexistent_jubilance"),
-			Map.of()
-		);
+		BeeSpeciesDefinition badDefinition = TestSpeciesDefinitions.bee("Apis", "nonexistens")
+			.jubilance(ForestryConstants.forestry("nonexistent_jubilance"))
+			.build();
 		ResourceLocation badId = ForestryConstants.forestry("test_species_fallback_unknown_jubilance");
 
 		// (a) Direct projection of the bad definition must fail soft: null, not an exception.

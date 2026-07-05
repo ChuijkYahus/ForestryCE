@@ -15,8 +15,6 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
@@ -73,9 +71,7 @@ public class TreeSpeciesFallbackTest {
 
 		Map<ResourceLocation, TreeSpeciesDefinition> defs = new LinkedHashMap<>(TreeSpeciesProvider.buildDefinitions());
 		ResourceLocation phantomId = ForestryConstants.forestry("phantom_no_bindings");
-		defs.put(phantomId, new TreeSpeciesDefinition(
-			"Quercus", "phantom", false, false, false, 0, "Sengir", -1,
-			TemperatureType.NORMAL, HumidityType.NORMAL, 0.0f, Map.of()));
+		defs.put(phantomId, TestSpeciesDefinitions.tree("Quercus", "phantom").build());
 
 		try {
 			GeneticsReloadHandler.rebuildTreeSpecies(defs);

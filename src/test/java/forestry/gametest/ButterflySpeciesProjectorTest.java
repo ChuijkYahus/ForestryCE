@@ -1,8 +1,6 @@
 package forestry.gametest;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -10,8 +8,6 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.api.core.HumidityType;
-import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.genetics.alleles.ForestryAlleles;
@@ -37,27 +33,9 @@ public class ButterflySpeciesProjectorTest {
 		// Read the genus/species/etc. off the real Monarch so the definition is faithful.
 		IButterflySpecies monarch = type.getSpecies(ForestryButterflySpecies.MONARCH);
 
-		ButterflySpeciesDefinition def = new ButterflySpeciesDefinition(
-			monarch.getGenusName(),
-			monarch.getSpeciesName(),
-			monarch.isDominant(),
-			false,
-			monarch.isSecret(),
-			0,
-			monarch.getAuthority(),
-			-1,
-			monarch.getTemperature(),
-			monarch.getHumidity(),
-			monarch.isNocturnal(),
-			monarch.isMoth(),
-			monarch.getRarity(),
-			monarch.getFlightDistance(),
-			monarch.getSerumColor(),
-			Optional.ofNullable(monarch.getSpawnBiomes()),
-			monarch.getButterflyLoot(),
-			monarch.getCaterpillarProducts(),
-			Map.of(ButterflyChromosomes.SIZE.id(), ForestryAlleles.SIZE_AVERAGE)
-		);
+		ButterflySpeciesDefinition def = TestSpeciesDefinitions.butterflyFrom(monarch)
+			.genome(Map.of(ButterflyChromosomes.SIZE.id(), ForestryAlleles.SIZE_AVERAGE))
+			.build();
 
 		// Project against the real Monarch id.
 		ButterflySpecies projected = ButterflySpeciesProjector.project(type, ForestryButterflySpecies.MONARCH, def);
@@ -119,13 +97,10 @@ public class ButterflySpeciesProjectorTest {
 		// Reuse a real, taxon-registered genus (Monarch's) so the only abnormality under test is the bogus
 		// chromosome id in the genome override map.
 		IButterflySpecies monarch = type.getSpecies(ForestryButterflySpecies.MONARCH);
-		ButterflySpeciesDefinition def = new ButterflySpeciesDefinition(
-			monarch.getGenusName(), "phantom", false, false, false, 0, "Sengir", -1,
-			TemperatureType.NORMAL, HumidityType.NORMAL,
-			false, false, 0.1f, 5.0f, 0,
-			Optional.empty(), List.of(), List.of(),
-			Map.of(ForestryConstants.forestry("no_such_chromosome"), ForestryAlleles.SIZE_AVERAGE)
-		);
+		ButterflySpeciesDefinition def = TestSpeciesDefinitions.butterfly(monarch.getGenusName(), "phantom")
+			.rarity(0.1f)
+			.genome(Map.of(ForestryConstants.forestry("no_such_chromosome"), ForestryAlleles.SIZE_AVERAGE))
+			.build();
 		ButterflySpecies projected = ButterflySpeciesProjector.project(type, ForestryConstants.forestry("phantom_butterfly_bad_override"), def);
 		if (projected == null) {
 			helper.fail("Expected projection to succeed (with the unknown override logged and skipped), not fail entirely");

@@ -1,7 +1,6 @@
 package forestry.gametest;
 
 import java.util.Map;
-import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -60,27 +59,9 @@ public class ButterflySpawnerReloadTest {
 			type.getAllSpeciesIds().stream().collect(java.util.stream.Collectors.toMap(id -> id, type::getSpecies))
 		);
 
-		ButterflySpeciesDefinition def = new ButterflySpeciesDefinition(
-			monarch.getGenusName(),
-			monarch.getSpeciesName(),
-			monarch.isDominant(),
-			false,
-			monarch.isSecret(),
-			0,
-			monarch.getAuthority(),
-			-1,
-			monarch.getTemperature(),
-			monarch.getHumidity(),
-			monarch.isNocturnal(),
-			monarch.isMoth(),
-			monarch.getRarity(),
-			monarch.getFlightDistance(),
-			monarch.getSerumColor(),
-			Optional.ofNullable(monarch.getSpawnBiomes()),
-			monarch.getButterflyLoot(),
-			monarch.getCaterpillarProducts(),
-			Map.of(ButterflyChromosomes.SIZE.id(), ForestryAlleles.SIZE_AVERAGE)
-		);
+		ButterflySpeciesDefinition def = TestSpeciesDefinitions.butterflyFrom(monarch)
+			.genome(Map.of(ButterflyChromosomes.SIZE.id(), ForestryAlleles.SIZE_AVERAGE))
+			.build();
 
 		Map<ResourceLocation, ButterflySpeciesDefinition> defs = Map.of(ForestryButterflySpecies.MONARCH, def);
 
