@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.ForestryBeeJubilances;
-import forestry.api.core.ClimateCodecs;
 import forestry.api.core.HumidityType;
 import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
@@ -25,6 +24,7 @@ import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.GenomeCodecs;
 import forestry.core.genetics.ISpeciesDefinition;
+import forestry.core.genetics.SpeciesCore;
 
 /**
  * The pure-data, datapack-loadable shape of a bee species: everything a {@code BeeSpeciesBuilder} would otherwise
@@ -123,25 +123,16 @@ public record BeeSpeciesDefinition(
 	private static Codec<BeeSpeciesDefinition> buildCodec() {
 		Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype());
 		return RecordCodecBuilder.create(instance -> instance.group(
-			Codec.STRING.fieldOf("genus").forGetter(BeeSpeciesDefinition::genus),
-			Codec.STRING.fieldOf("species").forGetter(BeeSpeciesDefinition::species),
-			Codec.BOOL.optionalFieldOf("dominant", false).forGetter(BeeSpeciesDefinition::dominant),
-			Codec.BOOL.optionalFieldOf("glint", false).forGetter(BeeSpeciesDefinition::glint),
-			Codec.BOOL.optionalFieldOf("secret", false).forGetter(BeeSpeciesDefinition::secret),
-			Codec.INT.optionalFieldOf("complexity", 0).forGetter(BeeSpeciesDefinition::complexity),
-			Codec.STRING.optionalFieldOf("authority", "Sengir").forGetter(BeeSpeciesDefinition::authority),
-			Codec.INT.optionalFieldOf("escritoire_color", -1).forGetter(BeeSpeciesDefinition::escritoireColor),
-			ClimateCodecs.TEMPERATURE.optionalFieldOf("temperature", TemperatureType.NORMAL).forGetter(BeeSpeciesDefinition::temperature),
-			ClimateCodecs.HUMIDITY.optionalFieldOf("humidity", HumidityType.NORMAL).forGetter(BeeSpeciesDefinition::humidity),
+			SpeciesCore.MAP_CODEC.forGetter(BeeSpeciesDefinition::core),
 			SpritePalette.CODEC.forGetter(def -> new SpritePalette(def.body(), def.stripes(), def.outline())),
 			Product.CODEC.listOf().optionalFieldOf("products", List.of()).forGetter(BeeSpeciesDefinition::products),
 			Product.CODEC.listOf().optionalFieldOf("specialties", List.of()).forGetter(BeeSpeciesDefinition::specialties),
 			ResourceLocation.CODEC.optionalFieldOf("jubilance", DEFAULT_JUBILANCE).forGetter(BeeSpeciesDefinition::jubilance),
 			genomeCodec.optionalFieldOf("genome", Map.of()).forGetter(BeeSpeciesDefinition::genome)
-		).apply(instance, (genus, species, dominant, glint, secret, complexity, authority, escritoireColor,
-							temperature, humidity, palette, products, specialties, jubilance, genome) ->
-			new BeeSpeciesDefinition(genus, species, dominant, glint, secret, complexity, authority, escritoireColor,
-				temperature, humidity, palette.body(), palette.stripes(), palette.outline(), products, specialties, jubilance, genome)));
+		).apply(instance, (core, palette, products, specialties, jubilance, genome) ->
+			new BeeSpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
+				core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
+				palette.body(), palette.stripes(), palette.outline(), products, specialties, jubilance, genome)));
 	}
 
 	private static StreamCodec<RegistryFriendlyByteBuf, BeeSpeciesDefinition> buildStreamCodec() {
@@ -149,16 +140,7 @@ public record BeeSpeciesDefinition(
 		StreamCodec<RegistryFriendlyByteBuf, List<Product>> productListStreamCodec = Product.STREAM_CODEC.apply(ByteBufCodecs.list());
 		return StreamCodec.of(
 			(buf, def) -> {
-				buf.writeUtf(def.genus);
-				buf.writeUtf(def.species);
-				buf.writeBoolean(def.dominant);
-				buf.writeBoolean(def.glint);
-				buf.writeBoolean(def.secret);
-				buf.writeVarInt(def.complexity);
-				buf.writeUtf(def.authority);
-				buf.writeInt(def.escritoireColor);
-				ClimateCodecs.TEMPERATURE_STREAM.encode(buf, def.temperature);
-				ClimateCodecs.HUMIDITY_STREAM.encode(buf, def.humidity);
+				SpeciesCore.STREAM_CODEC.encode(buf, def.core());
 				buf.writeInt(def.body);
 				buf.writeInt(def.stripes);
 				buf.writeInt(def.outline);
@@ -168,16 +150,7 @@ public record BeeSpeciesDefinition(
 				genomeStreamCodec.encode(buf, def.genome);
 			},
 			buf -> {
-				String genus = buf.readUtf();
-				String species = buf.readUtf();
-				boolean dominant = buf.readBoolean();
-				boolean glint = buf.readBoolean();
-				boolean secret = buf.readBoolean();
-				int complexity = buf.readVarInt();
-				String authority = buf.readUtf();
-				int escritoireColor = buf.readInt();
-				TemperatureType temperature = ClimateCodecs.TEMPERATURE_STREAM.decode(buf);
-				HumidityType humidity = ClimateCodecs.HUMIDITY_STREAM.decode(buf);
+				SpeciesCore core = SpeciesCore.STREAM_CODEC.decode(buf);
 				int body = buf.readInt();
 				int stripes = buf.readInt();
 				int outline = buf.readInt();
@@ -185,8 +158,9 @@ public record BeeSpeciesDefinition(
 				List<Product> specialties = productListStreamCodec.decode(buf);
 				ResourceLocation jubilance = ResourceLocation.STREAM_CODEC.decode(buf);
 				Map<ResourceLocation, Allele<?>> genome = genomeStreamCodec.decode(buf);
-				return new BeeSpeciesDefinition(genus, species, dominant, glint, secret, complexity, authority, escritoireColor,
-					temperature, humidity, body, stripes, outline, products, specialties, jubilance, genome);
+				return new BeeSpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
+					core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
+					body, stripes, outline, products, specialties, jubilance, genome);
 			}
 		);
 	}

@@ -37,4 +37,13 @@ public interface ISpeciesDefinition {
 	HumidityType humidity();
 
 	Map<ResourceLocation, Allele<?>> genome();
+
+	/**
+	 * @return A {@link SpeciesCore} view of this definition's base fields, used by the definition codecs
+	 * to serialize the shared fields through one shared codec.
+	 */
+	default SpeciesCore core() {
+		return new SpeciesCore(genus(), species(), dominant(), glint(), secret(),
+			complexity(), authority(), escritoireColor(), temperature(), humidity());
+	}
 }

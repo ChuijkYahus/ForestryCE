@@ -12,7 +12,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.IForestryApi;
-import forestry.api.core.ClimateCodecs;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ForestrySpeciesTypes;
@@ -20,6 +19,7 @@ import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.GenomeCodecs;
 import forestry.core.genetics.ISpeciesDefinition;
+import forestry.core.genetics.SpeciesCore;
 
 /**
  * Pure-data, datapack-loadable genetics layer of a tree species (the block/worldgen bindings live code-side in
@@ -90,52 +90,31 @@ public record TreeSpeciesDefinition(
 	private static Codec<TreeSpeciesDefinition> buildCodec() {
 		Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype());
 		return RecordCodecBuilder.create(instance -> instance.group(
-			Codec.STRING.fieldOf("genus").forGetter(TreeSpeciesDefinition::genus),
-			Codec.STRING.fieldOf("species").forGetter(TreeSpeciesDefinition::species),
-			Codec.BOOL.optionalFieldOf("dominant", false).forGetter(TreeSpeciesDefinition::dominant),
-			Codec.BOOL.optionalFieldOf("glint", false).forGetter(TreeSpeciesDefinition::glint),
-			Codec.BOOL.optionalFieldOf("secret", false).forGetter(TreeSpeciesDefinition::secret),
-			Codec.INT.optionalFieldOf("complexity", 0).forGetter(TreeSpeciesDefinition::complexity),
-			Codec.STRING.optionalFieldOf("authority", "Sengir").forGetter(TreeSpeciesDefinition::authority),
-			Codec.INT.optionalFieldOf("escritoire_color", -1).forGetter(TreeSpeciesDefinition::escritoireColor),
-			ClimateCodecs.TEMPERATURE.optionalFieldOf("temperature", TemperatureType.NORMAL).forGetter(TreeSpeciesDefinition::temperature),
-			ClimateCodecs.HUMIDITY.optionalFieldOf("humidity", HumidityType.NORMAL).forGetter(TreeSpeciesDefinition::humidity),
+			SpeciesCore.MAP_CODEC.forGetter(TreeSpeciesDefinition::core),
 			Codec.FLOAT.optionalFieldOf("rarity", 0.0f).forGetter(TreeSpeciesDefinition::rarity),
 			genomeCodec.optionalFieldOf("genome", Map.of()).forGetter(TreeSpeciesDefinition::genome)
-		).apply(instance, TreeSpeciesDefinition::new));
+		).apply(instance, (core, rarity, genome) -> new TreeSpeciesDefinition(
+			core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
+			core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
+			rarity, genome)));
 	}
 
 	private static StreamCodec<RegistryFriendlyByteBuf, TreeSpeciesDefinition> buildStreamCodec() {
 		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> genomeStreamCodec = GenomeCodecs.alleleMapStreamCodec(karyotype());
 		return StreamCodec.of(
 			(buf, def) -> {
-				buf.writeUtf(def.genus);
-				buf.writeUtf(def.species);
-				buf.writeBoolean(def.dominant);
-				buf.writeBoolean(def.glint);
-				buf.writeBoolean(def.secret);
-				buf.writeVarInt(def.complexity);
-				buf.writeUtf(def.authority);
-				buf.writeInt(def.escritoireColor);
-				ClimateCodecs.TEMPERATURE_STREAM.encode(buf, def.temperature);
-				ClimateCodecs.HUMIDITY_STREAM.encode(buf, def.humidity);
+				SpeciesCore.STREAM_CODEC.encode(buf, def.core());
 				buf.writeFloat(def.rarity);
 				genomeStreamCodec.encode(buf, def.genome);
 			},
-			buf -> new TreeSpeciesDefinition(
-				buf.readUtf(),
-				buf.readUtf(),
-				buf.readBoolean(),
-				buf.readBoolean(),
-				buf.readBoolean(),
-				buf.readVarInt(),
-				buf.readUtf(),
-				buf.readInt(),
-				ClimateCodecs.TEMPERATURE_STREAM.decode(buf),
-				ClimateCodecs.HUMIDITY_STREAM.decode(buf),
-				buf.readFloat(),
-				genomeStreamCodec.decode(buf)
-			)
+			buf -> {
+				SpeciesCore core = SpeciesCore.STREAM_CODEC.decode(buf);
+				float rarity = buf.readFloat();
+				Map<ResourceLocation, Allele<?>> genome = genomeStreamCodec.decode(buf);
+				return new TreeSpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
+					core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
+					rarity, genome);
+			}
 		);
 	}
 }

@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.netty.buffer.ByteBuf;
@@ -20,7 +19,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
 import forestry.api.IForestryApi;
-import forestry.api.core.ClimateCodecs;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.Product;
@@ -30,6 +28,7 @@ import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.GenomeCodecs;
 import forestry.core.genetics.ISpeciesDefinition;
+import forestry.core.genetics.SpeciesCore;
 
 /**
  * Pure-data, datapack-loadable genetics layer of a butterfly species (the entity/cocoon/item bindings stay
@@ -126,51 +125,23 @@ public record ButterflySpeciesDefinition(
 			products -> products.stream().map(product -> (Product) product).toList()
 		);
 
-	/**
-	 * Groups the tail fields (past {@link RecordCodecBuilder}'s 16-field {@code group()} limit) so
-	 * {@link #buildCodec()} stays within it; they still serialize as plain top-level JSON keys.
-	 */
-	private record Tail(
-		Optional<TagKey<Biome>> spawnBiomes,
-		List<IProduct> products,
-		List<IProduct> caterpillarProducts,
-		Map<ResourceLocation, Allele<?>> genome
-	) {
-		static MapCodec<Tail> codec(IKaryotype karyotype) {
-			Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype);
-			return RecordCodecBuilder.mapCodec(instance -> instance.group(
-				TagKey.codec(Registries.BIOME).optionalFieldOf("spawn_biomes").forGetter(Tail::spawnBiomes),
-				PRODUCTS_CODEC.optionalFieldOf("products", List.of()).forGetter(Tail::products),
-				PRODUCTS_CODEC.optionalFieldOf("caterpillar_products", List.of()).forGetter(Tail::caterpillarProducts),
-				genomeCodec.optionalFieldOf("genome", Map.of()).forGetter(Tail::genome)
-			).apply(instance, Tail::new));
-		}
-	}
-
 	private static Codec<ButterflySpeciesDefinition> buildCodec() {
-		MapCodec<Tail> tailCodec = Tail.codec(karyotype());
+		Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype());
 		return RecordCodecBuilder.create(instance -> instance.group(
-			Codec.STRING.fieldOf("genus").forGetter(ButterflySpeciesDefinition::genus),
-			Codec.STRING.fieldOf("species").forGetter(ButterflySpeciesDefinition::species),
-			Codec.BOOL.optionalFieldOf("dominant", false).forGetter(ButterflySpeciesDefinition::dominant),
-			Codec.BOOL.optionalFieldOf("glint", false).forGetter(ButterflySpeciesDefinition::glint),
-			Codec.BOOL.optionalFieldOf("secret", false).forGetter(ButterflySpeciesDefinition::secret),
-			Codec.INT.optionalFieldOf("complexity", 0).forGetter(ButterflySpeciesDefinition::complexity),
-			Codec.STRING.optionalFieldOf("authority", "Sengir").forGetter(ButterflySpeciesDefinition::authority),
-			Codec.INT.optionalFieldOf("escritoire_color", -1).forGetter(ButterflySpeciesDefinition::escritoireColor),
-			ClimateCodecs.TEMPERATURE.optionalFieldOf("temperature", TemperatureType.NORMAL).forGetter(ButterflySpeciesDefinition::temperature),
-			ClimateCodecs.HUMIDITY.optionalFieldOf("humidity", HumidityType.NORMAL).forGetter(ButterflySpeciesDefinition::humidity),
+			SpeciesCore.MAP_CODEC.forGetter(ButterflySpeciesDefinition::core),
 			Codec.BOOL.optionalFieldOf("nocturnal", false).forGetter(ButterflySpeciesDefinition::nocturnal),
 			Codec.BOOL.optionalFieldOf("moth", false).forGetter(ButterflySpeciesDefinition::moth),
 			Codec.FLOAT.optionalFieldOf("rarity", 0.0f).forGetter(ButterflySpeciesDefinition::rarity),
 			Codec.FLOAT.optionalFieldOf("flight_distance", 5.0f).forGetter(ButterflySpeciesDefinition::flightDistance),
 			Codec.INT.optionalFieldOf("serum_color", 0).forGetter(ButterflySpeciesDefinition::serumColor),
-			tailCodec.forGetter(def -> new Tail(def.spawnBiomes(), def.products(), def.caterpillarProducts(), def.genome()))
-		).apply(instance, (genus, species, dominant, glint, secret, complexity, authority, escritoireColor,
-							temperature, humidity, nocturnal, moth, rarity, flightDistance, serumColor, tail) ->
-			new ButterflySpeciesDefinition(genus, species, dominant, glint, secret, complexity, authority, escritoireColor,
-				temperature, humidity, nocturnal, moth, rarity, flightDistance, serumColor,
-				tail.spawnBiomes(), tail.products(), tail.caterpillarProducts(), tail.genome())));
+			TagKey.codec(Registries.BIOME).optionalFieldOf("spawn_biomes").forGetter(ButterflySpeciesDefinition::spawnBiomes),
+			PRODUCTS_CODEC.optionalFieldOf("products", List.of()).forGetter(ButterflySpeciesDefinition::products),
+			PRODUCTS_CODEC.optionalFieldOf("caterpillar_products", List.of()).forGetter(ButterflySpeciesDefinition::caterpillarProducts),
+			genomeCodec.optionalFieldOf("genome", Map.of()).forGetter(ButterflySpeciesDefinition::genome)
+		).apply(instance, (core, nocturnal, moth, rarity, flightDistance, serumColor, spawnBiomes, products, caterpillarProducts, genome) ->
+			new ButterflySpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
+				core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
+				nocturnal, moth, rarity, flightDistance, serumColor, spawnBiomes, products, caterpillarProducts, genome)));
 	}
 
 	private static StreamCodec<RegistryFriendlyByteBuf, ButterflySpeciesDefinition> buildStreamCodec() {
@@ -179,16 +150,7 @@ public record ButterflySpeciesDefinition(
 			ResourceLocation.STREAM_CODEC.map(location -> TagKey.create(Registries.BIOME, location), TagKey::location));
 		return StreamCodec.of(
 			(buf, def) -> {
-				buf.writeUtf(def.genus);
-				buf.writeUtf(def.species);
-				buf.writeBoolean(def.dominant);
-				buf.writeBoolean(def.glint);
-				buf.writeBoolean(def.secret);
-				buf.writeVarInt(def.complexity);
-				buf.writeUtf(def.authority);
-				buf.writeInt(def.escritoireColor);
-				ClimateCodecs.TEMPERATURE_STREAM.encode(buf, def.temperature);
-				ClimateCodecs.HUMIDITY_STREAM.encode(buf, def.humidity);
+				SpeciesCore.STREAM_CODEC.encode(buf, def.core());
 				buf.writeBoolean(def.nocturnal);
 				buf.writeBoolean(def.moth);
 				buf.writeFloat(def.rarity);
@@ -199,27 +161,21 @@ public record ButterflySpeciesDefinition(
 				PRODUCTS_STREAM_CODEC.encode(buf, def.caterpillarProducts);
 				genomeStreamCodec.encode(buf, def.genome);
 			},
-			buf -> new ButterflySpeciesDefinition(
-				buf.readUtf(),
-				buf.readUtf(),
-				buf.readBoolean(),
-				buf.readBoolean(),
-				buf.readBoolean(),
-				buf.readVarInt(),
-				buf.readUtf(),
-				buf.readInt(),
-				ClimateCodecs.TEMPERATURE_STREAM.decode(buf),
-				ClimateCodecs.HUMIDITY_STREAM.decode(buf),
-				buf.readBoolean(),
-				buf.readBoolean(),
-				buf.readFloat(),
-				buf.readFloat(),
-				buf.readInt(),
-				spawnBiomesStreamCodec.decode(buf),
-				PRODUCTS_STREAM_CODEC.decode(buf),
-				PRODUCTS_STREAM_CODEC.decode(buf),
-				genomeStreamCodec.decode(buf)
-			)
+			buf -> {
+				SpeciesCore core = SpeciesCore.STREAM_CODEC.decode(buf);
+				boolean nocturnal = buf.readBoolean();
+				boolean moth = buf.readBoolean();
+				float rarity = buf.readFloat();
+				float flightDistance = buf.readFloat();
+				int serumColor = buf.readInt();
+				Optional<TagKey<Biome>> spawnBiomes = spawnBiomesStreamCodec.decode(buf);
+				List<IProduct> products = PRODUCTS_STREAM_CODEC.decode(buf);
+				List<IProduct> caterpillarProducts = PRODUCTS_STREAM_CODEC.decode(buf);
+				Map<ResourceLocation, Allele<?>> genome = genomeStreamCodec.decode(buf);
+				return new ButterflySpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
+					core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
+					nocturnal, moth, rarity, flightDistance, serumColor, spawnBiomes, products, caterpillarProducts, genome);
+			}
 		);
 	}
 }
