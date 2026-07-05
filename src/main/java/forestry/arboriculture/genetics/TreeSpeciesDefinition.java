@@ -19,6 +19,7 @@ import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.GenomeCodecs;
+import forestry.core.genetics.ISpeciesDefinition;
 
 /**
  * Pure-data, datapack-loadable genetics layer of a tree species (the block/worldgen bindings live code-side in
@@ -52,7 +53,7 @@ public record TreeSpeciesDefinition(
 	HumidityType humidity,
 	float rarity,
 	Map<ResourceLocation, Allele<?>> genome
-) {
+) implements ISpeciesDefinition {
 	@Nullable
 	private static Codec<TreeSpeciesDefinition> codec;
 	@Nullable

@@ -24,6 +24,7 @@ import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.GenomeCodecs;
+import forestry.core.genetics.ISpeciesDefinition;
 
 /**
  * The pure-data, datapack-loadable shape of a bee species: everything a {@code BeeSpeciesBuilder} would otherwise
@@ -71,7 +72,7 @@ public record BeeSpeciesDefinition(
 	List<Product> specialties,
 	ResourceLocation jubilance,
 	Map<ResourceLocation, Allele<?>> genome
-) {
+) implements ISpeciesDefinition {
 	public static final ResourceLocation DEFAULT_JUBILANCE = ForestryBeeJubilances.DEFAULT;
 
 	@Nullable

@@ -29,6 +29,7 @@ import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.GenomeCodecs;
+import forestry.core.genetics.ISpeciesDefinition;
 
 /**
  * Pure-data, datapack-loadable genetics layer of a butterfly species (the entity/cocoon/item bindings stay
@@ -77,7 +78,7 @@ public record ButterflySpeciesDefinition(
 	List<IProduct> products,
 	List<IProduct> caterpillarProducts,
 	Map<ResourceLocation, Allele<?>> genome
-) {
+) implements ISpeciesDefinition {
 	@Nullable
 	private static Codec<ButterflySpeciesDefinition> codec;
 	@Nullable
