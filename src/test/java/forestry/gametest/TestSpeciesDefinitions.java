@@ -59,7 +59,6 @@ public final class TestSpeciesDefinitions {
 		b.dominant = s.isDominant();
 		b.secret = s.isSecret();
 		b.authority = s.getAuthority();
-		b.escritoireColor = s.getEscritoireColor();
 		b.temperature = s.getTemperature();
 		b.humidity = s.getHumidity();
 		b.nocturnal = s.isNocturnal();
