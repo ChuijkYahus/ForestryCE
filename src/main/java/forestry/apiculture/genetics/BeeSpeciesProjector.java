@@ -16,7 +16,7 @@ import forestry.core.genetics.SpeciesProjection;
  * Projects a pure-data {@link BeeSpeciesDefinition} into a runtime {@link BeeSpecies}, without ever touching the
  * {@code BeeSpecies}/{@code Species} constructors directly: the definition is wrapped in a read-only
  * {@link DefinitionBeeSpeciesBuilder} adapter and driven through the same
- * {@link SpeciesRegistration#createDefaultGenomeBuilder} path the code-registered species use.
+ * {@link SpeciesProjection#buildGenome} path the code-registered species use.
  * <p>
  * Fails soft: any failure (unknown jubilance, unknown chromosome, exception) is logged and yields {@code null}
  * rather than crashing species loading.

@@ -13,7 +13,7 @@ import forestry.core.genetics.SpeciesProjection;
 
 /**
  * Projects a pure-data {@link TreeSpeciesDefinition} + its code-side {@link TreeBlockBindings} into a runtime
- * {@link TreeSpecies}, reusing the same {@link SpeciesRegistration#createDefaultGenomeBuilder} genome path as the
+ * {@link TreeSpecies}, reusing the same {@link SpeciesProjection#buildGenome} genome path as the
  * code-registered species. Fails soft: a missing binding, unknown chromosome, or any exception is logged and yields
  * {@code null} rather than crashing species loading.
  */

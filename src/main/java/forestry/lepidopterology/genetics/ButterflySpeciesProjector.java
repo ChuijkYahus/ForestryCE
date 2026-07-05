@@ -13,7 +13,7 @@ import forestry.lepidopterology.ButterflySpecies;
 
 /**
  * Projects a pure-data {@link ButterflySpeciesDefinition} into a runtime {@link ButterflySpecies}, reusing the same
- * {@link SpeciesRegistration#createDefaultGenomeBuilder} genome path as the code-registered species. Butterflies
+ * {@link SpeciesProjection#buildGenome} genome path as the code-registered species. Butterflies
  * have no per-species code-side bindings (unlike trees), and the cocoon/butterfly_effect reference chromosomes are
  * resolved lazily by genome reads, not at projection time, so there is nothing to look up here beyond the
  * definition itself.
