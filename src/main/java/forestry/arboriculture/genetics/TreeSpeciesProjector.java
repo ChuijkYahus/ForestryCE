@@ -8,10 +8,8 @@ import forestry.Forestry;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.plugin.IGenomeBuilder;
-import forestry.apiimpl.plugin.SpeciesRegistration;
 import forestry.arboriculture.TreeSpecies;
-import forestry.core.genetics.GenomeProjection;
+import forestry.core.genetics.SpeciesProjection;
 
 /**
  * Projects a pure-data {@link TreeSpeciesDefinition} + its code-side {@link TreeBlockBindings} into a runtime
@@ -32,9 +30,7 @@ public final class TreeSpeciesProjector {
 				return null;
 			}
 			IKaryotype karyotype = type.getKaryotype();
-			IGenomeBuilder gb = SpeciesRegistration.createDefaultGenomeBuilder(karyotype, id, def.genus(), def.dominant());
-			GenomeProjection.applyOverrides(gb, karyotype, def.genome());
-			IGenome genome = gb.build();
+			IGenome genome = SpeciesProjection.buildGenome(karyotype, id, def);
 			return new TreeSpecies(id, type, genome, new DefinitionTreeSpeciesBuilder(def, bindings));
 		} catch (Exception e) {
 			Forestry.LOGGER.error("Failed to project tree species {}", id, e);

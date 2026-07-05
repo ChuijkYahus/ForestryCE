@@ -8,9 +8,7 @@ import forestry.Forestry;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
-import forestry.api.plugin.IGenomeBuilder;
-import forestry.apiimpl.plugin.SpeciesRegistration;
-import forestry.core.genetics.GenomeProjection;
+import forestry.core.genetics.SpeciesProjection;
 import forestry.lepidopterology.ButterflySpecies;
 
 /**
@@ -35,9 +33,7 @@ public final class ButterflySpeciesProjector {
 	public static ButterflySpecies project(IButterflySpeciesType type, ResourceLocation id, ButterflySpeciesDefinition def) {
 		try {
 			IKaryotype karyotype = type.getKaryotype();
-			IGenomeBuilder gb = SpeciesRegistration.createDefaultGenomeBuilder(karyotype, id, def.genus(), def.dominant());
-			GenomeProjection.applyOverrides(gb, karyotype, def.genome());
-			IGenome genome = gb.build();
+			IGenome genome = SpeciesProjection.buildGenome(karyotype, id, def);
 			return new ButterflySpecies(id, type, genome, new DefinitionButterflySpeciesBuilder(def));
 		} catch (Exception e) {
 			Forestry.LOGGER.error("Skipping butterfly species {} - projection failed", id, e);

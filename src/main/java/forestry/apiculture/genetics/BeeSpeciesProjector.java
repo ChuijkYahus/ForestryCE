@@ -9,10 +9,8 @@ import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.IKaryotype;
-import forestry.api.plugin.IGenomeBuilder;
 import forestry.apiculture.BeeSpecies;
-import forestry.apiimpl.plugin.SpeciesRegistration;
-import forestry.core.genetics.GenomeProjection;
+import forestry.core.genetics.SpeciesProjection;
 
 /**
  * Projects a pure-data {@link BeeSpeciesDefinition} into a runtime {@link BeeSpecies}, without ever touching the
@@ -40,9 +38,7 @@ public final class BeeSpeciesProjector {
 				return null;
 			}
 			IKaryotype karyotype = type.getKaryotype();
-			IGenomeBuilder gb = SpeciesRegistration.createDefaultGenomeBuilder(karyotype, id, def.genus(), def.dominant());
-			GenomeProjection.applyOverrides(gb, karyotype, def.genome());
-			IGenome genome = gb.build();
+			IGenome genome = SpeciesProjection.buildGenome(karyotype, id, def);
 			return new BeeSpecies(id, type, genome, new DefinitionBeeSpeciesBuilder(def, jubilance));
 		} catch (Exception e) {
 			Forestry.LOGGER.error("Failed to project bee species {}", id, e);
