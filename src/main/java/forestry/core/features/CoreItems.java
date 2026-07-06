@@ -75,6 +75,7 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> GEAR_BRONZE = REGISTRY.item(ItemForestry::new, "gear_bronze");
 	public static final FeatureItem<ItemForestry> GEAR_COPPER = REGISTRY.item(ItemForestry::new, "gear_copper");
 	public static final FeatureItem<ItemForestry> GEAR_TIN = REGISTRY.item(ItemForestry::new, "gear_tin");
+	public static final FeatureItem<ItemForestry> GEAR_IRON = REGISTRY.item(ItemForestry::new, "gear_iron");
 
 	/* Soldering */
 	public static final FeatureItem<ItemSolderingIron> SOLDERING_IRON = REGISTRY.item(ItemSolderingIron::new, "soldering_iron");

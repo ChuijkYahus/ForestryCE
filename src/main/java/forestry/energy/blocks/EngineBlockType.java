@@ -10,7 +10,8 @@ import forestry.modules.features.FeatureTileType;
 public enum EngineBlockType implements IBlockType {
 	PEAT(createEngineProperties(EnergyTiles.PEAT_ENGINE, "peat")),
 	BIOGAS(createEngineProperties(EnergyTiles.BIOGAS_ENGINE, "biogas")),
-	CLOCKWORK(createEngineProperties(EnergyTiles.CLOCKWORK_ENGINE, "clockwork"));
+	CLOCKWORK(createEngineProperties(EnergyTiles.CLOCKWORK_ENGINE, "clockwork")),
+	COMBUSTION(createEngineProperties(EnergyTiles.COMBUSTION_ENGINE, "combustion"));
 
 	public static final EngineBlockType[] VALUES = values();
 

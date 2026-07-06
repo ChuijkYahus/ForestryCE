@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-03T23:37:14.720417459	Block States: forestry
+// 1.20.1	2026-07-06T00:13:57.738803443	Block States: forestry
 efb6cd9088f34afc855db97087b928d69c02ae5f assets/forestry/blockstates/apatite_ore.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_managed.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_manual.json
@@ -462,6 +462,7 @@ d2212df8c3948be511441689bcadbb60642db1bc assets/forestry/models/item/farm_valve_
 22ce4416ec2a7d6ba1c6018d887675c538107f86 assets/forestry/models/item/farm_valve_stone_brick.json
 3488ef90f74f86b70eb7cb7881a7454b136a3b7c assets/forestry/models/item/gear_bronze.json
 fcae1fb203baa2924a6d7b87deb0ef68b1c6f7bb assets/forestry/models/item/gear_copper.json
+eb0e52aa5571b2ab1accb25f28ac32b53712dfbe assets/forestry/models/item/gear_iron.json
 999090be32d4613124412694840df24a6b979539 assets/forestry/models/item/gear_tin.json
 8d7b0b34838928b0e2b44fcaec3aaff83502a191 assets/forestry/models/item/ingot_bronze.json
 f85e715e1f2d154994612574e3cc1cfe0ac69d4f assets/forestry/models/item/ingot_tin.json

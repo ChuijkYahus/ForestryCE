@@ -667,6 +667,7 @@ public class ForestryRecipeProvider {
 		gear(recipes, CoreItems.GEAR_BRONZE, ForestryTags.Items.INGOTS_BRONZE);
 		gear(recipes, CoreItems.GEAR_TIN, ForestryTags.Items.INGOTS_TIN);
 		gear(recipes, CoreItems.GEAR_COPPER, Tags.Items.INGOTS_COPPER);
+		gear(recipes, CoreItems.GEAR_IRON, Tags.Items.INGOTS_IRON);
 
 		recipes.shapelessCrafting("ingot_bronze_alloying", RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 4, ForestryTags.Items.INGOTS_TIN, ObjectIntPair.of(Items.COPPER_INGOT, 3));
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_PICKAXE, 1, CoreItems.BRONZE_PICKAXE, CoreItems.CARTON);
@@ -1151,6 +1152,16 @@ public class ForestryRecipeProvider {
 			recipe.define('P', Tags.Items.INGOTS_COPPER);
 			recipe.define('I', Tags.Items.GLASS);
 			recipe.define('Q', ForestryTags.Items.GEARS_COPPER);
+			recipe.define('D', Items.PISTON);
+			recipe.pattern("PPP");
+			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.COMBUSTION), recipe -> {
+			recipe.define('P', Tags.Items.INGOTS_IRON);
+			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('Q', ForestryTags.Items.GEARS_IRON);
 			recipe.define('D', Items.PISTON);
 			recipe.pattern("PPP");
 			recipe.pattern(" I ");

@@ -42,6 +42,7 @@ import forestry.core.features.CoreItems;
 import forestry.core.items.ItemFruit;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.items.definitions.EnumElectronTube;
+import forestry.energy.circuits.CircuitEngineUpgrade;
 import forestry.factory.circuits.CircuitMachineUpgrade;
 import forestry.farming.circuits.CircuitFarmLogic;
 import forestry.lepidopterology.DummyButterflyEffect;
@@ -372,6 +373,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		circuits.registerLayout(ForestryCircuitLayouts.MANAGED_FARM, ForestryCircuitSocketTypes.FARM);
 		circuits.registerLayout(ForestryCircuitLayouts.MANUAL_FARM, ForestryCircuitSocketTypes.FARM);
 		circuits.registerLayout(ForestryCircuitLayouts.MACHINE_UPGRADE, ForestryCircuitSocketTypes.MACHINE);
+		circuits.registerLayout(ForestryCircuitLayouts.ENGINE_UPGRADE, ForestryCircuitSocketTypes.ENGINE);
 
 		// Managed Farms
 		registerFarmCircuit(circuits, EnumElectronTube.COPPER, ForestryFarmTypes.ARBOREAL, false);
@@ -394,10 +396,17 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		registerFarmCircuit(circuits, EnumElectronTube.LAPIS, ForestryFarmTypes.COCOA, true);
 
 		// Factory
-		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.EMERALD, 1), new CircuitMachineUpgrade("machine.speed.boost.1", 0.125f, 0.05f, 1.0f));
+		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.COPPER, 1), new CircuitMachineUpgrade("machine.speed.boost.1", 0.125f, 0.05f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.BLAZE, 1), new CircuitMachineUpgrade("machine.speed.boost.2", 0.250f, 0.10f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.GOLD, 1), new CircuitMachineUpgrade("machine.efficiency.1", 0, -0.10f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.AMBER, 1), new CircuitMachineUpgrade("machine.fortune.1", 0, 0.05f, 1.25f));
+
+		// Energy
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.GOLD), new CircuitEngineUpgrade("engine.speed.boost",1,-0.15f,0));
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.COPPER), new CircuitEngineUpgrade("engine.speed.choke",-5,0.3f,1));
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.LAPIS), new CircuitEngineUpgrade("engine.efficiency.1",0,0.1f,0));
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.DIAMOND), new CircuitEngineUpgrade("engine.efficiency.2",0,0.2f,0));
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.APATITE), new CircuitEngineUpgrade("engine.biogas.overclock",0,-0.2f,2));
 	}
 
 	private static void registerFarmCircuit(ICircuitRegistration circuits, EnumElectronTube tube, ResourceLocation typeId, boolean manual) {

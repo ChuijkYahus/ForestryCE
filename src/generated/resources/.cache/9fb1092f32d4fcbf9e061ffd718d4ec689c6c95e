@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-03T23:37:14.71171786	Recipes
+// 1.20.1	2026-07-06T00:19:53.787159376	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -770,6 +770,7 @@ ec559f7efff9fc4553d5fa7c3a8670fa397f247f data/forestry/advancements/recipes/misc
 fd010daf5718f7a83cbd3bb920190045eba9e4d7 data/forestry/advancements/recipes/misc/elm_sign.json
 6b956ea5f036da97d73b1208ef28455fb7566ab7 data/forestry/advancements/recipes/misc/engine_biogas.json
 e6747047f6ae638614a3423f181a2f2acb65d2ea data/forestry/advancements/recipes/misc/engine_clockwork.json
+faf68b22db5548ded442a94d357f17dfdef097c7 data/forestry/advancements/recipes/misc/engine_combustion.json
 e39afa7988f313152da81dcb0801ec07111b5066 data/forestry/advancements/recipes/misc/engine_peat.json
 2413a8701827c88e42acaddc527798ab41457d54 data/forestry/advancements/recipes/misc/exp_bottle_from_exp_drop.json
 b325a3fa2ff653e4f47c4a71b0b8b5e1d2e4cecd data/forestry/advancements/recipes/misc/fabricator.json
@@ -861,6 +862,7 @@ d542a5487ee750be07b819840db8e626c4a22378 data/forestry/advancements/recipes/misc
 6f2d58f586bcec4ec9b372ce10a15cb9d5c170fe data/forestry/advancements/recipes/misc/frame_untreated.json
 24133792ae73aa39cf739ce9dc9fd8cbb8ce01c9 data/forestry/advancements/recipes/misc/gear_bronze.json
 5f38403b2bf4aef005b23015c150df0c19c859cc data/forestry/advancements/recipes/misc/gear_copper.json
+d7046ea38d37d39a9eba7fc82bfa651bee7abc04 data/forestry/advancements/recipes/misc/gear_iron.json
 782dd1ef06bec9b7acaf2da8f5b60cd58b3c8742 data/forestry/advancements/recipes/misc/gear_tin.json
 f09ac5f23d81b1dd71079dd3f7c1dc5e039f6bc3 data/forestry/advancements/recipes/misc/genetic_filter.json
 ab1e52545cdf2615c303d5254124c6418f894c1e data/forestry/advancements/recipes/misc/giganteum_boat.json
@@ -1803,6 +1805,7 @@ db8a1f9072fd37226876334cf159f26d86f95d9f data/forestry/recipes/elm_trapdoor.json
 d7c8202c89435f889a9583cd1e3221e0822f291b data/forestry/recipes/elm_wood.json
 793615fbaf78d74fa8016dc892b192c094e5b369 data/forestry/recipes/engine_biogas.json
 fd7b5fcc01286d07296c5242979c495aeb1cf4ed data/forestry/recipes/engine_clockwork.json
+53610cc59735107bd5636265d51266b354f21eb2 data/forestry/recipes/engine_combustion.json
 7345c007d4125ac17dcd07cc908de9587883523f data/forestry/recipes/engine_peat.json
 c4258e03fa0d4f7685625fe19d46acbc9881b475 data/forestry/recipes/exp_bottle_from_exp_drop.json
 b8e35ea64317a0f4019dc5abf53e0dc69fb42e0c data/forestry/recipes/fabricator.json
@@ -2218,6 +2221,7 @@ ddc464f281b5230b3857e4a68848023d41b99ab0 data/forestry/recipes/foresters_manual_
 552ba9f11924be97906ae9c970a00c67bf07a541 data/forestry/recipes/frame_untreated.json
 f177a9b445a6dee9956305ac6e93771caafa38b4 data/forestry/recipes/gear_bronze.json
 91858df5f2699fcfcfe088982f76cd6453e0efae data/forestry/recipes/gear_copper.json
+4202aec7f335334287476ddfdc4999ab3859eda6 data/forestry/recipes/gear_iron.json
 c220101bce95217f2cc8e4e24907e061606ded02 data/forestry/recipes/gear_tin.json
 768a18347c0affaa56024724f6c6aa3c6e30c67e data/forestry/recipes/genetic_filter.json
 ce179d2855739f50422236ca3b2a21e9a88cafbb data/forestry/recipes/giganteum_boat.json

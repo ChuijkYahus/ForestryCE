@@ -158,8 +158,9 @@ public class ForestryCreativeTabs {
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);
 		items.accept(CharcoalBlocks.CHARCOAL);
 		// Gears
-		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_TIN);
+		items.accept(CoreItems.GEAR_COPPER);
+		items.accept(CoreItems.GEAR_IRON);
 		items.accept(CoreItems.GEAR_BRONZE);
 		// Casings
 		items.accept(CoreItems.STURDY_CASING);
@@ -182,6 +183,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.GEAR_TIN);
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_BRONZE);
+		items.accept(CoreItems.GEAR_IRON);
 		items.accept(CoreItems.SOLDERING_IRON);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(CoreItems.ASH);

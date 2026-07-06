@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-03T23:37:14.689412688	Loot Tables
+// 1.20.1	2026-07-06T00:13:57.716916838	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -356,6 +356,7 @@ b885c0b91e1e994f0acb53b4c2822aa4d2881f98 data/forestry/loot_tables/blocks/elm_st
 e7dde6f8c36bff94faade117f9d9ff2a12f2f9ae data/forestry/loot_tables/blocks/elm_wood.json
 7ea9aa7ed689829cc5c9f9ea525fb96a368cedb7 data/forestry/loot_tables/blocks/engine_biogas.json
 166727e5e0f1403716e8ef73260982f8eda0dbeb data/forestry/loot_tables/blocks/engine_clockwork.json
+21a9828494579d303ce34451e5bf7c0838808e1f data/forestry/loot_tables/blocks/engine_combustion.json
 b8c69464b0dcf6669579b4799b7dd3133bb3d68b data/forestry/loot_tables/blocks/engine_peat.json
 65076607deca2287680aaaac1cea2e2eccf81062 data/forestry/loot_tables/blocks/escritoire.json
 b10890c3bbd1bac3f2e175ccd39728b4c1ab833c data/forestry/loot_tables/blocks/fabricator.json
