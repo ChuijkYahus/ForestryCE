@@ -56,6 +56,7 @@ import net.minecraft.nbt.ByteTag;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -562,6 +563,26 @@ public class ForestryCreativeTabs {
 
 		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
 
+
+		items.accept(Items.CANDLE);
+		items.accept(Items.WHITE_CANDLE);
+		items.accept(Items.LIGHT_GRAY_CANDLE);
+		items.accept(Items.GRAY_CANDLE);
+		items.accept(Items.BLACK_CANDLE);
+		items.accept(Items.BROWN_CANDLE);
+		items.accept(Items.RED_CANDLE);
+		items.accept(Items.ORANGE_CANDLE);
+		items.accept(Items.YELLOW_CANDLE);
+		items.accept(Items.LIME_CANDLE);
+		items.accept(Items.GREEN_CANDLE);
+		items.accept(Items.CYAN_CANDLE);
+		items.accept(Items.LIGHT_BLUE_CANDLE);
+		items.accept(Items.BLUE_CANDLE);
+		items.accept(Items.PURPLE_CANDLE);
+		items.accept(Items.MAGENTA_CANDLE);
+		items.accept(Items.PINK_CANDLE);
+		items.accept(CoreBlocks.REFRACTORY_CANDLE.item());
+		items.accept(CoreBlocks.RAINBOW_CANDLE.item());
 		CoreBlocks.BIG_CANDLES.getItems().forEach(items::accept);
 		CoreBlocks.JUMBO_CANDLES.getItems().forEach(items::accept);
 

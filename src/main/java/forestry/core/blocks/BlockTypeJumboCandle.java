@@ -25,7 +25,7 @@ public enum BlockTypeJumboCandle implements IBlockSubtype {
 	MAGENTA(MapColor.COLOR_MAGENTA),
 	PINK(MapColor.COLOR_PINK),
 	REFRACTORY(MapColor.COLOR_RED),
-	RGB(MapColor.COLOR_MAGENTA);
+	RAINBOW(MapColor.COLOR_MAGENTA);
 
 
 	BlockTypeJumboCandle(MapColor col) {

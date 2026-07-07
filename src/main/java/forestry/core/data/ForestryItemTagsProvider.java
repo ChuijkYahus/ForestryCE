@@ -157,7 +157,7 @@ public class ForestryItemTagsProvider {
 		);
 
 		tags.tag(ItemTags.CANDLES).add(
-			CoreBlocks.RGB_CANDLE.item(),
+			CoreBlocks.RAINBOW_CANDLE.item(),
 			CoreBlocks.REFRACTORY_CANDLE.item()
 		);
 

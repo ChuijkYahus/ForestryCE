@@ -236,7 +236,7 @@ public final class ForestryBlockTagsProvider {
 		);
 
 		tags.tag(BlockTags.CANDLES).add(
-			CoreBlocks.RGB_CANDLE.block(),
+			CoreBlocks.RAINBOW_CANDLE.block(),
 			CoreBlocks.REFRACTORY_CANDLE.block()
 		);
 

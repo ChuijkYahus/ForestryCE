@@ -1,7 +1,0 @@
-{
-  "parent": "forestry:block/candles/big",
-  "textures": {
-    "0": "forestry:block/candles/rgb_big",
-    "particle": "forestry:block/candles/rgb_big"
-  }
-}

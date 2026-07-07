@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "forestry:rgb_candle"
+          "name": "forestry:rainbow_candle"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "forestry:blocks/rgb_candle"
+  "random_sequence": "forestry:blocks/rainbow_candle"
 }

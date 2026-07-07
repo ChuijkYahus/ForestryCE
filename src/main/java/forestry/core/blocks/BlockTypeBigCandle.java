@@ -24,7 +24,7 @@ public enum BlockTypeBigCandle implements IBlockSubtype {
 	MAGENTA,
 	PINK,
 	REFRACTORY,
-	RGB;
+	RAINBOW;
 
 
 

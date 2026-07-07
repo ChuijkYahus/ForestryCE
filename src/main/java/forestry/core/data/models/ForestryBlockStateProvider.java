@@ -115,7 +115,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		jumboCandles();
 		bigCandles();
 		vanillaCandle(CoreBlocks.REFRACTORY_CANDLE.block());
-		vanillaCandle(CoreBlocks.RGB_CANDLE.block());
+		vanillaCandle(CoreBlocks.RAINBOW_CANDLE.block());
 
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
 		for (ForestryFluids fluid : ForestryFluids.values()) {
