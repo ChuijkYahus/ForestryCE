@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-02T23:04:39.101951	Recipes
+// 1.20.1	2026-07-08T01:09:50.5199748	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1096,6 +1096,7 @@ e9ae789c9f960f66651ed9f79fbfd336a55a77e6 data/forestry/advancements/recipes/misc
 d7efe33de1a18782c09becad2783263732013a01 data/forestry/advancements/recipes/misc/pulsating_mesh.json
 1f6f4539e1f5a2d85e86397c7d3f71c5c7712f2f data/forestry/advancements/recipes/misc/rainmaker.json
 a54bd78e0e13c9112305967246691a60c6768414 data/forestry/advancements/recipes/misc/raw_tin_from_raw_tin_block.json
+b513d915d42410b31aff20f71daf5747e6e0aea0 data/forestry/advancements/recipes/misc/refractory_candles.json
 d055140d187e88d28e3ee3ec935d3159fda06b8f data/forestry/advancements/recipes/misc/refractory_capsule.json
 d62280116003f7ab0f2f6c135798b24aea01491e data/forestry/advancements/recipes/misc/sequoia_boat.json
 7e1b6cf9171967322af5b50db86af25a8cc3f76b data/forestry/advancements/recipes/misc/sequoia_chest_boat.json
@@ -3064,6 +3065,7 @@ ccb5b4378d07a92f69e9a7e51f206620163d64bf data/forestry/recipes/poplar_stairs.jso
 3fee21ef851274792872ad94d0c5f1afd3e87bfe data/forestry/recipes/rainmaker.json
 74bd5fb42fe4f52a56d96557e4cd16e53e01e335 data/forestry/recipes/raw_tin_block.json
 18352f71a763c3d28d2d1b68d9aac11079305259 data/forestry/recipes/raw_tin_from_raw_tin_block.json
+c3d1437b78782972791c40f121f2242948a2a682 data/forestry/recipes/refractory_candles.json
 b52adb6f6bf04e0068d8e83aa0483569003c64ab data/forestry/recipes/refractory_capsule.json
 22e88084ce2cde899ada38d9f9bddad024029379 data/forestry/recipes/refractory_wax_bricks.json
 afeae5a884a788c6257355bbc9caf0da592e332d data/forestry/recipes/refractory_wax_bricks_slabs_from_stonecutting.json

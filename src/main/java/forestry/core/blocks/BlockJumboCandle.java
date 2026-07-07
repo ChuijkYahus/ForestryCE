@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class BlockJumboCandle extends Block {
 
@@ -131,17 +132,19 @@ public class BlockJumboCandle extends Block {
 		if (!state.getValue(LIT)) return;
 		if (state.getValue(SHAPE) == CandleShape.BOTTOM || state.getValue(SHAPE) == CandleShape.MIDDLE ) return;
 
-		if (random.nextInt(3) == 0) {
-			float x = pos.getX() + 0.5f;
-			float y = pos.getY() + 1.125f;
-			float z = pos.getZ() + 0.5f;
+		addParticlesAndSound(level, pos.getCenter().add(0, 0.6875f, 0), random, FLAME);
+	}
 
-			level.addParticle(FLAME, x, y, z, 0.0, 0.0, 0.0);
-
-			if (random.nextInt(2) == 0) {
-				level.addParticle(ParticleTypes.SMOKE, x, y, z, 0.001, 0.001, 0.001);
+	//Lifted from the vanilla candle code.
+	private static void addParticlesAndSound(Level level, Vec3 offset, RandomSource random, SimpleParticleType flame) {
+		float f = random.nextFloat();
+		if (f < 0.3F) {
+			level.addParticle(ParticleTypes.SMOKE, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
+			if (f < 0.17F) {
+				level.playLocalSound(offset.x + 0.5, offset.y + 0.5, offset.z + 0.5, SoundEvents.CANDLE_AMBIENT, SoundSource.BLOCKS, 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
 			}
 		}
+		level.addParticle(flame, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
 	}
 
 	@Override

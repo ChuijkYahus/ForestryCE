@@ -34,6 +34,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -70,18 +71,19 @@ public class BlockBigCandle extends Block implements SimpleWaterloggedBlock {
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 		if (!state.getValue(LIT)) return;
+		addParticlesAndSound(level, pos.getCenter().add(0, 0.4375f, 0), random, FLAME);
+	}
 
-		if (random.nextInt(3) == 0) {
-			float x = pos.getX() + 0.5f;
-			float y = pos.getY() + 0.875f;
-			float z = pos.getZ() + 0.5f;
-
-			level.addParticle(FLAME, x, y, z, 0.0, 0.0, 0.0);
-
-			if (random.nextInt(2) == 0) {
-				level.addParticle(ParticleTypes.SMOKE, x, y, z, 0.001, 0.001, 0.001);
+	//Lifted from the vanilla candle code.
+	private static void addParticlesAndSound(Level level, Vec3 offset, RandomSource random, SimpleParticleType flame) {
+		float f = random.nextFloat();
+		if (f < 0.3F) {
+			level.addParticle(ParticleTypes.SMOKE, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
+			if (f < 0.17F) {
+				level.playLocalSound(offset.x + 0.5, offset.y + 0.5, offset.z + 0.5, SoundEvents.CANDLE_AMBIENT, SoundSource.BLOCKS, 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
 			}
 		}
+		level.addParticle(flame, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
 	}
 
 	@Override

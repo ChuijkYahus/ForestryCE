@@ -161,6 +161,10 @@ public class CoreBlocks {
 
 	public static final FeatureBlockGroup<BlockBigCandle, BlockTypeBigCandle> BIG_CANDLES = REGISTRY.blockGroup(BlockBigCandle::new, BlockTypeBigCandle.values()).itemWithType((block, type) -> new ItemBlockForestry<>(block, new Item.Properties())).identifier("big_candle").create();
 
+	public static final FeatureBlock<CandleBlock, BlockItem> RGB_CANDLE = REGISTRY.block(() -> new CandleBlock(BlockBehaviour.Properties.copy(Blocks.MAGENTA_CANDLE)), ItemBlockForestry::new, "rgb_candle");
+	public static final FeatureBlock<CandleRefractory, BlockItem> REFRACTORY_CANDLE = REGISTRY.block(() -> new CandleRefractory(), ItemBlockForestry::new, "refractory_candle");
+	//TODO: I really should add the cake variants as well.... there's no fun in doing that though!!!!
+
 	public static final FeatureBlockGroup<BlockTesr<NaturalistChestBlockType>, NaturalistChestBlockType> NATURALIST_CHEST = REGISTRY.blockGroup(type -> {
 		return new BlockTesr<>(type, Block.Properties.of().sound(SoundType.WOOD));
 	}, NaturalistChestBlockType.values()).item(ItemBlockTesr::new).create();

@@ -234,9 +234,16 @@ public final class ForestryBlockTagsProvider {
 		CoreBlocks.BIG_CANDLES.getBlocks().forEach(block ->
 			tags.tag(ForestryTags.Blocks.BIG_CANDLE).add(block)
 		);
+
+		tags.tag(BlockTags.CANDLES).add(
+			CoreBlocks.RGB_CANDLE.block(),
+			CoreBlocks.REFRACTORY_CANDLE.block()
+		);
+
 		tags.tag(PIGLIN_REPELLENTS).add(
 			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.REFRACTORY).block(),
-			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.REFRACTORY).block()
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.REFRACTORY).block(),
+			CoreBlocks.REFRACTORY_CANDLE.block()
 		);
 
 		tags.tag(BlockTags.WALLS).add(

@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-02T21:13:56.1230161	Loot Tables
+// 1.20.1	2026-07-08T00:11:54.2862599	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -1183,6 +1183,7 @@ e691e1865cfa6bf44373b1bee6e5da7b1332c08f data/forestry/loot_tables/blocks/poplar
 b2d23accac992f73b9ceac0e39a7c2ea8a9b86ce data/forestry/loot_tables/blocks/poplar_wood.json
 bab1071eee9af10f39c0fb753554ff040b22e8ab data/forestry/loot_tables/blocks/rainmaker.json
 02bc9aa5a459b4c7a398384489f5d7a583974fa6 data/forestry/loot_tables/blocks/raw_tin_block.json
+8ac411c8a64f7d1181dd7cc5bd91b2531c46ec21 data/forestry/loot_tables/blocks/refractory_candle.json
 32edf56b0b0f58671d7d73b17b5f73664002859f data/forestry/loot_tables/blocks/refractory_wax_bricks.json
 a5aeb93ff4ccdadb4cfa0237cf2aca1f0b59cb72 data/forestry/loot_tables/blocks/refractory_wax_brick_slab.json
 9a3dccdf92b9baf2beebcedbc16dbc58f219a503 data/forestry/loot_tables/blocks/refractory_wax_brick_stairs.json
@@ -1191,6 +1192,7 @@ a5aeb93ff4ccdadb4cfa0237cf2aca1f0b59cb72 data/forestry/loot_tables/blocks/refrac
 b6d24fd9185ce3f1d579c92a7b1171eb3a80ac21 data/forestry/loot_tables/blocks/resource_storage_apatite.json
 9f501aa00d431b36ac20559ae41c9bfdff72eddb data/forestry/loot_tables/blocks/resource_storage_bronze.json
 181fec5f0d0dc614cf1d512dcd1773c932b9c901 data/forestry/loot_tables/blocks/resource_storage_tin.json
+88b66a8e5a7d2f83d47ced9e9560be953132a6a2 data/forestry/loot_tables/blocks/rgb_candle.json
 6aea262d270a597e7298904d3d79980e8d998ac2 data/forestry/loot_tables/blocks/sapling_ge.json
 6fc8a1348c5347bf5ab1311c1a11c28c7940bade data/forestry/loot_tables/blocks/sequoia_button.json
 9d0f5dcfb83f6d70062acf880474bf0ca4a4b25a data/forestry/loot_tables/blocks/sequoia_door.json

@@ -834,6 +834,13 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" ^ ");
 		});
 
+		recipes.shapedCrafting("refractory_candles", RecipeCategory.MISC, CoreBlocks.REFRACTORY_CANDLE.item(), 1, recipe -> {
+			recipe.define('|', Tags.Items.STRING);
+			recipe.define('^', CoreItems.REFRACTORY_WAX);
+			recipe.pattern(" | ");
+			recipe.pattern(" ^ ");
+		});
+
 		//Building Blocks
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TURF, 3, recipe -> {
 			recipe.define('X', CoreBlocks.TURF_BLOCK);

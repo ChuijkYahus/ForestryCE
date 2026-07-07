@@ -156,6 +156,11 @@ public class ForestryItemTagsProvider {
 				CoreBlocks.JUMBO_CANDLES.get(c).item())
 		);
 
+		tags.tag(ItemTags.CANDLES).add(
+			CoreBlocks.RGB_CANDLE.item(),
+			CoreBlocks.REFRACTORY_CANDLE.item()
+		);
+
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP_PROVEN.item());
 

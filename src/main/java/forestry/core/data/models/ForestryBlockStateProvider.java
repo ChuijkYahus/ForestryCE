@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -113,7 +114,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		jumboCandles();
 		bigCandles();
-
+		vanillaCandle(CoreBlocks.REFRACTORY_CANDLE.block());
+		vanillaCandle(CoreBlocks.RGB_CANDLE.block());
 
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
 		for (ForestryFluids fluid : ForestryFluids.values()) {
@@ -578,6 +580,72 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			//simpleBlockItem(candle, models().getExistingFile(ResourceLocation.parse("block/candles/" + type.getSerializedName() + "_jumbo_single")));
 		}
 
+	}
+
+	//This code was very graciously written by Artificial Intelligence.
+	//Datagen is cool and all but it's even cooler when I don't have to do any of it because I hate writing it ever so slightly more than I hate AI.
+	//I wrote some tho so that makes it okay!!!!
+	private void vanillaCandle(Block block) {
+		String name = ForgeRegistries.BLOCKS.getKey(block).getPath();
+
+		ModelFile one = models()
+			.withExistingParent("block/candles/" + name + "_one", mcLoc("block/template_candle"))
+			.texture("all", modLoc("block/candles/" + name))
+			.texture("particle", modLoc("block/candles/" + name));
+
+		ModelFile oneLit = models()
+			.withExistingParent("block/candles/" + name + "_one_lit", mcLoc("block/template_candle"))
+			.texture("all", modLoc("block/candles/" + name + "_lit"))
+			.texture("particle", modLoc("block/candles/" + name + "_lit"));;
+
+		ModelFile two = models()
+			.withExistingParent("block/candles/" + name + "_two", mcLoc("block/template_two_candles"))
+			.texture("all", modLoc("block/candles/" + name))
+			.texture("particle", modLoc("block/candles/" + name));
+
+
+		ModelFile twoLit = models()
+			.withExistingParent("block/candles/" + name + "_two_lit", mcLoc("block/template_two_candles"))
+			.texture("all", modLoc("block/candles/" + name + "_lit"))
+			.texture("particle", modLoc("block/candles/" + name + "_lit"));
+
+		ModelFile three = models()
+			.withExistingParent("block/candles/" + name + "_three", mcLoc("block/template_three_candles"))
+			.texture("all", modLoc("block/candles/" + name))
+			.texture("particle", modLoc("block/candles/" + name));
+
+
+		ModelFile threeLit = models()
+			.withExistingParent("block/candles/" + name + "_three_lit", mcLoc("block/template_three_candles"))
+			.texture("all", modLoc("block/candles/" + name + "_lit"))
+			.texture("particle", modLoc("block/candles/" + name + "_lit"));
+
+		ModelFile four = models()
+			.withExistingParent("block/candles/" + name + "_four", mcLoc("block/template_four_candles"))
+			.texture("all", modLoc("block/candles/" + name))
+			.texture("particle", modLoc("block/candles/" + name));
+
+		ModelFile fourLit = models()
+			.withExistingParent("block/candles/" + name + "_four_lit", mcLoc("block/template_four_candles"))
+			.texture("all", modLoc("block/candles/" + name + "_lit"))
+			.texture("particle", modLoc("block/candles/" + name + "_lit"));
+
+		getVariantBuilder(block)
+			.forAllStates(state -> {
+				int count = state.getValue(CandleBlock.CANDLES);
+				boolean lit = state.getValue(CandleBlock.LIT);
+
+				ModelFile model = switch (count) {
+					case 2 -> lit ? twoLit : two;
+					case 3 -> lit ? threeLit : three;
+					case 4 -> lit ? fourLit : four;
+					default -> lit ? oneLit : one;
+				};
+
+				return ConfiguredModel.builder()
+					.modelFile(model)
+					.build();
+			});
 	}
 
 
