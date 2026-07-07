@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import forestry.api.apiculture.ForestryBeeSpecies;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
@@ -42,20 +43,11 @@ public class MutationProvider {
 		provider.flush();
 	}
 
-	// chance percent (legacy int overload): chance = percent / 100
-	private MutationRecipeBuilder add(ResourceLocation speciesTypeId, ResourceLocation first, ResourceLocation second, ResourceLocation result, int chancePercent) {
-		return add(speciesTypeId, first, second, result, chancePercent / 100.0f);
-	}
-
 	// chance in [0, 1]
 	private MutationRecipeBuilder add(ResourceLocation speciesTypeId, ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance) {
 		MutationRecipeBuilder builder = new MutationRecipeBuilder(speciesTypeId, first, second, result, chance);
 		this.pending.add(builder);
 		return builder;
-	}
-
-	private MutationRecipeBuilder bee(ResourceLocation first, ResourceLocation second, ResourceLocation result, int chancePercent) {
-		return add(ForestrySpeciesTypes.BEE, first, second, result, chancePercent);
 	}
 
 	private MutationRecipeBuilder tree(ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance) {
@@ -93,98 +85,98 @@ public class MutationProvider {
 		for (int i = 0; i < overworldHiveBees.length; i++) {
 			ResourceLocation firstParent = overworldHiveBees[i];
 			for (int j = i + 1; j < overworldHiveBees.length; j++) {
-				bee(firstParent, overworldHiveBees[j], COMMON, 15);
+				add(ForestrySpeciesTypes.BEE, firstParent, overworldHiveBees[j], COMMON, 0.15f);
 			}
 		}
 
 		// Cultivated
 		for (ResourceLocation secondParent : overworldHiveBees) {
-			bee(COMMON, secondParent, CULTIVATED, 12);
+			add(ForestrySpeciesTypes.BEE, COMMON, secondParent, CULTIVATED, 0.12f);
 		}
 
-		bee(COMMON, CULTIVATED, NOBLE, 10);
-		bee(NOBLE, CULTIVATED, MAJESTIC, 8);
-		bee(NOBLE, MAJESTIC, IMPERIAL, 8);
-		bee(COMMON, CULTIVATED, DILIGENT, 10);
-		bee(DILIGENT, CULTIVATED, UNWEARY, 8);
-		bee(DILIGENT, UNWEARY, INDUSTRIOUS, 8);
+		add(ForestrySpeciesTypes.BEE, COMMON, CULTIVATED, NOBLE, 0.1f);
+		add(ForestrySpeciesTypes.BEE, NOBLE, CULTIVATED, MAJESTIC, 0.08f);
+		add(ForestrySpeciesTypes.BEE, NOBLE, MAJESTIC, IMPERIAL, 0.08f);
+		add(ForestrySpeciesTypes.BEE, COMMON, CULTIVATED, DILIGENT, 0.1f);
+		add(ForestrySpeciesTypes.BEE, DILIGENT, CULTIVATED, UNWEARY, 0.08f);
+		add(ForestrySpeciesTypes.BEE, DILIGENT, UNWEARY, INDUSTRIOUS, 0.08f);
 
 		// Sinister
 		for (ResourceLocation parent : new ResourceLocation[]{MODEST, TROPICAL}) {
-			bee(CULTIVATED, parent, SINISTER, 60).biome(BiomeTags.IS_NETHER);
+			add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.CULTIVATED, parent, ForestryBeeSpecies.SINISTER, 0.6f).biome(BiomeTags.IS_NETHER);
 		}
 
 		// Fiendish
 		for (ResourceLocation parent : new ResourceLocation[]{CULTIVATED, MODEST, TROPICAL}) {
-			bee(SINISTER, parent, FIENDISH, 40).biome(BiomeTags.IS_NETHER);
+			add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.SINISTER, parent, ForestryBeeSpecies.FIENDISH, 0.4f).biome(BiomeTags.IS_NETHER);
 		}
 
-		bee(SINISTER, FIENDISH, DEMONIC, 25).biome(BiomeTags.IS_NETHER);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.SINISTER, ForestryBeeSpecies.FIENDISH, ForestryBeeSpecies.DEMONIC, 0.25f).biome(BiomeTags.IS_NETHER);
 
 		// Frugal
-		bee(MODEST, SINISTER, FRUGAL, 16).temperature(TemperatureType.HOT, TemperatureType.HELLISH).humidity(HumidityType.ARID);
-		bee(MODEST, FIENDISH, FRUGAL, 10).temperature(TemperatureType.HOT, TemperatureType.HELLISH).humidity(HumidityType.ARID);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.MODEST, ForestryBeeSpecies.SINISTER, ForestryBeeSpecies.FRUGAL, 0.16f).temperature(TemperatureType.HOT, TemperatureType.HELLISH).humidity(HumidityType.ARID);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.MODEST, ForestryBeeSpecies.FIENDISH, ForestryBeeSpecies.FRUGAL, 0.1f).temperature(TemperatureType.HOT, TemperatureType.HELLISH).humidity(HumidityType.ARID);
 
 		// Austere
-		bee(MODEST, FRUGAL, AUSTERE, 8).temperature(TemperatureType.HOT, TemperatureType.HELLISH).humidity(HumidityType.ARID);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.MODEST, ForestryBeeSpecies.FRUGAL, ForestryBeeSpecies.AUSTERE, 0.08f).temperature(TemperatureType.HOT, TemperatureType.HELLISH).humidity(HumidityType.ARID);
 
-		bee(AUSTERE, TROPICAL, EXOTIC, 12);
-		bee(EXOTIC, TROPICAL, EDENIC, 8);
-		bee(MONASTIC, AUSTERE, SECLUDED, 12);
-		bee(MONASTIC, SECLUDED, HERMITIC, 8);
-		bee(HERMITIC, ENDED, SPECTRAL, 4);
-		bee(SPECTRAL, ENDED, PHANTASMAL, 2);
+		add(ForestrySpeciesTypes.BEE, AUSTERE, TROPICAL, EXOTIC, 0.12f);
+		add(ForestrySpeciesTypes.BEE, EXOTIC, TROPICAL, EDENIC, 0.08f);
+		add(ForestrySpeciesTypes.BEE, MONASTIC, AUSTERE, SECLUDED, 0.12f);
+		add(ForestrySpeciesTypes.BEE, MONASTIC, SECLUDED, HERMITIC, 0.08f);
+		add(ForestrySpeciesTypes.BEE, HERMITIC, ENDED, SPECTRAL, 0.04f);
+		add(ForestrySpeciesTypes.BEE, SPECTRAL, ENDED, PHANTASMAL, 0.02f);
 
-		bee(INDUSTRIOUS, WINTRY, ICY, 12).temperature(TemperatureType.ICY, TemperatureType.COLD);
-		bee(ICY, WINTRY, GLACIAL, 8).temperature(TemperatureType.ICY, TemperatureType.COLD);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.INDUSTRIOUS, ForestryBeeSpecies.WINTRY, ForestryBeeSpecies.ICY, 0.12f).temperature(TemperatureType.ICY, TemperatureType.COLD);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.ICY, ForestryBeeSpecies.WINTRY, ForestryBeeSpecies.GLACIAL, 0.08f).temperature(TemperatureType.ICY, TemperatureType.COLD);
 
-		bee(MARSHY, NOBLE, MIRY, 15).temperature(TemperatureType.WARM).humidity(HumidityType.DAMP);
-		bee(MARSHY, MIRY, BOGGY, 9).temperature(TemperatureType.WARM).humidity(HumidityType.DAMP);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.MARSHY, ForestryBeeSpecies.NOBLE, ForestryBeeSpecies.MIRY, 0.15f).temperature(TemperatureType.WARM).humidity(HumidityType.DAMP);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.MARSHY, ForestryBeeSpecies.MIRY, ForestryBeeSpecies.BOGGY, 0.09f).temperature(TemperatureType.WARM).humidity(HumidityType.DAMP);
 
-		bee(SAVANNA, DILIGENT, ARGIL, 15).temperature(TemperatureType.WARM, TemperatureType.HOT).humidity(HumidityType.ARID);
-		bee(SAVANNA, ARGIL, PRIDE, 9).biome(ForestryTags.Biomes.SHATTERED_SAVANNA);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.SAVANNA, ForestryBeeSpecies.DILIGENT, ForestryBeeSpecies.ARGIL, 0.15f).temperature(TemperatureType.WARM, TemperatureType.HOT).humidity(HumidityType.ARID);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.SAVANNA, ForestryBeeSpecies.ARGIL, ForestryBeeSpecies.PRIDE, 0.09f).biome(ForestryTags.Biomes.SHATTERED_SAVANNA);
 
-		bee(SAVANNA, COMMON, VINDICTIVE, 12);
-		bee(VINDICTIVE, CULTIVATED, VENGEFUL, 8);
-		bee(VINDICTIVE, VENGEFUL, AVENGING, 4);
+		add(ForestrySpeciesTypes.BEE, SAVANNA, COMMON, VINDICTIVE, 0.12f);
+		add(ForestrySpeciesTypes.BEE, VINDICTIVE, CULTIVATED, VENGEFUL, 0.08f);
+		add(ForestrySpeciesTypes.BEE, VINDICTIVE, VENGEFUL, AVENGING, 0.04f);
 
-		bee(STEADFAST, VALIANT, HEROIC, 6).biome(BiomeTags.IS_FOREST);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.STEADFAST, ForestryBeeSpecies.VALIANT, ForestryBeeSpecies.HEROIC, 0.06f).biome(BiomeTags.IS_FOREST);
 
-		bee(LUSH, VALIANT, VERDANT, 10).cave();
-		bee(LUSH, VERDANT, LUXURIANT, 8).cave();
-		bee(LUXURIANT, MONASTIC, KLEPTOPLASTIC, 12);
-		bee(KLEPTOPLASTIC, LUXURIANT, PHOTOSYNTHETIC, 8);
-		bee(KLEPTOPLASTIC, MONASTIC, PHOTOSYNTHETIC, 8);
-		bee(KLEPTOPLASTIC, PHOTOSYNTHETIC, AUTOTROPHIC, 4);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.LUSH, ForestryBeeSpecies.VALIANT, ForestryBeeSpecies.VERDANT, 0.1f).cave();
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.LUSH, ForestryBeeSpecies.VERDANT, ForestryBeeSpecies.LUXURIANT, 0.08f).cave();
+		add(ForestrySpeciesTypes.BEE, LUXURIANT, MONASTIC, KLEPTOPLASTIC, 0.12f);
+		add(ForestrySpeciesTypes.BEE, KLEPTOPLASTIC, LUXURIANT, PHOTOSYNTHETIC, 0.08f);
+		add(ForestrySpeciesTypes.BEE, KLEPTOPLASTIC, MONASTIC, PHOTOSYNTHETIC, 0.08f);
+		add(ForestrySpeciesTypes.BEE, KLEPTOPLASTIC, PHOTOSYNTHETIC, AUTOTROPHIC, 0.04f);
 
-		bee(AQUATIC, PIRATE, PRISMATIC, 8);
-		bee(PIRATE, ENDED, ABYSSAL, 40).cave();
-		bee(AQUATIC, ENDED, ABYSSAL, 40).cave();
-		bee(PIRATE, SHULKING, ABYSSAL, 60).cave();
-		bee(AQUATIC, SHULKING, ABYSSAL, 60).cave();
+		add(ForestrySpeciesTypes.BEE, AQUATIC, PIRATE, PRISMATIC, 0.08f);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.PIRATE, ForestryBeeSpecies.ENDED, ForestryBeeSpecies.ABYSSAL, 0.4f).cave();
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.AQUATIC, ForestryBeeSpecies.ENDED, ForestryBeeSpecies.ABYSSAL, 0.4f).cave();
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.PIRATE, ForestryBeeSpecies.SHULKING, ForestryBeeSpecies.ABYSSAL, 0.6f).cave();
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.AQUATIC, ForestryBeeSpecies.SHULKING, ForestryBeeSpecies.ABYSSAL, 0.6f).cave();
 
-		bee(EMBITTERED, FIENDISH, SPITEFUL, 12);
-		bee(SPITEFUL, EMBITTERED, SEETHING, 8);
-		bee(EMBITTERED, ENDED, WARPED, 40).biome(ForestryTags.Biomes.WARPED_FOREST);
-		bee(SPITEFUL, ENDED, WARPED, 40).biome(ForestryTags.Biomes.WARPED_FOREST);
-		bee(EMBITTERED, SHULKING, WARPED, 40).biome(ForestryTags.Biomes.WARPED_FOREST);
-		bee(SPITEFUL, SHULKING, WARPED, 40).biome(ForestryTags.Biomes.WARPED_FOREST);
+		add(ForestrySpeciesTypes.BEE, EMBITTERED, FIENDISH, SPITEFUL, 0.12f);
+		add(ForestrySpeciesTypes.BEE, SPITEFUL, EMBITTERED, SEETHING, 0.08f);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.EMBITTERED, ForestryBeeSpecies.ENDED, ForestryBeeSpecies.WARPED, 0.4f).biome(ForestryTags.Biomes.WARPED_FOREST);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.SPITEFUL, ForestryBeeSpecies.ENDED, ForestryBeeSpecies.WARPED, 0.4f).biome(ForestryTags.Biomes.WARPED_FOREST);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.EMBITTERED, ForestryBeeSpecies.SHULKING, ForestryBeeSpecies.WARPED, 0.4f).biome(ForestryTags.Biomes.WARPED_FOREST);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.SPITEFUL, ForestryBeeSpecies.SHULKING, ForestryBeeSpecies.WARPED, 0.4f).biome(ForestryTags.Biomes.WARPED_FOREST);
 
-		bee(ABYSSAL, HERMITIC, SCULK, 6).biome(ForestryTags.Biomes.DEEP_DARK);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.ABYSSAL, ForestryBeeSpecies.HERMITIC, ForestryBeeSpecies.SCULK, 0.06f).biome(ForestryTags.Biomes.DEEP_DARK);
 
-		bee(MEADOWS, DILIGENT, RURAL, 12).biome(Tags.Biomes.IS_PLAINS);
-		bee(RURAL, UNWEARY, FARMERLY, 10).biome(Tags.Biomes.IS_PLAINS);
-		bee(FARMERLY, INDUSTRIOUS, AGRARIAN, 6).biome(Tags.Biomes.IS_PLAINS);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.MEADOWS, ForestryBeeSpecies.DILIGENT, ForestryBeeSpecies.RURAL, 0.12f).biome(Tags.Biomes.IS_PLAINS);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.RURAL, ForestryBeeSpecies.UNWEARY, ForestryBeeSpecies.FARMERLY, 0.1f).biome(Tags.Biomes.IS_PLAINS);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.FARMERLY, ForestryBeeSpecies.INDUSTRIOUS, ForestryBeeSpecies.AGRARIAN, 0.06f).biome(Tags.Biomes.IS_PLAINS);
 
-		bee(ANACHRONE, STEADFAST, PRIMEVAL, 15);
-		bee(RELIC, STEADFAST, ANACHRONE, 10);
+		add(ForestrySpeciesTypes.BEE, ANACHRONE, STEADFAST, PRIMEVAL, 0.15f);
+		add(ForestrySpeciesTypes.BEE, RELIC, STEADFAST, ANACHRONE, 0.1f);
 
 		// Festive (secret, date-restricted)
-		bee(MEADOWS, FOREST, LEPORINE, 10).dateRange(Month.MARCH.getValue(), 29, Month.APRIL.getValue(), 15);
-		bee(WINTRY, FOREST, MERRY, 10).dateRange(Month.DECEMBER.getValue(), 21, Month.DECEMBER.getValue(), 27);
-		bee(WINTRY, MEADOWS, TIPSY, 10).dateRange(Month.DECEMBER.getValue(), 27, Month.JANUARY.getValue(), 2);
-		bee(SINISTER, COMMON, TRICKY, 10).dateRange(Month.OCTOBER.getValue(), 15, Month.NOVEMBER.getValue(), 3);
-		bee(RURAL, NOBLE, PATRIOTIC, 15).dateRange(Month.JULY.getValue(), 1, Month.JULY.getValue(), 17);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.MEADOWS, ForestryBeeSpecies.FOREST, ForestryBeeSpecies.LEPORINE, 0.1f).dateRange(Month.MARCH.getValue(), 29, Month.APRIL.getValue(), 15);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.WINTRY, ForestryBeeSpecies.FOREST, ForestryBeeSpecies.MERRY, 0.1f).dateRange(Month.DECEMBER.getValue(), 21, Month.DECEMBER.getValue(), 27);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.WINTRY, ForestryBeeSpecies.MEADOWS, ForestryBeeSpecies.TIPSY, 0.1f).dateRange(Month.DECEMBER.getValue(), 27, Month.JANUARY.getValue(), 2);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.SINISTER, ForestryBeeSpecies.COMMON, ForestryBeeSpecies.TRICKY, 0.1f).dateRange(Month.OCTOBER.getValue(), 15, Month.NOVEMBER.getValue(), 3);
+		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.RURAL, ForestryBeeSpecies.NOBLE, ForestryBeeSpecies.PATRIOTIC, 0.15f).dateRange(Month.JULY.getValue(), 1, Month.JULY.getValue(), 17);
 	}
 
 	private void trees() {
