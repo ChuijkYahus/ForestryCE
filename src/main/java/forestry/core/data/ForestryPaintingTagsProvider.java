@@ -20,6 +20,7 @@ public class ForestryPaintingTagsProvider {
 			.add(CorePaintings.SUSPICIOUS_LOOKING_TREE)
 			.add(CorePaintings.WISDOM)
 			.add(CorePaintings.JAZZ)
-			.add(CorePaintings.TOOLS);
+			.add(CorePaintings.TOOLS)
+			.add(CorePaintings.THERE_IS_NOT_A_MAN_HERE);
 	}
 }

@@ -26,4 +26,5 @@ public class CorePaintings {
 	public static final RegistryObject<PaintingVariant> DEKU = PAINTINGS.register("deku", () -> new PaintingVariant(64, 32));
 	public static final RegistryObject<PaintingVariant> JAZZ = PAINTINGS.register("jazz", () -> new PaintingVariant(32, 32));
 	public static final RegistryObject<PaintingVariant> TOOLS = PAINTINGS.register("tools", () -> new PaintingVariant(32, 32));
+	public static final RegistryObject<PaintingVariant> THERE_IS_NOT_A_MAN_HERE = PAINTINGS.register("there_is_not_a_man_here", () -> new PaintingVariant(32, 32));
 }
