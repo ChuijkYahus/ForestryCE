@@ -32,8 +32,8 @@ public class TileMillRainmaker extends TileMill {
 	private boolean reverse;
 
 	private int yParticle = 0;
-	private int particleCount = 0;
 	private final int MAX_PARTICLE_COUNT = 64;
+	private int particleCount = MAX_PARTICLE_COUNT;
 	private static final ResourceLocation USE_RAINMAKER = new ResourceLocation("forestry:use_rainmaker");
 
 	public TileMillRainmaker(BlockPos pos, BlockState state) {
@@ -93,7 +93,7 @@ public class TileMillRainmaker extends TileMill {
 		sendNetworkUpdate();
 	}
 
-
+	//Idk why I can't just override serverTick here??
 	@Override
 	protected void update(Level level, BlockPos pos, boolean isSimulating) {
 		super.update(level, pos, isSimulating);
@@ -118,25 +118,10 @@ public class TileMillRainmaker extends TileMill {
 
 	@Override
 	public void activate(Level level, BlockPos pos) {
-		if (level.isClientSide) {
-			level.playSound(null, pos, SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 10000.0F, 0.8F + level.random.nextFloat() * 0.2F);
-
-			float f = pos.getX() + 0.5F;
-			float f1 = pos.getY() + level.random.nextFloat() * 6F / 16F;
-			float f2 = pos.getZ() + 0.5F;
-			float f3 = 0.52F;
-			float f4 = level.random.nextFloat() * 0.6F - 0.3F;
-
-			ParticleRender.addEntityExplodeFX(level, f - f3, f1, f2 + f4);
-			ParticleRender.addEntityExplodeFX(level, f + f3, f1, f2 + f4);
-			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 - f3);
-			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 + f3);
-		} else {
-
+		if (level instanceof ServerLevel serverLevel ) {
 			particleCount = 0;
 			yParticle = this.getBlockPos().getY()+2;
 
-			if (level instanceof ServerLevel serverLevel ) {
 				serverLevel.sendParticles(ParticleTypes.CLOUD,
 					this.getBlockPos().getX() + 0.5,
 					this.getBlockPos().getY(),
@@ -148,17 +133,16 @@ public class TileMillRainmaker extends TileMill {
 					0.1f
 				);
 
-				serverLevel.playSound(null, this.getBlockPos(), SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.BLOCKS);
-			}
+				serverLevel.playSound(null, this.getBlockPos(), SoundEvents.CONDUIT_DEACTIVATE, SoundSource.BLOCKS, 1.0f, 0.8f);
 			if (this.reverse) {
 				level.getLevelData().setRaining(false);
 			} else {
 				level.getLevelData().setRaining(true);
 				((ServerLevelData) level.getLevelData()).setRainTime(this.duration);
 			}
-            this.charge = 0;
-            this.duration = 0;
-            this.reverse = false;
+			this.charge = 0;
+			this.duration = 0;
+			this.reverse = false;
 			sendNetworkUpdate();
 		}
 	}

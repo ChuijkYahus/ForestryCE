@@ -96,7 +96,7 @@ public class RenderMill implements BlockEntityRenderer<TileMill> {
 
 		if (mill.hasLevel()) {
 			progress = mill.progress;
-			if (mill.stage != 0) {
+			if (mill.stage > 0) {
 				float smoothing = mill.speed * partialTick;
 				progress = (progress + smoothing);
 			}
