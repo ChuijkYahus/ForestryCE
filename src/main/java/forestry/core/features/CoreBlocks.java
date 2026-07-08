@@ -18,7 +18,7 @@ import net.minecraft.world.level.material.MapColor;
 public class CoreBlocks {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 
-	public static final FeatureBlockGroup<BlockCore, BlockTypeCoreTesr> BASE = REGISTRY.blockGroup(BlockCore::new, BlockTypeCoreTesr.values()).item(ItemBlockTesr::new).create();
+	public static final FeatureBlockGroup<BlockCore, BlockTypeCoreTesr> BASE = REGISTRY.blockGroup(t -> new BlockCore(t, t.getBlockProperties()), BlockTypeCoreTesr.values()).item(ItemBlockTesr::new).create();
 
 	public static final FeatureBlock<BlockBurnBarrel, ItemBlockForestry<?>> BURN_BARREL = REGISTRY.block(BlockBurnBarrel::new, ItemBlockForestry::new, "burn_barrel");
 

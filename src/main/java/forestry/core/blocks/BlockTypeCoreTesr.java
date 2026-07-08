@@ -2,22 +2,26 @@ package forestry.core.blocks;
 
 import forestry.core.features.CoreTiles;
 import forestry.core.tiles.TileAnalyzer;
-import forestry.core.tiles.TileBurnBarrel;
 import forestry.core.tiles.TileEscritoire;
 import forestry.modules.features.FeatureTileType;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
+import java.util.Properties;
 
 public enum BlockTypeCoreTesr implements IBlockType {
-	ANALYZER(createAnalyzerProperties(CoreTiles.ANALYZER, "analyzer")),
-	ESCRITOIRE(createEscritoireProperties(CoreTiles.ESCRITOIRE, "escritoire"));
 
+	ANALYZER(createAnalyzerProperties(CoreTiles.ANALYZER, "analyzer"), BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()),
+
+	ESCRITOIRE(createEscritoireProperties(CoreTiles.ESCRITOIRE, "escritoire"), BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE).noOcclusion());
+
+	private final BlockBehaviour.Properties properties;
 	private final IMachineProperties<?> machineProperties;
 
 	//I, Spearkiller, do sorrowfully declare that the following code is AI-written.
@@ -92,13 +96,18 @@ public enum BlockTypeCoreTesr implements IBlockType {
 			.create();
 	}
 
-	BlockTypeCoreTesr(IMachineProperties<?> machineProperties) {
+	BlockTypeCoreTesr(IMachineProperties<?> machineProperties, BlockBehaviour.Properties properties) {
 		this.machineProperties = machineProperties;
+		this.properties = properties;
 	}
 
 	@Override
 	public IMachineProperties<?> getMachineProperties() {
 		return this.machineProperties;
+	}
+
+	public BlockBehaviour.Properties getBlockProperties() {
+		return this.properties;
 	}
 
 	@Override

@@ -23,25 +23,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class RenderEscritoire implements BlockEntityRenderer<TileEscritoire> {
-	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_BLOCK + "/escritoire.png");
 
 	private final ItemRenderer itemRenderer;
-	private final ModelPart root;
 
 	public RenderEscritoire(BlockEntityRendererProvider.Context ctx) {
 		this.itemRenderer = ctx.getItemRenderer();
-		this.root = ctx.bakeLayer(ForestryModelLayers.ESCRITOIRE_LAYER);
-	}
-
-	//TODO: Figure out if I need this? I'm sorta in a world I don't understand with this.
-	public static LayerDefinition createBodyLayer() {
-		return LayerDefinition.create(new MeshDefinition(), 64, 64);
 	}
 
 	@Override
 	public void render(TileEscritoire escritoire, float partialTick, PoseStack stack, MultiBufferSource buffers, int light, int overlay) {
 
-		stack.pushPose();
 		//Direction facing = escritoire.getBlockState().getValue(BlockBase.FACING);
 		//RenderUtil.rotateByHorizontalDirection(stack, facing);
 		//VertexConsumer buffer = buffers.getBuffer(RenderType.entityCutout(TEXTURE));
@@ -56,6 +47,5 @@ public class RenderEscritoire implements BlockEntityRenderer<TileEscritoire> {
 			RenderUtil.renderDisplayStack(stack, this.itemRenderer, displayStack, escritoire.getLevel(), partialTick, buffers, light);
 			stack.popPose();
 		}
-		stack.popPose();
 	}
 }
