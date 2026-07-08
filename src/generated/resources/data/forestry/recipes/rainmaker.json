@@ -9,7 +9,7 @@
       "tag": "forge:gears/tin"
     },
     "Y": {
-      "item": "forestry:sturdy_machine"
+      "item": "forestry:hardened_machine"
     }
   },
   "pattern": [

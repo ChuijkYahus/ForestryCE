@@ -631,11 +631,12 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER), recipe -> {
 			recipe.define('T', CoreItems.PORTABLE_ALYZER);
-			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
+			recipe.define('X', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
+			recipe.define('#', CoreItems.GEAR_IRON);
 			recipe.pattern("XTX");
-			recipe.pattern(" Y ");
-			recipe.pattern("X X");
+			recipe.pattern("# #");
+			recipe.pattern("XYX");
 		});
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE), CoreItems.APATITE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.INGOT_BRONZE);
@@ -684,8 +685,8 @@ public class ForestryRecipeProvider {
 		gear(recipes, CoreItems.GEAR_BRONZE, ForestryTags.Items.INGOTS_BRONZE);
 		gear(recipes, CoreItems.GEAR_TIN, ForestryTags.Items.INGOTS_TIN);
 		gear(recipes, CoreItems.GEAR_COPPER, Tags.Items.INGOTS_COPPER);
+		gear(recipes, CoreItems.GEAR_IRON, Tags.Items.INGOTS_IRON);
 
-		recipes.shapelessCrafting("ingot_bronze_alloying", RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 4, ForestryTags.Items.INGOTS_TIN, ObjectIntPair.of(Items.COPPER_INGOT, 3));
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_PICKAXE, 1, CoreItems.BRONZE_PICKAXE, CoreItems.CARTON);
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_SHOVEL, 1, CoreItems.BRONZE_SHOVEL, CoreItems.CARTON);
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_AXE, 1, CoreItems.BRONZE_AXE, CoreItems.CARTON);
@@ -1339,7 +1340,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
-			recipe.define('X', Tags.Items.INGOTS_COPPER);
+			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
 			recipe.pattern("XYX");
@@ -1358,7 +1359,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
-			recipe.define('X', ForestryTags.Items.GEARS_BRONZE);
+			recipe.define('X', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
 			recipe.pattern("#Y#");
@@ -1367,7 +1368,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
-			recipe.define('X', ForestryTags.Items.GEARS_COPPER);
+			recipe.define('X', ForestryTags.Items.GEARS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
 			recipe.pattern("#Y#");
@@ -1377,7 +1378,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
 			recipe.define('X', ForestryTags.Items.GEARS_TIN);
-			recipe.define('Y', CoreItems.STURDY_CASING);
+			recipe.define('Y', CoreItems.HARDENED_CASING);
 			recipe.pattern("X#X");
 			recipe.pattern("#Y#");
 			recipe.pattern("X#X");
@@ -1394,7 +1395,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
-			recipe.define('X', Tags.Items.DUSTS_REDSTONE);
+			recipe.define('X', CoreItems.GEAR_IRON);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
 			recipe.pattern("#Y#");
@@ -1581,6 +1582,127 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerCarpenter(Consumer<FinishedRecipe> consumer) {
+
+		/*new CarpenterRecipeBuilder()
+			.setPackagingTime(50)
+			.setLiquid(new FluidStack(Fluids.WATER, 1000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.STURDY_CASING)
+				.pattern("XXX")
+				.pattern("X X")
+				.pattern("XXX")
+				.define('X', ForestryTags.Items.INGOTS_BRONZE))
+			.build(consumer, id("carpenter", "sturdy_casing"));
+
+
+		//Tier 2 Machines
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(100)
+			.setLiquid(new FluidStack(Fluids.WATER, 2000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).block())
+				.pattern("X#X")
+				.pattern("XYX")
+				.pattern("X#X")
+				.define('#', Tags.Items.GLASS)
+				.define('X', ForestryTags.Items.INGOTS_BRONZE)
+				.define('Y', CoreItems.STURDY_CASING))
+			.build(consumer, id("carpenter", "centrifuge"));
+
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(100)
+			.setLiquid(new FluidStack(Fluids.WATER, 2000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).block())
+				.pattern("X#X")
+				.pattern("XYX")
+				.pattern("X#X")
+				.define('#', Tags.Items.GLASS)
+				.define('X', ForestryTags.Items.INGOTS_TIN)
+				.define('Y', CoreItems.STURDY_CASING))
+			.build(consumer, id("carpenter", "squeezer"));
+
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(100)
+			.setLiquid(new FluidStack(Fluids.WATER, 2000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block())
+				.define('#', Tags.Items.GLASS)
+				.define('X', Tags.Items.INGOTS_GOLD)
+				.define('Y', CoreItems.STURDY_CASING)
+				.define('Z', Tags.Items.CHESTS_WOODEN)
+				.pattern("X#X")
+				.pattern("#Y#")
+				.pattern("XZX"))
+			.build(consumer, id("carpenter", "fabricator"));
+
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(100)
+			.setLiquid(new FluidStack(Fluids.WATER, 2000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.BOTTLER).block())
+				.define('#', Tags.Items.GLASS)
+				.define('X', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
+				.define('Y', CoreItems.STURDY_CASING)
+				.pattern("X#X")
+				.pattern("#Y#")
+				.pattern("X#X"))
+			.build(consumer, id("carpenter", "bottler"));
+
+		//Tier 3 Machines
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(100)
+			.setLiquid(new FluidStack(Fluids.WATER, 2000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).block())
+				.define('#', Tags.Items.GLASS)
+				.define('X', ForestryTags.Items.GEARS_COPPER)
+				.define('Y', CoreItems.STURDY_CASING)
+				.pattern("X#X")
+				.pattern("#Y#")
+				.pattern("X#X"))
+			.build(consumer, id("carpenter", "fermenter"));
+
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(100)
+			.setLiquid(new FluidStack(Fluids.WATER, 2000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block())
+				.define('#', Tags.Items.GLASS)
+				.define('X', ForestryTags.Items.GEARS_BRONZE) //Doesn't quite match but that's okay this machine is getting the axe anyway teehee!
+				.define('Y', CoreItems.STURDY_CASING)
+				.pattern("X#X")
+				.pattern("#Y#")
+				.pattern("X#X"))
+			.build(consumer, id("carpenter", "moistener"));
+
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(100)
+			.setLiquid(new FluidStack(Fluids.WATER, 2000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).block())
+				.define('#', Tags.Items.GLASS)
+				.define('X', ForestryTags.Items.GEARS_TIN)
+				.define('Y', CoreItems.HARDENED_CASING)
+				.pattern("X#X")
+				.pattern("#Y#")
+				.pattern("X#X"))
+			.build(consumer, id("carpenter", "rainmaker"));
+
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(100)
+			.setLiquid(new FluidStack(Fluids.WATER, 2000))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL).block())
+				.define('#', Tags.Items.GLASS)
+				.define('X', ForestryTags.Items.GEARS_IRON)
+				.define('Y', CoreItems.STURDY_CASING)
+				.pattern("X#X")
+				.pattern("#Y#")
+				.pattern("X#X"))
+			.build(consumer, id("carpenter", "still"));*/
+
+
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(50)
 			.setLiquid(ForestryFluids.SEED_OIL.getFluid(250))
@@ -1637,17 +1759,7 @@ public class ForestryRecipeProvider {
 				.define('X', Tags.Items.SAND)
 				.define('Y', CoreItems.MULCH))
 			.build(consumer, id("carpenter", "bog_earth"));
-		new CarpenterRecipeBuilder()
-			.setPackagingTime(75)
-			.setLiquid(new FluidStack(Fluids.WATER, 5000))
-			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.HARDENED_CASING)
-				.pattern("X X")
-				.pattern(" Y ")
-				.pattern("X X")
-				.define('X', Tags.Items.GEMS_DIAMOND)
-				.define('Y', CoreItems.STURDY_CASING))
-			.build(consumer, id("carpenter", "hardened_casing"));
+
 		new CarpenterRecipeBuilder()
 			.setLiquid(new FluidStack(Fluids.WATER, 1000))
 			.setBox(Ingredient.EMPTY)
@@ -1660,6 +1772,7 @@ public class ForestryRecipeProvider {
 				.define('Y', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
 				.define('Z', ApicultureItems.HONEY_DROP))
 			.build(consumer, id("carpenter", "iodine_charge"));
+
 		new CarpenterRecipeBuilder()
 			.setLiquid(new FluidStack(Fluids.WATER, 1000))
 			.setBox(Ingredient.EMPTY)
@@ -2348,6 +2461,7 @@ public class ForestryRecipeProvider {
 				.define('#', Tags.Items.DUSTS_REDSTONE)
 				.define('X', ForestryTags.Items.GEMS_AMBER))
 			.build(consumer, id("fabricator", "electron_tubes", "amber"));
+
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(liquidGlass)
@@ -2358,7 +2472,18 @@ public class ForestryRecipeProvider {
 				.define('#', ForestryTags.Items.INGOTS_BRONZE)
 				.define('B', Tags.Items.SLIMEBALLS)
 				.define('E', Tags.Items.GEMS_EMERALD))
-			.build(consumer, id("fabricator", "electron_tubes", "flexible_casing"));
+			.build(consumer, id("fabricator", "flexible_casing"));
+
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(liquidGlass)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.HARDENED_CASING)
+				.pattern("D D")
+				.pattern(" # ")
+				.pattern("D D")
+				.define('#', CoreItems.STURDY_CASING)
+				.define('D', Tags.Items.GEMS_DIAMOND))
+			.build(consumer, id("fabricator", "hardened_casing"));
 
 		metalPlating(consumer, "iron_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.IRON).item(), Items.IRON_INGOT, 8);
 		metalPlating(consumer, "gold_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.GOLD).item(), Items.GOLD_INGOT, 8);

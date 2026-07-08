@@ -131,6 +131,7 @@ public class ForestryTags {
 		public static final TagKey<Item> GEARS_BRONZE = forgeTag("gears/bronze");
 		public static final TagKey<Item> GEARS_COPPER = forgeTag("gears/copper");
 		public static final TagKey<Item> GEARS_TIN = forgeTag("gears/tin");
+		public static final TagKey<Item> GEARS_IRON = forgeTag("gears/iron");
 		public static final TagKey<Item> GEARS_STONE = forgeTag("gears/stone");
 
 		public static final TagKey<Item> DUSTS_ASH = forgeTag("dusts/ash");

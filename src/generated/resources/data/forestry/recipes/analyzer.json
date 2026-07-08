@@ -2,11 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
+    "#": {
+      "item": "forestry:gear_iron"
+    },
     "T": {
       "item": "forestry:portable_alyzer"
     },
     "X": {
-      "tag": "forge:ingots/bronze"
+      "tag": "forge:ingots/tin"
     },
     "Y": {
       "item": "forestry:sturdy_machine"
@@ -14,8 +17,8 @@
   },
   "pattern": [
     "XTX",
-    " Y ",
-    "X X"
+    "# #",
+    "XYX"
   ],
   "result": {
     "item": "forestry:analyzer"

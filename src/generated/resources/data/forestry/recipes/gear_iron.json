@@ -3,22 +3,19 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:glass"
+      "tag": "forge:ingots/iron"
     },
     "X": {
-      "item": "forestry:gear_iron"
-    },
-    "Y": {
-      "item": "forestry:sturdy_machine"
+      "tag": "forge:nuggets/iron"
     }
   },
   "pattern": [
-    "X#X",
-    "#Y#",
-    "X#X"
+    " # ",
+    "#X#",
+    " # "
   ],
   "result": {
-    "item": "forestry:still"
+    "item": "forestry:gear_iron"
   },
   "show_notification": true
 }
