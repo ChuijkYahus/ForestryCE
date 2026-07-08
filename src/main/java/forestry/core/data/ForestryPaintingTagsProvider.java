@@ -20,6 +20,7 @@ public class ForestryPaintingTagsProvider {
 			.add(CorePaintings.WISDOM)
 			.add(CorePaintings.JAZZ)
 			.add(CorePaintings.TOOLS)
-			.add(CorePaintings.THERE_IS_NOT_A_MAN_HERE);
+			.add(CorePaintings.THERE_IS_NOT_A_MAN_HERE)
+			.add(CorePaintings.THE_HUNNY_TREE);
 	}
 }
