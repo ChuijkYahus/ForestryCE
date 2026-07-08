@@ -286,6 +286,41 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 							get_bee_house,
 							writer, FrameType.TASK, true, true, false);
 
+							//When Is a Raven Like a Writing Desk?
+							//A reference to the quote which is from like, Lewis Carrol or something? I can't remember and I'm too lazy to look it up right now.
+							Advancement get_escritoire = makeSimpleAdvancement(
+								"get_escritoire",
+								CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).stack(),
+								InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).get()),
+								get_apiary,
+								writer);
+
+							//Eureka
+							Advancement use_research_note = makeSimpleAdvancement(
+								"use_research_note",
+								CoreItems.RESEARCH_NOTE.stack(),
+								InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.RESEARCH_NOTE.get()),
+								get_escritoire,
+								writer);
+
+							//Master Arborist
+							//Advancement granted manually. No idea how to do that yet.
+							Advancement complete_tree_research = makeSimpleAdvancement(
+								"complete_tree_research",
+								SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.ELM, TreeLifeStage.SAPLING),
+								new ImpossibleTrigger.TriggerInstance(),
+								use_research_note,
+								writer, FrameType.CHALLENGE, true, true, false);
+
+							//Master Apiarist
+							//Advancement granted manually. No idea how to do that yet.
+							Advancement complete_bee_research = makeSimpleAdvancement(
+								"complete_bee_research",
+								SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.IMPERIAL, BeeLifeStage.QUEEN),
+								new ImpossibleTrigger.TriggerInstance(),
+								use_research_note,
+								writer, FrameType.CHALLENGE, true, true, false);
+
 
 							//I've Been Framed
 							Advancement get_frames = makeSimpleAdvancement(
@@ -355,7 +390,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 								 * Advancements for end-of-line forestry saplings begin here
 								 */
 
-								//????
+								//Roasting on an Open Fire
 								Advancement get_chestnut_sapling = makeSimpleAdvancement(
 									"get_chestnut_sapling",
 									SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.CHESTNUT, TreeLifeStage.SAPLING),
@@ -460,255 +495,240 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 							get_bee_house,
 							writer);
 
-			//Lightly Bronzed
-			//To be bronzed is to be tanned.
-			Advancement bronzed = makeSimpleAdvancement(
-				"get_bronze",
-				CoreItems.INGOT_BRONZE.stack(),
-				InventoryChangeTrigger.TriggerInstance.hasItems(
-					ItemPredicate.Builder.item().of(
-						TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", "ingots/wbronze"))).build()),
+			//Powering Up
+			Advancement get_engine = makeSimpleAdvancement(
+				"get_engine",
+				EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS).stack(),
+				InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
+					EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).get(),
+					EnergyBlocks.ENGINES.get(EngineBlockType.PEAT).get(),
+					EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS).get()
+				).build()),
 				root,
 				writer);
 
-				//Moisturise me!
-				//A reference to Cassandra, a Doctor Who villian
-				Advancement get_moistener = makeSimpleAdvancement(
-					"get_moistener",
-					FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).get()),
-					bronzed,
-					writer);
+				//Wound Up
+				//Advancement granted manually via ClockworkEngineBlockEntity.java
+				Advancement take_damage_from_clockwork_engine = makeSimpleAdvancement(
+					"take_damage_from_clockwork_engine",
+					EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).stack(),
+					new ImpossibleTrigger.TriggerInstance(),
+					get_engine,
+					writer, FrameType.TASK, true, true, true);
 
-				//No Thanks, I Already Ate
-				Advancement get_fertiliser = makeSimpleAdvancement(
-					"get_fertiliser",
-					CoreItems.FERTILIZER_COMPOUND.stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.FERTILIZER_COMPOUND.get()),
-					bronzed,
-					writer);
-
-					//Green Means Clean!
-					//A line spoken by Woshua from Undertale
-					/*ItemPredicate bucket = ItemPredicate.Builder.item()
-						.of(ForestryFluids.BIOMASS.getBucket())
-						.build();
-
-					CompoundTag biomassFluid = new CompoundTag();
-					biomassFluid.putString("FluidName", "forestry:biomass");
-					biomassFluid.putInt("Amount", 1000);
-
-					CompoundTag biomassTag = new CompoundTag();
-					biomassTag.put("Fluid", biomassFluid);
-
-					ItemPredicate can = ItemPredicate.Builder.item()
-						.of(FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
-						.hasNbt(biomassTag)
-						.build();
-
-					ItemPredicate capsule = ItemPredicate.Builder.item()
-						.of(FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE))
-						.hasNbt(biomassTag)
-						.build();
-
-					ItemPredicate refacCapsule = ItemPredicate.Builder.item()
-						.of(FluidsItems.CONTAINERS.get(EnumContainerType.REFRACTORY))
-						.hasNbt(biomassTag)
-						.build();
-
-					Advancement get_biomass = makeSimpleAdvancement(
-						"get_biomass",
-						ForestryFluids.BIOMASS.getBucket().getDefaultInstance(),
-                            new InventoryChangeTrigger.TriggerInstance(
-                                ContextAwarePredicate.ANY,
-                                MinMaxBounds.Ints.ANY,
-                                MinMaxBounds.Ints.ANY,
-                                MinMaxBounds.Ints.ANY,
-                                new ItemPredicate[]{bucket, can, capsule, refacCapsule}),
-						get_fertiliser,
-						writer);*/
-						//TODO: Allow Biomass cans and capsules and stuff to trigger this too
-						Advancement get_biomass = makeSimpleAdvancement(
-							"get_biomass",
-							ForestryFluids.BIOMASS.getBucket().getDefaultInstance(),
-							InventoryChangeTrigger.TriggerInstance.hasItems(
-								ForestryFluids.BIOMASS.getBucket().asItem()),
-							get_fertiliser,
-							writer);
-
-				//Remember me!
-				Advancement get_worktable = makeSimpleAdvancement(
-					"get_worktable",
-					WorktableBlocks.WORKTABLE.stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(WorktableBlocks.WORKTABLE.get()),
-					bronzed,
-					writer);
 
 				//Next Level Crafting
 				Advancement get_carpenter = makeSimpleAdvancement(
 					"get_carpenter",
 					FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).stack(),
 					InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).get()),
-					bronzed,
+					get_engine,
 					writer);
-
-					//Powering Up
-					Advancement get_engine = makeSimpleAdvancement(
-						"get_engine",
-						EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS).stack(),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).get(),
-							EnergyBlocks.ENGINES.get(EngineBlockType.PEAT).get(),
-							EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS).get()
-						).build()),
-						get_carpenter,
-						writer);
-
-						//Wound Up
-						//Advancement granted manually via ClockworkEngineBlockEntity.java
-						Advancement take_damage_from_clockwork_engine = makeSimpleAdvancement(
-							"take_damage_from_clockwork_engine",
-							EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).stack(),
-							new ImpossibleTrigger.TriggerInstance(),
-							get_engine,
-							writer, FrameType.TASK, true, true, true);
-
-					//When Is a Raven Like a Writing Desk?
-					//A reference to the quote which is from like, Lewis Carrol or something? I can't remember and I'm too lazy to look it up right now.
-					Advancement get_escritoire = makeSimpleAdvancement(
-						"get_escritoire",
-						CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).stack(),
-						InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).get()),
-						get_carpenter,
-						writer);
-
-						//Eureka
-						Advancement use_research_note = makeSimpleAdvancement(
-							"use_research_note",
-							CoreItems.RESEARCH_NOTE.stack(),
-							InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.RESEARCH_NOTE.get()),
-							get_escritoire,
-							writer);
-
-							//Master Arborist
-							//Advancement granted manually. No idea how to do that yet.
-							Advancement complete_tree_research = makeSimpleAdvancement(
-								"complete_tree_research",
-								SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.ELM, TreeLifeStage.SAPLING),
-								new ImpossibleTrigger.TriggerInstance(),
-								use_research_note,
-								writer, FrameType.CHALLENGE, true, true, false);
-
-							//Master Apiarist
-							//Advancement granted manually. No idea how to do that yet.
-							Advancement complete_bee_research = makeSimpleAdvancement(
-								"complete_bee_research",
-								SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.IMPERIAL, BeeLifeStage.QUEEN),
-								new ImpossibleTrigger.TriggerInstance(),
-								use_research_note,
-								writer, FrameType.CHALLENGE, true, true, false);
-
-				//You Spin Me Right Round
-				Advancement get_centrifuge = makeSimpleAdvancement(
-					"get_centrifuge",
-					FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).get()),
-					bronzed,
-					writer);
-
-					//Honey (Sugar, Sugar)
-					Advancement get_honey = makeSimpleAdvancement(
-						"get_honey",
-						ApicultureItems.HONEY_DROP.stack(),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-							ApicultureItems.HONEY_DROP.get(),
-							ApicultureItems.HONEYDEW.get(),
-							CoreItems.BEESWAX.get()
-						).build()),
-						get_centrifuge,
-						writer);
-
-				//Freshly Squeezed
-				Advancement get_squeezer = makeSimpleAdvancement(
-					"get_squeezer",
-					FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).get()),
-					bronzed,
-					writer);
-
-					//Bee Juice
-					//A reference to Clarkson's Farm, and what Clarkson refers to his honey as
-					//TODO: Allow Honey cans and capsules and stuff to trigger this too
-					Advancement get_liquid_honey = makeSimpleAdvancement(
-						"get_liquid_honey",
-						ForestryFluids.HONEY.getBucket().getDefaultInstance(),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ForestryFluids.HONEY.getBucket().asItem()),
-						get_squeezer,
-						writer);
 
 					//how casing get pragnent
 					//A reference to how is babby formed
 					//The formatting and spelling is deliberate.
-					Advancement get_impregnated_casing = makeSimpleAdvancement(
-						"get_impregnated_casing",
-						CoreItems.IMPREGNATED_CASING.stack(),
-						InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.IMPREGNATED_CASING.get()),
-						get_squeezer,
-						writer);
+								/*Advancement get_impregnated_casing = makeSimpleAdvancement(
+									"get_impregnated_casing",
+									CoreItems.IMPREGNATED_CASING.stack(),
+									InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.IMPREGNATED_CASING.get()),
+									get_carpenter,
+									writer);*/
 
-				//Glass Crafting
-				Advancement get_fabricator = makeSimpleAdvancement(
-					"get_fabricator",
-					FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).get()),
-					bronzed,
+				//Alloy There!
+				/*Advancement get_smelter = makeSimpleAdvancement(
+					"get_smelter",
+					FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).stack(),
+					InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).get()),
+					get_engine,
+					writer);*/
+
+				//Lightly Bronzed
+				//To be bronzed is to be tanned.
+				Advancement bronzed = makeSimpleAdvancement(
+					"get_bronze",
+					CoreItems.INGOT_BRONZE.stack(),
+					InventoryChangeTrigger.TriggerInstance.hasItems(
+						ItemPredicate.Builder.item().of(
+							TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("forge", "ingots/bronze"))).build()),
+					get_engine,
 					writer);
 
-					//Non-Inflammable
-					Advancement do_fireproofing = makeSimpleAdvancement(
-						"do_fireproofing",
-						CoreItems.REFRACTORY_WAX.stack(),
-						InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.REFRACTORY_WAX.get()),
-						get_fabricator,
+					//Moisturise me!
+					//A reference to Cassandra, a Doctor Who villian
+					/*Advancement get_moistener = makeSimpleAdvancement(
+						"get_moistener",
+						FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).stack(),
+						InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).get()),
+						bronzed,
+						writer);*/
+
+					//No Thanks, I Already Ate
+					Advancement get_fertiliser = makeSimpleAdvancement(
+						"get_fertiliser",
+						CoreItems.FERTILIZER_COMPOUND.stack(),
+						InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.FERTILIZER_COMPOUND.get()),
+						bronzed,
 						writer);
 
-					//CultivationBlocks.MANAGED_PLANTER.blockArray()
-					List<Item> farms = new ArrayList<>();
-					for (BlockItem farm: CultivationBlocks.MANAGED_PLANTER.getItems()){
-						farms.add(farm.asItem());
-					}
-					for (BlockItem farm: CultivationBlocks.MANUAL_PLANTER.getItems()){
-						farms.add(farm.asItem());
-					}
+						//Green Means Clean!
+						//A line spoken by Woshua from Undertale
+						/*ItemPredicate bucket = ItemPredicate.Builder.item()
+							.of(ForestryFluids.BIOMASS.getBucket())
+							.build();
 
-					//Farming Simulator
-					Advancement farming_simulator = makeSimpleAdvancement(
-						"farming_simulator",
-						CultivationBlocks.MANAGED_PLANTER.stack(BlockTypePlanter.ARBORETUM),
-						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-								farms.toArray(Item[]::new)
-							).build()
-						),
-						get_fabricator,
+						CompoundTag biomassFluid = new CompoundTag();
+						biomassFluid.putString("FluidName", "forestry:biomass");
+						biomassFluid.putInt("Amount", 1000);
+
+						CompoundTag biomassTag = new CompoundTag();
+						biomassTag.put("Fluid", biomassFluid);
+
+						ItemPredicate can = ItemPredicate.Builder.item()
+							.of(FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
+							.hasNbt(biomassTag)
+							.build();
+
+						ItemPredicate capsule = ItemPredicate.Builder.item()
+							.of(FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE))
+							.hasNbt(biomassTag)
+							.build();
+
+						ItemPredicate refacCapsule = ItemPredicate.Builder.item()
+							.of(FluidsItems.CONTAINERS.get(EnumContainerType.REFRACTORY))
+							.hasNbt(biomassTag)
+							.build();
+
+						Advancement get_biomass = makeSimpleAdvancement(
+							"get_biomass",
+							ForestryFluids.BIOMASS.getBucket().getDefaultInstance(),
+								new InventoryChangeTrigger.TriggerInstance(
+									ContextAwarePredicate.ANY,
+									MinMaxBounds.Ints.ANY,
+									MinMaxBounds.Ints.ANY,
+									MinMaxBounds.Ints.ANY,
+									new ItemPredicate[]{bucket, can, capsule, refacCapsule}),
+							get_fertiliser,
+							writer);*/
+							//TODO: Allow Biomass cans and capsules and stuff to trigger this too
+							Advancement get_biomass = makeSimpleAdvancement(
+								"get_biomass",
+								ForestryFluids.BIOMASS.getBucket().getDefaultInstance(),
+								InventoryChangeTrigger.TriggerInstance.hasItems(
+									ForestryFluids.BIOMASS.getBucket().asItem()),
+								get_fertiliser,
+								writer);
+
+
+
+
+					//You Spin Me Right Round
+					Advancement get_centrifuge = makeSimpleAdvancement(
+						"get_centrifuge",
+						FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).stack(),
+						InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).get()),
+						bronzed,
 						writer);
 
-						//Feed The World
-						//Advancement granted manually via ContainerFarm.java
-						Advancement feed_the_world = makeSimpleAdvancement(
-							"feed_the_world",
-							FarmingBlocks.FARM.stack(EnumFarmBlockType.PLAIN, EnumFarmMaterial.STONE_BRICK),
-							new ImpossibleTrigger.TriggerInstance(),
-							farming_simulator,
-							writer, FrameType.GOAL, true, true, false);
+						//Honey (Sugar, Sugar)
+						Advancement get_honey = makeSimpleAdvancement(
+							"get_honey",
+							ApicultureItems.HONEY_DROP.stack(),
+							InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
+								ApicultureItems.HONEY_DROP.get(),
+								ApicultureItems.HONEYDEW.get(),
+								CoreItems.BEESWAX.get()
+							).build()),
+							get_centrifuge,
+							writer);
+
+					//Freshly Squeezed
+					Advancement get_squeezer = makeSimpleAdvancement(
+						"get_squeezer",
+						FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).stack(),
+						InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).get()),
+						bronzed,
+						writer);
+
+						//Bee Juice
+						//A reference to Clarkson's Farm, and what Clarkson refers to his honey as
+						//TODO: Allow Honey cans and capsules and stuff to trigger this too
+						Advancement get_liquid_honey = makeSimpleAdvancement(
+							"get_liquid_honey",
+							ForestryFluids.HONEY.getBucket().getDefaultInstance(),
+							InventoryChangeTrigger.TriggerInstance.hasItems(ForestryFluids.HONEY.getBucket().asItem()),
+							get_squeezer,
+							writer);
+
+					//Glass Crafting
+					Advancement get_fabricator = makeSimpleAdvancement(
+						"get_fabricator",
+						FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).stack(),
+						InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).get()),
+						bronzed,
+						writer);
+
+						//Non-Inflammable
+						Advancement do_fireproofing = makeSimpleAdvancement(
+							"do_fireproofing",
+							CoreItems.REFRACTORY_WAX.stack(),
+							InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.REFRACTORY_WAX.get()),
+							get_fabricator,
+							writer);
+
+						//CultivationBlocks.MANAGED_PLANTER.blockArray()
+						List<Item> farms = new ArrayList<>();
+						for (BlockItem farm: CultivationBlocks.MANAGED_PLANTER.getItems()){
+							farms.add(farm.asItem());
+						}
+						for (BlockItem farm: CultivationBlocks.MANUAL_PLANTER.getItems()){
+							farms.add(farm.asItem());
+						}
+
+						//Farming Simulator
+						Advancement farming_simulator = makeSimpleAdvancement(
+							"farming_simulator",
+							CultivationBlocks.MANAGED_PLANTER.stack(BlockTypePlanter.ARBORETUM),
+							InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
+									farms.toArray(Item[]::new)
+								).build()
+							),
+							get_fabricator,
+							writer);
+
+							//Feed The World
+							//Advancement granted manually via ContainerFarm.java
+							Advancement feed_the_world = makeSimpleAdvancement(
+								"feed_the_world",
+								FarmingBlocks.FARM.stack(EnumFarmBlockType.PLAIN, EnumFarmMaterial.STONE_BRICK),
+								new ImpossibleTrigger.TriggerInstance(),
+								farming_simulator,
+								writer, FrameType.GOAL, true, true, false);
 
 
-				//Make It Rain!
-				//Advancement granted manually via TileMillRainmaker
-				Advancement make_it_rain = makeSimpleAdvancement(
-					"use_rainmaker",
-					FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).stack(),
-					new ImpossibleTrigger.TriggerInstance(),
-					bronzed,
+					//Make It Rain!
+					//Advancement granted manually via TileMillRainmaker
+					Advancement make_it_rain = makeSimpleAdvancement(
+						"use_rainmaker",
+						FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).stack(),
+						new ImpossibleTrigger.TriggerInstance(),
+						bronzed,
+						writer);
+
+				//Remember me!
+				/*Advancement get_worktable = makeSimpleAdvancement(
+					"get_worktable",
+					WorktableBlocks.WORKTABLE.stack(),
+					InventoryChangeTrigger.TriggerInstance.hasItems(WorktableBlocks.WORKTABLE.get()),
+					root,
+					writer);*/
+
+				//Ashes to Ashes
+				Advancement get_burn_barrel = makeSimpleAdvancement(
+					"get_burn_barrel",
+					CoreBlocks.BURN_BARREL.stack(),
+					InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.BURN_BARREL.get()),
+					root,
 					writer);
 
 		}

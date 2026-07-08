@@ -1,5 +1,5 @@
 {
-  "parent": "forestry:get_carpenter",
+  "parent": "forestry:get_apiary",
   "criteria": {
     "forestry:get_escritoire": {
       "conditions": {

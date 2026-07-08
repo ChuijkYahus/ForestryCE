@@ -1,11 +1,11 @@
 {
-  "parent": "forestry:root",
+  "parent": "forestry:get_engine",
   "criteria": {
     "forestry:get_bronze": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/wbronze"
+            "tag": "forge:ingots/bronze"
           }
         ]
       },
