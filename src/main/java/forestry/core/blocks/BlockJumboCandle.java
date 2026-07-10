@@ -1,5 +1,6 @@
 package forestry.core.blocks;
 
+import forestry.Forestry;
 import forestry.api.ForestryTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -87,39 +88,39 @@ public class BlockJumboCandle extends Block {
 		//Update the shape of the candle first.
 		if (above && below) {
 			newState = state.setValue(SHAPE, CandleShape.MIDDLE);
+			newState = newState.setValue(LIT, false);
 		}
 		else if ((!above) && below) {
 			newState = state.setValue(SHAPE, CandleShape.TOP);
 		}
 		else if (above && (!below)) {
 			newState = state.setValue(SHAPE, CandleShape.BOTTOM);
+			newState = newState.setValue(LIT, false);
 		}
 		else {
 			newState = state.setValue(SHAPE, CandleShape.SINGLE);
 		}
 
 		//If there are any blocks above, light/extinguish the candle
-		if (direction == Direction.UP){
-			BlockState aboveState = level.getBlockState(pos.above());
-			FluidState fluidState = aboveState.getFluidState();
+		BlockState aboveState = level.getBlockState(pos.above());
+		FluidState fluidState = aboveState.getFluidState();
 
-			boolean hasFluid = !fluidState.isEmpty();
-			boolean isLava = fluidState.is(FluidTags.LAVA);
+		boolean hasFluid = !fluidState.isEmpty();
+		boolean isLava = fluidState.is(FluidTags.LAVA);
+		boolean isSolid = aboveState.isSolidRender(level, pos.above());
 
-			//Extinguish
-			if (newState.getValue(LIT)) {
-
-				if ((hasFluid && !isLava) || aboveState.isSuffocating(level, pos.above())) {
-					newState.setValue(LIT, false);
-					if (level instanceof ServerLevel serverLevel)
-						serverLevel.playSound(null, pos, SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
-				}
+		//Extinguish
+		if (state.getValue(LIT)) {
+			if ((hasFluid && !isLava) || isSolid) {
+				newState = newState.setValue(LIT, false);
+				if (level instanceof ServerLevel serverLevel)
+					serverLevel.playSound(null, pos, SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
 			}
-			//LIGHT
-			else {
-				if ((hasFluid && isLava) || aboveState.is(BlockTags.FIRE)){
-					newState.setValue(LIT, true);
-				}
+		}
+		//LIGHT
+		else {
+			if ((hasFluid && isLava) || aboveState.is(BlockTags.FIRE)){
+				newState = newState.setValue(LIT, true);
 			}
 		}
 
@@ -156,7 +157,8 @@ public class BlockJumboCandle extends Block {
 		if (!state.getValue(LIT)
 			&& state.getValue(SHAPE) != CandleShape.BOTTOM
 			&& state.getValue(SHAPE) != CandleShape.MIDDLE
-			&& !player.isShiftKeyDown()) {
+			&& !player.isShiftKeyDown()
+			&& !level.getBlockState(pos.above()).isSolidRender(level, pos.above())) {
 
 			if (stack.is(Items.FLINT_AND_STEEL)) {
 				if (!level.isClientSide) {
