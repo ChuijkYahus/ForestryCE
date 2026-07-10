@@ -50,12 +50,12 @@ public enum BlockTypeCoreTesr implements IBlockType {
 			Block.box(1, 0, 1, 2, 10, 2)
 		);
 
-		VoxelShape tabletop = Block.box(0, 10, 0, 16, 14, 14);
-		VoxelShape backLip  = Block.box(0, 14, 0, 16, 18, 4);
+		VoxelShape tabletop = Block.box(0, 8, 0, 16, 12, 14);
+		VoxelShape backLip  = Block.box(0, 12, 0, 16, 16, 4);
 
 		VoxelShape sides = Shapes.or(
-			Block.box(0, 14, 4, 1, 17, 12),
-			Block.box(15, 14, 4, 16, 17, 12)
+			Block.box(0, 12, 4, 1, 15, 12),
+			Block.box(15, 12, 4, 16, 15, 12)
 		);
 
 		return Shapes.or(legs, tabletop, backLip, sides);
