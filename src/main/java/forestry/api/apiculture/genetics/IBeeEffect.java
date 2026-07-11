@@ -4,13 +4,17 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import forestry.core.render.ParticleRender;
 import net.minecraft.core.BlockPos;
 
 import java.util.List;
 
-public interface IBeeEffect extends IEffect, IRegistryAlleleValue {
+public interface IBeeEffect extends IEffect {
+	/**
+	 * @return Whether the allele for this value is dominant or recessive.
+	 */
+	boolean isDominant();
+
 	@Override
 	default IEffectData validateStorage(IEffectData storedData) {
 		return storedData;

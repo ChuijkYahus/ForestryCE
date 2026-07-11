@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.apiculture.IBeeClientManager;
@@ -21,6 +20,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.circuits.GuiSolderingIron;
 import forestry.core.config.Constants;
+import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.features.*;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.gui.*;
@@ -32,7 +32,6 @@ import forestry.core.particles.CoreParticles;
 import forestry.core.render.*;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;
-import forestry.core.utils.SpeciesUtil;
 import forestry.modules.features.FeatureFluid;
 import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryTiles;
@@ -63,7 +62,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.awt.*;
-import java.util.Map;
 import java.util.OptionalDouble;
 
 public class CoreClientHandler implements IClientModuleHandler {
@@ -95,6 +93,9 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::registerParticleFactory);
 		modBus.addListener(CoreClientHandler::registerClientExtensions);
 		NeoForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
+		// HIGH priority so the client mutation index is rebuilt before NORMAL-priority consumers (e.g. JEI, which can
+		// start synchronously during RecipesUpdatedEvent on a dedicated-server connection) read it.
+		NeoForge.EVENT_BUS.addListener(EventPriority.HIGH, CoreClientHandler::onRecipesUpdated);
 
 		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, ((ForestryClientApiImpl) IForestryClientApi.INSTANCE)::initializeTextureManager);
 	}
@@ -135,10 +136,8 @@ public class CoreClientHandler implements IClientModuleHandler {
 		IBeeClientManager beeManager = IForestryClientApi.INSTANCE.getBeeManager();
 
 		for (BeeLifeStage stage : BeeLifeStage.values()) {
-			Map<IBeeSpecies, ResourceLocation> models = beeManager.getBeeModels(stage);
-
-			for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
-				event.register(ModelResourceLocation.standalone(models.get(species)));
+			for (ResourceLocation location : beeManager.getAllModelLocations(stage)) {
+				event.register(ModelResourceLocation.standalone(location));
 			}
 		}
 
@@ -306,6 +305,12 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 		// Mail
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, MailItems.STAMPS.itemArray());
+	}
+
+	private static void onRecipesUpdated(RecipesUpdatedEvent event) {
+		// Recipes sync to the client automatically; rebuild the client-side mutation index for JEI/analyzer display.
+		// Species (BeeSpeciesSyncPacket) arrive separately and are rebuilt there, always before this fires.
+		GeneticsReloadHandler.rebuildMutations(event.getRecipeManager());
 	}
 
 	private static void onClientTick(RenderLevelStageEvent event) {

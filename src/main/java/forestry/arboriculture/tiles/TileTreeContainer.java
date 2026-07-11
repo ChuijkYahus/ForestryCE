@@ -1,6 +1,8 @@
 package forestry.arboriculture.tiles;
 
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.core.ClientsideCode;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.NBTUtilForestry;
@@ -72,7 +74,11 @@ public abstract class TileTreeContainer extends BlockEntity implements IStreamab
 	public void readData(RegistryFriendlyByteBuf data) {
 		if (data.readBoolean()) {
 			ResourceLocation speciesId = data.readResourceLocation();
-			ITree tree = SpeciesUtil.getTreeSpecies(speciesId).createIndividual();
+			// Sync payload written server-side from a live tree's species id; fall back to the default species
+			// instead of throwing if a datapack has since removed it (e.g. reload racing a client packet).
+			ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
+			ITreeSpecies species = type.getSpeciesSafe(speciesId);
+			ITree tree = (species != null ? species : type.getDefaultSpecies()).createIndividual();
 			setTree(tree);
 		}
 	}

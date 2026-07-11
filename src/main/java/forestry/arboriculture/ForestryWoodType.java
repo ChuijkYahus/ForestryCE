@@ -123,7 +123,7 @@ public enum ForestryWoodType implements IWoodType {
 	}
 
 	static boolean setDefaultLeavesImpl(LevelAccessor level, BlockPos pos, IGenome genome, RandomSource rand, ForestryLeafType leafType) {
-		IFruit fruit = genome.getActiveValue(TreeChromosomes.FRUIT);
+		IFruit fruit = genome.resolveActive(TreeChromosomes.FRUIT);
 		BlockState defaultLeaves;
 		FeatureBlockGroup<? extends Block, ForestryLeafType> leavesGroup;
 		if (fruit.isFruitLeaf() && rand.nextFloat() <= fruit.getFruitChance(genome, level)) {

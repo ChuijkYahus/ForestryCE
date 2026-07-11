@@ -6,7 +6,7 @@ import forestry.api.genetics.ForestryTaxa;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.ITaxon;
 import forestry.api.genetics.TaxonomicRank;
-import forestry.api.genetics.alleles.IAllele;
+import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.filter.IFilterRuleType;
 import forestry.api.plugin.IGeneticRegistration;
@@ -229,8 +229,13 @@ public final class GeneticRegistration implements IGeneticRegistration {
 		}
 
 		@Override
-		public <A extends IAllele> void setDefaultChromosome(IChromosome<A> chromosome, A value, boolean required) {
-			this.alleles.put(chromosome, new ITaxon.TaxonAllele(value, required));
+		public <V> void setDefaultChromosome(IChromosome<V> chromosome, Allele<V> allele, boolean required) {
+			this.alleles.put(chromosome, ITaxon.TaxonAllele.data(allele, required));
+		}
+
+		@Override
+		public void setDefaultChromosome(IChromosome<ResourceLocation> chromosome, ResourceLocation id, boolean required) {
+			this.alleles.put(chromosome, ITaxon.TaxonAllele.reference(id, required));
 		}
 
 		@Override
