@@ -1,14 +1,21 @@
 package forestry.apiculture;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
-public class WaterFlowerType extends FlowerType {
-	public WaterFlowerType(TagKey<Block> acceptableFlowers, boolean dominant) {
+public class WaterTagFlowerType extends TagFlowerType {
+	public WaterTagFlowerType(TagKey<Block> acceptableFlowers, boolean dominant) {
 		super(acceptableFlowers, dominant);
+	}
+
+	public WaterTagFlowerType(TagKey<Block> acceptableFlowers, boolean dominant, @Nullable TagKey<Biome> biomes) {
+		super(acceptableFlowers, dominant, biomes);
 	}
 
 	@Override

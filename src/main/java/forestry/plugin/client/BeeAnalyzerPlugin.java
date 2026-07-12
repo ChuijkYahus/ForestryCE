@@ -15,7 +15,7 @@ import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.IChromosome;
-import forestry.apiculture.FlowerType;
+import forestry.apiculture.TagFlowerType;
 import forestry.core.ForestryColors;
 import forestry.core.TranslationKeys;
 import forestry.core.config.ForestryConfig;
@@ -53,15 +53,15 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 	}
 
 	private static <V> Component addFlowerTypeTooltip(IAnalyzerGraphics<?, ?> graphics, IChromosome<V> chromosome, V value, InteractableTextOptions options, Component text) {
-		if (value instanceof ResourceLocation id && SpeciesUtil.BEE_TYPE.get().getFlowerTypeSafe(id) instanceof FlowerType type) {
+		if (value instanceof ResourceLocation id && SpeciesUtil.BEE_TYPE.get().getFlowerTypeSafe(id) instanceof TagFlowerType type) {
 			options.setOnHover((x, y) -> {
-				ArrayList<Component> lines = Lists.newArrayList(Component.literal("Accepts the following:"), Component.literal("#" + type.getAcceptableFlowers().location()));
+				ArrayList<Component> lines = Lists.newArrayList(Component.literal("Accepts the following:"), Component.literal("#" + type.acceptableFlowers().location()));
 				ArrayList<TextOptions> lineOptions = Lists.newArrayList(null, new TextOptions().setColor(ForestryColors.LIGHT_GRAY));
 				TextOptions gray = new TextOptions().setColor(ForestryColors.GRAY);
 
 				if (Screen.hasShiftDown()) {
 					ClientLevel level = Minecraft.getInstance().level;
-					level.registryAccess().registryOrThrow(Registries.BLOCK).getTag(type.getAcceptableFlowers()).ifPresent(list -> {
+					level.registryAccess().registryOrThrow(Registries.BLOCK).getTag(type.acceptableFlowers()).ifPresent(list -> {
 						int length = list.size();
 						int entries = Math.min(5, length);
 						boolean cycle = length > 5;
