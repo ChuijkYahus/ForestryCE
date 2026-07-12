@@ -36,4 +36,13 @@ public interface IFlowerType {
 	default List<ItemStack> affectProducts(Level level, BlockPos pos, IIndividual individual, List<ItemStack> products) {
 		return products;
 	}
+
+	/**
+	 * @return The serializer for this flower type, used to encode it for datapacks/network. Only serializable
+	 * (datapack-backed or synced) flower types override this; purely code-registered types that hold behaviour
+	 * as lambdas (e.g. KubeJS) are never serialized and keep the throwing default.
+	 */
+	default FlowerTypeType<?> type() {
+		throw new UnsupportedOperationException(getClass().getName() + " is not a serializable flower type");
+	}
 }
