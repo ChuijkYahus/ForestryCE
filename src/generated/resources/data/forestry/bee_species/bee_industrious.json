@@ -17,11 +17,11 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_stringy"
+      "item": "forestry:stringy_comb"
     },
     {
       "chance": 0.15,
-      "item": "forestry:pollen_cluster_normal"
+      "item": "forestry:pollen_cluster"
     }
   ],
   "species": "industria"

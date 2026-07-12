@@ -16,7 +16,7 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_frozen"
+      "item": "forestry:frozen_comb"
     },
     {
       "chance": 0.2,

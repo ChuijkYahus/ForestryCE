@@ -22,7 +22,7 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "forestry:bee_comb_cocoa"
+      "item": "forestry:cocoa_comb"
     }
   ],
   "specialties": [

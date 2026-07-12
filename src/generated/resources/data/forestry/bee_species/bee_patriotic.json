@@ -26,7 +26,7 @@
   "products": [
     {
       "chance": 0.45,
-      "item": "forestry:bee_comb_powdery"
+      "item": "forestry:powdery_comb"
     },
     {
       "chance": 0.2,

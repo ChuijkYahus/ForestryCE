@@ -24,7 +24,7 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_parched"
+      "item": "forestry:parched_comb"
     }
   ],
   "specialties": [

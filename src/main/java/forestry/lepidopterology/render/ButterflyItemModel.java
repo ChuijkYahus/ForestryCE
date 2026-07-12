@@ -100,14 +100,14 @@ public class ButterflyItemModel extends AbstractBakedModel {
 							ResourceLocation defaultItemTexture) implements IUnbakedGeometry<Geometry> {
 		@Override
 		public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
-			UnbakedModel modelButterfly = baker.getModel(ForestryConstants.forestry("item/butterfly"));
+			UnbakedModel modelButterfly = baker.getModel(ForestryConstants.forestry("item/butterfly_base"));
 
 			if (!(modelButterfly instanceof BlockModel modelBlock)) {
 				return null;
 			}
 			ResourceLocation parentLocation = modelBlock.getParentLocation();
 			List<BlockElement> elements = modelBlock.getElements();
-			ModelState transform = ResourceUtil.loadTransform(ForestryConstants.forestry("item/butterfly"));
+			ModelState transform = ResourceUtil.loadTransform(ForestryConstants.forestry("item/butterfly_base"));
 			Map<ResourceLocation, BakedModel> subModelBuilder = new HashMap<>();
 
 			for (ResourceLocation texture : this.itemTextures) {

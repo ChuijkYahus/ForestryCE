@@ -6,7 +6,7 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "forestry:bee_comb_mossy"
+      "item": "forestry:mossy_comb"
     }
   ],
   "species": "adorasti"

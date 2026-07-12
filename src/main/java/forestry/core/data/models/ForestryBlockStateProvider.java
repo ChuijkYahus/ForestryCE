@@ -2,14 +2,19 @@ package forestry.core.data.models;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
+import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.blocks.BlockBeeHive;
 import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.features.ApicultureBlocks;
-import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.arboriculture.blocks.ForestryLeafType;
+import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.blocks.EnumResourceType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.fluids.ForestryFluids;
+import forestry.energy.features.EnergyBlocks;
+import forestry.factory.features.FactoryBlocks;
 import forestry.core.utils.ModUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
@@ -113,6 +118,43 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			singleModelBlock(this, feature, models().cubeBottomTop(path, side, bottom, top));
 			generic3d(feature);
 		}
+
+		// Single-variant blocks migrated from hand-authored blockstates. Each renders one existing
+		// (hand-authored) model for all states, mirroring the old {"variants":{"":{"model":...}}}.
+		// Item models for these blocks stay hand-authored (custom display transforms), so no generic3d here.
+		for (Block block : CoreBlocks.BASE.blockArray()) existingModelBlock(block);            // analyzer, escritoire
+		for (Block block : FactoryBlocks.TESR.blockArray()) existingModelBlock(block);          // bottler, carpenter, centrifuge, ...
+		for (Block block : EnergyBlocks.ENGINES.blockArray()) existingModelBlock(block);        // biogas/clockwork/peat engine
+		for (Block block : CoreBlocks.NATURALIST_CHEST.blockArray()) existingModelBlock(block); // apiarist/arborist/lepidopterist chest
+		existingModelBlock(CharcoalBlocks.ASH.block());
+		existingModelBlock(CharcoalBlocks.CHARCOAL.block());
+		existingModelBlock(CharcoalBlocks.LOG_PILE.block());
+		existingModelBlock(ArboricultureBlocks.SAPLING_GE.block());
+		existingModelBlock(CoreBlocks.PEAT.block());
+
+		// Comb blocks all share the block_bee_combs model.
+		ModelFile combModel = models().getExistingFile(modBlock("block_bee_combs"));
+		for (Block block : ApicultureBlocks.BEE_COMB.blockArray()) singleModelBlock(this, block, combModel);
+
+		// Resource storage blocks use block/storage/<type>.
+		for (EnumResourceType type : EnumResourceType.values()) {
+			existingModelBlock(CoreBlocks.RESOURCE_STORAGE.get(type).block(), "storage/" + type.getSerializedName());
+		}
+
+		// Alveary components (the single-variant subset of the alveary block group).
+		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HYGRO).block(), "apiculture/alveary_hygroregulator");
+		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.STABILISER).block(), "apiculture/alveary_stabilizer");
+		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.SIEVE).block(), "apiculture/alveary_sieve");
+	}
+
+	// Emits a single "" variant pointing at an existing hand-authored model named after the block.
+	private void existingModelBlock(Block block) {
+		existingModelBlock(block, path(block));
+	}
+
+	// Emits a single "" variant pointing at the existing hand-authored model at block/<modelPath>.
+	private void existingModelBlock(Block block, String modelPath) {
+		singleModelBlock(this, block, models().getExistingFile(modBlock(modelPath)));
 	}
 
 	public static void singleModelBlock(ForestryBlockStateProvider states, Block defaultBlock, ModelFile file) {

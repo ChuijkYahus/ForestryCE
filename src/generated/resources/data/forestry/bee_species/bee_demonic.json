@@ -19,7 +19,7 @@
   "products": [
     {
       "chance": 0.45,
-      "item": "forestry:bee_comb_simmering"
+      "item": "forestry:simmering_comb"
     },
     {
       "chance": 0.15,

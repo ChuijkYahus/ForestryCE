@@ -11,7 +11,7 @@
   "products": [
     {
       "chance": 0.35,
-      "item": "forestry:bee_comb_honey"
+      "item": "forestry:honey_comb"
     }
   ],
   "species": "cerana"

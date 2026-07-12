@@ -27,7 +27,7 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "forestry:bee_comb_kaolin"
+      "item": "forestry:kaolin_comb"
     }
   ],
   "specialties": [

@@ -19,7 +19,7 @@
   "products": [
     {
       "chance": 0.27,
-      "item": "forestry:bee_comb_wheaten"
+      "item": "forestry:wheaten_comb"
     }
   ],
   "species": "arator"

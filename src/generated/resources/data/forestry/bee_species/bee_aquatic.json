@@ -25,7 +25,7 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "forestry:bee_comb_sponge"
+      "item": "forestry:spongy_comb"
     }
   ],
   "species": "squarepantsii",

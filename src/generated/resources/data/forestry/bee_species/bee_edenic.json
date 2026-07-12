@@ -21,7 +21,7 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_silky"
+      "item": "forestry:silky_comb"
     }
   ],
   "species": "humboldti",

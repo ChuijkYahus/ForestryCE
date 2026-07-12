@@ -23,7 +23,7 @@
     ],
     "result": {
       "count": 1,
-      "id": "forestry:circuit_board_basic"
+      "id": "forestry:basic_circuit_board"
     }
   },
   "result": {
@@ -33,7 +33,7 @@
       }
     },
     "count": 1,
-    "id": "forestry:circuit_board_basic"
+    "id": "forestry:basic_circuit_board"
   },
   "time": 20
 }

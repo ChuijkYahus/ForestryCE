@@ -15,7 +15,7 @@
   "products": [
     {
       "chance": 0.4,
-      "item": "forestry:bee_comb_honey"
+      "item": "forestry:honey_comb"
     }
   ],
   "species": "mellifera"

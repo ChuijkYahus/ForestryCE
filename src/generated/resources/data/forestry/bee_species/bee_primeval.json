@@ -22,7 +22,7 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "forestry:bee_comb_vintage"
+      "item": "forestry:vintage_comb"
     }
   ],
   "species": "antiqua",

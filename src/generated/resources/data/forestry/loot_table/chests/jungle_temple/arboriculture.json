@@ -13,7 +13,7 @@
               "type_id": "forestry:tree_species"
             }
           ],
-          "name": "forestry:sapling"
+          "name": "forestry:tree_sapling"
         },
         {
           "type": "minecraft:empty",

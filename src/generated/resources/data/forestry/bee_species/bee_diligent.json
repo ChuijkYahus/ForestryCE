@@ -17,7 +17,7 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_stringy"
+      "item": "forestry:stringy_comb"
     }
   ],
   "species": "sedulus"

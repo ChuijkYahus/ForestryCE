@@ -17,7 +17,7 @@
   "products": [
     {
       "chance": 0.4,
-      "item": "forestry:bee_comb_cocoa"
+      "item": "forestry:cocoa_comb"
     }
   ],
   "species": "kraphti"

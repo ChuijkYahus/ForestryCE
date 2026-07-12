@@ -27,7 +27,7 @@
   "products": [
     {
       "chance": 0.35,
-      "item": "forestry:bee_comb_wheaten"
+      "item": "forestry:wheaten_comb"
     }
   ],
   "species": "agrarius"

@@ -30,7 +30,7 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_sponge"
+      "item": "forestry:spongy_comb"
     }
   ],
   "specialties": [

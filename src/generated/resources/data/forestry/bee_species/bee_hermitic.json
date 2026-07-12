@@ -14,7 +14,7 @@
   "specialties": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_mellow"
+      "item": "forestry:mellow_comb"
     }
   ],
   "species": "anachoreta"

@@ -27,7 +27,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "forestry:smoker"
+          "name": "forestry:bee_smoker"
         }
       ],
       "name": "forestry_apiculture_items",
@@ -45,7 +45,7 @@
               "type_id": "forestry:bee_species"
             }
           ],
-          "name": "forestry:bee_drone_ge",
+          "name": "forestry:drone_bee",
           "weight": 6
         },
         {
@@ -57,7 +57,7 @@
               "type_id": "forestry:bee_species"
             }
           ],
-          "name": "forestry:bee_drone_ge",
+          "name": "forestry:drone_bee",
           "weight": 6
         },
         {

@@ -22,7 +22,7 @@
   "products": [
     {
       "chance": 0.55,
-      "item": "forestry:bee_comb_honey"
+      "item": "forestry:honey_comb"
     }
   ],
   "species": "verni",

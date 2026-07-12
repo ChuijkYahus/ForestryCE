@@ -19,7 +19,7 @@
   "products": [
     {
       "chance": 0.4,
-      "item": "forestry:bee_comb_parched"
+      "item": "forestry:parched_comb"
     }
   ],
   "species": "hostimentum",

@@ -19,7 +19,7 @@
   "products": [
     {
       "chance": 0.45,
-      "item": "forestry:bee_comb_honey"
+      "item": "forestry:honey_comb"
     }
   ],
   "specialties": [

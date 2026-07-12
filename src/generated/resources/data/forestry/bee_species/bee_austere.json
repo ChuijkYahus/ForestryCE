@@ -21,13 +21,13 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_parched"
+      "item": "forestry:parched_comb"
     }
   ],
   "specialties": [
     {
       "chance": 0.5,
-      "item": "forestry:bee_comb_powdery"
+      "item": "forestry:powdery_comb"
     }
   ],
   "species": "correpere",

@@ -4,55 +4,55 @@
       "conditions": {
         "items": [
           {
-            "items": "forestry:bee_comb_honey"
+            "items": "forestry:honey_comb"
           },
           {
-            "items": "forestry:bee_comb_cocoa"
+            "items": "forestry:cocoa_comb"
           },
           {
-            "items": "forestry:bee_comb_simmering"
+            "items": "forestry:simmering_comb"
           },
           {
-            "items": "forestry:bee_comb_stringy"
+            "items": "forestry:stringy_comb"
           },
           {
-            "items": "forestry:bee_comb_frozen"
+            "items": "forestry:frozen_comb"
           },
           {
-            "items": "forestry:bee_comb_dripping"
+            "items": "forestry:dripping_comb"
           },
           {
-            "items": "forestry:bee_comb_silky"
+            "items": "forestry:silky_comb"
           },
           {
-            "items": "forestry:bee_comb_parched"
+            "items": "forestry:parched_comb"
           },
           {
-            "items": "forestry:bee_comb_mysterious"
+            "items": "forestry:mysterious_comb"
           },
           {
-            "items": "forestry:bee_comb_powdery"
+            "items": "forestry:powdery_comb"
           },
           {
-            "items": "forestry:bee_comb_wheaten"
+            "items": "forestry:wheaten_comb"
           },
           {
-            "items": "forestry:bee_comb_mossy"
+            "items": "forestry:mossy_comb"
           },
           {
-            "items": "forestry:bee_comb_mellow"
+            "items": "forestry:mellow_comb"
           },
           {
-            "items": "forestry:bee_comb_kaolin"
+            "items": "forestry:kaolin_comb"
           },
           {
-            "items": "forestry:bee_comb_vintage"
+            "items": "forestry:vintage_comb"
           },
           {
-            "items": "forestry:bee_comb_sponge"
+            "items": "forestry:spongy_comb"
           },
           {
-            "items": "forestry:bee_comb_sculken"
+            "items": "forestry:sculken_comb"
           }
         ]
       },
@@ -204,7 +204,7 @@
         "forestry:max_health": 40
       },
       "count": 1,
-      "id": "forestry:bee_queen_ge"
+      "id": "forestry:queen_bee"
     },
     "show_toast": false,
     "title": {

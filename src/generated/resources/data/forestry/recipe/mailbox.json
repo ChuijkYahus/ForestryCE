@@ -9,7 +9,7 @@
       "tag": "c:chests/wooden"
     },
     "Y": {
-      "item": "forestry:sturdy_machine"
+      "item": "forestry:sturdy_casing"
     }
   },
   "pattern": [

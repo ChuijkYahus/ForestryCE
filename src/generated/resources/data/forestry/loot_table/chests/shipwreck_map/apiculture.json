@@ -22,7 +22,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "forestry:bee_drone_ge",
+          "name": "forestry:drone_bee",
           "weight": 12
         },
         {

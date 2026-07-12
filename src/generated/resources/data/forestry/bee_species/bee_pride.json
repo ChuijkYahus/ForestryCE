@@ -28,13 +28,13 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:bee_comb_kaolin"
+      "item": "forestry:kaolin_comb"
     }
   ],
   "specialties": [
     {
       "chance": 0.1,
-      "item": "forestry:bee_comb_mellow"
+      "item": "forestry:mellow_comb"
     }
   ],
   "species": "rafikii",

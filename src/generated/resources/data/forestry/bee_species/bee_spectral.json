@@ -12,7 +12,7 @@
   "products": [
     {
       "chance": 0.5,
-      "item": "forestry:bee_comb_mysterious"
+      "item": "forestry:mysterious_comb"
     }
   ],
   "species": "idolum",

@@ -52,7 +52,7 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "forestry:bee_comb_sculken"
+      "item": "forestry:sculken_comb"
     }
   ],
   "species": "alieni"

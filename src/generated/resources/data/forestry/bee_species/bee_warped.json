@@ -21,13 +21,13 @@
   "products": [
     {
       "chance": 0.15,
-      "item": "forestry:bee_comb_simmering"
+      "item": "forestry:simmering_comb"
     }
   ],
   "specialties": [
     {
       "chance": 0.35,
-      "item": "forestry:bee_comb_mysterious"
+      "item": "forestry:mysterious_comb"
     }
   ],
   "species": "corrumpata",

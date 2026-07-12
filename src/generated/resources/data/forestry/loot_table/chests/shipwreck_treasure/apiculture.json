@@ -13,7 +13,7 @@
               "type_id": "forestry:bee_species"
             }
           ],
-          "name": "forestry:bee_princess_ge",
+          "name": "forestry:princess_bee",
           "weight": 12
         },
         {
@@ -34,7 +34,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "forestry:bee_drone_ge",
+          "name": "forestry:drone_bee",
           "weight": 6
         }
       ],
