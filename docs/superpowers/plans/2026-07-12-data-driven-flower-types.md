@@ -761,11 +761,9 @@ import java.util.concurrent.CompletableFuture;
 
 import com.google.gson.JsonElement;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 
@@ -782,15 +780,14 @@ import forestry.apiculture.genetics.FlowerTypeTypes;
 /**
  * Generates {@code data/forestry/flower_type/*.json} for the 15 built-in flower types. This list is the single
  * source of truth for the built-ins (they are no longer code-registered at runtime); it must stay in sync with
- * the tags/dominance the mod ships.
+ * the tags/dominance the mod ships. No registry access is needed — flower-type fields are block/biome tags, which
+ * encode as plain resource locations.
  */
 public class FlowerTypeProvider implements DataProvider {
 	private final PackOutput.PathProvider path;
-	private final CompletableFuture<HolderLookup.Provider> registries;
 
-	public FlowerTypeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+	public FlowerTypeProvider(PackOutput output) {
 		this.path = output.createPathProvider(PackOutput.Target.DATA_PACK, "flower_type");
-		this.registries = registries;
 	}
 
 	private static Map<ResourceLocation, IFlowerType> builtins() {
@@ -816,14 +813,11 @@ public class FlowerTypeProvider implements DataProvider {
 	@Override
 	public CompletableFuture<?> run(CachedOutput output) {
 		FlowerTypeTypes.registerBuiltins();
-		return this.registries.thenCompose(provider -> {
-			RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, provider);
-			var futures = builtins().entrySet().stream().map(entry -> {
-				JsonElement json = FlowerTypeTypes.CODEC.encodeStart(ops, entry.getValue()).getOrThrow();
-				return DataProvider.saveStable(output, json, this.path.json(entry.getKey()));
-			}).toArray(CompletableFuture[]::new);
-			return CompletableFuture.allOf(futures);
-		});
+		var futures = builtins().entrySet().stream().map(entry -> {
+			JsonElement json = FlowerTypeTypes.CODEC.encodeStart(JsonOps.INSTANCE, entry.getValue()).getOrThrow();
+			return DataProvider.saveStable(output, json, this.path.json(entry.getKey()));
+		}).toArray(CompletableFuture[]::new);
+		return CompletableFuture.allOf(futures);
 	}
 
 	@Override
@@ -836,10 +830,10 @@ public class FlowerTypeProvider implements DataProvider {
 - [ ] **Step 3: Register the provider in `Data.java`** — mirror how `BeeSpeciesProvider` is added in the `GatherDataEvent` handler. Add:
 
 ```java
-		generator.addProvider(event.includeServer(), new forestry.core.data.FlowerTypeProvider(output, event.getLookupProvider()));
+		generator.addProvider(event.includeServer(), new forestry.core.data.FlowerTypeProvider(output));
 ```
 
-(Use the same `output` / lookup-provider expressions the neighbouring species providers use; if `BeeSpeciesProvider` takes different constructor args, match its call and adapt `FlowerTypeProvider`'s constructor to the same shape.)
+(Use the same `output`/`generator.addProvider(...)` expressions the neighbouring providers use in this method; `FlowerTypeProvider` needs only `PackOutput`.)
 
 - [ ] **Step 4: Remove the 15 built-in registrations from `DefaultForestryPlugin`** — delete the whole `registerFlowerType(...)` block (the 15 lines edited in Task 1, Step 4). Remove now-unused imports (`TagFlowerType`, `WaterTagFlowerType`, `PhotosynthesisFlowerType`, `BiomeTags`, `ForestryFlowerTypes` if unused elsewhere in the file, `ForestryTags` if unused elsewhere). Keep the surrounding `registerApiculture` method intact.
 
