@@ -17,8 +17,10 @@ import com.mojang.serialization.JsonOps;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.apiculture.genetics.effects.AgingBeeEffect;
+import forestry.apiculture.genetics.effects.DamageBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
+import forestry.core.damage.CoreDamageTypes;
 import forestry.core.genetics.GeneticsReloadHandler;
 
 /**
@@ -63,6 +65,10 @@ public class BeeEffectProvider implements DataProvider {
 		// The two queen-aging builtins, sharing one forestry:aging primitive and differing only by the aging flag.
 		add(ForestryBeeEffects.REJUVENATION, new AgingBeeEffect(false, false));
 		add(ForestryBeeEffects.CHRONOPHAGE, new AgingBeeEffect(false, true));
+		// The two area-damage builtins, expressed through the forestry:damage_entities primitive: 4 damage with
+		// armor scaling (-1 per apiarist piece), non-combinable, differing only by damage type and target filter.
+		add(ForestryBeeEffects.AGGRESSIVE, new DamageBeeEffect(true, 4f, true, 40, 1.0f, CoreDamageTypes.AGGRESSIVE, false, false));
+		add(ForestryBeeEffects.MISANTHROPE, new DamageBeeEffect(true, 4f, true, 20, 1.0f, CoreDamageTypes.MISANTHROPE, true, false));
 	}
 
 	protected void add(ResourceLocation id, IBeeEffect effect) {

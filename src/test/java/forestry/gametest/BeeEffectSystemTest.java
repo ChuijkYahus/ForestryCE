@@ -26,9 +26,11 @@ import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.genetics.BeeEffectManager;
 import forestry.apiculture.genetics.effects.AgingBeeEffect;
+import forestry.apiculture.genetics.effects.DamageBeeEffect;
 import forestry.apiculture.genetics.effects.LightningBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
+import forestry.core.damage.CoreDamageTypes;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.utils.SpeciesUtil;
 
@@ -231,6 +233,54 @@ public class BeeEffectSystemTest {
 		if (json.getAsJsonObject().get("strength").getAsFloat() != 3.0f
 			|| !(IBeeEffect.CODEC.parse(ops, json).getOrThrow() instanceof AgingBeeEffect)) {
 			helper.fail("aging strength did not round-trip through IBeeEffect.CODEC");
+			return;
+		}
+
+		helper.succeed();
+	}
+
+	/**
+	 * AGGRESSIVE and MISANTHROPE are generalized into the {@code forestry:damage_entities} primitive: both deal 4
+	 * damage with armor scaling and are non-combinable, differing only by damage type and target filter (MISANTHROPE
+	 * hits players only). The type is registered, both built-ins resolve to a {@link DamageBeeEffect}, and the bees
+	 * that carry them (SINISTER/AGGRESSIVE, ENDED/MISANTHROPE) resolve their genome effect to the datapack instance.
+	 */
+	@GameTest(template = "empty")
+	public static void damageEntitiesBuiltinsAreDatapackDefined(GameTestHelper helper) {
+		if (!ForestryRegistries.BEE_EFFECT_TYPE.containsKey(ForestryConstants.forestry("damage_entities"))) {
+			helper.fail("damage_entities effect type not registered: forestry:damage_entities");
+			return;
+		}
+		IBeeSpeciesType beeType = SpeciesUtil.BEE_TYPE.get();
+		for (ResourceLocation id : new ResourceLocation[]{ForestryBeeEffects.AGGRESSIVE, ForestryBeeEffects.MISANTHROPE}) {
+			if (!(beeType.getBeeEffect(id) instanceof DamageBeeEffect)) {
+				helper.fail("datapack-defined built-in " + id + " did not resolve to a DamageBeeEffect");
+				return;
+			}
+		}
+		// AGGRESSIVE and MISANTHROPE are non-combinable; the code default for damage_entities is combinable, so the
+		// migrated built-ins must keep that flag off (the JSON sets "combinable": false).
+		if (beeType.getBeeEffect(ForestryBeeEffects.AGGRESSIVE).isCombinable()
+			|| beeType.getBeeEffect(ForestryBeeEffects.MISANTHROPE).isCombinable()) {
+			helper.fail("AGGRESSIVE/MISANTHROPE must resolve as non-combinable");
+			return;
+		}
+		if (!(effectOf(ForestryBeeSpecies.SINISTER) instanceof DamageBeeEffect)
+			|| !(effectOf(ForestryBeeSpecies.ENDED) instanceof DamageBeeEffect)) {
+			helper.fail("Sinister/Ended bees did not resolve their genome effect to the datapack DamageBeeEffect");
+			return;
+		}
+
+		// The custom damage type and players-only target filter survive the dispatch codec (built-ins set them; a
+		// bare damage_entities effect omits them, defaulting to minecraft:generic / all living entities).
+		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
+		DamageBeeEffect misanthrope = new DamageBeeEffect(true, 4f, true, 20, 1.0f, CoreDamageTypes.MISANTHROPE, true, false);
+		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, misanthrope).getOrThrow();
+		if (!json.getAsJsonObject().get("players_only").getAsBoolean()
+			|| !json.getAsJsonObject().get("damage_type").getAsString().equals("forestry:misanthrope")
+			|| json.getAsJsonObject().get("combinable").getAsBoolean()
+			|| !(IBeeEffect.CODEC.parse(ops, json).getOrThrow() instanceof DamageBeeEffect)) {
+			helper.fail("damage_entities damage_type/players_only/combinable did not round-trip through IBeeEffect.CODEC");
 			return;
 		}
 
