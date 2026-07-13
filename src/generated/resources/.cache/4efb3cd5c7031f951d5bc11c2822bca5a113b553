@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-12T14:48:00.735754413	ModKit Item Models for mod 'forestry'
+// 1.21.1	2026-07-12T20:39:01.540126513	ModKit Item Models for mod 'forestry'
 d4fc4a9bad07ae793214bbf363d922b4e1084b41 assets/forestry/models/block/balsa_sapling.json
 8b29dc322c7266c9e3077cf74cbadb08f9e75cda assets/forestry/models/block/baobab_sapling.json
 0c9e9100a2276b60c4b1febcbc9154620a02cb4a assets/forestry/models/block/beech_sapling.json
@@ -64,10 +64,6 @@ c39ee65b490e6dfd61d1f47514af240c1875d7a9 assets/forestry/models/item/balsa_chest
 501f55af1f71ba289b3053ab4ae1185b321ab622 assets/forestry/models/item/baobab_chest_boat.json
 cfe4cc6573e546fc75a46d3b6954c73a40043f30 assets/forestry/models/item/baobab_sapling.json
 e919a69dcbf811aec76fdb6748dd764ebef4345d assets/forestry/models/item/basic_circuit_board.json
-b92cc6eb258963fe300b83fbf9ef94edfb09a04b assets/forestry/models/item/bee_comb_darkened.json
-b92cc6eb258963fe300b83fbf9ef94edfb09a04b assets/forestry/models/item/bee_comb_irradiated.json
-b92cc6eb258963fe300b83fbf9ef94edfb09a04b assets/forestry/models/item/bee_comb_omega.json
-b92cc6eb258963fe300b83fbf9ef94edfb09a04b assets/forestry/models/item/bee_comb_reddened.json
 6ea85d3eb9901606bd09dc87a2af40248635a92c assets/forestry/models/item/bee_smoker.json
 cd94ac75d8448f167b4e186a1fd962b029be688c assets/forestry/models/item/beech_boat.json
 b476cb92eb7d64c19d32de8f3a0c7c2483b5b05c assets/forestry/models/item/beech_chest_boat.json
@@ -115,15 +111,12 @@ b92cc6eb258963fe300b83fbf9ef94edfb09a04b assets/forestry/models/item/dripping_co
 f7c41c1b9acd9a22ab2613393cef16dc83f899a8 assets/forestry/models/item/ebony_boat.json
 30a921a4dd835d1fecbdd09fc844f6c78377480e assets/forestry/models/item/ebony_chest_boat.json
 ab34acb0da157ad111ed1ce514321eef0ae3bcb9 assets/forestry/models/item/ebony_sapling.json
-de2eab8f0459fe6702454b0846e1eae5970f0244 assets/forestry/models/item/electron_tube_orchid.json
-de2eab8f0459fe6702454b0846e1eae5970f0244 assets/forestry/models/item/electron_tube_rubber.json
 29df5bb380a15be6137af78792a2f9b3dcb75aae assets/forestry/models/item/elm_boat.json
 32667b27bcb06d5f0702a229bccfb40634b1acc3 assets/forestry/models/item/elm_chest_boat.json
 47382ef0b3f171038613ecf0a262d2e7e82821d2 assets/forestry/models/item/elm_sapling.json
 de2eab8f0459fe6702454b0846e1eae5970f0244 assets/forestry/models/item/emerald_electron_tube.json
 de2eab8f0459fe6702454b0846e1eae5970f0244 assets/forestry/models/item/ender_electron_tube.json
 e919a69dcbf811aec76fdb6748dd764ebef4345d assets/forestry/models/item/enhanced_circuit_board.json
-0b33d11fd1f3afbc01644ee93fe94773cfa8e797 assets/forestry/models/item/exp_drop.json
 383a220e0fae1d10a2ac97dc0129979080ce97bd assets/forestry/models/item/experience_drop.json
 ecb20c0d83362d10bca74baa003a36a8a3c4d639 assets/forestry/models/item/feijoa.json
 a5e2542ae524873541ad59d72b217eee3e35e1c3 assets/forestry/models/item/feijoa_boat.json
@@ -147,7 +140,6 @@ de2eab8f0459fe6702454b0846e1eae5970f0244 assets/forestry/models/item/golden_elec
 34aca15d1a2aecb141b01dc42c4601d2540757d6 assets/forestry/models/item/grafter.json
 b137d8c183cd262cf908fcc699596c32afa0ec8c assets/forestry/models/item/greenheart_boat.json
 c12e84c9b2b7ab06556c284c6e9279a0f6c0aa48 assets/forestry/models/item/greenheart_chest_boat.json
-4b67c5cfcd850158a62502b40e97125d2b592630 assets/forestry/models/item/habitat_locator.json
 e6d6f2608c74c9ae84124ddd0253fc2470b399f4 assets/forestry/models/item/hardened_casing.json
 53e6d4a4d20ba9ff3c6d07179f6d3e5888db5921 assets/forestry/models/item/hill_cherry_boat.json
 c0b69a7febbefda83b2e7399195be7de6647842c assets/forestry/models/item/hill_cherry_chest_boat.json
@@ -162,8 +154,6 @@ de73650cf06ca0eae1dd23d6fc6447bb3996b41a assets/forestry/models/item/ice_shard.j
 a9ba4a2a6a38bc7bc0fcc084b3507d103939ee21 assets/forestry/models/item/impregnated_casing.json
 4573d46b6eb766655d24b8140787d3ce3be9c88f assets/forestry/models/item/impregnated_frame.json
 cad48460b635e5088e7f87bc966eced43b27ab70 assets/forestry/models/item/impregnated_stick.json
-74e3f884d260bab44f8b9e59acd9a182ac823134 assets/forestry/models/item/imprinter.json
-4779982143dea47438f471080defe38f86069813 assets/forestry/models/item/infuser.json
 e919a69dcbf811aec76fdb6748dd764ebef4345d assets/forestry/models/item/intricate_circuit_board.json
 d9e632f4a3cd92b683fc3801f1c0b081c349f523 assets/forestry/models/item/iodine_capsule.json
 6700742b562ea7e5d787babb2f028437bd6e8508 assets/forestry/models/item/ipe_boat.json
@@ -307,7 +297,6 @@ f09cacdb7c005ecb075a6fc91c3ee06d079a1296 assets/forestry/models/item/walnut.json
 1c2a6d132035fd0c9affb27780ad43fec3bbfc58 assets/forestry/models/item/walnut_boat.json
 2b866e5056ad87ce4f7e4d73e3e26c415759982a assets/forestry/models/item/walnut_chest_boat.json
 be7bf9043ef4abf0dcd75c0d20ab00a79654064f assets/forestry/models/item/walnut_sapling.json
-0e2328bd0f03ed55a4e451ccf58128c5254fc1f2 assets/forestry/models/item/wax_cast.json
 07228c23bab406c27706b22d6c4d7c8c40671ffe assets/forestry/models/item/wenge_boat.json
 766cec6095eb039e8f9bc5d06ea13467c2fd8a78 assets/forestry/models/item/wenge_chest_boat.json
 80dfb80150ef3211761a5ff1483ad2cb1fcd288c assets/forestry/models/item/wenge_sapling.json
