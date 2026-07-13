@@ -25,6 +25,7 @@ import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.genetics.BeeEffectManager;
+import forestry.apiculture.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.genetics.effects.LightningBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
@@ -194,6 +195,42 @@ public class BeeEffectSystemTest {
 		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, original).getOrThrow();
 		if (!(IBeeEffect.CODEC.parse(ops, json).getOrThrow() instanceof ResurrectionBeeEffect)) {
 			helper.fail("resurrect definition did not round-trip through IBeeEffect.CODEC");
+			return;
+		}
+
+		helper.succeed();
+	}
+
+	/**
+	 * REJUVENATION and CHRONOPHAGE are generalized into one {@code forestry:aging} primitive differing only by the
+	 * {@code aging} flag: the type is registered, both built-ins resolve to an {@link AgingBeeEffect}, and the bees
+	 * that carry them (RELIC/REJUVENATION, ANACHRONE/CHRONOPHAGE) resolve their genome effect to the datapack instance.
+	 */
+	@GameTest(template = "empty")
+	public static void agingBuiltinsAreDatapackDefined(GameTestHelper helper) {
+		if (!ForestryRegistries.BEE_EFFECT_TYPE.containsKey(ForestryConstants.forestry("aging"))) {
+			helper.fail("aging effect type not registered: forestry:aging");
+			return;
+		}
+		IBeeSpeciesType beeType = SpeciesUtil.BEE_TYPE.get();
+		for (ResourceLocation id : new ResourceLocation[]{ForestryBeeEffects.REJUVENATION, ForestryBeeEffects.CHRONOPHAGE}) {
+			if (!(beeType.getBeeEffect(id) instanceof AgingBeeEffect)) {
+				helper.fail("datapack-defined built-in " + id + " did not resolve to an AgingBeeEffect");
+				return;
+			}
+		}
+		if (!(effectOf(ForestryBeeSpecies.RELIC) instanceof AgingBeeEffect)
+			|| !(effectOf(ForestryBeeSpecies.ANACHRONE) instanceof AgingBeeEffect)) {
+			helper.fail("Relic/Anachrone bees did not resolve their genome effect to the datapack AgingBeeEffect");
+			return;
+		}
+
+		// The tunable strength multiplier survives the dispatch codec (built-ins omit it; a pack can set it).
+		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
+		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, new AgingBeeEffect(false, true, 3.0f)).getOrThrow();
+		if (json.getAsJsonObject().get("strength").getAsFloat() != 3.0f
+			|| !(IBeeEffect.CODEC.parse(ops, json).getOrThrow() instanceof AgingBeeEffect)) {
+			helper.fail("aging strength did not round-trip through IBeeEffect.CODEC");
 			return;
 		}
 

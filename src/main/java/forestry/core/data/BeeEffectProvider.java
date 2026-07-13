@@ -16,6 +16,7 @@ import com.mojang.serialization.JsonOps;
 
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.apiculture.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.core.genetics.GeneticsReloadHandler;
@@ -59,6 +60,9 @@ public class BeeEffectProvider implements DataProvider {
 		// only by their item->mob table.
 		add(ForestryBeeEffects.REANIMATION, new ResurrectionBeeEffect(true, 40, ResurrectionBeeEffect.getReanimationList()));
 		add(ForestryBeeEffects.RESURRECTION, new ResurrectionBeeEffect(true, 40, ResurrectionBeeEffect.getResurrectionList()));
+		// The two queen-aging builtins, sharing one forestry:aging primitive and differing only by the aging flag.
+		add(ForestryBeeEffects.REJUVENATION, new AgingBeeEffect(false, false));
+		add(ForestryBeeEffects.CHRONOPHAGE, new AgingBeeEffect(false, true));
 	}
 
 	protected void add(ResourceLocation id, IBeeEffect effect) {

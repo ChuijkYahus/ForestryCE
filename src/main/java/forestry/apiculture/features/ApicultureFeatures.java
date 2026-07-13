@@ -6,6 +6,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.ForestryRegistries;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.modules.ForestryModuleIds;
+import forestry.apiculture.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.genetics.effects.BonemealBeeEffect;
 import forestry.apiculture.genetics.effects.DamageBeeEffect;
 import forestry.apiculture.genetics.effects.EntityForceBeeEffect;
@@ -64,6 +65,9 @@ public class ApicultureFeatures {
 	// Generalizes the two built-in "resurrect item drops into mobs" effects (REANIMATION, RESURRECTION) into one
 	// primitive parameterized by its item->mob table; see BeeEffectProvider.
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<ResurrectionBeeEffect>> RESURRECT_EFFECT = BEE_EFFECT_TYPES.register("resurrect", () -> ResurrectionBeeEffect.MAP_CODEC);
+	// Generalizes the two built-in queen aging effects (REJUVENATION, CHRONOPHAGE) into one primitive parameterized
+	// by its single aging flag; see BeeEffectProvider.
+	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<AgingBeeEffect>> AGING_EFFECT = BEE_EFFECT_TYPES.register("aging", () -> AgingBeeEffect.MAP_CODEC);
 
 	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_HIVE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ForestryConstants.forestry("hive"));
 	public static final ResourceKey<PlacedFeature> PLACED_HIVE = ResourceKey.create(Registries.PLACED_FEATURE, ForestryConstants.forestry("hive"));
