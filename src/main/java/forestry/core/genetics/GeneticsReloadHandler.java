@@ -1,6 +1,7 @@
 package forestry.core.genetics;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
@@ -16,6 +17,7 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import forestry.Forestry;
 import forestry.api.IForestryApi;
+import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.arboriculture.ITreeSpecies;
@@ -28,6 +30,8 @@ import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
+import forestry.apiculture.genetics.BeeSpeciesType;
+import forestry.apiculture.genetics.FlowerTypeTypes;
 import forestry.arboriculture.TreeSpecies;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesProjector;
@@ -81,6 +85,18 @@ public final class GeneticsReloadHandler {
 		ImmutableMap<ResourceLocation, IBeeSpecies> allSpecies = builder.build();
 		((SpeciesType<IBeeSpecies, ?>) type).setSpecies(allSpecies);
 		Forestry.LOGGER.info("Loaded {} bee species", allSpecies.size());
+	}
+
+	/**
+	 * Installs the effective flower-type map into the live bee species type: the code-registered base
+	 * (KubeJS/addons) overlaid by the datapack-loaded (or sync-delivered) definitions, datapack winning on id.
+	 */
+	public static void rebuildFlowerTypes(Map<ResourceLocation, IFlowerType> dataDefinitions) {
+		FlowerTypeTypes.registerBuiltins(); // idempotent safety net
+		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
+		Map<ResourceLocation, IFlowerType> effective = new LinkedHashMap<>(((BeeSpeciesType) type).getCodeFlowerTypes());
+		effective.putAll(dataDefinitions);
+		((BeeSpeciesType) type).setFlowerTypes(ImmutableMap.copyOf(effective));
 	}
 
 	/**

@@ -158,6 +158,7 @@ public class PluginManager {
 		// Register the built-in mutation condition types so their `type` ids are known before any
 		// datapack/recipe parse populates the mutation managers in a later reload handler.
 		forestry.core.genetics.mutations.MutationConditionTypes.registerBuiltins();
+		forestry.apiculture.genetics.FlowerTypeTypes.registerBuiltins();
 
 		ForestryApiImpl api = (ForestryApiImpl) IForestryApi.INSTANCE;
 		GeneticManager geneticManager = new GeneticManager(taxa, speciesTypes);

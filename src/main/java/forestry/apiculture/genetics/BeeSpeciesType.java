@@ -36,8 +36,8 @@ import java.util.List;
 
 public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IBeeSpeciesType {
 	// Reference-value registries backing the flower_type, bee_effect, activity, and jubilance chromosomes.
-	@Nullable
-	private ImmutableMap<ResourceLocation, IFlowerType> flowerTypes;
+	private ImmutableMap<ResourceLocation, IFlowerType> flowerTypes = ImmutableMap.of();
+	private ImmutableMap<ResourceLocation, IFlowerType> codeFlowerTypes = ImmutableMap.of();
 	@Nullable
 	private ImmutableMap<ResourceLocation, IBeeEffect> beeEffects;
 	@Nullable
@@ -58,6 +58,14 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	@Override
 	public IFlowerType getFlowerTypeSafe(ResourceLocation id) {
 		return valueSafe(this.flowerTypes, id);
+	}
+
+	public void setFlowerTypes(ImmutableMap<ResourceLocation, IFlowerType> flowerTypes) {
+		this.flowerTypes = flowerTypes;
+	}
+
+	public ImmutableMap<ResourceLocation, IFlowerType> getCodeFlowerTypes() {
+		return this.codeFlowerTypes;
 	}
 
 	@Override
@@ -176,7 +184,8 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 
 		// store the reference-value registries backing the flower_type, bee_effect, and activity chromosomes
 		this.beeEffects = registration.getBeeEffects();
-		this.flowerTypes = registration.getFlowerTypes();
+		this.codeFlowerTypes = registration.getFlowerTypes();
+		this.flowerTypes = this.codeFlowerTypes; // bootstrap: code base alone until the first datapack load
 		this.activityTypes = registration.getActivityTypes();
 		this.jubilances = registration.getJubilances();
 

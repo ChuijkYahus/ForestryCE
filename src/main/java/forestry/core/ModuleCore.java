@@ -216,6 +216,13 @@ public class ModuleCore extends BlankForestryModule {
 			});
 		});
 
+		// Load flower types from the "flower_type" datapack folder and install the code-base union datapack map
+		// into the live bee species type. The FLOWER_TYPE chromosome resolves ids lazily via
+		// BeeSpeciesType#getFlowerType, so strict ordering against BeeSpeciesManager isn't required today, but this
+		// is registered immediately before it to keep the "referenced data before dependent data" convention used
+		// by the other reload listeners below.
+		event.addListener(forestry.apiculture.genetics.FlowerTypeManager.INSTANCE);
+
 		// Load bee species from the "bee_species" datapack folder and rebuild the live species map from them.
 		// SimpleJsonResourceReloadListener#apply already runs on the game executor (see
 		// SimplePreparableReloadListener#reload: prepare() -> prepBarrier.wait() -> apply() via thenAcceptAsync(...,
