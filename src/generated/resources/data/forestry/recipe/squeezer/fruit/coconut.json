@@ -4,7 +4,7 @@
   "id": "forestry:squeezer/fruit/coconut",
   "output": {
     "amount": 500,
-    "id": "minecraft:milk"
+    "fluid": "minecraft:milk"
   },
   "remnant": {
     "count": 1,

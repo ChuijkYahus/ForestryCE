@@ -4,7 +4,7 @@
   "id": "forestry:squeezer/fruit/cherry",
   "output": {
     "amount": 50,
-    "id": "forestry:fruit_juice"
+    "fluid": "forestry:fruit_juice"
   },
   "remnant": {
     "count": 1,

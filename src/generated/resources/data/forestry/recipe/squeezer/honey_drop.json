@@ -4,7 +4,7 @@
   "id": "forestry:squeezer/honey_drop",
   "output": {
     "amount": 100,
-    "id": "forestry:honey"
+    "fluid": "forestry:honey"
   },
   "remnant": {
     "count": 1,

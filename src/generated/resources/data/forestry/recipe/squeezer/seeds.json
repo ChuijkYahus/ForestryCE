@@ -4,7 +4,7 @@
   "id": "forestry:squeezer/seeds",
   "output": {
     "amount": 10,
-    "id": "forestry:seed_oil"
+    "fluid": "forestry:seed_oil"
   },
   "resources": [
     {

@@ -4,7 +4,7 @@
   "id": "forestry:squeezer/fruit/olive",
   "output": {
     "amount": 100,
-    "id": "forestry:seed_oil"
+    "fluid": "forestry:seed_oil"
   },
   "remnant": {
     "count": 1,

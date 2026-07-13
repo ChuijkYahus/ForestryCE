@@ -4,7 +4,7 @@
   "id": "forestry:squeezer/cactus",
   "output": {
     "amount": 500,
-    "id": "minecraft:water"
+    "fluid": "minecraft:water"
   },
   "resources": [
     {

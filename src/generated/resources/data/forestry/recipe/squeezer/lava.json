@@ -4,7 +4,7 @@
   "id": "forestry:squeezer/lava",
   "output": {
     "amount": 500,
-    "id": "minecraft:lava"
+    "fluid": "minecraft:lava"
   },
   "resources": [
     {

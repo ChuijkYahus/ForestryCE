@@ -176,6 +176,12 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 					}
 				}
 			}
+
+			// A dynamic output (e.g. a fluid tag no loaded mod fills) resolves to empty; refuse the recipe rather
+			// than consuming the input for no fluid.
+			if (matchingRecipe != null && matchingRecipe.getFluidOutput().isEmpty()) {
+				matchingRecipe = null;
+			}
 		}
 
 		if (this.currentRecipe != matchingRecipe) {
