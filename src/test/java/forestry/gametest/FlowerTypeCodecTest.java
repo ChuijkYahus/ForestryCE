@@ -1,11 +1,8 @@
 package forestry.gametest;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.tags.BiomeTags;
@@ -49,7 +46,6 @@ public class FlowerTypeCodecTest {
 	@GameTest(template = "empty")
 	public static void jsonRoundTrip(GameTestHelper helper) {
 		FlowerTypeTypes.registerBuiltins();
-		RegistryOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, helper.getLevel().registryAccess());
 		RegistryOps<com.google.gson.JsonElement> jsonOps = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
 		IFlowerType end = new TagFlowerType(BlockTags.FLOWERS, false, BiomeTags.IS_END);
 		var json = FlowerTypeTypes.CODEC.encodeStart(jsonOps, end).getOrThrow();

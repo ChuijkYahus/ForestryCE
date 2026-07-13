@@ -91,6 +91,9 @@ public class FlowerTypeTest {
 		java.util.Map<ResourceLocation, IFlowerType> data = new java.util.HashMap<>();
 		data.put(probe, new PhotosynthesisFlowerType());
 		data.put(ForestryFlowerTypes.VANILLA, new TagFlowerType(net.minecraft.tags.BlockTags.FLOWERS, false)); // override: recessive
+		// This mutation of the shared live flower-type map is safe only because mutate -> assert -> restore all run
+		// synchronously in this method body with no tick yield between them, so no concurrent test observes the
+		// transient state. Do not insert an await/runAtTickTime between the rebuild above and the finally restore.
 		forestry.core.genetics.GeneticsReloadHandler.rebuildFlowerTypes(data);
 		try {
 			if (!(bees.getFlowerTypeSafe(probe) instanceof PhotosynthesisFlowerType)) {
