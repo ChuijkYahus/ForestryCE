@@ -62,11 +62,7 @@ public class ApicultureFeatures {
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<PlaceBlockBeeEffect>> PLACE_BLOCK_EFFECT = BEE_EFFECT_TYPES.register("place_block", () -> PlaceBlockBeeEffect.MAP_CODEC);
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<FillFluidBeeEffect>> FILL_FLUID_EFFECT = BEE_EFFECT_TYPES.register("fill_fluid", () -> FillFluidBeeEffect.MAP_CODEC);
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<InjectEnergyBeeEffect>> INJECT_ENERGY_EFFECT = BEE_EFFECT_TYPES.register("inject_energy", () -> InjectEnergyBeeEffect.MAP_CODEC);
-	// Generalizes the two built-in "resurrect item drops into mobs" effects (REANIMATION, RESURRECTION) into one
-	// primitive parameterized by its item->mob table; see BeeEffectProvider.
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<ResurrectionBeeEffect>> RESURRECT_EFFECT = BEE_EFFECT_TYPES.register("resurrect", () -> ResurrectionBeeEffect.MAP_CODEC);
-	// Generalizes the two built-in queen aging effects (REJUVENATION, CHRONOPHAGE) into one primitive parameterized
-	// by its single aging flag; see BeeEffectProvider.
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<AgingBeeEffect>> AGING_EFFECT = BEE_EFFECT_TYPES.register("aging", () -> AgingBeeEffect.MAP_CODEC);
 
 	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_HIVE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ForestryConstants.forestry("hive"));
