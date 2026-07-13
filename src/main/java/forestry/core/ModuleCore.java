@@ -5,7 +5,6 @@ import forestry.api.ForestryConstants;
 import forestry.api.ForestryCapabilities;
 import forestry.api.IForestryApi;
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.core.ISpectacleVision;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
@@ -171,8 +170,8 @@ public class ModuleCore extends BlankForestryModule {
 		for (ItemPollenCluster pollen : ApicultureItems.POLLEN_CLUSTER.getItems()) {
 			composts.put(pollen, 0.3f);
 		}
-		composts.put(ArboricultureItems.SAPLING.item(), 0.3f);
-		composts.put(ArboricultureItems.POLLEN_FERTILE.item(), 0.3f);
+		composts.put(ArboricultureItems.TREE_SAPLING.item(), 0.3f);
+		composts.put(ArboricultureItems.TREE_POLLEN.item(), 0.3f);
 		for (BlockItem leaves : ArboricultureBlocks.LEAVES_DECORATIVE.getItems()) {
 			composts.put(leaves, 0.3f);
 		}

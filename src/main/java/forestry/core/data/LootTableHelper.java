@@ -257,8 +257,8 @@ public class LootTableHelper {
 
 	private static Item saplingItem(TreeLifeStage type) {
 		return switch (type) {
-			case POLLEN -> ArboricultureItems.POLLEN_FERTILE.item();
-			case SAPLING -> ArboricultureItems.SAPLING.item();
+			case POLLEN -> ArboricultureItems.TREE_POLLEN.item();
+			case SAPLING -> ArboricultureItems.TREE_SAPLING.item();
 		};
 	}
 

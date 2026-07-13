@@ -31,8 +31,8 @@ import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
 
-public class ItemGermlingGE extends ItemGE implements IVariableFermentable, IColoredItem {
-	public ItemGermlingGE(TreeLifeStage type) {
+public class TreeItem extends ItemGE implements IVariableFermentable, IColoredItem {
+	public TreeItem(TreeLifeStage type) {
 		super(new Item.Properties(), type);
 	}
 

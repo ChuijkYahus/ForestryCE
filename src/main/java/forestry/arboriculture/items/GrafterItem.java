@@ -18,8 +18,8 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
-public class ItemGrafter extends ItemForestry implements IToolGrafter {
-	public ItemGrafter(int maxDamage) {
+public class GrafterItem extends ItemForestry implements IToolGrafter {
+	public GrafterItem(int maxDamage) {
 		super(new Item.Properties().durability(maxDamage));
 	}
 
