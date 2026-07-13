@@ -17,6 +17,7 @@ import com.mojang.serialization.JsonOps;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
+import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.core.genetics.GeneticsReloadHandler;
 
 /**
@@ -54,6 +55,10 @@ public class BeeEffectProvider implements DataProvider {
 		add(ForestryBeeEffects.MIASMIC, new PotionBeeEffect(false, MobEffects.POISON, 600, 100, 0.1f));
 		add(ForestryBeeEffects.DRUNKARD, new PotionBeeEffect(false, MobEffects.CONFUSION, 100));
 		add(ForestryBeeEffects.DARKNESS, new PotionBeeEffect(false, MobEffects.DARKNESS, 150));
+		// The two "resurrect item drops into mobs" builtins, sharing one forestry:resurrect primitive and differing
+		// only by their item->mob table.
+		add(ForestryBeeEffects.REANIMATION, new ResurrectionBeeEffect(true, 40, ResurrectionBeeEffect.getReanimationList()));
+		add(ForestryBeeEffects.RESURRECTION, new ResurrectionBeeEffect(true, 40, ResurrectionBeeEffect.getResurrectionList()));
 	}
 
 	protected void add(ResourceLocation id, IBeeEffect effect) {

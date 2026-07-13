@@ -259,8 +259,8 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.EXPLORATION, new ExplorationBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.EASTER, new DummyBeeEffect(true));
 		apiculture.registerBeeEffect(ForestryBeeEffects.SNOWING, new SnowingBeeEffect());
-		apiculture.registerBeeEffect(ForestryBeeEffects.REANIMATION, new ResurrectionBeeEffect(ResurrectionBeeEffect.getReanimationList()));
-		apiculture.registerBeeEffect(ForestryBeeEffects.RESURRECTION, new ResurrectionBeeEffect(ResurrectionBeeEffect.getResurrectionList()));
+		// REANIMATION and RESURRECTION share the forestry:resurrect primitive and are datapack-defined by
+		// BeeEffectProvider, differing only by their item->mob table.
 		apiculture.registerBeeEffect(ForestryBeeEffects.REPULSION, new RepulsionBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.FERTILE, new FertileBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.MYCOPHILIC, new FungificationBeeEffect());

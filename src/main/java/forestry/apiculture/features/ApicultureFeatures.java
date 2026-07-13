@@ -17,6 +17,7 @@ import forestry.apiculture.genetics.effects.LightningBeeEffect;
 import forestry.apiculture.genetics.effects.PlaceBlockBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ProjectileBeeEffect;
+import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.apiculture.genetics.effects.SpawnMobBeeEffect;
 import forestry.apiculture.genetics.effects.TeleportBeeEffect;
 import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
@@ -60,6 +61,9 @@ public class ApicultureFeatures {
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<PlaceBlockBeeEffect>> PLACE_BLOCK_EFFECT = BEE_EFFECT_TYPES.register("place_block", () -> PlaceBlockBeeEffect.MAP_CODEC);
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<FillFluidBeeEffect>> FILL_FLUID_EFFECT = BEE_EFFECT_TYPES.register("fill_fluid", () -> FillFluidBeeEffect.MAP_CODEC);
 	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<InjectEnergyBeeEffect>> INJECT_ENERGY_EFFECT = BEE_EFFECT_TYPES.register("inject_energy", () -> InjectEnergyBeeEffect.MAP_CODEC);
+	// Generalizes the two built-in "resurrect item drops into mobs" effects (REANIMATION, RESURRECTION) into one
+	// primitive parameterized by its item->mob table; see BeeEffectProvider.
+	public static final DeferredHolder<MapCodec<? extends IBeeEffect>, MapCodec<ResurrectionBeeEffect>> RESURRECT_EFFECT = BEE_EFFECT_TYPES.register("resurrect", () -> ResurrectionBeeEffect.MAP_CODEC);
 
 	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_HIVE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ForestryConstants.forestry("hive"));
 	public static final ResourceKey<PlacedFeature> PLACED_HIVE = ResourceKey.create(Registries.PLACED_FEATURE, ForestryConstants.forestry("hive"));

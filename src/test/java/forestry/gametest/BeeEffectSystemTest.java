@@ -25,6 +25,7 @@ import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.apiculture.genetics.BeeEffectManager;
 import forestry.apiculture.genetics.effects.LightningBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
+import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.utils.SpeciesUtil;
 
@@ -140,6 +141,38 @@ public class BeeEffectSystemTest {
 				return;
 			}
 		}
+		helper.succeed();
+	}
+
+	/**
+	 * REANIMATION and RESURRECTION are generalized into one {@code forestry:resurrect} primitive parameterized by an
+	 * item&rarr;mob table: the type is registered, both built-ins are datapack-defined and resolve to a
+	 * {@link ResurrectionBeeEffect}, and a definition round-trips through {@link IBeeEffect#CODEC} preserving its
+	 * entries.
+	 */
+	@GameTest(template = "empty")
+	public static void resurrectBuiltinsAreDatapackDefined(GameTestHelper helper) {
+		if (!ForestryRegistries.BEE_EFFECT_TYPE.containsKey(ForestryConstants.forestry("resurrect"))) {
+			helper.fail("resurrect effect type not registered: forestry:resurrect");
+			return;
+		}
+		IBeeSpeciesType beeType = SpeciesUtil.BEE_TYPE.get();
+		for (ResourceLocation id : new ResourceLocation[]{ForestryBeeEffects.REANIMATION, ForestryBeeEffects.RESURRECTION}) {
+			if (!(beeType.getBeeEffect(id) instanceof ResurrectionBeeEffect)) {
+				helper.fail("datapack-defined built-in " + id + " did not resolve to a ResurrectionBeeEffect");
+				return;
+			}
+		}
+
+		// The item->mob table survives a JSON round trip through the dispatch codec.
+		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
+		ResurrectionBeeEffect original = new ResurrectionBeeEffect(true, 40, ResurrectionBeeEffect.getReanimationList());
+		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, original).getOrThrow();
+		if (!(IBeeEffect.CODEC.parse(ops, json).getOrThrow() instanceof ResurrectionBeeEffect)) {
+			helper.fail("resurrect definition did not round-trip through IBeeEffect.CODEC");
+			return;
+		}
+
 		helper.succeed();
 	}
 }
