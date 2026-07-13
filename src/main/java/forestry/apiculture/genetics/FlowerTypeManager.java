@@ -24,7 +24,7 @@ import forestry.core.genetics.GeneticsReloadHandler;
  * {@link GeneticsReloadHandler#rebuildFlowerTypes} which installs code-base union datapack into the bee species type.
  * Server-only reload listener; the client reuses the instance as a data holder for {@code FlowerTypeSyncPacket}.
  */
-public final class FlowerTypeManager extends SimpleJsonResourceReloadListener {
+public class FlowerTypeManager extends SimpleJsonResourceReloadListener {
 	public static final FlowerTypeManager INSTANCE = new FlowerTypeManager();
 
 	private static final String FOLDER = "flower_type";

@@ -16,13 +16,11 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.api.core.IProduct;
-import forestry.api.core.Product;
+import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.DefaultBeeJubilance;
@@ -40,6 +38,9 @@ import forestry.plugin.DefaultBeeSpecies;
  * <p>
  * This is a plain {@link DataProvider} rather than a {@code RecipeOutput}-based one: bee species are not recipes, and
  * ModKit's {@code DataHelper} has no generic JSON sink.
+ * <p>
+ * Addon mods generate their own bee species by subclassing and overriding {@link #addSpecies(IApicultureRegistration)},
+ * mirroring {@code MutationProvider}.
  */
 public class BeeSpeciesProvider implements DataProvider {
 	private final PackOutput.PathProvider pathProvider;
@@ -50,24 +51,40 @@ public class BeeSpeciesProvider implements DataProvider {
 		this.lookupProvider = lookupProvider;
 	}
 
+	// Collector ctor used by the static buildDefinitions()/seedLiveSpeciesForDatagen(): assembles definitions via
+	// addSpecies() without a PackOutput to write to. Never call run() on this instance - both fields are null.
+	private BeeSpeciesProvider() {
+		this.pathProvider = null;
+		this.lookupProvider = null;
+	}
+
 	@Override
 	public CompletableFuture<?> run(CachedOutput cache) {
 		return this.lookupProvider.thenCompose(provider -> {
 			RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, provider);
 
 			List<CompletableFuture<?>> futures = new ArrayList<>();
-			buildDefinitions().forEach((id, def) -> futures.add(saveSpecies(cache, ops, id, def)));
+			buildSpeciesDefinitions().forEach((id, def) -> futures.add(saveSpecies(cache, ops, id, def)));
 			return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
 		});
 	}
 
 	/**
-	 * Builds every built-in bee species definition straight from the {@code DefaultBeeSpecies} builders - the same
-	 * definitions {@link #run} serializes to {@code bee_species/*.json}. Needs no registry access (unlike {@link
-	 * #run}, which only needs {@link RegistryOps} to encode the result to JSON), so it can also be used to seed the
-	 * live species type - see {@link #seedLiveSpeciesForDatagen()}.
+	 * Add your bee species here, e.g. {@code MyModBeeSpecies.register(reg)}. Override this in your addon's provider and
+	 * do NOT call {@code super.addSpecies(reg)} - that would re-emit Forestry's built-in bee JSON into your datapack.
+	 * If your species use custom {@link IBeeJubilance} instances, register them on {@code reg} first (via
+	 * {@code reg.registerBeeJubilance(id, instance)}) so they can be resolved back to ids when the definitions are built.
 	 */
-	public static Map<ResourceLocation, BeeSpeciesDefinition> buildDefinitions() {
+	protected void addSpecies(IApicultureRegistration reg) {
+		DefaultBeeSpecies.register(reg);
+	}
+
+	/**
+	 * Assembles the bee species definitions this provider emits, straight from the {@link ApicultureRegistration}
+	 * builders populated by {@link #addSpecies}. Needs no registry access (unlike {@link #run}, which only needs
+	 * {@link RegistryOps} to encode the result to JSON).
+	 */
+	protected Map<ResourceLocation, BeeSpeciesDefinition> buildSpeciesDefinitions() {
 		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
 		ApicultureRegistration reg = new ApicultureRegistration(type);
 		// DefaultBeeSpecies.register never calls registerBeeJubilance itself (it sets IBeeJubilance
@@ -75,7 +92,7 @@ public class BeeSpeciesProvider implements DataProvider {
 		// registrations DefaultForestryPlugin#registerApiculture makes, to invert instance -> id below.
 		reg.registerBeeJubilance(ForestryBeeJubilances.DEFAULT, DefaultBeeJubilance.INSTANCE);
 		reg.registerBeeJubilance(ForestryBeeJubilances.HERMIT, HermitBeeJubilance.INSTANCE);
-		DefaultBeeSpecies.register(reg);
+		addSpecies(reg);
 
 		Map<IBeeJubilance, ResourceLocation> jubilanceIds = new IdentityHashMap<>();
 		reg.getJubilances().forEach((id, instance) -> jubilanceIds.put(instance, id));
@@ -83,6 +100,15 @@ public class BeeSpeciesProvider implements DataProvider {
 		Map<ResourceLocation, BeeSpeciesDefinition> definitions = new LinkedHashMap<>();
 		reg.forEachSpeciesBuilder((id, builder) -> definitions.put(id, buildDefinition(jubilanceIds, builder)));
 		return definitions;
+	}
+
+	/**
+	 * Builds every built-in bee species definition from the {@code DefaultBeeSpecies} builders - the faithful parallel
+	 * artifact of the code-built species. For datagen seeding ({@link #seedLiveSpeciesForDatagen()}) and equivalence
+	 * tests; addon species are emitted through {@link #run}/{@link #addSpecies} instead.
+	 */
+	public static Map<ResourceLocation, BeeSpeciesDefinition> buildDefinitions() {
+		return new BeeSpeciesProvider().buildSpeciesDefinitions();
 	}
 
 	/**
@@ -118,8 +144,8 @@ public class BeeSpeciesProvider implements DataProvider {
 			builder.getBody(),
 			builder.getStripes(),
 			builder.getOutline(),
-			toProducts(builder.buildProducts()),
-			toProducts(builder.buildSpecialties()),
+			builder.buildProducts(),
+			builder.buildSpecialties(),
 			jubilanceId,
 			rec.overrides
 		);
@@ -128,30 +154,6 @@ public class BeeSpeciesProvider implements DataProvider {
 	private CompletableFuture<?> saveSpecies(CachedOutput cache, RegistryOps<JsonElement> ops, ResourceLocation id, BeeSpeciesDefinition def) {
 		JsonElement json = BeeSpeciesDefinition.codec().encodeStart(ops, def).getOrThrow();
 		return DataProvider.saveStable(cache, json, this.pathProvider.json(id));
-	}
-
-	private static List<Product> toProducts(List<IProduct> products) {
-		List<Product> result = new ArrayList<>(products.size());
-		for (IProduct product : products) {
-			result.add(toProduct(product));
-		}
-		return result;
-	}
-
-	/**
-	 * Converts an arbitrary {@link IProduct} into the static {@link Product} record the data-driven definition can
-	 * express. Most products already are {@link Product} instances; the sole exception in the built-ins is
-	 * {@code FireworkProduct} (the secret Patriotic bee), whose {@code createRandomStack} produces a randomized
-	 * firework at runtime. Its static snapshot - {@link IProduct#createStack()}, which is what both the definition
-	 * and {@code FireworkProduct} itself fall back to whenever randomness isn't in play - is captured instead;
-	 * only the random-variant behavior is out of scope for a static data definition.
-	 */
-	private static Product toProduct(IProduct product) {
-		if (product instanceof Product p) {
-			return p;
-		}
-		ItemStack stack = product.createStack();
-		return new Product(stack.getItem(), stack.getCount(), stack.getComponentsPatch(), product.chance());
 	}
 
 	@Override

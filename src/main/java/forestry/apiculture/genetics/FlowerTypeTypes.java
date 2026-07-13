@@ -21,7 +21,7 @@ import forestry.apiculture.WaterTagFlowerType;
  * {@link #registerBuiltins()}; {@link #CODEC}/{@link #STREAM_CODEC} dispatch on a {@code "type"} field, exactly
  * like {@code MutationConditionTypes}.
  */
-public final class FlowerTypeTypes {
+public class FlowerTypeTypes {
 	private static final Map<ResourceLocation, FlowerTypeType<?>> BY_ID = new ConcurrentHashMap<>();
 	private static final Map<FlowerTypeType<?>, ResourceLocation> ID_OF = new ConcurrentHashMap<>();
 

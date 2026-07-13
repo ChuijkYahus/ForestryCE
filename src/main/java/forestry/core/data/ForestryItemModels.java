@@ -6,7 +6,12 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
+import forestry.core.items.ItemFruit;
+import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.utils.SpeciesUtil;
+import forestry.mail.features.MailItems;
+import forestry.mail.items.LetterItem;
+import forestry.storage.features.CrateItems;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import thedarkcolour.modkit.data.MKItemModelProvider;
@@ -15,28 +20,6 @@ import java.util.List;
 import java.util.Set;
 
 public class ForestryItemModels {
-	// Simple 2D items whose model is `item/generated` with a single `layer0` texture named
-	// `forestry:item/<id>`. Previously hand-authored under assets/.../models/item; now generated.
-	// (Model-datagen migration.) Add new plain items here instead of authoring a JSON.
-	private static final List<String> SIMPLE_2D_ITEMS = List.of(
-		"amber", "amber_drone_fossil", "amber_sapling_fossil", "ambrosia", "apatite",
-		"apiarists_hat", "apiarists_pants", "apiarists_shirt", "apiarists_shoes", "ash",
-		"bee_smoker", "beeswax", "bituminous_peat", "catalog", "cherry",
-		"chestnut", "coconut", "compost", "crate", "date",
-		"decaying_wheat", "dissipation_charge", "exp_drop", "feijoa", "fertilizer",
-		"filled_crate", "flexible_casing", "foresters_manual", "grafter", "habitat_locator",
-		"hardened_casing", "ice_shard", "impregnated_casing", "impregnated_frame", "impregnated_stick",
-		"imprinter", "infuser", "iodine_capsule", "lemon", "letter_big_emptied",
-		"letter_big_fresh", "letter_big_opened", "letter_big_stamped", "letter_empty_emptied", "letter_empty_fresh",
-		"letter_empty_opened", "letter_empty_stamped", "letter_small_emptied", "letter_small_fresh", "letter_small_opened",
-		"letter_small_stamped", "mouldy_wheat", "mulch", "olive", "orange",
-		"papaya", "peat", "pear", "phosphor", "plum",
-		"portable_analyzer", "proven_frame", "proven_grafter", "pulsating_dust", "pulsating_mesh",
-		"refractory_wax", "royal_jelly", "scented_paneling", "scoop", "silk_wisp",
-		"soldering_iron", "spectacles", "sturdy_casing", "untreated_frame", "walnut",
-		"wax_cast", "wood_pulp", "woven_silk"
-	);
-
 	// Tier 2: parent-only models (`withExistingParent`). id -> parent model path.
 	// All bee combs share the hand-authored `item/bee_combs` template.
 	private static final List<String> BEE_COMB_ITEMS = List.of(
@@ -74,9 +57,88 @@ public class ForestryItemModels {
 	}
 
 	public static void addModels(MKItemModelProvider models) {
-		for (String id : SIMPLE_2D_ITEMS) {
-			models.generic2d(models.modLoc(id));
-		}
+		models.generic2d(CoreItems.AMBER);
+		models.generic2d(ApicultureItems.AMBER_DRONE);
+		models.generic2d(ArboricultureItems.AMBER_SAPLING);
+		models.generic2d(ApicultureItems.AMBROSIA);
+		models.generic2d(CoreItems.APATITE);
+		models.generic2d(ApicultureItems.APIARIST_HELMET);
+		models.generic2d(ApicultureItems.APIARIST_LEGS);
+		models.generic2d(ApicultureItems.APIARIST_CHEST);
+		models.generic2d(ApicultureItems.APIARIST_BOOTS);
+		models.generic2d(CoreItems.ASH);
+		models.generic2d(ApicultureItems.SMOKER);
+		models.generic2d(CoreItems.BEESWAX);
+		models.generic2d(CoreItems.BITUMINOUS_PEAT);
+		models.generic2d(MailItems.CATALOGUE);
+		models.generic2d(CoreItems.COMPOST);
+		models.generic2d(CrateItems.CRATE);
+		models.generic2d(CoreItems.DECAYING_WHEAT);
+		models.generic2d(CoreItems.DISSIPATION_CHARGE);
+		models.generic2d(CoreItems.FERTILIZER_COMPOUND);
+		models.generic2d(CoreItems.FLEXIBLE_CASING);
+		models.generic2d(CoreItems.FORESTERS_MANUAL);
+		models.generic2d(ArboricultureItems.GRAFTER);
+		models.generic2d(CoreItems.HARDENED_CASING);
+		models.generic2d(CoreItems.IMPREGNATED_CASING);
+		models.generic2d(ApicultureItems.FRAME_IMPREGNATED);
+		models.generic2d(CoreItems.IODINE_CHARGE);
+		models.generic2d(CoreItems.MOULDY_WHEAT);
+		models.generic2d(CoreItems.MULCH);
+		models.generic2d(CoreItems.PEAT);
+		models.generic2d(CoreItems.PORTABLE_ALYZER);
+		models.generic2d(ApicultureItems.FRAME_PROVEN);
+		models.generic2d(ArboricultureItems.GRAFTER_PROVEN);
+		models.generic2d(CoreItems.REFRACTORY_WAX);
+		models.generic2d(ApicultureItems.ROYAL_JELLY);
+		models.generic2d(ApicultureItems.SCOOP);
+		models.generic2d(CoreItems.SOLDERING_IRON);
+		models.generic2d(CoreItems.SPECTACLES);
+		models.generic2d(CoreItems.STURDY_CASING);
+		models.generic2d(ApicultureItems.FRAME_UNTREATED);
+
+		// what kind of fruit is this?
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.CHERRY));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.CHESTNUT));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.COCONUT));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.DATES));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.FEIJOA));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.LEMON));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.OLIVE));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.ORANGE));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.PAPAYA));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.PEAR));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.PLUM));
+		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.WALNUT));
+
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PULSATING_DUST));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PULSATING_MESH));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SILK_WISP));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOVEN_SILK));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.IMPREGNATED_STICK));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SCENTED_PANELING));
+
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.BIG, LetterItem.State.EMPTIED));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.BIG, LetterItem.State.FRESH));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.BIG, LetterItem.State.OPENED));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.BIG, LetterItem.State.STAMPED));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.EMPTIED));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.OPENED));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.STAMPED));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.SMALL, LetterItem.State.EMPTIED));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.SMALL, LetterItem.State.FRESH));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.SMALL, LetterItem.State.OPENED));
+		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.SMALL, LetterItem.State.STAMPED));
+
+		// Legacy models that still ship but have no registered item in this port (lang/JEI entries exist, the item
+		// does not) - referenced by id since there is no symbol to point at.
+		models.generic2d(models.modLoc("exp_drop"));
+		models.generic2d(models.modLoc("filled_crate"));
+
 		models.handheld(models.modLoc("wrench"));
 
 		// Tier 2: bee comb items all inherit the shared `item/bee_combs` template model.
@@ -131,7 +193,9 @@ public class ForestryItemModels {
 		for (ITreeSpecies species : SpeciesUtil.getAllTreeSpecies()) {
 			if (vanillaIds.contains(species.id())) continue;
 
-			String name = species.id().getPath().substring("tree_".length()) + "_sapling";
+			// Tree species ids are bare (e.g. "oak", "ipe", "hill_cherry") - they carry no "tree_" prefix
+			// (see ForestryTreeSpecies), and sapling assets are named "<id>_sapling" (e.g. ipe_sapling).
+			String name = species.id().getPath() + "_sapling";
 			models.cross("block/" + name, models.modLoc("item/" + name));
 			models.generic2d(models.modLoc(name));
 		}
