@@ -20,8 +20,10 @@ import io.netty.buffer.Unpooled;
 import forestry.api.ForestryConstants;
 import forestry.api.ForestryRegistries;
 import forestry.api.apiculture.ForestryBeeEffects;
+import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
+import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.genetics.BeeEffectManager;
 import forestry.apiculture.genetics.effects.LightningBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
@@ -39,6 +41,11 @@ import forestry.core.utils.SpeciesUtil;
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class BeeEffectSystemTest {
+	/** The effect a species' default genome resolves to, via the reference {@code bee_effect} chromosome. */
+	private static IBeeEffect effectOf(ResourceLocation speciesId) {
+		return SpeciesUtil.BEE_TYPE.get().getSpecies(speciesId).getDefaultGenome().resolveActive(BeeChromosomes.EFFECT);
+	}
+
 	/** All 14 parameterized primitive serializer types must be registered in the dispatch registry. */
 	@GameTest(template = "empty")
 	public static void allEffectPrimitiveTypesRegistered(GameTestHelper helper) {
@@ -141,6 +148,16 @@ public class BeeEffectSystemTest {
 				return;
 			}
 		}
+		// ...and the bees that carry them resolve their genome's effect to that datapack instance: IMPERIAL/BEATIFIC,
+		// AQUATIC/MIASMIC, ABYSSAL/DARKNESS, TIPSY/DRUNKARD.
+		for (ResourceLocation speciesId : new ResourceLocation[]{
+			ForestryBeeSpecies.IMPERIAL, ForestryBeeSpecies.AQUATIC, ForestryBeeSpecies.ABYSSAL, ForestryBeeSpecies.TIPSY
+		}) {
+			if (!(effectOf(speciesId) instanceof PotionBeeEffect)) {
+				helper.fail("bee " + speciesId + " did not resolve its genome effect to the datapack PotionBeeEffect");
+				return;
+			}
+		}
 		helper.succeed();
 	}
 
@@ -162,6 +179,13 @@ public class BeeEffectSystemTest {
 				helper.fail("datapack-defined built-in " + id + " did not resolve to a ResurrectionBeeEffect");
 				return;
 			}
+		}
+		// The Spectral (REANIMATION) and Phantasmal (RESURRECTION) bees carry these effects; their genomes must
+		// resolve to the datapack instance.
+		if (!(effectOf(ForestryBeeSpecies.SPECTRAL) instanceof ResurrectionBeeEffect)
+			|| !(effectOf(ForestryBeeSpecies.PHANTASMAL) instanceof ResurrectionBeeEffect)) {
+			helper.fail("Spectral/Phantasmal bees did not resolve their genome effect to the datapack ResurrectionBeeEffect");
+			return;
 		}
 
 		// The item->mob table survives a JSON round trip through the dispatch codec.
