@@ -8,14 +8,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-public class HiveGenOcean extends HiveGenGround {
-	public HiveGenOcean(TagKey<Block> blocks) {
+public class OceanHivePlacement extends GroundHivePlacement {
+	public OceanHivePlacement(TagKey<Block> blocks) {
 		super(blocks);
 	}
 
 	@Override
-	public boolean canReplace(BlockState blockState, WorldGenLevel world, BlockPos pos) {
-		return blockState.getBlock() == Blocks.WATER;
+	public boolean canReplace(BlockState state, WorldGenLevel level, BlockPos pos) {
+		return state.getBlock() == Blocks.WATER;
 	}
 
 	@Override

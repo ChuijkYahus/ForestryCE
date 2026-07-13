@@ -1,6 +1,6 @@
 package forestry.apiculture.hives;
 
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,22 +14,17 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 
-public class HiveGenCaveCeiling implements IHiveGen {
+public class CaveCeilingHivePlacement implements IHivePlacement {
 	private final TagKey<Block> blocks;
 	private final TagKey<Block> extraReplaceable;
 
-	public HiveGenCaveCeiling(TagKey<Block> blocks, TagKey<Block> extraReplaceable) {
+	public CaveCeilingHivePlacement(TagKey<Block> blocks, TagKey<Block> extraReplaceable) {
 		this.blocks = blocks;
 		this.extraReplaceable = extraReplaceable;
 	}
 
 	@Override
-	public @Nullable BlockPos getPosForHive(WorldGenLevel level, int posX, int posZ) {
-		return null;
-	}
-
-	@Override
-	public @Nullable BlockPos getPosForHive(WorldGenLevel level, RandomSource rand, int posX, int posZ) {
+	public @Nullable BlockPos getPosForHive(WorldGenLevel level, RandomSource random, int posX, int posZ) {
 		// get to the ground
 		int groundY = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, posX, posZ);
 		int minBuildHeight = level.getMinBuildHeight();
@@ -52,7 +47,7 @@ public class HiveGenCaveCeiling implements IHiveGen {
 			blockState = level.getBlockState(pos);
 		}
 
-		return !validPos.isEmpty() ? validPos.get(validPos.size() > 1 ? rand.nextInt(validPos.size()) : 0) : null;
+		return !validPos.isEmpty() ? validPos.get(validPos.size() > 1 ? random.nextInt(validPos.size()) : 0) : null;
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class HiveGenCaveCeiling implements IHiveGen {
 	}
 
 	@Override
-	public boolean canReplace(BlockState blockState, WorldGenLevel level, BlockPos pos) {
-		return BlockUtil.canReplace(blockState, level, pos) || blockState.is(this.extraReplaceable);
+	public boolean canReplace(BlockState state, WorldGenLevel level, BlockPos pos) {
+		return BlockUtil.canReplace(state, level, pos) || state.is(this.extraReplaceable);
 	}
 }

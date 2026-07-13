@@ -1,25 +1,28 @@
 package forestry.apiculture.hives;
 
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-public class HiveGenGround implements IHiveGen {
+import javax.annotation.Nullable;
+
+public class GroundHivePlacement implements IHivePlacement {
 	private final TagKey<Block> blocks;
 
-	public HiveGenGround(TagKey<Block> blocks) {
+	public GroundHivePlacement(TagKey<Block> blocks) {
 		this.blocks = blocks;
 	}
 
 	@Override
-	@Deprecated
-	public BlockPos getPosForHive(WorldGenLevel level, int posX, int posZ) {
+	@Nullable
+	public BlockPos getPosForHive(WorldGenLevel level, RandomSource random, int posX, int posZ) {
 		// get to the ground
 		int groundY = level.getHeight(getHeightmapType(), posX, posZ);
 		int minBuildHeight = level.getMinBuildHeight();
@@ -46,13 +49,13 @@ public class HiveGenGround implements IHiveGen {
 	}
 
 	@Override
-	public boolean canReplace(BlockState blockState, WorldGenLevel world, BlockPos pos) {
-		return IHiveGen.isTreeBlock(blockState) || BlockUtil.canReplace(blockState, world, pos);
+	public boolean canReplace(BlockState state, WorldGenLevel level, BlockPos pos) {
+		return IHivePlacement.isTreeBlock(state) || BlockUtil.canReplace(state, level, pos);
 	}
 
 	@Override
-	public boolean isValidLocation(WorldGenLevel world, BlockPos pos) {
-		BlockState groundBlockState = world.getBlockState(pos.below());
+	public boolean isValidLocation(WorldGenLevel level, BlockPos pos) {
+		BlockState groundBlockState = level.getBlockState(pos.below());
 		return groundBlockState.is(this.blocks);
 	}
 }

@@ -1,39 +1,41 @@
 package forestry.apiculture.hives;
 
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
+import org.jetbrains.annotations.Nullable;
 
-public enum HiveGenTree implements IHiveGen {
+public enum TreeHivePlacement implements IHivePlacement {
 	INSTANCE;
 
 	@Override
-	public boolean canReplace(BlockState blockState, WorldGenLevel world, BlockPos pos) {
-		return BlockUtil.canReplace(blockState, world, pos);
+	public boolean canReplace(BlockState state, WorldGenLevel level, BlockPos pos) {
+		return BlockUtil.canReplace(state, level, pos);
 	}
 
 	@Override
-	public boolean isValidLocation(WorldGenLevel world, BlockPos pos) {
+	public boolean isValidLocation(WorldGenLevel level, BlockPos pos) {
 		BlockPos posAbove = pos.above();
-		BlockState blockStateAbove = world.getBlockState(posAbove);
-		if (!IHiveGen.isTreeBlock(blockStateAbove)) {
+		BlockState blockStateAbove = level.getBlockState(posAbove);
+		if (!IHivePlacement.isTreeBlock(blockStateAbove)) {
 			return false;
 		}
 
 		// not a good location if right on top of something
 		BlockPos posBelow = pos.below();
-		BlockState blockStateBelow = world.getBlockState(posBelow);
-		return canReplace(blockStateBelow, world, posBelow);
+		BlockState blockStateBelow = level.getBlockState(posBelow);
+		return canReplace(blockStateBelow, level, posBelow);
 	}
 
 	@Override
-	@Deprecated
-	public BlockPos getPosForHive(WorldGenLevel level, int posX, int posZ) {
+	@Nullable
+	public BlockPos getPosForHive(WorldGenLevel level, RandomSource random, int posX, int posZ) {
 		ChunkAccess chunk = level.getChunk(posX >> 4, posZ >> 4);
 
 		// get top leaf block
@@ -46,7 +48,7 @@ public enum HiveGenTree implements IHiveGen {
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(posX, height, posZ);
 		BlockState state = chunk.getBlockState(pos);
 
-		if (!IHiveGen.isTreeBlock(state)) {
+		if (!IHivePlacement.isTreeBlock(state)) {
 			return null;
 		}
 
@@ -54,7 +56,7 @@ public enum HiveGenTree implements IHiveGen {
 		do {
 			pos.move(Direction.DOWN);
 			state = chunk.getBlockState(pos);
-		} while (IHiveGen.isTreeBlock(state));
+		} while (IHivePlacement.isTreeBlock(state));
 
 		return pos.immutable();
 	}
