@@ -6,6 +6,7 @@ import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.core.network.packets.BeeSpeciesSyncPacket;
 import forestry.core.network.packets.ButterflySpeciesSyncPacket;
+import forestry.core.network.packets.FlowerTypeSyncPacket;
 import forestry.core.network.packets.TreeSpeciesSyncPacket;
 import forestry.core.network.packets.PacketActiveUpdate;
 import forestry.core.network.packets.PacketErrorUpdate;
@@ -59,6 +60,7 @@ public class PacketIdClient {
 	public static final CustomPacketPayload.Type<PacketHabitatBiomePointer> HABITAT_BIOME_POINTER = type("habitat_biome_pointer");
 	public static final CustomPacketPayload.Type<PacketAlvearyChange> ALVEARY_CONTROLLER_CHANGE = type("alveary_controller_change");
 	public static final CustomPacketPayload.Type<BeeSpeciesSyncPacket> BEE_SPECIES_SYNC = type("bee_species_sync");
+	public static final CustomPacketPayload.Type<FlowerTypeSyncPacket> FLOWER_TYPE_SYNC = type("flower_type_sync");
 	// Arboriculture
 	public static final CustomPacketPayload.Type<PacketRipeningUpdate> RIPENING_UPDATE = type("ripening_update");
 	public static final CustomPacketPayload.Type<TreeSpeciesSyncPacket> TREE_SPECIES_SYNC = type("tree_species_sync");

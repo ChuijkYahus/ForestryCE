@@ -12,6 +12,7 @@ import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IPacketRegistry;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.genetics.BeeSpeciesManager;
+import forestry.apiculture.genetics.FlowerTypeManager;
 import forestry.apiculture.items.ItemPollenCluster;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
@@ -251,17 +252,22 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	/**
-	 * Sends the loaded bee, tree, and butterfly species definitions to the client on login/reload, before tags and
-	 * recipes sync (per {@code OnDatapackSyncEvent}'s contract). The client has no datapack access, so these packets
-	 * are its only source for {@code BeeSpeciesManager}'s/{@code TreeSpeciesManager}'s/{@code ButterflySpeciesManager}'s
-	 * definitions; {@code BeeSpeciesSyncPacket}'s/{@code TreeSpeciesSyncPacket}'s/{@code ButterflySpeciesSyncPacket}'s
-	 * {@code handle} rebuild the client-side species (and, in order, mutation) index from them.
+	 * Sends the loaded flower-type, bee, tree, and butterfly species definitions to the client on login/reload,
+	 * before tags and recipes sync (per {@code OnDatapackSyncEvent}'s contract). The client has no datapack access,
+	 * so these packets are its only source for {@code FlowerTypeManager}'s/{@code BeeSpeciesManager}'s/
+	 * {@code TreeSpeciesManager}'s/{@code ButterflySpeciesManager}'s definitions; {@code FlowerTypeSyncPacket} is
+	 * sent first since bee genome dominance resolution reads {@code IFlowerType}. {@code FlowerTypeSyncPacket}'s/
+	 * {@code BeeSpeciesSyncPacket}'s/{@code TreeSpeciesSyncPacket}'s/{@code ButterflySpeciesSyncPacket}'s
+	 * {@code handle} rebuild the client-side flower-type/species (and, in order, mutation) index from them.
 	 */
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
+		FlowerTypeSyncPacket flowerTypePacket = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
 		BeeSpeciesSyncPacket beePacket = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
 		TreeSpeciesSyncPacket treePacket = new TreeSpeciesSyncPacket(TreeSpeciesManager.INSTANCE.getDefinitions());
 		ButterflySpeciesSyncPacket butterflyPacket = new ButterflySpeciesSyncPacket(ButterflySpeciesManager.INSTANCE.getDefinitions());
 		event.getRelevantPlayers().forEach(player -> {
+			// Flower types must arrive before species (genome dominance resolution reads IFlowerType).
+			NetworkUtil.sendToPlayer(flowerTypePacket, player);
 			NetworkUtil.sendToPlayer(beePacket, player);
 			NetworkUtil.sendToPlayer(treePacket, player);
 			NetworkUtil.sendToPlayer(butterflyPacket, player);
@@ -313,6 +319,7 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.TANK_LEVEL_UPDATE, PacketTankLevelUpdate::encode, PacketTankLevelUpdate::decode, PacketTankLevelUpdate::handle);
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket::encode, RecipeCachePacket::decode, RecipeCachePacket::handle);
 		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax::encode, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
+		registry.clientbound(PacketIdClient.FLOWER_TYPE_SYNC, FlowerTypeSyncPacket::encode, FlowerTypeSyncPacket::decode, FlowerTypeSyncPacket::handle);
 		registry.clientbound(PacketIdClient.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
 		registry.clientbound(PacketIdClient.TREE_SPECIES_SYNC, TreeSpeciesSyncPacket::encode, TreeSpeciesSyncPacket::decode, TreeSpeciesSyncPacket::handle);
 		registry.clientbound(PacketIdClient.BUTTERFLY_SPECIES_SYNC, ButterflySpeciesSyncPacket::encode, ButterflySpeciesSyncPacket::decode, ButterflySpeciesSyncPacket::handle);
