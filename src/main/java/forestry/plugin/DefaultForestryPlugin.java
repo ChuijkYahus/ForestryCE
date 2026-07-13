@@ -1,7 +1,6 @@
 package forestry.plugin;
 
 import forestry.api.ForestryConstants;
-import forestry.api.ForestryTags;
 import forestry.api.apiculture.*;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryFruits;
@@ -55,7 +54,6 @@ import forestry.lepidopterology.genetics.DefaultCocoon;
 import forestry.plugin.client.DefaultForestryClientRegistration;
 import forestry.sorting.DefaultFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -248,24 +246,6 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 			BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_BOTH_1
 		));
 		apiculture.addVillageBee(ForestryBeeSpecies.VALIANT, true);
-
-		// Default flower types
-		// todo plantable flower tags
-		apiculture.registerFlowerType(ForestryFlowerTypes.VANILLA, new TagFlowerType(ForestryTags.Blocks.VANILLA_FLOWERS, true));
-		apiculture.registerFlowerType(ForestryFlowerTypes.NETHER, new TagFlowerType(ForestryTags.Blocks.NETHER_FLOWERS, false));
-		apiculture.registerFlowerType(ForestryFlowerTypes.CACTI, new TagFlowerType(ForestryTags.Blocks.CACTI_FLOWERS, false));
-		apiculture.registerFlowerType(ForestryFlowerTypes.MUSHROOMS, new TagFlowerType(ForestryTags.Blocks.MUSHROOMS_FLOWERS, false));
-		apiculture.registerFlowerType(ForestryFlowerTypes.END, new TagFlowerType(ForestryTags.Blocks.END_FLOWERS, false, BiomeTags.IS_END));
-		apiculture.registerFlowerType(ForestryFlowerTypes.JUNGLE, new TagFlowerType(ForestryTags.Blocks.JUNGLE_FLOWERS, false));
-		apiculture.registerFlowerType(ForestryFlowerTypes.SNOW, new TagFlowerType(ForestryTags.Blocks.SNOW_FLOWERS, true));
-		apiculture.registerFlowerType(ForestryFlowerTypes.WHEAT, new TagFlowerType(ForestryTags.Blocks.WHEAT_FLOWERS, true));
-		apiculture.registerFlowerType(ForestryFlowerTypes.GOURD, new TagFlowerType(ForestryTags.Blocks.GOURD_FLOWERS, true));
-		apiculture.registerFlowerType(ForestryFlowerTypes.CAVE, new TagFlowerType(ForestryTags.Blocks.CAVE_FLOWERS, true));
-		apiculture.registerFlowerType(ForestryFlowerTypes.PHOTOSYNTHESIS, new PhotosynthesisFlowerType());
-		apiculture.registerFlowerType(ForestryFlowerTypes.ANCIENT, new TagFlowerType(ForestryTags.Blocks.ANCIENT_FLOWERS, true));
-		apiculture.registerFlowerType(ForestryFlowerTypes.SEA, new WaterTagFlowerType(ForestryTags.Blocks.SEA_FLOWERS, false));
-		apiculture.registerFlowerType(ForestryFlowerTypes.CORAL, new WaterTagFlowerType(ForestryTags.Blocks.CORAL_FLOWERS, false));
-		apiculture.registerFlowerType(ForestryFlowerTypes.SCULK, new TagFlowerType(ForestryTags.Blocks.SCULK_FLOWERS, false));
 
 		apiculture.registerBeeEffect(ForestryBeeEffects.NONE, new DummyBeeEffect(true));
 		apiculture.registerBeeEffect(ForestryBeeEffects.AGGRESSIVE, new AggressiveBeeEffect());
