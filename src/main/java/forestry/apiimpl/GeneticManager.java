@@ -3,7 +3,9 @@ package forestry.apiimpl;
 import com.google.common.collect.ImmutableMap;
 import forestry.Forestry;
 import forestry.api.genetics.*;
+import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.Taxon;
 import forestry.core.genetics.TaxonDefinition;
 import net.minecraft.resources.ResourceLocation;
@@ -50,11 +52,12 @@ public class GeneticManager implements IGeneticManager {
 	/**
 	 * Merges the datapack-loaded taxa onto the code-registered base and swaps the result into the live taxonomy. Always
 	 * rebuilds from the {@link #baseTaxa} snapshot, so passing an empty collection reverts to exactly the built-in
-	 * taxonomy. Each definition's rank is derived from its parent's rank; definitions are resolved in dependency order
-	 * via a fixpoint, so a datapack may define a taxon and its parent in any order. A definition whose parent never
-	 * resolves (or whose parent is a genus, which cannot have children) is skipped with a warning rather than crashing
-	 * the reload — a species referencing a skipped genus fails its own (fail-soft) build, so the generator must emit a
-	 * taxon for every genus it uses.
+	 * taxonomy. Since base Forestry now ships its whole taxonomy as datapack JSON, a definition may be a root
+	 * {@link TaxonomicRank#DOMAIN domain} (null parent, explicit rank) or any child taxon (rank derived from its parent
+	 * unless stated). Definitions are resolved in dependency order via a fixpoint, so a datapack may define a taxon and
+	 * its parent in any order. A definition whose parent never resolves (or whose parent is a genus, which cannot have
+	 * children) is skipped with a warning rather than crashing the reload — a species referencing a skipped genus fails
+	 * its own (fail-soft) build, so the generator must emit a taxon for every genus it uses.
 	 */
 	@ApiStatus.Internal
 	public void applyDatapackTaxa(Collection<TaxonDefinition> definitions) {
@@ -72,20 +75,28 @@ public class GeneticManager implements IGeneticManager {
 			Iterator<TaxonDefinition> it = pending.iterator();
 			while (it.hasNext()) {
 				TaxonDefinition def = it.next();
-				ITaxon parent = merged.get(def.parent());
-				if (parent == null) {
-					// Parent not resolved yet; maybe a later iteration (another datapack taxon) will define it.
-					continue;
+
+				boolean isRoot = def.parent() == null;
+				ITaxon parent = null;
+				if (!isRoot) {
+					parent = merged.get(def.parent());
+					if (parent == null) {
+						// Parent not resolved yet; maybe a later iteration (another datapack taxon) will define it.
+						continue;
+					}
 				}
 				it.remove();
 				progress = true;
 
-				if (parent.rank() == TaxonomicRank.GENUS) {
+				if (isRoot && def.rank() == null) {
+					Forestry.LOGGER.warn("Datapack taxon '{}' skipped: a root taxon (no parent) must declare a rank", def.name());
+				} else if (!isRoot && parent.rank() == TaxonomicRank.GENUS) {
 					Forestry.LOGGER.warn("Datapack taxon '{}' skipped: its parent '{}' is a genus, which cannot have sub-taxa", def.name(), def.parent());
 				} else if (merged.containsKey(def.name())) {
 					Forestry.LOGGER.warn("Datapack taxon '{}' skipped: a taxon with that name is already registered", def.name());
 				} else {
-					merged.put(def.name(), new Taxon(def.name(), parent.rank().next(), parent, new IdentityHashMap<IChromosome<?>, ITaxon.TaxonAllele>()));
+					TaxonomicRank rank = def.rank() != null ? def.rank() : parent.rank().next();
+					merged.put(def.name(), new Taxon(def.name(), rank, parent, buildTaxonAlleles(def)));
 				}
 			}
 		}
@@ -95,6 +106,36 @@ public class GeneticManager implements IGeneticManager {
 		}
 
 		this.taxa = ImmutableMap.copyOf(merged);
+	}
+
+	// Reconstructs a taxon's default-chromosome map from its (already karyotype-resolved) allele overrides. Reference
+	// chromosomes keep only the referenced id (dominance is resolved from the referenced value at projection time);
+	// data chromosomes keep their inline allele. Mirrors GeneticRegistration.TaxonBuilder#setDefaultChromosome.
+	private IdentityHashMap<IChromosome<?>, ITaxon.TaxonAllele> buildTaxonAlleles(TaxonDefinition def) {
+		IdentityHashMap<IChromosome<?>, ITaxon.TaxonAllele> result = new IdentityHashMap<>();
+		if (def.alleles().isEmpty()) {
+			return result;
+		}
+		ISpeciesType<?, ?> type = def.type() == null ? null : getSpeciesTypeSafe(def.type());
+		if (type == null) {
+			Forestry.LOGGER.warn("Taxon '{}' declares alleles but species type '{}' is unknown; ignoring its defaults", def.name(), def.type());
+			return result;
+		}
+		IKaryotype karyotype = type.getKaryotype();
+		for (Map.Entry<ResourceLocation, Allele<?>> entry : def.alleles().entrySet()) {
+			IChromosome<?> chromosome = karyotype.getChromosome(entry.getKey());
+			if (chromosome == null) {
+				Forestry.LOGGER.warn("Taxon '{}' default allele skipped: unknown chromosome '{}' for type '{}'", def.name(), entry.getKey(), def.type());
+				continue;
+			}
+			Allele<?> allele = entry.getValue();
+			if (chromosome.resolver() != null) {
+				result.put(chromosome, ITaxon.TaxonAllele.reference((ResourceLocation) allele.value(), true));
+			} else {
+				result.put(chromosome, ITaxon.TaxonAllele.data(allele, true));
+			}
+		}
+		return result;
 	}
 
 	@Override
