@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
 
 /**
  * The {@code forestry:strike_lightning} primitive: strikes lightning at a random position in the housing's
- * territory that can see the sky. Covers the ExtraBees LIGHTNING effect from JSON.
+ * territory that can see the sky.
  */
 public class LightningBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<LightningBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

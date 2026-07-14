@@ -17,7 +17,7 @@ import forestry.api.genetics.TaxonomicRank;
  * <p>
  * This exists because a species genome references its genus by name, and that genus must resolve to a registered taxon
  * when the species is built ({@code Species}'s constructor). Code plugins define their taxa through
- * {@code IGeneticRegistration#defineTaxon}; this is the datapack analogue, so a pack (e.g. Extra Bees' ~28 genera) can
+ * {@code IGeneticRegistration#defineTaxon}; this is the datapack analogue, so a pack (e.g. an add-on's genera) can
  * add genera as pure JSON. The definitions are merged onto the code-registered taxa by
  * {@code GeneticManager#applyDatapackTaxa} on every (re)load, before species are projected.
  * <p>

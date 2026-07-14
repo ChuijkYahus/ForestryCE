@@ -17,7 +17,7 @@ import net.minecraft.world.level.Level;
 
 /**
  * The {@code forestry:teleport} primitive: picks a random living entity in range and randomly teleports it to
- * an empty spot within the housing's territory. Covers the ExtraBees TELEPORT effect from JSON.
+ * an empty spot within the housing's territory.
  */
 public class TeleportBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<TeleportBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

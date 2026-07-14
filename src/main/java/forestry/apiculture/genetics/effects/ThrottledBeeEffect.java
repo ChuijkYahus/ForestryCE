@@ -52,7 +52,7 @@ public abstract class ThrottledBeeEffect extends DummyBeeEffect implements IBeeE
 	 * on each axis. Shared by the block/world-targeting primitives (bonemeal, transform/place block, lightning,
 	 * firework, projectile spawn).
 	 * <p>
-	 * This intentionally samples a <em>symmetric</em> box (matching Extra Bees) rather than reusing
+	 * This intentionally samples a <em>symmetric</em> box rather than reusing
 	 * {@link #getBounding}, whose {@code VecUtil.center} box is skewed upward — that skew makes ground-targeting
 	 * effects almost never hit the ground and makes sky checks at the housing block always fail.
 	 */

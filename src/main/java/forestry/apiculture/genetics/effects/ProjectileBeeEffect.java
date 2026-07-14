@@ -18,8 +18,7 @@ import net.minecraft.world.level.Level;
 
 /**
  * The {@code forestry:spawn_projectile} primitive: spawns a configured entity high above the housing and sends
- * it hurtling downward. Covers the ExtraBees METEOR effect (a small fireball dropped from above) from JSON, but
- * works for any projectile/entity.
+ * it hurtling downward. Works for any projectile/entity.
  */
 public class ProjectileBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<ProjectileBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -63,7 +62,7 @@ public class ProjectileBeeEffect extends ThrottledBeeEffect {
 			return storedData;
 		}
 
-		// Use a random territory position (like Extra Bees) — the housing's own block never sees the sky.
+		// Use a random territory position — the housing's own block never sees the sky.
 		BlockPos base = ThrottledBeeEffect.getRandomPositionInRange(genome, housing);
 		if (this.requireSky && !level.canSeeSky(base)) {
 			return storedData;

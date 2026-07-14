@@ -19,7 +19,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 /**
  * The {@code forestry:fill_fluid} primitive: fills a fluid handler adjacent to the housing with a configured
- * fluid. Covers the ExtraBees WATER effect from JSON. Guarded by capability presence, so it no-ops unless a
+ * fluid. Guarded by capability presence, so it no-ops unless a
  * tank/pipe sits next to the apiary.
  */
 public class FillFluidBeeEffect extends ThrottledBeeEffect {

@@ -26,7 +26,7 @@ import net.minecraft.world.level.Level;
  * The {@code forestry:damage_entities} primitive: hurts living entities in range for a fixed amount, with
  * optional apiarist-armor scaling (each worn piece reduces the damage). Also expresses the built-in AGGRESSIVE
  * (all entities) and MISANTHROPE (players only) effects, which are {@code damage 4} + armor scaling differing
- * only by their {@code damage_type} and target filter. Covers the ExtraBees RADIOACTIVE effect's entity-harm
+ * only by their {@code damage_type} and target filter. Covers the RADIOACTIVE effect's entity-harm
  * half from JSON (the base {@code radioactive} effect hardcodes damage and also destroys blocks, so this
  * primitive gives datapacks a configurable, block-safe alternative).
  */

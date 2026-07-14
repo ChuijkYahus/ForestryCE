@@ -26,8 +26,7 @@ import net.minecraft.world.level.Level;
 
 /**
  * The {@code forestry:firework} primitive: launches a firework rocket from the housing under open sky.
- * Covers the ExtraBees FIREWORKS / FESTIVAL / BIRTHDAY effects from JSON (the birthday date check is dropped;
- * author the desired shape/colors directly).
+ * Author the desired shape/colors directly.
  */
 public class FireworkBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<FireworkBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -71,7 +70,7 @@ public class FireworkBeeEffect extends ThrottledBeeEffect {
 			return storedData;
 		}
 
-		// Use a random territory position (like Extra Bees) — the housing's own block never sees the sky.
+		// Use a random territory position — the housing's own block never sees the sky.
 		BlockPos pos = ThrottledBeeEffect.getRandomPositionInRange(genome, housing);
 		if (!level.canSeeSky(pos)) {
 			return storedData;

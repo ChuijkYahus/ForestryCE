@@ -15,8 +15,7 @@ import net.minecraft.world.food.FoodData;
 
 /**
  * The {@code forestry:feed} primitive: pokes the food stats of players in range — restoring nutrition and
- * saturation and/or adding exhaustion. Covers the ExtraBees FOOD effect (nutrition/saturation) and the
- * hunger-drain half of the HUNGER effect (exhaustion) from JSON.
+ * saturation and/or adding exhaustion.
  */
 public class FeedBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<FeedBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

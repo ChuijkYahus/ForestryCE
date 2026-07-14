@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * The {@code forestry:transform_block} primitive: replaces matching blocks in the housing's territory with a
- * target block state. Covers the ExtraBees ACID effect (cobble/stone → gravel, dirt/grass → sand) from JSON.
+ * target block state (e.g. cobblestone/stone → gravel, dirt/grass → sand).
  */
 public class TransformBlockBeeEffect extends ThrottledBeeEffect {
 	/** A single from→to block replacement rule. */

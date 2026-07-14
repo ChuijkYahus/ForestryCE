@@ -16,7 +16,7 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 
 /**
  * The {@code forestry:inject_energy} primitive: pushes Forge Energy into an energy storage adjacent to the
- * housing. Covers the ExtraBees POWER effect from JSON. Guarded by capability presence, so it no-ops unless a
+ * housing. Guarded by capability presence, so it no-ops unless a
  * machine/battery sits next to the apiary.
  */
 public class InjectEnergyBeeEffect extends ThrottledBeeEffect {

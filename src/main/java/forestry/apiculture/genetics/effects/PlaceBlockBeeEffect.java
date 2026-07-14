@@ -16,8 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * The {@code forestry:place_block} primitive: places a block into an empty space that sits on top of a solid
- * block, within the housing's territory. Covers the ExtraBees ECTOPLASM effect (place ectoplasm in air over
- * solid ground) from JSON.
+ * block, within the housing's territory.
  */
 public class PlaceBlockBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<PlaceBlockBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

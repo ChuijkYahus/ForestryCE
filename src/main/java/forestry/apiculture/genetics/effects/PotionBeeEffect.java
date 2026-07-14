@@ -31,8 +31,7 @@ import java.util.List;
 public class PotionBeeEffect extends ThrottledBeeEffect {
 	/**
 	 * The {@code forestry:apply_potion} primitive: applies a mob effect to entities in range, with the
-	 * usual apiarist-armor damage scaling for harmful effects. Covers the ExtraBees BLINDNESS / CONFUSION /
-	 * WITHER / SLOW / HUNGER effects purely from JSON.
+	 * usual apiarist-armor damage scaling for harmful effects.
 	 */
 	public static final MapCodec<PotionBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		Codec.BOOL.optionalFieldOf("dominant", true).forGetter(IBeeEffect::isDominant),

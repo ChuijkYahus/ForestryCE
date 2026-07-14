@@ -15,7 +15,7 @@ import net.minecraft.world.phys.Vec3;
 
 /**
  * The {@code forestry:entity_force} primitive: pulls entities toward the housing (attract) or pushes them away
- * (repel), scaled inversely by distance. Covers the ExtraBees GRAVITY (attract) and THIEF (repel) effects.
+ * (repel), scaled inversely by distance.
  */
 public class EntityForceBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<EntityForceBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

@@ -145,7 +145,7 @@ public class GeneticsUtil {
 	 *     <li>If {@code typeId} and {@code objectId} have different namespaces, the format is: <br> {@code TYPE.TYPENAMESPACE.TYPEPATH.OBJECTNAMESPACE.OBJECTPATH}</li>
 	 * </ul>
 	 * For example, the Austere bee species from Forestry has the translation key: <br> {@code species.forestry.bee.austere} <br>
-	 * and the Creeper bee species from Binnie's Extra Bees has the translation key: <br> {@code species.forestry.bee.extrabees.creeper}
+	 * and a bee species contributed by an add-on under its own namespace has the translation key: <br> {@code species.forestry.bee.myaddon.mybee}
 	 *
 	 * @param type     The first part of the translation key that describes the type of object this is. Can be empty.
 	 * @param typeId   The ID of the type. An example would be the ID of the species type.
@@ -170,7 +170,7 @@ public class GeneticsUtil {
 			translationKey.append(objectId.getPath());
 		} else {
 			// if species type is from another mod, use this format instead:
-			// species.forestry.bee.extrabees.creeper
+			// species.forestry.bee.myaddon.mybee
 			translationKey.append(speciesNamespace);
 			translationKey.append('.');
 			translationKey.append(objectId.getPath());

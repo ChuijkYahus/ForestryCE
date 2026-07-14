@@ -21,9 +21,8 @@ import net.minecraft.world.phys.AABB;
 
 /**
  * The {@code forestry:spawn_mob} primitive: periodically spawns a configured entity near the housing when a
- * player is close by, up to a soft cap on nearby entities of that type. Covers the ExtraBees
- * SPAWN_ZOMBIE / SPAWN_SKELETON / SPAWN_CREEPER effects from JSON (unlike the base {@code creeper} effect,
- * which detonates rather than spawns).
+ * player is close by, up to a soft cap on nearby entities of that type. Unlike the base {@code creeper}
+ * effect (which detonates rather than spawns), this spawns the configured mob.
  */
 public class SpawnMobBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<SpawnMobBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -68,7 +67,7 @@ public class SpawnMobBeeEffect extends ThrottledBeeEffect {
 		}
 
 		BlockPos pos = housing.getCoordinates();
-		// Only spawn where a player can witness it (matches ExtraBees behavior). Use NO_SPECTATORS (not the
+		// Only spawn where a player can witness it (so it is player-visible). Use NO_SPECTATORS (not the
 		// boolean overload, whose true value confusingly maps to NO_CREATIVE_OR_SPECTATOR) so creative-mode
 		// players still count — otherwise spawns are suppressed while a creative player watches.
 		if (level.getNearestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.playerRange, EntitySelector.NO_SPECTATORS) == null) {

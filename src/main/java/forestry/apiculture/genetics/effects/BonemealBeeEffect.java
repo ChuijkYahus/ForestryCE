@@ -17,8 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * The {@code forestry:bonemeal} primitive: applies a bonemeal growth tick to a random growable block in the
- * housing's territory. Covers the ExtraBees BONEMEAL_SAPLING / BONEMEAL_FRUIT / BONEMEAL_MUSHROOM effects
- * (any {@link BonemealableBlock} qualifies, so a single primitive replaces all three).
+ * housing's territory. Any {@link BonemealableBlock} qualifies.
  */
 public class BonemealBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<BonemealBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
