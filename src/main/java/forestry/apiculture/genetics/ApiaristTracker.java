@@ -46,6 +46,8 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	public void registerPickup(ISpecies<?> species) {
 		IMutationManager<ISpecies<?>> manager = IForestryApi.INSTANCE.getGeneticManager().getMutations(SpeciesUtil.BEE_TYPE.get());
 
+		discover(species);
+
 		if (manager.getMutationsFrom(species).isEmpty()) {
 			registerSpecies(species);
 		}

@@ -55,7 +55,7 @@
     "description": {
       "translate": "advancements.forestry.get_apiarists_armor.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "hidden": false,
     "icon": {
       "item": "forestry:apiarist_helmet",

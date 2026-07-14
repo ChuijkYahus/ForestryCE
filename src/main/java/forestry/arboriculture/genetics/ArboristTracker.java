@@ -12,5 +12,7 @@ public class ArboristTracker extends BreedingTracker implements IArboristTracker
 
 	@Override
 	public void registerPickup(ISpecies<?> species) {
+		discover(species);
 	}
+
 }

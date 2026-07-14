@@ -199,7 +199,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	public void registerSpecies(ISpecies<?> species) {
 		ResourceLocation speciesId = species.id();
 
-		ForestryAdvancementTriggers.DISCOVER_SPECIES_TRIGGER.trigger(this.level, this.username, speciesId);
+		discover(species);
 		if (species instanceof IBeeSpecies bs){
 
 		}
@@ -236,5 +236,13 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	public boolean isResearched(IMutation<?> mutation) {
 		String mutationString = getMutationString(mutation);
 		return this.researchedMutations.contains(mutationString);
+	}
+
+	/**
+	 * Used purely for tracking advancements.
+	 * @param species
+	 */
+	public void discover(ISpecies<?> species){
+		ForestryAdvancementTriggers.DISCOVER_SPECIES_TRIGGER.trigger(this.level, this.username, species.id());
 	}
 }

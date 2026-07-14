@@ -700,7 +700,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0005f);
 
-		// (Big-Leaf) Mahogany https://www.catalogueoflife.org/data/taxon/53K5Y
+		// (Large-Leaved) Mahogany https://www.catalogueoflife.org/data/taxon/53K5Y
 		arboriculture.registerSpecies(ForestryTreeSpecies.MAHOGANY, GENUS_SWIETENIA, SPECIES_MAHOGANY, true, TextColor.fromRgb(0x8ab154), ForestryWoodType.MAHOGANY)
 				.setTreeFeature(FeatureMahogany::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MAHOGANY))

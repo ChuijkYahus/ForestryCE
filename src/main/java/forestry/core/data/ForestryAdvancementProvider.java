@@ -94,6 +94,14 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 				root,
 				writer);
 
+				//Ashes to Ashes
+				Advancement get_burn_barrel = makeSimpleAdvancement(
+					"get_burn_barrel",
+					CoreBlocks.BURN_BARREL.stack(),
+					InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.BURN_BARREL.get()),
+					wood_pile,
+					writer);
+
 			//I Can, Can You?
 			Advancement cans = makeSimpleAdvancement(
 				"get_cans",
@@ -139,7 +147,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						Component.translatable("advancements.forestry.get_apiarists_armor.title"),
 						Component.translatable("advancements.forestry.get_apiarists_armor.description"),
 						null,
-						FrameType.TASK,
+						FrameType.GOAL,
 						true,
 						true,
 						false
@@ -157,8 +165,8 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					.save(writer, ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "get_apiarists_armor").toString());
 
 					//Sting Operation
-					//Cannot figure this one out yet.
-					Advancement theBeekeeper = advancement()
+					//Cannot figure this one out
+					/*Advancement theBeekeeper = advancement()
 						.parent(apiarists_armor)
 						.display(
 							ApicultureItems.APIARIST_CHEST.stack(),
@@ -169,11 +177,11 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 							true,
 							true,
 							false
-				)
-				.addCriterion(
-					ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "sting_operation_raid_complete").toString(), PlayerTrigger.TriggerInstance.raidWon())
-				.save(writer, ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "sting_operation").toString());
-				//TODO: Make this trigger when the player has Apiarists Armor on
+					)
+					.addCriterion(
+						ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "sting_operation_raid_complete").toString(), PlayerTrigger.TriggerInstance.raidWon())
+					.save(writer, ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "sting_operation").toString());
+					*/
 
 
 				//This Is Where The Series Ends
@@ -722,14 +730,6 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					InventoryChangeTrigger.TriggerInstance.hasItems(WorktableBlocks.WORKTABLE.get()),
 					root,
 					writer);*/
-
-				//Ashes to Ashes
-				Advancement get_burn_barrel = makeSimpleAdvancement(
-					"get_burn_barrel",
-					CoreBlocks.BURN_BARREL.stack(),
-					InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.BURN_BARREL.get()),
-					root,
-					writer);
 
 		}
 

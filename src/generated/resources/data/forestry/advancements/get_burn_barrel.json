@@ -1,5 +1,5 @@
 {
-  "parent": "forestry:root",
+  "parent": "forestry:break_ash_block",
   "criteria": {
     "forestry:get_burn_barrel": {
       "conditions": {
