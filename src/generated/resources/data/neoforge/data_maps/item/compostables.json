@@ -18,6 +18,9 @@
     "forestry:birch_decorative_leaves": {
       "chance": 0.3
     },
+    "forestry:camelthorn_decorative_leaves": {
+      "chance": 0.3
+    },
     "forestry:cherry": {
       "chance": 0.65
     },
@@ -60,9 +63,6 @@
     "forestry:decaying_wheat": {
       "chance": 0.65
     },
-    "forestry:desert_acacia_decorative_leaves": {
-      "chance": 0.3
-    },
     "forestry:dogwood_decorative_leaves": {
       "chance": 0.3
     },
@@ -87,7 +87,7 @@
     "forestry:ginkgo_decorative_leaves": {
       "chance": 0.3
     },
-    "forestry:hill_cherry_decorative_leaves": {
+    "forestry:greenheart_decorative_leaves": {
       "chance": 0.3
     },
     "forestry:ipe_decorative_leaves": {
@@ -189,7 +189,7 @@
     "forestry:sequoia_decorative_leaves": {
       "chance": 0.3
     },
-    "forestry:sipiri_decorative_leaves": {
+    "forestry:sour_cherry_decorative_leaves": {
       "chance": 0.3
     },
     "forestry:spruce_decorative_leaves": {
@@ -219,7 +219,7 @@
     "forestry:wood_pulp": {
       "chance": 0.65
     },
-    "forestry:zebrawood_decorative_leaves": {
+    "forestry:zebrano_decorative_leaves": {
       "chance": 0.3
     }
   }

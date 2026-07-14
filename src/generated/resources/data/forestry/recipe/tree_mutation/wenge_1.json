@@ -1,7 +1,7 @@
 {
   "type": "forestry:tree_mutation",
   "chance": 0.1,
-  "first": "forestry:desert_acacia",
+  "first": "forestry:camelthorn",
   "id": "forestry:tree_mutation/wenge_1",
   "result": "forestry:wenge",
   "second": "forestry:acacia"

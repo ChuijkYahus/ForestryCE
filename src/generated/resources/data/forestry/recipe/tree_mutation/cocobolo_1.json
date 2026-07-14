@@ -1,7 +1,7 @@
 {
   "type": "forestry:tree_mutation",
   "chance": 0.1,
-  "first": "forestry:desert_acacia",
+  "first": "forestry:camelthorn",
   "id": "forestry:tree_mutation/cocobolo_1",
   "result": "forestry:cocobolo",
   "second": "forestry:dark_oak"

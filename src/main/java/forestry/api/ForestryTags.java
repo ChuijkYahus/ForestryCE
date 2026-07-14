@@ -36,7 +36,7 @@ public class ForestryTags {
 		// todo remove in favor of directly using IWoodAccess
 		public static final TagKey<Block> LARCH_LOGS = ForestryWoodType.LARCH.blockTag;
 		public static final TagKey<Block> TEAK_LOGS = ForestryWoodType.TEAK.blockTag;
-		public static final TagKey<Block> ACACIA_DESERT_LOGS = ForestryWoodType.ACACIA_DESERT.blockTag;
+		public static final TagKey<Block> ACACIA_DESERT_LOGS = ForestryWoodType.CAMELTHORN.blockTag;
 		public static final TagKey<Block> LIME_LOGS = ForestryWoodType.LIME.blockTag;
 		public static final TagKey<Block> CHESTNUT_LOGS = ForestryWoodType.CHESTNUT.blockTag;
 		public static final TagKey<Block> WENGE_LOGS = ForestryWoodType.WENGE.blockTag;
@@ -56,12 +56,12 @@ public class ForestryTags {
 		public static final TagKey<Block> PINE_LOGS = ForestryWoodType.PINE.blockTag;
 		public static final TagKey<Block> PLUM_LOGS = ForestryWoodType.PLUM.blockTag;
 		public static final TagKey<Block> MAPLE_LOGS = ForestryWoodType.MAPLE.blockTag;
-		public static final TagKey<Block> CITRUS_LOGS = ForestryWoodType.CITRUS.blockTag;
-		public static final TagKey<Block> GIGANTEUM_LOGS = ForestryWoodType.GIGANTEUM.blockTag;
+		public static final TagKey<Block> CITRUS_LOGS = ForestryWoodType.LEMON.blockTag;
+		public static final TagKey<Block> GIGANTEUM_LOGS = ForestryWoodType.GIANT_SEQUOIA.blockTag;
 		public static final TagKey<Block> IPE_LOGS = ForestryWoodType.IPE.blockTag;
 		public static final TagKey<Block> PADAUK_LOGS = ForestryWoodType.PADAUK.blockTag;
 		public static final TagKey<Block> COCOBOLO_LOGS = ForestryWoodType.COCOBOLO.blockTag;
-		public static final TagKey<Block> ZEBRANO_LOGS = ForestryWoodType.ZEBRAWOOD.blockTag;
+		public static final TagKey<Block> ZEBRANO_LOGS = ForestryWoodType.ZEBRANO.blockTag;
 		public static final TagKey<Block> ELM_LOGS = ForestryWoodType.ELM.blockTag;
 		public static final TagKey<Block> FIR_LOGS = ForestryWoodType.FIR.blockTag;
 		public static final TagKey<Block> COCONUT_LOGS = ForestryWoodType.COCONUT.blockTag;
@@ -148,7 +148,7 @@ public class ForestryTags {
 
 		public static final TagKey<Item> LARCH_LOGS = ForestryWoodType.LARCH.itemTag;
 		public static final TagKey<Item> TEAK_LOGS = ForestryWoodType.TEAK.itemTag;
-		public static final TagKey<Item> ACACIA_DESERT_LOGS = ForestryWoodType.ACACIA_DESERT.itemTag;
+		public static final TagKey<Item> ACACIA_DESERT_LOGS = ForestryWoodType.CAMELTHORN.itemTag;
 		public static final TagKey<Item> LIME_LOGS = ForestryWoodType.LIME.itemTag;
 		public static final TagKey<Item> CHESTNUT_LOGS = ForestryWoodType.CHESTNUT.itemTag;
 		public static final TagKey<Item> WENGE_LOGS = ForestryWoodType.WENGE.itemTag;
@@ -168,12 +168,12 @@ public class ForestryTags {
 		public static final TagKey<Item> PINE_LOGS = ForestryWoodType.PINE.itemTag;
 		public static final TagKey<Item> PLUM_LOGS = ForestryWoodType.PLUM.itemTag;
 		public static final TagKey<Item> MAPLE_LOGS = ForestryWoodType.MAPLE.itemTag;
-		public static final TagKey<Item> CITRUS_LOGS = ForestryWoodType.CITRUS.itemTag;
-		public static final TagKey<Item> GIGANTEUM_LOGS = ForestryWoodType.GIGANTEUM.itemTag;
+		public static final TagKey<Item> CITRUS_LOGS = ForestryWoodType.LEMON.itemTag;
+		public static final TagKey<Item> GIGANTEUM_LOGS = ForestryWoodType.GIANT_SEQUOIA.itemTag;
 		public static final TagKey<Item> IPE_LOGS = ForestryWoodType.IPE.itemTag;
 		public static final TagKey<Item> PADAUK_LOGS = ForestryWoodType.PADAUK.itemTag;
 		public static final TagKey<Item> COCOBOLO_LOGS = ForestryWoodType.COCOBOLO.itemTag;
-		public static final TagKey<Item> ZEBRANO_LOGS = ForestryWoodType.ZEBRAWOOD.itemTag;
+		public static final TagKey<Item> ZEBRANO_LOGS = ForestryWoodType.ZEBRANO.itemTag;
 		public static final TagKey<Item> ELM_LOGS = ForestryWoodType.ELM.itemTag;
 		public static final TagKey<Item> FIR_LOGS = ForestryWoodType.FIR.itemTag;
 		public static final TagKey<Item> COCONUT_LOGS = ForestryWoodType.COCONUT.itemTag;

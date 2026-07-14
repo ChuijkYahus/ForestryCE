@@ -25,7 +25,7 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation LIME = forestry("lime");
 	public static final ResourceLocation WALNUT = forestry("walnut");
 	public static final ResourceLocation CHESTNUT = forestry("chestnut");
-	public static final ResourceLocation SOUR_CHERRY = forestry("hill_cherry"); //TODO: Rename in 1.21
+	public static final ResourceLocation SOUR_CHERRY = forestry("sour_cherry");
 	public static final ResourceLocation LEMON = forestry("lemon");
 	public static final ResourceLocation PLUM = forestry("plum");
 	public static final ResourceLocation MAPLE = forestry("maple");
@@ -37,9 +37,9 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation IPE = forestry("ipe");
 	public static final ResourceLocation KAPOK = forestry("kapok");
 	public static final ResourceLocation EBONY = forestry("ebony");
-	public static final ResourceLocation ZEBRANO = forestry("zebrawood"); //TODO: Rename in 1.21
+	public static final ResourceLocation ZEBRANO = forestry("zebrano");
 	public static final ResourceLocation MAHOGANY = forestry("mahogany");
-	public static final ResourceLocation CAMELTHORN = forestry("desert_acacia"); //TODO: Rename in 1.21
+	public static final ResourceLocation CAMELTHORN = forestry("camelthorn");
 	public static final ResourceLocation PADAUK = forestry("padauk");
 	public static final ResourceLocation BALSA = forestry("balsa");
 	public static final ResourceLocation COCOBOLO = forestry("cocobolo");
@@ -47,7 +47,7 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation BAOBAB = forestry("baobab");
 	public static final ResourceLocation MAHOE = forestry("mahoe");
 	public static final ResourceLocation WILLOW = forestry("willow");
-	public static final ResourceLocation GREENHEART = forestry("sipiri"); //TODO: Rename in 1.21
+	public static final ResourceLocation GREENHEART = forestry("greenheart");
 	public static final ResourceLocation PAPAYA = forestry("papaya");
 	public static final ResourceLocation DATE = forestry("date");
 	public static final ResourceLocation POPLAR = forestry("poplar");
