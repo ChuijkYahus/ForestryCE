@@ -123,6 +123,11 @@ repositories {
 		url = 'https://cursemaven.com'
 		content { includeGroup 'curse.maven' }
 	}
+	maven { url = "https://maven.createmod.net" }
+	maven {
+		name = 'Ponder'
+		url = 'https://raw.githubusercontent.com/Fuzss/modresources/main/maven/'
+	}
 	maven {
 		name = 'ModKit'
 		url = 'https://jitpack.io'
@@ -143,6 +148,8 @@ dependencies {
 	implementation "dev.latvian.mods:kubejs-neoforge:${kubejsVersion}"
 	// Curios Optional
 	implementation "top.theillusivec4.curios:curios-neoforge:${curiosVersion}+${minecraftVersion}"
+	// Ponder OPTIONAL
+	implementation("net.createmod.ponder:ponder-neoforge:${ponderVersion}+mc${minecraftVersion}")
 	// PATCHOULI REQUIRED
 	compileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE:api"
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
