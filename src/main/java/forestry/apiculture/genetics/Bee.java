@@ -196,30 +196,32 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 			}
 		}
 
-		// And finally climate check
+		// And finally climate check, unless the housing fully tolerates any climate (e.g. a creative frame).
 		IBeeSpecies species = this.species;
 
-		TemperatureType actualTemperature = housing.temperature();
-		TemperatureType beeBaseTemperature = species.getTemperature();
-		ToleranceType beeToleranceTemperature = this.genome.getActiveValue(BeeChromosomes.TEMPERATURE_TOLERANCE);
+		if (!beeModifier.isClimateFullyTolerant()) {
+			TemperatureType actualTemperature = housing.temperature();
+			TemperatureType beeBaseTemperature = species.getTemperature();
+			ToleranceType beeToleranceTemperature = this.genome.getActiveValue(BeeChromosomes.TEMPERATURE_TOLERANCE);
 
-		if (!ClimateHelper.isWithinLimits(actualTemperature, beeBaseTemperature, beeToleranceTemperature)) {
-			if (beeBaseTemperature.ordinal() > actualTemperature.ordinal()) {
-				errorStates.add(ForestryError.TOO_COLD);
-			} else {
-				errorStates.add(ForestryError.TOO_HOT);
+			if (!ClimateHelper.isWithinLimits(actualTemperature, beeBaseTemperature, beeToleranceTemperature)) {
+				if (beeBaseTemperature.ordinal() > actualTemperature.ordinal()) {
+					errorStates.add(ForestryError.TOO_COLD);
+				} else {
+					errorStates.add(ForestryError.TOO_HOT);
+				}
 			}
-		}
 
-		HumidityType actualHumidity = housing.humidity();
-		HumidityType beeBaseHumidity = species.getHumidity();
-		ToleranceType beeToleranceHumidity = this.genome.getActiveValue(BeeChromosomes.HUMIDITY_TOLERANCE);
+			HumidityType actualHumidity = housing.humidity();
+			HumidityType beeBaseHumidity = species.getHumidity();
+			ToleranceType beeToleranceHumidity = this.genome.getActiveValue(BeeChromosomes.HUMIDITY_TOLERANCE);
 
-		if (!ClimateHelper.isWithinLimits(actualHumidity, beeBaseHumidity, beeToleranceHumidity)) {
-			if (beeBaseHumidity.ordinal() > actualHumidity.ordinal()) {
-				errorStates.add(ForestryError.TOO_ARID);
-			} else {
-				errorStates.add(ForestryError.TOO_HUMID);
+			if (!ClimateHelper.isWithinLimits(actualHumidity, beeBaseHumidity, beeToleranceHumidity)) {
+				if (beeBaseHumidity.ordinal() > actualHumidity.ordinal()) {
+					errorStates.add(ForestryError.TOO_ARID);
+				} else {
+					errorStates.add(ForestryError.TOO_HUMID);
+				}
 			}
 		}
 

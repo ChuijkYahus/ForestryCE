@@ -113,5 +113,15 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 		public boolean isHellish() {
 			return true;
 		}
+
+		@Override
+		public boolean providesFlowers() {
+			return true;
+		}
+
+		@Override
+		public boolean isClimateFullyTolerant() {
+			return true;
+		}
 	}
 }
