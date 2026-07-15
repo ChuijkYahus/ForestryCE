@@ -16,6 +16,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -312,10 +314,10 @@ public class BeeEffectSystemTest {
 	}
 
 	/**
-	 * AGGRESSIVE and MISANTHROPE are generalized into the {@code forestry:damage_entities} primitive: both deal 4
-	 * damage with armor scaling and are non-combinable, differing only by damage type and target filter (MISANTHROPE
-	 * hits players only). The type is registered, both built-ins resolve to a {@link DamageBeeEffect}, and the bees
-	 * that carry them (SINISTER/AGGRESSIVE, ENDED/MISANTHROPE) resolve their genome effect to the datapack instance.
+	 * AGGRESSIVE, MISANTHROPE and HEROIC are generalized into the {@code forestry:damage_entities} primitive,
+	 * differing only by damage, armor scaling, damage type and target filter. The type is registered, all three
+	 * built-ins are datapack-defined, and the bees that carry them (SINISTER/AGGRESSIVE, ENDED/MISANTHROPE,
+	 * HEROIC/HEROIC) resolve their genome effect to the datapack instance.
 	 */
 	@GameTest(template = "empty")
 	public static void damageEntitiesBuiltinsAreDatapackDefined(GameTestHelper helper) {
@@ -324,35 +326,66 @@ public class BeeEffectSystemTest {
 			return;
 		}
 		IBeeSpeciesType beeType = SpeciesUtil.BEE_TYPE.get();
-		for (ResourceLocation id : new ResourceLocation[]{ForestryBeeEffects.AGGRESSIVE, ForestryBeeEffects.MISANTHROPE}) {
+		for (ResourceLocation id : new ResourceLocation[]{
+			ForestryBeeEffects.AGGRESSIVE, ForestryBeeEffects.MISANTHROPE, ForestryBeeEffects.HEROIC
+		}) {
 			if (!(beeType.getBeeEffect(id) instanceof DamageBeeEffect)) {
 				helper.fail("datapack-defined built-in " + id + " did not resolve to a DamageBeeEffect");
 				return;
 			}
 		}
-		// AGGRESSIVE and MISANTHROPE are non-combinable; the code default for damage_entities is combinable, so the
-		// migrated built-ins must keep that flag off (the JSON sets "combinable": false).
-		if (beeType.getBeeEffect(ForestryBeeEffects.AGGRESSIVE).isCombinable()
-			|| beeType.getBeeEffect(ForestryBeeEffects.MISANTHROPE).isCombinable()) {
-			helper.fail("AGGRESSIVE/MISANTHROPE must resolve as non-combinable");
+		// All three are non-combinable; the code default for damage_entities is combinable, so the migrated built-ins
+		// must keep that flag off (the JSON sets "combinable": false).
+		for (ResourceLocation id : new ResourceLocation[]{
+			ForestryBeeEffects.AGGRESSIVE, ForestryBeeEffects.MISANTHROPE, ForestryBeeEffects.HEROIC
+		}) {
+			if (beeType.getBeeEffect(id).isCombinable()) {
+				helper.fail(id + " must resolve as non-combinable");
+				return;
+			}
+		}
+		// HEROIC is the migration that needed requires_working exposed: it only fires for a working queen.
+		if (!(beeType.getBeeEffect(ForestryBeeEffects.HEROIC) instanceof DamageBeeEffect heroic)
+			|| !heroic.settings().requiresWorking() || heroic.settings().dominant() || heroic.getThrottle() != 40) {
+			helper.fail("HEROIC did not preserve its throttle settings through the datapack migration");
 			return;
 		}
 		if (!(effectOf(ForestryBeeSpecies.SINISTER) instanceof DamageBeeEffect)
-			|| !(effectOf(ForestryBeeSpecies.ENDED) instanceof DamageBeeEffect)) {
-			helper.fail("Sinister/Ended bees did not resolve their genome effect to the datapack DamageBeeEffect");
+			|| !(effectOf(ForestryBeeSpecies.ENDED) instanceof DamageBeeEffect)
+			|| !(effectOf(ForestryBeeSpecies.HEROIC) instanceof DamageBeeEffect)) {
+			helper.fail("Sinister/Ended/Heroic bees did not resolve their genome effect to the datapack DamageBeeEffect");
 			return;
 		}
 
-		// The custom damage type and players-only target filter survive the dispatch codec (built-ins set them; a
-		// bare damage_entities effect omits them, defaulting to minecraft:generic / all living entities).
+		// The damage type and target filter survive the dispatch codec. `target` accepts the class-based builtins and
+		// an entity-type tag; MONSTERS exists as a builtin because Monster is a class, so it catches modded monsters
+		// and no vanilla entity-type tag is equivalent.
 		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
-		DamageBeeEffect misanthrope = new DamageBeeEffect(true, 4f, true, 20, 1.0f, CoreDamageTypes.MISANTHROPE, true, false);
+		DamageBeeEffect misanthrope = new DamageBeeEffect(new ThrottleSettings(true, 20, false, false), 4f, true, 1.0f,
+			CoreDamageTypes.MISANTHROPE, DamageBeeEffect.Target.Builtin.PLAYERS);
 		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, misanthrope).getOrThrow();
-		if (!json.getAsJsonObject().get("players_only").getAsBoolean()
+		if (!json.getAsJsonObject().get("target").getAsString().equals("players")
 			|| !json.getAsJsonObject().get("damage_type").getAsString().equals("forestry:misanthrope")
 			|| json.getAsJsonObject().get("combinable").getAsBoolean()
 			|| !(IBeeEffect.CODEC.parse(ops, json).getOrThrow() instanceof DamageBeeEffect)) {
-			helper.fail("damage_entities damage_type/players_only/combinable did not round-trip through IBeeEffect.CODEC");
+			helper.fail("damage_entities damage_type/target/combinable did not round-trip through IBeeEffect.CODEC: " + json);
+			return;
+		}
+		// The default target is every living entity and stays out of the JSON.
+		JsonElement aggressive = IBeeEffect.CODEC.encodeStart(ops, new DamageBeeEffect(new ThrottleSettings(true, 40, false, false),
+			4f, true, 1.0f, CoreDamageTypes.AGGRESSIVE, DamageBeeEffect.Target.Builtin.ALL)).getOrThrow();
+		if (aggressive.getAsJsonObject().has("target")) {
+			helper.fail("damage_entities emitted the defaulted target: " + aggressive);
+			return;
+		}
+		// The tag branch round-trips too.
+		DamageBeeEffect tagged = new DamageBeeEffect(new ThrottleSettings(true, 40, false, true), 1f, false, 1.0f,
+			DamageTypes.GENERIC, new DamageBeeEffect.Target.TagTarget(EntityTypeTags.SKELETONS));
+		JsonElement taggedJson = IBeeEffect.CODEC.encodeStart(ops, tagged).getOrThrow();
+		if (!taggedJson.getAsJsonObject().getAsJsonObject("target").get("tag").getAsString().equals("#minecraft:skeletons")
+			|| !(IBeeEffect.CODEC.parse(ops, taggedJson).getOrThrow() instanceof DamageBeeEffect decodedTag)
+			|| !(decodedTag.target() instanceof DamageBeeEffect.Target.TagTarget)) {
+			helper.fail("damage_entities tag target did not round-trip: " + taggedJson);
 			return;
 		}
 

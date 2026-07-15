@@ -20,6 +20,7 @@ import forestry.apiculture.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.genetics.effects.DamageBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
+import forestry.apiculture.genetics.effects.ThrottleSettings;
 import forestry.core.damage.CoreDamageTypes;
 import forestry.core.genetics.GeneticsReloadHandler;
 
@@ -65,10 +66,11 @@ public class BeeEffectProvider implements DataProvider {
 		// The two queen-aging builtins, sharing one forestry:aging primitive and differing only by the aging flag.
 		add(ForestryBeeEffects.REJUVENATION, new AgingBeeEffect(false, false));
 		add(ForestryBeeEffects.CHRONOPHAGE, new AgingBeeEffect(false, true));
-		// The two area-damage builtins, expressed through the forestry:damage_entities primitive: 4 damage with
-		// armor scaling (-1 per apiarist piece), non-combinable, differing only by damage type and target filter.
-		add(ForestryBeeEffects.AGGRESSIVE, new DamageBeeEffect(true, 4f, true, 40, 1.0f, CoreDamageTypes.AGGRESSIVE, false, false));
-		add(ForestryBeeEffects.MISANTHROPE, new DamageBeeEffect(true, 4f, true, 20, 1.0f, CoreDamageTypes.MISANTHROPE, true, false));
+		// The area-damage builtins, expressed through the forestry:damage_entities primitive, differing only by damage,
+		// armor scaling, damage type and target filter.
+		add(ForestryBeeEffects.AGGRESSIVE, new DamageBeeEffect(new ThrottleSettings(true, 40, false, false), 4f, true, 1.0f, CoreDamageTypes.AGGRESSIVE, DamageBeeEffect.Target.Builtin.ALL));
+		add(ForestryBeeEffects.MISANTHROPE, new DamageBeeEffect(new ThrottleSettings(true, 20, false, false), 4f, true, 1.0f, CoreDamageTypes.MISANTHROPE, DamageBeeEffect.Target.Builtin.PLAYERS));
+		add(ForestryBeeEffects.HEROIC, new DamageBeeEffect(new ThrottleSettings(false, 40, true, false), 2f, false, 1.0f, CoreDamageTypes.HEROIC, DamageBeeEffect.Target.Builtin.MONSTERS));
 	}
 
 	protected void add(ResourceLocation id, IBeeEffect effect) {

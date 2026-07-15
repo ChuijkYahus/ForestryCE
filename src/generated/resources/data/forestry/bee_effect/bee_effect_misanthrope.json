@@ -3,6 +3,6 @@
   "combinable": false,
   "damage": 4.0,
   "damage_type": "forestry:misanthrope",
-  "players_only": true,
+  "target": "players",
   "throttle": 20
 }
