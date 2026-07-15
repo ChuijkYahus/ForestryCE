@@ -12,6 +12,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
@@ -30,6 +31,7 @@ import forestry.apiculture.genetics.effects.DamageBeeEffect;
 import forestry.apiculture.genetics.effects.LightningBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
+import forestry.apiculture.genetics.effects.ThrottleSettings;
 import forestry.core.damage.CoreDamageTypes;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.utils.SpeciesUtil;
@@ -281,6 +283,70 @@ public class BeeEffectSystemTest {
 			|| json.getAsJsonObject().get("combinable").getAsBoolean()
 			|| !(IBeeEffect.CODEC.parse(ops, json).getOrThrow() instanceof DamageBeeEffect)) {
 			helper.fail("damage_entities damage_type/players_only/combinable did not round-trip through IBeeEffect.CODEC");
+			return;
+		}
+
+		helper.succeed();
+	}
+
+	/**
+	 * Every {@code ThrottledBeeEffect}-derived primitive exposes the four common fields through
+	 * {@link ThrottleSettings}, so a pack can retune them. Proven on {@code apply_potion} and {@code resurrect}.
+	 */
+	@GameTest(template = "empty")
+	public static void throttleSettingsRoundTrip(GameTestHelper helper) {
+		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
+
+		ThrottleSettings tuned = new ThrottleSettings(false, 50, false, true);
+		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, new PotionBeeEffect(tuned, MobEffects.REGENERATION, 100, 1.0f)).getOrThrow();
+		if (json.getAsJsonObject().get("throttle").getAsInt() != 50
+			|| json.getAsJsonObject().get("requires_working").getAsBoolean()
+			|| !json.getAsJsonObject().get("combinable").getAsBoolean()
+			|| json.getAsJsonObject().get("dominant").getAsBoolean()) {
+			helper.fail("apply_potion did not emit the ThrottleSettings fields: " + json);
+			return;
+		}
+		if (!(IBeeEffect.CODEC.parse(ops, json).getOrThrow() instanceof PotionBeeEffect decoded)
+			|| !decoded.settings().equals(tuned)) {
+			helper.fail("apply_potion did not decode back to the tuned ThrottleSettings");
+			return;
+		}
+
+		ThrottleSettings resurrectTuned = new ThrottleSettings(false, 7, false, false);
+		JsonElement resurrectJson = IBeeEffect.CODEC.encodeStart(ops,
+			new ResurrectionBeeEffect(resurrectTuned, ResurrectionBeeEffect.getReanimationList())).getOrThrow();
+		if (!(IBeeEffect.CODEC.parse(ops, resurrectJson).getOrThrow() instanceof ResurrectionBeeEffect decodedResurrect)
+			|| !decodedResurrect.settings().equals(resurrectTuned)) {
+			helper.fail("resurrect did not round-trip its ThrottleSettings");
+			return;
+		}
+
+		helper.succeed();
+	}
+
+	/**
+	 * Each primitive's {@link ThrottleSettings} defaults are its historical hardcoded values, so an effect built the
+	 * way {@code BeeEffectProvider} builds the built-ins emits none of the four fields it did not already emit. This
+	 * is what keeps the generated JSON for the pre-existing built-ins unchanged.
+	 */
+	@GameTest(template = "empty")
+	public static void throttleSettingsDefaultsStayOutOfJson(GameTestHelper helper) {
+		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
+
+		// BEATIFIC, verbatim from BeeEffectProvider: dominant=false is the only non-default of the four.
+		JsonElement potion = IBeeEffect.CODEC.encodeStart(ops, new PotionBeeEffect(false, MobEffects.REGENERATION, 100)).getOrThrow();
+		if (potion.getAsJsonObject().has("throttle") || potion.getAsJsonObject().has("requires_working")
+			|| potion.getAsJsonObject().has("combinable")) {
+			helper.fail("apply_potion emitted a defaulted ThrottleSettings field: " + potion);
+			return;
+		}
+
+		// REANIMATION, verbatim from BeeEffectProvider: all four are defaults.
+		JsonElement resurrect = IBeeEffect.CODEC.encodeStart(ops,
+			new ResurrectionBeeEffect(true, 40, ResurrectionBeeEffect.getReanimationList())).getOrThrow();
+		if (resurrect.getAsJsonObject().has("throttle") || resurrect.getAsJsonObject().has("requires_working")
+			|| resurrect.getAsJsonObject().has("combinable") || resurrect.getAsJsonObject().has("dominant")) {
+			helper.fail("resurrect emitted a defaulted ThrottleSettings field: " + resurrect);
 			return;
 		}
 

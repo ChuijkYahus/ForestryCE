@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.core.render.ParticleRender;
@@ -34,10 +33,9 @@ public class PotionBeeEffect extends ThrottledBeeEffect {
 	 * usual apiarist-armor damage scaling for harmful effects.
 	 */
 	public static final MapCodec<PotionBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-		Codec.BOOL.optionalFieldOf("dominant", true).forGetter(IBeeEffect::isDominant),
+		ThrottleSettings.codec(200, true, false).forGetter(ThrottledBeeEffect::settings),
 		BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("effect").forGetter(effect -> effect.potion),
 		Codec.INT.fieldOf("duration").forGetter(effect -> effect.duration),
-		Codec.INT.optionalFieldOf("throttle", 200).forGetter(ThrottledBeeEffect::getThrottle),
 		Codec.floatRange(0f, 1f).optionalFieldOf("chance", 1.0f).forGetter(effect -> effect.chance)
 	).apply(instance, PotionBeeEffect::new));
 
@@ -50,8 +48,13 @@ public class PotionBeeEffect extends ThrottledBeeEffect {
 		this(dominant, potion, duration, 200, 1.0f);
 	}
 
+	/** Kept for {@code AscensionBeeEffect} and {@code PotionBeeEffectExclusive}, which are code-only. */
 	public PotionBeeEffect(boolean dominant, Holder<MobEffect> potion, int duration, int throttle, float chance) {
-		super(dominant, throttle, true, false);
+		this(new ThrottleSettings(dominant, throttle, true, false), potion, duration, chance);
+	}
+
+	public PotionBeeEffect(ThrottleSettings settings, Holder<MobEffect> potion, int duration, float chance) {
+		super(settings);
 		this.potion = potion;
 		this.duration = duration;
 		this.chance = chance;

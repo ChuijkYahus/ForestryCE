@@ -37,15 +37,18 @@ import forestry.core.utils.ItemStackUtil;
  */
 public class ResurrectionBeeEffect extends ThrottledBeeEffect {
 	public static final MapCodec<ResurrectionBeeEffect> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-		Codec.BOOL.optionalFieldOf("dominant", true).forGetter(IBeeEffect::isDominant),
-		Codec.INT.optionalFieldOf("throttle", 40).forGetter(ThrottledBeeEffect::getThrottle),
+		ThrottleSettings.codec(40, true, true).forGetter(ThrottledBeeEffect::settings),
 		Resurrectable.CODEC.listOf().fieldOf("entries").forGetter(effect -> effect.resurrectables)
 	).apply(instance, ResurrectionBeeEffect::new));
 
 	private final List<Resurrectable> resurrectables;
 
 	public ResurrectionBeeEffect(boolean dominant, int throttle, List<Resurrectable> resurrectables) {
-		super(dominant, throttle, true, true);
+		this(new ThrottleSettings(dominant, throttle, true, true), resurrectables);
+	}
+
+	public ResurrectionBeeEffect(ThrottleSettings settings, List<Resurrectable> resurrectables) {
+		super(settings);
 		// Copied into a mutable list: doEffectThrottled shuffles it in place, and a codec-decoded list is immutable.
 		this.resurrectables = new ArrayList<>(resurrectables);
 	}
