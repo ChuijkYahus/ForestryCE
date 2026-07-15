@@ -1,10 +1,13 @@
 package forestry.gametest;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -12,7 +15,11 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
@@ -24,14 +31,15 @@ import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
+import forestry.api.core.TemperatureType;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.genetics.BeeEffectManager;
 import forestry.apiculture.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.genetics.effects.DamageBeeEffect;
-import forestry.apiculture.genetics.effects.LightningBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.apiculture.genetics.effects.ThrottleSettings;
+import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
 import forestry.core.damage.CoreDamageTypes;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.utils.SpeciesUtil;
@@ -76,24 +84,79 @@ public class BeeEffectSystemTest {
 	public static void effectDefinitionRoundTrips(GameTestHelper helper) {
 		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
 
-		// { "type": "forestry:strike_lightning", "throttle": 30, "chance": 0.34 }
-		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, new LightningBeeEffect(true, 30, 0.34f)).getOrThrow();
-		IBeeEffect fromJson = IBeeEffect.CODEC.parse(ops, json).getOrThrow();
-		if (!(fromJson instanceof LightningBeeEffect lightning)) {
-			helper.fail("strike_lightning did not decode to LightningBeeEffect (got " + fromJson.getClass().getSimpleName() + ")");
+		TransformBlockBeeEffect original = new TransformBlockBeeEffect(
+			new ThrottleSettings(false, 30, true, false),
+			List.of(new TransformBlockBeeEffect.Transform(
+				BuiltInRegistries.BLOCK.getOrCreateTag(BlockTags.DIRT),
+				new TransformBlockBeeEffect.To.Fixed(Blocks.COARSE_DIRT.defaultBlockState()),
+				true)),
+			10, 0.34f, Optional.of(TemperatureType.NORMAL));
+
+		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, original).getOrThrow();
+		if (!json.getAsJsonObject().get("max_temperature").getAsString().equals("normal")) {
+			helper.fail("transform_block did not encode max_temperature as a lowercase name: " + json);
 			return;
 		}
-		if (lightning.getThrottle() != 30 || !lightning.isDominant()) {
-			helper.fail("strike_lightning parameters not preserved through JSON (throttle=" + lightning.getThrottle() + ", dominant=" + lightning.isDominant() + ")");
+		IBeeEffect fromJson = IBeeEffect.CODEC.parse(ops, json).getOrThrow();
+		if (!(fromJson instanceof TransformBlockBeeEffect transform)) {
+			helper.fail("transform_block did not decode to TransformBlockBeeEffect (got " + fromJson.getClass().getSimpleName() + ")");
+			return;
+		}
+		if (transform.getThrottle() != 30 || transform.isDominant() || transform.attempts() != 10
+			|| !transform.maxTemperature().equals(Optional.of(TemperatureType.NORMAL))) {
+			helper.fail("transform_block parameters not preserved through JSON: " + json);
+			return;
+		}
+		TransformBlockBeeEffect.Transform decodedRule = transform.transforms().getFirst();
+		if (!decodedRule.requiresAirAbove()
+			|| !Blocks.DIRT.defaultBlockState().is(decodedRule.from())
+			|| !(decodedRule.to() instanceof TransformBlockBeeEffect.To.Fixed fixed)
+			|| !fixed.state().is(Blocks.COARSE_DIRT)) {
+			helper.fail("transform_block transform rule not preserved through JSON: " + json);
 			return;
 		}
 
 		StreamCodec<RegistryFriendlyByteBuf, IBeeEffect> streamCodec = ByteBufCodecs.fromCodecWithRegistries(IBeeEffect.CODEC);
 		RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), helper.getLevel().registryAccess());
-		streamCodec.encode(buf, new LightningBeeEffect(false, 42, 0.5f));
+		streamCodec.encode(buf, original);
 		IBeeEffect fromBuf = streamCodec.decode(buf);
-		if (!(fromBuf instanceof LightningBeeEffect decoded) || decoded.getThrottle() != 42 || decoded.isDominant()) {
-			helper.fail("strike_lightning did not survive the network stream codec round-trip");
+		if (!(fromBuf instanceof TransformBlockBeeEffect decoded) || decoded.getThrottle() != 30 || decoded.attempts() != 10) {
+			helper.fail("transform_block did not survive the network stream codec round-trip");
+			return;
+		}
+
+		helper.succeed();
+	}
+
+	/**
+	 * The identity guard's decision function: {@code To.apply} returns the state it was given when the transform is a
+	 * no-op, which is exactly what {@code doEffectThrottled} branches on to skip the write. This subsumes SIFTER's
+	 * coarse-dirt exclusion (coarse dirt is in {@code #minecraft:dirt}, so the tag matches and only the identity check
+	 * stops the rewrite) and GLOW_BERRY_GROW's already-berried check.
+	 */
+	@GameTest(template = "empty")
+	public static void transformIdentityGuardSkipsNoOps(GameTestHelper helper) {
+		BlockState coarseDirt = Blocks.COARSE_DIRT.defaultBlockState();
+		if (!coarseDirt.is(BuiltInRegistries.BLOCK.getOrCreateTag(BlockTags.DIRT))) {
+			helper.fail("#minecraft:dirt no longer contains coarse_dirt; SIFTER's identity guard assumption is void");
+			return;
+		}
+		if (new TransformBlockBeeEffect.To.Fixed(coarseDirt).apply(coarseDirt) != coarseDirt) {
+			helper.fail("Fixed.apply did not return the identical state for a coarse dirt no-op");
+			return;
+		}
+
+		BlockState berried = Blocks.CAVE_VINES.defaultBlockState().setValue(BlockStateProperties.BERRIES, true);
+		TransformBlockBeeEffect.To setBerries = new TransformBlockBeeEffect.To.SetProperties(Map.of("berries", "true"));
+		if (setBerries.apply(berried) != berried) {
+			helper.fail("SetProperties.apply did not return the identical state for an already-berried vine");
+			return;
+		}
+		// ...and it is a real mutation on an unberried vine, preserving the vine's other properties.
+		BlockState bare = Blocks.CAVE_VINES.defaultBlockState().setValue(BlockStateProperties.AGE_25, 7);
+		BlockState grown = setBerries.apply(bare);
+		if (grown == bare || !grown.getValue(BlockStateProperties.BERRIES) || grown.getValue(BlockStateProperties.AGE_25) != 7) {
+			helper.fail("SetProperties.apply did not set berries while preserving the vine's other properties");
 			return;
 		}
 
@@ -109,11 +172,18 @@ public class BeeEffectSystemTest {
 	public static void datapackEffectsMergeOntoBuiltins(GameTestHelper helper) {
 		IBeeSpeciesType beeType = SpeciesUtil.BEE_TYPE.get();
 		Map<ResourceLocation, IBeeEffect> original = BeeEffectManager.INSTANCE.getEffects();
-		ResourceLocation testId = ForestryConstants.forestry("gametest_lightning");
+		ResourceLocation testId = ForestryConstants.forestry("gametest_transform");
+		IBeeEffect testEffect = new TransformBlockBeeEffect(
+			new ThrottleSettings(true, 30, false, false),
+			List.of(new TransformBlockBeeEffect.Transform(
+				BuiltInRegistries.BLOCK.getOrCreateTag(BlockTags.DIRT),
+				new TransformBlockBeeEffect.To.Fixed(Blocks.COARSE_DIRT.defaultBlockState()),
+				false)),
+			1, 0.34f, Optional.empty());
 		try {
-			GeneticsReloadHandler.rebuildBeeEffects(Map.of(testId, new LightningBeeEffect(true, 30, 0.34f)));
+			GeneticsReloadHandler.rebuildBeeEffects(Map.of(testId, testEffect));
 
-			if (!(beeType.getBeeEffect(testId) instanceof LightningBeeEffect)) {
+			if (!(beeType.getBeeEffect(testId) instanceof TransformBlockBeeEffect)) {
 				helper.fail("datapack effect " + testId + " did not resolve after rebuildBeeEffects");
 				return;
 			}
