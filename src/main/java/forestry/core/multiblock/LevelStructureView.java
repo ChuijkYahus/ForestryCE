@@ -1,5 +1,7 @@
 package forestry.core.multiblock;
 
+import forestry.api.multiblock.IAlvearyComponent;
+import forestry.api.multiblock.IFarmComponent;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.multiblock.AlvearyPattern;
 import forestry.core.multiblock.pattern.StructurePos;
@@ -7,6 +9,8 @@ import forestry.core.multiblock.pattern.StructureView;
 import forestry.farming.features.FarmingTiles;
 import forestry.farming.multiblock.FarmPattern;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -33,8 +37,9 @@ import java.util.Map;
  * {@code "alveary_plain"}), and every farm member registers without the {@code "farm_"} prefix
  * ({@code "plain"}, {@code "gearbox"}, …). {@link #typeIdFor} therefore maps each member
  * {@link BlockEntityType} to the pattern type-id via an explicit table built from the feature holders
- * ({@code ApicultureTiles}/{@code FarmingTiles}). A BE whose type is not a known multiblock member maps
- * to {@code null} (the cell is reported as not-a-component → {@code invalid.interior}).
+ * ({@code ApicultureTiles}/{@code FarmingTiles}), or, for an addon block implementing {@link IAlvearyComponent} /
+ * {@link IFarmComponent}, a generated prefixed id (see {@link #addonComponentTypeId}). A BE that is neither maps to
+ * {@code null} (the cell is reported as not-a-component → {@code invalid.interior}).
  */
 public final class LevelStructureView implements StructureView {
 	private final Level level;
@@ -62,7 +67,7 @@ public final class LevelStructureView implements StructureView {
 		// Component: resolve via the BlockEntity's type. getBlockEntity is safe here because validation
 		// only samples cells it has already confirmed loaded (loaded-shell rule).
 		BlockEntity be = this.level.getBlockEntity(blockPos);
-		String componentTypeId = be == null ? null : typeIdFor(be.getType());
+		String componentTypeId = be == null ? null : typeIdFor(be);
 		boolean isComponent = componentTypeId != null;
 
 		BlockState state = this.level.getBlockState(blockPos);
@@ -83,13 +88,31 @@ public final class LevelStructureView implements StructureView {
 	private static volatile Map<BlockEntityType<?>, String> typeIds;
 
 	@Nullable
-	private static String typeIdFor(BlockEntityType<?> type) {
+	public static String typeIdFor(BlockEntity be) {
 		Map<BlockEntityType<?>, String> map = typeIds;
 		if (map == null) {
 			map = buildTypeIds();
 			typeIds = map;
 		}
-		return map.get(type);
+		String mapped = map.get(be.getType());
+		if (mapped != null) {
+			return mapped;
+		}
+		// Addon components are recognised by implementing the public IAlvearyComponent / IFarmComponent interface.
+		if (be instanceof IAlvearyComponent<?>) {
+			return addonComponentTypeId(be, AlvearyPattern.PREFIX);
+		}
+		if (be instanceof IFarmComponent<?>) {
+			return addonComponentTypeId(be, FarmPattern.PREFIX);
+		}
+		return null;
+	}
+
+	/** @return a machine-prefixed type id for an addon component, unique per block-entity type (never a reserved {@code *_plain}/{@code *_gearbox} role). */
+	public static String addonComponentTypeId(BlockEntity be, String machinePrefix) {
+		ResourceLocation key = BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(be.getType());
+		String suffix = key == null ? "addon" : key.getNamespace() + "_" + key.getPath();
+		return machinePrefix + suffix;
 	}
 
 	private static synchronized Map<BlockEntityType<?>, String> buildTypeIds() {
