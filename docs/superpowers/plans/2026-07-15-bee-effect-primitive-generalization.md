@@ -557,9 +557,9 @@ import net.minecraft.world.level.block.state.properties.Property;
  * The {@code forestry:transform_block} primitive: samples {@code attempts} positions in the housing's territory and
  * rewrites every sampled block matching a transform rule.
  * <p>
- * Sampling uses {@link Bee#getParticleArea} rather than {@link ThrottledBeeEffect#getRandomPositionInRange}: the
- * built-ins expressed through this primitive are ground-targeting, and the symmetric-box helper would silently make
- * them far more effective.
+ * Sampling uses {@link Bee#getParticleArea}, which is where the built-ins expressed through this primitive have always
+ * sampled from. They are ground-targeting, so a symmetric box centered on the housing would silently make them far
+ * more effective.
  */
 public class TransformBlockBeeEffect extends ThrottledBeeEffect {
 	/** The state a transform writes, given the state currently at the sampled position. */
