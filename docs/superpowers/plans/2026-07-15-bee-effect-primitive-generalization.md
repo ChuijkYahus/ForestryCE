@@ -22,6 +22,15 @@
   - Compile: `./gradlew compileJava compileTestJava`
   - Datagen: `./gradlew runData`
   - GameTests: `./gradlew runGameTestServer`
+- **This branch has a pre-existing red bar. `runGameTestServer` exits non-zero before this work starts.**
+  `everyallelevaluehasatranslation` and `defaultgenomesmatchbaseline` both fail on commit `a2dabdccf` ("Move the
+  base taxonomy to datapack JSON"), which renamed the bee species IDs (`forestry:bee_abyssal` → `forestry:abyssal`)
+  without updating `en_us.json` or regenerating `src/test/resources/forestry/gametest/genome-baseline.txt`. That
+  commit's own message concedes the baseline diff is non-zero "modulo the unrelated id rename".
+  **These two failures are out of scope — do not fix them, and do not treat them as a regression.**
+  The real gate for every task here is: **`BeeEffectSystemTest` is fully green, and the failure list is exactly
+  those two tests and no others.** Wherever a task step says "Expected: BUILD SUCCESSFUL" for
+  `runGameTestServer`, read it as that gate.
 
 ## Decisions this plan makes that the spec left open
 
