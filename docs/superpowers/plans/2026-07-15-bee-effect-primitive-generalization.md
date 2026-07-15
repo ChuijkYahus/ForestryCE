@@ -1104,6 +1104,19 @@ Add to `src/test/java/forestry/gametest/BeeEffectSystemTest.java`:
 			}
 		}
 
+		// None of transform_block's codec defaults match what these three effects need — chance in particular
+		// defaults to 0.06, and all three must be always-on. Every migrated effect states chance explicitly, so
+		// assert it: a silent fallback to the default would drop them to ~6% activation and nothing else would notice.
+		for (ResourceLocation id : new ResourceLocation[]{
+			ForestryBeeEffects.SIFTER, ForestryBeeEffects.GLACIAL, ForestryBeeEffects.GLOW_BERRY_GROW
+		}) {
+			float chance = ((TransformBlockBeeEffect) beeType.getBeeEffect(id)).chance();
+			if (chance != 1.0f) {
+				helper.fail(id + " must be always-on, but its chance is " + chance);
+				return;
+			}
+		}
+
 		// SIFTER: dominant, combinable, 550-tick throttle, requires a working queen, one attempt.
 		TransformBlockBeeEffect sifter = (TransformBlockBeeEffect) beeType.getBeeEffect(ForestryBeeEffects.SIFTER);
 		if (!sifter.settings().equals(new ThrottleSettings(true, 550, true, true)) || sifter.attempts() != 1) {
