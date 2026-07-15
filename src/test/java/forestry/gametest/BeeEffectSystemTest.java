@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -357,10 +358,21 @@ public class BeeEffectSystemTest {
 			return;
 		}
 
+		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
+		// The rest of HEROIC's migrated values, pinned against the runtime-resolved datapack instance rather than a
+		// synthetic one, so a wrong BeeEffectProvider entry fails here instead of only in the generated JSON.
+		JsonObject heroicJson = IBeeEffect.CODEC.encodeStart(ops, heroic).getOrThrow().getAsJsonObject();
+		if (heroicJson.get("damage").getAsFloat() != 2.0f
+			|| heroicJson.get("armor_scaling").getAsBoolean()
+			|| !heroicJson.get("damage_type").getAsString().equals("forestry:heroic")
+			|| !heroicJson.get("target").getAsString().equals("monsters")) {
+			helper.fail("HEROIC did not preserve its damage/armor_scaling/damage_type/target through the datapack migration: " + heroicJson);
+			return;
+		}
+
 		// The damage type and target filter survive the dispatch codec. `target` accepts the class-based builtins and
 		// an entity-type tag; MONSTERS exists as a builtin because Monster is a class, so it catches modded monsters
 		// and no vanilla entity-type tag is equivalent.
-		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
 		DamageBeeEffect misanthrope = new DamageBeeEffect(new ThrottleSettings(true, 20, false, false), 4f, true, 1.0f,
 			CoreDamageTypes.MISANTHROPE, DamageBeeEffect.Target.Builtin.PLAYERS);
 		JsonElement json = IBeeEffect.CODEC.encodeStart(ops, misanthrope).getOrThrow();
