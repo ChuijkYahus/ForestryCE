@@ -547,7 +547,8 @@ public class BeeEffectSystemTest {
 			helper.fail("GLOW_BERRY_GROW no longer sets berries on the cave-vine blocks");
 			return;
 		}
-		if (!grow.to().apply(Blocks.CAVE_VINES.defaultBlockState()).getValue(BlockStateProperties.BERRIES)) {
+		if (!grow.to().apply(Blocks.CAVE_VINES.defaultBlockState()).getValue(BlockStateProperties.BERRIES)
+			|| !grow.to().apply(Blocks.CAVE_VINES_PLANT.defaultBlockState()).getValue(BlockStateProperties.BERRIES)) {
 			helper.fail("GLOW_BERRY_GROW's transform did not set berries on a bare cave vine");
 			return;
 		}

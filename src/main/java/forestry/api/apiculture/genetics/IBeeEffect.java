@@ -18,7 +18,7 @@ public interface IBeeEffect extends IEffect {
 	/**
 	 * Dispatch codec for datapack effect definitions ({@code data/<namespace>/forestry/bee_effect/<name>.json}).
 	 * The {@code "type"} field is resolved against {@link ForestryRegistries#BEE_EFFECT_TYPE} to a parameterized
-	 * primitive (apply_potion, spawn_mob, …). Effects are always type-keyed, so there is no plain fallback
+	 * primitive (apply_potion, transform_block, …). Effects are always type-keyed, so there is no plain fallback
 	 * (mirrors {@code MutationConditionTypes#CODEC}). The reloadable {@code BeeEffectManager} decodes each entry
 	 * with this codec and, via {@code GeneticsReloadHandler}, feeds the results into the bee species type's effect
 	 * map before species are (re)built, so a species genome can reference a datapack effect allele by its entry key.
