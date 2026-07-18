@@ -90,7 +90,7 @@ public class BeeEffectSystemTest {
 		TransformBlockBeeEffect original = new TransformBlockBeeEffect(
 			new ThrottleSettings(false, 30, true, false),
 			List.of(new TransformBlockBeeEffect.Transform(
-				BuiltInRegistries.BLOCK.getOrCreateTag(BlockTags.DIRT),
+				new TransformBlockBeeEffect.BlockMatcher.Tag(BlockTags.DIRT),
 				new TransformBlockBeeEffect.To.Fixed(Blocks.COARSE_DIRT.defaultBlockState()),
 				true)),
 			10, 0.34f, Optional.of(TemperatureType.NORMAL));
@@ -112,7 +112,7 @@ public class BeeEffectSystemTest {
 		}
 		TransformBlockBeeEffect.Transform decodedRule = transform.transforms().getFirst();
 		if (!decodedRule.requiresAirAbove()
-			|| !Blocks.DIRT.defaultBlockState().is(decodedRule.from())
+			|| !decodedRule.from().matches(Blocks.DIRT.defaultBlockState())
 			|| !(decodedRule.to() instanceof TransformBlockBeeEffect.To.Fixed fixed)
 			|| !fixed.state().is(Blocks.COARSE_DIRT)) {
 			helper.fail("transform_block transform rule not preserved through JSON: " + json);
@@ -179,7 +179,7 @@ public class BeeEffectSystemTest {
 		IBeeEffect testEffect = new TransformBlockBeeEffect(
 			new ThrottleSettings(true, 30, false, false),
 			List.of(new TransformBlockBeeEffect.Transform(
-				BuiltInRegistries.BLOCK.getOrCreateTag(BlockTags.DIRT),
+				new TransformBlockBeeEffect.BlockMatcher.Tag(BlockTags.DIRT),
 				new TransformBlockBeeEffect.To.Fixed(Blocks.COARSE_DIRT.defaultBlockState()),
 				false)),
 			1, 0.34f, Optional.empty());
@@ -462,6 +462,87 @@ public class BeeEffectSystemTest {
 		if (resurrect.getAsJsonObject().has("throttle") || resurrect.getAsJsonObject().has("requires_working")
 			|| resurrect.getAsJsonObject().has("combinable") || resurrect.getAsJsonObject().has("dominant")) {
 			helper.fail("resurrect emitted a defaulted ThrottleSettings field: " + resurrect);
+			return;
+		}
+
+		helper.succeed();
+	}
+
+	/**
+	 * SIFTER, GLACIAL and GLOW_BERRY_GROW are generalized into the {@code forestry:transform_block} primitive: the
+	 * type is registered, all three built-ins are datapack-defined, and each preserves the throttle settings and the
+	 * knobs that blocked its migration (GLACIAL's temperature ceiling and its 10 attempts; SIFTER's 550-tick throttle).
+	 */
+	@GameTest(template = "empty")
+	public static void transformBlockBuiltinsAreDatapackDefined(GameTestHelper helper) {
+		if (!ForestryRegistries.BEE_EFFECT_TYPE.containsKey(ForestryConstants.forestry("transform_block"))) {
+			helper.fail("transform_block effect type not registered: forestry:transform_block");
+			return;
+		}
+		IBeeSpeciesType beeType = SpeciesUtil.BEE_TYPE.get();
+		for (ResourceLocation id : new ResourceLocation[]{
+			ForestryBeeEffects.SIFTER, ForestryBeeEffects.GLACIAL, ForestryBeeEffects.GLOW_BERRY_GROW
+		}) {
+			if (!(beeType.getBeeEffect(id) instanceof TransformBlockBeeEffect)) {
+				helper.fail("datapack-defined built-in " + id + " did not resolve to a TransformBlockBeeEffect");
+				return;
+			}
+		}
+
+		// None of transform_block's codec defaults match what these three effects need — chance in particular
+		// defaults to 0.06, and all three must be always-on. Every migrated effect states chance explicitly, so
+		// assert it: a silent fallback to the default would drop them to ~6% activation and nothing else would notice.
+		for (ResourceLocation id : new ResourceLocation[]{
+			ForestryBeeEffects.SIFTER, ForestryBeeEffects.GLACIAL, ForestryBeeEffects.GLOW_BERRY_GROW
+		}) {
+			float chance = ((TransformBlockBeeEffect) beeType.getBeeEffect(id)).chance();
+			if (chance != 1.0f) {
+				helper.fail(id + " must be always-on, but its chance is " + chance);
+				return;
+			}
+		}
+
+		// SIFTER: dominant, combinable, 550-tick throttle, requires a working queen, one attempt.
+		TransformBlockBeeEffect sifter = (TransformBlockBeeEffect) beeType.getBeeEffect(ForestryBeeEffects.SIFTER);
+		if (!sifter.settings().equals(new ThrottleSettings(true, 550, true, true)) || sifter.attempts() != 1) {
+			helper.fail("SIFTER did not preserve its settings through the datapack migration: " + sifter.settings());
+			return;
+		}
+		if (!sifter.transforms().getFirst().from().matches(Blocks.DIRT.defaultBlockState())
+			|| !sifter.transforms().getFirst().from().matches(Blocks.GRASS_BLOCK.defaultBlockState())) {
+			helper.fail("SIFTER's from tag no longer matches the dirt blocks it used to sift");
+			return;
+		}
+
+		// GLACIAL: 10 attempts, a NORMAL temperature ceiling, and air required above the water it freezes.
+		TransformBlockBeeEffect glacial = (TransformBlockBeeEffect) beeType.getBeeEffect(ForestryBeeEffects.GLACIAL);
+		if (!glacial.settings().equals(new ThrottleSettings(false, 200, true, false)) || glacial.attempts() != 10
+			|| !glacial.maxTemperature().equals(Optional.of(TemperatureType.NORMAL))) {
+			helper.fail("GLACIAL did not preserve its settings/attempts/temperature ceiling: " + glacial.settings());
+			return;
+		}
+		TransformBlockBeeEffect.Transform freeze = glacial.transforms().getFirst();
+		if (!freeze.requiresAirAbove() || !freeze.from().matches(Blocks.WATER.defaultBlockState())
+			|| !(freeze.to() instanceof TransformBlockBeeEffect.To.Fixed ice) || !ice.state().is(Blocks.ICE)) {
+			helper.fail("GLACIAL no longer freezes water into ice with air above it");
+			return;
+		}
+
+		// GLOW_BERRY_GROW: a property mutation over the cave-vine tag, preserving the vine's other properties.
+		TransformBlockBeeEffect glow = (TransformBlockBeeEffect) beeType.getBeeEffect(ForestryBeeEffects.GLOW_BERRY_GROW);
+		if (!glow.settings().equals(new ThrottleSettings(false, 200, true, true)) || glow.attempts() != 1) {
+			helper.fail("GLOW_BERRY_GROW did not preserve its settings through the datapack migration: " + glow.settings());
+			return;
+		}
+		TransformBlockBeeEffect.Transform grow = glow.transforms().getFirst();
+		if (!grow.from().matches(Blocks.CAVE_VINES.defaultBlockState())
+			|| !grow.from().matches(Blocks.CAVE_VINES_PLANT.defaultBlockState())
+			|| !(grow.to() instanceof TransformBlockBeeEffect.To.SetProperties)) {
+			helper.fail("GLOW_BERRY_GROW no longer sets berries on the cave-vine blocks");
+			return;
+		}
+		if (!grow.to().apply(Blocks.CAVE_VINES.defaultBlockState()).getValue(BlockStateProperties.BERRIES)) {
+			helper.fail("GLOW_BERRY_GROW's transform did not set berries on a bare cave vine");
 			return;
 		}
 

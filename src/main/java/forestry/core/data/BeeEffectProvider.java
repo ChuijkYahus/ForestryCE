@@ -1,26 +1,34 @@
 package forestry.core.data;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import com.google.gson.JsonElement;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.Blocks;
 
 import com.mojang.serialization.JsonOps;
 
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.api.core.TemperatureType;
 import forestry.apiculture.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.genetics.effects.DamageBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.apiculture.genetics.effects.ThrottleSettings;
+import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
 import forestry.core.damage.CoreDamageTypes;
 import forestry.core.genetics.GeneticsReloadHandler;
 
@@ -29,24 +37,28 @@ import forestry.core.genetics.GeneticsReloadHandler;
  * data-driven effect primitives. Mirrors {@link FlowerTypeProvider}: this provider is the single source of truth for
  * the effects it emits &mdash; they are no longer code-registered at runtime (see {@code DefaultForestryPlugin}), so a
  * bee that references one resolves it from this generated JSON, loaded by {@code BeeEffectManager} on datapack
- * (re)load. Encoding needs no registry access: the only registry-backed field is the mob effect, which lives in the
- * static {@code BuiltInRegistries.MOB_EFFECT} and encodes to a plain resource location.
+ * (re)load. Every built-in effect encodes under plain {@code JsonOps} (registry-backed fields either live in static
+ * {@code BuiltInRegistries} or are tag/id references); encoding still goes through {@link RegistryOps} so that addon
+ * subclasses may emit effects referencing datapack registries.
  * <p>
  * Addon mods generate their own effects by subclassing and overriding {@link #addEffects()}, mirroring
  * {@link MutationProvider}.
  */
 public class BeeEffectProvider implements DataProvider {
 	private final PackOutput.PathProvider path;
+	private final CompletableFuture<HolderLookup.Provider> lookupProvider;
 	private final Map<ResourceLocation, IBeeEffect> pending = new LinkedHashMap<>();
 
-	public BeeEffectProvider(PackOutput output) {
+	public BeeEffectProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
 		this.path = output.createPathProvider(PackOutput.Target.DATA_PACK, "bee_effect");
+		this.lookupProvider = lookupProvider;
 	}
 
 	// Collector used by seedLiveBeeEffectsForDatagen: gathers the built-ins via addEffects() without needing a
-	// PackOutput to write to (it never runs the provider). Never call this to write JSON - path is null.
+	// PackOutput to write to (it never runs the provider). Never call this to write JSON - both fields are null.
 	private BeeEffectProvider() {
 		this.path = null;
+		this.lookupProvider = null;
 	}
 
 	/**
@@ -71,6 +83,31 @@ public class BeeEffectProvider implements DataProvider {
 		add(ForestryBeeEffects.AGGRESSIVE, new DamageBeeEffect(new ThrottleSettings(true, 40, false, false), 4f, true, 1.0f, CoreDamageTypes.AGGRESSIVE, DamageBeeEffect.Target.Builtin.ALL));
 		add(ForestryBeeEffects.MISANTHROPE, new DamageBeeEffect(new ThrottleSettings(true, 20, false, false), 4f, true, 1.0f, CoreDamageTypes.MISANTHROPE, DamageBeeEffect.Target.Builtin.PLAYERS));
 		add(ForestryBeeEffects.HEROIC, new DamageBeeEffect(new ThrottleSettings(false, 40, true, false), 2f, false, 1.0f, CoreDamageTypes.HEROIC, DamageBeeEffect.Target.Builtin.MONSTERS));
+		// The three block-transforming builtins, expressed through the forestry:transform_block primitive.
+		add(ForestryBeeEffects.SIFTER, new TransformBlockBeeEffect(
+			new ThrottleSettings(true, 550, true, true),
+			List.of(new TransformBlockBeeEffect.Transform(
+				new TransformBlockBeeEffect.BlockMatcher.Tag(BlockTags.DIRT),
+				new TransformBlockBeeEffect.To.Fixed(Blocks.COARSE_DIRT.defaultBlockState()),
+				false)),
+			1, 1.0f, Optional.empty()));
+		// max_temperature is inclusive, so NORMAL is exactly GLACIAL's "skip when WARM or warmer".
+		add(ForestryBeeEffects.GLACIAL, new TransformBlockBeeEffect(
+			new ThrottleSettings(false, 200, true, false),
+			List.of(new TransformBlockBeeEffect.Transform(
+				new TransformBlockBeeEffect.BlockMatcher.Direct(List.of(Blocks.WATER)),
+				new TransformBlockBeeEffect.To.Fixed(Blocks.ICE.defaultBlockState()),
+				true)),
+			10, 1.0f, Optional.of(TemperatureType.NORMAL)));
+		// The tag narrows this to the two vanilla cave-vine blocks. The old check matched any block carrying the
+		// BERRIES property, including modded ones; that was accidental scope, and a pack can extend the tag.
+		add(ForestryBeeEffects.GLOW_BERRY_GROW, new TransformBlockBeeEffect(
+			new ThrottleSettings(false, 200, true, true),
+			List.of(new TransformBlockBeeEffect.Transform(
+				new TransformBlockBeeEffect.BlockMatcher.Tag(BlockTags.CAVE_VINES),
+				new TransformBlockBeeEffect.To.SetProperties(Map.of("berries", "true")),
+				false)),
+			1, 1.0f, Optional.empty()));
 	}
 
 	protected void add(ResourceLocation id, IBeeEffect effect) {
@@ -93,13 +130,17 @@ public class BeeEffectProvider implements DataProvider {
 
 	@Override
 	public CompletableFuture<?> run(CachedOutput output) {
-		this.pending.clear();
-		addEffects();
-		var futures = this.pending.entrySet().stream().map(entry -> {
-			JsonElement json = IBeeEffect.CODEC.encodeStart(JsonOps.INSTANCE, entry.getValue()).getOrThrow();
-			return DataProvider.saveStable(output, json, this.path.json(entry.getKey()));
-		}).toArray(CompletableFuture[]::new);
-		return CompletableFuture.allOf(futures);
+		return this.lookupProvider.thenCompose(provider -> {
+			RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, provider);
+
+			this.pending.clear();
+			addEffects();
+			var futures = this.pending.entrySet().stream().map(entry -> {
+				JsonElement json = IBeeEffect.CODEC.encodeStart(ops, entry.getValue()).getOrThrow();
+				return DataProvider.saveStable(output, json, this.path.json(entry.getKey()));
+			}).toArray(CompletableFuture[]::new);
+			return CompletableFuture.allOf(futures);
+		});
 	}
 
 	@Override

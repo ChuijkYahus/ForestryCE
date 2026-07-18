@@ -60,7 +60,7 @@ public class Data {
 		generator.addProvider(event.includeServer(), new ForestryFeaturesProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new TaxonProvider(output));
 		generator.addProvider(event.includeServer(), new FlowerTypeProvider(output));
-		generator.addProvider(event.includeServer(), new BeeEffectProvider(output));
+		generator.addProvider(event.includeServer(), new BeeEffectProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new BeeSpeciesProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new TreeSpeciesProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new ButterflySpeciesProvider(output, lookup));

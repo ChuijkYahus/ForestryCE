@@ -246,7 +246,6 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.addVillageBee(ForestryBeeSpecies.VALIANT, true);
 
 		apiculture.registerBeeEffect(ForestryBeeEffects.NONE, new DummyBeeEffect(true));
-		apiculture.registerBeeEffect(ForestryBeeEffects.GLACIAL, new GlacialBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.RADIOACTIVE, new RadioactiveBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.CREEPER, new CreeperBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.IGNITION, new IgnitionBeeEffect());
@@ -256,9 +255,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.REPULSION, new RepulsionBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.FERTILE, new FertileBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.MYCOPHILIC, new FungificationBeeEffect());
-		apiculture.registerBeeEffect(ForestryBeeEffects.SIFTER, new SifterBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.HAKUNA_MATATA, new PotionBeeEffectExclusive(false, ApicultureEffects.HAKUNA_MATATA, 20 * 60 * 3, 100, 1.0f, ApicultureEffects.MATATA));
-		apiculture.registerBeeEffect(ForestryBeeEffects.GLOW_BERRY_GROW, new GlowBerryGrowEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.GUARDIAN, new GuardianBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.PHASING, new PhasingBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.ASCENSION, new AscensionBeeEffect());
