@@ -1,5 +1,6 @@
 package forestry.core.genetics;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
@@ -31,6 +33,7 @@ import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
 import forestry.apiculture.genetics.BeeSpeciesType;
+import forestry.apiimpl.GeneticManager;
 import forestry.apiculture.genetics.FlowerTypeTypes;
 import forestry.arboriculture.TreeSpecies;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
@@ -97,6 +100,25 @@ public final class GeneticsReloadHandler {
 		Map<ResourceLocation, IFlowerType> effective = new LinkedHashMap<>(((BeeSpeciesType) type).getCodeFlowerTypes());
 		effective.putAll(dataDefinitions);
 		((BeeSpeciesType) type).setFlowerTypes(ImmutableMap.copyOf(effective));
+	}
+
+	/**
+	 * Installs the effective bee-effect map into the live bee species type: the code-registered base overlaid by the
+	 * datapack-loaded (or sync-delivered) effects, datapack winning on id. Mirrors {@link #rebuildFlowerTypes}.
+	 */
+	public static void rebuildBeeEffects(Map<ResourceLocation, IBeeEffect> dataDefinitions) {
+		BeeSpeciesType type = (BeeSpeciesType) SpeciesUtil.BEE_TYPE.get();
+		Map<ResourceLocation, IBeeEffect> effective = new LinkedHashMap<>(type.getCodeBeeEffects());
+		effective.putAll(dataDefinitions);
+		type.setBeeEffects(ImmutableMap.copyOf(effective));
+	}
+
+	/**
+	 * Merges the datapack-loaded taxa onto the code-registered taxonomy in the genetic manager. Must run before
+	 * {@link #rebuildSpecies}, because a species' genus is resolved to a taxon as it is projected.
+	 */
+	public static void rebuildTaxa(Collection<TaxonDefinition> taxa) {
+		((GeneticManager) IForestryApi.INSTANCE.getGeneticManager()).applyDatapackTaxa(taxa);
 	}
 
 	/**

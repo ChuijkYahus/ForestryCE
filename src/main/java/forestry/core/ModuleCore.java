@@ -11,7 +11,9 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IPacketRegistry;
 import forestry.apiculture.genetics.BeeSpeciesManager;
+import forestry.apiculture.genetics.BeeEffectManager;
 import forestry.apiculture.genetics.FlowerTypeManager;
+import forestry.apiculture.genetics.TaxonManager;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.arboriculture.loot.GrafterLootModifier;
@@ -103,6 +105,7 @@ public class ModuleCore extends BlankForestryModule {
 		event.register(ForestryRegistries.CIRCUIT);
 		event.register(ForestryRegistries.POSTAL_CARRIER);
 		event.register(ForestryRegistries.SPECIES_TYPE);
+		event.register(ForestryRegistries.BEE_EFFECT_TYPE);
 	}
 
 	private static void onGatherData(net.neoforged.neoforge.data.event.GatherDataEvent event) {
@@ -186,6 +189,15 @@ public class ModuleCore extends BlankForestryModule {
 		// by the other reload listeners below.
 		event.addListener(forestry.apiculture.genetics.FlowerTypeManager.INSTANCE);
 
+		// Load bee effects from the "bee_effect" folder and install the code-base union datapack map into the live bee
+		// species type. Registered before BeeSpeciesManager: species projection resolves each genome's bee_effect
+		// reference via getBeeEffect, so effects must exist first.
+		event.addListener(BeeEffectManager.INSTANCE);
+
+		// Load datapack taxa from the "taxon" folder and merge them onto the code-registered taxonomy. Registered
+		// before BeeSpeciesManager: a species' genus is resolved to a taxon as it is projected, so taxa must exist first.
+		event.addListener(TaxonManager.INSTANCE);
+
 		// Load bee species from the "bee_species" datapack folder and rebuild the live species map from them.
 		// SimpleJsonResourceReloadListener#apply already runs on the game executor (see
 		// SimplePreparableReloadListener#reload: prepare() -> prepBarrier.wait() -> apply() via thenAcceptAsync(...,
@@ -224,12 +236,16 @@ public class ModuleCore extends BlankForestryModule {
 	 */
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
 		FlowerTypeSyncPacket flowerTypePacket = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
+		BeeEffectSyncPacket beeEffectPacket = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getEffects());
+		TaxonSyncPacket taxonPacket = new TaxonSyncPacket(TaxonManager.INSTANCE.getDefinitions());
 		BeeSpeciesSyncPacket beePacket = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
 		TreeSpeciesSyncPacket treePacket = new TreeSpeciesSyncPacket(TreeSpeciesManager.INSTANCE.getDefinitions());
 		ButterflySpeciesSyncPacket butterflyPacket = new ButterflySpeciesSyncPacket(ButterflySpeciesManager.INSTANCE.getDefinitions());
 		event.getRelevantPlayers().forEach(player -> {
-			// Flower types must arrive before species (genome dominance resolution reads IFlowerType).
+			// Flower types, effects and taxa must arrive before species (projection resolves those references).
 			NetworkUtil.sendToPlayer(flowerTypePacket, player);
+			NetworkUtil.sendToPlayer(beeEffectPacket, player);
+			NetworkUtil.sendToPlayer(taxonPacket, player);
 			NetworkUtil.sendToPlayer(beePacket, player);
 			NetworkUtil.sendToPlayer(treePacket, player);
 			NetworkUtil.sendToPlayer(butterflyPacket, player);
@@ -282,6 +298,8 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket::encode, RecipeCachePacket::decode, RecipeCachePacket::handle);
 		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax::encode, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
 		registry.clientbound(PacketIdClient.FLOWER_TYPE_SYNC, FlowerTypeSyncPacket::encode, FlowerTypeSyncPacket::decode, FlowerTypeSyncPacket::handle);
+		registry.clientbound(PacketIdClient.BEE_EFFECT_SYNC, BeeEffectSyncPacket::encode, BeeEffectSyncPacket::decode, BeeEffectSyncPacket::handle);
+		registry.clientbound(PacketIdClient.TAXON_SYNC, TaxonSyncPacket::encode, TaxonSyncPacket::decode, TaxonSyncPacket::handle);
 		registry.clientbound(PacketIdClient.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
 		registry.clientbound(PacketIdClient.TREE_SPECIES_SYNC, TreeSpeciesSyncPacket::encode, TreeSpeciesSyncPacket::decode, TreeSpeciesSyncPacket::handle);
 		registry.clientbound(PacketIdClient.BUTTERFLY_SPECIES_SYNC, ButterflySpeciesSyncPacket::encode, ButterflySpeciesSyncPacket::decode, ButterflySpeciesSyncPacket::handle);
