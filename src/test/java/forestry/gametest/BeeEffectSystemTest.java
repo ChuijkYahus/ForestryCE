@@ -49,7 +49,7 @@ import forestry.core.utils.SpeciesUtil;
 
 /**
  * Behavioral oracle for the data-driven bee effect system ported onto the upstream foundation (migration Module 2).
- * Proves the three invariants of the port: the 14 parameterized effect primitives are registered as serializer types;
+ * Proves the three invariants of the port: the 5 parameterized effect primitives are registered as serializer types;
  * {@link IBeeEffect#CODEC} round-trips a datapack effect definition through both JSON and the network stream codec used
  * by {@code BeeEffectSyncPacket}; and {@code GeneticsReloadHandler.rebuildBeeEffects} merges datapack effects onto the
  * code-registered builtins reloadably (datapack entries resolve, builtins survive, and an empty reload keeps builtins).
@@ -62,19 +62,25 @@ public class BeeEffectSystemTest {
 		return SpeciesUtil.BEE_TYPE.get().getSpecies(speciesId).getDefaultGenome().resolveActive(BeeChromosomes.EFFECT);
 	}
 
-	/** All 14 parameterized primitive serializer types must be registered in the dispatch registry. */
+	/**
+	 * Exactly the five primitives a built-in effect consumes are registered, and no more. A primitive with no built-in
+	 * consumer is addon material: it is speculative surface area that base Forestry pays for in maintenance and that
+	 * no shipped content proves works.
+	 */
 	@GameTest(template = "empty")
 	public static void allEffectPrimitiveTypesRegistered(GameTestHelper helper) {
-		String[] types = {
-			"apply_potion", "spawn_mob", "damage_entities", "feed", "firework", "strike_lightning", "teleport",
-			"entity_force", "bonemeal", "spawn_projectile", "transform_block", "place_block", "fill_fluid", "inject_energy"
-		};
+		String[] types = {"apply_potion", "damage_entities", "transform_block", "resurrect", "aging"};
 		for (String type : types) {
 			ResourceLocation id = ForestryConstants.forestry(type);
 			if (!ForestryRegistries.BEE_EFFECT_TYPE.containsKey(id)) {
 				helper.fail("bee effect primitive type not registered: " + id);
 				return;
 			}
+		}
+		if (ForestryRegistries.BEE_EFFECT_TYPE.size() != types.length) {
+			helper.fail("expected exactly " + types.length + " bee effect primitive types, found "
+				+ ForestryRegistries.BEE_EFFECT_TYPE.size() + ": " + ForestryRegistries.BEE_EFFECT_TYPE.keySet());
+			return;
 		}
 		helper.succeed();
 	}
