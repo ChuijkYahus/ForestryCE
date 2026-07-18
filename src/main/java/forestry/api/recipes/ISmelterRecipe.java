@@ -25,5 +25,5 @@ public interface ISmelterRecipe extends IForestryRecipe {
 	 */
 	ItemStack getOutput();
 
-	boolean matches(int processingTime, List<IngredientStack> in, ItemStack out);
+	boolean matches(int processingTime, List<IngredientStack> in, IngredientStack out);
 }
