@@ -2,7 +2,10 @@
   "parent": "forestry:use_research_note",
   "criteria": {
     "forestry:complete_tree_research": {
-      "trigger": "minecraft:impossible"
+      "conditions": {
+        "percent": 1.0
+      },
+      "trigger": "forestry:arboriculture_research_trigger"
     }
   },
   "display": {

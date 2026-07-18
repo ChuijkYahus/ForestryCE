@@ -1,0 +1,48 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:tag_empty",
+            "tag": "forge:raw_materials/silver"
+          }
+        },
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:tag_empty",
+            "tag": "forge:ingots/electrum"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "forestry:smelter",
+        "inputs": [
+          {
+            "count": 1,
+            "ingredient": {
+              "tag": "forge:raw_materials/gold"
+            }
+          },
+          {
+            "count": 1,
+            "ingredient": {
+              "tag": "forge:raw_materials/silver"
+            }
+          }
+        ],
+        "output": {
+          "count": 2,
+          "ingredient": {
+            "tag": "forge:ingots/electrum"
+          }
+        },
+        "processingTime": 40,
+        "temperature": 0
+      }
+    }
+  ]
+}

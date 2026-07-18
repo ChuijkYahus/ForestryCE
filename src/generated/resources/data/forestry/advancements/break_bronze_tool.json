@@ -1,0 +1,42 @@
+{
+  "parent": "forestry:get_bronze",
+  "criteria": {
+    "forestry:break_bronze_tool": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:broken_axe",
+              "forestry:broken_bronze_pickaxe",
+              "forestry:broken_bronze_shovel",
+              "forestry:broken_hoe",
+              "forestry:broken_sword"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.break_bronze_tool.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "forestry:broken_bronze_pickaxe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.break_bronze_tool.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:break_bronze_tool"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -15,8 +15,10 @@
     }
   ],
   "output": {
-    "Count": 4,
-    "id": "forestry:ingot_bronze"
+    "count": 4,
+    "ingredient": {
+      "tag": "forge:ingots/bronze"
+    }
   },
   "processingTime": 40,
   "temperature": 0

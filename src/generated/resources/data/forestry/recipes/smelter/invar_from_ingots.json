@@ -1,0 +1,48 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:tag_empty",
+            "tag": "forge:ingots/nickel"
+          }
+        },
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:tag_empty",
+            "tag": "forge:ingots/invar"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "forestry:smelter",
+        "inputs": [
+          {
+            "count": 2,
+            "ingredient": {
+              "tag": "forge:ingots/iron"
+            }
+          },
+          {
+            "count": 1,
+            "ingredient": {
+              "tag": "forge:ingots/nickel"
+            }
+          }
+        ],
+        "output": {
+          "count": 3,
+          "ingredient": {
+            "tag": "forge:ingots/invar"
+          }
+        },
+        "processingTime": 40,
+        "temperature": 0
+      }
+    }
+  ]
+}
