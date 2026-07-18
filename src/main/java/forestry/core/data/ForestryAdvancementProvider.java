@@ -13,11 +13,15 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.advancements.ApicultureResearchTrigger;
+import forestry.core.advancements.ArboricultureResearchTrigger;
 import forestry.core.advancements.DiscoverSpeciesTrigger;
 import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.damage.CoreDamageTypes;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
+import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.EnumContainerType;
 import forestry.core.utils.SpeciesUtil;
@@ -49,6 +53,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.ForgeAdvancementProvider;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -166,6 +172,8 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 
 					//Sting Operation
 					//Cannot figure this one out
+					//Probably for the best tbh.
+					//Complete a Raid whilst wearing Apiarist Armor
 					/*Advancement theBeekeeper = advancement()
 						.parent(apiarists_armor)
 						.display(
@@ -210,67 +218,67 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					 * Advancements for finding specific bee species begin here
 					 */
 
-					//I'm Different!
-					//A reference to Portal 2
-					Advancement valiant_bee = makeSimpleAdvancement(
-						"get_valiant_drone",
-						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VALIANT, BeeLifeStage.DRONE),
-						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.VALIANT),
-						bee,
-						writer, FrameType.TASK, true, true, false);
+						//I'm Different!
+						//A reference to Portal 2
+						Advancement valiant_bee = makeSimpleAdvancement(
+							"get_valiant_drone",
+							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VALIANT, BeeLifeStage.DRONE),
+							DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.VALIANT),
+							analyser,
+							writer, FrameType.TASK, true, true, false);
 
-					//Dungeon Flyer
-					//A pun on Dungeon Crawler
-					Advancement steadfast_bee = makeSimpleAdvancement(
-						"get_steadfast_drone",
-						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.STEADFAST, BeeLifeStage.DRONE),
-						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.STEADFAST),
-						bee,
-						writer, FrameType.TASK, true, true, false);
+						//Dungeon Flyer
+						//A pun on Dungeon Crawler
+						Advancement steadfast_bee = makeSimpleAdvancement(
+							"get_steadfast_drone",
+							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.STEADFAST, BeeLifeStage.DRONE),
+							DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.STEADFAST),
+							analyser,
+							writer, FrameType.TASK, true, true, false);
 
-					//What a deal!
-					Advancement monastic_bee = makeSimpleAdvancement(
-						"get_monastic_drone",
-						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.MONASTIC, BeeLifeStage.DRONE),
-						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.MONASTIC),
-						bee,
-						writer, FrameType.TASK, true, true, false);
+						//What a deal!
+						Advancement monastic_bee = makeSimpleAdvancement(
+							"get_monastic_drone",
+							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.MONASTIC, BeeLifeStage.DRONE),
+							DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.MONASTIC),
+							analyser,
+							writer, FrameType.TASK, true, true, false);
 
-					//Yellow-and-Blackbeard
-					//A play on Blackbeard, the pirate
-					Advancement pirate_bee = makeSimpleAdvancement(
-						"get_pirate_drone",
-						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.PIRATE, BeeLifeStage.DRONE),
-						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.PIRATE),
-						bee,
-						writer, FrameType.TASK, true, true, false);
+						//Yellow-and-Blackbeard
+						//A play on Blackbeard, the pirate
+						Advancement pirate_bee = makeSimpleAdvancement(
+							"get_pirate_drone",
+							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.PIRATE, BeeLifeStage.DRONE),
+							DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.PIRATE),
+							analyser,
+							writer, FrameType.TASK, true, true, false);
 
-					//The Land Beefore Time
-					//A play on the land before time, that one movie I've definitely seen.
-					Advancement relic_bee = makeSimpleAdvancement(
-						"get_relic_drone",
-						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.DRONE),
-						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.RELIC),
-						bee,
-						writer, FrameType.TASK, true, true, false);
+						//The Land Beefore Time
+						//A play on the land before time, that one movie I've definitely seen.
+						Advancement relic_bee = makeSimpleAdvancement(
+							"get_relic_drone",
+							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.DRONE),
+							DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.RELIC),
+							analyser,
+							writer, FrameType.TASK, true, true, false);
 
-					//Zombeefication
-					Advancement zombie_bee = makeSimpleAdvancement(
-						"get_zombie_drone",
-						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.ZOMBIFIED, BeeLifeStage.DRONE),
-						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.ZOMBIFIED),
-						bee,
-						writer, FrameType.TASK, true, true, false);
+						//Zombeefication
+						Advancement zombie_bee = makeSimpleAdvancement(
+							"get_zombie_drone",
+							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.ZOMBIFIED, BeeLifeStage.DRONE),
+							DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.ZOMBIFIED),
+							analyser,
+							writer, FrameType.TASK, true, true, false);
 
 
-					//Buzzy Bees!
-					//I couldn't think of anything clever for this, so this is named after the 1.15 update.
-					Advancement bee_bee = makeSimpleAdvancement(
-						"get_bee_drone",
-						SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE),
-						DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.VANILLA),
-						bee,
-						writer, FrameType.TASK, true, true, false);
+						//Buzzy Bees!
+						//I couldn't think of anything clever for this, so this is named after the 1.15 update.
+						Advancement bee_bee = makeSimpleAdvancement(
+							"get_bee_drone",
+							SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE),
+							DiscoverSpeciesTrigger.TriggerInstance.checkDiscovered(ForestryBeeSpecies.VANILLA),
+							analyser,
+							writer, FrameType.TASK, true, true, false);
 
 					/*
 					 * Advancements for finding specific bee species end here
@@ -303,31 +311,31 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 								get_apiary,
 								writer);
 
-							//Eureka
-							Advancement use_research_note = makeSimpleAdvancement(
-								"use_research_note",
-								CoreItems.RESEARCH_NOTE.stack(),
-								InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.RESEARCH_NOTE.get()),
-								get_escritoire,
-								writer);
+								//Eureka
+								//This is supposed to trigger when using a research note but I got lazy.
+								//This does mean you can still get the advancement even if you have 100% research (but not this advancement, somehow)
+								Advancement use_research_note = makeSimpleAdvancement(
+									"use_research_note",
+									CoreItems.RESEARCH_NOTE.stack(),
+									InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.RESEARCH_NOTE.get()),
+									get_escritoire,
+									writer);
 
-							//Master Arborist
-							//Advancement granted manually. No idea how to do that yet.
-							Advancement complete_tree_research = makeSimpleAdvancement(
-								"complete_tree_research",
-								SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.ELM, TreeLifeStage.SAPLING),
-								new ImpossibleTrigger.TriggerInstance(),
-								use_research_note,
-								writer, FrameType.CHALLENGE, true, true, false);
+									//Master Arborist
+									Advancement complete_tree_research = makeSimpleAdvancement(
+										"complete_tree_research",
+										SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.ELM, TreeLifeStage.SAPLING),
+										ArboricultureResearchTrigger.TriggerInstance.checkIfResearchIsGreaterThan(1.0),
+										use_research_note,
+										writer, FrameType.CHALLENGE, true, true, false);
 
-							//Master Apiarist
-							//Advancement granted manually. No idea how to do that yet.
-							Advancement complete_bee_research = makeSimpleAdvancement(
-								"complete_bee_research",
-								SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.IMPERIAL, BeeLifeStage.QUEEN),
-								new ImpossibleTrigger.TriggerInstance(),
-								use_research_note,
-								writer, FrameType.CHALLENGE, true, true, false);
+									//Master Apiarist
+									Advancement complete_bee_research = makeSimpleAdvancement(
+										"complete_bee_research",
+										SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.IMPERIAL, BeeLifeStage.QUEEN),
+										ApicultureResearchTrigger.TriggerInstance.checkIfResearchIsGreaterThan(1.0),
+										use_research_note,
+										writer, FrameType.CHALLENGE, true, true, false);
 
 
 							//I've Been Framed
@@ -394,7 +402,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 								get_grafter,
 								writer);
 
-								/*
+			/*
 								 * Advancements for end-of-line forestry saplings begin here
 								 */
 
@@ -473,7 +481,30 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 								 * Advancements for end-of-line forestry saplings end here
 								 */
 
-						//Honey, I'm Home!
+							//The Fruits of my Labour
+							//The fruits of ones labour is like, the result of all their hard work, yknow?
+							Advancement.Builder fruitAdvancementBuilder = Advancement.Builder.advancement();
+							CoreItems.FRUITS.getItems().forEach(fruit -> {
+								String name = BuiltInRegistries.ITEM.getKey(fruit.asItem()).getPath();
+								fruitAdvancementBuilder.addCriterion(
+									"get_"+name,
+									InventoryChangeTrigger.TriggerInstance.hasItems(fruit)
+								);
+							});
+							Advancement get_all_fruit = fruitAdvancementBuilder.display(
+									Items.APPLE,
+									Component.translatable("advancements.forestry.get_all_fruits.title"),
+									Component.translatable("advancements.forestry.get_all_fruits.description"),
+									null,
+									FrameType.CHALLENGE,
+									true,
+									true,
+									false)
+								.parent(get_forestry_sapling)
+								.save(writer,  ResourceLocation.fromNamespaceAndPath(ForestryConstants.MOD_ID, "get_all_fruits").toString());
+
+
+			//Honey, I'm Home!
 						Advancement.Builder combAdvancementBuilder = Advancement.Builder.advancement();
 						ApicultureItems.BEE_COMBS.getItems().forEach(itemHoneyComb -> {
 							String name = BuiltInRegistries.ITEM.getKey(itemHoneyComb.asItem()).getPath();
@@ -520,7 +551,7 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 				Advancement take_damage_from_clockwork_engine = makeSimpleAdvancement(
 					"take_damage_from_clockwork_engine",
 					EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).stack(),
-					new ImpossibleTrigger.TriggerInstance(),
+					new ImpossibleTrigger.TriggerInstance(), //Could use EntityHurtPlayerInstance but I haven't the patience for that
 					get_engine,
 					writer, FrameType.TASK, true, true, true);
 
@@ -579,51 +610,14 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						bronzed,
 						writer);
 
-						//Green Means Clean!
-						//A line spoken by Woshua from Undertale
-						/*ItemPredicate bucket = ItemPredicate.Builder.item()
-							.of(ForestryFluids.BIOMASS.getBucket())
-							.build();
-
-						CompoundTag biomassFluid = new CompoundTag();
-						biomassFluid.putString("FluidName", "forestry:biomass");
-						biomassFluid.putInt("Amount", 1000);
-
-						CompoundTag biomassTag = new CompoundTag();
-						biomassTag.put("Fluid", biomassFluid);
-
-						ItemPredicate can = ItemPredicate.Builder.item()
-							.of(FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
-							.hasNbt(biomassTag)
-							.build();
-
-						ItemPredicate capsule = ItemPredicate.Builder.item()
-							.of(FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE))
-							.hasNbt(biomassTag)
-							.build();
-
-						ItemPredicate refacCapsule = ItemPredicate.Builder.item()
-							.of(FluidsItems.CONTAINERS.get(EnumContainerType.REFRACTORY))
-							.hasNbt(biomassTag)
-							.build();
-
-						Advancement get_biomass = makeSimpleAdvancement(
-							"get_biomass",
-							ForestryFluids.BIOMASS.getBucket().getDefaultInstance(),
-								new InventoryChangeTrigger.TriggerInstance(
-									ContextAwarePredicate.ANY,
-									MinMaxBounds.Ints.ANY,
-									MinMaxBounds.Ints.ANY,
-									MinMaxBounds.Ints.ANY,
-									new ItemPredicate[]{bucket, can, capsule, refacCapsule}),
-							get_fertiliser,
-							writer);*/
+							//Green Means Clean!
 							//TODO: Allow Biomass cans and capsules and stuff to trigger this too
 							Advancement get_biomass = makeSimpleAdvancement(
 								"get_biomass",
 								ForestryFluids.BIOMASS.getBucket().getDefaultInstance(),
 								InventoryChangeTrigger.TriggerInstance.hasItems(
-									ForestryFluids.BIOMASS.getBucket().asItem()),
+									ForestryFluids.BIOMASS.getBucket().asItem()
+								),
 								get_fertiliser,
 								writer);
 
@@ -664,7 +658,9 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						Advancement get_liquid_honey = makeSimpleAdvancement(
 							"get_liquid_honey",
 							ForestryFluids.HONEY.getBucket().getDefaultInstance(),
-							InventoryChangeTrigger.TriggerInstance.hasItems(ForestryFluids.HONEY.getBucket().asItem()),
+							InventoryChangeTrigger.TriggerInstance.hasItems(
+								ForestryFluids.HONEY.getBucket().asItem()
+							),
 							get_squeezer,
 							writer);
 
@@ -723,6 +719,27 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 						bronzed,
 						writer);
 
+
+					//I Didn't Hear No Bell
+					//This works better if Survivalist's Tools can be fully repaired but AH whatever
+					Advancement break_bronze_tool = makeSimpleAdvancement(
+						"break_bronze_tool",
+						CoreItems.BROKEN_BRONZE_PICKAXE.stack(),
+						InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
+								CoreItems.BROKEN_BRONZE_AXE.item(),
+								CoreItems.BROKEN_BRONZE_PICKAXE.item(),
+								CoreItems.BROKEN_BRONZE_SHOVEL.item(),
+								CoreItems.BROKEN_BRONZE_HOE.item(),
+								CoreItems.BROKEN_BRONZE_SWORD.item()
+							).build()
+						),
+						bronzed,
+						writer,
+						FrameType.TASK,
+						true,
+						true,
+						true);
+
 				//Remember me!
 				/*Advancement get_worktable = makeSimpleAdvancement(
 					"get_worktable",
@@ -735,11 +752,9 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 
 		//Advancements that are missing:
 		// We just got a letter - Open a letter
-		// Down but not out/I didn't hear no bell - break a bronze tool/repair a bronze tool
 		// I've bee-n around - discover all natural hives
 		// Duffman(?) - Brew an alcohol
 		// Bright-eyed and Bushy-tailed - Sleep off drunkeness
-		// The Fruits of my Labour - Collect all different types of fruit
 
 		public ItemPredicate getItemWithNBT(Item item, String key, String value){
 			 return ItemPredicate.Builder.item()

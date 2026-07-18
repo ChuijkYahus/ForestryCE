@@ -1,14 +1,20 @@
 package forestry.apiculture.genetics;
 
+import com.mojang.authlib.GameProfile;
+import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.ISpecies;
+import forestry.core.advancements.ApicultureResearchTrigger;
+import forestry.core.advancements.ArboricultureResearchTrigger;
+import forestry.core.advancements.ForestryAdvancementTriggers;
 import forestry.core.genetics.BreedingTracker;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 public class ApiaristTracker extends BreedingTracker implements IApiaristTracker {
 	private int queensTotal = 0;
@@ -46,7 +52,7 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	public void registerPickup(ISpecies<?> species) {
 		IMutationManager<ISpecies<?>> manager = IForestryApi.INSTANCE.getGeneticManager().getMutations(SpeciesUtil.BEE_TYPE.get());
 
-		discover(species);
+		//discover(species);
 
 		if (manager.getMutationsFrom(species).isEmpty()) {
 			registerSpecies(species);
@@ -84,5 +90,12 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	@Override
 	public int getDroneCount() {
 		return this.dronesTotal;
+	}
+
+	public void registerProgress(Level level, GameProfile profile, ISpecies<?> species){
+		double researchPercentage = (double) this.getSpeciesBred() / species.getType().getSpeciesCount();
+		//Forestry.LOGGER.info("Player has researched: " + researchPercentage);
+		ArboricultureResearchTrigger.TriggerInstance.checkIfResearchIsGreaterThan(researchPercentage);
+		ForestryAdvancementTriggers.APICULTURE_RESEARCH_TRIGGER.trigger(level, profile, researchPercentage);
 	}
 }

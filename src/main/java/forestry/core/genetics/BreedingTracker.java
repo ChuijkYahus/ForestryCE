@@ -244,5 +244,8 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	 */
 	public void discover(ISpecies<?> species){
 		ForestryAdvancementTriggers.DISCOVER_SPECIES_TRIGGER.trigger(this.level, this.username, species.id());
+		registerProgress(this.level, this.username, species);
 	}
+
+	public abstract void registerProgress(Level level, GameProfile profile, ISpecies<?> species);
 }

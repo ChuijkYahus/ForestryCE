@@ -1,10 +1,12 @@
 package forestry.lepidopterology.genetics;
 
+import com.mojang.authlib.GameProfile;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.ISpecies;
 import forestry.api.lepidopterology.ILepidopteristTracker;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.core.genetics.BreedingTracker;
+import net.minecraft.world.level.Level;
 
 public class LepidopteristTracker extends BreedingTracker implements ILepidopteristTracker {
 	public LepidopteristTracker() {
@@ -20,5 +22,10 @@ public class LepidopteristTracker extends BreedingTracker implements ILepidopter
 	@Override
 	public void registerPickup(ISpecies<?> species) {
 		registerSpecies(species);
+	}
+
+	@Override
+	public void registerProgress(Level level, GameProfile profile, ISpecies<?> species) {
+		//Lol butterflies suck imagine tracking their research progress
 	}
 }
