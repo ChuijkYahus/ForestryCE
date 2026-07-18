@@ -24,11 +24,11 @@ import java.util.List;
 public class SmelterRecipe implements ISmelterRecipe {
 	private final ResourceLocation id;
 	private final List<IngredientStack> inputs;
-	private final ItemStack output;
+	private final IngredientStack output;
 
 	private final int processingTime;
 
-	public SmelterRecipe(ResourceLocation id, List<IngredientStack> inputs, ItemStack output, int processTime) {
+	public SmelterRecipe(ResourceLocation id, List<IngredientStack> inputs, IngredientStack output, int processTime) {
 		Preconditions.checkNotNull(id, "Recipe identifier cannot be null");
 		Preconditions.checkNotNull(inputs);
 		Preconditions.checkArgument(!inputs.isEmpty());
@@ -46,7 +46,11 @@ public class SmelterRecipe implements ISmelterRecipe {
 	}
 
 	@Override
-	public ItemStack getOutput() { return this.output; }
+	public ItemStack getOutput() {
+		int amount = this.output.getCount();
+		ItemStack items = this.output.getIngredient().getItems()[0];
+		return items.copyWithCount(amount);
+	}
 
 	@Override
 	public int getProcessingTime() {
@@ -55,7 +59,7 @@ public class SmelterRecipe implements ISmelterRecipe {
 
 	@Override
 	public ItemStack getResultItem(RegistryAccess registryAccess) {
-		return output;
+		return this.getOutput();
 	}
 
 	@Override
@@ -73,7 +77,7 @@ public class SmelterRecipe implements ISmelterRecipe {
 		return FactoryRecipeTypes.SMELTER.type();
 	}
 
-	public boolean matches(int processingTime, List<IngredientStack> in, ItemStack out){
+	public boolean matches(int processingTime, List<IngredientStack> in, IngredientStack out){
 		return (
 			this.processingTime == processingTime
 			&& in.equals(this.inputs)
@@ -109,28 +113,46 @@ public class SmelterRecipe implements ISmelterRecipe {
 		return true;
 	}
 
-	public static class Serializer implements RecipeSerializer<SmelterRecipe> {
+	public static class Serializer implements RecipeSerializer<SmelterRecipe>{
 		@Override
 		public SmelterRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+
+			boolean missingInput = false;
+			boolean missingOutput = false;
+
 			ArrayList<IngredientStack> ingredients = new ArrayList<>();
 			for (JsonElement element : GsonHelper.getAsJsonArray(json, "inputs")) {
-				ingredients.add(IngredientStack.fromJson(element.getAsJsonObject()));
+				IngredientStack i = IngredientStack.fromJson(element.getAsJsonObject());
+				ingredients.add(i);
+				if (i.getIngredient().isEmpty()) missingInput = true;
 			}
-			ItemStack out = RecipeSerializers.item(GsonHelper.getAsJsonObject(json, "output"));
+			IngredientStack output = IngredientStack.fromJson(GsonHelper.getAsJsonObject(json, "output"));
+			if (output.getIngredient().isEmpty()) missingOutput = true;
+
+			if (missingInput || missingOutput) { return null; }
+
 			int processTime = GsonHelper.getAsInt(json, "processingTime");
-			return new SmelterRecipe(recipeId, ingredients, out, processTime);
+			return new SmelterRecipe(recipeId, ingredients, output, processTime);
 		}
 
 		@Override
 		public SmelterRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			List<IngredientStack> resources = new ArrayList<>();
+			boolean missingInput = false;
+			boolean missingOutput = false;
+
 			//Read the size of the list of ingredients. I miss scanners.
 			int count = buffer.readVarInt();
 			for(int i = 0; i < count; i++) {
 				resources.add(IngredientStack.fromNetwork(buffer));
+				if (resources.get(i).getIngredient().isEmpty()) missingInput = true;
 			}
-			ItemStack out = buffer.readItem();
+
+			IngredientStack out = IngredientStack.fromNetwork(buffer);
 			int processTime = buffer.readVarInt();
+			if (out.getIngredient().isEmpty()) missingOutput = true;
+
+			if (missingInput || missingOutput) { return null; }
 
 			return new SmelterRecipe(recipeId, resources, out, processTime);
 		}
@@ -142,7 +164,9 @@ public class SmelterRecipe implements ISmelterRecipe {
 			for (IngredientStack i: recipe.getInputs()){
 				i.toNetwork(buffer);
 			}
-			buffer.writeItem(recipe.output);
+
+			recipe.output.toNetwork(buffer);
+
 			buffer.writeVarInt(recipe.processingTime);
 		}
 	}

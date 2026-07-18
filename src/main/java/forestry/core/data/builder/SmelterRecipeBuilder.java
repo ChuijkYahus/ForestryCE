@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -20,7 +21,7 @@ public class SmelterRecipeBuilder {
 
 	private int temperature;
 	private List<IngredientStack> ingredients = new ArrayList<>();
-	private ItemStack output;
+	private IngredientStack output;
 	private int processingTime;
 
 	public SmelterRecipeBuilder setTemperature(int temp) {
@@ -42,13 +43,13 @@ public class SmelterRecipeBuilder {
 		return addIngredient(input, 1);
 	}
 
-	public SmelterRecipeBuilder setOutput(ItemStack output) {
-		return setOutput(output, 1);
+	public SmelterRecipeBuilder setOutput(Ingredient output) {
+		this.output = new IngredientStack(output, 1);
+		return this;
 	}
 
-	public SmelterRecipeBuilder setOutput(ItemStack output, int amount) {
-		this.output = output;
-		this.output.setCount(amount);
+	public SmelterRecipeBuilder setOutput(Ingredient output, int amount) {
+		this.output = new IngredientStack(output, amount);
 		return this;
 	}
 
@@ -56,14 +57,18 @@ public class SmelterRecipeBuilder {
 		consumer.accept(new Result(id, this.temperature, this.ingredients, this.output, this.processingTime));
 	}
 
+	public Result build(ResourceLocation id) {
+		return new Result(id, this.temperature, this.ingredients, this.output, this.processingTime);
+	}
+
 	private static class Result implements FinishedRecipe {
 		private final ResourceLocation id;
 		private final int temperature;
 		private final List<IngredientStack> ingredients;
-		private final ItemStack output;
+		private final IngredientStack output;
 		private final int processingTime;
 
-		public Result(ResourceLocation id, int temperature, List<IngredientStack> ingredients, ItemStack output, int processingTime) {
+		public Result(ResourceLocation id, int temperature, List<IngredientStack> ingredients, IngredientStack output, int processingTime) {
 			this.id = id;
 			this.temperature = temperature;
 			this.ingredients = ImmutableList.copyOf(ingredients); //This makes sense to me but idk if I need to do this.
@@ -79,7 +84,7 @@ public class SmelterRecipeBuilder {
 				inputsArray.add(input.toJson());
 			}
 			json.add("inputs", inputsArray);
-			json.add("output", RecipeSerializers.item(this.output));
+			json.add("output", this.output.toJson());
 			json.addProperty("processingTime", this.processingTime);
 		}
 

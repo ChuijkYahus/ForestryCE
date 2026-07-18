@@ -85,7 +85,11 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.StrictNBTIngredient;
+import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.minecraftforge.common.crafting.conditions.NotCondition;
+import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
@@ -102,7 +106,7 @@ import static thedarkcolour.modkit.data.MKRecipeProvider.ingredient;
 import static thedarkcolour.modkit.data.MKRecipeProvider.path;
 
 // todo split into smaller classes so that my computer doesn't die
-public class ForestryRecipeProvider {
+public class ForestryRecipeProvider implements IConditionBuilder {
 	public static final int STILL_DESTILLATION_DURATION = 100;
 	public static final int STILL_DESTILLATION_INPUT = 10;
 	public static final int STILL_DESTILLATION_OUTPUT = 3;
@@ -2930,24 +2934,145 @@ public class ForestryRecipeProvider {
 	}
 
 
-	private static void registerSmelter(Consumer<FinishedRecipe> consumer) {
+		private static void registerSmelter(Consumer<FinishedRecipe> consumer){
 
-		new SmelterRecipeBuilder()
-			.addIngredient(Ingredient.of(Tags.Items.INGOTS_COPPER), 3)
-			.addIngredient(Ingredient.of(ForestryTags.Items.INGOTS_TIN))
-			.setOutput(CoreItems.INGOT_BRONZE.stack(), 4)
-			.setProcessingTime(40)
-			.build(consumer, id("smelter", "bronze_from_ingots"));
+			new SmelterRecipeBuilder()
+				.addIngredient(Ingredient.of(Tags.Items.INGOTS_COPPER), 3)
+				.addIngredient(Ingredient.of(ForestryTags.Items.INGOTS_TIN))
+				.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_BRONZE), 4)
+				.setProcessingTime(40)
+				.build(consumer, id("smelter", "bronze_from_ingots"));
 
-		new SmelterRecipeBuilder()
-			.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_COPPER), 3)
-			.addIngredient(Ingredient.of(ForestryTags.Items.RAW_MATERIALS_TIN))
-			.setOutput(CoreItems.INGOT_BRONZE.stack(), 4)
-			.setProcessingTime(40)
-			.build(consumer, id("smelter", "bronze_from_raw_materials"));
+			new SmelterRecipeBuilder()
+				.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_COPPER), 3)
+				.addIngredient(Ingredient.of(ForestryTags.Items.RAW_MATERIALS_TIN))
+				.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_BRONZE), 4)
+				.setProcessingTime(40)
+				.build(consumer, id("smelter", "bronze_from_raw_materials"));
 
-		
+
+			//This is the fun part where I have to try and remember a whole bunch of modded alloys uhhhhhhhh
+			//Invar, Brass, Electrum, Rose Gold (sometimes?), Constantan I think those are the big ones
+			//I don't think there's an issue doing this here?
+			TagKey<Item> nickel_ingot = ItemTags.create(new ResourceLocation("forge", "ingots/nickel"));
+			TagKey<Item> zinc_ingot = ItemTags.create(new ResourceLocation("forge", "ingots/zinc"));
+			TagKey<Item> silver_ingot = ItemTags.create(new ResourceLocation("forge", "ingots/silver"));
+			TagKey<Item> lead_ingot = ItemTags.create(new ResourceLocation("forge", "ingots/lead"));
+
+			TagKey<Item> nickel_raw = ItemTags.create(new ResourceLocation("forge", "raw_materials/nickel"));
+			TagKey<Item> zinc_raw = ItemTags.create(new ResourceLocation("forge", "raw_materials/zinc"));
+			TagKey<Item> silver_raw = ItemTags.create(new ResourceLocation("forge", "raw_materials/silver"));
+			TagKey<Item> lead_raw = ItemTags.create(new ResourceLocation("forge", "raw_materials/lead"));
+
+			TagKey<Item> invar_ingot = ItemTags.create(new ResourceLocation("forge", "ingots/invar"));
+			TagKey<Item> brass_ingot = ItemTags.create(new ResourceLocation("forge", "ingots/brass"));
+			TagKey<Item> electrum_ingot = ItemTags.create(new ResourceLocation("forge", "ingots/electrum"));
+			TagKey<Item> constantan_ingot = ItemTags.create(new ResourceLocation("forge", "ingots/constantan"));
+
+			//INVAR
+			ConditionalRecipe.builder()
+				.addCondition(new NotCondition(new TagEmptyCondition(nickel_ingot.location())))
+				.addCondition(new NotCondition(new TagEmptyCondition(invar_ingot.location())))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+						.addIngredient(Ingredient.of(Tags.Items.INGOTS_IRON), 2)
+						.addIngredient(Ingredient.of(nickel_ingot))
+						.setOutput(Ingredient.of(invar_ingot), 3)
+						.setProcessingTime(40)
+						.build(id("smelter", "invar_from_ingots")))
+				.build(consumer, id("smelter", "invar_from_ingots"));
+
+			ConditionalRecipe.builder()
+				.addCondition(new NotCondition(new TagEmptyCondition(nickel_raw.location())))
+				.addCondition(new NotCondition(new TagEmptyCondition(invar_ingot.location())))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+					.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_IRON), 2)
+					.addIngredient(Ingredient.of(nickel_raw))
+					.setOutput(Ingredient.of(invar_ingot), 3)
+					.setProcessingTime(40)
+					.build(id("smelter", "invar_from_raw_materials")))
+				.build(consumer, id("smelter", "invar_from_raw_materials"));
+
+
+			//BRASS
+			ConditionalRecipe.Builder builder = ConditionalRecipe.builder();
+			builder.addCondition(new NotCondition(new TagEmptyCondition(zinc_ingot.location())));
+			builder.addCondition(new NotCondition(new TagEmptyCondition(brass_ingot.location())));
+			builder.addRecipe(
+				new SmelterRecipeBuilder()
+					.addIngredient(Ingredient.of(Tags.Items.INGOTS_COPPER))
+					.addIngredient(Ingredient.of(zinc_ingot))
+					.setOutput(Ingredient.of(brass_ingot), 2)
+					.setProcessingTime(40)
+					.build(id("smelter", "brass_from_ingots")));
+			builder.build(consumer, id("smelter", "brass_from_ingots"));
+
+			ConditionalRecipe.builder()
+				.addCondition(new NotCondition(new TagEmptyCondition(zinc_raw.location())))
+				.addCondition(new NotCondition(new TagEmptyCondition(brass_ingot.location())))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+						.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_COPPER))
+						.addIngredient(Ingredient.of(zinc_raw))
+						.setOutput(Ingredient.of(brass_ingot), 2)
+						.setProcessingTime(40)
+						.build(id("smelter", "brass_from_raw_materials")))
+				.build(consumer, id("smelter", "brass_from_raw_materials"));
+
+
+			//ELECTRUM
+			ConditionalRecipe.builder()
+				.addCondition(new NotCondition(new TagEmptyCondition(silver_ingot.location())))
+				.addCondition(new NotCondition(new TagEmptyCondition(electrum_ingot.location())))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+						.addIngredient(Ingredient.of(Tags.Items.INGOTS_GOLD))
+						.addIngredient(Ingredient.of(silver_ingot))
+						.setOutput(Ingredient.of(electrum_ingot), 2)
+						.setProcessingTime(40)
+						.build(id("smelter", "electrum_from_ingots")))
+				.build(consumer, id("smelter", "electrum_from_ingots"));
+
+			ConditionalRecipe.builder()
+				.addCondition(new NotCondition(new TagEmptyCondition(silver_raw.location())))
+				.addCondition(new NotCondition(new TagEmptyCondition(electrum_ingot.location())))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+						.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_GOLD))
+						.addIngredient(Ingredient.of(silver_raw))
+						.setOutput(Ingredient.of(electrum_ingot), 2)
+						.setProcessingTime(40)
+						.build(id("smelter", "electrum_from_raw_materials")))
+				.build(consumer, id("smelter", "electrum_from_raw_materials"));
+
+			//CONSTANTAN
+			ConditionalRecipe.builder()
+				.addCondition(new NotCondition(new TagEmptyCondition(nickel_ingot.location())))
+				.addCondition(new NotCondition(new TagEmptyCondition(constantan_ingot.location())))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+						.addIngredient(Ingredient.of(Tags.Items.INGOTS_COPPER))
+						.addIngredient(Ingredient.of(nickel_ingot))
+						.setOutput(Ingredient.of(constantan_ingot), 2)
+						.setProcessingTime(40)
+						.build(id("smelter", "constantan_from_ingots")))
+				.build(consumer, id("smelter", "constantan_from_ingots"));
+
+			ConditionalRecipe.builder()
+				.addCondition(new NotCondition(new TagEmptyCondition(nickel_raw.location())))
+				.addCondition(new NotCondition(new TagEmptyCondition(constantan_ingot.location())))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+						.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_COPPER))
+						.addIngredient(Ingredient.of(nickel_raw))
+						.setOutput(Ingredient.of(constantan_ingot), 2)
+						.setProcessingTime(40)
+						.build(id("smelter", "constantan_from_raw_materials")))
+				.build(consumer, id("smelter", "constantan_from_raw_materials"));
+
 	}
+
 	private static ResourceLocation id(String... path) {
 		return new ResourceLocation("forestry", String.join("/", path));
 	}

@@ -459,7 +459,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	private void jumboCandles(){
 
 		for(BlockTypeJumboCandle type: BlockTypeJumboCandle.values()){
-			Forestry.LOGGER.info("Building model for " + type);
 
 			Block candle = CoreBlocks.JUMBO_CANDLES.get(type).block();
 			String modelName;
@@ -480,7 +479,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				.texture("side", modLoc(side))
 				.texture("top", modLoc(top))
 				.texture("particle", modLoc(side));
-			Forestry.LOGGER.info("Created model: " + modelName);
 
 			//Top
 			modelName = "block/candles/" + type.getSerializedName() + "_jumbo_top";
@@ -495,7 +493,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				.texture("side", modLoc(side))
 				.texture("top", modLoc(top))
 				.texture("particle", modLoc(side));
-			Forestry.LOGGER.info("Created model: " + modelName);
 
 			//Middle
 			modelName = "block/candles/" + type.getSerializedName() + "_jumbo_middle";
@@ -510,7 +507,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				.texture("side", modLoc(side))
 				.texture("top", modLoc(top))
 				.texture("particle", modLoc(side));
-			Forestry.LOGGER.info("Created model: " + modelName);
 
 			//Bottom
 			//It is only about here that I really found the phrase "Jumbo Bottom" incredibly funny.
@@ -526,18 +522,13 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				.texture("side", modLoc(side))
 				.texture("top", modLoc(top))
 				.texture("particle", modLoc(side));
-			Forestry.LOGGER.info("Created model: " + modelName);
 
-			Forestry.LOGGER.info("Building blockstates for " + type);
 
 			getVariantBuilder(candle).forAllStates(state -> {
-				Forestry.LOGGER.info("Building state for " + state);
 
 				BlockJumboCandle.CandleShape shape = state.getValue(BlockJumboCandle.SHAPE);
 
 				String curModel = "block/candles/" + type.getSerializedName() + "_jumbo_" + shape.getSerializedName();
-
-				Forestry.LOGGER.info("Looking for model: " + curModel);
 
 				return ConfiguredModel.builder()
 					.modelFile(models().getExistingFile(modLoc(curModel)))
@@ -552,7 +543,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	private void bigCandles(){
 
 		for(BlockTypeBigCandle type: BlockTypeBigCandle.values()){
-			Forestry.LOGGER.info("Building model for " + type);
 
 			Block candle = CoreBlocks.BIG_CANDLES.get(type).block();
 			String modelName;
@@ -562,13 +552,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 					modLoc("block/candles/big"))
 				.texture("0", modLoc(modelName))
 				.texture("particle", modLoc(modelName));
-			Forestry.LOGGER.info("Created model: " + modelName);
-
-
-			Forestry.LOGGER.info("Building blockstates for " + type);
 
 			getVariantBuilder(candle).forAllStates(state -> {
-				Forestry.LOGGER.info("Building state for " + state);
 
 				String curModel = "block/candles/" + type.getSerializedName() + "_big";
 
