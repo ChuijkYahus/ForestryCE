@@ -164,6 +164,10 @@ public class PluginManager {
 		// Patriotic bee's randomized firework) resolves before any species JSON parse or network sync.
 		forestry.core.genetics.ProductTypes.registerBuiltins();
 
+		// Register the built-in fluid product types so the optional `type` key on machine fluid outputs (e.g. the
+		// squeezer) resolves before any recipe JSON parse or network sync.
+		forestry.core.FluidProductTypes.registerBuiltins();
+
 		ForestryApiImpl api = (ForestryApiImpl) IForestryApi.INSTANCE;
 		GeneticManager geneticManager = new GeneticManager(taxa, speciesTypes);
 		api.setGeneticManager(geneticManager);
