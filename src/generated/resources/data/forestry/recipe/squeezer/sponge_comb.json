@@ -3,8 +3,10 @@
   "chance": 0.02,
   "id": "forestry:squeezer/sponge_comb",
   "output": {
-    "amount": 100,
-    "fluid": "forestry:honey"
+    "stack": {
+      "amount": 100,
+      "id": "forestry:honey"
+    }
   },
   "remnant": {
     "count": 1,

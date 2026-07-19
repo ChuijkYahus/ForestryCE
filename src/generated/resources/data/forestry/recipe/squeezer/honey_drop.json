@@ -3,8 +3,10 @@
   "chance": 0.05,
   "id": "forestry:squeezer/honey_drop",
   "output": {
-    "amount": 100,
-    "fluid": "forestry:honey"
+    "stack": {
+      "amount": 100,
+      "id": "forestry:honey"
+    }
   },
   "remnant": {
     "count": 1,

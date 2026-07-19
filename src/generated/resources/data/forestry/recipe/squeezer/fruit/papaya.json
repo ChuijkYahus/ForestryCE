@@ -3,8 +3,10 @@
   "chance": 0.1,
   "id": "forestry:squeezer/fruit/papaya",
   "output": {
-    "amount": 600,
-    "fluid": "forestry:fruit_juice"
+    "stack": {
+      "amount": 600,
+      "id": "forestry:fruit_juice"
+    }
   },
   "remnant": {
     "count": 1,
