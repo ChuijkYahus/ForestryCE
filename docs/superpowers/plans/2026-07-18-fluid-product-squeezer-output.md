@@ -865,12 +865,9 @@ In `src/main/java/forestry/factory/recipes/jei/squeezer/SqueezerRecipeCategory.j
 ```
 Add `import net.neoforged.neoforge.fluids.FluidStack;` if not already present. (Read the surrounding method first — the exact placement of the local depends on how the slot builder chain is structured; the requirement is a single `createFluidStack()` call feeding both `getFluid()` and `getAmount()`.)
 
-- [ ] **Step 5: Compile the mod and run the full GameTest suite**
+> **EXECUTION NOTE:** Steps 1–4 above were already applied in Task 3 (the `getFluidOutput()` API change forced the consumers to migrate in the same commit for the mod to compile). Do NOT re-apply them. Task 4's actual work is the three steps below: regenerate datagen, restore the end-to-end recipe-loading test that Task 3 had to delete, and commit.
 
-Run: `./gradlew runGameTestServer 2>&1 | tail -40`
-Expected: build succeeds; all GameTests from Tasks 1–3 pass. No new test here — this task is a behavior-preserving migration guarded by a build + the existing suite.
-
-- [ ] **Step 6: Regenerate datagen and verify the new squeezer recipe JSON shape**
+- [ ] **Step 5: Regenerate datagen and verify the new squeezer recipe JSON shape**
 
 The output format **changes** here: the PR's in-flight `SizedFluidIngredient` shape (`"output": {"amount":100,"fluid":"forestry:honey"}`) becomes the nested `FluidProduct` shape (`"output": {"stack": {"amount":100,"id":"forestry:honey"}}`). This is expected and acceptable — the `SizedFluidIngredient` format was itself unreleased in-flight PR work, so there is no compatibility baseline to preserve. (Decision: the nested `{"stack": ...}` form was chosen deliberately over a flat hand-rolled codec, reusing `FluidStack.CODEC` per the codebase's `FabricatorRecipe`/`HygroregulatorRecipe` pattern.)
 
@@ -886,15 +883,85 @@ Expected:
 - Each changed recipe's `"output"` is now `{"stack": {"amount": <n>, "id": "<fluid id>"}}` with the **same fluid id and amount** as before (only the wrapper shape changed), and no `"type"` key. Spot-check `honey_drop.json` (amount 100, `forestry:honey`) and `lava.json` (amount 500, `minecraft:lava`) via the diff.
 - If any NON-squeezer-output file changed, or a fluid id/amount value changed, stop and reconcile.
 
-Commit the regenerated JSON together with the code in Step 7 (add `src/generated/resources` to the commit).
+- [ ] **Step 6: Restore the end-to-end recipe-loading test (new API)**
 
-- [ ] **Step 7: Commit**
+Task 3 deleted `SqueezerFluidOutputTest`; three of its four tests were `SizedFluidIngredient`-specific and are correctly gone (superseded by `SqueezerRecipeCodecTest`), but its `squeezerRecipesResolveOutput` test was genuine end-to-end coverage — it loaded the real built-in squeezer recipes and asserted their fluid output resolves correctly. That coverage only works once datagen (Step 5) has regenerated the on-disk JSON to the parseable nested shape. Restore it, rewritten to the `IFluidProduct` API (`getFluidOutput().createFluidStack()` instead of the old `FluidStack`-returning `getFluidOutput()`).
+
+Create `src/test/java/forestry/gametest/SqueezerRecipeLoadTest.java`:
+
+```java
+package forestry.gametest;
+
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+
+import forestry.api.ForestryConstants;
+import forestry.api.recipes.ISqueezerRecipe;
+import forestry.core.config.Constants;
+import forestry.core.fluids.ForestryFluids;
+import forestry.core.utils.RecipeUtils;
+import forestry.factory.features.FactoryRecipeTypes;
+
+/**
+ * End-to-end oracle: the real built-in squeezer recipes load from datapack JSON (the new nested
+ * {@code "output": {"stack": {...}}} shape) and resolve to the expected non-empty fluid output.
+ */
+@GameTestHolder(ForestryConstants.MOD_ID)
+@PrefixGameTestTemplate(false)
+public class SqueezerRecipeLoadTest {
+	@GameTest(template = "empty")
+	public static void squeezerRecipesResolveOutput(GameTestHelper helper) {
+		RecipeManager manager = helper.getLevel().getRecipeManager();
+
+		long count = RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).count();
+		if (count == 0) {
+			helper.fail("No squeezer recipes loaded");
+			return;
+		}
+		boolean anyEmpty = RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER)
+			.anyMatch(recipe -> recipe.getFluidOutput().createFluidStack().isEmpty());
+		if (anyEmpty) {
+			helper.fail("A built-in squeezer recipe resolved to an empty fluid output");
+			return;
+		}
+
+		ISqueezerRecipe honeyBlock = RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER)
+			.filter(recipe -> recipe.getId().equals(ForestryConstants.forestry("squeezer/honey_block")))
+			.findFirst()
+			.orElse(null);
+		if (honeyBlock == null) {
+			helper.fail("Missing built-in squeezer/honey_block recipe");
+			return;
+		}
+		FluidStack expected = ForestryFluids.HONEY.getFluid(Constants.FLUID_PER_HONEY_DROP * 8);
+		FluidStack actual = honeyBlock.getFluidOutput().createFluidStack();
+		if (!(FluidStack.isSameFluidSameComponents(actual, expected) && actual.getAmount() == expected.getAmount())) {
+			helper.fail("honey_block output changed: " + actual + ", expected " + expected);
+			return;
+		}
+
+		helper.succeed();
+	}
+}
+```
+
+This is a faithful port of the deleted `squeezerRecipesResolveOutput` (same `RecipeUtils`/`FactoryRecipeTypes` plumbing, same `honey_block` = `HONEY x (FLUID_PER_HONEY_DROP * 8)` expectation), with only the output accessor changed to `.createFluidStack()`. If `ForestryFluids.HONEY.getFluid(int)` or `Constants.FLUID_PER_HONEY_DROP` no longer resolve, read the deleted original via `git show 017c87310^:src/test/java/forestry/gametest/SqueezerFluidOutputTest.java` and match whatever it referenced.
+
+- [ ] **Step 7: Run the full GameTest suite and confirm the gate**
+
+Run: `./gradlew runGameTestServer > /tmp/t4.log 2>&1; grep -iE "GAME TESTS COMPLETE|required tests failed|squeezerRecipesResolveOutput" /tmp/t4.log`
+Expected (do NOT judge by exit code): the mod compiles, `squeezerRecipesResolveOutput` PASSES (proving the regenerated JSON loads and resolves), total test count is 68 (67 after Task 3 + 1 restored), and the ONLY failures are the two pre-existing unrelated ones (`everyallelevaluehasatranslation`, `defaultgenomesmatchbaseline`). If `squeezerRecipesResolveOutput` fails to load recipes, the datagen from Step 5 is wrong — reconcile before committing.
+
+- [ ] **Step 8: Commit**
 
 ```bash
-git add src/main/java/forestry/factory/tiles/TileSqueezer.java \
-        src/main/java/forestry/factory/recipes/jei/squeezer/SqueezerRecipeCategory.java \
-        src/generated/resources
-git commit -m "feat: consume IFluidProduct in Squeezer tile and JEI category
+git add src/generated/resources \
+        src/test/java/forestry/gametest/SqueezerRecipeLoadTest.java
+git commit -m "feat: regenerate squeezer recipe JSON for IFluidProduct output
 
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ```
