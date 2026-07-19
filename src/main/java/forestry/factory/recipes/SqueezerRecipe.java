@@ -4,7 +4,9 @@ import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import forestry.api.core.IFluidProduct;
 import forestry.api.recipes.ISqueezerRecipe;
+import forestry.core.FluidProductTypes;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -15,8 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import java.util.List;
 
@@ -25,9 +25,9 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 		ResourceLocation.CODEC.fieldOf("id").forGetter(SqueezerRecipe::getId),
 		Codec.INT.fieldOf("time").forGetter(SqueezerRecipe::getProcessingTime),
 		Ingredient.CODEC_NONEMPTY.listOf().fieldOf("resources").forGetter(SqueezerRecipe::getInputs),
-		// A fluid ingredient, not a fixed FluidStack: a fluid tag resolves at runtime to whatever fluid a loaded
-		// mod fills (e.g. some other mod's molten iron), so a recipe isn't tied to one mod's fluid.
-		SizedFluidIngredient.FLAT_CODEC.fieldOf("output").forGetter(SqueezerRecipe::getFluidOutputIngredient),
+		// A fluid product nested under "output" (dispatch codec): a plain FluidProduct serializes with no "type" key;
+		// addon-provided dynamic products (tag resolution, random amount, chance) declare their own "type".
+		FluidProductTypes.CODEC.fieldOf("output").forGetter(SqueezerRecipe::getFluidOutput),
 		// "remnant" is optional: many squeezer recipes drop no remnant.
 		// ItemStack.STRICT_CODEC rejects EMPTY at serialization, so map EMPTY to absent.
 		ItemStack.STRICT_CODEC.optionalFieldOf("remnant").forGetter(r -> r.remnants.isEmpty() ? java.util.Optional.<ItemStack>empty() : java.util.Optional.of(r.remnants)),
@@ -41,11 +41,11 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 	private final ResourceLocation id;
 	private final int processingTime;
 	private final List<Ingredient> resources;
-	private final SizedFluidIngredient fluidOutput;
+	private final IFluidProduct fluidOutput;
 	private final ItemStack remnants;
 	private final float remnantsChance;
 
-	public SqueezerRecipe(ResourceLocation id, int processingTime, List<Ingredient> resources, SizedFluidIngredient fluidOutput, ItemStack remnants, float remnantsChance) {
+	public SqueezerRecipe(ResourceLocation id, int processingTime, List<Ingredient> resources, IFluidProduct fluidOutput, ItemStack remnants, float remnantsChance) {
 		Preconditions.checkNotNull(id, "Recipe identifier cannot be null");
 		Preconditions.checkNotNull(resources);
 		Preconditions.checkArgument(!resources.isEmpty());
@@ -76,15 +76,7 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 	}
 
 	@Override
-	public FluidStack getFluidOutput() {
-		// Resolve the ingredient to a concrete fluid: take the first matching stack (its amount already applied).
-		// An unfulfilled tag matches nothing, so we return EMPTY and TileSqueezer refuses the recipe.
-		FluidStack[] fluids = this.fluidOutput.getFluids();
-		return fluids.length == 0 ? FluidStack.EMPTY : fluids[0].copy();
-	}
-
-	/** The output as a fluid ingredient, for serialization. Consumers wanting the actual fluid use {@link #getFluidOutput()}. */
-	public SizedFluidIngredient getFluidOutputIngredient() {
+	public IFluidProduct getFluidOutput() {
 		return this.fluidOutput;
 	}
 
@@ -128,7 +120,7 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 			ResourceLocation recipeId = ResourceLocation.STREAM_CODEC.decode(buffer);
 			int processingTime = ByteBufCodecs.VAR_INT.decode(buffer);
 			List<Ingredient> resources = Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()).decode(buffer);
-			SizedFluidIngredient fluidOutput = SizedFluidIngredient.STREAM_CODEC.decode(buffer);
+			IFluidProduct fluidOutput = FluidProductTypes.STREAM_CODEC.decode(buffer);
 			ItemStack remnants = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
 			float remnantsChance = ByteBufCodecs.FLOAT.decode(buffer);
 
@@ -139,7 +131,7 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
 			ByteBufCodecs.VAR_INT.encode(buffer, recipe.processingTime);
 			Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()).encode(buffer, recipe.resources);
-			SizedFluidIngredient.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
+			FluidProductTypes.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
 			ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, recipe.remnants);
 			ByteBufCodecs.FLOAT.encode(buffer, recipe.remnantsChance);
 		}

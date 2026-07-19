@@ -1,19 +1,20 @@
 package forestry.core.data.builder;
 
+import forestry.api.core.FluidProduct;
+import forestry.api.core.IFluidProduct;
 import forestry.factory.recipes.SqueezerRecipe;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import java.util.List;
 
 public class SqueezerRecipeBuilder {
 	private int processingTime;
 	private List<Ingredient> resources;
-	private SizedFluidIngredient fluidOutput;
+	private IFluidProduct fluidOutput;
 	private ItemStack remnants = ItemStack.EMPTY;
 	private float remnantsChance;
 
@@ -28,12 +29,12 @@ public class SqueezerRecipeBuilder {
 	}
 
 	public SqueezerRecipeBuilder setFluidOutput(FluidStack fluidOutput) {
-		this.fluidOutput = SizedFluidIngredient.of(fluidOutput);
+		this.fluidOutput = FluidProduct.of(fluidOutput);
 		return this;
 	}
 
-	/** Sets a fluid ingredient output, e.g. a fluid tag resolved at runtime to whatever a loaded mod fills. */
-	public SqueezerRecipeBuilder setFluidOutput(SizedFluidIngredient fluidOutput) {
+	/** Sets a custom fluid product output, e.g. an addon's dynamic tag/random/chance product. */
+	public SqueezerRecipeBuilder setFluidOutput(IFluidProduct fluidOutput) {
 		this.fluidOutput = fluidOutput;
 		return this;
 	}
