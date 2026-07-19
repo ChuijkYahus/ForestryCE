@@ -12,9 +12,10 @@
 
 - Package for the new public API: `forestry.api.core` (beside `IProduct`).
 - Dispatch registry package: `forestry.core` (class `FluidProductTypes`).
-- `FluidStack` is NeoForge's: `net.neoforged.neoforge.fluids.FluidStack`. It exposes `MAP_CODEC` (`MapCodec<FluidStack>`, fields `id`/`amount`/`components`), `CODEC`, and `STREAM_CODEC` — reuse these; do not hand-roll fluid parsing.
+- `FluidStack` is NeoForge's: `net.neoforged.neoforge.fluids.FluidStack`. This repo's pinned NeoForge (21.1.230) exposes `FluidStack.CODEC` (a `Codec<FluidStack>` serializing as `{"amount":N,"id":"<fluid id>"}`) and `FluidStack.STREAM_CODEC` — but **NO `MapCodec<FluidStack>`**. Reuse these; do not hand-roll fluid parsing. `FluidProduct.MAP_CODEC` is `FluidStack.CODEC.fieldOf("stack").xmap(...)`, matching the codebase's `FabricatorRecipe`/`HygroregulatorRecipe` pattern.
 - The dispatch registry MUST mirror `forestry.core.genetics.ProductTypes`: `type` key optional, absent → `FluidProduct.TYPE`, and a `FluidProduct` encodes with **no** `type` key.
-- Existing Forestry squeezer recipe JSON shape must not change (plain fluid fields, no `type` key). Verify by regenerating datagen and diffing.
+- Serialized shape (decided): a `FluidProduct` serializes as `{"stack": {"amount":N, "id":"<fluid id>"}}`; the squeezer recipe output is `"output": {"stack": {...}}`. Datagen regeneration WILL change existing squeezer recipe JSON from the PR's in-flight `SizedFluidIngredient` shape to this — expected, since that shape is unreleased. Fluid ids and amounts must be preserved; only the wrapper shape changes.
+- **Test gate:** `./gradlew runGameTestServer` ALWAYS exits non-zero / `BUILD FAILED` on this branch due to two pre-existing unrelated failures (`everyallelevaluehasatranslation`, `defaultgenomesmatchbaseline`). Judge success by grepping the run log: the task's new test(s) pass and the failure set is EXACTLY those two names. Never judge by exit code.
 - GameTest classes: annotate `@GameTestHolder(ForestryConstants.MOD_ID)` + `@PrefixGameTestTemplate(false)`, methods `@GameTest(template = "empty")`, in package `forestry.gametest`.
 - Commit messages end with:
   `Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>`
@@ -838,36 +839,47 @@ with:
 
 - [ ] **Step 4: Migrate the JEI category**
 
-In `src/main/java/forestry/factory/recipes/jei/squeezer/SqueezerRecipeCategory.java`, around line 71, replace:
+In `src/main/java/forestry/factory/recipes/jei/squeezer/SqueezerRecipeCategory.java`, around line 71, the current line is:
 ```java
 			.addFluidStack(recipe.getFluidOutput().getFluid(), recipe.getFluidOutput().getAmount());
 ```
-with:
+`getFluidOutput()` now returns an `IFluidProduct`, so resolve its representative stack once into a local and pass its fluid + amount. Find the enclosing statement/method and introduce the local just before the builder call; the display line becomes:
 ```java
-			.addFluidStack(recipe.getFluidOutput().createFluidStack().getFluid(), recipe.getFluidOutput().createFluidStack().getAmount());
+			FluidStack displayFluid = recipe.getFluidOutput().createFluidStack();
+			// ... existing builder chain up to the fluid slot ...
+			.addFluidStack(displayFluid.getFluid(), displayFluid.getAmount());
 ```
+Add `import net.neoforged.neoforge.fluids.FluidStack;` if not already present. (Read the surrounding method first — the exact placement of the local depends on how the slot builder chain is structured; the requirement is a single `createFluidStack()` call feeding both `getFluid()` and `getAmount()`.)
 
 - [ ] **Step 5: Compile the mod and run the full GameTest suite**
 
 Run: `./gradlew runGameTestServer 2>&1 | tail -40`
 Expected: build succeeds; all GameTests from Tasks 1–3 pass. No new test here — this task is a behavior-preserving migration guarded by a build + the existing suite.
 
-- [ ] **Step 6: Regenerate datagen and verify squeezer recipe JSON is unchanged**
+- [ ] **Step 6: Regenerate datagen and verify the new squeezer recipe JSON shape**
+
+The output format **changes** here: the PR's in-flight `SizedFluidIngredient` shape (`"output": {"amount":100,"fluid":"forestry:honey"}`) becomes the nested `FluidProduct` shape (`"output": {"stack": {"amount":100,"id":"forestry:honey"}}`). This is expected and acceptable — the `SizedFluidIngredient` format was itself unreleased in-flight PR work, so there is no compatibility baseline to preserve. (Decision: the nested `{"stack": ...}` form was chosen deliberately over a flat hand-rolled codec, reusing `FluidStack.CODEC` per the codebase's `FabricatorRecipe`/`HygroregulatorRecipe` pattern.)
 
 Run:
 ```bash
 ./gradlew runData 2>&1 | tail -20
-git status --porcelain src/generated/resources 2>/dev/null || git status --porcelain
+git --no-pager diff --stat src/generated/resources
+git --no-pager diff src/generated/resources/data/forestry/recipe/squeezer/honey_drop.json
 ```
-Expected: **no** changes to generated squeezer recipe JSON (the `FluidProduct` default type serializes with the same fluid fields and no `type` key). If any squeezer recipe JSON changed, stop and reconcile — the dispatch default is not producing identical output.
+Expected:
+- `runData` succeeds (`BUILD SUCCESSFUL`).
+- Every changed file is a squeezer **recipe** JSON under `data/forestry/recipe/squeezer/` (NOT the `container/` subfolder — those recipes have no fluid output and must be byte-identical). Container recipes, blockstates, and all non-squeezer recipes MUST be unchanged.
+- Each changed recipe's `"output"` is now `{"stack": {"amount": <n>, "id": "<fluid id>"}}` with the **same fluid id and amount** as before (only the wrapper shape changed), and no `"type"` key. Spot-check `honey_drop.json` (amount 100, `forestry:honey`) and `lava.json` (amount 500, `minecraft:lava`) via the diff.
+- If any NON-squeezer-output file changed, or a fluid id/amount value changed, stop and reconcile.
 
-(If this repo checks generated resources into a different path, inspect `git status` for any changed `*squeezer*` recipe json under the generated-resources directory.)
+Commit the regenerated JSON together with the code in Step 7 (add `src/generated/resources` to the commit).
 
 - [ ] **Step 7: Commit**
 
 ```bash
 git add src/main/java/forestry/factory/tiles/TileSqueezer.java \
-        src/main/java/forestry/factory/recipes/jei/squeezer/SqueezerRecipeCategory.java
+        src/main/java/forestry/factory/recipes/jei/squeezer/SqueezerRecipeCategory.java \
+        src/generated/resources
 git commit -m "feat: consume IFluidProduct in Squeezer tile and JEI category
 
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
@@ -877,6 +889,6 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 
 ## Final verification
 
-- [ ] Run the full GameTest suite one last time: `./gradlew runGameTestServer 2>&1 | tail -40` — all pass, exit 0.
+- [ ] Run the full GameTest suite one last time: `./gradlew runGameTestServer 2>&1 | tail -40`. Note: this task **always exits non-zero / BUILD FAILED** because of two pre-existing, unrelated failures on this branch (`everyallelevaluehasatranslation`, `defaultgenomesmatchbaseline`). Success = the new IFluidProduct/Squeezer tests pass and the failure list is EXACTLY those two names (grep the log — do not judge by exit code).
 - [ ] Confirm `git grep -n "SizedFluidIngredient" src/main/java/forestry/factory src/main/java/forestry/core/data/builder/SqueezerRecipeBuilder.java` returns nothing (the ingredient-as-output stopgap is fully removed).
 - [ ] Confirm `git grep -n "getFluidOutputIngredient"` returns nothing.

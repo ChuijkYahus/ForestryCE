@@ -88,7 +88,7 @@ public record FluidProductType<T extends IFluidProduct>(
 
 ```java
 public record FluidProduct(FluidStack stack) implements IFluidProduct {
-    MapCodec<FluidProduct>  built on FluidStack.CODEC        (field "fluid"/inline)
+    MapCodec<FluidProduct>  = FluidStack.CODEC.fieldOf("stack").xmap(...)
     StreamCodec<...>        built on FluidStack.STREAM_CODEC
     FluidProductType<FluidProduct> TYPE   // the dispatch default
 
@@ -101,10 +101,12 @@ public record FluidProduct(FluidStack stack) implements IFluidProduct {
 }
 ```
 
-The MAP_CODEC wraps `FluidStack.CODEC` so a plain product serializes as
-`{"fluid": "modid:molten_bronze", "amount": 1000}` (exact field layout follows whatever
-`FluidStack.CODEC` uses; the point is no bespoke fluid parsing and components come for
-free).
+This repo's pinned NeoForge (21.1.230) has no `MapCodec<FluidStack>` — only `FluidStack.CODEC`
+(a `Codec<FluidStack>` serializing as `{"amount": N, "id": "<fluid id>"}`). So the MAP_CODEC
+wraps it under a single `"stack"` field, matching the codebase's `FabricatorRecipe` /
+`HygroregulatorRecipe` pattern. A plain product therefore serializes **nested**:
+`{"stack": {"amount": 1000, "id": "modid:molten_bronze"}}` (components come for free, no bespoke
+fluid parsing). The nested form was chosen deliberately over a flat hand-rolled codec.
 
 ### Dispatch registry — `forestry.core.FluidProductTypes`
 
@@ -138,8 +140,8 @@ path; the squeezer recipe path only requires the `PluginManager` call.
 - Field `SizedFluidIngredient fluidOutput` → `IFluidProduct fluidOutput`.
 - Delete the `getFluids()[0].copy()` resolution in `getFluidOutput()` and the
   `getFluidOutputIngredient()` accessor.
-- `CODEC`: the `"output"` field uses `FluidProductTypes.MAP_CODEC` (dispatch, default type
-  omits `type`).
+- `CODEC`: the `"output"` field uses `FluidProductTypes.CODEC.fieldOf("output")` (dispatch,
+  default type omits `type`), nesting the product under `"output"`.
 - `STREAM_CODEC`: uses `FluidProductTypes.STREAM_CODEC` for the output field.
 - Constructor and `Preconditions` updated to take/validate `IFluidProduct`.
 
@@ -190,8 +192,11 @@ path; the squeezer recipe path only requires the `PluginManager` call.
 - Every existing Forestry recipe uses a fixed `FluidProduct`, whose `createFluidStack` and
   `createRandomFluidStack` both return the full stack. Machine behavior is identical to
   today.
-- Existing squeezer recipe JSON is unchanged in shape: `"output": {"fluid": ..., "amount": ...}`
-  with no `type` key (the dispatch default).
+- Squeezer recipe JSON **shape changes** at the `"output"` field: from the PR's in-flight
+  `SizedFluidIngredient` form `{"amount": N, "fluid": "<id>"}` to the nested `FluidProduct`
+  form `{"stack": {"amount": N, "id": "<id>"}}` (no `type` key — the dispatch default). Fluid
+  ids and amounts are preserved. This is not a compatibility break: the `SizedFluidIngredient`
+  form was unreleased in-flight PR work, so no datapack depends on it.
 
 ## Testing
 
