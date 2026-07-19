@@ -499,6 +499,14 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 
 ## Task 3: Migrate the recipe layer to `IFluidProduct`
 
+> **SCOPE NOTE (execution):** Changing `ISqueezerRecipe.getFluidOutput()` from `FluidStack` to
+> `IFluidProduct` breaks compilation in `TileSqueezer` and `SqueezerRecipeCategory` (they call
+> `FluidStack` methods on the result). Because `runGameTestServer` compiles the whole mod, this task
+> cannot build or run its recipe codec gametest until those consumers are migrated too. Therefore
+> **Task 3 also performs Task 4's code Steps 1–4** (the `TileSqueezer` 3 sites + JEI change) in the
+> same commit. Task 4 then only regenerates and verifies datagen. Do Task 4 Steps 1–4 alongside the
+> Task 3 steps below before running the gametest.
+
 **Files:**
 - Modify: `src/main/java/forestry/api/recipes/ISqueezerRecipe.java`
 - Modify: `src/main/java/forestry/factory/recipes/SqueezerRecipe.java`
@@ -783,6 +791,12 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ---
 
 ## Task 4: Migrate consumers (`TileSqueezer`, JEI) and verify unchanged datagen
+
+> **SCOPE NOTE (execution):** Steps 1–4 below (the `TileSqueezer` + JEI code changes) are executed as
+> part of **Task 3** — they must land in the same commit as the `getFluidOutput()` API change for the
+> mod to compile. When executing, Task 4 is **only Step 6 (regenerate + verify datagen) and committing
+> `src/generated/resources`**. Steps 1–4 remain here as the authoritative spec for the consumer edits
+> that Task 3 applies; verify they are present when reviewing.
 
 **Files:**
 - Modify: `src/main/java/forestry/factory/tiles/TileSqueezer.java` (call sites ~139-140, ~182, ~213-214)
