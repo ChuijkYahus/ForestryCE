@@ -1,21 +1,21 @@
 package forestry.core.multiblock;
 
-import forestry.apiculture.features.ApicultureTiles;
+import forestry.api.multiblock.IAlvearyComponent;
+import forestry.api.multiblock.IFarmComponent;
 import forestry.apiculture.multiblock.AlvearyPattern;
+import forestry.apiculture.multiblock.TileAlvearyPlain;
 import forestry.core.multiblock.pattern.StructurePos;
 import forestry.core.multiblock.pattern.StructureView;
-import forestry.farming.features.FarmingTiles;
 import forestry.farming.multiblock.FarmPattern;
+import forestry.farming.tiles.TileFarmGearbox;
+import forestry.farming.tiles.TileFarmPlain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
-import java.util.IdentityHashMap;
-import java.util.Map;
 
 /**
  * The Phase-2 world adapter: a {@link StructureView} over a Forge {@link Level} (plan Task 2.1; spec
@@ -25,16 +25,10 @@ import java.util.Map;
  *
  * <p>{@link #sample} reads the in-world {@link BlockEntity}, the blockstate's
  * {@code is(BlockTags.WOODEN_SLABS)} (the alveary slab cap), and {@code isSolidRender} (the alveary
- * entrance air ring), and resolves the cell's {@code componentTypeId} from the BE's
- * {@link BlockEntityType}.
+ * entrance air ring), and resolves the cell's {@code componentTypeId} from the BE itself.
  *
- * <p><b>Type-id translation (Phase-1 hand-off note).</b> In-world BE-type registration ids do <em>not</em>
- * match the pattern's type-id strings: {@code TileAlvearyPlain} registers as {@code "alveary"} (not
- * {@code "alveary_plain"}), and every farm member registers without the {@code "farm_"} prefix
- * ({@code "plain"}, {@code "gearbox"}, …). {@link #typeIdFor} therefore maps each member
- * {@link BlockEntityType} to the pattern type-id via an explicit table built from the feature holders
- * ({@code ApicultureTiles}/{@code FarmingTiles}). A BE whose type is not a known multiblock member maps
- * to {@code null} (the cell is reported as not-a-component → {@code invalid.interior}).
+ * <p><b>Type-id translation.</b> See {@link #typeIdFor}. A BE that is not a member of either machine maps
+ * to {@code null} (the cell is reported as not-a-component -> {@code invalid.interior}).
  */
 public final class LevelStructureView implements StructureView {
 	private final Level level;
@@ -59,10 +53,10 @@ public final class LevelStructureView implements StructureView {
 	public CellSample sample(StructurePos pos) {
 		BlockPos blockPos = toBlockPos(pos);
 
-		// Component: resolve via the BlockEntity's type. getBlockEntity is safe here because validation
+		// Component: resolve via the BlockEntity. getBlockEntity is safe here because validation
 		// only samples cells it has already confirmed loaded (loaded-shell rule).
 		BlockEntity be = this.level.getBlockEntity(blockPos);
-		String componentTypeId = be == null ? null : typeIdFor(be.getType());
+		String componentTypeId = be == null ? null : typeIdFor(be);
 		boolean isComponent = componentTypeId != null;
 
 		BlockState state = this.level.getBlockState(blockPos);
@@ -72,51 +66,49 @@ public final class LevelStructureView implements StructureView {
 		return new CellSample(isComponent, be, isWoodenSlab, isSolidRender, componentTypeId);
 	}
 
-	/* ===== BE type -> pattern type-id mapping ===== */
+	/* ===== BlockEntity -> pattern type-id mapping ===== */
 
 	/**
-	 * Lazily-built map from member {@link BlockEntityType} to pattern type-id string. Built on first use
-	 * (after registration is complete — {@code FeatureTileType.tileType()} resolves the registry object),
-	 * keyed by type identity.
+	 * Resolves a cell's pattern type-id from its block entity, mirroring the pre-rewrite controllers
+	 * one-for-one.
+	 *
+	 * <p>The machine comes from the public component interface, as in the old base cube loop's
+	 * {@code te instanceof IMultiblockComponent} and its controller-class guard. Any block entity that
+	 * implements {@link IAlvearyComponent} or {@link IFarmComponent} is a member of that machine, so addon
+	 * parts are recognised by the same rule as Forestry's own.
+	 *
+	 * <p>The role comes from the concrete part class, as in the old
+	 * {@code AlvearyController.isGoodForInterior} ({@code instanceof TileAlvearyPlain}) and
+	 * {@code FarmController} ({@code instanceof TileFarmPlain} or {@code TileFarmGearbox}). An addon that
+	 * subclasses a role part inherits that role, again as before the rewrite.
+	 *
+	 * <p>Every other component is the machine's generic {@code *_part}. The pattern layer never
+	 * distinguishes them, because {@code Predicates} only compares {@code PLAIN} and {@code GEARBOX} by
+	 * equality and {@code PREFIX} by prefix, so a per-part id would carry no information.
+	 *
+	 * <p>Membership also requires {@link MultiblockTileEntityForestry}, because the rest of the engine
+	 * does. {@code MultiblockValidation.assemble} resolves the holder (the lowest member) as one and
+	 * returns otherwise, and anchoring and stash-clearing skip anything else. A part the engine cannot
+	 * anchor would make a structure fail to form with no error. Addon parts therefore extend
+	 * {@code TileAlveary} or {@code TileFarm}, as they did before the rewrite.
 	 */
 	@Nullable
-	private static volatile Map<BlockEntityType<?>, String> typeIds;
-
-	@Nullable
-	private static String typeIdFor(BlockEntityType<?> type) {
-		Map<BlockEntityType<?>, String> map = typeIds;
-		if (map == null) {
-			map = buildTypeIds();
-			typeIds = map;
+	static String typeIdFor(BlockEntity be) {
+		if (!(be instanceof MultiblockTileEntityForestry<?>)) {
+			return null;
 		}
-		return map.get(type);
-	}
-
-	private static synchronized Map<BlockEntityType<?>, String> buildTypeIds() {
-		// double-checked: another thread may have built it while we waited on the lock
-		Map<BlockEntityType<?>, String> existing = typeIds;
-		if (existing != null) {
-			return existing;
+		if (be instanceof IAlvearyComponent<?>) {
+			return be instanceof TileAlvearyPlain ? AlvearyPattern.PLAIN : AlvearyPattern.PART;
 		}
-
-		Map<BlockEntityType<?>, String> map = new IdentityHashMap<>();
-
-		// --- Alveary members. In-world "alveary" -> pattern "alveary_plain"; the rest already match. ---
-		map.put(ApicultureTiles.ALVEARY_PLAIN.tileType(), AlvearyPattern.PLAIN);
-		map.put(ApicultureTiles.ALVEARY_SIEVE.tileType(), AlvearyPattern.PREFIX + "sieve");
-		map.put(ApicultureTiles.ALVEARY_SWARMER.tileType(), AlvearyPattern.PREFIX + "swarmer");
-		map.put(ApicultureTiles.ALVEARY_HYGROREGULATOR.tileType(), AlvearyPattern.PREFIX + "hygroregulator");
-		map.put(ApicultureTiles.ALVEARY_STABILISER.tileType(), AlvearyPattern.PREFIX + "stabiliser");
-		map.put(ApicultureTiles.ALVEARY_FAN.tileType(), AlvearyPattern.PREFIX + "fan");
-		map.put(ApicultureTiles.ALVEARY_HEATER.tileType(), AlvearyPattern.PREFIX + "heater");
-
-		// --- Farm members. Every in-world id lacks the "farm_" prefix and must be translated. ---
-		map.put(FarmingTiles.PLAIN.tileType(), FarmPattern.PLAIN);
-		map.put(FarmingTiles.GEARBOX.tileType(), FarmPattern.GEARBOX);
-		map.put(FarmingTiles.HATCH.tileType(), FarmPattern.PREFIX + "hatch");
-		map.put(FarmingTiles.VALVE.tileType(), FarmPattern.PREFIX + "valve");
-		map.put(FarmingTiles.CONTROL.tileType(), FarmPattern.PREFIX + "control");
-
-		return map;
+		if (be instanceof IFarmComponent<?>) {
+			if (be instanceof TileFarmPlain) {
+				return FarmPattern.PLAIN;
+			}
+			if (be instanceof TileFarmGearbox) {
+				return FarmPattern.GEARBOX;
+			}
+			return FarmPattern.PART;
+		}
+		return null;
 	}
 }

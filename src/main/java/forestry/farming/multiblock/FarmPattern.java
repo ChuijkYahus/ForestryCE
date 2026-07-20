@@ -23,6 +23,13 @@ public final class FarmPattern {
 	public static final String PREFIX = "farm_";
 	public static final String PLAIN = "farm_plain";
 	public static final String GEARBOX = "farm_gearbox";
+	/**
+	 * Every farm component that fills no reserved role. Covers Forestry's hatch, valve and control as well
+	 * as any addon part. The pattern never distinguishes them, because {@link Predicates} only tests
+	 * {@link #PLAIN} and {@link #GEARBOX} by equality and {@link #PREFIX} by prefix, so they all share one
+	 * id.
+	 */
+	public static final String PART = "farm_part";
 
 	public static final MultiblockPattern FARM_PATTERN = MultiblockPattern.builder()
 			.componentTypePrefix(PREFIX)
