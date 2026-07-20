@@ -1,131 +1,78 @@
 package forestry.gametest;
 
-import javax.annotation.Nullable;
-
-import com.mojang.authlib.GameProfile;
+import java.util.List;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.api.multiblock.IAlvearyComponent;
-import forestry.api.multiblock.IFarmComponent;
-import forestry.api.multiblock.IMultiblockController;
-import forestry.api.multiblock.IMultiblockLogicAlveary;
-import forestry.api.multiblock.IMultiblockLogicFarm;
-import forestry.apiculture.multiblock.AlvearyPattern;
+import forestry.apiculture.blocks.BlockAlveary;
+import forestry.apiculture.features.ApicultureBlocks;
 import forestry.core.multiblock.LevelStructureView;
-import forestry.farming.multiblock.FarmPattern;
+import forestry.farming.blocks.EnumFarmBlockType;
+import forestry.farming.blocks.EnumFarmMaterial;
+import forestry.farming.features.FarmingBlocks;
 
 /**
- * Covers the addon-component fallback in {@link LevelStructureView#typeIdFor}: a block entity implementing
- * {@link IAlvearyComponent} / {@link IFarmComponent} maps to a prefixed type id that is never a reserved
- * {@code *_plain} / {@code *_gearbox} role, while a BE implementing neither stays a non-component.
+ * Covers component recognition in {@link LevelStructureView}. A member that fills no reserved role
+ * ({@code *_plain} or {@code farm_gearbox}) must still be recognised as part of its machine and let the
+ * structure form.
+ *
+ * <p>This is the addon-extensibility path. Recognition uses the public {@code IAlvearyComponent} or
+ * {@code IFarmComponent} interface plus the engine's {@code MultiblockTileEntityForestry} base. That is
+ * the same rule for Forestry's own non-role parts (sieve, hatch) and for a third-party one, so placing a
+ * sieve or hatch in an exterior cell exercises the code an addon part runs through, without a test-only
+ * block entity type.
  */
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class LevelStructureViewComponentTest {
-	private static final BlockState ANY_STATE = Blocks.FURNACE.defaultBlockState();
+	private static final BlockPos BASE = new BlockPos(6, 1, 6);
+	private static final int TIMEOUT = 240;
 
-	@GameTest(template = "empty")
-	public static void addonAlvearyComponentIsRecognised(GameTestHelper helper) {
-		String id = LevelStructureView.typeIdFor(new FakeAlvearyPart());
-		helper.assertTrue(id != null && id.startsWith(AlvearyPattern.PREFIX),
-				"an addon IAlvearyComponent must map to an alveary_ type id, got " + id);
-		helper.assertTrue(!AlvearyPattern.PLAIN.equals(id),
-				"an addon component must not usurp the reserved plain interior/top role");
+	/** Checks that an alveary assembles with a non-role member (a sieve) in an exterior cell. */
+	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
+	public static void alvearyFormsWithNonRoleComponent(GameTestHelper helper) {
+		List<BlockPos> members = MultiblockTestSupport.buildAlveary(helper, BASE);
+		BlockState sieve = ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.SIEVE).defaultState();
+		// exterior (x == 0), and not the plain-only top layer
+		helper.setBlock(BASE.offset(0, 1, 1), sieve);
+
+		ServerLevel level = helper.getLevel();
+		helper.assertTrue(MultiblockTestSupport.isAssembled(level, members.get(0)),
+				"an alveary containing a non-role component (sieve) must still assemble");
 		helper.succeed();
 	}
 
-	@GameTest(template = "empty")
-	public static void addonFarmComponentIsRecognised(GameTestHelper helper) {
-		String id = LevelStructureView.typeIdFor(new FakeFarmPart());
-		helper.assertTrue(id != null && id.startsWith(FarmPattern.PREFIX),
-				"an addon IFarmComponent must map to a farm_ type id, got " + id);
-		helper.assertTrue(!FarmPattern.PLAIN.equals(id) && !FarmPattern.GEARBOX.equals(id),
-				"an addon component must not usurp a reserved farm role (plain/gearbox)");
+	/** Checks that a farm assembles with a non-role member (a hatch) in an exterior cell. */
+	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
+	public static void farmFormsWithNonRoleComponent(GameTestHelper helper) {
+		List<BlockPos> members = MultiblockTestSupport.buildFarm(helper, BASE);
+		BlockState hatch = FarmingBlocks.FARM.get(EnumFarmBlockType.HATCH, EnumFarmMaterial.STONE_BRICK).defaultState();
+		// exterior, and not the level-2 plain-only band
+		helper.setBlock(BASE.offset(0, 1, 1), hatch);
+
+		ServerLevel level = helper.getLevel();
+		helper.assertTrue(MultiblockTestSupport.isAssembled(level, members.get(0)),
+				"a farm containing a non-role component (hatch) must still assemble");
 		helper.succeed();
 	}
 
-	@GameTest(template = "empty")
-	public static void nonComponentBlockEntityMapsToNull(GameTestHelper helper) {
-		helper.assertTrue(LevelStructureView.typeIdFor(new FakeInert()) == null,
-				"a BE implementing no multiblock-part interface must not be treated as a component");
+	/** Checks that a non-component block entity in an interior cell is not adopted as a part. */
+	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
+	public static void nonComponentBlockEntityIsNotAPart(GameTestHelper helper) {
+		List<BlockPos> members = MultiblockTestSupport.buildAlveary(helper, BASE);
+		helper.setBlock(BASE.offset(1, 1, 1), Blocks.CHEST);
+
+		ServerLevel level = helper.getLevel();
+		helper.assertFalse(MultiblockTestSupport.isAssembled(level, members.get(0)),
+				"a chest in the interior must not be recognised as an alveary component");
 		helper.succeed();
-	}
-
-	// --- fakes: real BlockEntities whose type (furnace) is absent from the member map, so they exercise the fallback ---
-
-	private static class FakeInert extends BlockEntity {
-		FakeInert() {
-			super(BlockEntityType.FURNACE, BlockPos.ZERO, ANY_STATE);
-		}
-	}
-
-	private static class FakeAlvearyPart extends BlockEntity implements IAlvearyComponent<IMultiblockLogicAlveary> {
-		FakeAlvearyPart() {
-			super(BlockEntityType.FURNACE, BlockPos.ZERO, ANY_STATE);
-		}
-
-		@Override
-		public BlockPos getCoordinates() {
-			return getBlockPos();
-		}
-
-		@Nullable
-		@Override
-		public GameProfile getOwner() {
-			return null;
-		}
-
-		@Override
-		public IMultiblockLogicAlveary getMultiblockLogic() {
-			return null;
-		}
-
-		@Override
-		public void onMachineAssembled(IMultiblockController controller, BlockPos min, BlockPos max) {
-		}
-
-		@Override
-		public void onMachineBroken() {
-		}
-	}
-
-	private static class FakeFarmPart extends BlockEntity implements IFarmComponent<IMultiblockLogicFarm> {
-		FakeFarmPart() {
-			super(BlockEntityType.FURNACE, BlockPos.ZERO, ANY_STATE);
-		}
-
-		@Override
-		public BlockPos getCoordinates() {
-			return getBlockPos();
-		}
-
-		@Nullable
-		@Override
-		public GameProfile getOwner() {
-			return null;
-		}
-
-		@Override
-		public IMultiblockLogicFarm getMultiblockLogic() {
-			return null;
-		}
-
-		@Override
-		public void onMachineAssembled(IMultiblockController controller, BlockPos min, BlockPos max) {
-		}
-
-		@Override
-		public void onMachineBroken() {
-		}
 	}
 }

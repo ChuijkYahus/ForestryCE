@@ -31,6 +31,12 @@ public final class AlvearyPattern {
 	/** Pattern component type ids (also used by the Phase-2 LevelStructureView to tag block entities). */
 	public static final String PREFIX = "alveary_";
 	public static final String PLAIN = "alveary_plain";
+	/**
+	 * Every alveary component that fills no reserved role. Covers Forestry's sieve, fan and heater as well
+	 * as any addon part. The pattern never distinguishes them, because {@link Predicates} only tests
+	 * {@link #PLAIN} by equality and {@link #PREFIX} by prefix, so they all share one id.
+	 */
+	public static final String PART = "alveary_part";
 
 	public static final MultiblockPattern ALVEARY_PATTERN = MultiblockPattern.builder()
 			.componentTypePrefix(PREFIX)
