@@ -89,7 +89,7 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> PEAT = REGISTRY.item(() -> new ItemForestry(new ItemProperties().burnTime(2000)), "peat");
 	/* Ash */
 	public static final FeatureItem<ItemForestry> ASH = REGISTRY.item(ItemForestry::new, "ash");
-	public static final FeatureItem<ItemForestry> ASH_BRICK = REGISTRY.item(ItemForestry::new, "ash_brick");
+	public static final FeatureItem<ItemForestry> ASH_BRICK = REGISTRY.item(ItemForestry::new, "brick_ash");
 	//TODO: This, I think, should be renamed to Enriched, Treated, or Infused Peat, as I quite understand how the recipe makes it bituminous - I have updated en_us.json but am keeping it here for not destroying registries and corrupting worlds.
 	public static final FeatureItem<ItemForestry> BITUMINOUS_PEAT = REGISTRY.item(() -> new ItemForestry(new ItemProperties().burnTime(4200)), "bituminous_peat");
 
@@ -107,4 +107,7 @@ public class CoreItems {
 	public static final FeatureItemGroup<ItemFruit, ItemFruit.EnumFruit> FRUITS = REGISTRY.itemGroup(ItemFruit::new, "fruit", ItemFruit.EnumFruit.values());
 	public static final FeatureItem<ItemBeesWax> BEESWAX = REGISTRY.item(ItemBeesWax::new, "beeswax");
 	public static final FeatureItem<ItemRefractoryWax> REFRACTORY_WAX = REGISTRY.item(ItemRefractoryWax::new, "refractory_wax");
+	public static final FeatureItem<ItemForestry> WAX_BRICK = REGISTRY.item(ItemForestry::new, "brick_wax");
+	public static final FeatureItem<ItemForestry> REFRACTORY_WAX_BRICK = REGISTRY.item(ItemForestry::new, "brick_refractory_wax");
+
 }

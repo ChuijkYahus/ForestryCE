@@ -207,6 +207,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.BITUMINOUS_PEAT);
 		items.accept(CoreItems.BEESWAX);
 		items.accept(CoreItems.REFRACTORY_WAX);
+		items.accept(CoreItems.WAX_BRICK);
+		items.accept(CoreItems.REFRACTORY_WAX_BRICK);
 		// todo merge more items into crafting materials
 		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
 	}
@@ -508,7 +510,6 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.ASH_BRICKS_CHISELED);
 
 		items.accept(ApicultureBlocks.WAX_BLOCK);
-		items.accept(CoreBlocks.HARDENED_WAX_BLOCK);
 		items.accept(CoreBlocks.WAX_BRICKS);
 		items.accept(CoreBlocks.WAX_BRICK_STAIRS);
 		items.accept(CoreBlocks.WAX_BRICK_SLAB);
@@ -516,7 +517,6 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.WAX_BRICKS_CHISELED);
 
 		items.accept(ApicultureBlocks.REFRACTORY_WAX_BLOCK);
-		items.accept(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK);
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICKS);
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS);
 		items.accept(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB);
@@ -540,6 +540,24 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.POLISHED_WAXSTONE_STAIRS);
 		items.accept(CoreBlocks.POLISHED_WAXSTONE_SLAB);
 		items.accept(CoreBlocks.POLISHED_WAXSTONE_WALL);
+
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE);
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE_STAIRS);
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE_SLAB);
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE_WALL);
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE_CHISELED);
+		items.accept(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE);
+		items.accept(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_STAIRS);
+		items.accept(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_SLAB);
+		items.accept(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_WALL);
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE_BRICKS);
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE_BRICK_STAIRS);
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE_BRICK_SLAB);
+		items.accept(CoreBlocks.REFRACTORY_WAXSTONE_BRICK_WALL);
+		items.accept(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE);
+		items.accept(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_STAIRS);
+		items.accept(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_SLAB);
+		items.accept(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_WALL);
 
 		items.accept(CoreBlocks.HONEYSTONE);
 		items.accept(CoreBlocks.HONEYSTONE_STAIRS);

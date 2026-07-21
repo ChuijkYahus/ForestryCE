@@ -154,10 +154,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			generic3d(feature);
 		}
 
-		simpleBlock(CoreBlocks.HARDENED_WAX_BLOCK.block());
-		generic3d(CoreBlocks.HARDENED_WAX_BLOCK.block());
-		simpleBlock(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK.block());
-		generic3d(CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK.block());
 		simpleBlock(CoreBlocks.ASHEN_WAX_BLOCK.block());
 		generic3d(CoreBlocks.ASHEN_WAX_BLOCK.block());
 		simpleBlock(CoreBlocks.CRISPY_HONEY_BLOCK.block());
@@ -211,6 +207,34 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			CoreBlocks.WAXSTONE_BRICK_WALL.block(),
 			null,
 			modLoc("block/waxstone_bricks"));
+
+		stoneBlockSet(CoreBlocks.REFRACTORY_WAXSTONE.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_STAIRS.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_SLAB.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_WALL.block(),
+			null, //Chiseled Refractory Waxstone has a special model
+			modLoc("block/refractory_waxstone"));
+
+		stoneBlockSet(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE.block(),
+			CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_STAIRS.block(),
+			CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_SLAB.block(),
+			CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_WALL.block(),
+			null,
+			modLoc("block/cobbled_refractory_waxstone"));
+
+		stoneBlockSet(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE.block(),
+			CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_STAIRS.block(),
+			CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_SLAB.block(),
+			CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_WALL.block(),
+			null,
+			modLoc("block/polished_refractory_waxstone"));
+
+		stoneBlockSet(CoreBlocks.REFRACTORY_WAXSTONE_BRICKS.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_BRICK_STAIRS.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_BRICK_SLAB.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_BRICK_WALL.block(),
+			null,
+			modLoc("block/refractory_waxstone_bricks"));
 
 		stoneBlockSet(CoreBlocks.HONEYSTONE.block(),
 			CoreBlocks.HONEYSTONE_STAIRS.block(),

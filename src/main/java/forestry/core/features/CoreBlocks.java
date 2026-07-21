@@ -66,7 +66,6 @@ public class CoreBlocks {
 
 
 	//Wax Bricks
-	public static final FeatureBlock<Block, BlockItem> HARDENED_WAX_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "hardened_wax_block");
 	public static final FeatureBlock<Block, BlockItem> WAX_BRICKS = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "wax_bricks");
 	public static final FeatureBlock<Block, BlockItem> WAX_BRICKS_CHISELED = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "chiseled_wax_bricks");
 	public static final FeatureBlock<StairBlock, BlockItem> WAX_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "wax_brick_stairs");
@@ -74,7 +73,6 @@ public class CoreBlocks {
 	public static final FeatureBlock<WallBlock, BlockItem> WAX_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "wax_brick_wall");
 
 	//Refractory Wax Bricks
-	public static final FeatureBlock<Block, BlockItem> HARDENED_REFRACTORY_WAX_BLOCK = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_RED)), ItemBlockForestry::new, "hardened_refractory_wax_block");
 
 	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAX_BRICKS = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_RED)), ItemBlockForestry::new, "refractory_wax_bricks");
 	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAX_BRICKS_CHISELED  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).sound(SoundType.MUD).mapColor(MapColor.COLOR_YELLOW)), ItemBlockForestry::new, "chiseled_refractory_wax_bricks");
@@ -83,7 +81,7 @@ public class CoreBlocks {
 	public static final FeatureBlock<WallBlock, BlockItem> REFRACTORY_WAX_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).sound(SoundType.MUD).mapColor(MapColor.COLOR_RED)), ItemBlockForestry::new, "refractory_wax_brick_wall");
 
 
-	//Honeystone and variants
+	//Waxstone and variants
 	public static final FeatureBlock<Block, BlockItem> WAXSTONE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "waxstone");
 	public static final FeatureBlock<StairBlock, BlockItem> WAXSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "waxstone_stairs");
 
@@ -115,6 +113,38 @@ public class CoreBlocks {
 
 	public static final FeatureBlock<WallBlock, BlockItem> POLISHED_WAXSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "polished_waxstone_wall");
 
+
+	//Refractory Waxstone and Variants
+	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAXSTONE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "refractory_waxstone");
+	public static final FeatureBlock<StairBlock, BlockItem> REFRACTORY_WAXSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "refractory_waxstone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> REFRACTORY_WAXSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "refractory_waxstone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> REFRACTORY_WAXSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "refractory_waxstone_wall");
+
+	public static final FeatureBlock<Block, BlockItem> COBBLED_REFRACTORY_WAXSTONE  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "cobbled_refractory_waxstone");
+	public static final FeatureBlock<StairBlock, BlockItem> COBBLED_REFRACTORY_WAXSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "cobbled_refractory_waxstone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> COBBLED_REFRACTORY_WAXSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "cobbled_refractory_waxstone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> COBBLED_REFRACTORY_WAXSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "cobbled_refractory_waxstone_wall");
+
+
+	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAXSTONE_BRICKS  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "refractory_waxstone_bricks");
+
+	public static final FeatureBlock<StairBlock, BlockItem> REFRACTORY_WAXSTONE_BRICK_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "refractory_waxstone_brick_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> REFRACTORY_WAXSTONE_BRICK_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "refractory_waxstone_brick_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> REFRACTORY_WAXSTONE_BRICK_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "refractory_waxstone_brick_wall");
+	public static final FeatureBlock<Block, BlockItem> REFRACTORY_WAXSTONE_CHISELED  = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "chiseled_refractory_waxstone");
+
+	public static final FeatureBlock<Block, BlockItem> POLISHED_REFRACTORY_WAXSTONE = REGISTRY.block(() -> new Block(BlockBehaviour.Properties.copy(Blocks.MUD_BRICKS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "polished_refractory_waxstone");
+	public static final FeatureBlock<StairBlock, BlockItem> POLISHED_REFRACTORY_WAXSTONE_STAIRS = REGISTRY.block(() -> new StairBlock(Blocks.MUD_BRICKS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_STAIRS).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "polished_refractory_waxstone_stairs");
+
+	public static final FeatureBlock<SlabBlock, BlockItem> POLISHED_REFRACTORY_WAXSTONE_SLAB = REGISTRY.block(() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_SLAB).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "polished_refractory_waxstone_slab");
+
+	public static final FeatureBlock<WallBlock, BlockItem> POLISHED_REFRACTORY_WAXSTONE_WALL = REGISTRY.block(() -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.MUD_BRICK_WALL).mapColor(MapColor.SAND).sound(SoundType.CANDLE)), ItemBlockForestry::new, "polished_refractory_waxstone_wall");
 
 
 

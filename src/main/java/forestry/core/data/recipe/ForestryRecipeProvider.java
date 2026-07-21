@@ -867,9 +867,12 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		});
 
 		//WAX BRICKS
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HARDENED_WAX_BLOCK, 2, recipe -> {
-			recipe.define('X', ApicultureBlocks.WAX_BLOCK);
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreItems.WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.BEESWAX);
 			recipe.define('#', Ingredient.of(
+				//I wanted this to use tags but it can't
+				//The reason it uses these is because wax bricks need something to stop them from being able to melt.
+				//This means I can be a lazy developer.
 				CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP),
 				CoreItems.ASH
 			));
@@ -877,14 +880,14 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern("X#");
 		});
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAX_BRICKS, 4, recipe -> {
-			recipe.define('X', CoreBlocks.HARDENED_WAX_BLOCK);
+			recipe.define('X', CoreItems.WAX_BRICK);
 			recipe.pattern("XX");
 			recipe.pattern("XX");
 		});
 
 		//REFRACTORY WAX BRICKS
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK, 2, recipe -> {
-			recipe.define('X', ApicultureBlocks.REFRACTORY_WAX_BLOCK);
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreItems.REFRACTORY_WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX);
 			recipe.define('#', Ingredient.of(
 				CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP),
 				CoreItems.ASH
@@ -893,7 +896,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern("X#");
 		});
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.REFRACTORY_WAX_BRICKS, 4, recipe -> {
-			recipe.define('X', CoreBlocks.HARDENED_REFRACTORY_WAX_BLOCK);
+			recipe.define('X', CoreItems.REFRACTORY_WAX_BRICK);
 			recipe.pattern("XX");
 			recipe.pattern("XX");
 		});
@@ -964,6 +967,45 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		stairs(recipes, CoreBlocks.WAXSTONE_BRICK_STAIRS, CoreBlocks.WAXSTONE_BRICKS, "waxstone_bricks", consumer);
 		slabs(recipes, CoreBlocks.WAXSTONE_BRICK_SLAB, CoreBlocks.WAXSTONE_BRICKS, "waxstone_bricks", consumer);
 		walls(recipes, CoreBlocks.WAXSTONE_BRICK_WALL, CoreBlocks.WAXSTONE_BRICKS, "waxstone_bricks", consumer);
+
+
+
+		recipes.shapedCrafting("refractory_waxstone_crafting", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.REFRACTORY_WAXSTONE, 8, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX);
+			recipe.define('#', Blocks.STONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		stairs(recipes, CoreBlocks.REFRACTORY_WAXSTONE_STAIRS, CoreBlocks.REFRACTORY_WAXSTONE, "refractory_waxstone", consumer);
+		slabs(recipes, CoreBlocks.REFRACTORY_WAXSTONE_SLAB, CoreBlocks.REFRACTORY_WAXSTONE, "refractory_waxstone", consumer);
+		walls(recipes, CoreBlocks.REFRACTORY_WAXSTONE_WALL, CoreBlocks.REFRACTORY_WAXSTONE, "refractory_waxstone", consumer);
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.REFRACTORY_WAXSTONE_CHISELED, 1, recipe -> {
+			recipe.define('X', CoreBlocks.REFRACTORY_WAXSTONE_SLAB);
+			recipe.pattern("X");
+			recipe.pattern("X");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.COBBLED_REFRACTORY_WAXSTONE, 8, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX);
+			recipe.define('#', Blocks.COBBLESTONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		stairs(recipes, CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_STAIRS, CoreBlocks.REFRACTORY_WAXSTONE, "cobbled_refractory_waxstone", consumer);
+		slabs(recipes, CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_SLAB, CoreBlocks.REFRACTORY_WAXSTONE, "cobbled_refractory_waxstone", consumer);
+		walls(recipes, CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_WALL, CoreBlocks.REFRACTORY_WAXSTONE, "cobbled_refractory_waxstone", consumer);
+
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.POLISHED_REFRACTORY_WAXSTONE, 4, Ingredient.of(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE));
+		stairs(recipes, CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_STAIRS, CoreBlocks.POLISHED_REFRACTORY_WAXSTONE, "polished_refractory_waxstone", consumer);
+		slabs(recipes, CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_SLAB, CoreBlocks.POLISHED_REFRACTORY_WAXSTONE, "polished_refractory_waxstone", consumer);
+		walls(recipes, CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_WALL, CoreBlocks.POLISHED_REFRACTORY_WAXSTONE, "polished_refractory_waxstone", consumer);
+
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.REFRACTORY_WAXSTONE_BRICKS, 4, Ingredient.of(CoreBlocks.REFRACTORY_WAXSTONE));
+		stairs(recipes, CoreBlocks.REFRACTORY_WAXSTONE_BRICK_STAIRS, CoreBlocks.REFRACTORY_WAXSTONE_BRICKS, "refractory_waxstone_bricks", consumer);
+		slabs(recipes, CoreBlocks.REFRACTORY_WAXSTONE_BRICK_SLAB, CoreBlocks.REFRACTORY_WAXSTONE_BRICKS, "refractory_waxstone_bricks", consumer);
+		walls(recipes, CoreBlocks.REFRACTORY_WAXSTONE_BRICK_WALL, CoreBlocks.REFRACTORY_WAXSTONE_BRICKS, "refractory_waxstone_bricks", consumer);
 
 
 		recipes.shapedCrafting("honeystone_crafting", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HONEYSTONE, 8, recipe -> {
@@ -1301,6 +1343,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 
 	private static void registerFurnaceRecipes(MKRecipeProvider recipes){
 		recipes.smelting(CoreBlocks.COBBLED_WAXSTONE, CoreBlocks.WAXSTONE, 0.1f);
+		recipes.smelting(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE, CoreBlocks.REFRACTORY_WAXSTONE, 0.1f);
 		recipes.smelting(CoreBlocks.COBBLED_HONEYSTONE, CoreBlocks.HONEYSTONE, 0.1f);
 		recipes.smelting(ApicultureBlocks.WAX_BLOCK, CoreBlocks.ASHEN_WAX_BLOCK, 0.1f);
 		recipes.smelting(Blocks.HONEY_BLOCK, CoreBlocks.CRISPY_HONEY_BLOCK, 0.1f);

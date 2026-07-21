@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-08T01:20:54.3643561	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-07-21T21:09:09.6730543	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
@@ -153,7 +153,7 @@ a3f470e9eccaa5cf9d4bc2a389bad4a21ce49be5 data/minecraft/tags/blocks/logs_that_bu
 737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/mangrove_roots_can_grow_through.json
 ce86ae664316536a146dedd54abd318dbb38d299 data/minecraft/tags/blocks/mineable/axe.json
 737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/mineable/hoe.json
-b88b3c7d8500e0d24022aa91bf3741b2bbd45ccf data/minecraft/tags/blocks/mineable/pickaxe.json
+996da198d6b816eaf30af1ab1ee7b78af981f369 data/minecraft/tags/blocks/mineable/pickaxe.json
 ca07be9e8b0ddc7e17419720d88fab28c5f9455e data/minecraft/tags/blocks/mineable/shovel.json
 40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/moss_replaceable.json
 4f0f5d3a71d5e122fb2e1f8e6ba54801b535d904 data/minecraft/tags/blocks/needs_stone_tool.json
