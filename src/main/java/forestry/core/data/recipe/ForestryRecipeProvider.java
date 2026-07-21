@@ -1345,8 +1345,8 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		recipes.smelting(CoreBlocks.COBBLED_WAXSTONE, CoreBlocks.WAXSTONE, 0.1f);
 		recipes.smelting(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE, CoreBlocks.REFRACTORY_WAXSTONE, 0.1f);
 		recipes.smelting(CoreBlocks.COBBLED_HONEYSTONE, CoreBlocks.HONEYSTONE, 0.1f);
-		recipes.smelting(ApicultureBlocks.WAX_BLOCK, CoreBlocks.ASHEN_WAX_BLOCK, 0.1f);
-		recipes.smelting(Blocks.HONEY_BLOCK, CoreBlocks.CRISPY_HONEY_BLOCK, 0.1f);
+		//recipes.smelting(ApicultureBlocks.WAX_BLOCK, CoreBlocks.ASHEN_WAX_BLOCK, 0.1f);
+		//recipes.smelting(Blocks.HONEY_BLOCK, CoreBlocks.CRISPY_HONEY_BLOCK, 0.1f);
 	}
 
 	private static void registerFactoryRecipes(MKRecipeProvider recipes) {

@@ -577,8 +577,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.POLISHED_HONEYSTONE_SLAB);
 		items.accept(CoreBlocks.POLISHED_HONEYSTONE_WALL);
 
-		items.accept(CoreBlocks.ASHEN_WAX_BLOCK);
-		items.accept(CoreBlocks.CRISPY_HONEY_BLOCK);
+		//items.accept(CoreBlocks.ASHEN_WAX_BLOCK);
+		//items.accept(CoreBlocks.CRISPY_HONEY_BLOCK);
 
 		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
 
