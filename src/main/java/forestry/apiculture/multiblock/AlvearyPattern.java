@@ -9,23 +9,23 @@ import forestry.core.multiblock.pattern.Predicates;
 import forestry.core.multiblock.pattern.StructurePos;
 
 /**
- * The declarative Alveary pattern (spec §5.1), modeling {@code AlvearyController.isMachineWhole} plus the
+ * The declarative Alveary pattern (spec 5.1), modeling {@code AlvearyController.isMachineWhole} plus the
  * base cube loop verbatim:
  * <ul>
- *   <li>a fixed 3×3×3 box of {@code alveary_*} components (minBlocks 27),</li>
+ *   <li>a fixed 3x3x3 box of {@code alveary_*} components (minBlocks 27),</li>
  *   <li>interior cell must be plain ({@code needPlainInterior}),</li>
  *   <li>top exterior layer (level 2) must be plain ({@code needPlainOnTop}),</li>
  *   <li>other exterior cells may be any alveary component,</li>
- *   <li>a 3×3 wooden-slab cap one block above ({@code needSlabs}),</li>
+ *   <li>a 3x3 wooden-slab cap one block above ({@code needSlabs}),</li>
  *   <li>a non-solid entrance air ring around the top layer ({@code needSpace}).</li>
  * </ul>
  *
  * <p>Still {@code net.minecraft}-free: it references {@link Predicates} and pattern component type-id
  * strings only. The Phase-2 world adapter maps each in-world block entity to one of these type ids.
  *
- * <p>Parity ordering: the cube loop runs first, then the slab cap, then the air ring — so a missing-slab
- * error is reported before a blocked-ring error (the extra cells use a {@link LinkedHashMap} with the
- * slab cells inserted before the ring cells).
+ * <p>Parity ordering: the cube loop runs first, then the slab cap, then the air ring. A missing-slab
+ * error is reported before a blocked-ring error, because the extra cells use a {@link LinkedHashMap}
+ * with the slab cells inserted before the ring cells.
  */
 public final class AlvearyPattern {
 	/** Pattern component type ids (also used by the Phase-2 LevelStructureView to tag block entities). */
@@ -62,16 +62,16 @@ public final class AlvearyPattern {
 			// AlvearyController.isGoodForExteriorLevel(level == 2): must be plain
 			return Predicates.componentOfType(PLAIN, Predicates.KEY_NEED_PLAIN_ON_TOP);
 		}
-		// any other exterior cell may be any alveary component (heater/fan/sieve/...). The base cube loop's
+		// any other exterior cell may be any alveary component (ex. heater, fan, sieve). The base cube loop's
 		// component-type guard maps a wrong-controller component to invalid.part.
 		return Predicates.anyComponent(PREFIX, Predicates.KEY_INVALID_PART);
 	}
 
 	private static Map<StructurePos, CellPredicate> extraCells(int sizeX, int sizeY, int sizeZ) {
-		// LinkedHashMap: slabs first, then ring, so slab failures win over space failures (parity order).
+		// LinkedHashMap: slabs first, then ring, so slab failures win over space failures (parity order)
 		Map<StructurePos, CellPredicate> extra = new LinkedHashMap<>();
 
-		// Slab cap: the 3×3 footprint one block above the box (y = sizeY, i.e. maxY + 1).
+		// Slab cap: the 3x3 footprint one block above the box (y = sizeY, i.e. maxY + 1)
 		CellPredicate slab = Predicates.woodenSlab(Predicates.KEY_NEED_SLABS);
 		int slabY = sizeY;
 		for (int x = 0; x < sizeX; x++) {

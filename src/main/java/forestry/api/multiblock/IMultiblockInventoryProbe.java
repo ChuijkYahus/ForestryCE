@@ -17,7 +17,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public interface IMultiblockInventoryProbe {
 	/**
-	 * @return A deep copy of this multiblock's current inventory contents.
+	 * @return A deep copy of this multiblock's current inventory contents
 	 */
 	List<ItemStack> snapshotSharedInventory();
 

@@ -34,9 +34,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The "no controller" stand-in resolved by {@code MultiblockLogicFarm.getController()} when a block is not
- * part of an assembled farm (spec §7.2, §9). Reshaped onto the trimmed public
- * {@link IFarmControllerInternal} after the engine rewrite (no engine-internal surface).
+ * The "no controller" stand-in resolved by {@code MultiblockLogicFarm.getController()} when a block is
+ * not part of an assembled farm (spec 7.2, spec 9).
+ *
+ * Reshaped onto the trimmed public {@link IFarmControllerInternal} after the engine rewrite, which
+ * leaves no engine-internal surface.
  */
 public enum FakeFarmController implements IFarmControllerInternal {
 	INSTANCE;
@@ -104,10 +106,10 @@ public enum FakeFarmController implements IFarmControllerInternal {
 
 	@Override
 	public IFarmLogic getFarmLogic(Direction direction) {
-		// BUG 2 (defensive): never throw from a render-reachable method. A transient Fake controller can be
-		// resolved by the GUI during a client reload (e.g. before the holder's description packet reconstructs
-		// the real controller). Return the default arboreal logic — the same default FarmController.resetFarmLogic
-		// installs — so GuiFarm/FarmLogicSlot draw a sane icon instead of crashing with IllegalStateException.
+		// BUG 2 (defensive): never throw from a render-reachable method. The GUI can resolve a transient Fake
+		// controller during a client reload (ex. before the holder's description packet reconstructs the real
+		// controller). Return the default arboreal logic, the same default that FarmController.resetFarmLogic
+		// installs, so GuiFarm/FarmLogicSlot draw a sane icon instead of crashing with IllegalStateException.
 		return IForestryApi.INSTANCE.getFarmingManager().getFarmType(ForestryFarmTypes.ARBOREAL).getLogic(false);
 	}
 

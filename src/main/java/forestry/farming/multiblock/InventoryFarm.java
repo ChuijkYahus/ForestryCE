@@ -5,9 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-/**
- * Inventory of the farm multiblock.
- */
+/** Inventory of the farm multiblock. */
 public class InventoryFarm extends InventoryPlantation<FarmController> implements IFarmInventoryInternal {
 	public static InventoryPlantation.InventoryConfig CONFIG = new InventoryPlantation.InventoryConfig(
 		0, 6,

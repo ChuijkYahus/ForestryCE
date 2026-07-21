@@ -35,7 +35,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 
 	@Nullable
 	private IHygroregulatorRecipe currentRecipe;
-	// number of ticks the current temperature change lasts for.
+	// number of ticks the current temperature change lasts for
 	private int heatTicks;
 
 	public TileAlvearyHygroregulator(BlockPos pos, BlockState state) {

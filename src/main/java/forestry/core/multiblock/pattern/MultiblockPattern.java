@@ -12,15 +12,15 @@ import forestry.core.multiblock.pattern.PatternResult.FailingCell;
 import forestry.core.multiblock.pattern.StructureView.CellSample;
 
 /**
- * A declarative, {@code net.minecraft}-free multiblock pattern (spec §5). Given a {@link StructureView}
- * and a candidate origin (the would-be lowest member / min corner, spec §6.1), {@link #validate}
+ * A declarative, {@code net.minecraft}-free multiblock pattern (spec 5). Given a {@link StructureView}
+ * and a candidate origin, the would-be lowest member and min corner (spec 6.1), {@link #validate}
  * performs a single stateless query and returns a {@link PatternResult}.
  *
- * <p>The structure is a solid box of same-type Forestry components (spec §5.1) whose extent is measured
- * from the origin, plus optional "extra" cells outside the box (the alveary's slab cap and entrance air
- * ring). The box may be fixed-size (alveary) or fall within per-axis ranges (farm). Validation enforces
- * the size range, every cell predicate, an optional whole-structure post-check (e.g. gearbox-present),
- * and the maximality + loaded-shell rule that fixes audit D1 (spec §5.2).
+ * <p>The structure is a solid box of same-type Forestry components (spec 5.1) whose extent is measured
+ * from the origin, plus optional "extra" cells outside the box, meaning the alveary's slab cap and entrance
+ * air ring. The box may be fixed-size (alveary) or fall within per-axis ranges (farm). Validation enforces
+ * the size range, every cell predicate, an optional whole-structure post-check such as gearbox-present,
+ * and the maximality and loaded-shell rule that fixes audit D1 (spec 5.2).
  */
 public final class MultiblockPattern {
 	/** Predicate for a single box cell, parameterised by box size and the cell's offset within it. */
@@ -29,13 +29,13 @@ public final class MultiblockPattern {
 		CellPredicate predicateFor(int sizeX, int sizeY, int sizeZ, int dx, int dy, int dz);
 	}
 
-	/** Produces the non-box "extra" cells (slab cap, air ring) as offsets relative to the origin. */
+	/** Produces the non-box "extra" cells, the slab cap and air ring, as offsets relative to the origin. */
 	@FunctionalInterface
 	public interface ExtraCellsFactory {
 		Map<StructurePos, CellPredicate> extraCells(int sizeX, int sizeY, int sizeZ);
 	}
 
-	/** A whole-structure check over the matched components; returns {@code null} or a failure key. */
+	/** A whole-structure check over the matched components. Returns {@code null} or a failure key. */
 	@FunctionalInterface
 	public interface PostCheck {
 		String check(List<Component> components);
@@ -67,7 +67,10 @@ public final class MultiblockPattern {
 		this.postChecks = List.copyOf(b.postChecks);
 	}
 
-	/** Whether a sampled cell is a same-type component of this machine (used for measurement/maximality). */
+	/**
+	 * Determines whether a sampled cell is a same-type component of this machine. Used for measurement and
+	 * maximality.
+	 */
 	private boolean isSameTypeComponent(CellSample sample) {
 		return sample.isComponent()
 				&& sample.componentTypeId() != null
@@ -75,18 +78,18 @@ public final class MultiblockPattern {
 	}
 
 	/**
-	 * Runs the stateless validation query (spec §5.2) for {@code origin} treated as the structure's
-	 * lowest member / min corner. Returns a {@link PatternResult.Match} only for the true, maximal,
-	 * fully-loaded structure; otherwise a {@link PatternResult.Failure}.
+	 * Runs the stateless validation query (spec 5.2) for the origin treated as the structure's lowest member
+	 * and min corner. Returns a {@link PatternResult.Match} only for the true, maximal, fully-loaded
+	 * structure, otherwise a {@link PatternResult.Failure}.
 	 */
 	public PatternResult validate(StructureView view, StructurePos origin) {
-		// --- Maximality (lower faces): origin must actually be the lowest member. If a same-type
-		// component sits just below origin on any axis, this origin is non-maximal -> defer. We require
-		// those confirming cells to be loaded (loaded-shell). Both branches mean "this candidate is not
+		// --- Maximality on the lower faces. Origin must actually be the lowest member. If a same-type
+		// component sits just below origin on any axis, this origin is non-maximal -> defer. Those
+		// confirming cells must be loaded (loaded-shell). Both branches mean "this candidate is not
 		// rooted at the structure's true min corner", a discovery artefact of probing many permissive
-		// candidate origins (spec §5.3) — NOT a real content/size error. They return the internal
+		// candidate origins (spec 5.3), NOT a real content or size error. They return the internal
 		// KEY_NOT_MAXIMAL so findValidationHint ranks them below the meaningful failure produced by the
-		// candidate that IS rooted at the true min corner (e.g. error.small / invalid.interior), instead
+		// candidate that IS rooted at the true min corner, such as error.small or invalid.interior, instead
 		// of leaking the misleading "incompatible part (%s)" message for an incomplete machine. ---
 		for (StructurePos below : new StructurePos[]{
 				origin.offset(-1, 0, 0), origin.offset(0, -1, 0), origin.offset(0, 0, -1)}) {
@@ -102,29 +105,30 @@ public final class MultiblockPattern {
 		// Each grown layer must be fully loaded (loaded-shell) and fully same-type-component. ---
 		Measure measure = measureBox(view, origin);
 		if (measure == null) {
-			// a required cell was unloaded while measuring -> cannot confirm extent -> defer
+			// a required cell was unloaded while measuring, cannot confirm extent, so defer
 			return failure(origin, Predicates.KEY_INVALID_INTERIOR);
 		}
 		int sizeX = measure.sizeX;
 		int sizeY = measure.sizeY;
 		int sizeZ = measure.sizeZ;
 
-		// --- Size-range check (parity small/large keys). For a fixed-size axis measureBox does NOT measure
-		// the real extent (it returns the fixed value so an interior hole is caught later as
-		// invalid.interior, exact parity). That hides an UNDERSIZED structure (e.g. a 3x3x2 alveary): the
-		// per-cell loop would report the missing top layer as invalid.interior, when the old engine showed
-		// "must be 3x3x3" (error.small). So we measure the true contiguous same-type extent from origin and
-		// hand it to checkSize, which compares it against the configured minimums and surfaces error.small /
-		// error.small.{x,y,z}. A hole that does NOT shrink the outer extent (full shell, missing interior)
-		// leaves the extent at full size, so it still falls through to the per-cell invalid.interior path. ---
+		// --- Size-range check, using the parity small and large keys. For a fixed-size axis measureBox does
+		// NOT measure the real extent. It returns the fixed value so an interior hole is caught later as
+		// invalid.interior, which is exact parity. That hides an UNDERSIZED structure such as a 3x3x2
+		// alveary, where the per-cell loop would report the missing top layer as invalid.interior when the
+		// old engine showed "must be 3x3x3" (error.small). So measure the true contiguous same-type extent
+		// from origin and hand it to checkSize, which compares it against the configured minimums and
+		// surfaces error.small or error.small.{x,y,z}. A hole that does NOT shrink the outer extent, meaning
+		// a full shell with a missing interior, leaves the extent at full size, so it still falls through to
+		// the per-cell invalid.interior path. ---
 		Measure extent = measureExtent(view, origin);
 		PatternResult.Failure sizeFailure = checkSize(origin, sizeX, sizeY, sizeZ, extent);
 		if (sizeFailure != null) {
 			return sizeFailure;
 		}
 
-		// --- Loaded check for the whole box + extra cells before running predicates. ---
-		// (box cells are already confirmed loaded by measureBox; check extra cells here)
+		// --- Loaded check for the whole box and extra cells before running predicates. ---
+		// box cells are already confirmed loaded by measureBox, so check extra cells here
 		Map<StructurePos, CellPredicate> extra = this.extraCellsFactory == null
 				? Map.of()
 				: this.extraCellsFactory.extraCells(sizeX, sizeY, sizeZ);
@@ -135,16 +139,16 @@ public final class MultiblockPattern {
 			}
 		}
 
-		// --- Maximality (upper faces): the layer just beyond each grown face must NOT be same-type
+		// --- Maximality on the upper faces. The layer just beyond each grown face must NOT be same-type
 		// components and must be loaded. measureBox stopped growing because those layers were not all
-		// same-type; but for ranges below max we still must confirm the next layer is loaded & clear. ---
+		// same-type, but for ranges below max the next layer must still be confirmed loaded and clear. ---
 		PatternResult.Failure maximalityFailure = checkUpperMaximality(view, origin, sizeX, sizeY, sizeZ);
 		if (maximalityFailure != null) {
 			return maximalityFailure;
 		}
 
 		// --- Run the box cell predicates. Every box cell must also be loaded (loaded-shell rule, spec
-		// §5.2): an unloaded member cell means we cannot confirm the structure, so we defer (non-match)
+		// 5.2). An unloaded member cell means the structure cannot be confirmed, so defer with a non-match
 		// rather than assembling on a partial footprint. ---
 		List<Component> components = new ArrayList<>(sizeX * sizeY * sizeZ);
 		List<StructurePos> members = new ArrayList<>(sizeX * sizeY * sizeZ);
@@ -167,7 +171,7 @@ public final class MultiblockPattern {
 			}
 		}
 
-		// --- Run the extra-cell predicates (slab cap, air ring). ---
+		// --- Run the extra-cell predicates for the slab cap and air ring. ---
 		for (Map.Entry<StructurePos, CellPredicate> entry : extra.entrySet()) {
 			StructurePos rel = entry.getKey();
 			StructurePos worldPos = origin.offset(rel.x(), rel.y(), rel.z());
@@ -177,7 +181,7 @@ public final class MultiblockPattern {
 			}
 		}
 
-		// --- Whole-structure post-checks (e.g. gearbox-present). ---
+		// --- Whole-structure post-checks, ex. gearbox-present. ---
 		for (PostCheck postCheck : this.postChecks) {
 			String fail = postCheck.check(components);
 			if (fail != null) {
@@ -186,27 +190,27 @@ public final class MultiblockPattern {
 		}
 
 		// --- Match. The box is built in ascending (x,y,z) order from origin, so origin is by construction
-		// the lowest member = min = holder (spec §6.1); max is the opposite corner of the solid box. ---
+		// the lowest member, the min and the holder (spec 6.1). Max is the opposite corner of the box. ---
 		StructurePos max = origin.offset(sizeX - 1, sizeY - 1, sizeZ - 1);
 		return new PatternResult.Match(members, origin, max, origin, components);
 	}
 
 	/**
-	 * Determines the box size at {@code origin}.
+	 * Determines the box size at the origin.
 	 *
-	 * <p>For a <b>fixed axis</b> ({@code min == max}) the size is that fixed value with no measurement —
-	 * so an interior hole is caught later by the per-cell predicates as {@code invalid.interior} (exact
-	 * parity with the old bounding-box-then-validate-each-cell behaviour). For a <b>ranged axis</b> the
-	 * size is found by growing along the min-corner edge while the next edge cell is a same-type
-	 * component, clamped to {@code max}; this resolves which size variant a variable-size machine (the
-	 * farm) is, and remaining interior cells are still validated by predicates. Returns {@code null} if a
-	 * consulted cell is unloaded (defer; loaded-shell rule).
+	 * <p>For a <b>fixed axis</b>, where {@code min == max}, the size is that fixed value with no measurement,
+	 * so an interior hole is caught later by the per-cell predicates as {@code invalid.interior}. That is
+	 * exact parity with the old bounding-box-then-validate-each-cell behaviour. For a <b>ranged axis</b> the
+	 * size is found by growing along the min-corner edge while the next edge cell is a same-type component,
+	 * clamped to {@code max}. That resolves which size variant a variable-size machine, the farm, is, and
+	 * remaining interior cells are still validated by predicates. Returns {@code null} if a consulted cell is
+	 * unloaded, deferring under the loaded-shell rule.
 	 */
 	private Measure measureBox(StructureView view, StructurePos origin) {
 		if (!view.isLoaded(origin)) {
 			return null;
 		}
-		// If origin is not even a same-type component, report 1x1x1 so size/predicate checks emit a key.
+		// If origin is not even a same-type component, report 1x1x1 so size and predicate checks emit a key
 		boolean originIsComponent = isSameTypeComponent(view.sample(origin));
 
 		int sizeX = measureAxis(view, origin, 1, 0, 0, this.minSizeX, this.maxSizeX, originIsComponent);
@@ -227,16 +231,16 @@ public final class MultiblockPattern {
 	private static final int UNLOADED = -1;
 
 	/**
-	 * Measures one axis. Fixed axes ({@code min == max}) return {@code max} immediately. Ranged axes grow
-	 * along the unit-vector edge from origin while the next edge cell is a same-type component, clamped to
-	 * {@code max}. Returns {@link #UNLOADED} if a consulted edge cell is unloaded.
+	 * Measures one axis. Fixed axes, where {@code min == max}, return {@code max} immediately. Ranged axes
+	 * grow along the unit-vector edge from origin while the next edge cell is a same-type component, clamped
+	 * to {@code max}. Returns {@link #UNLOADED} if a consulted edge cell is unloaded.
 	 */
 	private int measureAxis(StructureView view, StructurePos origin, int ux, int uy, int uz, int min, int max, boolean originIsComponent) {
 		if (min == max) {
-			return max; // fixed-size axis: no measurement, predicates validate every cell
+			return max; // fixed-size axis, no measurement, predicates validate every cell
 		}
 		if (!originIsComponent) {
-			return 1; // degenerate; size check will fail with a small key
+			return 1; // degenerate, the size check fails with a small key
 		}
 		int size = 1;
 		while (size < max) {
@@ -253,26 +257,27 @@ public final class MultiblockPattern {
 	}
 
 	/**
-	 * Measures the true contiguous same-type extent of the box from {@code origin} along +X/+Y/+Z, used
-	 * <em>only</em> for the undersized-structure ({@code error.small}) check — it is NOT used to build the
-	 * member set. Unlike {@link #measureAxis} it measures every axis (including fixed-size ones, whose
-	 * {@code measureAxis} short-circuits to the fixed value), so a genuinely undersized fixed-size machine
-	 * (a 3x3x2 alveary) reports its real extent.
+	 * Measures the true contiguous same-type extent of the box from the origin along +X, +Y and +Z. Used
+	 * <em>only</em> for the undersized-structure ({@code error.small}) check. It is NOT used to build the
+	 * member set. Unlike {@link #measureAxis} it measures every axis, including fixed-size ones whose
+	 * {@code measureAxis} short-circuits to the fixed value, so a genuinely undersized fixed-size machine
+	 * such as a 3x3x2 alveary reports its real extent.
 	 *
-	 * <p>To avoid mistaking a single missing <em>edge</em> cell (an interior/edge HOLE in an otherwise
-	 * full-extent box) for an undersized structure, the reach along an axis is the <b>maximum</b> run over
+	 * <p>To avoid mistaking a single missing <em>edge</em> cell, an interior or edge HOLE in an otherwise
+	 * full-extent box, for an undersized structure, the reach along an axis is the <b>maximum</b> run over
 	 * all column start cells in the {@code minA x minB} base patch of the perpendicular plane through
-	 * origin: a one-cell hole on one column leaves a parallel column full, so the max stays at full size and
-	 * the failure falls through to the per-cell {@code invalid.interior} path (parity). Only when an
-	 * <em>entire</em> layer is absent (every parallel column is short) does the max drop below the minimum
-	 * and surface {@code error.small}. The patch is bounded by the per-axis minimums (3 for the alveary), so
-	 * this is a handful of cheap reads. If origin is not itself a same-type component the extent is 0.
+	 * origin. A one-cell hole on one column leaves a parallel column full, so the max stays at full size and
+	 * the failure falls through to the per-cell {@code invalid.interior} path, which is parity. Only when an
+	 * <em>entire</em> layer is absent, meaning every parallel column is short, does the max drop below the
+	 * minimum and surface {@code error.small}. The patch is bounded by the per-axis minimums, 3 for the
+	 * alveary, so this is a handful of cheap reads. If origin is not itself a same-type component the extent
+	 * is 0.
 	 */
 	private Measure measureExtent(StructureView view, StructurePos origin) {
 		if (!view.isLoaded(origin) || !isSameTypeComponent(view.sample(origin))) {
 			return new Measure(0, 0, 0);
 		}
-		// Unit vectors: X=(1,0,0) Y=(0,1,0) Z=(0,0,1). For each measured axis, pass the two perpendiculars
+		// Unit vectors are X=(1,0,0) Y=(0,1,0) Z=(0,0,1). For each measured axis, pass the two perpendiculars
 		// and their per-axis minimums so the base patch spans the expected footprint of the perpendicular plane.
 		StructurePos x = new StructurePos(1, 0, 0);
 		StructurePos y = new StructurePos(0, 1, 0);
@@ -284,10 +289,10 @@ public final class MultiblockPattern {
 	}
 
 	/**
-	 * The maximum contiguous same-type run along {@code u}, taken over every column whose start cell lies in
-	 * the {@code minA x minB} base patch spanned by the two perpendicular unit vectors {@code pa}/{@code pb}
-	 * through origin. Taking the max makes a single-cell hole on one column irrelevant (a parallel column is
-	 * still full-length), so only a wholly-missing layer shrinks the measured extent below the minimum.
+	 * Measures the maximum contiguous same-type run along the given axis, taken over every column whose start
+	 * cell lies in the {@code minA x minB} base patch spanned by the two perpendicular unit vectors through
+	 * origin. Taking the max makes a single-cell hole on one column irrelevant, because a parallel column is
+	 * still full-length, so only a wholly-missing layer shrinks the measured extent below the minimum.
 	 */
 	private int measureAxisExtent(StructureView view, StructurePos origin, StructurePos u,
 			StructurePos pa, int minA, StructurePos pb, int minB) {
@@ -315,10 +320,11 @@ public final class MultiblockPattern {
 	}
 
 	/**
-	 * Confirms the layer just beyond each grown face (+X/+Y/+Z) is loaded and contains no same-type
-	 * component (maximality). measureBox stopped at these layers, but only after checking each layer was
-	 * loaded; this re-walks the full face to ensure NO cell of it is a same-type component (a partial
-	 * same-type face would mean a larger irregular structure). Returns null on success.
+	 * Confirms the layer just beyond each grown face, on +X, +Y and +Z, is loaded and contains no same-type
+	 * component. That is the maximality rule. measureBox stopped at these layers, but only after checking
+	 * each layer was loaded. This re-walks the full face to ensure NO cell of it is a same-type component,
+	 * because a partial same-type face would mean a larger irregular structure. Returns {@code null} on
+	 * success.
 	 */
 	private PatternResult.Failure checkUpperMaximality(StructureView view, StructurePos origin, int sizeX, int sizeY, int sizeZ) {
 		// +X face at x = sizeX
@@ -356,26 +362,31 @@ public final class MultiblockPattern {
 			return new PatternResult.Failure(List.of(new FailingCell(pos, Predicates.KEY_INVALID_INTERIOR)));
 		}
 		if (isSameTypeComponent(view.sample(pos))) {
-			// the real structure is larger -> this candidate is a non-maximal sub-region
+			// the real structure is larger, so this candidate is a non-maximal sub-region
 			return new PatternResult.Failure(List.of(new FailingCell(pos, Predicates.KEY_INVALID_PART)));
 		}
 		return null;
 	}
 
 	/**
-	 * Parity size checks against the configured ranges (matches RectangularMultiblockControllerBase) with
-	 * the message format args filled in (spec Task A.3). {@code box} is the box size measureBox resolved
-	 * (fixed value on fixed axes); {@code extent} is the true contiguous same-type extent from origin
-	 * ({@link #measureExtent}). The aggregate count and the large checks use the box size (parity); the
-	 * per-axis small checks use the real extent so an UNDERSIZED fixed-size machine (a 3x3x2 alveary) is
-	 * reported as error.small / error.small.{x,y,z} rather than falling through to an invalid.interior on
-	 * its missing top layer. The args are: error.small → (minX,minY,minZ); error.small.{x,y,z} → that
-	 * minimum dimension; error.large.{x,y,z} → that maximum dimension (mirrors the old engine's args).
+	 * Runs the parity size checks against the configured ranges, matching
+	 * {@code RectangularMultiblockControllerBase}, with the message format args filled in (spec Task A.3).
+	 * {@code box} is the box size measureBox resolved, the fixed value on fixed axes. {@code extent} is the
+	 * true contiguous same-type extent from origin, from {@link #measureExtent}.
+	 *
+	 * <p>The aggregate count and the large checks use the box size, for parity. The per-axis small checks use
+	 * the real extent so an UNDERSIZED fixed-size machine, a 3x3x2 alveary, is reported as
+	 * {@code error.small} or {@code error.small.{x,y,z}} rather than falling through to an
+	 * {@code invalid.interior} on its missing top layer.
+	 *
+	 * <p>The args mirror the old engine's: {@code error.small} takes {@code (minX,minY,minZ)},
+	 * {@code error.small.{x,y,z}} takes that minimum dimension, and {@code error.large.{x,y,z}} takes that
+	 * maximum dimension.
 	 */
 	private PatternResult.Failure checkSize(StructurePos origin, int boxX, int boxY, int boxZ, Measure extent) {
 		// Aggregate block-count too small -> error.small (minX, minY, minZ). Use the real extent's volume so
-		// a short blob (3x3x2 = 18 < 27) is caught here; a full-extent box with an interior hole keeps full
-		// volume and falls through to the per-cell invalid.interior path (exact parity).
+		// a short blob, 3x3x2 = 18 < 27, is caught here. A full-extent box with an interior hole keeps full
+		// volume and falls through to the per-cell invalid.interior path, which is exact parity.
 		int blocks = extent.sizeX * extent.sizeY * extent.sizeZ;
 		if (blocks < this.minBlocks) {
 			return failure(origin, Predicates.KEY_SMALL, this.minSizeX, this.minSizeY, this.minSizeZ);
@@ -402,9 +413,9 @@ public final class MultiblockPattern {
 	}
 
 	/**
-	 * The discovery candidate origins for a Forestry block changed/loaded at {@code pos} (spec §5.3):
-	 * {@code { pos − cellOffset }} over every cell of every size variant (box cells + extra cells),
-	 * deduplicated. Each is then fed to {@link #validate}.
+	 * Generates the discovery candidate origins for a Forestry block changed or loaded at the given position
+	 * (spec 5.3). Each candidate is {@code pos} minus one cell offset, over every cell of every size variant,
+	 * covering both box cells and extra cells, deduplicated. Each is then fed to {@link #validate}.
 	 */
 	public Set<StructurePos> candidateOrigins(StructurePos pos) {
 		Set<StructurePos> origins = new LinkedHashSet<>();
@@ -435,7 +446,7 @@ public final class MultiblockPattern {
 		return new PatternResult.Failure(List.of(new FailingCell(pos, key)));
 	}
 
-	/** Failure carrying integer message format args (size keys, spec Task A.3). */
+	/** Failure carrying integer message format args, used by the size keys (spec Task A.3). */
 	private static PatternResult.Failure failure(StructurePos pos, String key, int... args) {
 		return new PatternResult.Failure(List.of(new FailingCell(pos, key, args)));
 	}

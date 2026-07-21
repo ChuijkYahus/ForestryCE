@@ -82,7 +82,7 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 	@Nullable
 	public IItemHandler getItemHandler(@Nullable Direction facing) {
 		if (facing != null) {
-			// TODO why is sided inventory used here? the side is actually ignored, see in InventoryAdapter
+			// todo why is sided inventory used here? the side is ignored, see InventoryAdapter
 			return new SidedInvWrapper(getInternalInventory(), facing);
 		}
 		return new InvWrapper(getInternalInventory());

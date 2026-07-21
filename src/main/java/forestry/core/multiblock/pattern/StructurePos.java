@@ -3,13 +3,13 @@ package forestry.core.multiblock.pattern;
 /**
  * A pure, Minecraft-free 3D integer position used by the declarative pattern engine.
  *
- * <p>This deliberately does NOT use {@code net.minecraft.core.BlockPos}: keeping the whole pattern
+ * <p>This deliberately does NOT use {@code net.minecraft.core.BlockPos}. Keeping the whole pattern
  * layer free of {@code net.minecraft} imports lets the JUnit unit tests run without a Minecraft
- * classpath. The world adapter ({@code LevelStructureView}, Phase 2) is responsible for translating
+ * classpath. The world adapter, {@code LevelStructureView} in Phase 2, is responsible for translating
  * between {@code BlockPos} and {@code StructurePos}.
  *
- * <p>Ordering is lexicographic by {@code (x, y, z)} so the "lowest member" (the holder / reference
- * coord, spec §6.1) is simply the minimum of the member set.
+ * <p>Ordering is lexicographic by {@code (x, y, z)} so the "lowest member", the holder and reference
+ * coord (spec 6.1), is the minimum of the member set.
  */
 public record StructurePos(int x, int y, int z) implements Comparable<StructurePos> {
 	/**

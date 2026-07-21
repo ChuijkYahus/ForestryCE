@@ -33,8 +33,10 @@ import java.util.List;
 
 /**
  * The "no controller" stand-in resolved by {@code MultiblockLogicAlveary.getController()} when a block is
- * not part of an assembled alveary (spec §7.2, §9). Reshaped onto the trimmed public
- * {@link IAlvearyControllerInternal} after the engine rewrite (no engine-internal surface).
+ * not part of an assembled alveary (spec 7.2, 9).
+ *
+ * Reshaped onto the trimmed public {@link IAlvearyControllerInternal} after the engine rewrite (no
+ * engine-internal surface).
  */
 public enum FakeAlvearyController implements IAlvearyControllerInternal {
 	INSTANCE;
@@ -98,7 +100,7 @@ public enum FakeAlvearyController implements IAlvearyControllerInternal {
 
 	@Override
 	public Holder<Biome> getBiome() {
-		// Biomes are now data-driven; resolve via the running server's registry access.
+		// Biomes are now data-driven; resolve via the running server's registry access
 		return ServerLifecycleHooks.getCurrentServer().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.PLAINS);
 	}
 

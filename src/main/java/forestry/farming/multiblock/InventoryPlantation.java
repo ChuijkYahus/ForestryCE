@@ -25,47 +25,33 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The basic class for the two plantation inventories. (Multiblock Farm / Cultivators)
- * <p>
- * It contains the biggest part of the logic for the inventories like item validation and fertilizer consumption.
+ * The basic class for the two plantation inventories (Multiblock Farm and Cultivators).
+ *
+ * Contains the biggest part of the inventory logic, such as item validation and fertilizer consumption.
  */
 public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousing> extends InventoryAdapterRestricted implements IFarmInventoryInternal {
-	/**
-	 * Config value which modifies the usage of fertilizer.
-	 */
+	/** Config value which modifies the usage of fertilizer. */
 	private static final int FERTILIZER_MODIFIER = Preference.FARM_FERTILIZER_MODIFIER;
 
-	/**
-	 * Farm logic object
-	 */
+	/** Farm logic object. */
 	protected final H housing;
-	/**
-	 * Inventory slot config
-	 */
+	/** Inventory slot config. */
 	protected final InventoryConfig config;
 
-	/**
-	 * The part of the inventory that contains the resources.
-	 */
+	/** The part of the inventory that contains the resources. */
 	protected final Container resourcesInventory;
-	/**
-	 * The part of the inventory that contains the germlings.
-	 */
+	/** The part of the inventory that contains the germlings. */
 	protected final Container germlingsInventory;
-	/**
-	 * The part of the inventory that contains the output resources.
-	 */
+	/** The part of the inventory that contains the output resources. */
 	protected final Container productInventory;
-	/**
-	 * The part of the inventory that contains the fertilizer.
-	 */
+	/** The part of the inventory that contains the fertilizer. */
 	protected final Container fertilizerInventory;
 
 	/**
-	 * Creates a inventory instance.
+	 * Creates an inventory instance.
 	 *
-	 * @param housing Logic object of the farm that owns this inventory
-	 * @param config  Helper object that defines the slots of the inventory
+	 * @param housing The logic object of the farm that owns this inventory
+	 * @param config  The helper object that defines the slots of the inventory
 	 */
 	public InventoryPlantation(H housing, InventoryConfig config) {
 		super(config.count, "Items");
@@ -230,9 +216,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 		return false;
 	}
 
-	/**
-	 * Describes the slots if a farm inventory
-	 */
+	/** Describes the slots of a farm inventory. */
 	public static class InventoryConfig {
 		/* Slots that contain the input resources (dirt, sand, ...) */
 		public final int resourcesStart;
@@ -249,7 +233,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 		/* Slots that contain the fluid containers for the water of the farm */
 		public final int canStart;
 		public final int canCount;
-		/* Amount of slots in this config*/
+		/* Amount of slots in this config */
 		public final int count;
 
 		public InventoryConfig(

@@ -18,10 +18,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 
 /**
- * The Phase-2 world adapter: a {@link StructureView} over a Forge {@link Level} (plan Task 2.1; spec
- * §5.2). It performs <b>chunk-safe</b> reads — {@link #isLoaded} checks the chunk source rather than
- * forcing a load — so the pattern engine's maximality + loaded-shell rule (spec §5.2, audit D1) can defer
- * on partially-loaded structures instead of assembling a shrunken sub-prism.
+ * The Phase-2 world adapter, a {@link StructureView} over a Forge {@link Level} (plan Task 2.1, spec 5.2).
+ * It performs <b>chunk-safe</b> reads, because {@link #isLoaded} checks the chunk source rather than forcing
+ * a load. That lets the pattern engine's maximality and loaded-shell rule (spec 5.2, audit D1) defer on
+ * partially-loaded structures instead of assembling a shrunken sub-prism.
  *
  * <p>{@link #sample} reads the in-world {@link BlockEntity}, the blockstate's
  * {@code is(BlockTags.WOODEN_SLABS)} (the alveary slab cap), and {@code isSolidRender} (the alveary
@@ -45,7 +45,7 @@ public final class LevelStructureView implements StructureView {
 
 	@Override
 	public boolean isLoaded(StructurePos pos) {
-		// Chunk-safe: do NOT force-load. hasChunk(chunkX, chunkZ) mirrors the old engine's chunk checks.
+		// Chunk-safe, do NOT force-load. hasChunk mirrors the old engine's chunk checks
 		return this.level.getChunkSource().hasChunk(pos.x() >> 4, pos.z() >> 4);
 	}
 
@@ -53,7 +53,7 @@ public final class LevelStructureView implements StructureView {
 	public CellSample sample(StructurePos pos) {
 		BlockPos blockPos = toBlockPos(pos);
 
-		// Component: resolve via the BlockEntity. getBlockEntity is safe here because validation
+		// Resolve the component via the BlockEntity. getBlockEntity is safe here because validation
 		// only samples cells it has already confirmed loaded (loaded-shell rule).
 		BlockEntity be = this.level.getBlockEntity(blockPos);
 		String componentTypeId = be == null ? null : typeIdFor(be);

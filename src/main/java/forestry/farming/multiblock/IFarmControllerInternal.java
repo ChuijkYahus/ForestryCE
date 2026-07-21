@@ -11,11 +11,12 @@ import forestry.cultivation.IFarmHousingInternal;
 import forestry.farming.gui.IFarmLedgerDelegate;
 
 /**
- * Machine-specific surface of the farm controller. After the engine rewrite (plan Task 2.3) this
- * extends the <b>public</b> {@link IFarmController} (which extends the public
- * {@code forestry.api.multiblock.IMultiblockController}) rather than the deleted engine-internal
- * {@code IMultiblockControllerInternal}; only the farm-specific accessors remain (sockets, tank,
- * farm-logic/inventory, GUI streaming).
+ * Machine-specific surface of the farm controller.
+ *
+ * After the engine rewrite (plan Task 2.3) this extends the <b>public</b> {@link IFarmController},
+ * which extends the public {@code forestry.api.multiblock.IMultiblockController}, rather than the
+ * deleted engine-internal {@code IMultiblockControllerInternal}. Only the farm-specific accessors
+ * remain (sockets, tank, farm-logic/inventory, GUI streaming).
  */
 public interface IFarmControllerInternal extends IFarmController, ISocketable, IClimateProvider, IOwnedTile, IStreamableGui, IFarmHousingInternal {
 	IFarmLedgerDelegate getFarmLedgerDelegate();

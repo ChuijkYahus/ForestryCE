@@ -107,9 +107,10 @@ public class FarmController extends MultiblockController implements IFarmControl
 	}
 
 	/**
-	 * Rebuilds the active/listener buckets from the validated member set (spec §8.2; ports the old
-	 * {@code onBlockAdded} logic). Per-{@code Active} tick offsets are re-randomized on every re-bucket and
-	 * not persisted (spec §8.2).
+	 * Rebuilds the active/listener buckets from the validated member set (spec 8.2). Ports the old
+	 * {@code onBlockAdded} logic.
+	 *
+	 * Per-{@code Active} tick offsets are re-randomized on every re-bucket and not persisted (spec 8.2).
 	 */
 	@Override
 	protected void bucketComponents() {
@@ -247,7 +248,7 @@ public class FarmController extends MultiblockController implements IFarmControl
 			resetFarmLogic(direction);
 		}
 
-		// See whether we have socketed stuff.
+		// See whether we have socketed stuff
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
 			ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(chip);
@@ -317,7 +318,7 @@ public class FarmController extends MultiblockController implements IFarmControl
 		int sizeNorthSouth = Math.abs(max.getZ() - min.getZ()) + 1;
 		int sizeEastWest = Math.abs(max.getX() - min.getX()) + 1;
 
-		// Set the maximum allowed extent.
+		// Set the maximum allowed extent
         this.allowedExtent = Math.max(sizeNorthSouth, sizeEastWest) * ForestryConfig.SERVER.multiFarmSize.get() + 1;
 
 		FarmHelper.createTargets(this.level, this, targets, targetStart, this.allowedExtent, sizeNorthSouth, sizeEastWest, min, max);

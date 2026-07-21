@@ -6,7 +6,7 @@ import forestry.core.multiblock.pattern.PatternResult;
 import forestry.core.multiblock.pattern.Predicates;
 
 /**
- * The declarative Farm pattern (spec §5.1), modeling {@code FarmController.isMachineWhole} plus the base
+ * The declarative Farm pattern (spec 5.1), modeling {@code FarmController.isMachineWhole} plus the base
  * cube loop verbatim:
  * <ul>
  *   <li>a variable box of {@code farm_*} components: X,Z in [3,5], Y = 4 (minBlocks 36),</li>
@@ -56,7 +56,7 @@ public final class FarmPattern {
 		if (band) {
 			return Predicates.componentOfType(PLAIN, Predicates.KEY_NEED_PLAIN_BAND);
 		}
-		// any other exterior farm component is fine; wrong-controller component -> invalid.part.
+		// any other exterior farm component is fine; wrong-controller component -> invalid.part
 		return Predicates.anyComponent(PREFIX, Predicates.KEY_INVALID_PART);
 	}
 

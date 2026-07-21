@@ -14,7 +14,7 @@ public interface IMultiblockComponent {
 	/**
 	 * Returns the location of this tile entity in the world.
 	 *
-	 * @return ChunkCoordinates set to the location of this tile entity in the world.
+	 * @return ChunkCoordinates set to the location of this tile entity in the world
 	 */
 	BlockPos getCoordinates();
 
@@ -35,7 +35,7 @@ public interface IMultiblockComponent {
 	 * Note that, for non-square machines, the min/max coordinates may not actually be part
 	 * of the machine! They form an outer bounding box for the whole machine itself.
 	 *
-	 * @param multiblockController The controller to which this part is being assembled.
+	 * @param multiblockController The controller to which this part is being assembled
 	 */
 	void onMachineAssembled(IMultiblockController multiblockController, BlockPos minCoord, BlockPos maxCoord);
 

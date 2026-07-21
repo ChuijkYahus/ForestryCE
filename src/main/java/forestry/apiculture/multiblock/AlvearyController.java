@@ -101,9 +101,11 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 	}
 
 	/**
-	 * Rebuilds the component buckets from the validated member set (spec §8.2; ports the old
-	 * {@code onBlockAdded} logic). The constructor-seeded {@link AlvearyBeeModifier} is re-added on every
-	 * rebuild (spec §8.2 — feeds production + the hellish temperature path).
+	 * Rebuilds the component buckets from the validated member set (spec 8.2; ports the old
+	 * {@code onBlockAdded} logic).
+	 *
+	 * The constructor-seeded {@link AlvearyBeeModifier} is re-added on every rebuild (spec 8.2). It feeds
+	 * production and the hellish temperature path.
 	 */
 	@Override
 	protected void bucketComponents() {
@@ -112,7 +114,7 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 		this.climatisers.clear();
 		this.activeComponents.clear();
 
-		// Re-seed the constructor modifier on every re-bucket (spec §8.2).
+		// Re-seed the constructor modifier on every re-bucket (spec 8.2)
 		this.beeModifiers.add(new AlvearyBeeModifier());
 
 		for (BlockPos pos : getMembers()) {
@@ -169,8 +171,8 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 		}
 
 		// every 64 ticks, update the climate state in case of changed biome or climate (& is faster than modulus).
-		// Use the staggered tickCount (game time + per-controller phase, MINOR 7) so alvearies refresh climate on
-		// different ticks rather than all on the same game-time boundary.
+		// Uses the staggered tickCount (game time + per-controller phase, MINOR 7) so alvearies refresh climate
+		// on different ticks rather than all on the same game-time boundary.
 		if ((tickCount & 63) == 0) {
 			this.climate = IForestryApi.INSTANCE.getClimateManager().createClimateProvider(this.level, getCenterCoord());
 		}
@@ -286,7 +288,7 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 
 	@Override
 	public Holder<Biome> getBiome() {
-		// Reference coord is nullable before a structure is installed (spec §6.1); guard like FarmController.
+		// Reference coord is nullable before a structure is installed (spec 6.1); guard like FarmController
 		BlockPos coords = getReferenceCoord();
 		if (coords == null) {
 			return this.level.registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.PLAINS);

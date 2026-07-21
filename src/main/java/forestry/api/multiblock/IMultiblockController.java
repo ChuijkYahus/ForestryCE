@@ -12,21 +12,21 @@ import java.util.Collection;
  */
 public interface IMultiblockController {
 	/**
-	 * @return True if this multiblock machine is considered assembled and ready to go.
+	 * @return True if this multiblock machine is considered assembled and ready to go
 	 */
 	boolean isAssembled();
 
 	/**
-	 * Call to force the controller to check the multiblock's validity.
-	 * Use when important conditions around the multiblock change
-	 * (i.e. Alveary slabs are removed and the alveary block detects it's neighbor changed)
+	 * Used to force the controller to check the multiblock's validity.
+	 * Call this when important conditions around the multiblock change
+	 * (ex. Alveary slabs are removed and the alveary block detects its neighbor changed)
 	 * Changes to multiblock components are handled automatically and should not call this.
 	 */
 	void reassemble();
 
 	/**
 	 * @return A string representing the last error encountered when trying to assemble this
-	 * multiblock, or null if there is no error.
+	 * multiblock, or null if there is no error
 	 */
 	@Nullable
 	String getLastValidationError();

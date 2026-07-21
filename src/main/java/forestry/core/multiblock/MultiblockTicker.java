@@ -9,13 +9,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 
 /**
- * The anchor-only multiblock ticker (plan Task 2.4; spec §7.1). Replaces the deleted global
+ * The anchor-only multiblock ticker (plan Task 2.4, spec 7.1). Replaces the deleted global
  * {@code MultiblockServerTickHandler} tick loop with a per-block {@link BlockEntityTicker}.
  *
  * <p>Because a structure contains many member BEs of the same type, this ticker body <b>early-returns
- * unless the block is the holder/anchor and the controller is assembled</b> — so the machine logic runs
- * exactly once per tick (on the holder), not once per member. The holder may be any member type, so
- * {@code BlockAlveary}/{@code FarmBlock} return this ticker for <em>every</em> member
+ * unless the block is the holder (anchor) and the controller is assembled</b>. The machine logic therefore
+ * runs exactly once per tick, on the holder, not once per member. The holder may be any member type, so
+ * {@code BlockAlveary} and {@code FarmBlock} return this ticker for <em>every</em> member
  * {@code BlockEntityType}.
  */
 public final class MultiblockTicker {
@@ -37,7 +37,7 @@ public final class MultiblockTicker {
 			return null;
 		}
 		BlockPos anchor = member.getAnchorPos();
-		// Anchor-only guard: only the holder instance runs the machine logic (spec §7.1).
+		// Anchor-only guard, only the holder instance runs the machine logic (spec 7.1)
 		if (anchor == null || !anchor.equals(pos)) {
 			return null;
 		}
@@ -56,10 +56,10 @@ public final class MultiblockTicker {
 				return;
 			}
 			// Stagger machines by a per-controller phase so they don't all hit interval boundaries on the same
-			// game tick (spec §7.1; MINOR 7 restores the old engine's per-machine random start offset).
+			// game tick (spec 7.1). MINOR 7 restores the old engine's per-machine random start offset.
 			int tickCount = (int) level.getGameTime() + controller.getTickPhase();
 			if (controller.serverTick(tickCount)) {
-				// State changed: mark the holder's chunk dirty so it persists (spec §6.1; the holder owns the
+				// State changed, mark the holder's chunk dirty so it persists (spec 6.1, the holder owns the
 				// payload). Per-chunk dirtying across the whole bbox is a Phase-4 refinement.
 				MultiblockController.markChunkDirty(level, pos);
 			}

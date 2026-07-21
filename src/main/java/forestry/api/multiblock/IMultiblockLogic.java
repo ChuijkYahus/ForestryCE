@@ -11,13 +11,13 @@ package forestry.api.multiblock;
 public interface IMultiblockLogic {
 
 	/**
-	 * @return True if this block is connected to an assembled multiblock controller. False otherwise.
+	 * @return True if this block is connected to an assembled multiblock controller, false otherwise
 	 */
 	boolean isConnected();
 
 	/**
 	 * @return the multiblock controller for this logic, or the machine's {@code Fake} controller when this
-	 * block is not part of an assembled structure.
+	 * block is not part of an assembled structure
 	 */
 	IMultiblockController getController();
 }

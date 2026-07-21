@@ -37,8 +37,8 @@ public interface IAlvearyComponent<T extends IMultiblockLogicAlveary> extends IM
 		/**
 		 * Called every tick by the alveary.
 		 *
-		 * @param tickCount the number of ticks in the world
-		 * @param alveary   the climate controlled alveary
+		 * @param tickCount The number of ticks in the world
+		 * @param alveary   The climate controlled alveary
 		 */
 		void changeClimate(int tickCount, IClimateControlled alveary);
 	}

@@ -5,17 +5,17 @@ import javax.annotation.Nullable;
 import forestry.api.multiblock.IMultiblockLogic;
 
 /**
- * Thin replacement for the deleted {@code MultiblockLogic} save-delegate object (plan Task 2.2/2.3). It no
- * longer drives validation/persistence/networking; it merely resolves the owning block's controller through
- * the {@link MultiblockIndex} via the owning BE's {@code anchorPos} (spec §6.1). Machine-typed subclasses
- * ({@code MultiblockLogicAlveary}/{@code MultiblockLogicFarm}) supply the {@code Fake} controller for the
- * unassembled / anchor-missing case.
+ * Thin replacement for the deleted {@code MultiblockLogic} save-delegate object (plan Task 2.2 and 2.3). It
+ * no longer drives validation, persistence or networking. It only resolves the owning block's controller
+ * through the {@link MultiblockIndex}, via the owning BE's {@code anchorPos} (spec 6.1). Machine-typed
+ * subclasses {@code MultiblockLogicAlveary} and {@code MultiblockLogicFarm} supply the {@code Fake}
+ * controller for the unassembled or anchor-missing case.
  */
 public abstract class MultiblockLogicBase implements IMultiblockLogic {
 	@Nullable
 	private MultiblockTileEntityForestry<?> tile;
 
-	/** Injected by {@code MultiblockTileEntityForestry}'s constructor (the owning member BE). */
+	/** Injected by {@code MultiblockTileEntityForestry}'s constructor, the owning member BE. */
 	public void setTile(MultiblockTileEntityForestry<?> tile) {
 		this.tile = tile;
 	}
