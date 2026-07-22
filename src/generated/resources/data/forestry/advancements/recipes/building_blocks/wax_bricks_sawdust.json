@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "forestry:refractory_wax"
+              "forestry:beeswax"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:brick_refractory_wax"
+        "recipe": "forestry:wax_bricks_sawdust"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:brick_refractory_wax"
+      "forestry:wax_bricks_sawdust"
     ]
   },
   "sends_telemetry_event": true

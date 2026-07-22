@@ -168,7 +168,7 @@ public class BlockBurnBarrel extends BaseEntityBlock implements MenuProvider {
 				level.playLocalSound(offset.x + 0.5, offset.y + 0.5, offset.z + 0.5, SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
 			}
 		}
-		if (f < 0.1F) 
+		if (f < 0.1F)
 			level.addParticle(ParticleTypes.LAVA, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
 	}
 	/*

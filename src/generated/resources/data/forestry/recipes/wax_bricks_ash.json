@@ -2,14 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": [
-      {
-        "item": "forestry:wood_pulp"
-      },
-      {
-        "item": "forestry:ash"
-      }
-    ],
+    "#": {
+      "tag": "forge:dusts/ash"
+    },
     "X": {
       "item": "forestry:beeswax"
     }

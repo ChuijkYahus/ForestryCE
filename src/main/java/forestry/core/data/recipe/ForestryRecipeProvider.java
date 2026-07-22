@@ -867,18 +867,20 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		});
 
 		//WAX BRICKS
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreItems.WAX_BRICK, 2, recipe -> {
+		//They use ash or wood pulp to stop them melting. That's the logic.
+		recipes.shapedCrafting("wax_bricks_ash", RecipeCategory.BUILDING_BLOCKS, CoreItems.WAX_BRICK, 2, recipe -> {
 			recipe.define('X', CoreItems.BEESWAX);
-			recipe.define('#', Ingredient.of(
-				//I wanted this to use tags but it can't
-				//The reason it uses these is because wax bricks need something to stop them from being able to melt.
-				//This means I can be a lazy developer.
-				CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP),
-				CoreItems.ASH
-			));
+			recipe.define('#', ForestryTags.Items.DUSTS_ASH);
 			recipe.pattern("#X");
 			recipe.pattern("X#");
 		});
+		recipes.shapedCrafting("wax_bricks_sawdust", RecipeCategory.BUILDING_BLOCKS, CoreItems.WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.BEESWAX);
+			recipe.define('#', ForestryTags.Items.SAWDUST);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAX_BRICKS, 4, recipe -> {
 			recipe.define('X', CoreItems.WAX_BRICK);
 			recipe.pattern("XX");
@@ -886,12 +888,15 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		});
 
 		//REFRACTORY WAX BRICKS
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreItems.REFRACTORY_WAX_BRICK, 2, recipe -> {
+		recipes.shapedCrafting("refractory_wax_bricks_ash", RecipeCategory.BUILDING_BLOCKS, CoreItems.REFRACTORY_WAX_BRICK, 2, recipe -> {
 			recipe.define('X', CoreItems.REFRACTORY_WAX);
-			recipe.define('#', Ingredient.of(
-				CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP),
-				CoreItems.ASH
-			));
+			recipe.define('#', ForestryTags.Items.DUSTS_ASH);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting("refractory_wax_bricks_sawdust", RecipeCategory.BUILDING_BLOCKS, CoreItems.REFRACTORY_WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX);
+			recipe.define('#', ForestryTags.Items.SAWDUST);
 			recipe.pattern("#X");
 			recipe.pattern("X#");
 		});
@@ -1969,7 +1974,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.PAPER)
 				.pattern("#")
 				.pattern("#")
-				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
+				.define('#', ForestryTags.Items.SAWDUST))
 			.build(consumer, id("carpenter", "paper"));
 		new CarpenterRecipeBuilder()
 			.setLiquid(new FluidStack(Fluids.WATER, 1000))
@@ -1978,7 +1983,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 				.pattern(" # ")
 				.pattern("# #")
 				.pattern(" # ")
-				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
+				.define('#', ForestryTags.Items.SAWDUST))
 			.build(consumer, id("carpenter", "carton"));
 
 		new CarpenterRecipeBuilder()
@@ -2193,7 +2198,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH).item())
 				.pattern("###")
 				.pattern("###")
-				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
+				.define('#', ForestryTags.Items.SAWDUST))
 			.build(consumer, id("carpenter", "letter_pulp"));
 
 		wovenBackpack(consumer, "miner", BackpackItems.MINER_BACKPACK, BackpackItems.MINER_BACKPACK_T_2);
