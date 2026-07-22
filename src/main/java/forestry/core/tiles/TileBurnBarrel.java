@@ -148,7 +148,7 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 
 
 		//FX
-		if (level instanceof ServerLevel serverLevel) {
+		/*if (level instanceof ServerLevel serverLevel) {
 			if (serverLevel.getBlockState(pos).getValue(BlockBurnBarrel.LIT)) {
 				soundTimer--;
 
@@ -171,7 +171,7 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 					);
 				}
 
-				/*if (updateOnInterval(PARTICLE_TICK_INTERVAL)) {
+				(updateOnInterval(PARTICLE_TICK_INTERVAL)) {
 					serverLevel.sendParticles(
 						ParticleTypes.LAVA,
 						x, y, z,
@@ -179,9 +179,9 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 						0.15, 0, 0.15,
 						0.1f
 					);
-				}*/
+				}
 			}
-		}
+		}*/
 	}
 
 	public int hasInput(){
