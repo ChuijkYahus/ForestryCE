@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-22T21:05:42.3038113	Recipes
+// 1.20.1	2026-07-22T21:12:13.0988114	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1783,7 +1783,7 @@ bd59554a9677908193ca16870ce6816152d710ce data/forestry/recipes/carpenter/kit_pic
 2154bfb49848f71a457c89b9a17e7028ad641dc0 data/forestry/recipes/carpenter/kit_sword.json
 2b3d8cb6a42bddb120d4af90b098b0318ed7d68b data/forestry/recipes/carpenter/letter_pulp.json
 1a579a1397983fb96f5077600d422d3b8b24707d data/forestry/recipes/carpenter/paper.json
-dfdcc76cc1d08deaf30109a5dcf57ee499387940 data/forestry/recipes/carpenter/plywood.json
+9c7bcfd3d36a8e75233d90c3678d6b6c1d86eca2 data/forestry/recipes/carpenter/plywood.json
 33dbb6fa79bf485784c1a73a3733729da30f9114 data/forestry/recipes/carpenter/portable_analyzer.json
 33cc5188972aa3c9fa5ce6e58734293fb34537fb data/forestry/recipes/carpenter/reclaim_bronze_axe.json
 67b1e39aae324f4a37ae474f99e6f2ce7458d85b data/forestry/recipes/carpenter/reclaim_bronze_hoe.json

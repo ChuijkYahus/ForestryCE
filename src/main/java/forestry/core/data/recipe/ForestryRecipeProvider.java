@@ -2082,7 +2082,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
 			.setLiquid(new FluidStack(Fluids.WATER, 100))
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 9)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 24)
 				.pattern("___")
 				.pattern("^^^")
 				.define('_', ItemTags.WOODEN_SLABS)
