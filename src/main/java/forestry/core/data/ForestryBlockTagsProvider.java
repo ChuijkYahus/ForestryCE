@@ -7,9 +7,12 @@ import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.blocks.BlockTypeBigCandle;
+import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.blocks.BlockTypeJumboCandle;
 import forestry.core.blocks.EnumResourceType;
 import forestry.core.features.CoreBlocks;
+import forestry.cultivation.blocks.BlockPlanter;
+import forestry.cultivation.features.CultivationBlocks;
 import forestry.energy.features.EnergyBlocks;
 import forestry.factory.features.FactoryBlocks;
 import forestry.farming.blocks.EnumFarmMaterial;
@@ -62,21 +65,99 @@ public final class ForestryBlockTagsProvider {
 			.add(CharcoalBlocks.CHARCOAL.block())
 			.add(EnergyBlocks.ENGINES.blockArray())
 			.add(CoreBlocks.ASH_BRICKS.block())
+			.add(CoreBlocks.ASH_BRICKS_CHISELED.block())
 			.add(CoreBlocks.ASH_BRICK_WALL.block())
 			.add(CoreBlocks.ASH_BRICK_SLAB.block())
 			.add(CoreBlocks.ASH_BRICK_STAIRS.block())
 			.add(CoreBlocks.WAX_BRICKS.block())
+			.add(CoreBlocks.WAX_BRICKS_CHISELED.block())
 			.add(CoreBlocks.WAX_BRICK_WALL.block())
 			.add(CoreBlocks.WAX_BRICK_SLAB.block())
 			.add(CoreBlocks.WAX_BRICK_STAIRS.block())
 			.add(CoreBlocks.REFRACTORY_WAX_BRICKS.block())
+			.add(CoreBlocks.REFRACTORY_WAX_BRICKS_CHISELED.block())
 			.add(CoreBlocks.REFRACTORY_WAX_BRICK_WALL.block())
 			.add(CoreBlocks.REFRACTORY_WAX_BRICK_SLAB.block())
 			.add(CoreBlocks.REFRACTORY_WAX_BRICK_STAIRS.block())
+
+			.add(CoreBlocks.WAXSTONE.block())
+			.add(CoreBlocks.WAXSTONE_CHISELED.block())
+			.add(CoreBlocks.WAXSTONE_WALL.block())
+			.add(CoreBlocks.WAXSTONE_SLAB.block())
+			.add(CoreBlocks.WAXSTONE_STAIRS.block())
+
+			.add(CoreBlocks.COBBLED_WAXSTONE.block())
+			.add(CoreBlocks.COBBLED_WAXSTONE_WALL.block())
+			.add(CoreBlocks.COBBLED_WAXSTONE_SLAB.block())
+			.add(CoreBlocks.COBBLED_WAXSTONE_STAIRS.block())
+
+			.add(CoreBlocks.POLISHED_WAXSTONE.block())
+			.add(CoreBlocks.POLISHED_WAXSTONE_WALL.block())
+			.add(CoreBlocks.POLISHED_WAXSTONE_SLAB.block())
+			.add(CoreBlocks.POLISHED_WAXSTONE_STAIRS.block())
+
+			.add(CoreBlocks.WAXSTONE_BRICKS.block())
+			.add(CoreBlocks.WAXSTONE_BRICK_WALL.block())
+			.add(CoreBlocks.WAXSTONE_BRICK_SLAB.block())
+			.add(CoreBlocks.WAXSTONE_BRICK_STAIRS.block())
+
+
+			.add(CoreBlocks.REFRACTORY_WAXSTONE.block())
+			.add(CoreBlocks.REFRACTORY_WAXSTONE_CHISELED.block())
+			.add(CoreBlocks.REFRACTORY_WAXSTONE_WALL.block())
+			.add(CoreBlocks.REFRACTORY_WAXSTONE_SLAB.block())
+			.add(CoreBlocks.REFRACTORY_WAXSTONE_STAIRS.block())
+
+			.add(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE.block())
+			.add(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_WALL.block())
+			.add(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_SLAB.block())
+			.add(CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_STAIRS.block())
+
+			.add(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE.block())
+			.add(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_WALL.block())
+			.add(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_SLAB.block())
+			.add(CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_STAIRS.block())
+
+			.add(CoreBlocks.REFRACTORY_WAXSTONE_BRICKS.block())
+			.add(CoreBlocks.REFRACTORY_WAXSTONE_BRICK_WALL.block())
+			.add(CoreBlocks.REFRACTORY_WAXSTONE_BRICK_SLAB.block())
+			.add(CoreBlocks.REFRACTORY_WAXSTONE_BRICK_STAIRS.block())
+
+
+			.add(CoreBlocks.HONEYSTONE.block())
+			.add(CoreBlocks.HONEYSTONE_CHISELED.block())
+			.add(CoreBlocks.HONEYSTONE_WALL.block())
+			.add(CoreBlocks.HONEYSTONE_SLAB.block())
+			.add(CoreBlocks.HONEYSTONE_STAIRS.block())
+
+			.add(CoreBlocks.COBBLED_HONEYSTONE.block())
+			.add(CoreBlocks.COBBLED_HONEYSTONE_WALL.block())
+			.add(CoreBlocks.COBBLED_HONEYSTONE_SLAB.block())
+			.add(CoreBlocks.COBBLED_HONEYSTONE_STAIRS.block())
+
+			.add(CoreBlocks.POLISHED_HONEYSTONE.block())
+			.add(CoreBlocks.POLISHED_HONEYSTONE_WALL.block())
+			.add(CoreBlocks.POLISHED_HONEYSTONE_SLAB.block())
+			.add(CoreBlocks.POLISHED_HONEYSTONE_STAIRS.block())
+
+			.add(CoreBlocks.HONEYSTONE_BRICKS.block())
+			.add(CoreBlocks.HONEYSTONE_BRICK_WALL.block())
+			.add(CoreBlocks.HONEYSTONE_BRICK_SLAB.block())
+			.add(CoreBlocks.HONEYSTONE_BRICK_STAIRS.block())
+
 			.add(CoreBlocks.METAL_PLATING.blockArray())
-			.add(CoreBlocks.BURN_BARREL.block());
+			.add(CoreBlocks.BURN_BARREL.block())
+			.add(CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER).block());
 
 		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
+			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
+		}
+
+		for (BlockPlanter block : CultivationBlocks.MANAGED_PLANTER.getBlocks()) {
+			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
+		}
+
+		for (BlockPlanter block : CultivationBlocks.MANUAL_PLANTER.getBlocks()) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
 		}
 
@@ -89,10 +170,10 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.BOG_EARTH.block())
 			.add(CoreBlocks.PEAT.block())
 			.add(CoreBlocks.TURF.block())
-			.add(CoreBlocks.TURF_BLOCK.block());
+			.add(CoreBlocks.TURF_BLOCK.block())
+			.add(CharcoalBlocks.ASH.block());
 
 		for (Block block : union(
-			CoreBlocks.BASE,
 			ApicultureBlocks.ALVEARY, ApicultureBlocks.BASE,
 			ArboricultureBlocks.DOORS,
 			ArboricultureBlocks.PLANKS, ArboricultureBlocks.PLANKS_FIREPROOF, ArboricultureBlocks.PLANKS_VANILLA_FIREPROOF,
@@ -101,6 +182,12 @@ public final class ForestryBlockTagsProvider {
 			ArboricultureBlocks.FENCES, ArboricultureBlocks.FENCES_FIREPROOF, ArboricultureBlocks.FENCES_VANILLA_FIREPROOF)) {
 			tags.tag(BlockTags.MINEABLE_WITH_AXE).add(block);
 		}
+
+		tags.tag(BlockTags.MINEABLE_WITH_AXE)
+			.add(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).block())
+			.add(CoreBlocks.CORK.block())
+			.add(CoreBlocks.PLYWOOD_BLOCK.block())
+			.add(CoreBlocks.PLYWOOD_SHEET.block());
 
 
 		tags.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -252,6 +339,10 @@ public final class ForestryBlockTagsProvider {
 			CoreBlocks.COBBLED_WAXSTONE_WALL.block(),
 			CoreBlocks.WAXSTONE_BRICK_WALL.block(),
 			CoreBlocks.POLISHED_WAXSTONE_WALL.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_WALL.block(),
+			CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_WALL.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_BRICK_WALL.block(),
+			CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_WALL.block(),
 			CoreBlocks.HONEYSTONE_WALL.block(),
 			CoreBlocks.COBBLED_HONEYSTONE_WALL.block(),
 			CoreBlocks.HONEYSTONE_BRICK_WALL.block(),
@@ -266,6 +357,10 @@ public final class ForestryBlockTagsProvider {
 			CoreBlocks.COBBLED_WAXSTONE_STAIRS.block(),
 			CoreBlocks.WAXSTONE_BRICK_STAIRS.block(),
 			CoreBlocks.POLISHED_WAXSTONE_STAIRS.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_STAIRS.block(),
+			CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_STAIRS.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_BRICK_STAIRS.block(),
+			CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_STAIRS.block(),
 			CoreBlocks.HONEYSTONE_STAIRS.block(),
 			CoreBlocks.COBBLED_HONEYSTONE_STAIRS.block(),
 			CoreBlocks.HONEYSTONE_BRICK_STAIRS.block(),
@@ -280,6 +375,10 @@ public final class ForestryBlockTagsProvider {
 			CoreBlocks.COBBLED_WAXSTONE_SLAB.block(),
 			CoreBlocks.WAXSTONE_BRICK_SLAB.block(),
 			CoreBlocks.POLISHED_WAXSTONE_SLAB.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_SLAB.block(),
+			CoreBlocks.COBBLED_REFRACTORY_WAXSTONE_SLAB.block(),
+			CoreBlocks.REFRACTORY_WAXSTONE_BRICK_SLAB.block(),
+			CoreBlocks.POLISHED_REFRACTORY_WAXSTONE_SLAB.block(),
 			CoreBlocks.HONEYSTONE_SLAB.block(),
 			CoreBlocks.COBBLED_HONEYSTONE_SLAB.block(),
 			CoreBlocks.HONEYSTONE_BRICK_SLAB.block(),
