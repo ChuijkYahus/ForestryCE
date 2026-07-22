@@ -1,34 +1,34 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_item": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "forestry:chiseled_wax_bricks_from_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wax_bricks": {
       "conditions": {
         "items": [
           {
             "items": [
-              "forestry:wax_block"
+              "forestry:wax_bricks"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "forestry:ashen_wax_block"
-      },
-      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_item",
+      "has_wax_bricks",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "forestry:ashen_wax_block"
+      "forestry:chiseled_wax_bricks_from_stonecutting"
     ]
   },
   "sends_telemetry_event": false

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_refractory_wax_bricks": {
+    "has_refractory_waxstone": {
       "conditions": {
         "items": [
           {
             "items": [
-              "forestry:refractory_wax_bricks"
+              "forestry:refractory_waxstone"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:refractory_wax_bricks_slabs_from_stonecutting"
+        "recipe": "forestry:chiseled_refractory_waxstone_from_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_refractory_wax_bricks",
+      "has_refractory_waxstone",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "forestry:refractory_wax_bricks_slabs_from_stonecutting"
+      "forestry:chiseled_refractory_waxstone_from_stonecutting"
     ]
   },
   "sends_telemetry_event": false

@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "X": {
+    "_": {
       "item": "forestry:refractory_waxstone_slab"
     }
   },
   "pattern": [
-    "X",
-    "X"
+    "_",
+    "_"
   ],
   "result": {
     "item": "forestry:chiseled_refractory_waxstone"

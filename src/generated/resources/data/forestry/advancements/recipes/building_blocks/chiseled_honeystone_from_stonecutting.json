@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_item": {
+    "has_honeystone": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:honey_block"
+              "forestry:honeystone"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:crispy_honey_block"
+        "recipe": "forestry:chiseled_honeystone_from_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_item",
+      "has_honeystone",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "forestry:crispy_honey_block"
+      "forestry:chiseled_honeystone_from_stonecutting"
     ]
   },
   "sends_telemetry_event": false

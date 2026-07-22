@@ -2,7 +2,7 @@
   "type": "minecraft:stonecutting",
   "count": 2,
   "ingredient": {
-    "item": "forestry:wax_bricks"
+    "item": "forestry:refractory_wax_bricks"
   },
   "result": "forestry:refractory_wax_brick_slab"
 }
