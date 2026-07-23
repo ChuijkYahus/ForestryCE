@@ -10,6 +10,8 @@
     "forestry:engine_biogas",
     "forestry:engine_clockwork",
     "forestry:engine_combustion",
+    "forestry:engine_solar",
+    "forestry:solar_panel",
     "forestry:farm_plain_stone_brick",
     "forestry:farm_plain_mossy_stone_brick",
     "forestry:farm_plain_cracked_stone_brick",

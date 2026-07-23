@@ -2,10 +2,7 @@ package forestry.energy.features;
 
 import forestry.api.modules.ForestryModuleIds;
 import forestry.energy.blocks.EngineBlockType;
-import forestry.energy.tiles.BiogasEngineBlockEntity;
-import forestry.energy.tiles.ClockworkEngineBlockEntity;
-import forestry.energy.tiles.CombustionEngineTileEntity;
-import forestry.energy.tiles.PeatEngineBlockEntity;
+import forestry.energy.tiles.*;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureTileType;
 import forestry.modules.features.IFeatureRegistry;
@@ -19,4 +16,5 @@ public class EnergyTiles {
 	public static final FeatureTileType<ClockworkEngineBlockEntity> CLOCKWORK_ENGINE = REGISTRY.tile(ClockworkEngineBlockEntity::new, "clockwork_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).collect());
 	public static final FeatureTileType<PeatEngineBlockEntity> PEAT_ENGINE = REGISTRY.tile(PeatEngineBlockEntity::new, "peat_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.PEAT).collect());
 	public static final FeatureTileType<CombustionEngineTileEntity> COMBUSTION_ENGINE = REGISTRY.tile(CombustionEngineTileEntity::new, "combustion_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.COMBUSTION).collect());
+	public static final FeatureTileType<SolarEngineTileEntity> SOLAR_ENGINE = REGISTRY.tile(SolarEngineTileEntity::new, "solar_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR).collect());
 }
