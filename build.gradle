@@ -362,7 +362,7 @@ publishing {
 		publications {
 			mavenJava(MavenPublication) {
 				groupId = project.group
-				artifactId = project.base.archivesName
+				artifactId = project.base.archivesName.get()
 				version = project.version
 
 				// ForgeGradle will generate wild dependency definitions, see https://github.com/MinecraftForge/ForgeGradle/issues/584
