@@ -1,17 +1,23 @@
 package forestry.energy.tiles;
 
+import forestry.api.IForestryApi;
+import forestry.api.circuits.ForestryCircuitSocketTypes;
+import forestry.api.circuits.ICircuitBoard;
 import forestry.api.core.ForestryError;
 import forestry.api.fuels.FuelManager;
+import forestry.core.circuits.IEngineUpgradeable;
+import forestry.core.circuits.ISocketable;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.core.inventory.IInventoryAdapter;
-import forestry.core.tiles.TemperatureState;
+import forestry.core.inventory.InventoryAdapter;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.inventory.InventoryEnginePeat;
 import forestry.energy.menu.PeatEngineMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -22,15 +28,20 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer {
+public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ISocketable, IEngineUpgradeable {
 	private ItemStack fuel = ItemStack.EMPTY;
-	private int burnTime;
+	private float burnTime;
 	private int totalBurnTime;
 	private int ashProduction;
 	private final int ashForItem;
+	private final InventoryAdapter sockets = new InventoryAdapter(1, "sockets");
+	private float outputBoost=1.0f;
+	private float efficiencyMult=1.0f;
+	private float outputMultCap=1.0f;
+	private float burnRate=1.0f;
 
 	public PeatEngineBlockEntity(BlockPos pos, BlockState state) {
-		super(EnergyTiles.PEAT_ENGINE.tileType(), pos, state, "engine.copper", Constants.ENGINE_COPPER_HEAT_MAX, 200000);
+		super(EnergyTiles.PEAT_ENGINE.tileType(), pos, state, "engine.copper", Constants.ENGINE_COPPER_HEAT_MAX, 40000);
 
         this.ashForItem = Constants.ENGINE_COPPER_ASH_FOR_ITEM;
 		setInternalInventory(new InventoryEnginePeat(this));
@@ -86,11 +97,11 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
         this.currentOutput = 0;
 
 		if (this.burnTime > 0) {
-            this.burnTime--;
-			addAsh(1);
+            this.burnTime-=burnRate;
+			addAsh((int) (this.outputMultCap+0.5f));
 
 			if (isRedstoneActivated()) {
-                this.currentOutput = determineFuelValue(this.fuel);
+                this.currentOutput = (int) (determineFuelValue(this.fuel)*this.outputMultCap);
                 this.energyStorage.generateEnergy(this.currentOutput);
                 this.level.updateNeighbourForOutputSignal(this.worldPosition, getBlockState().getBlock());    //TODO - I thuink
 			}
@@ -98,7 +109,7 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 			int fuelSlot = getFuelSlot();
 			int wasteSlot = getFreeWasteSlot();
 
-			if (fuelSlot >= 0 && wasteSlot >= 0) {
+			if (fuelSlot >= 0 && wasteSlot >= 0 && energyStorage.getEnergyStored() <= 0) {
 				IInventoryAdapter inventory = getInternalInventory();
 				ItemStack fuelStack = inventory.getItem(fuelSlot);
                 this.burnTime = this.totalBurnTime = determineBurnDuration(fuelStack);
@@ -122,9 +133,24 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 			loss += 1;
 		}
 
-		TemperatureState tempState = getTemperatureState();
-		if (tempState == TemperatureState.OVERHEATING || tempState == TemperatureState.OPERATING_TEMPERATURE) {
-			loss += 1;
+		final double scaledHeat = (double) heat / maxHeat;
+		if(scaledHeat>0.2){
+			loss++;
+		}
+		if(scaledHeat>0.45){
+			loss++;
+		}
+		if(scaledHeat>0.65){
+			loss++;
+		}
+		if(scaledHeat>0.75){
+			loss++;
+		}
+		if(scaledHeat>0.85){
+			loss++;
+		}
+		if(scaledHeat>0.95){
+			loss++;
 		}
 
         this.heat -= loss;
@@ -137,9 +163,7 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 		if (isBurning()) {
 			heatToAdd++;
-			if ((double) this.energyStorage.getEnergyStored() / (double) this.energyStorage.getMaxEnergyStored() > 0.5) {
-				heatToAdd++;
-			}
+			heatToAdd+= (int) this.outputMultCap * energyStorage.getEnergyStored()>=energyStorage.getMaxEnergyStored()?2:1;
 		}
 
 		addHeat(heatToAdd);
@@ -201,7 +225,7 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 			return 0;
 		}
 
-		return this.burnTime * i / this.totalBurnTime;
+		return (int)(this.burnTime * i) / this.totalBurnTime;
 	}
 
 	@Override
@@ -220,15 +244,25 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
 
+		this.sockets.read(compoundNBT);
+
 		if (compoundNBT.contains("EngineFuelItemStack")) {
 			CompoundTag fuelItemNbt = compoundNBT.getCompound("EngineFuelItemStack");
             this.fuel = ItemStack.of(fuelItemNbt);
 		}
 
-        this.burnTime = compoundNBT.getInt("EngineBurnTime");
+        this.burnTime = compoundNBT.getFloat("EngineBurnTime");
         this.totalBurnTime = compoundNBT.getInt("EngineTotalTime");
 		if (compoundNBT.contains("AshProduction")) {
             this.ashProduction = compoundNBT.getInt("AshProduction");
+		}
+
+		ItemStack chip = this.sockets.getItem(0);
+		if (!chip.isEmpty()) {
+			ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(chip);
+			if (chipset != null) {
+				chipset.onLoad(this);
+			}
 		}
 	}
 
@@ -237,11 +271,13 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
 
+		this.sockets.write(nbt);
+
 		if (!this.fuel.isEmpty()) {
 			nbt.put("EngineFuelItemStack", this.fuel.serializeNBT());
 		}
 
-		nbt.putInt("EngineBurnTime", this.burnTime);
+		nbt.putFloat("EngineBurnTime", this.burnTime);
 		nbt.putInt("EngineTotalTime", this.totalBurnTime);
 		nbt.putInt("AshProduction", this.ashProduction);
 	}
@@ -249,8 +285,9 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
 		super.writeGuiData(data);
-		data.writeInt(this.burnTime);
+		data.writeInt((int)this.burnTime);
 		data.writeInt(this.totalBurnTime);
+		this.sockets.writeData(data);
 	}
 
 	@Override
@@ -258,11 +295,74 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 		super.readGuiData(data);
         this.burnTime = data.readInt();
         this.totalBurnTime = data.readInt();
+		this.sockets.readData(data);
 	}
 
 	@Nullable
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory pPlayerInventory, Player pPlayer) {
 		return new PeatEngineMenu(windowId, pPlayerInventory, this);
+	}
+
+	@Override
+	public int getSocketCount() {
+		return this.sockets.getContainerSize();
+	}
+
+	@Override
+	public ItemStack getSocket(int slot) {
+		return this.sockets.getItem(slot);
+	}
+
+	@Override
+	public void setSocket(int slot, ItemStack stack) {
+		if (!stack.isEmpty() && !IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(stack)) {
+			return;
+		}
+
+		// Dispose correctly of old chipsets
+		if (!this.sockets.getItem(slot).isEmpty()) {
+			if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(this.sockets.getItem(slot))) {
+				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(this.sockets.getItem(slot));
+				if (chipset != null) {
+					chipset.onRemoval(this);
+				}
+			}
+		}
+
+		this.sockets.setItem(slot, stack);
+		if (stack.isEmpty()) {
+			return;
+		}
+
+		ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(stack);
+		if (chipset != null) {
+			chipset.onInsertion(this);
+		}
+	}
+
+	@Override
+	public ResourceLocation getSocketType() {
+		return ForestryCircuitSocketTypes.ENGINE;
+	}
+
+	@Override
+	public void applyEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
+		//dont stack multiple chokes
+		if(!(outputBoost<0&&this.outputBoost<0))
+			this.efficiencyMult+=efficiencyMult;
+		this.outputBoost+=outputBoost;
+		this.outputMultCap=Math.max(0.5f,this.outputBoost);
+		this.burnRate=this.outputMultCap/Math.min(1.6f,this.efficiencyMult);
+	}
+
+	@Override
+	public void removeEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
+		//dont unstack multiple chokes
+		if(!(outputBoost<0&&this.outputBoost<outputBoost))
+			this.efficiencyMult-=efficiencyMult;
+		this.outputBoost-=outputBoost;
+		this.outputMultCap=this.outputBoost;
+		this.burnRate=this.outputBoost/this.efficiencyMult;
 	}
 }

@@ -61,6 +61,7 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.RAW_TIN_BLOCK.block())
 			.add(CharcoalBlocks.CHARCOAL.block())
 			.add(EnergyBlocks.ENGINES.blockArray())
+			.add(EnergyBlocks.SOLAR_PANELS.block())
 			.add(CoreBlocks.ASH_BRICKS.block())
 			.add(CoreBlocks.ASH_BRICK_WALL.block())
 			.add(CoreBlocks.ASH_BRICK_SLAB.block())

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:piston"
+    },
+    "I": {
+      "tag": "forge:glass"
+    },
+    "P": {
+      "tag": "forge:ingots/tin"
+    },
+    "Q": {
+      "tag": "forge:gears/tin"
+    }
+  },
+  "pattern": [
+    "PPP",
+    " I ",
+    "QDQ"
+  ],
+  "result": {
+    "item": "forestry:engine_solar"
+  },
+  "show_notification": true
+}

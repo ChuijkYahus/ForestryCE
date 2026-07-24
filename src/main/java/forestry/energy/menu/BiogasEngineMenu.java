@@ -1,6 +1,7 @@
 package forestry.energy.menu;
 
 import forestry.core.gui.ContainerLiquidTanks;
+import forestry.core.gui.ContainerLiquidTanksSocketed;
 import forestry.core.gui.slots.SlotLiquidIn;
 import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
@@ -10,7 +11,7 @@ import forestry.energy.tiles.BiogasEngineBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class BiogasEngineMenu extends ContainerLiquidTanks<BiogasEngineBlockEntity> {
+public class BiogasEngineMenu extends ContainerLiquidTanksSocketed<BiogasEngineBlockEntity> {
 	public static BiogasEngineMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf extraData) {
 		BiogasEngineBlockEntity tile = TileUtil.getTile(inv.player.level(), extraData.readBlockPos(), BiogasEngineBlockEntity.class);
 		return new BiogasEngineMenu(windowId, inv, tile);

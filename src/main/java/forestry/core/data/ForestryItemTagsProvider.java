@@ -95,6 +95,7 @@ public class ForestryItemTagsProvider {
 		);
 		tags.tag(ForestryTags.Items.GEARS_BRONZE).add(CoreItems.GEAR_BRONZE.item());
 		tags.tag(ForestryTags.Items.GEARS_TIN).add(CoreItems.GEAR_TIN.item());
+		tags.tag(ForestryTags.Items.GEARS_IRON).add(CoreItems.GEAR_IRON.item());
 		tags.tag(ForestryTags.Items.GEARS_COPPER).add(CoreItems.GEAR_COPPER.item());
 		tags.tag(ForestryTags.Items.GEARS_IRON).add(CoreItems.GEAR_IRON.item());
 		tags.tag(ForestryTags.Items.GEARS_STONE);

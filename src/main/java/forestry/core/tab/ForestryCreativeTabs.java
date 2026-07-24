@@ -142,6 +142,7 @@ public class ForestryCreativeTabs {
 		items.accept(WorktableBlocks.WORKTABLE);
 		// Engines
 		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
+		items.accept(EnergyBlocks.SOLAR_PANELS);
 		// Machines
 		FactoryBlocks.PLAIN.getItems().forEach(items::accept);
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
@@ -174,9 +175,9 @@ public class ForestryCreativeTabs {
 		//addAllBuildingBlocks(items);
 
 		// Gears
-		items.accept(CoreItems.GEAR_IRON);
-		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_TIN);
+		items.accept(CoreItems.GEAR_COPPER);
+		items.accept(CoreItems.GEAR_IRON);
 		items.accept(CoreItems.GEAR_BRONZE);
 		// Casings
 		items.accept(CoreItems.STURDY_CASING);
@@ -199,6 +200,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.GEAR_TIN);
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_BRONZE);
+		items.accept(CoreItems.GEAR_IRON);
 		items.accept(CoreItems.SOLDERING_IRON);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(CoreItems.ASH);

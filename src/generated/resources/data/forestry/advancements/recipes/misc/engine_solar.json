@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:wax_block"
-            ]
+            "tag": "forge:ingots/tin"
           }
         ]
       },
@@ -15,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:ashen_wax_block"
+        "recipe": "forestry:engine_solar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,8 +26,8 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:ashen_wax_block"
+      "forestry:engine_solar"
     ]
   },
-  "sends_telemetry_event": false
+  "sends_telemetry_event": true
 }

@@ -1626,6 +1626,26 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern(" I ");
 			recipe.pattern("QDQ");
 		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.COMBUSTION), recipe -> {
+			recipe.define('P', Tags.Items.INGOTS_IRON);
+			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('Q', ForestryTags.Items.GEARS_IRON);
+			recipe.define('D', Items.PISTON);
+			recipe.pattern("PPP");
+			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR), recipe -> {
+			recipe.define('P', ForestryTags.Items.INGOTS_TIN);
+			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('Q', ForestryTags.Items.GEARS_TIN);
+			recipe.define('D', Items.PISTON);
+			recipe.pattern("PPP");
+			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
 	}
 
 	private static void registerCarpenter(Consumer<FinishedRecipe> consumer) {
