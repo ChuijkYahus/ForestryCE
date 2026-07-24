@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-03T23:37:14.696196059	Tags for minecraft:item mod id forestry
+// 1.20.1	2026-07-06T00:19:53.782845351	Tags for minecraft:item mod id forestry
 e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
@@ -132,9 +132,10 @@ ab4113cda3bfb3a656ec70b56b48a7ef12f3b439 data/forge/tags/items/fruits/lemon.json
 e2432d8c29cf9777eddb5aae15e363da5ae8ee4a data/forge/tags/items/fruits/pear.json
 83bb9afbc48fe29d2ba5f7e26971934607d899ce data/forge/tags/items/fruits/plum.json
 0a4f9416fe27c320cc3003fa7b6b90a9d840b4d7 data/forge/tags/items/fruits/walnut.json
-b65391d6ad052635e6a05e52a948999fbe4275cc data/forge/tags/items/gears.json
+837ca96de554d070e5c6aff1c1e655a1603f240b data/forge/tags/items/gears.json
 a8c9d50fad9f4f5fadfdb5b0073b599dda9a140f data/forge/tags/items/gears/bronze.json
 246c3d963343027d30575bca49bede0d04d245b6 data/forge/tags/items/gears/copper.json
+39228b736bacee540a1bc550b89cd1e5902749d1 data/forge/tags/items/gears/iron.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/gears/stone.json
 febeaaa35d40f231aef3c816a93030bec346cd15 data/forge/tags/items/gears/tin.json
 6c213c91377790c6f0e879e77db66b8e603c6ee6 data/forge/tags/items/gems/amber.json

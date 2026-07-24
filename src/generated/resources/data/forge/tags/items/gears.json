@@ -2,6 +2,7 @@
   "values": [
     "#forge:gears/bronze",
     "#forge:gears/copper",
-    "#forge:gears/tin"
+    "#forge:gears/tin",
+    "#forge:gears/iron"
   ]
 }

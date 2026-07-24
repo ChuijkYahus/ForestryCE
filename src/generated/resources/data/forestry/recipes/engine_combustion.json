@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:piston"
+    },
+    "I": {
+      "tag": "forge:glass"
+    },
+    "P": {
+      "tag": "forge:ingots/iron"
+    },
+    "Q": {
+      "tag": "forge:gears/iron"
+    }
+  },
+  "pattern": [
+    "PPP",
+    " I ",
+    "QDQ"
+  ],
+  "result": {
+    "item": "forestry:engine_combustion"
+  },
+  "show_notification": true
+}

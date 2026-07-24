@@ -16,8 +16,11 @@ import forestry.modules.BlankForestryModule;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.function.Consumer;
 
@@ -32,14 +35,13 @@ public class ModuleEnergy extends BlankForestryModule {
 	public void setupApi() {
 		FuelManager.biogasEngineFuel = new FluidMap<>();
 		FuelManager.peatEngineFuel = new ItemStackMap<>();
+		FuelManager.combustionEngineFuel = new FluidMap<>();
+		FuelManager.combustionEngineCoolant = new FluidMap<>();
 
 		// Biogas Engine
 		Fluid biomass = ForestryFluids.BIOMASS.getFluid();
 		FuelManager.biogasEngineFuel.put(biomass, new EngineBronzeFuel(biomass,
 			Constants.ENGINE_FUEL_VALUE_BIOMASS, Constants.ENGINE_CYCLE_DURATION_BIOMASS, 1));
-
-		FuelManager.biogasEngineFuel.put(Fluids.WATER, new EngineBronzeFuel(Fluids.WATER,
-			Constants.ENGINE_FUEL_VALUE_WATER, Constants.ENGINE_CYCLE_DURATION_WATER, 3));
 
 		Fluid milk = ForgeMod.MILK.get();
 		FuelManager.biogasEngineFuel.put(milk, new EngineBronzeFuel(milk,
@@ -55,7 +57,22 @@ public class ModuleEnergy extends BlankForestryModule {
 
 		Fluid juice = ForestryFluids.JUICE.getFluid();
 		FuelManager.biogasEngineFuel.put(juice, new EngineBronzeFuel(juice,
-			Constants.ENGINE_FUEL_VALUE_JUICE, Constants.ENGINE_CYCLE_DURATION_JUICE, 1));
+			Constants.ENGINE_FUEL_VALUE_JUICE, Constants.ENGINE_CYCLE_DURATION_JUICE, 2));
+
+		// Combustion Engine
+		Fluid ethanol = ForestryFluids.BIO_ETHANOL.getFluid();
+		FuelManager.combustionEngineFuel.put(ethanol, new EngineBronzeFuel(ethanol,
+			Constants.ENGINE_FUEL_VALUE_ETHANOL, Constants.ENGINE_FUEL_DURATION_ETHANOL, 1));
+		/*FuelManager.combustionEngineFuel.put(seedOil, new EngineBronzeFuel(seedOil,
+			Constants.ENGINE_FUEL_VALUE_BIODIESEL, Constants.ENGINE_FUEL_DURATION_BIODIESEL, 1));*/
+
+		// Coolant
+		Fluid water = Fluids.WATER.getSource();
+		FuelManager.combustionEngineCoolant.put(water, new EngineBronzeFuel(water,
+			0,Constants.ENGINE_COOLANT_VALUE_WATER,0));
+		Fluid crushedIce = ForestryFluids.ICE.getFluid();
+		FuelManager.combustionEngineCoolant.put(crushedIce, new EngineBronzeFuel(crushedIce,
+			0,Constants.ENGINE_COOLANT_VALUE_CRUSHED_ICE, 20));
 
 		// Peat Engine
 		ItemStack peat = CoreItems.PEAT.stack();

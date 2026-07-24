@@ -2,6 +2,7 @@ package forestry.energy.client;
 
 import forestry.energy.features.EnergyMenus;
 import forestry.energy.screen.BiogasEngineScreen;
+import forestry.energy.screen.CombustionEngineScreen;
 import forestry.energy.screen.PeatEngineScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,6 +18,7 @@ public class EnergyClientHandler implements forestry.api.client.IClientModuleHan
 		event.enqueueWork(() -> {
 			MenuScreens.register(EnergyMenus.ENGINE_BIOGAS.menuType(), BiogasEngineScreen::new);
 			MenuScreens.register(EnergyMenus.ENGINE_PEAT.menuType(), PeatEngineScreen::new);
+			MenuScreens.register(EnergyMenus.ENGINE_COMBUSTION.menuType(), CombustionEngineScreen::new);
 		});
 	}
 }

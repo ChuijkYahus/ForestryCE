@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-03T23:37:14.689412688	Loot Tables
+// 1.20.1	2026-07-19T04:56:50.476435601	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -356,7 +356,9 @@ b885c0b91e1e994f0acb53b4c2822aa4d2881f98 data/forestry/loot_tables/blocks/elm_st
 e7dde6f8c36bff94faade117f9d9ff2a12f2f9ae data/forestry/loot_tables/blocks/elm_wood.json
 7ea9aa7ed689829cc5c9f9ea525fb96a368cedb7 data/forestry/loot_tables/blocks/engine_biogas.json
 166727e5e0f1403716e8ef73260982f8eda0dbeb data/forestry/loot_tables/blocks/engine_clockwork.json
+21a9828494579d303ce34451e5bf7c0838808e1f data/forestry/loot_tables/blocks/engine_combustion.json
 b8c69464b0dcf6669579b4799b7dd3133bb3d68b data/forestry/loot_tables/blocks/engine_peat.json
+1ff71ca459666fbd34926b0a8844b3d3647d4a23 data/forestry/loot_tables/blocks/engine_solar.json
 65076607deca2287680aaaac1cea2e2eccf81062 data/forestry/loot_tables/blocks/escritoire.json
 b10890c3bbd1bac3f2e175ccd39728b4c1ab833c data/forestry/loot_tables/blocks/fabricator.json
 2e5b98c0cd9ce820af5a9cbf57e7898b56388b64 data/forestry/loot_tables/blocks/farm_control_brick.json
@@ -1112,6 +1114,7 @@ d35465234914968d85127ad8a0e5d5b447e7840c data/forestry/loot_tables/blocks/sequoi
 fcb080bb94ac54cde7eb7a7985ce792563afbda9 data/forestry/loot_tables/blocks/sequoia_stripped_wood.json
 451c205ccdf9fa50b5c4e35b718bdb826a919798 data/forestry/loot_tables/blocks/sequoia_trapdoor.json
 6a6a2e080560fa9228e679f50134ccdccbe7df8a data/forestry/loot_tables/blocks/sequoia_wood.json
+34b7ed30f309d29c6bc4d84447b0782d31c62801 data/forestry/loot_tables/blocks/solar_panel.json
 8bbc1bfbb3b7fc141b530503172ee8a6285c4400 data/forestry/loot_tables/blocks/spruce_fireproof_fence.json
 1e81467ccce675c53ea949c690f8a209d30cc409 data/forestry/loot_tables/blocks/spruce_fireproof_fence_gate.json
 70899da04fe9753c29c7f78878412ccc2b0937b7 data/forestry/loot_tables/blocks/spruce_fireproof_log.json

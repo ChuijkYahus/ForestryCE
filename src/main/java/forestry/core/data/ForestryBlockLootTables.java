@@ -93,6 +93,7 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		registerLootTable(CoreBlocks.DEEPSLATE_TIN_ORE, block -> createOreDrop(block, CoreItems.RAW_TIN.item()));
 
 		dropSelf(CoreBlocks.RAW_TIN_BLOCK.block());
+
 	}
 
 	private LootTable.Builder createApatiteOreDrops(Block block) {

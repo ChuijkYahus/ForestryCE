@@ -86,6 +86,8 @@ public class ForestryConfig {
 		public final ForgeConfigSpec.BooleanValue spawnTinOre;
 		public final ForgeConfigSpec.BooleanValue spawnApatiteOre;
 		public final ForgeConfigSpec.DoubleValue escritoireBountyMultiplier;
+		public final ForgeConfigSpec.IntValue solarRF;
+		public final ForgeConfigSpec.IntValue twilightSolarRF;
 
 		public Server(ForgeConfigSpec.Builder builder) {
 			// Genetics
@@ -166,6 +168,12 @@ public class ForestryConfig {
 			this.escritoireBountyMultiplier = builder
 				.comment("Multiplies the chance of a reward from winning escritoire game(does not affect mutation notes)")
 				.defineInRange("escritoire_bounty_multiplier", 1f, 0.0f, 1000f);
+			this.solarRF = builder
+				.comment("How much miliRF/t does a solar panel generate")
+				.defineInRange("solar_rf_multiplier", 2500, 1, 10000);
+			this.twilightSolarRF = builder
+				.comment("How much miliRF/t does a solar panel generate in the Twilight Forest")
+				.defineInRange("twilight_solar_rf", 1250, 1, 10000);
 		}
 	}
 

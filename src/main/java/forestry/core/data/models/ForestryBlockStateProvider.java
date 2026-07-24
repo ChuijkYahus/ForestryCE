@@ -73,6 +73,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic2d(CoreItems.INGOT_BRONZE);
 		generic2d(CoreItems.GEAR_BRONZE);
 		generic2d(CoreItems.GEAR_COPPER);
+		generic2d(CoreItems.GEAR_IRON);
 
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
 		for (ForestryFluids fluid : ForestryFluids.values()) {

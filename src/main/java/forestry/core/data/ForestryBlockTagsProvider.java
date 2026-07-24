@@ -51,7 +51,8 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.DEEPSLATE_TIN_ORE.block())
 			.add(CoreBlocks.RAW_TIN_BLOCK.block())
 			.add(CharcoalBlocks.CHARCOAL.block())
-			.add(EnergyBlocks.ENGINES.blockArray());
+			.add(EnergyBlocks.ENGINES.blockArray())
+			.add(EnergyBlocks.SOLAR_PANELS.block());
 
 		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);

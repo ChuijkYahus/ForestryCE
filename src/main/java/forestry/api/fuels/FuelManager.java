@@ -28,4 +28,8 @@ public class FuelManager {
 	 */
 	public static Map<ItemStack, EngineCopperFuel> peatEngineFuel;
 
+	public static Map<Fluid, EngineBronzeFuel> combustionEngineFuel;
+
+	public static Map<Fluid, EngineBronzeFuel> combustionEngineCoolant;
+
 }
