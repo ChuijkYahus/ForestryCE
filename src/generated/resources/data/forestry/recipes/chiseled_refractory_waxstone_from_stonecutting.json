@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "forestry:refractory_waxstone"
+  },
+  "result": "forestry:chiseled_refractory_waxstone"
+}

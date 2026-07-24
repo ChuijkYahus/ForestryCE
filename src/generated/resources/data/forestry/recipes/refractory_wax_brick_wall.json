@@ -1,10 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "redstone",
-  "group": "wooden_trapdoor",
+  "category": "building",
   "key": {
     "#": {
-      "item": "forestry:wax_bricks"
+      "item": "forestry:refractory_wax_bricks"
     }
   },
   "pattern": [
@@ -12,7 +11,7 @@
     "###"
   ],
   "result": {
-    "count": 2,
+    "count": 6,
     "item": "forestry:refractory_wax_brick_wall"
   },
   "show_notification": true

@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "X": {
+    "_": {
       "item": "forestry:ash_brick_slab"
     }
   },
   "pattern": [
-    "X",
-    "X"
+    "_",
+    "_"
   ],
   "result": {
     "item": "forestry:chiseled_ash_bricks"

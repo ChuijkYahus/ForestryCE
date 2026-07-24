@@ -5,7 +5,13 @@
       "conditions": {
         "items": [
           {
+<<<<<<<< HEAD:src/generated/resources/data/forestry/advancements/recipes/misc/engine_solar.json
             "tag": "forge:ingots/tin"
+========
+            "items": [
+              "forestry:beeswax"
+            ]
+>>>>>>>> pr-345-head:src/generated/resources/data/forestry/advancements/recipes/building_blocks/wax_bricks_sawdust.json
           }
         ]
       },
@@ -13,7 +19,11 @@
     },
     "has_the_recipe": {
       "conditions": {
+<<<<<<<< HEAD:src/generated/resources/data/forestry/advancements/recipes/misc/engine_solar.json
         "recipe": "forestry:engine_solar"
+========
+        "recipe": "forestry:wax_bricks_sawdust"
+>>>>>>>> pr-345-head:src/generated/resources/data/forestry/advancements/recipes/building_blocks/wax_bricks_sawdust.json
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +36,11 @@
   ],
   "rewards": {
     "recipes": [
+<<<<<<<< HEAD:src/generated/resources/data/forestry/advancements/recipes/misc/engine_solar.json
       "forestry:engine_solar"
+========
+      "forestry:wax_bricks_sawdust"
+>>>>>>>> pr-345-head:src/generated/resources/data/forestry/advancements/recipes/building_blocks/wax_bricks_sawdust.json
     ]
   },
   "sends_telemetry_event": true

@@ -373,7 +373,7 @@
   "for.hints.enginebronzeoutput.tag": "Choose your fuel!",
   "for.hints.enginebronzewaste.desc": "Contrary to peat-fired engines disabled biogas engines will not waste the biomass currently in the system.",
   "for.hints.enginebronzewaste.tag": "Fuel is conserved",
-  "for.hints.enginecopperfuels.desc": "Peat-fired engines can use regular peat, but they can also use enriched peat to double their energy output.",
+  "for.hints.enginecopperfuels.desc": "Peat-fired engines can use regular peat, but they can also use Bituminous Peat to double their energy output.",
   "for.hints.enginecopperfuels.tag": "Use all the fuels!",
   "for.hints.enginecopperwaste.desc": "Disabled peat-fired engines continue to burn peat already removed from the stash without generating energy from it.",
   "for.hints.enginecopperwaste.tag": "Beware wasting energy!",
@@ -489,7 +489,7 @@
   "item.forestry.bee_comb_sculken": "Sculken Comb",
   "item.forestry.beeswax": "Beeswax",
   "item.forestry.biome_finder": "Habitat Locator",
-  "item.forestry.bituminous_peat": "Enriched Peat",
+  "item.forestry.bituminous_peat": "Bituminous Peat",
   "item.forestry.brick_ash": "Ash Brick",
   "item.forestry.brick_wax": "Wax Brick",
   "item.forestry.brick_refractory_wax": "Refractory Wax Brick",
@@ -1457,7 +1457,7 @@
   "for.gui.book.patchouli.entry.core.engine.clockwork2": "The Clockwork Engine has no GUI. To wind the engine, simply right-click on the block in the world. The piston will pause moving while you wind it, allowing you to see the current state of the engine.$(br)",
 
   "for.gui.book.patchouli.entry.core.engine.peat": "Peat-Fired Engine",
-  "for.gui.book.patchouli.entry.core.engine.peat1": "Peat-Fired engines use peat as fuel (or the upgraded version of peat, enriched peat) and produce Ash as a by-product.",
+  "for.gui.book.patchouli.entry.core.engine.peat1": "Peat-Fired engines use Peat as fuel (or the upgraded version of Peat, Bituminous Peat) and produce Ash as a by-product.",
   "for.gui.book.patchouli.entry.core.engine.peat2": "Peat burns for 5000 ticks and produces 10 RF every tick, 1 peat makes 0.66 Ash, so you get 2 Ash for burning 3 peat.$(br2)Treated Peat burns for 6000 ticks and produces 20 RF/tick.",
 
   "for.gui.book.patchouli.entry.core.machine.bottler": "Bottler",

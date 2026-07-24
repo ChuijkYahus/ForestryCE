@@ -5,8 +5,13 @@ import forestry.core.features.CoreTiles;
 import forestry.core.gui.ContainerBurnBarrel;
 import forestry.core.tiles.TileBurnBarrel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -28,6 +33,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -143,6 +149,27 @@ public class BlockBurnBarrel extends BaseEntityBlock implements MenuProvider {
 	@Override
 	public PushReaction getPistonPushReaction(BlockState state) {
 		return PushReaction.DESTROY;
+	}
+
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+		if (!state.getValue(LIT)) return;
+		addParticlesAndSound(level, pos.getCenter().add(0, 0.55f, 0), random);
+	}
+
+	//Adapted from Jumbo Candles which was adapted from vanilla candles.
+	private static void addParticlesAndSound(Level level, Vec3 offset, RandomSource random) {
+		float f = random.nextFloat();
+		if (f < 0.6F) {
+			float randX = (random.nextFloat()-0.5f) / 10f;
+			float randZ = (random.nextFloat()-0.5f) / 10f;
+			level.addParticle(ParticleTypes.SMOKE, offset.x, offset.y, offset.z, randX, 0.05, randZ);
+			if (f < 0.085F) {
+				level.playLocalSound(offset.x + 0.5, offset.y + 0.5, offset.z + 0.5, SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F, false);
+			}
+		}
+		if (f < 0.1F)
+			level.addParticle(ParticleTypes.LAVA, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
 	}
 	/*
 

@@ -10,7 +10,7 @@
     "category": "misc",
     "key": {
       "#": {
-        "item": "forestry:wood_pulp"
+        "tag": "forge:sawdust"
       }
     },
     "pattern": [

@@ -5,8 +5,6 @@
     "forestry:butterfly_chest",
     "forestry:log_pile",
     "forestry:worktable",
-    "forestry:analyzer",
-    "forestry:escritoire",
     "forestry:alveary_plain",
     "forestry:alveary_swarmer",
     "forestry:alveary_fan",
@@ -509,6 +507,10 @@
     "forestry:jungle_fireproof_fence",
     "forestry:acacia_fireproof_fence",
     "forestry:dark_oak_fireproof_fence",
-    "forestry:cherry_fireproof_fence"
+    "forestry:cherry_fireproof_fence",
+    "forestry:escritoire",
+    "forestry:cork",
+    "forestry:plywood_block",
+    "forestry:plywood"
   ]
 }

@@ -3,15 +3,19 @@
   "category": "building",
   "key": {
     "#": {
-      "item": "forestry:refractory_wax_bricks"
+      "tag": "forge:sawdust"
+    },
+    "X": {
+      "item": "forestry:refractory_wax"
     }
   },
   "pattern": [
-    "###"
+    "#X",
+    "X#"
   ],
   "result": {
-    "count": 6,
-    "item": "forestry:refractory_wax_brick_slab"
+    "count": 2,
+    "item": "forestry:brick_refractory_wax"
   },
   "show_notification": true
 }

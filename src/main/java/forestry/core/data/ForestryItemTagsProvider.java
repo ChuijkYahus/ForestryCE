@@ -70,6 +70,7 @@ public class ForestryItemTagsProvider {
 		tags.copy(BlockTags.WOODEN_SLABS, ItemTags.WOODEN_SLABS);
 		tags.copy(BlockTags.DOORS, ItemTags.DOORS);
 		tags.copy(BlockTags.WOODEN_DOORS, ItemTags.WOODEN_DOORS);
+		tags.copy(BlockTags.WALLS, ItemTags.WALLS);
 
 		tags.tag(ItemTags.SAPLINGS).add(ArboricultureItems.SAPLING.get());
 		tags.copy(BlockTags.LEAVES, ItemTags.LEAVES);
