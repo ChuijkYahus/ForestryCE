@@ -9,12 +9,12 @@ modId = "forestry"
 version = "${version}"
 displayName = "Forestry"
 displayURL = "https://github.com/thedarkcolour/ForestryCE"
-logoFile = "forestry_logo.png"
+logoFile = "forestry-ce-logo-banner.png"
 credits = "mistaqur, Binnie, CovertJaguar, MysteriousAges, Nirek, Temp1011, ramidzkh, EnderiumSmith, Spearkiller"
-authors = "SirSengir, mezz, Nedelosk, thedarkcolour"
-description = '''
-	Trees, bees and more.
-	'''
+authors = "thedarkcolour, SirSengir, mezz, Nedelosk"
+description ='''
+Trees, bees and more.
+'''
 
 [[dependencies.forestry]]
 modId = "neoforge"
