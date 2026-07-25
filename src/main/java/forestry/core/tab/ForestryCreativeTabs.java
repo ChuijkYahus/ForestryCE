@@ -22,12 +22,10 @@ import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.blocks.BlockBurnBarrel;
 import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.blocks.BlockTypeMetalPlating;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.features.CoreTiles;
 import forestry.core.features.FluidsItems;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.EnumContainerType;
@@ -142,7 +140,7 @@ public class ForestryCreativeTabs {
 		items.accept(WorktableBlocks.WORKTABLE);
 		// Engines
 		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
-		items.accept(EnergyBlocks.SOLAR_PANELS);
+		items.accept(EnergyBlocks.SOLAR_PANEL);
 		// Machines
 		FactoryBlocks.PLAIN.getItems().forEach(items::accept);
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
