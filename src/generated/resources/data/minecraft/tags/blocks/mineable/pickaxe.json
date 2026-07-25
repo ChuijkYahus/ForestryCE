@@ -175,6 +175,7 @@
     "forestry:resource_storage_tin",
     "forestry:resource_storage_bronze",
     "forestry:resource_storage_amber",
+    "forestry:resource_storage_silicon",
     "forestry:fabricator",
     "forestry:bottler",
     "forestry:carpenter",

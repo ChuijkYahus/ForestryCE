@@ -23,7 +23,6 @@ import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureBlockGroup;
 import forestry.worktable.features.WorktableBlocks;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -64,7 +63,7 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.RAW_TIN_BLOCK.block())
 			.add(CharcoalBlocks.CHARCOAL.block())
 			.add(EnergyBlocks.ENGINES.blockArray())
-			.add(EnergyBlocks.SOLAR_PANELS.block())
+			.add(EnergyBlocks.SOLAR_PANEL.block())
 			.add(CoreBlocks.ASH_BRICKS.block())
 			.add(CoreBlocks.ASH_BRICKS_CHISELED.block())
 			.add(CoreBlocks.ASH_BRICK_WALL.block())
@@ -277,6 +276,7 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_TIN).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN).block());
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE).block());
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_AMBER).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER).block());
+		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_SILICON).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON).block());
 
 		tags.tag(BlockTags.DIRT)
 			.add(CoreBlocks.HUMUS.block())

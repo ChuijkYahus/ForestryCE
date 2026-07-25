@@ -159,6 +159,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.APATITE);
 		items.accept(CoreItems.RAW_TIN);
 		items.accept(CoreItems.AMBER);
+		items.accept(CoreItems.SILICON);
 		items.accept(ApicultureItems.AMBER_DRONE);
 		items.accept(ArboricultureItems.AMBER_SAPLING);
 		// Processed ores
@@ -182,6 +183,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.HARDENED_CASING);
 		items.accept(CoreItems.IMPREGNATED_CASING);
 		items.accept(CoreItems.FLEXIBLE_CASING);
+		// MISC MACHINE STUFF
+		items.accept(CoreItems.SOLAR_CELL);
 
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.CARTON);
