@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-25T19:30:48.9339657	Recipes
+// 1.20.1	2026-07-25T19:44:09.0869006	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1156,6 +1156,7 @@ c1fcf83aceda05414b4b4d2fabea6cb9fb35cd01 data/forestry/advancements/recipes/misc
 8db0ad9793ed85446c7c61ac7506e41523d19de9 data/forestry/advancements/recipes/misc/silicon.json
 0dfebfe2b4c3c08944b20c6d4e001516da64aba9 data/forestry/advancements/recipes/misc/slime_from_propolis.json
 babf5b4fad2af33c905295c74372b125bdc32897 data/forestry/advancements/recipes/misc/smelter.json
+4147ef7b0fdc64dafef030c41c6f3d8ddea7b074 data/forestry/advancements/recipes/misc/solar_panel.json
 78e32579873e5e79b628bdbea0df491bd76ddafe data/forestry/advancements/recipes/misc/squeezer.json
 32feea216eacc2aa296aabf031f25c032b84d3c5 data/forestry/advancements/recipes/misc/stamp_100n.json
 f0f8fca14ccfb3d5616aa7daba643a816a65d024 data/forestry/advancements/recipes/misc/stamp_10n.json
@@ -2319,6 +2320,7 @@ a0471923e14f5521555474628258ae7929e80e25 data/forestry/recipes/fabricator/smelti
 abe3c7c23d1a8a3d4eb73b2115c73954c09f1a5e data/forestry/recipes/fabricator/smelting/sandstone.json
 2c4d8bccbd6601dce358aa18a39a11035759fcd8 data/forestry/recipes/fabricator/smelting/wax.json
 c487937f0e16ed0e1372f23c1634070ec4fda992 data/forestry/recipes/fabricator/smelting/wax_block.json
+20f0c5ab3707c8af0f4caad96972c0dceee7637a data/forestry/recipes/fabricator/solar_cell.json
 5f0760dcb45de59e884c99e1b33dbcc53776b26a data/forestry/recipes/farm_control_brick.json
 0ce784c519e05fbf3f7ddd7a305524885b818341 data/forestry/recipes/farm_control_brick_chiseled.json
 8a46dc6749d4dcdfc7d043be7fefdf1d2651c073 data/forestry/recipes/farm_control_brick_nether.json
@@ -3193,7 +3195,9 @@ c734dfc9e2525919f51561d9954753cc8ca59a58 data/forestry/recipes/smelter/constanta
 ca4e7d60a7e03393f51185f1711eb21cb58f699d data/forestry/recipes/smelter/electrum_from_raw_materials.json
 d55d88408cf13b8038d305a4b90d32056606202b data/forestry/recipes/smelter/invar_from_ingots.json
 2db3b3d5de964894a9f36d31ff432fa23b41b82b data/forestry/recipes/smelter/invar_from_raw_materials.json
+6507586c2ec4ddb22b26359c4721950fd351a486 data/forestry/recipes/smelter/silicon.json
 c86d150fc1b07832263841a9b659fafe67b1e2f7 data/forestry/recipes/smoker.json
+f9527e33a6e14001213dc70ba90086fd2898a37e data/forestry/recipes/solar_panel.json
 21966eb9020b5d42d568e2bbe227f61ee1b631f7 data/forestry/recipes/spruce_door.json
 9fa066a8b1fd59e0edec2ce354b4189eb61e0e95 data/forestry/recipes/spruce_fireproof_fence.json
 32db438bb6e5e93372bd6747fe20cba269079000 data/forestry/recipes/spruce_fireproof_fence_gate.json

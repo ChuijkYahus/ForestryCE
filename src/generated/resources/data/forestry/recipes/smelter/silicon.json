@@ -1,0 +1,25 @@
+{
+  "type": "forestry:smelter",
+  "inputs": [
+    {
+      "count": 3,
+      "ingredient": {
+        "item": "minecraft:quartz"
+      }
+    },
+    {
+      "count": 2,
+      "ingredient": {
+        "item": "minecraft:flint"
+      }
+    }
+  ],
+  "output": {
+    "count": 4,
+    "ingredient": {
+      "tag": "forge:gems/silicon"
+    }
+  },
+  "processingTime": 40,
+  "temperature": 0
+}

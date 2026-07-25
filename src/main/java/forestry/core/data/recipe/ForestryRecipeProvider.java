@@ -1658,6 +1658,16 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern(" I ");
 			recipe.pattern("QDQ");
 		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.SOLAR_PANEL, recipe -> {
+			recipe.define('P', Tags.Items.GLASS_PANES);
+			recipe.define('C', CoreItems.SOLAR_CELL);
+			recipe.define('Q', ForestryTags.Items.INGOTS_TIN);
+			recipe.define('D', CoreItems.ELECTRON_TUBES.item(EnumElectronTube.COPPER));
+			recipe.pattern("PPP");
+			recipe.pattern("CCC");
+			recipe.pattern("QDQ");
+		});
 	}
 
 	private static void registerCarpenter(Consumer<FinishedRecipe> consumer) {
@@ -2564,6 +2574,18 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 				.define('D', Tags.Items.GEMS_DIAMOND))
 			.build(consumer, id("fabricator", "hardened_casing"));
 
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(liquidGlass)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL)
+				.pattern("DOD")
+				.pattern("^^^")
+				.pattern("DOD")
+				.define('O', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR))
+				.define('^', ForestryTags.Items.GEMS_SILICON)
+				.define('D', ForestryTags.Items.INGOTS_TIN))
+			.build(consumer, id("fabricator", "solar_cell"));
+
 		metalPlating(consumer, "iron_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.IRON).item(), Items.IRON_INGOT, 8);
 		metalPlating(consumer, "gold_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.GOLD).item(), Items.GOLD_INGOT, 8);
 		metalPlating(consumer, "copper_metal_plating", CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.COPPER).item(), Items.COPPER_INGOT, 8);
@@ -3024,6 +3046,13 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 				.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_BRONZE), 4)
 				.setProcessingTime(40)
 				.build(consumer, id("smelter", "bronze_from_raw_materials"));
+
+			new SmelterRecipeBuilder()
+				.addIngredient(Ingredient.of(Items.QUARTZ), 3)
+				.addIngredient(Ingredient.of(Items.FLINT), 2)
+				.setOutput(Ingredient.of(ForestryTags.Items.GEMS_SILICON), 4)
+				.setProcessingTime(40)
+				.build(consumer, id("smelter", "silicon"));
 
 
 			//This is the fun part where I have to try and remember a whole bunch of modded alloys uhhhhhhhh
