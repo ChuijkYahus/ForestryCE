@@ -650,11 +650,13 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern("##");
 			recipe.pattern("##");
 		});
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.AMBER, 4, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER));
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON), recipe -> {
 			recipe.define('#', CoreItems.SILICON);
 			recipe.pattern("##");
 			recipe.pattern("##");
 		});
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.SILICON, 4, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON));
 		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.BRONZE_PICKAXE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
