@@ -10,6 +10,7 @@ import forestry.modules.features.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 @FeatureProvider
@@ -18,5 +19,5 @@ public class EnergyBlocks {
 
 	public static final FeatureBlockGroup<EngineBlock, EngineBlockType> ENGINES = REGISTRY.blockGroup(EngineBlock::new, EngineBlockType.VALUES).item(ItemBlockTesr::new).identifier("engine").create();
 
-	public static final FeatureBlock<Block, BlockItem> SOLAR_PANELS = REGISTRY.block(()->new SolarPanelBlock(BlockBehaviour.Properties.copy(Blocks.DAYLIGHT_DETECTOR)), ItemBlockForestry::new, "solar_panel");
+	public static final FeatureBlock<Block, BlockItem> SOLAR_PANEL = REGISTRY.block(()->new SolarPanelBlock(BlockBehaviour.Properties.copy(Blocks.DAYLIGHT_DETECTOR).sound(SoundType.METAL)), ItemBlockForestry::new, "solar_panel");
 }

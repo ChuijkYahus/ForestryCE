@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "forestry:resource_storage_amber"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "forestry:amber"
+  }
+}

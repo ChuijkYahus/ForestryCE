@@ -51,7 +51,7 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 
 	public void attachPanel(HashSet<BlockPos> array, BlockPos pos, Level level){
 		BlockState state=level.getBlockState(pos);
-		if(state.getBlock() == EnergyBlocks.SOLAR_PANELS.block() && !state.getValue(SolarPanelBlock.CONNECTED)){
+		if(state.getBlock() == EnergyBlocks.SOLAR_PANEL.block() && !state.getValue(SolarPanelBlock.CONNECTED)){
 			if((worldPosition.getX()-pos.getX())*(worldPosition.getX()-pos.getX())<=256 && (worldPosition.getZ()-pos.getZ())*(worldPosition.getZ()-pos.getZ())<=256) {
 				array.add(pos);
 				if (state.getValue(SolarPanelBlock.IN_DAYLIGHT))
@@ -69,7 +69,7 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 		if(array.contains(pos)) {
 			array.forEach(blockpos->{
 				BlockState state=level.getBlockState(blockpos);
-				if(state.getBlock()==EnergyBlocks.SOLAR_PANELS.block())
+				if(state.getBlock()==EnergyBlocks.SOLAR_PANEL.block())
 					level.setBlock(blockpos,state.setValue(SolarPanelBlock.CONNECTED,false),3);
 			});
 			array.clear();
@@ -114,7 +114,7 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 	public void onDropContents(ServerLevel level) {
 		array.forEach(pos-> {
 			BlockState state=level.getBlockState(pos);
-			if(state.getBlock()==EnergyBlocks.SOLAR_PANELS.block())
+			if(state.getBlock()==EnergyBlocks.SOLAR_PANEL.block())
 				level.setBlock(pos,state.setValue(SolarPanelBlock.CONNECTED,false),3);
 		});
 	}

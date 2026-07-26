@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-24T00:11:29.223014105	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-07-25T18:55:29.9060816	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
@@ -12,7 +12,6 @@ f48573065b4783237bdb7cdcdc0e10fde2f7bf7e data/forestry/tags/blocks/coconut_logs.
 6eabef4518f12701c9313cc05d8f73d9f80d0217 data/forestry/tags/blocks/ebony_logs.json
 738b3a66a4998641552538ec8c73163a35f2eb52 data/forestry/tags/blocks/elm_logs.json
 9b0261db179dea40689117f6c40ed27e2576ade5 data/forestry/tags/blocks/feijoa_logs.json
-8f7b016b1f13e0d1e8b2f1a7b34fbd52f74e38c3 data/forestry/tags/blocks/fir_logs.json
 f325d2ec9a1667fbb13f65621a214b7536d09265 data/forestry/tags/blocks/fireproof_acacia_desert_logs.json
 6287e45cc5944b9ab030ba66d775c136ca790de4 data/forestry/tags/blocks/fireproof_acacia_logs.json
 ed489cef863f2aa79aea8c510a0ab988b98cb828 data/forestry/tags/blocks/fireproof_balsa_logs.json
@@ -63,6 +62,7 @@ d563e02daaf5505f563c57c3e9319f0b73782140 data/forestry/tags/blocks/fireproof_pop
 df517a61e2436b7e7414e9951e70d0f7001e9c87 data/forestry/tags/blocks/fireproof_wenge_logs.json
 f20d14bd7a6abec64deb751405f77c7a95b9cec6 data/forestry/tags/blocks/fireproof_willow_logs.json
 34888f131d1c7359623db31de16f7a6a7c56f990 data/forestry/tags/blocks/fireproof_zebrawood_logs.json
+8f7b016b1f13e0d1e8b2f1a7b34fbd52f74e38c3 data/forestry/tags/blocks/fir_logs.json
 efbf36632c48d400be1f783b5a6f9249c7d2b8eb data/forestry/tags/blocks/flowers/ancient.json
 0887eae763711a086009aba9799050a977ca3a5e data/forestry/tags/blocks/flowers/cacti.json
 e1f99e2c30429c3a0b1d9a31f0c0c41db5496330 data/forestry/tags/blocks/flowers/cave.json
@@ -120,9 +120,9 @@ b841a00870fdcf55fc0e81960a6fefeec9a84f96 data/forestry/tags/blocks/valid_farm_ba
 76c2959a0df83d4bb8cfe0f282b1c0f0a59ef6bb data/forestry/tags/blocks/willow_logs.json
 a53617c07723524a62f108cef691b2adbfdbfe51 data/forestry/tags/blocks/zebrawood_logs.json
 e736c96d74e1d9b8799f108ba1e8b1e2173926fb data/forge/tags/blocks/chests.json
+42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/forge/tags/blocks/fences.json
 d96521ed9e35f1dd037c67f6374622063d9657ac data/forge/tags/blocks/fence_gates.json
 d96521ed9e35f1dd037c67f6374622063d9657ac data/forge/tags/blocks/fence_gates/wooden.json
-42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/forge/tags/blocks/fences.json
 bb21d3539a79b0026a6f6669c4d05d2cf714868b data/forge/tags/blocks/ores.json
 8bc630a1df34e3623f9a5554a01ae2dfc2362023 data/forge/tags/blocks/ores/apatite.json
 6b5b215353862ea81225290f3c38054df67a245f data/forge/tags/blocks/ores/tin.json
@@ -132,6 +132,7 @@ fd9e00b1f00fab97ef5a20ca100e33e709036606 data/forge/tags/blocks/storage_blocks/a
 a50813a6215611330b9e7a32904eb8f174d3741a data/forge/tags/blocks/storage_blocks/bronze.json
 c74d64c654da6d15a76cd4167268fc9965ef23ca data/forge/tags/blocks/storage_blocks/charcoal.json
 8b3a8ecaabc2db91e27ad34b051647d52a0ad47e data/forge/tags/blocks/storage_blocks/raw_tin.json
+7a5eb8e53488de507f8e09988f452273e6d09bf9 data/forge/tags/blocks/storage_blocks/silicon.json
 ed974f25f4057a6e2a627a4ee061decd56b7d274 data/forge/tags/blocks/storage_blocks/tin.json
 40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/azalea_grows_on.json
 40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/azalea_root_replaceable.json
@@ -153,7 +154,7 @@ a3f470e9eccaa5cf9d4bc2a389bad4a21ce49be5 data/minecraft/tags/blocks/logs_that_bu
 737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/mangrove_roots_can_grow_through.json
 8c3df5cc9664517683e5648cfc14a60bb8b5c960 data/minecraft/tags/blocks/mineable/axe.json
 737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/mineable/hoe.json
-65dc60a94b966fcbaaf1e1114092d39c7006ab32 data/minecraft/tags/blocks/mineable/pickaxe.json
+f8f37912892f4af8a1d2abe15bada581f3e5155b data/minecraft/tags/blocks/mineable/pickaxe.json
 17944eba014d1d338e8d114c2b8b8e10529df974 data/minecraft/tags/blocks/mineable/shovel.json
 40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/moss_replaceable.json
 4f0f5d3a71d5e122fb2e1f8e6ba54801b535d904 data/minecraft/tags/blocks/needs_stone_tool.json
@@ -167,9 +168,9 @@ b6f89d050203e6f21a4f140ed167b40d8b0b43aa data/minecraft/tags/blocks/stairs.json
 645f6c9f90047de9b56bedf65bb63c2b83c1c1ee data/minecraft/tags/blocks/standing_signs.json
 737e62ec10632120ce4983e11047649871bdd6cc data/minecraft/tags/blocks/sword_efficient.json
 40e5ed03794dcda36ca4cf0dfbb6c1c278b9d009 data/minecraft/tags/blocks/valid_spawn.json
+f01521bfd8e0de194210c425152887b9f7d25586 data/minecraft/tags/blocks/walls.json
 c7d898a21e16b528c876f790d64a509e004f5ed7 data/minecraft/tags/blocks/wall_hanging_signs.json
 9398d4d5283ca0b2d597fce555d1f6ff453c71ac data/minecraft/tags/blocks/wall_signs.json
-f01521bfd8e0de194210c425152887b9f7d25586 data/minecraft/tags/blocks/walls.json
 c1bf2f5e8cf473519dcb2927ff1714a45bf82a11 data/minecraft/tags/blocks/wooden_buttons.json
 6d6cb2e736c663ed2002b30cf61222cb5e870f09 data/minecraft/tags/blocks/wooden_doors.json
 42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/minecraft/tags/blocks/wooden_fences.json
