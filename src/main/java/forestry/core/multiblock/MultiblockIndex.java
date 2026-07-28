@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A per-{@link Level} map of active multiblock machines, keyed by the holder (anchor) {@link BlockPos}
@@ -18,17 +19,21 @@ import java.util.Map;
  * purely a lookup so a member BE can resolve its controller from its stored {@code anchorPos} (Task 2.4),
  * and the event-driven triggers (Task 2.5) can register and deregister a controller as it (de)assembles.
  *
- * <p><b>Threading.</b> Chunk load and unload and the BE lifecycle run on the main server thread in 1.20.1
- * (spec constraint), so this uses plain {@link HashMap}s with no synchronization. All access is on the
- * main thread. There is one inner map per {@code Level}. Server and client levels are distinct keys, so
- * the client's own validation and ticking is naturally separated (spec 9).
+ * <p><b>Threading.</b> Each individual level's block entity lifecycle normally runs on that level's
+ * owning thread, so the per-level controller maps remain plain {@link HashMap}s. The outer level map is
+ * shared by the integrated server and client, however, and those sides can register their distinct
+ * {@link Level} instances concurrently. It therefore uses a {@link ConcurrentHashMap} so
+ * {@link Map#computeIfAbsent(Object, java.util.function.Function)} is safe across client and server
+ * level loading. Server and client levels remain distinct keys, preserving side separation (spec 9).
  *
  * <p>This class is intentionally inert in Task 2.1. Nothing populates or consults it yet. It is wired in
  * by the controller and BE rework (Tasks 2.4 and 2.5).
  */
 public final class MultiblockIndex {
-	// Level -> (holderPos -> controller), keyed by Level identity since server and client levels differ
-	private static final Map<LevelAccessor, Map<BlockPos, MultiblockController>> LEVELS = new HashMap<>();
+	// Level -> (holderPos -> controller), keyed by Level identity since server and client levels differ.
+	// The outer map must be concurrent because integrated client and server levels can load in parallel.
+	private static final Map<LevelAccessor, Map<BlockPos, MultiblockController>> LEVELS =
+			new ConcurrentHashMap<>();
 
 	private MultiblockIndex() {
 	}
@@ -57,7 +62,7 @@ public final class MultiblockIndex {
 		}
 		MultiblockController removed = map.remove(holderPos.immutable());
 		if (map.isEmpty()) {
-			LEVELS.remove(level);
+			LEVELS.remove(level, map);
 		}
 		return removed;
 	}
@@ -72,7 +77,7 @@ public final class MultiblockIndex {
 		return map == null ? null : map.get(holderPos.immutable());
 	}
 
-	/** All active controllers in the given level, as an unmodifiable snapshot view. */
+	/** All active controllers in the given level, as an unmodifiable view. */
 	public static Collection<MultiblockController> getControllers(Level level) {
 		Map<BlockPos, MultiblockController> map = LEVELS.get(level);
 		return map == null ? Collections.emptyList() : Collections.unmodifiableCollection(map.values());
