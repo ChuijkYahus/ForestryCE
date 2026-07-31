@@ -66,7 +66,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	public void syncToPlayer(Player player) {
 		if (player instanceof ServerPlayer && !(player instanceof FakePlayer)) {
 			CompoundTag nbt = new CompoundTag();
-			writeToNbt(nbt);
+			save(nbt);
 			PacketGenomeTrackerSync packet = new PacketGenomeTrackerSync(nbt);
 			NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
 		}
@@ -89,14 +89,14 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 	@Override
 	public final CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
-		writeToNbt(nbt);
+		save(nbt);
 		return nbt;
 	}
 
 	/* HELPER FUNCTIONS TO PREVENT OBFUSCATION OF INTERFACE METHODS */
 	@OverridingMethodsMustInvokeSuper
 	@Override
-	public void writeToNbt(CompoundTag nbt) {
+	public void save(CompoundTag nbt) {
 		writeAllValues(nbt, this.discoveredSpecies, this.discoveredMutations, this.researchedMutations);
 	}
 
@@ -106,7 +106,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 	@OverridingMethodsMustInvokeSuper
 	@Override
-	public void readFromNbt(CompoundTag nbt) {
+	public void load(CompoundTag nbt) {
 		readValuesFromNBT(nbt, value -> this.discoveredSpecies.add(ResourceLocation.parse(value)), SPECIES_KEY);
 		readValuesFromNBT(nbt, this.discoveredMutations::add, MUTATIONS_KEY);
 		readValuesFromNBT(nbt, this.researchedMutations::add, RESEARCHED_KEY);

@@ -20,8 +20,8 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	}
 
 	@Override
-	public void writeToNbt(CompoundTag nbt) {
-		super.writeToNbt(nbt);
+	public void save(CompoundTag nbt) {
+		super.save(nbt);
 
 		writeUpdateData(nbt);
 	}
@@ -34,8 +34,8 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	}
 
 	@Override
-	public void readFromNbt(CompoundTag nbt) {
-		super.readFromNbt(nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 
 		this.queensTotal = nbt.getInt("QueensTotal");
 		this.princessesTotal = nbt.getInt("PrincessesTotal");

@@ -234,7 +234,7 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	@Override
 	public IBreedingTracker createBreedingTracker(CompoundTag nbt) {
 		IBreedingTracker tracker = createBreedingTracker();
-		tracker.readFromNbt(nbt);
+		tracker.load(nbt);
 		return tracker;
 	}
 

@@ -74,9 +74,8 @@ public interface IBreedingTracker {
 	 */
 	void syncToPlayer(Player player);
 
-	// todo replace these with "save" and "load" in 1.21
-	void readFromNbt(CompoundTag nbt);
+	void load(CompoundTag nbt);
 
-	void writeToNbt(CompoundTag nbt);
+	void save(CompoundTag nbt);
 
 }

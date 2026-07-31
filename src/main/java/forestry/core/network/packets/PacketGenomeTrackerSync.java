@@ -36,7 +36,7 @@ public record PacketGenomeTrackerSync(@Nullable CompoundTag nbt) implements Cust
 
 			if (root != null) {
 				IBreedingTracker tracker = root.getBreedingTracker(player.getCommandSenderWorld(), player.getGameProfile());
-				tracker.readFromNbt(msg.nbt);
+				tracker.load(msg.nbt);
 				NeoForge.EVENT_BUS.post(new ForestryEvent.SyncedBreedingTracker(tracker, player));
 			}
 		}
