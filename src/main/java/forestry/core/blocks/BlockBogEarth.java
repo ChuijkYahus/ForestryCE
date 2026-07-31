@@ -13,12 +13,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 /**
- * bog earth, which becomes peat
+ * bog earth, which becomes peat.
+ * <a href="https://forestryce.miraheze.org/wiki/Bog_Earth">Bog Earth - Forestry: Community Edition</a>
  */
 public class BlockBogEarth extends Block {
 	// maturity at which bogEarth becomes peat
-	private static final int maturityDelimiter = 3;
-	public static final IntegerProperty MATURITY = IntegerProperty.create("maturity", 0, maturityDelimiter);
+	private static final int MAX_MATURITY = 2;
+	public static final IntegerProperty MATURITY = IntegerProperty.create("maturity", 0, MAX_MATURITY);
 
 	public BlockBogEarth(Block.Properties properties) {
 		super(properties
@@ -36,18 +37,18 @@ public class BlockBogEarth extends Block {
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand) {
-		if (world.isClientSide || world.random.nextInt(13) != 0) {
+	protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+		if (level.isClientSide || level.random.nextInt(13) != 0) {
 			return;
 		}
 
 		int maturity = state.getValue(MATURITY);
-		if (isMoistened(world, pos)) {
-			// todo remove the -1 and just make the property smaller
-			if (maturity < maturityDelimiter - 1) {
-				world.setBlock(pos, state.setValue(MATURITY, maturity + 1), UPDATE_CLIENTS);
+		if (isMoistened(level, pos)) {
+			// less-than, not equals, so an out-of-range maturity can't overflow the property
+			if (maturity < MAX_MATURITY) {
+				level.setBlock(pos, state.setValue(MATURITY, maturity + 1), UPDATE_CLIENTS);
 			} else {
-				world.setBlock(pos, CoreBlocks.PEAT.defaultState(), UPDATE_CLIENTS);
+				level.setBlock(pos, CoreBlocks.PEAT.defaultState(), UPDATE_CLIENTS);
 			}
 		}
 	}
