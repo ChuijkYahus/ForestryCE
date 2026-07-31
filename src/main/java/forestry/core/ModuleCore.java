@@ -93,8 +93,6 @@ public class ModuleCore extends BlankForestryModule {
 		NeoForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onDatapackSync);
-
-		PluginManager.registerAsyncException(modBus);
 	}
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {

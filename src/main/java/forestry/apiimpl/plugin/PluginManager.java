@@ -39,10 +39,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class PluginManager {
@@ -96,14 +93,7 @@ public class PluginManager {
 		CircuitRegistration registration = new CircuitRegistration();
 
 		for (IForestryPlugin plugin : LOADED_PLUGINS) {
-			// TODO remove in 1.20 when FMLCommonSetupEvent throws
-			// rethrow swallowed exception
-			try {
-				plugin.registerCircuits(registration);
-			} catch (Throwable e) {
-				asyncThrown = new RuntimeException("An error was thrown by plugin " + plugin.id() + " during IForestryPlugin.registerCircuits", e);
-				Forestry.LOGGER.fatal(asyncThrown);
-			}
+			plugin.registerCircuits(registration);
 		}
 
 		ArrayList<CircuitLayout> layouts = registration.getLayouts();
@@ -227,20 +217,6 @@ public class PluginManager {
 		}
 
 		((ForestryApiImpl) IForestryApi.INSTANCE).setPollenManager(new PollenManager(ImmutableMap.copyOf(pollenTypes)));
-	}
-
-	// Todo remove in 1.20 when FMLCommonSetupEvent throws exceptions again
-	@Nullable
-	@Deprecated
-	private static RuntimeException asyncThrown = null;
-
-	@Deprecated
-	public static void registerAsyncException(IEventBus modBus) {
-		modBus.addListener((FMLLoadCompleteEvent event) -> {
-			if (asyncThrown != null) {
-				throw asyncThrown;
-			}
-		});
 	}
 
 	public static void registerClient() {
