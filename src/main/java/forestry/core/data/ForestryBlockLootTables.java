@@ -77,7 +77,12 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		registerLootTable(CharcoalBlocks.ASH, (block) -> LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK)
 			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(CoreItems.ASH)).apply(SetItemCountFunction.setCount(BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f))))
 			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL)).apply(CountBlockFunction.builder()).apply(ApplyBonusCount.addBonusBinomialDistributionCount(enchantments().getOrThrow(Enchantments.FORTUNE), 23.0f / 40, 2))));
-		registerLootTable(CoreBlocks.PEAT, (block) -> LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(Blocks.DIRT))).withPool(LootPool.lootPool().apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))).add(LootItem.lootTableItem(CoreItems.PEAT.item()))));
+		registerLootTable(CoreBlocks.PEAT, block -> LootTable.lootTable()
+			.withPool(LootPool.lootPool()
+				.add(LootItem.lootTableItem(Blocks.DIRT)))
+			.withPool(LootPool.lootPool()
+				.apply(SetItemCountFunction.setCount(ConstantValue.exactly(2)))
+				.add(LootItem.lootTableItem(CoreItems.PEAT.item()))));
 		registerDropping(CoreBlocks.HUMUS, Blocks.DIRT);
 
 		// todo fix all of these

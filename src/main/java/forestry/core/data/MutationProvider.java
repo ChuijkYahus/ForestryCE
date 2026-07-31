@@ -25,7 +25,6 @@ import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.core.data.builder.MutationRecipeBuilder;
 import forestry.core.genetics.mutations.MutationRecipe;
-import org.jetbrains.annotations.ApiStatus;
 
 import static forestry.api.apiculture.ForestryBeeSpecies.*;
 import static forestry.api.arboriculture.ForestryTreeSpecies.*;
