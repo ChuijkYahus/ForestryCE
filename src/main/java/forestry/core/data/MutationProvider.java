@@ -203,7 +203,7 @@ public class MutationProvider implements DataProvider {
 		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.FARMERLY, ForestryBeeSpecies.INDUSTRIOUS, ForestryBeeSpecies.AGRARIAN, 0.06f).biome(Tags.Biomes.IS_PLAINS);
 
 		add(ForestrySpeciesTypes.BEE, ANACHRONE, STEADFAST, PRIMEVAL, 0.15f);
-		add(ForestrySpeciesTypes.BEE, RELIC, STEADFAST, ANACHRONE, 0.1f);
+		add(ForestrySpeciesTypes.BEE, CHRONOFUGE, STEADFAST, ANACHRONE, 0.1f);
 
 		// Festive (secret, date-restricted)
 		add(ForestrySpeciesTypes.BEE, ForestryBeeSpecies.MEADOWS, ForestryBeeSpecies.FOREST, ForestryBeeSpecies.LEPORINE, 0.1f).dateRange(Month.MARCH.getValue(), 29, Month.APRIL.getValue(), 15);

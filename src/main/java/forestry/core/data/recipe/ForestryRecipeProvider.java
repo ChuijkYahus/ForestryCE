@@ -1766,7 +1766,7 @@ public class ForestryRecipeProvider {
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(180)
 			.setInput(Ingredient.of(ApicultureItems.AMBER_DRONE))
-			.product(0.25f, SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.DRONE))
+			.product(0.25f, SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.CHRONOFUGE, BeeLifeStage.DRONE))
 			.product(0.8f, CoreItems.AMBER.stack())
 			.build(consumer, id("centrifuge", "amber_drone"));
 

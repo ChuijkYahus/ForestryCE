@@ -738,8 +738,8 @@ public class DefaultBeeSpecies {
 			.setGlint(true)
 			.setAuthority("EnderiumSmith");
 
-		// RELIC
-		apiculture.registerSpecies(ForestryBeeSpecies.RELIC, GENUS_RELIC, SPECIES_RELIC, false, TextColor.fromRgb(16733695))
+		// CHRONOFUGE
+		apiculture.registerSpecies(ForestryBeeSpecies.CHRONOFUGE, GENUS_RELIC, SPECIES_CHRONOFUGE, false, TextColor.fromRgb(16733695))
 			.setTemperature(TemperatureType.WARM)
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.VINTAGE), 0.20F)
 			.addSpecialty(ApicultureItems.ROYAL_JELLY.stack(), 0.15F)

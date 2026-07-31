@@ -64,8 +64,7 @@ public class ForestryBeeSpecies {
 	public static final ResourceLocation AUTOTROPHIC = forestry("autotrophic");
 	public static final ResourceLocation PRIMEVAL = forestry("primeval");
 	public static final ResourceLocation ANACHRONE = forestry("anachrone");
-	// todo change to "chronofuge" in 1.21
-	public static final ResourceLocation RELIC = forestry("relic");
+	public static final ResourceLocation CHRONOFUGE = forestry("chronofuge");
 	public static final ResourceLocation AQUATIC = forestry("aquatic");
 	public static final ResourceLocation PIRATE = forestry("pirate");
 	public static final ResourceLocation PRISMATIC = forestry("prismatic");

@@ -287,7 +287,7 @@ public class BeeEffectSystemTest {
 	/**
 	 * REJUVENATION and CHRONOPHAGE are generalized into one {@code forestry:aging} primitive differing only by the
 	 * {@code aging} flag: the type is registered, both built-ins resolve to an {@link AgingBeeEffect}, and the bees
-	 * that carry them (RELIC/REJUVENATION, ANACHRONE/CHRONOPHAGE) resolve their genome effect to the datapack instance.
+	 * that carry them (CHRONOFUGE/REJUVENATION, ANACHRONE/CHRONOPHAGE) resolve their genome effect to the datapack instance.
 	 */
 	@GameTest(template = "empty")
 	public static void agingBuiltinsAreDatapackDefined(GameTestHelper helper) {
@@ -302,9 +302,9 @@ public class BeeEffectSystemTest {
 				return;
 			}
 		}
-		if (!(effectOf(ForestryBeeSpecies.RELIC) instanceof AgingBeeEffect)
+		if (!(effectOf(ForestryBeeSpecies.CHRONOFUGE) instanceof AgingBeeEffect)
 			|| !(effectOf(ForestryBeeSpecies.ANACHRONE) instanceof AgingBeeEffect)) {
-			helper.fail("Relic/Anachrone bees did not resolve their genome effect to the datapack AgingBeeEffect");
+			helper.fail("Chronofuge/Anachrone bees did not resolve their genome effect to the datapack AgingBeeEffect");
 			return;
 		}
 

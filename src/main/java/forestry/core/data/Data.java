@@ -97,7 +97,7 @@ public class Data {
 		// server start via a reload listener - but a standalone data generator run never fires that reload cycle.
 		// Loot tables reference bees by id (LootTableHelper#beeLoot -> OrganismFunction.fromId), so they need no live
 		// species. The one remaining consumer is the centrifuge recipe whose *result* is a concrete bee ItemStack
-		// (ForestryRecipeProvider -> BEE_TYPE.createStack(RELIC, DRONE)): a bee stack's identity is its full genome
+		// (ForestryRecipeProvider -> BEE_TYPE.createStack(CHRONOFUGE, DRONE)): a bee stack's identity is its full genome
 		// component, so building the result materializes a live species. Until that recipe result also references the
 		// bee by id (see the lazy id-template-stack follow-up), seed the live species type from the same
 		// DefaultBeeSpecies source BeeSpeciesProvider generates its JSON from.
