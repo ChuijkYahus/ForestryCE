@@ -2,6 +2,7 @@ package forestry.arboriculture.charcoal.jei;
 
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ICharcoalPileWall;
+import forestry.arboriculture.compat.ArboricultureJeiPlugin;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
@@ -44,7 +45,7 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 
 	@Override
 	public RecipeType<ICharcoalPileWall> getRecipeType() {
-		return CharcoalJeiPlugin.RECIPE_TYPE;
+		return ArboricultureJeiPlugin.CHARCOAL_PILE_TYPE;
 	}
 
 	@Override

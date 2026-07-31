@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 
 @FeatureProvider
 public class CharcoalBlocks {
-	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CHARCOAL);
+	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.ARBORICULTURE);
 
 	public static final FeatureBlock<BlockCharcoal, ItemBlockForestry<BlockCharcoal>> CHARCOAL = REGISTRY.block(BlockCharcoal::new, BlockBehaviour.Properties::of, ItemBlockForestry::new, Item.Properties::new, "charcoal_block");
 	public static final FeatureBlock<LogPileBlock, BlockItem> LOG_PILE = REGISTRY.block(LogPileBlock::new, BlockBehaviour.Properties::of, ItemBlockForestry::new, Item.Properties::new, "log_pile");
