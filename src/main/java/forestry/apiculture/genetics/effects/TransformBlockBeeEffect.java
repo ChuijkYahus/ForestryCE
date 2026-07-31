@@ -179,7 +179,7 @@ public class TransformBlockBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		if (level.isClientSide) {
 			return storedData;
 		}
@@ -195,7 +195,7 @@ public class TransformBlockBeeEffect extends ThrottledBeeEffect {
 		}
 
 		Vec3i area = Bee.getParticleArea(genome, housing);
-		BlockPos center = housing.getCoordinates().offset(VecUtil.center(area));
+		BlockPos center = housing.getBlockPos().offset(VecUtil.center(area));
 
 		for (int i = 0; i < this.attempts; i++) {
 			BlockPos pos = VecUtil.getRandomPositionInArea(rand, area).offset(center);

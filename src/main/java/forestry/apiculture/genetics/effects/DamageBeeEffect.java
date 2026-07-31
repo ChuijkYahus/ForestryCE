@@ -132,7 +132,7 @@ public class DamageBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		RandomSource rand = level.random;
 		List<? extends LivingEntity> entities = ThrottledBeeEffect.getEntitiesInRange(genome, housing, this.target.entityClass());
 		DamageSource source = CoreDamageTypes.source(level, this.damageType);

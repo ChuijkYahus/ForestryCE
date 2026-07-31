@@ -29,7 +29,7 @@ public class FarmHydrationManager implements IFarmLedgerDelegate, INbtWritable, 
 	}
 
 	public void updateServer() {
-		Level world = this.housing.getWorldObj();
+		Level world = this.housing.getLevel();
 		BlockPos coordinates = this.housing.getTopCoord();
 		if (world.isRainingAt(coordinates.above())) {
 			if (this.hydrationDelay > 0) {

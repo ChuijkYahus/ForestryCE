@@ -332,7 +332,7 @@ public abstract class MultiblockController implements IMultiblockController, Wor
 	}
 
 	@Override
-	public Level getWorldObj() {
+	public Level getLevel() {
 		return this.level;
 	}
 

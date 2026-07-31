@@ -92,7 +92,7 @@ public enum FakeFarmController implements IFarmControllerInternal {
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		return BlockPos.ZERO;
 	}
 
@@ -175,7 +175,7 @@ public enum FakeFarmController implements IFarmControllerInternal {
 
 	@Override
 	@Nullable
-	public Level getWorldObj() {
+	public Level getLevel() {
 		return null;
 	}
 

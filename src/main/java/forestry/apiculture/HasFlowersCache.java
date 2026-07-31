@@ -69,7 +69,7 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 			this.flowerCoords.clear();
 			this.flowers.clear();
 		}
-		Level level = beeHousing.getWorldObj();
+		Level level = beeHousing.getLevel();
         this.tickHelper.onTick();
 
 		if (!this.flowerCoords.isEmpty() && this.tickHelper.updateOnInterval(this.flowerCheckInterval)) {
@@ -146,7 +146,7 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
             this.flowerCoords.clear();
             this.flowers.clear();
             this.flowerData.resetIterator(queen, housing);
-			Level level = housing.getWorldObj();
+			Level level = housing.getLevel();
 			while (this.flowerData.areaIterator.hasNext()) {
 				BlockPos.MutableBlockPos blockPos = this.flowerData.areaIterator.next();
 				if (this.flowerData.flowerType.isAcceptableFlower(level, blockPos)) {

@@ -220,7 +220,7 @@ public class FarmController extends MultiblockController implements IFarmControl
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		return getReferenceCoord();
 	}
 

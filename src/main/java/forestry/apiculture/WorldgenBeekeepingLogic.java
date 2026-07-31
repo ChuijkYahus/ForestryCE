@@ -87,7 +87,7 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 		if (this.tickHelper.updateOnInterval(200)) {
 			IBee queen = this.housing.getContainedBee();
             this.hasFlowersCache.update(queen, this.housing);
-			Level level = this.housing.getWorldObj();
+			Level level = this.housing.getLevel();
 			IGenome genome = queen.getGenome();
 			boolean canWork = genome.<IActivityType>resolveActive(BeeChromosomes.ACTIVITY).isActive(level.getGameTime(), IActivityType.getBeeDayTime(level), this.housing.getBlockPos()) &&
 				(!this.housing.isRaining() || genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN));
@@ -117,15 +117,15 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 
 	@Override
 	public void syncToClient() {
-		Level world = this.housing.getWorldObj();
+		Level world = this.housing.getLevel();
 		if (world != null && !world.isClientSide) {
-			NetworkUtil.sendNetworkPacket(new PacketBeeLogicActive(this.housing), this.housing.getCoordinates(), world);
+			NetworkUtil.sendNetworkPacket(new PacketBeeLogicActive(this.housing), this.housing.getBlockPos(), world);
 		}
 	}
 
 	@Override
 	public void syncToClient(ServerPlayer player) {
-		Level world = this.housing.getWorldObj();
+		Level world = this.housing.getLevel();
 		if (world != null && !world.isClientSide) {
 			NetworkUtil.sendToPlayer(new PacketBeeLogicActive(this.housing), player);
 		}

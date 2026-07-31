@@ -155,7 +155,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 	@Override
 	public Set<IError> getCanWork(IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		Set<IError> errorStates = new HashSet<>();
 		IBeeModifier beeModifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
 
@@ -170,7 +170,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		if (!beeModifier.isAlwaysActive(this.genome)) {
 			long gameTime = level.getGameTime();
 			long dayTime = IActivityType.getBeeDayTime(level);
-			BlockPos pos = housing.getCoordinates();
+			BlockPos pos = housing.getBlockPos();
 
 			if (!type.isActive(gameTime, dayTime, pos)) {
 				errorStates.add(type.getInactiveError(gameTime, dayTime, pos));
@@ -313,7 +313,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 	@Override
 	public List<ItemStack> produceStacks(IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		//IBeekeepingMode mode = BeeManager.beeRoot.getBeekeepingMode(world);
 
 		ArrayList<ItemStack> stacks = new ArrayList<>();
@@ -350,7 +350,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 			}
 		}
 
-		BlockPos housingCoordinates = housing.getCoordinates();
+		BlockPos housingCoordinates = housing.getBlockPos();
 		IFlowerType flowerType = this.genome.resolveActive(BeeChromosomes.FLOWER_TYPE);
 		return flowerType.affectProducts(level, housingCoordinates, this, stacks);
 	}
@@ -371,7 +371,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		// Fatigued (dead ignoble) queens do not produce princesses.
 		if (!this.pristine) {
 			IBeeModifier beeModifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
-			RandomSource rand = housing.getWorldObj().random;
+			RandomSource rand = housing.getLevel().random;
 
 			if (checkIgnobleDecay(rand, this.generation, beeModifier.modifyGeneticDecay(this.genome, 1f))) {
 				return null;
@@ -420,7 +420,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		// drones are always generation 0
 		boolean haploid = generation == 0 && ForestryConfig.SERVER.useHaploidDrones.get();
 
-		return SpeciesUtil.createOffspring(housing.getWorldObj().random, this.genome, mate, mutator, genome -> {
+		return SpeciesUtil.createOffspring(housing.getLevel().random, this.genome, mate, mutator, genome -> {
 			//IBeekeepingMode mode = BeeManager.beeRoot.getBeekeepingMode(level);
 			int maxHealth = genome.getActiveValue(BeeChromosomes.LIFESPAN);
 			return new Bee(genome, Optional.empty(), false, maxHealth, maxHealth, this.pristine, generation); /*mode.isOffspringPristine(this)*/
@@ -430,14 +430,14 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 	@Nullable
 	@SuppressWarnings("CodeBlock2Expr")
 	private static ImmutableList<AllelePair<?>> mutateSpecies(IBeeHousing housing, IGenome parent1, IGenome parent2) {
-		return SpeciesUtil.<IBeeSpecies>mutateSpecies(housing.getWorldObj(), housing.getCoordinates(), housing.getOwner(), parent1, parent2, BeeChromosomes.SPECIES, (mutation, level, pos, firstGenome, secondGenome, climate) -> {
+		return SpeciesUtil.<IBeeSpecies>mutateSpecies(housing.getLevel(), housing.getBlockPos(), housing.getOwner(), parent1, parent2, BeeChromosomes.SPECIES, (mutation, level, pos, firstGenome, secondGenome, climate) -> {
 			return getChance(mutation, housing, firstGenome, secondGenome);
 		});
 	}
 
 	private static float getChance(IMutation<IBeeSpecies> mutation, IBeeHousing housing, IGenome genome0, IGenome genome1) {
-		Level level = housing.getWorldObj();
-		BlockPos housingPos = housing.getCoordinates();
+		Level level = housing.getLevel();
+		BlockPos housingPos = housing.getBlockPos();
 
 		float currentChance = Mutation.getChance(mutation, level, housingPos, genome0, genome1, housing);
 		if (currentChance <= 0) {
@@ -461,7 +461,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 		int chance = getAdjustedPollination(this.genome, beeModifier);
 
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		RandomSource random = level.random;
 
 		if (random.nextInt(100) >= chance) {
@@ -470,7 +470,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 		Vec3i area = getAdjustedTerritory(this.genome, beeModifier);
 		Vec3i offset = new Vec3i(-area.getX() / 2, -area.getY() / 4, -area.getZ() / 2);
-		BlockPos housingPos = housing.getCoordinates();
+		BlockPos housingPos = housing.getBlockPos();
 		IPollenManager pollens = IForestryApi.INSTANCE.getPollenManager();
 
 		for (int i = 0; i < 20; i++) {
@@ -494,7 +494,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 		int chance = getAdjustedPollination(this.genome, beeModifier);
 
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		RandomSource random = level.random;
 
 		// Correct speed
@@ -504,7 +504,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 		Vec3i area = getAdjustedTerritory(this.genome, beeModifier);
 		Vec3i offset = new Vec3i(-area.getX() / 2, -area.getY() / 4, -area.getZ() / 2);
-		BlockPos housingPos = housing.getCoordinates();
+		BlockPos housingPos = housing.getBlockPos();
 		IPollenType<?> type = pollen.getType();
 
 		for (int i = 0; i < 30; i++) {
@@ -527,7 +527,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 		int chance = getAdjustedPollination(this.genome, beeModifier);
 
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		RandomSource random = level.random;
 
 		// Correct speed
@@ -538,7 +538,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		IFlowerType flowerType = this.genome.resolveActive(BeeChromosomes.FLOWER_TYPE);
 		Vec3i area = getAdjustedTerritory(this.genome, beeModifier);
 		Vec3i offset = new Vec3i(-area.getX() / 2, -area.getY() / 4, -area.getZ() / 2);
-		BlockPos housingPos = housing.getCoordinates();
+		BlockPos housingPos = housing.getBlockPos();
 
 		for (int i = 0; i < 10; i++) {
 			BlockPos randomPos = VecUtil.getRandomPositionInArea(random, area);
@@ -555,10 +555,10 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 	public Iterator<BlockPos.MutableBlockPos> getAreaIterator(IBeeHousing housing) {
 		IBeeModifier beeModifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
 		Vec3i area = getAdjustedTerritory(this.genome, beeModifier);
-		BlockPos housingPos = housing.getCoordinates();
+		BlockPos housingPos = housing.getBlockPos();
 		BlockPos minPos = housingPos.offset(-area.getX() / 2, -area.getY() / 2, -area.getZ() / 2);
 		BlockPos maxPos = minPos.offset(area);
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		return VecUtil.getAllInBoxFromCenterMutable(level, minPos, housingPos, maxPos);
 	}
 

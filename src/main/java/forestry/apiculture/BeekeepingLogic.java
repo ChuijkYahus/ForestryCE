@@ -241,7 +241,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 	@Override
 	public void clearCachedValues() {
-		if (!this.housing.getWorldObj().isClientSide) {
+		if (!this.housing.getLevel().isClientSide) {
 			this.queenCanWorkCache.clear();
 			canWork();
 			if (this.queen != null) {
@@ -266,7 +266,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 			this.workThrottleCounter = 0;
 
 			doProduction(queen, this.housing, this.beeListener);
-			Level world = this.housing.getWorldObj();
+			Level world = this.housing.getLevel();
 			List<BlockState> flowers = this.hasFlowersCache.getFlowers(world);
 			if (flowers.size() < ModuleApiculture.maxFlowersSpawnedPerHive) {
 				BlockPos blockPos = queen.plantFlowerRandom(this.housing, flowers);
@@ -359,7 +359,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		beeInventory.setQueen(this.queenStack);
 
 		// Register the new queen with the breeding tracker
-		SpeciesUtil.BEE_TYPE.get().getBreedingTracker(this.housing.getWorldObj(), this.housing.getOwner()).registerQueen(princess);
+		SpeciesUtil.BEE_TYPE.get().getBreedingTracker(this.housing.getLevel(), this.housing.getOwner()).registerQueen(princess);
 
 		// Remove drone
 		droneStack.shrink(1);
@@ -394,7 +394,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	 * Creates the succeeding princess and between one and three drones.
 	 */
 	private static Collection<ItemStack> spawnOffspring(IBee queen, IBeeHousing beeHousing) {
-		Level level = beeHousing.getWorldObj();
+		Level level = beeHousing.getLevel();
 		ArrayDeque<ItemStack> offspring = new ArrayDeque<>();
 		IApiaristTracker breedingTracker = SpeciesUtil.BEE_TYPE.get().getBreedingTracker(level, beeHousing.getOwner());
 
@@ -437,15 +437,15 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	/* CLIENT */
 	@Override
 	public void syncToClient() {
-		Level level = this.housing.getWorldObj();
+		Level level = this.housing.getLevel();
 		if (level != null && !level.isClientSide) {
-			NetworkUtil.sendNetworkPacket(new PacketBeeLogicActive(this.housing), this.housing.getCoordinates(), level);
+			NetworkUtil.sendNetworkPacket(new PacketBeeLogicActive(this.housing), this.housing.getBlockPos(), level);
 		}
 	}
 
 	@Override
 	public void syncToClient(ServerPlayer player) {
-		Level level = this.housing.getWorldObj();
+		Level level = this.housing.getLevel();
 		if (level != null && !level.isClientSide) {
 			NetworkUtil.sendToPlayer(new PacketBeeLogicActive(this.housing), player);
 		}

@@ -44,16 +44,16 @@ public class RadioactiveBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			entity.hurt(CoreDamageTypes.source(housing.getWorldObj(), CoreDamageTypes.RADIOACTIVE), damage);
+			entity.hurt(CoreDamageTypes.source(housing.getLevel(), CoreDamageTypes.RADIOACTIVE), damage);
 		}
 	}
 
 	private static IEffectData destroyEnvironment(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		RandomSource rand = level.random;
 
 		Vec3i area = VecUtil.scale(genome.getActiveValue(BeeChromosomes.TERRITORY), 2);
-		BlockPos posHousing = housing.getCoordinates();
+		BlockPos posHousing = housing.getBlockPos();
 
 		for (int i = 0; i < 20; i++) {
 			BlockPos randomPos = VecUtil.getRandomPositionInArea(rand, area);

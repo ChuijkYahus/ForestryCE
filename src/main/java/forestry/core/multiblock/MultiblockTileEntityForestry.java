@@ -751,12 +751,6 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		return getInternalInventory().isLocked(slotIndex);
 	}
 
-	/* ILocatable */
-	@Override
-	public final @Nullable Level getWorldObj() {
-		return this.level;
-	}
-
 	/* IMultiblockComponent */
 
 	@Override

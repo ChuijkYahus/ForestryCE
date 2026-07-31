@@ -247,12 +247,12 @@ public class FilterLogic implements IFilterLogic {
 
 	@Override
 	public void sendToServer(Direction facing, int index, boolean active, @Nullable ISpecies<?> allele) {
-		NetworkUtil.sendToServer(new PacketFilterChangeGenome(this.locatable.getCoordinates(), facing, (short) index, active, allele));
+		NetworkUtil.sendToServer(new PacketFilterChangeGenome(this.locatable.getBlockPos(), facing, (short) index, active, allele));
 	}
 
 	@Override
 	public void sendToServer(Direction facing, IFilterRuleType rule) {
-		NetworkUtil.sendToServer(new PacketFilterChangeRule(this.locatable.getCoordinates(), facing, rule));
+		NetworkUtil.sendToServer(new PacketFilterChangeRule(this.locatable.getBlockPos(), facing, rule));
 	}
 
 	public PacketGuiFilterUpdate createGuiUpdatePacket(BlockPos pos) {

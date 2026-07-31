@@ -22,7 +22,7 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 
 		if (housing.temperature().isWarmerOrEqual(TemperatureType.WARM)) {
 			return storedData;
@@ -31,7 +31,7 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 		Vec3i area = Bee.getParticleArea(genome, housing);
 
 		BlockPos randomPos = VecUtil.getRandomPositionInArea(level.random, area);
-		BlockPos posBlock = randomPos.offset(housing.getCoordinates()).offset(VecUtil.center(area));
+		BlockPos posBlock = randomPos.offset(housing.getBlockPos()).offset(VecUtil.center(area));
 
 		// Put snow on the ground
 		if (level.hasChunkAt(posBlock)) {
@@ -59,12 +59,12 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doFX(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 
 		if (level.random.nextInt(3) == 0) {
 			Vec3i area = Bee.getParticleArea(genome, housing);
 
-			BlockPos coordinates = housing.getCoordinates();
+			BlockPos coordinates = housing.getBlockPos();
 
 			BlockPos spawn = VecUtil.getRandomPositionInArea(level.random, area).offset(coordinates).offset(VecUtil.center(area));
 			ParticleRender.addEntitySnowFX(level, spawn.getX(), spawn.getY(), spawn.getZ());

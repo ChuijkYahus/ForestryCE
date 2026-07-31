@@ -83,13 +83,13 @@ public enum FakeAlvearyController implements IAlvearyControllerInternal {
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		return BlockPos.ZERO;
 	}
 
 	@Override
 	@Nullable
-	public Level getWorldObj() {
+	public Level getLevel() {
 		return null;
 	}
 

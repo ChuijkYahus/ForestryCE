@@ -10,9 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemHiveFrame extends ItemForestry implements IHiveFrame {
@@ -31,7 +29,7 @@ public class ItemHiveFrame extends ItemForestry implements IHiveFrame {
 
 	@Override
 	public ItemStack frameUsed(IBeeHousing housing, ItemStack frame, IBee queen, int wear) {
-		if (housing.getWorldObj() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+		if (housing.getLevel() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
 			frame.hurtAndBreak(wear, serverLevel, null, item -> {
 			});
 		}

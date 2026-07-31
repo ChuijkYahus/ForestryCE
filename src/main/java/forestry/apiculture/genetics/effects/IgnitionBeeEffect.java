@@ -24,7 +24,7 @@ public class IgnitionBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		List<LivingEntity> entities = ThrottledBeeEffect.getEntitiesInRange(genome, housing, LivingEntity.class);
 		for (LivingEntity entity : entities) {
 			int chance = ignitionChance;
@@ -58,7 +58,7 @@ public class IgnitionBeeEffect extends ThrottledBeeEffect {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public IEffectData doFX(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		ClientLevel level = (ClientLevel) housing.getWorldObj();
+		ClientLevel level = (ClientLevel) housing.getLevel();
 		if (level.random.nextInt(2) != 0) {
 			super.doFX(genome, storedData, housing);
 		} else {

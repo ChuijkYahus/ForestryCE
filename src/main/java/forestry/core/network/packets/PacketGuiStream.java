@@ -21,7 +21,7 @@ public record PacketGuiStream(
 	FriendlyByteBuf payload
 ) implements CustomPacketPayload {
 	public <T extends IStreamableGui & ILocationProvider> PacketGuiStream(T guiStreamable) {
-		this(guiStreamable.getCoordinates(), guiStreamable, null);
+		this(guiStreamable.getBlockPos(), guiStreamable, null);
 	}
 
 	@Override

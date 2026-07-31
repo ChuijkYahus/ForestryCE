@@ -34,8 +34,8 @@ public class CreeperBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level world = housing.getWorldObj();
-		BlockPos housingCoords = housing.getCoordinates();
+		Level world = housing.getLevel();
+		BlockPos housingCoords = housing.getBlockPos();
 
 		// If we are already triggered, we continue the explosion sequence.
 		if (storedData.getInteger(indexExplosionTimer) > 0) {

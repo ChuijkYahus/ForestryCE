@@ -14,9 +14,9 @@ public interface IMultiblockComponent {
 	/**
 	 * Returns the location of this tile entity in the world.
 	 *
-	 * @return ChunkCoordinates set to the location of this tile entity in the world
+	 * @return The position of this tile entity in the world
 	 */
-	BlockPos getCoordinates();
+	BlockPos getBlockPos();
 
 	/**
 	 * @return the gameProfile of the player who owns this single component (not the entire multiblock)

@@ -11,7 +11,7 @@ public interface IActivatable {
 	 *
 	 * @return The position of the tile entity
 	 */
-	BlockPos getCoordinates();
+	BlockPos getBlockPos();
 
 	/**
 	 * Retrieves the current state of the tile entity.

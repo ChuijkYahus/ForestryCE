@@ -44,8 +44,8 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 	@Override
 	public IEffectData doEffect(IGenome genome, IEffectData storedData, IBeeHousing housing) {
 		// Don't spam adding to the set
-		if ((housing.getWorldObj().getGameTime() & 64L) == 0) {
-			this.trackedOwners.computeIfAbsent(housing.getWorldObj().dimension(), key -> new HashSet<>()).add(housing.getCoordinates());
+		if ((housing.getLevel().getGameTime() & 64L) == 0) {
+			this.trackedOwners.computeIfAbsent(housing.getLevel().dimension(), key -> new HashSet<>()).add(housing.getBlockPos());
 		}
 		return IBeeEffect.super.doEffect(genome, storedData, housing);
 	}

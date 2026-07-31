@@ -298,11 +298,6 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	@Override
-	public @Nullable Level getWorldObj() {
-		return this.level;
-	}
-
-	@Override
 	public Holder<Biome> getBiome() {
 		return this.level.getBiome(this.worldPosition);
 	}
@@ -322,11 +317,6 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	@Override
 	public IErrorLogic getErrorLogic() {
 		return this.errorLogic;
-	}
-
-	@Override
-	public BlockPos getCoordinates() {
-		return this.worldPosition;
 	}
 
 	private HolderLookup.Provider getRegistries() {

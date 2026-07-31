@@ -22,8 +22,8 @@ public class RequiresResourceBeeJubilance implements IBeeJubilance {
 
 	@Override
 	public boolean isJubilant(IBeeSpecies species, IGenome genome, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
-		BlockPos pos = housing.getCoordinates();
+		Level level = housing.getLevel();
+		BlockPos pos = housing.getBlockPos();
 
 		BlockEntity tile;
 		do {

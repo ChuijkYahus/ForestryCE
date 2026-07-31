@@ -23,8 +23,8 @@ public class FertileBeeEffect extends ThrottledBeeEffect {
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
 
-		Level level = housing.getWorldObj();
-		BlockPos housingCoordinates = housing.getCoordinates();
+		Level level = housing.getLevel();
+		BlockPos housingCoordinates = housing.getBlockPos();
 		Vec3i area = Bee.getParticleArea(genome, housing);
 
 		int blockX = getRandomOffset(level.random, housingCoordinates.getX(), area.getX());

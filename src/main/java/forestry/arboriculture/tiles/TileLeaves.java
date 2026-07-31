@@ -474,11 +474,6 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
-		return getBlockPos();
-	}
-
-	@Override
 	@Nullable
 	public IButterfly getCaterpillar() {
 		return this.caterpillar;
@@ -515,11 +510,6 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	@Override
 	public HumidityType humidity() {
 		return IForestryApi.INSTANCE.getClimateManager().getHumidity(getBiome());
-	}
-
-	@Override
-	public Level getWorldObj() {
-		return this.level;
 	}
 
 	@Override

@@ -183,12 +183,12 @@ public class BeeSpeciesProjectorTest {
 		}
 
 		@Override
-		public BlockPos getCoordinates() {
+		public BlockPos getBlockPos() {
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public Level getWorldObj() {
+		public Level getLevel() {
 			throw new UnsupportedOperationException();
 		}
 

@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public record PacketActiveUpdate(BlockPos pos, boolean active) implements CustomPacketPayload {
 	public PacketActiveUpdate(IActivatable tile) {
-		this(tile.getCoordinates(), tile.isActive());
+		this(tile.getBlockPos(), tile.isActive());
 	}
 
 	@Override

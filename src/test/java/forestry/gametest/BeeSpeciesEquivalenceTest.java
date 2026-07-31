@@ -373,12 +373,12 @@ public class BeeSpeciesEquivalenceTest {
 		}
 
 		@Override
-		public BlockPos getCoordinates() {
+		public BlockPos getBlockPos() {
 			return this.helper.absolutePos(BlockPos.ZERO);
 		}
 
 		@Override
-		public Level getWorldObj() {
+		public Level getLevel() {
 			return this.helper.getLevel();
 		}
 

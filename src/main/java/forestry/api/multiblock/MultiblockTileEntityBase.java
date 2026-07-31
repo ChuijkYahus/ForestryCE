@@ -52,11 +52,6 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
-		return getBlockPos();
-	}
-
-	@Override
 	public T getMultiblockLogic() {
 		return this.multiblockLogic;
 	}

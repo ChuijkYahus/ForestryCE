@@ -156,12 +156,6 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	public void onDropContents(ServerLevel level) {
 	}
 
-	@Nullable
-	@Override
-	public Level getWorldObj() {
-		return this.level;
-	}
-
 	// / REDSTONE INFO
 	protected boolean isRedstoneActivated() {
 		return this.level.getBestNeighborSignal(getBlockPos()) > 0;
@@ -272,11 +266,6 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	@Override
 	public final boolean canTakeItemThroughFace(int slotIndex, ItemStack itemStack, Direction side) {
 		return getInternalInventory().canTakeItemThroughFace(slotIndex, itemStack, side);
-	}
-
-	@Override
-	public final BlockPos getCoordinates() {
-		return getBlockPos();
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public record PacketBeeLogicActive(
 	FriendlyByteBuf payload
 ) implements CustomPacketPayload {
 	public PacketBeeLogicActive(IBeeHousing tile) {
-		this(tile.getCoordinates(), tile.getBeekeepingLogic(), null);
+		this(tile.getBlockPos(), tile.getBeekeepingLogic(), null);
 	}
 
 	@Override

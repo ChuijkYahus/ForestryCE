@@ -248,7 +248,7 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 	/* IActivatable */
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		BlockPos coord = getCenterCoord();
 		return coord.offset(0, 1, 0);
 	}
