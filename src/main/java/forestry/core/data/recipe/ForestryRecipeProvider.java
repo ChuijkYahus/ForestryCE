@@ -636,35 +636,35 @@ public class ForestryRecipeProvider {
 			recipe.pattern("##");
 			recipe.pattern("##");
 		});
-		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.BRONZE_PICKAXE, recipe -> {
+		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_PICKAXE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
 			recipe.pattern("###");
 			recipe.pattern(" X ");
 			recipe.pattern(" X ");
 		});
-		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.BRONZE_SHOVEL, recipe -> {
+		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_SHOVEL, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
 			recipe.pattern(" # ");
 			recipe.pattern(" X ");
 			recipe.pattern(" X ");
 		});
-		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.BRONZE_AXE, recipe -> {
+		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_AXE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
 			recipe.pattern("## ");
 			recipe.pattern("#X ");
 			recipe.pattern(" X ");
 		});
-		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.BRONZE_SWORD, recipe -> {
+		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_SWORD, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
 			recipe.pattern(" # ");
 			recipe.pattern(" # ");
 			recipe.pattern(" X ");
 		});
-		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.BRONZE_HOE, recipe -> {
+		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_HOE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
 			recipe.pattern("## ");
@@ -677,11 +677,11 @@ public class ForestryRecipeProvider {
 		gear(recipes, CoreItems.GEAR_COPPER, Tags.Items.INGOTS_COPPER);
 
 		recipes.shapelessCrafting("ingot_bronze_alloying", RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 4, ForestryTags.Items.INGOTS_TIN, ObjectIntPair.of(Items.COPPER_INGOT, 3));
-		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_PICKAXE, 1, CoreItems.BRONZE_PICKAXE, CoreItems.CARTON);
-		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_SHOVEL, 1, CoreItems.BRONZE_SHOVEL, CoreItems.CARTON);
-		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_AXE, 1, CoreItems.BRONZE_AXE, CoreItems.CARTON);
-		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_SWORD, 1, CoreItems.BRONZE_SWORD, CoreItems.CARTON);
-		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.KIT_HOE, 1, CoreItems.BRONZE_HOE, CoreItems.CARTON);
+		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.PICKAXE_KIT, 1, CoreItems.SURVIVALISTS_PICKAXE, CoreItems.CARTON);
+		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.SHOVEL_KIT, 1, CoreItems.SURVIVALISTS_SHOVEL, CoreItems.CARTON);
+		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.AXE_KIT, 1, CoreItems.SURVIVALISTS_AXE, CoreItems.CARTON);
+		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.SWORD_KIT, 1, CoreItems.SURVIVALISTS_SWORD, CoreItems.CARTON);
+		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.HOE_KIT, 1, CoreItems.SURVIVALISTS_HOE, CoreItems.CARTON);
 		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SPECTACLES, recipe -> {
 			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('Y', Tags.Items.GLASS_PANES);
@@ -1288,27 +1288,27 @@ public class ForestryRecipeProvider {
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
 			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 2)
-				.requires(CoreItems.BROKEN_BRONZE_PICKAXE))
+				.requires(CoreItems.BROKEN_SURVIVALISTS_PICKAXE))
 			.build(consumer, id("carpenter", "reclaim_bronze_pickaxe"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
 			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 1)
-				.requires(CoreItems.BROKEN_BRONZE_SHOVEL))
+				.requires(CoreItems.BROKEN_SURVIVALISTS_SHOVEL))
 			.build(consumer, id("carpenter", "reclaim_bronze_shovel"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
 			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 2)
-				.requires(CoreItems.BROKEN_BRONZE_AXE))
+				.requires(CoreItems.BROKEN_SURVIVALISTS_AXE))
 			.build(consumer, id("carpenter", "reclaim_bronze_axe"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
 			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 1)
-				.requires(CoreItems.BROKEN_BRONZE_SWORD))
+				.requires(CoreItems.BROKEN_SURVIVALISTS_SWORD))
 			.build(consumer, id("carpenter", "reclaim_bronze_sword"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
 			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 1)
-				.requires(CoreItems.BROKEN_BRONZE_HOE))
+				.requires(CoreItems.BROKEN_SURVIVALISTS_HOE))
 			.build(consumer, id("carpenter", "reclaim_bronze_hoe"));
 		// todo conditional recipe for Create honey fluid 1.20
 		new CarpenterRecipeBuilder()
@@ -1340,7 +1340,7 @@ public class ForestryRecipeProvider {
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(20)
 			.setBox(Ingredient.of(CoreItems.CARTON))
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.KIT_PICKAXE)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.PICKAXE_KIT)
 				.pattern("###")
 				.pattern(" X ")
 				.pattern(" X ")
@@ -1350,7 +1350,7 @@ public class ForestryRecipeProvider {
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(20)
 			.setBox(Ingredient.of(CoreItems.CARTON))
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.KIT_SHOVEL)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.SHOVEL_KIT)
 				.pattern(" # ")
 				.pattern(" X ")
 				.pattern(" X ")
@@ -1360,7 +1360,7 @@ public class ForestryRecipeProvider {
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(20)
 			.setBox(Ingredient.of(CoreItems.CARTON))
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.KIT_AXE)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.AXE_KIT)
 				.pattern("## ")
 				.pattern("#X ")
 				.pattern(" X ")
@@ -1370,7 +1370,7 @@ public class ForestryRecipeProvider {
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(20)
 			.setBox(Ingredient.of(CoreItems.CARTON))
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.KIT_SWORD)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.SWORD_KIT)
 				.pattern(" # ")
 				.pattern(" # ")
 				.pattern(" X ")
@@ -1380,7 +1380,7 @@ public class ForestryRecipeProvider {
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(20)
 			.setBox(Ingredient.of(CoreItems.CARTON))
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.KIT_HOE)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.HOE_KIT)
 				.pattern("## ")
 				.pattern(" X ")
 				.pattern(" X ")

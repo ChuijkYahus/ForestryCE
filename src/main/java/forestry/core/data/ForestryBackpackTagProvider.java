@@ -21,9 +21,9 @@ public class ForestryBackpackTagProvider {
 			ItemTags.COALS
 		);
 		tags.tag(ForestryTags.Items.MINER_ALLOW).add(
-			CoreItems.BRONZE_PICKAXE.item(),
-			CoreItems.KIT_PICKAXE.item(),
-			CoreItems.BROKEN_BRONZE_PICKAXE.item()
+			CoreItems.SURVIVALISTS_PICKAXE.item(),
+			CoreItems.PICKAXE_KIT.item(),
+			CoreItems.BROKEN_SURVIVALISTS_PICKAXE.item()
 		);
 		tags.tag(ForestryTags.Items.MINER_REJECT);
 
@@ -43,9 +43,9 @@ public class ForestryBackpackTagProvider {
 			Items.SOUL_SAND,
 			Items.CLAY,
 			Items.SNOW,
-			CoreItems.BRONZE_PICKAXE.item(),
-			CoreItems.KIT_PICKAXE.item(),
-			CoreItems.BROKEN_BRONZE_PICKAXE.item()
+			CoreItems.SURVIVALISTS_PICKAXE.item(),
+			CoreItems.PICKAXE_KIT.item(),
+			CoreItems.BROKEN_SURVIVALISTS_PICKAXE.item()
 		);
 		tags.tag(ForestryTags.Items.DIGGER_REJECT);
 

@@ -140,9 +140,9 @@ public class ForestryItemTagsProvider {
 		tags.tag(ItemTags.BOATS).add(ArboricultureItems.BOAT.itemArray());
 		tags.tag(ItemTags.CHEST_BOATS).add(ArboricultureItems.CHEST_BOAT.itemArray());
 
-		tags.tag(ItemTags.CLUSTER_MAX_HARVESTABLES).add(CoreItems.BRONZE_PICKAXE);
-		tags.tag(ItemTags.PICKAXES).add(CoreItems.BRONZE_PICKAXE);
-		tags.tag(ItemTags.SHOVELS).add(CoreItems.BRONZE_SHOVEL);
+		tags.tag(ItemTags.CLUSTER_MAX_HARVESTABLES).add(CoreItems.SURVIVALISTS_PICKAXE);
+		tags.tag(ItemTags.PICKAXES).add(CoreItems.SURVIVALISTS_PICKAXE);
+		tags.tag(ItemTags.SHOVELS).add(CoreItems.SURVIVALISTS_SHOVEL);
 
 		tags.tag("curios:head").add(CoreItems.SPECTACLES);
 	}

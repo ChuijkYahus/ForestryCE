@@ -135,21 +135,21 @@ public class ForestryItemModels {
 		}
 
 		models.generic2d(CoreItems.CARTON.get());
-		models.generic2d(CoreItems.BROKEN_BRONZE_PICKAXE.get());
-		models.generic2d(CoreItems.BROKEN_BRONZE_SHOVEL.get());
-		models.generic2d(CoreItems.BROKEN_BRONZE_AXE.get());
-		models.generic2d(CoreItems.BROKEN_BRONZE_SWORD.get());
-		models.generic2d(CoreItems.BROKEN_BRONZE_HOE.get());
-		models.handheld(CoreItems.BRONZE_PICKAXE.id());
-		models.handheld(CoreItems.BRONZE_SHOVEL.id());
-		models.handheld(CoreItems.BRONZE_AXE.id());
-		models.handheld(CoreItems.BRONZE_SWORD.id());
-		models.handheld(CoreItems.BRONZE_HOE.id());
-		models.generic2d(CoreItems.KIT_SHOVEL.get());
-		models.generic2d(CoreItems.KIT_PICKAXE.get());
-		models.generic2d(CoreItems.KIT_AXE.get());
-		models.generic2d(CoreItems.KIT_SWORD.get());
-		models.generic2d(CoreItems.KIT_HOE.get());
+		models.generic2d(CoreItems.BROKEN_SURVIVALISTS_PICKAXE.get());
+		models.generic2d(CoreItems.BROKEN_SURVIVALISTS_SHOVEL.get());
+		models.generic2d(CoreItems.BROKEN_SURVIVALISTS_AXE.get());
+		models.generic2d(CoreItems.BROKEN_SURVIVALISTS_SWORD.get());
+		models.generic2d(CoreItems.BROKEN_SURVIVALISTS_HOE.get());
+		models.handheld(CoreItems.SURVIVALISTS_PICKAXE.id());
+		models.handheld(CoreItems.SURVIVALISTS_SHOVEL.id());
+		models.handheld(CoreItems.SURVIVALISTS_AXE.id());
+		models.handheld(CoreItems.SURVIVALISTS_SWORD.id());
+		models.handheld(CoreItems.SURVIVALISTS_HOE.id());
+		models.generic2d(CoreItems.SHOVEL_KIT.get());
+		models.generic2d(CoreItems.PICKAXE_KIT.get());
+		models.generic2d(CoreItems.AXE_KIT.get());
+		models.generic2d(CoreItems.SWORD_KIT.get());
+		models.generic2d(CoreItems.HOE_KIT.get());
 
 		Set<ResourceLocation> vanillaIds = Set.of(
 			ForestryTreeSpecies.OAK,

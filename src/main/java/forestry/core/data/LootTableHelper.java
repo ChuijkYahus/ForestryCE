@@ -62,8 +62,8 @@ public class LootTableHelper {
 			LootTable.lootTable().withPool(LootPool.lootPool()
 				.name("forestry_factory_items")
 				.setRolls(ConstantValue.exactly(1))
-				.add(LootItem.lootTableItem(CoreItems.KIT_PICKAXE.item()).setWeight(30))
-				.add(LootItem.lootTableItem(CoreItems.KIT_SHOVEL.item()).setWeight(10))
+				.add(LootItem.lootTableItem(CoreItems.PICKAXE_KIT.item()).setWeight(30))
+				.add(LootItem.lootTableItem(CoreItems.SHOVEL_KIT.item()).setWeight(10))
 				.add(EmptyLootItem.emptyItem().setWeight(50))
 			));
 		add(BuiltInLootTables.ABANDONED_MINESHAFT, "storage",
