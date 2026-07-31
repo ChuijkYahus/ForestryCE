@@ -1,10 +1,6 @@
 {
   "values": [
     {
-      "id": "#c:player_workstations/crafting_tables",
-      "required": false
-    },
-    {
       "id": "#c:workbenches",
       "required": false
     },

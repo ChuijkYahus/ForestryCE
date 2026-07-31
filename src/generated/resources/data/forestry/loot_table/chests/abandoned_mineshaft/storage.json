@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "forestry:miner_bag"
+          "name": "forestry:miner_backpack"
         },
         {
           "type": "minecraft:empty",

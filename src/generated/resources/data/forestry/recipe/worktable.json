@@ -9,7 +9,7 @@
       "tag": "c:chests/wooden"
     },
     "T": {
-      "tag": "forestry:crafting_tables"
+      "tag": "c:player_workstations/crafting_tables"
     }
   },
   "pattern": [

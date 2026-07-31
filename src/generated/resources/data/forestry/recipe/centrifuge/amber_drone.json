@@ -33,10 +33,10 @@
             },
             "forestry:bee_species": {
               "active": {
-                "value": "forestry:relic"
+                "value": "forestry:chronofuge"
               },
               "inactive": {
-                "value": "forestry:relic"
+                "value": "forestry:chronofuge"
               }
             },
             "forestry:cave_dwelling": {

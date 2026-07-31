@@ -10,7 +10,7 @@
     "category": "equipment",
     "key": {
       "T": {
-        "item": "forestry:miner_bag"
+        "item": "forestry:miner_backpack"
       },
       "W": {
         "item": "forestry:woven_silk"
@@ -26,7 +26,7 @@
     ],
     "result": {
       "count": 1,
-      "id": "forestry:miner_bag_woven"
+      "id": "forestry:woven_miner_backpack"
     }
   },
   "time": 200

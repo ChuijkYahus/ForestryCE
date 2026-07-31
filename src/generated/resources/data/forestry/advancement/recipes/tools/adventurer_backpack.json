@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:hunter_bag"
+        "recipe": "forestry:adventurer_backpack"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:hunter_bag"
+      "forestry:adventurer_backpack"
     ]
   }
 }

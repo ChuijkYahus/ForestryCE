@@ -1,7 +1,7 @@
 {
   "type": "forestry:bee_mutation",
   "chance": 0.1,
-  "first": "forestry:relic",
+  "first": "forestry:chronofuge",
   "id": "forestry:bee_mutation/anachrone_1",
   "result": "forestry:anachrone",
   "second": "forestry:steadfast"

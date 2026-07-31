@@ -6,7 +6,7 @@
       "tag": "minecraft:wool"
     },
     "V": {
-      "tag": "c:ingots/iron"
+      "tag": "c:bones"
     },
     "X": {
       "tag": "c:strings"
@@ -22,6 +22,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "forestry:miner_bag"
+    "id": "forestry:adventurer_backpack"
   }
 }

@@ -10,7 +10,7 @@
     "category": "equipment",
     "key": {
       "T": {
-        "item": "forestry:forester_bag"
+        "item": "forestry:forester_backpack"
       },
       "W": {
         "item": "forestry:woven_silk"
@@ -26,7 +26,7 @@
     ],
     "result": {
       "count": 1,
-      "id": "forestry:forester_bag_woven"
+      "id": "forestry:woven_forester_backpack"
     }
   },
   "time": 200
