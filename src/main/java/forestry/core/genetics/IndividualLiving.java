@@ -40,8 +40,7 @@ public abstract class IndividualLiving<S extends ISpecies<I>, I extends IIndivid
 	protected static <I extends IIndividualLiving> Products.P5<RecordCodecBuilder.Mu<I>, IGenome, Optional<IGenome>, Boolean, Integer, Integer> livingFields(RecordCodecBuilder.Instance<I> instance, Codec<IGenome> genomeCodec) {
 		return Individual.fields(instance, genomeCodec).and(instance.group(
 			Codec.INT.fieldOf("health").forGetter(I::getHealth),
-			// todo rename to "max_health" in 1.21.1
-			Codec.INT.fieldOf("max_heath").forGetter(I::getMaxHealth)
+			Codec.INT.fieldOf("max_health").forGetter(I::getMaxHealth)
 		));
 	}
 
