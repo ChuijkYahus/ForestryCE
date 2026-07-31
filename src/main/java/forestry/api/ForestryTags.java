@@ -33,7 +33,7 @@ public class ForestryTags {
 
 		public static final TagKey<Block> STORAGE_BLOCKS_RAW_TIN = commonTag("storage_blocks/raw_tin");
 
-		// todo remove in favor of directly using IWoodAccess
+		// todo remove in favor of directly using ITreeManager
 		public static final TagKey<Block> LARCH_LOGS = ForestryWoodType.LARCH.blockTag;
 		public static final TagKey<Block> TEAK_LOGS = ForestryWoodType.TEAK.blockTag;
 		public static final TagKey<Block> ACACIA_DESERT_LOGS = ForestryWoodType.CAMELTHORN.blockTag;

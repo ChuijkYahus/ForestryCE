@@ -4,7 +4,6 @@ import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.arboriculture.IWoodAccess;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
@@ -270,7 +269,7 @@ public class ForestryCreativeTabs {
 		items.accept(CharcoalBlocks.LOG_PILE);
 		items.accept(CharcoalBlocks.DECORATIVE_LOG_PILE);
 		items.accept(CoreItems.ASH);
-		IWoodAccess access = WoodAccess.INSTANCE;
+		WoodAccess access = WoodAccess.INSTANCE;
 		for (IWoodType type : access.getRegisteredWoodTypes()) {
 			addAllWoodBlocks(items, access, type, false);
 		}
@@ -439,7 +438,7 @@ public class ForestryCreativeTabs {
 		items.accept(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH));
 	}
 
-	private static void addAllWoodBlocks(CreativeModeTab.Output items, IWoodAccess access, IWoodType type, boolean fireproof) {
+	private static void addAllWoodBlocks(CreativeModeTab.Output items, WoodAccess access, IWoodType type, boolean fireproof) {
 		items.accept(access.getStack(type, WoodBlockKind.LOG, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.WOOD, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.STRIPPED_LOG, fireproof));

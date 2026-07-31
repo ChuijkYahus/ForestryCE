@@ -22,7 +22,7 @@ public class WoodHelper {
 				displayName = Component.translatable("for." + kind + ".grammar", Component.translatable("for.trees.woodType." + woodType));
 			}
 		} else if (woodType instanceof VanillaWoodType) {
-			displayName = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getStack(woodType, kind, false).getHoverName();
+			displayName = IForestryApi.INSTANCE.getTreeManager().getStack(woodType, kind, false).getHoverName();
 		} else {
 			throw new IllegalArgumentException("Unknown wood type: " + woodType);
 		}

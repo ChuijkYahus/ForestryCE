@@ -5,7 +5,7 @@ import forestry.api.IForestryApi;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.arboriculture.IWoodAccess;
+import forestry.api.arboriculture.ITreeManager;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
@@ -397,7 +397,7 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerWoodRecipes(MKRecipeProvider recipes) {
-		IWoodAccess woodAccess = WoodAccess.INSTANCE;
+		WoodAccess woodAccess = WoodAccess.INSTANCE;
 		List<IWoodType> woodTypes = woodAccess.getRegisteredWoodTypes();
 
 		for (IWoodType woodType : woodTypes) {
@@ -1935,7 +1935,7 @@ public class ForestryRecipeProvider {
 		FluidStack liquidGlass = ForestryFluids.GLASS.getFluid(500);
 
 		List<WoodBlockKind> logLike = List.of(WoodBlockKind.LOG, WoodBlockKind.WOOD, WoodBlockKind.STRIPPED_LOG, WoodBlockKind.STRIPPED_WOOD);
-		IWoodAccess woodAccess = IForestryApi.INSTANCE.getTreeManager().getWoodAccess();
+		ITreeManager woodAccess = IForestryApi.INSTANCE.getTreeManager();
 
 		for (WoodBlockKind woodKind : logLike) {
 			try {

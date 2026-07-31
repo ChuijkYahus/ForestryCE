@@ -1,6 +1,5 @@
 package forestry.arboriculture;
 
-import forestry.api.arboriculture.IWoodAccess;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.modules.features.FeatureBlockGroup;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public enum WoodAccess implements IWoodAccess {
+public enum WoodAccess {
 	INSTANCE;
 
 	private final WoodMap[] woodMaps = new WoodMap[WoodBlockKind.values().length];
@@ -211,7 +210,6 @@ public enum WoodAccess implements IWoodAccess {
 		register(woodType, woodBlockKind, fireproof, blockState, itemStack);
 	}
 
-	@Override
 	public void register(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof, BlockState blockState, Supplier<Item> itemStack) {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
@@ -224,7 +222,6 @@ public enum WoodAccess implements IWoodAccess {
 		woodMap.getBlock(fireproof).put(woodType, blockState);
 	}
 
-	@Override
 	public void registerLogTag(IWoodType woodType, boolean fireproof, TagKey<Block> logBlockTag, TagKey<Item> logItemTag) {
 		if (fireproof) {
 			this.fireproofLogBlockTags.put(woodType, logBlockTag);
@@ -235,7 +232,6 @@ public enum WoodAccess implements IWoodAccess {
 		}
 	}
 
-	@Override
 	public ItemStack getStack(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof) {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
@@ -249,7 +245,6 @@ public enum WoodAccess implements IWoodAccess {
 		return new ItemStack(itemStack.get());
 	}
 
-	@Override
 	public BlockState getBlock(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof) {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
@@ -263,12 +258,10 @@ public enum WoodAccess implements IWoodAccess {
 		return blockState;
 	}
 
-	@Override
 	public TagKey<Block> getLogBlockTag(IWoodType kind, boolean fireproof) {
 		return (fireproof ? this.fireproofLogBlockTags : this.logBlockTags).get(kind);
 	}
 
-	@Override
 	public TagKey<Item> getLogItemTag(IWoodType kind, boolean fireproof) {
 		return (fireproof ? this.fireproofLogItemTags : this.logItemTags).get(kind);
 	}
@@ -284,7 +277,6 @@ public enum WoodAccess implements IWoodAccess {
 			|| kind == WoodBlockKind.WALL_HANGING_SIGN;
 	}
 
-	@Override
 	public List<IWoodType> getRegisteredWoodTypes() {
 		return this.registeredWoodTypes;
 	}

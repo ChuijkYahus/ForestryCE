@@ -41,7 +41,7 @@ public class DefaultTreeGenerator implements ITreeGenerator {
 	@Override
 	public boolean setLogBlock(IGenome genome, LevelAccessor level, BlockPos pos, Direction facing) {
 		boolean fireproof = genome.getActiveValue(TreeChromosomes.FIREPROOF);
-		BlockState logBlock = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getBlock(this.woodType, WoodBlockKind.LOG, fireproof);
+		BlockState logBlock = IForestryApi.INSTANCE.getTreeManager().getBlock(this.woodType, WoodBlockKind.LOG, fireproof);
 
 		Direction.Axis axis = facing.getAxis();
 		return level.setBlock(pos, logBlock.setValue(RotatedPillarBlock.AXIS, axis), Block.UPDATE_KNOWN_SHAPE | Block.UPDATE_ALL);
