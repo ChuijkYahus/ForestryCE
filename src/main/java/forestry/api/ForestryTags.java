@@ -226,10 +226,6 @@ public class ForestryTags {
 		public static final TagKey<Item> HUNTER_ALLOW = itemTag("backpack/allow/hunter");
 		public static final TagKey<Item> HUNTER_REJECT = itemTag("backpack/reject/hunter");
 
-		// needed because forge doesn't have it and mods can't agree on a crafting table tag...
-		// todo: remove in 1.21 when Neo merges the tags unification PR
-		public static final TagKey<Item> CRAFTING_TABLES = itemTag("crafting_tables");
-
 		public static final TagKey<Item> BEES = itemTag("bees");
 
 		private static TagKey<Item> commonTag(String name) {

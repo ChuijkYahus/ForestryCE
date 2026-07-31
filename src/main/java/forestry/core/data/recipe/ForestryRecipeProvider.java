@@ -1134,7 +1134,7 @@ public class ForestryRecipeProvider {
 	private static void registerWorktableRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, WorktableBlocks.WORKTABLE.block(), recipe -> {
 			recipe.define('B', Items.BOOK);
-			recipe.define('T', ForestryTags.Items.CRAFTING_TABLES);
+			recipe.define('T', Tags.Items.PLAYER_WORKSTATIONS_CRAFTING_TABLES);
 			recipe.define('C', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("B");
 			recipe.pattern("T");

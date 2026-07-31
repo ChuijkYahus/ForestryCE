@@ -128,8 +128,8 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());
 		tags.tag(ForestryTags.Items.SAWDUST).add(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP));
 
-		tags.tag(ForestryTags.Items.CRAFTING_TABLES)
-			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "player_workstations/crafting_tables"))
+		// legacy aliases from mods that never moved onto the common tag
+		tags.tag(Tags.Items.PLAYER_WORKSTATIONS_CRAFTING_TABLES)
 			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "workbenches"))
 			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "workbench"))
 			.add(Items.CRAFTING_TABLE);
