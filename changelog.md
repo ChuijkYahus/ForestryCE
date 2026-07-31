@@ -2,6 +2,8 @@
 - Haploid Drones option now enabled by default (drones no longer have Inactive alleles, simplifying breeding)
 - Bees are now data-driven (trees and butterflies are too, to a lesser extent)
 - Fix Genetic Filter never moving items into adjacent inventories (broken since the 1.19 port)
+- Fix Humus never degrading into Sand (broken since the 1.14 port); its "degrade" blockstate property now maxes out at 2 instead of 3
+- Bog Earth's "maturity" blockstate property now maxes out at 2 instead of 3 (the old top value was unreachable)
 
 ## Forestry 2.10.0
 - More Bee Tweaks, thanks to EnderiumSmith (#291)

@@ -14,9 +14,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class BlockHumus extends Block {
-	private static final int DEGRADE_STEPS = 3;
+	// degrade level at which humus becomes sand
+	private static final int MAX_DEGRADE = 2;
 
-	public static final IntegerProperty DEGRADE = IntegerProperty.create("degrade", 0, DEGRADE_STEPS);
+	public static final IntegerProperty DEGRADE = IntegerProperty.create("degrade", 0, MAX_DEGRADE);
 
 	public BlockHumus(Block.Properties properties) {
 		super(properties.randomTicks().strength(0.5f).sound(SoundType.GRAVEL));
@@ -31,13 +32,13 @@ public class BlockHumus extends Block {
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand) {
-		if (world.isClientSide || world.random.nextInt(140) != 0) {
+	protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+		if (level.isClientSide || level.random.nextInt(140) != 0) {
 			return;
 		}
 
-		if (isEnrooted(world, pos)) {
-			degradeSoil(world, pos);
+		if (isEnrooted(level, pos)) {
+			degradeSoil(level, pos);
 		}
 	}
 
@@ -66,12 +67,12 @@ public class BlockHumus extends Block {
 		BlockState blockState = world.getBlockState(pos);
 
 		int degrade = blockState.getValue(DEGRADE);
-		degrade++;
 
-		if (degrade >= DEGRADE_STEPS) {
-			world.setBlock(pos, Blocks.SAND.defaultBlockState(), UPDATE_CLIENTS);
+		// less-than, not equals, so an out-of-range degrade can't overflow the property
+		if (degrade < MAX_DEGRADE) {
+			world.setBlock(pos, blockState.setValue(DEGRADE, degrade + 1), UPDATE_CLIENTS);
 		} else {
-			world.setBlock(pos, blockState.setValue(DEGRADE, degrade), UPDATE_CLIENTS);
+			world.setBlock(pos, Blocks.SAND.defaultBlockState(), UPDATE_CLIENTS);
 		}
 	}
 }
