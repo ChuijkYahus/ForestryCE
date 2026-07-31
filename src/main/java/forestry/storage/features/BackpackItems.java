@@ -18,16 +18,16 @@ public class BackpackItems {
 	public static final FeatureItem<?> ARBORIST_BACKPACK = REGISTRY.naturalistBackpack(ModuleStorage.ARBORIST, ForestrySpeciesTypes.TREE, ItemGroups.tabArboriculture, "arborists_backpack");
 	public static final FeatureItem<?> LEPIDOPTERIST_BACKPACK = REGISTRY.naturalistBackpack(ModuleStorage.LEPIDOPTERIST, ForestrySpeciesTypes.BUTTERFLY, ItemGroups.tabLepidopterology, "lepidopterists_backpack");
 
-	public static final FeatureItem<?> MINER_BACKPACK = REGISTRY.backpack(ModuleStorage.MINER, EnumBackpackType.NORMAL, "miner_bag");
-	public static final FeatureItem<?> MINER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.MINER, EnumBackpackType.WOVEN, "miner_bag_woven");
-	public static final FeatureItem<?> DIGGER_BACKPACK = REGISTRY.backpack(ModuleStorage.DIGGER, EnumBackpackType.NORMAL, "digger_bag");
-	public static final FeatureItem<?> DIGGER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.DIGGER, EnumBackpackType.WOVEN, "digger_bag_woven");
-	public static final FeatureItem<?> FORESTER_BACKPACK = REGISTRY.backpack(ModuleStorage.FORESTER, EnumBackpackType.NORMAL, "forester_bag");
-	public static final FeatureItem<?> FORESTER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.FORESTER, EnumBackpackType.WOVEN, "forester_bag_woven");
-	public static final FeatureItem<?> HUNTER_BACKPACK = REGISTRY.backpack(ModuleStorage.HUNTER, EnumBackpackType.NORMAL, "hunter_bag");
-	public static final FeatureItem<?> HUNTER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.HUNTER, EnumBackpackType.WOVEN, "hunter_bag_woven");
-	public static final FeatureItem<?> ADVENTURER_BACKPACK = REGISTRY.backpack(ModuleStorage.ADVENTURER, EnumBackpackType.NORMAL, "adventurer_bag");
-	public static final FeatureItem<?> ADVENTURER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.ADVENTURER, EnumBackpackType.WOVEN, "adventurer_bag_woven");
-	public static final FeatureItem<?> BUILDER_BACKPACK = REGISTRY.backpack(ModuleStorage.BUILDER, EnumBackpackType.NORMAL, "builder_bag");
-	public static final FeatureItem<?> BUILDER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.BUILDER, EnumBackpackType.WOVEN, "builder_bag_woven");
+	public static final FeatureItem<?> MINER_BACKPACK = REGISTRY.backpack(ModuleStorage.MINER, EnumBackpackType.NORMAL, "miner_backpack");
+	public static final FeatureItem<?> MINER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.MINER, EnumBackpackType.WOVEN, "woven_miner_backpack");
+	public static final FeatureItem<?> DIGGER_BACKPACK = REGISTRY.backpack(ModuleStorage.DIGGER, EnumBackpackType.NORMAL, "digger_backpack");
+	public static final FeatureItem<?> DIGGER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.DIGGER, EnumBackpackType.WOVEN, "woven_digger_backpack");
+	public static final FeatureItem<?> FORESTER_BACKPACK = REGISTRY.backpack(ModuleStorage.FORESTER, EnumBackpackType.NORMAL, "forester_backpack");
+	public static final FeatureItem<?> FORESTER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.FORESTER, EnumBackpackType.WOVEN, "woven_forester_backpack");
+	public static final FeatureItem<?> HUNTER_BACKPACK = REGISTRY.backpack(ModuleStorage.HUNTER, EnumBackpackType.NORMAL, "hunter_backpack");
+	public static final FeatureItem<?> HUNTER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.HUNTER, EnumBackpackType.WOVEN, "woven_hunter_backpack");
+	public static final FeatureItem<?> ADVENTURER_BACKPACK = REGISTRY.backpack(ModuleStorage.ADVENTURER, EnumBackpackType.NORMAL, "adventurer_backpack");
+	public static final FeatureItem<?> ADVENTURER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.ADVENTURER, EnumBackpackType.WOVEN, "woven_adventurer_backpack");
+	public static final FeatureItem<?> BUILDER_BACKPACK = REGISTRY.backpack(ModuleStorage.BUILDER, EnumBackpackType.NORMAL, "builder_backpack");
+	public static final FeatureItem<?> BUILDER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.BUILDER, EnumBackpackType.WOVEN, "woven_builder_backpack");
 }
