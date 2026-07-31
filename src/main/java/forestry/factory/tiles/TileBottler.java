@@ -41,7 +41,7 @@ import java.util.EnumMap;
 import java.util.Optional;
 
 public class TileBottler extends TilePowered implements WorldlyContainer, ILiquidTankTile, ISlotPickupWatcher {
-	private static final int TICKS_PER_RECIPE_TIME = 5;
+	private static final int STEPS_PER_RECIPE_TIME = 5;
 	private static final int ENERGY_PER_RECIPE_TIME = 1000;
 
 	private final StandardTank resourceTank;
@@ -205,7 +205,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 					float fillTime = fillAmount / (float) FluidType.BUCKET_VOLUME;
 					fillTime *= viscosityMultiplier;
 
-					setTicksPerWorkCycle(Math.round(fillTime * TICKS_PER_RECIPE_TIME));
+					setStepsPerWorkCycle(Math.round(fillTime * STEPS_PER_RECIPE_TIME));
 					setEnergyPerWorkCycle(Math.round(fillTime * ENERGY_PER_RECIPE_TIME));
 				}
 			}
@@ -227,7 +227,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 					float fillTime = fillAmount / (float) FluidType.BUCKET_VOLUME;
 					fillTime *= viscosityMultiplier;
 
-					setTicksPerWorkCycle(Math.round(fillTime * TICKS_PER_RECIPE_TIME));
+					setStepsPerWorkCycle(Math.round(fillTime * STEPS_PER_RECIPE_TIME));
 					setEnergyPerWorkCycle(0);
 				}
 			}
@@ -239,12 +239,12 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		if (slotIndex == InventoryBottler.SLOT_EMPTYING_PROCESSING) {
 			if (this.currentRecipe != null && !this.currentRecipe.fillRecipe) {
                 this.currentRecipe = null;
-				setTicksPerWorkCycle(0);
+				setStepsPerWorkCycle(0);
 			}
 		} else if (slotIndex == InventoryBottler.SLOT_FILLING_PROCESSING) {
 			if (this.currentRecipe != null && this.currentRecipe.fillRecipe) {
                 this.currentRecipe = null;
-				setTicksPerWorkCycle(0);
+				setStepsPerWorkCycle(0);
 			}
 		}
 	}

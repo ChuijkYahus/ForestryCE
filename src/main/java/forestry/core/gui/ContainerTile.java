@@ -25,7 +25,7 @@ public abstract class ContainerTile<T extends BlockEntity> extends ContainerFore
 	private Set<IError> previousErrorStates;
 	private int previousEnergyManagerData = 0;
 	private int previousWorkCounter = 0;
-	private int previousTicksPerWorkCycle = 0;
+	private int previousStepsPerWorkCycle = 0;
 
 	protected ContainerTile(int windowId, MenuType<?> type, Inventory playerInventory, T tile, int xInv, int yInv) {
 		super(windowId, type, playerInventory.player);
@@ -89,10 +89,10 @@ public abstract class ContainerTile<T extends BlockEntity> extends ContainerFore
                 this.previousWorkCounter = workCounter;
 			}
 
-			int ticksPerWorkCycle = tilePowered.getTicksPerWorkCycle();
-			if (ticksPerWorkCycle != this.previousTicksPerWorkCycle) {
+			int stepsPerWorkCycle = tilePowered.getStepsPerWorkCycle();
+			if (stepsPerWorkCycle != this.previousStepsPerWorkCycle) {
 				guiNeedsUpdate = true;
-                this.previousTicksPerWorkCycle = ticksPerWorkCycle;
+                this.previousStepsPerWorkCycle = stepsPerWorkCycle;
 			}
 
 			if (guiNeedsUpdate) {

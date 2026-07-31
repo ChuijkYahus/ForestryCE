@@ -19,11 +19,11 @@ public class EnergyHelper {
 	 *
 	 * @return true if the energy to do work was consumed
 	 */
-	public static boolean consumeEnergyToDoWork(ForestryEnergyStorage energyStorage, int ticksPerWorkCycle, int energyPerWorkCycle) {
+	public static boolean consumeEnergyToDoWork(ForestryEnergyStorage energyStorage, int stepsPerWorkCycle, int energyPerWorkCycle) {
 		if (energyPerWorkCycle == 0) {
 			return true;
 		}
-		int energyPerCycle = (int) Math.ceil(energyPerWorkCycle / (float) ticksPerWorkCycle);
+		int energyPerCycle = (int) Math.ceil(energyPerWorkCycle / (float) stepsPerWorkCycle);
 		if (energyStorage.getEnergyStored() < energyPerCycle) {
 			return false;
 		}

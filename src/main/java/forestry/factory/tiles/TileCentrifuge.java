@@ -40,7 +40,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 
 public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyContainer, IItemStackDisplay {
-	private static final int TICKS_PER_RECIPE_TIME = 1;
+	private static final int STEPS_PER_RECIPE_TIME = 1;
 	private static final int ENERGY_PER_WORK_CYCLE = 3200;
 	private static final int ENERGY_PER_RECIPE_TIME = ENERGY_PER_WORK_CYCLE / 20;
 
@@ -137,7 +137,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 			this.currentRecipe = matchingRecipe;
 			if (this.currentRecipe != null) {
 				int recipeTime = this.currentRecipe.getProcessingTime();
-				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
+				setStepsPerWorkCycle(recipeTime * STEPS_PER_RECIPE_TIME);
 				setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
 			}
 		}

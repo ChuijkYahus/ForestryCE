@@ -43,7 +43,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import javax.annotation.Nullable;
 
 public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiquidTankTile, IItemStackDisplay {
-	private static final int TICKS_PER_RECIPE_TIME = 1;
+	private static final int STEPS_PER_RECIPE_TIME = 1;
 	private static final int ENERGY_PER_WORK_CYCLE = 2040;
 	private static final int ENERGY_PER_RECIPE_TIME = ENERGY_PER_WORK_CYCLE / 10;
 
@@ -112,7 +112,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 
 			if (recipe != null) {
 				int recipeTime = this.currentRecipe.getPackagingTime();
-				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
+				setStepsPerWorkCycle(recipeTime * STEPS_PER_RECIPE_TIME);
 				setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
 
 				ItemStack craftingResult = this.currentRecipe.getResultItem(registryAccess);

@@ -22,21 +22,27 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
 
-// todo rename "ticks" to "steps" in 1.21 to clarify they're different than actual ticks
+/**
+ * Base class for machines that consume energy to do work.
+ *
+ * <p>Work is measured in "steps", not game ticks. One step happens every {@link #TICKS_PER_STEP} game
+ * ticks, and a work cycle takes some number of steps to complete.
+ */
 public abstract class TilePowered extends TileBase implements IRenderableTile, IMachineUpgradable, IStreamableGui, IPowerHandler {
-	private static final int WORK_TICK_INTERVAL = 5; // one Forestry work tick happens every WORK_TICK_INTERVAL game ticks
+	// the number of game ticks between two work steps
+	private static final int TICKS_PER_STEP = 5;
 
 	private final ForestryEnergyStorage energyStorage;
 	protected float speedMultiplier = 1.0f;
 	protected float powerMultiplier = 1.0f;
 	protected double outputMultiplier = 1.0f;
-	// The amount of "ticks" into the current work cycle. Between 0 and ticksPerWorkCycle
+	// The number of steps into the current work cycle. Between 0 and stepsPerWorkCycle
 	private int workCounter;
-	// The number of "ticks" a work cycle takes to complete. In reality, a "tick" here is 5 real ticks
-	private int ticksPerWorkCycle;
+	// The number of steps a work cycle takes to complete
+	private int stepsPerWorkCycle;
 	// The amount of energy consumed over the course of an entire work cycle
 	private int energyPerWorkCycle;
-	// the number of work ticks that this tile has had no power
+	// the number of steps that this tile has had no power
 	private int noPowerTime = 0;
 
 	protected TilePowered(BlockEntityType<?> type, BlockPos pos, BlockState state, int maxTransfer, int capacity) {
@@ -44,7 +50,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 
 		this.energyStorage = new ForestryEnergyStorage(maxTransfer, capacity, EnergyTransferMode.RECEIVE);
 
-		this.ticksPerWorkCycle = 4;
+		this.stepsPerWorkCycle = 4;
 	}
 
 	public ForestryEnergyStorage getEnergyManager() {
@@ -55,20 +61,19 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		return this.workCounter;
 	}
 
-	// A "tick" is actually 5 ticks. Yay!
-	public void setTicksPerWorkCycle(int ticksPerWorkCycle) {
-		this.ticksPerWorkCycle = ticksPerWorkCycle;
+	public void setStepsPerWorkCycle(int stepsPerWorkCycle) {
+		this.stepsPerWorkCycle = stepsPerWorkCycle;
 		this.workCounter = 0;
 	}
 
-	public int getTicksPerWorkCycle() {
+	public int getStepsPerWorkCycle() {
 		if (this.level.isClientSide) {
-			return this.ticksPerWorkCycle;
+			return this.stepsPerWorkCycle;
 		}
-		return Math.round(this.ticksPerWorkCycle / this.speedMultiplier);
+		return Math.round(this.stepsPerWorkCycle / this.speedMultiplier);
 	}
 
-	// RF/t is energyPerWorkCycle / ticksPerWorkCycle
+	// energy drawn per step is energyPerWorkCycle / stepsPerWorkCycle
 	public void setEnergyPerWorkCycle(int energyPerWorkCycle) {
 		this.energyPerWorkCycle = EnergyHelper.scaleForDifficulty(energyPerWorkCycle);
 	}
@@ -93,7 +98,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		super.serverTick(level, pos, state);
 
-		if (!updateOnInterval(WORK_TICK_INTERVAL)) {
+		if (!updateOnInterval(TICKS_PER_STEP)) {
 			return;
 		}
 
@@ -109,11 +114,11 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 			return;
 		}
 
-		int ticksPerWorkCycle = getTicksPerWorkCycle();
+		int stepsPerWorkCycle = getStepsPerWorkCycle();
 
-		if (this.workCounter < ticksPerWorkCycle) {
+		if (this.workCounter < stepsPerWorkCycle) {
 			int energyPerWorkCycle = getEnergyPerWorkCycle();
-			boolean consumedEnergy = EnergyHelper.consumeEnergyToDoWork(this.energyStorage, ticksPerWorkCycle, energyPerWorkCycle);
+			boolean consumedEnergy = EnergyHelper.consumeEnergyToDoWork(this.energyStorage, stepsPerWorkCycle, energyPerWorkCycle);
 			if (consumedEnergy) {
 				errorLogic.setCondition(false, ForestryError.NO_POWER);
 				this.workCounter++;
@@ -126,7 +131,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 			}
 		}
 
-		if (this.workCounter >= ticksPerWorkCycle) {
+		if (this.workCounter >= stepsPerWorkCycle) {
 			if (workCycle()) {
 				this.workCounter = 0;
 			}
@@ -138,12 +143,12 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 
 	// Returns the width for a progress bar. pixels is the full width of the progress bar.
 	public int getProgressScaled(int pixels) {
-		int ticksPerWorkCycle = getTicksPerWorkCycle();
-		if (ticksPerWorkCycle == 0) {
+		int stepsPerWorkCycle = getStepsPerWorkCycle();
+		if (stepsPerWorkCycle == 0) {
 			return 0;
 		}
 
-		return this.workCounter * pixels / ticksPerWorkCycle;
+		return this.workCounter * pixels / stepsPerWorkCycle;
 	}
 
 	@Override
@@ -162,7 +167,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	public void writeGuiData(FriendlyByteBuf data) {
 		this.energyStorage.writeData(data);
 		data.writeVarInt(this.workCounter);
-		data.writeVarInt(getTicksPerWorkCycle());
+		data.writeVarInt(getStepsPerWorkCycle());
 	}
 
 	@Override
@@ -170,7 +175,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	public void readGuiData(FriendlyByteBuf data) {
 		this.energyStorage.readData(data);
 		this.workCounter = data.readVarInt();
-		this.ticksPerWorkCycle = data.readVarInt();
+		this.stepsPerWorkCycle = data.readVarInt();
 	}
 
 	/* IMachineUpgradable */

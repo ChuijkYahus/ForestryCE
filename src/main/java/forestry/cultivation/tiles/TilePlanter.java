@@ -73,7 +73,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 		setInternalInventory(this.inventory);
 		this.manager = new FarmManager(this);
 		setEnergyPerWorkCycle(10);
-		setTicksPerWorkCycle(2);
+		setStepsPerWorkCycle(2);
 	}
 
 	public void setManual(boolean manual) {

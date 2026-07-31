@@ -218,10 +218,10 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
         this.invInput.setItem(slotIndex, ItemStack.EMPTY);
 
 		if (this.specimenToAnalyze.isAnalyzed()) {
-			setTicksPerWorkCycle(1);
+			setStepsPerWorkCycle(1);
 			setEnergyPerWorkCycle(0);
 		} else {
-			setTicksPerWorkCycle(TIME_TO_ANALYZE);
+			setStepsPerWorkCycle(TIME_TO_ANALYZE);
 			setEnergyPerWorkCycle(analyzerEnergyPerWork);
 		}
 

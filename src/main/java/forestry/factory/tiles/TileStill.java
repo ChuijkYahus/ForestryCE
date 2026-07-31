@@ -123,7 +123,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 
 			int recipeTime = this.currentRecipe == null ? 0 : this.currentRecipe.getCyclesPerUnit();
 			setEnergyPerWorkCycle(ENERGY_PER_RECIPE_TIME * recipeTime);
-			setTicksPerWorkCycle(recipeTime);
+			setStepsPerWorkCycle(recipeTime);
 		}
 	}
 
