@@ -1,6 +1,7 @@
 ## Forestry 3.0.0
 - Haploid Drones option now enabled by default (drones no longer have Inactive alleles, simplifying breeding)
 - Bees are now data-driven (trees and butterflies are too, to a lesser extent)
+- Fix Genetic Filter never moving items into adjacent inventories (broken since the 1.19 port)
 
 ## Forestry 2.10.0
 - More Bee Tweaks, thanks to EnderiumSmith (#291)
