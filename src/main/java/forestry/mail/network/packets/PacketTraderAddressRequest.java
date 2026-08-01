@@ -1,6 +1,7 @@
 package forestry.mail.network.packets;
 
-import forestry.core.network.PacketIdServer;
+import forestry.mail.network.MailPacketIds;
+
 import forestry.core.tiles.TileUtil;
 import forestry.mail.tiles.TileTrader;
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,7 @@ public record PacketTraderAddressRequest(BlockPos pos, String addressName) imple
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdServer.TRADING_ADDRESS_REQUEST;
+		return MailPacketIds.TRADING_ADDRESS_REQUEST;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketTraderAddressRequest msg) {

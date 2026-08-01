@@ -42,8 +42,6 @@ core/loot/CoreLootFunctions.java
 core/models/baker/ModelBakerModel.java
 core/ModuleCore.java
 core/multiblock/LevelStructureView.java
-core/network/PacketIdClient.java
-core/network/PacketIdServer.java
 core/network/packets/BeeEffectSyncPacket.java
 core/network/packets/BeeSpeciesSyncPacket.java
 core/network/packets/ButterflySpeciesSyncPacket.java

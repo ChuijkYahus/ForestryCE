@@ -1,5 +1,7 @@
 package forestry.arboriculture;
 
+import forestry.arboriculture.network.ArboriculturePacketIds;
+
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
@@ -13,7 +15,6 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.items.ForestryBoatDispenserBehavior;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.arboriculture.villagers.ArboricultureVillagers;
-import forestry.core.network.PacketIdClient;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
@@ -104,7 +105,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.clientbound(PacketIdClient.RIPENING_UPDATE, PacketRipeningUpdate::encode, PacketRipeningUpdate::decode, PacketRipeningUpdate::handle);
+		registry.clientbound(ArboriculturePacketIds.RIPENING_UPDATE, PacketRipeningUpdate::encode, PacketRipeningUpdate::decode, PacketRipeningUpdate::handle);
 	}
 
 	@Override

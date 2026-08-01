@@ -1,6 +1,7 @@
 package forestry.apiculture.network.packets;
 
-import forestry.core.network.PacketIdClient;
+import forestry.apiculture.network.ApiculturePacketIds;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -9,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 public record PacketHabitatBiomePointer(BlockPos pos) implements CustomPacketPayload {
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.HABITAT_BIOME_POINTER;
+		return ApiculturePacketIds.HABITAT_BIOME_POINTER;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketHabitatBiomePointer msg) {

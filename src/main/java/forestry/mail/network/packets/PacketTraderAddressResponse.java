@@ -1,7 +1,8 @@
 package forestry.mail.network.packets;
 
+import forestry.mail.network.MailPacketIds;
+
 import forestry.api.mail.IMailAddress;
-import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.MailAddress;
 import forestry.mail.tiles.TileTrader;
@@ -13,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
 public record PacketTraderAddressResponse(BlockPos pos, IMailAddress address) implements CustomPacketPayload {
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.TRADING_ADDRESS_RESPONSE;
+		return MailPacketIds.TRADING_ADDRESS_RESPONSE;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketTraderAddressResponse msg) {

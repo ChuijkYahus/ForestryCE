@@ -1,10 +1,11 @@
 package forestry.mail.network.packets;
 
+import forestry.mail.network.MailPacketIds;
+
 import com.mojang.authlib.GameProfile;
 import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.ITradeStationInfo;
-import forestry.core.network.PacketIdClient;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
@@ -21,7 +22,7 @@ import javax.annotation.Nullable;
 public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) implements CustomPacketPayload {
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.LETTER_INFO_RESPONSE_TRADER;
+		return MailPacketIds.LETTER_INFO_RESPONSE_TRADER;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketLetterInfoResponseTrader msg) {

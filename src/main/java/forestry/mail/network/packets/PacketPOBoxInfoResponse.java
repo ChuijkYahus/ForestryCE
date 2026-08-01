@@ -1,7 +1,8 @@
 package forestry.mail.network.packets;
 
+import forestry.mail.network.MailPacketIds;
+
 import forestry.core.config.ForestryConfig;
-import forestry.core.network.PacketIdClient;
 import forestry.mail.carriers.players.POBoxInfo;
 import forestry.mail.gui.ToastMailboxInfo;
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,7 @@ public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters,
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.POBOX_INFO_RESPONSE;
+		return MailPacketIds.POBOX_INFO_RESPONSE;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketPOBoxInfoResponse msg) {

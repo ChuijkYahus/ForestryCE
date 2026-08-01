@@ -1,8 +1,9 @@
 package forestry.mail.network.packets;
 
+import forestry.mail.network.MailPacketIds;
+
 import com.mojang.authlib.GameProfile;
 import forestry.api.mail.IMailAddress;
-import forestry.core.network.PacketIdClient;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.gui.ILetterInfoReceiver;
@@ -13,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
 public record PacketLetterInfoResponsePlayer(IMailAddress address) implements CustomPacketPayload {
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.LETTER_INFO_RESPONSE_PLAYER;
+		return MailPacketIds.LETTER_INFO_RESPONSE_PLAYER;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketLetterInfoResponsePlayer msg) {

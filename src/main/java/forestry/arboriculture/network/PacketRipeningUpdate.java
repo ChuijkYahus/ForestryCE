@@ -1,7 +1,6 @@
 package forestry.arboriculture.network;
 
 import forestry.arboriculture.tiles.TileLeaves;
-import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -15,7 +14,7 @@ public record PacketRipeningUpdate(BlockPos pos, int value) implements CustomPac
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.RIPENING_UPDATE;
+		return ArboriculturePacketIds.RIPENING_UPDATE;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketRipeningUpdate msg) {

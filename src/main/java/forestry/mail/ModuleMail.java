@@ -1,13 +1,13 @@
 package forestry.mail;
 
+import forestry.mail.network.MailPacketIds;
+
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.mail.IMailAddress;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.core.network.PacketIdClient;
-import forestry.core.network.PacketIdServer;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
@@ -57,14 +57,14 @@ public class ModuleMail extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.serverbound(PacketIdServer.LETTER_INFO_REQUEST, PacketLetterInfoRequest::encode, PacketLetterInfoRequest::decode, PacketLetterInfoRequest::handle);
-		registry.serverbound(PacketIdServer.TRADING_ADDRESS_REQUEST, PacketTraderAddressRequest::encode, PacketTraderAddressRequest::decode, PacketTraderAddressRequest::handle);
-		registry.serverbound(PacketIdServer.LETTER_TEXT_SET, PacketLetterTextSet::encode, PacketLetterTextSet::decode, PacketLetterTextSet::handle);
+		registry.serverbound(MailPacketIds.LETTER_INFO_REQUEST, PacketLetterInfoRequest::encode, PacketLetterInfoRequest::decode, PacketLetterInfoRequest::handle);
+		registry.serverbound(MailPacketIds.TRADING_ADDRESS_REQUEST, PacketTraderAddressRequest::encode, PacketTraderAddressRequest::decode, PacketTraderAddressRequest::handle);
+		registry.serverbound(MailPacketIds.LETTER_TEXT_SET, PacketLetterTextSet::encode, PacketLetterTextSet::decode, PacketLetterTextSet::handle);
 
-		registry.clientbound(PacketIdClient.LETTER_INFO_RESPONSE_PLAYER, PacketLetterInfoResponsePlayer::encode, PacketLetterInfoResponsePlayer::decode, PacketLetterInfoResponsePlayer::handle);
-		registry.clientbound(PacketIdClient.LETTER_INFO_RESPONSE_TRADER, PacketLetterInfoResponseTrader::encode, PacketLetterInfoResponseTrader::decode, PacketLetterInfoResponseTrader::handle);
-		registry.clientbound(PacketIdClient.TRADING_ADDRESS_RESPONSE, PacketTraderAddressResponse::encode, PacketTraderAddressResponse::decode, PacketTraderAddressResponse::handle);
-		registry.clientbound(PacketIdClient.POBOX_INFO_RESPONSE, PacketPOBoxInfoResponse::encode, PacketPOBoxInfoResponse::decode, PacketPOBoxInfoResponse::handle);
+		registry.clientbound(MailPacketIds.LETTER_INFO_RESPONSE_PLAYER, PacketLetterInfoResponsePlayer::encode, PacketLetterInfoResponsePlayer::decode, PacketLetterInfoResponsePlayer::handle);
+		registry.clientbound(MailPacketIds.LETTER_INFO_RESPONSE_TRADER, PacketLetterInfoResponseTrader::encode, PacketLetterInfoResponseTrader::decode, PacketLetterInfoResponseTrader::handle);
+		registry.clientbound(MailPacketIds.TRADING_ADDRESS_RESPONSE, PacketTraderAddressResponse::encode, PacketTraderAddressResponse::decode, PacketTraderAddressResponse::handle);
+		registry.clientbound(MailPacketIds.POBOX_INFO_RESPONSE, PacketPOBoxInfoResponse::encode, PacketPOBoxInfoResponse::decode, PacketPOBoxInfoResponse::handle);
 	}
 
 	@Override

@@ -1,8 +1,9 @@
 package forestry.mail.network.packets;
 
+import forestry.mail.network.MailPacketIds;
+
 import forestry.api.ForestryRegistries;
 import forestry.api.mail.IPostalCarrier;
-import forestry.core.network.PacketIdServer;
 import forestry.mail.gui.LetterMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -19,7 +20,7 @@ public record PacketLetterInfoRequest(String recipientName,
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdServer.LETTER_INFO_REQUEST;
+		return MailPacketIds.LETTER_INFO_REQUEST;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketLetterInfoRequest msg) {

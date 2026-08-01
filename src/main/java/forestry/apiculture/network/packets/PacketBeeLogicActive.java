@@ -1,8 +1,9 @@
 package forestry.apiculture.network.packets;
 
+import forestry.apiculture.network.ApiculturePacketIds;
+
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
-import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
@@ -25,7 +26,7 @@ public record PacketBeeLogicActive(
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.BEE_LOGIC_ACTIVE;
+		return ApiculturePacketIds.BEE_LOGIC_ACTIVE;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketBeeLogicActive msg) {

@@ -1,6 +1,7 @@
 package forestry.mail.network.packets;
 
-import forestry.core.network.PacketIdServer;
+import forestry.mail.network.MailPacketIds;
+
 import forestry.mail.gui.LetterMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -15,7 +16,7 @@ public record PacketLetterTextSet(String string) implements CustomPacketPayload 
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdServer.LETTER_TEXT_SET;
+		return MailPacketIds.LETTER_TEXT_SET;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketLetterTextSet msg) {

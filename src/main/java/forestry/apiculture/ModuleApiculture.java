@@ -1,5 +1,7 @@
 package forestry.apiculture;
 
+import forestry.apiculture.network.ApiculturePacketIds;
+
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.ForestryBeeSpecies;
@@ -21,7 +23,6 @@ import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
 import forestry.apiculture.proxy.ApicultureClientHandler;
 import forestry.apiculture.villagers.ApicultureVillagers;
-import forestry.core.network.PacketIdClient;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
@@ -141,9 +142,9 @@ public class ModuleApiculture extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.clientbound(PacketIdClient.BEE_LOGIC_ACTIVE, PacketBeeLogicActive::encode, PacketBeeLogicActive::decode, PacketBeeLogicActive::handle);
-		registry.clientbound(PacketIdClient.HABITAT_BIOME_POINTER, PacketHabitatBiomePointer::encode, PacketHabitatBiomePointer::decode, PacketHabitatBiomePointer::handle);
-		registry.clientbound(PacketIdClient.ALVEARY_CONTROLLER_CHANGE, PacketAlvearyChange::encode, PacketAlvearyChange::decode, PacketAlvearyChange::handle);
+		registry.clientbound(ApiculturePacketIds.BEE_LOGIC_ACTIVE, PacketBeeLogicActive::encode, PacketBeeLogicActive::decode, PacketBeeLogicActive::handle);
+		registry.clientbound(ApiculturePacketIds.HABITAT_BIOME_POINTER, PacketHabitatBiomePointer::encode, PacketHabitatBiomePointer::decode, PacketHabitatBiomePointer::handle);
+		registry.clientbound(ApiculturePacketIds.ALVEARY_CONTROLLER_CHANGE, PacketAlvearyChange::encode, PacketAlvearyChange::decode, PacketAlvearyChange::handle);
 	}
 
 	@Override
