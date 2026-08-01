@@ -364,7 +364,8 @@ Everything that makes the split real lands before a single package moves. Phases
 6   no-op managers + isLoaded()
     ---- gate: the base artifact references no split-jar types ----
 7   package moves                      api renames, core/{platform,engine,
-                                       content}, feature dirs. Mechanical
+                                       content}, feature dirs. Twelve ordered
+                                       steps in the phase 7 move manifest
 8   datagen -> per-jar source sets     deletes the exclude hack
 9   build split                        six source sets, mods.toml, service
                                        files, resource partition, lang merge
@@ -374,6 +375,34 @@ Everything that makes the split real lands before a single package moves. Phases
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
 in phases 1 through 6, which no amount of directory rearrangement addresses.
+
+The per-step move lists live in `2026-07-30-phase-7-move-manifest.md`: twelve ordered steps,
+package-level moves where a whole package relocates and per-file assignment where one fans
+out. Files needing a decision before they move are marked there.
+
+### Who performs phase 7
+
+The JetBrains MCP server exposes exactly one refactoring, `rename_refactoring`, which
+renames a symbol in place. There is no move-class or change-package tool, and `execute_tool`
+only dispatches to the same tool set. Phase 7 is overwhelmingly *move* operations, so:
+
+- **A human drives the moves** in IntelliJ (Move Package / Move Class, `F6`). This is not a
+  scripted step. `rename_refactoring` covers only leaf renames where the parent package is
+  unchanged, such as `ModuleFarming` to `ModuleAgriculture`.
+- **The oracles are drivable by tooling.** The IDE exposes `Data` and `GameTestServer` as
+  run configurations, so the datagen regeneration, the byte-diff and the GameTest suite can
+  all be run without a manual Gradle invocation. `build_project`, `get_file_problems` and
+  `lint_files` give a fast compile-and-diagnose between steps.
+- **`analyze_calls` belongs to phases 1 through 6, not phase 7.** IDE call-hierarchy data is
+  what makes severing `ForestryCreativeTabs`' 19 content references and designing the
+  `PluginManager` extension point tractable. It adds nothing to a mechanical move.
+
+One measurement note. The 280-import figure comes from grepping `^import`, which misses
+inline fully-qualified references. There are exactly two - `apiimpl/plugin/PluginManager.java:151`
+and `core/ModuleCore.java:188`, both calling `forestry.apiculture.genetics.*` without an
+import - and both files are already counted in buckets I and H, so no file count changes.
+The enforcement gate is unaffected either way: ArchUnit reads bytecode, where a fully
+qualified reference compiles identically to an imported one.
 
 The phase-6 gate is stated as an artifact-level property, not a package-level one, per the
 D3 safety condition. Note that it can only be *proven* by the ArchUnit test until phase 9:
