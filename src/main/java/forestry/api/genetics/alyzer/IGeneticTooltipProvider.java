@@ -1,4 +1,4 @@
-package forestry.apiculture.genetics;
+package forestry.api.genetics.alyzer;
 
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.genetics.IGenome;
