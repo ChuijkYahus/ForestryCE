@@ -38,7 +38,6 @@ import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
-import forestry.arboriculture.capabilities.SpectacleVision;
 import forestry.compat.curios.CuriosCompat;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.genetics.ItemGE;
