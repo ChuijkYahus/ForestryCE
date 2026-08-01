@@ -134,6 +134,70 @@ tasks.named('check') {
 	dependsOn checkApiBoundary
 }
 
+// Phase 2 of the feature reorg: the base artifact (everything that ships in the forestry jar and
+// is not a content module) must stop referencing the five split modules. 68 files still do, so
+// this gate ratchets against a checked-in baseline rather than failing outright: a leak that is
+// not in the baseline is a new regression, and a baseline entry that no longer leaks is a stale
+// baseline that must be trimmed. Both directions fail, which is what drives the count down.
+var checkBaseBoundary = tasks.register('checkBaseBoundary') {
+	group = 'verification'
+	description = 'Fails if a base-artifact package gains a new reference to a split content module'
+
+	var javaDir = project.file('src/main/java/forestry')
+	var baselineFile = project.file('gradle/base-boundary-baseline.txt')
+	var basePackages = ['core', 'apiimpl', 'plugin', 'modules', 'compat']
+	var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'farming', 'cultivation', 'mail']
+
+	inputs.dir(javaDir)
+	inputs.file(baselineFile)
+	outputs.upToDateWhen { false }
+
+	doLast {
+		var pattern = ~/^import (static )?forestry\.(${splitModules.join('|')})\..*/
+		var actual = new TreeSet<String>()
+
+		var scan = { File file ->
+			if (file.name.endsWith('.java') && file.readLines('UTF-8').any { it ==~ pattern }) {
+				actual.add(javaDir.toPath().relativize(file.toPath()).toString())
+			}
+		}
+		// loose files directly under forestry/ are base too, ex. Forestry.java
+		javaDir.listFiles({ File f -> f.isFile() } as FileFilter).each(scan)
+		basePackages.each { pkg ->
+			var dir = new File(javaDir, pkg)
+			if (dir.exists()) {
+				dir.eachFileRecurse(groovy.io.FileType.FILES, scan)
+			}
+		}
+
+		var baseline = new TreeSet<String>(
+				baselineFile.exists()
+						? baselineFile.readLines('UTF-8').findAll { !it.trim().isEmpty() && !it.startsWith('#') }
+						: [])
+
+		var added = new TreeSet<String>(actual); added.removeAll(baseline)
+		var fixed = new TreeSet<String>(baseline); fixed.removeAll(actual)
+
+		if (!added.isEmpty()) {
+			throw new GradleException(
+					"New base-artifact reference(s) to a split content module:\n  "
+					+ added.join('\n  ')
+					+ "\nFix them, or if intentional add them to gradle/base-boundary-baseline.txt.")
+		}
+		if (!fixed.isEmpty()) {
+			throw new GradleException(
+					"gradle/base-boundary-baseline.txt is stale. These no longer leak and must be removed from it:\n  "
+					+ fixed.join('\n  '))
+		}
+
+		logger.lifecycle("checkBaseBoundary: ${actual.size()} known leaking file(s) remaining")
+	}
+}
+
+tasks.named('check') {
+	dependsOn checkBaseBoundary
+}
+
 repositories {
 	maven {
 		name = 'jei'
