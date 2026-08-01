@@ -1,4 +1,4 @@
-package forestry.apiculture;
+package forestry.api.apiculture.hives;
 
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IChromosome;

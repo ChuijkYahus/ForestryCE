@@ -14,7 +14,7 @@ import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.api.plugin.IHiveBuilder;
-import forestry.apiculture.VillageHive;
+import forestry.api.apiculture.hives.VillageHive;
 import forestry.apiculture.hives.HiveManager;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.network.chat.TextColor;

@@ -5,7 +5,6 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
 import forestry.api.apiculture.IBeekeepingLogic;
-import forestry.apiculture.VillageHive;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 

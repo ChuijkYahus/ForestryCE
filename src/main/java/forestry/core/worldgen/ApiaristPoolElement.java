@@ -18,7 +18,7 @@ import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.apiculture.InventoryBeeHousing;
-import forestry.apiculture.VillageHive;
+import forestry.api.apiculture.hives.VillageHive;
 import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureFeatures;

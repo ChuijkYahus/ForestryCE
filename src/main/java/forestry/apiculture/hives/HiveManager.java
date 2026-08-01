@@ -12,7 +12,7 @@ import forestry.api.apiculture.hives.IHiveManager;
 import forestry.apiculture.BeeHousingListener;
 import forestry.apiculture.BeeHousingModifier;
 import forestry.apiculture.BeekeepingLogic;
-import forestry.apiculture.VillageHive;
+import forestry.api.apiculture.hives.VillageHive;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
