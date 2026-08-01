@@ -1,8 +1,8 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.items.ItemBeesWax;
-import forestry.apiculture.items.ItemRefractoryWax;
+import forestry.core.items.ItemBeesWax;
+import forestry.core.items.ItemRefractoryWax;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.circuits.ItemCircuitBoard;
 import forestry.core.genetics.ItemResearchNote;

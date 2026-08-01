@@ -1,7 +1,6 @@
-package forestry.apiculture.items;
+package forestry.core.items;
 
 import forestry.api.IForestryApi;
-import forestry.core.items.ItemForestry;
 import forestry.core.network.packets.PacketRefractoryWax;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.advancements.CriteriaTriggers;

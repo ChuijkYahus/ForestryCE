@@ -1,4 +1,4 @@
-package forestry.apiculture.items;
+package forestry.core.items;
 
 import net.minecraft.world.item.HoneycombItem;
 
