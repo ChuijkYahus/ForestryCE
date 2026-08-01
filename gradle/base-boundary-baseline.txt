@@ -49,7 +49,6 @@ core/network/packets/FlowerTypeSyncPacket.java
 core/network/packets/TaxonSyncPacket.java
 core/network/packets/TreeSpeciesSyncPacket.java
 core/render/ParticleRender.java
-core/tab/ForestryCreativeTabs.java
 core/utils/GeneticsUtil.java
 core/utils/TreeUtil.java
 core/worldgen/ApiaristPoolElement.java

@@ -32,6 +32,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import forestry.arboriculture.tab.ArboricultureCreativeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -49,6 +50,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ArboricultureCreativeTab::addToForestryTab);
 		NeoForge.EVENT_BUS.addListener(ArboricultureVillagers::villagerTrades);
 
 		modBus.addListener(ModuleArboriculture::registerCapabilities);

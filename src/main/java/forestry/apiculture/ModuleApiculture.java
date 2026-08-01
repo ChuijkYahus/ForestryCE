@@ -41,6 +41,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
+import forestry.apiculture.tab.ApicultureCreativeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -121,6 +122,7 @@ public class ModuleApiculture extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ApicultureCreativeTab::addToForestryTab);
 		modBus.addListener(ModuleApiculture::registerCapabilities);
 		modBus.addListener(ModuleApiculture::onCommonSetup);
 
