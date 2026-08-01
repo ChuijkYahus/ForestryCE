@@ -1,4 +1,4 @@
-package forestry.core.loot;
+package forestry.arboriculture.loot;
 
 import forestry.api.modules.ForestryModuleIds;
 import forestry.modules.features.FeatureProvider;
@@ -10,9 +10,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 @FeatureProvider
-public class CoreLootFunctions {
-	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CORE);
+public class ArboricultureLootFunctions {
+	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.ARBORICULTURE);
 	private static final DeferredRegister<LootItemFunctionType<?>> LOOT_FUNCTIONS = REGISTRY.getRegistry(Registries.LOOT_FUNCTION_TYPE);
 
-	public static final DeferredHolder<LootItemFunctionType<?>, LootItemFunctionType<?>> ORGANISM = LOOT_FUNCTIONS.register("set_species_nbt", () -> new LootItemFunctionType<>(OrganismFunction.CODEC));
+	// name matches the one generated loot tables reference
+	public static final DeferredHolder<LootItemFunctionType<?>, LootItemFunctionType<?>> COUNT = LOOT_FUNCTIONS.register("count_from_block", () -> new LootItemFunctionType<>(CountBlockFunction.CODEC));
 }

@@ -38,7 +38,6 @@ core/genetics/GeneticsReloadHandler.java
 core/genetics/ProductTypes.java
 core/gui/widgets/TankWidget.java
 core/items/ItemSpectacles.java
-core/loot/CoreLootFunctions.java
 core/models/baker/ModelBakerModel.java
 core/ModuleCore.java
 core/multiblock/LevelStructureView.java
