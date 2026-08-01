@@ -383,7 +383,8 @@ Everything that makes the split real lands before a single package moves. Phases
                                        moved. 9 -> 0 files, gate green
 2   DONE 2026-08-01                    creative tabs, packet ids,
                                        Core{Blocks,Items,Tiles,DataComponents}
-3   species-aware engine               bucket C
+3   DONE 2026-08-01                    species sync packets, TaxonManager,
+                                       TreeUtil, GeneticsReloadHandler split
 4   misfiled content, plumbing,        buckets D, E and H
     lifecycle wiring
 5   split the default plugins          bucket G: six plugins, still one jar,
@@ -426,6 +427,19 @@ analysis could not see: `addGeneticBasics`, shared by four creative tabs, named 
 and the lepidopterology tab named the apiculture scoop - so `SCOOP`, `HONEY_DROP` and `HONEYDEW`
 moved to core first. Two new golden-master GameTests were added, for creative tab membership and for
 data component registration, because neither datagen nor any existing test saw those.
+
+Phase 3 landed 2026-08-01. Bucket C is closed; `checkBaseBoundary` is at 49 of the original 68.
+For the third phase running the bucket was mostly relocation rather than redesign: one leak was a
+dead import, six files belonged to a content module outright, three were single registrations in the
+wrong jar, and only `GeneticsReloadHandler` needed splitting. The spec's prescription for bucket C -
+make the typed rebuild methods iterate registered species types - was wrong; they take typed
+definition maps and call per-type projectors, so they had to move instead.
+
+Two smaller corrections to the plan surfaced during execution. `ProductTypes.register` was already
+public, so the "one small extension point" this phase was supposed to add did not need adding.
+`ModuleApiculture.doSelfPollination` went to `ModuleArboriculture` rather than to a core config: it
+has exactly one reader, `TreeUtil.canPollinate`, and no config binding of any kind, so a core surface
+would have been dead weight.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
