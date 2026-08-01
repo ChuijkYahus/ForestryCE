@@ -1,24 +1,27 @@
 package forestry.api.lepidopterology.genetics;
 
+import forestry.api.ForestryConstants;
 import forestry.api.genetics.ILifeStage;
-import forestry.lepidopterology.features.LepidopterologyItems;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.ItemLike;
 
 import java.util.Locale;
 
 public enum ButterflyLifeStage implements ILifeStage {
-	BUTTERFLY(LepidopterologyItems.BUTTERFLY_GE),
-	SERUM(LepidopterologyItems.SERUM_GE),
-	CATERPILLAR(LepidopterologyItems.CATERPILLAR_GE),
-	COCOON(LepidopterologyItems.COCOON_GE);
+	BUTTERFLY(ForestryConstants.forestry("butterfly")),
+	SERUM(ForestryConstants.forestry("butterfly_serum")),
+	CATERPILLAR(ForestryConstants.forestry("caterpillar")),
+	COCOON(ForestryConstants.forestry("cocoon"));
 
 	private final String name;
-	private final ItemLike itemForm;
+	// resolved on demand, not held: lepidopterology registers these items and builds them from
+	// these same constants, so holding the item would be a class-init cycle
+	private final ResourceLocation itemId;
 
-	ButterflyLifeStage(ItemLike itemForm) {
+	ButterflyLifeStage(ResourceLocation itemId) {
 		this.name = name().toLowerCase(Locale.ENGLISH);
-		this.itemForm = itemForm;
+		this.itemId = itemId;
 	}
 
 	public String getSerializedName() {
@@ -27,6 +30,6 @@ public enum ButterflyLifeStage implements ILifeStage {
 
 	@Override
 	public Item getItemForm() {
-		return this.itemForm.asItem();
+		return BuiltInRegistries.ITEM.get(this.itemId);
 	}
 }
