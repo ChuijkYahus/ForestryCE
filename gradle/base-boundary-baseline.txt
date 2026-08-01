@@ -34,10 +34,8 @@ core/data/models/ForestryWoodModelProvider.java
 core/data/recipe/ForestryRecipeProvider.java
 core/data/TreeSpeciesProvider.java
 core/EventHandlerCore.java
-core/features/CoreBlocks.java
 core/features/CoreDataComponents.java
 core/features/CoreItems.java
-core/features/CoreTiles.java
 core/genetics/GeneticsReloadHandler.java
 core/genetics/ProductTypes.java
 core/gui/widgets/TankWidget.java
@@ -54,7 +52,6 @@ core/network/packets/ButterflySpeciesSyncPacket.java
 core/network/packets/FlowerTypeSyncPacket.java
 core/network/packets/TaxonSyncPacket.java
 core/network/packets/TreeSpeciesSyncPacket.java
-core/render/ForestryBewlr.java
 core/render/ParticleRender.java
 core/tab/ForestryCreativeTabs.java
 core/utils/GeneticsUtil.java

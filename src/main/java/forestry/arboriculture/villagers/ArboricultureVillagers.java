@@ -7,7 +7,7 @@ import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.blocks.NaturalistChestBlockType;
+import forestry.core.blocks.NaturalistChestBlockType;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreBlocks;

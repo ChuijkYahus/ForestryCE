@@ -12,7 +12,7 @@ import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.circuits.ICircuit;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.blocks.BlockTypeApiculture;
-import forestry.apiculture.blocks.NaturalistChestBlockType;
+import forestry.core.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumHoneyComb;

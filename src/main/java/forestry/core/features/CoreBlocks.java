@@ -1,7 +1,7 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.blocks.NaturalistChestBlockType;
+import forestry.core.blocks.NaturalistChestBlockType;
 import forestry.core.blocks.*;
 import forestry.core.items.ItemBlockForestry;
 import forestry.core.items.ItemBlockTesr;

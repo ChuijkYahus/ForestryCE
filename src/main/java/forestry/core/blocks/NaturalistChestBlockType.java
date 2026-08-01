@@ -1,8 +1,5 @@
-package forestry.apiculture.blocks;
+package forestry.core.blocks;
 
-import forestry.core.blocks.IBlockType;
-import forestry.core.blocks.IMachineProperties;
-import forestry.core.blocks.MachineProperties;
 import forestry.core.features.CoreTiles;
 import forestry.core.tiles.TileNaturalistChest;
 import forestry.modules.features.FeatureTileType;

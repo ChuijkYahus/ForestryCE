@@ -1,7 +1,7 @@
 package forestry.core.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import forestry.apiculture.blocks.NaturalistChestBlockType;
+import forestry.core.blocks.NaturalistChestBlockType;
 import forestry.core.blocks.BlockBase;
 import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;

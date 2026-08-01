@@ -12,7 +12,7 @@ import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.blocks.BlockHiveType;
-import forestry.apiculture.blocks.NaturalistChestBlockType;
+import forestry.core.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.ItemCreativeHiveFrame;
