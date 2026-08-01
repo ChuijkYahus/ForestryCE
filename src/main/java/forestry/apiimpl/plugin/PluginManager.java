@@ -153,6 +153,7 @@ public class PluginManager {
 		// Register the built-in product types so the optional `type` key on species products (e.g. the
 		// Patriotic bee's randomized firework) resolves before any species JSON parse or network sync.
 		forestry.core.genetics.ProductTypes.registerBuiltins();
+		forestry.apiculture.genetics.ApicultureProductTypes.registerBuiltins();
 
 		// Register the built-in fluid product types so the optional `type` key on machine fluid outputs (e.g. the
 		// squeezer) resolves before any recipe JSON parse or network sync.

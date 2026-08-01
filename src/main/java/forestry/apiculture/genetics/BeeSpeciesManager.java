@@ -76,6 +76,7 @@ public final class BeeSpeciesManager extends SimpleJsonResourceReloadListener {
 
 		// Idempotent safety net: the product dispatch codec resolves the optional `type` key against these ids.
 		forestry.core.genetics.ProductTypes.registerBuiltins();
+		ApicultureProductTypes.registerBuiltins();
 
 		Map<ResourceLocation, BeeSpeciesDefinition> parsed = new LinkedHashMap<>();
 		for (Map.Entry<ResourceLocation, JsonElement> entry : object.entrySet()) {

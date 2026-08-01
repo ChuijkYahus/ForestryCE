@@ -20,7 +20,6 @@ import forestry.api.ForestryConstants;
 import forestry.api.core.IProduct;
 import forestry.api.core.Product;
 import forestry.api.core.ProductType;
-import forestry.apiculture.genetics.FireworkProduct;
 
 import java.util.List;
 
@@ -28,8 +27,11 @@ import java.util.List;
  * Registry and dispatch codec for {@link IProduct} types. Mirrors {@code MutationConditionTypes}, with one twist:
  * the {@code "type"} key is optional. When absent, the product decodes as the default {@link Product#TYPE}, and a
  * {@link Product} encodes without writing a {@code "type"} key at all. This keeps the overwhelmingly common case (a
- * plain item stack) as clean, backwards-compatible JSON, while dynamic products (e.g. {@link FireworkProduct}, the
- * secret Patriotic bee's randomized firework) round-trip through their own type by declaring {@code "type"}.
+ * plain item stack) as clean, backwards-compatible JSON, while dynamic products (e.g.
+ * {@code forestry.apiculture.genetics.FireworkProduct}, the secret Patriotic bee's randomized firework) round-trip
+ * through their own type by declaring {@code "type"}.
+ *
+ * Modules register their own product types through {@link #register}.
  */
 public final class ProductTypes {
 	private static final Map<ResourceLocation, ProductType<?>> BY_ID = new ConcurrentHashMap<>();
@@ -39,6 +41,12 @@ public final class ProductTypes {
 
 	private static boolean builtinsRegistered = false;
 
+	/**
+	 * Registers a product type serializer. Called by the module that owns the product.
+	 *
+	 * @param id   The id the type is stored under in JSON
+	 * @param type The serializer for the product
+	 */
 	public static void register(ResourceLocation id, ProductType<?> type) {
 		if (BY_ID.putIfAbsent(id, type) != null) {
 			throw new IllegalStateException("Duplicate product type: " + id);
@@ -118,7 +126,6 @@ public final class ProductTypes {
 		builtinsRegistered = true;
 
 		register(ForestryConstants.forestry("item"), Product.TYPE);
-		register(ForestryConstants.forestry("firework"), FireworkProduct.TYPE);
 	}
 
 	private ProductTypes() {}
