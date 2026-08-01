@@ -14,10 +14,12 @@ public class ApicultureItems {
 	// / BEES
 	public static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.APICULTURE);
 
-	public static final FeatureItem<ItemBeeGE> BEE_QUEEN = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.QUEEN), "queen_bee");
-	public static final FeatureItem<ItemBeeGE> BEE_DRONE = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.DRONE), "drone_bee");
-	public static final FeatureItem<ItemBeeGE> BEE_PRINCESS = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.PRINCESS), "princess_bee");
-	public static final FeatureItem<ItemBeeGE> BEE_LARVAE = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.LARVAE), "larvae_bee");
+	// registry names come from the life stage so the two cannot drift; BeeLifeStage resolves
+	// its item form back out of the registry by the same id
+	public static final FeatureItem<ItemBeeGE> BEE_QUEEN = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.QUEEN), BeeLifeStage.QUEEN.itemId().getPath());
+	public static final FeatureItem<ItemBeeGE> BEE_DRONE = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.DRONE), BeeLifeStage.DRONE.itemId().getPath());
+	public static final FeatureItem<ItemBeeGE> BEE_PRINCESS = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.PRINCESS), BeeLifeStage.PRINCESS.itemId().getPath());
+	public static final FeatureItem<ItemBeeGE> BEE_LARVAE = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.LARVAE), BeeLifeStage.LARVAE.itemId().getPath());
 
 	// / COMB FRAMES
 	public static final FeatureItem<ItemHiveFrame> FRAME_UNTREATED = REGISTRY.item(() -> new ItemHiveFrame(80, 0.9f), "untreated_frame");

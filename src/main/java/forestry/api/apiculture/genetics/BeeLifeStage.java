@@ -24,6 +24,14 @@ public enum BeeLifeStage implements ILifeStage {
 		this.itemId = itemId;
 	}
 
+	/**
+	 * @return The registry id of this life stage's item form. Apiculture registers the item
+	 * under this id, so the two cannot drift
+	 */
+	public ResourceLocation itemId() {
+		return this.itemId;
+	}
+
 	@Override
 	public String getSerializedName() {
 		return this.name;

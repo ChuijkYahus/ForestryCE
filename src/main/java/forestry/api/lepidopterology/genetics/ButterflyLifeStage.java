@@ -24,6 +24,14 @@ public enum ButterflyLifeStage implements ILifeStage {
 		this.itemId = itemId;
 	}
 
+	/**
+	 * @return The registry id of this life stage's item form. Lepidopterology registers the item
+	 * under this id, so the two cannot drift
+	 */
+	public ResourceLocation itemId() {
+		return this.itemId;
+	}
+
 	public String getSerializedName() {
 		return this.name;
 	}
