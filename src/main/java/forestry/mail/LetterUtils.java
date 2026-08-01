@@ -1,7 +1,7 @@
 package forestry.mail;
 
 import forestry.api.mail.ILetter;
-import forestry.core.features.CoreDataComponents;
+import forestry.mail.features.MailDataComponents;
 import forestry.mail.features.MailItems;
 import net.minecraft.world.item.ItemStack;
 
@@ -34,12 +34,12 @@ public class LetterUtils {
 
 	@Nullable
 	public static Letter getLetterData(ItemStack stack) {
-		Letter letter = stack.get(CoreDataComponents.LETTER_DATA);
+		Letter letter = stack.get(MailDataComponents.LETTER_DATA);
 		return letter == null ? null : letter.copy();
 	}
 
 	public static void setLetterData(ItemStack stack, ILetter letter) {
-		stack.set(CoreDataComponents.LETTER_DATA, letter instanceof Letter forestryLetter ? forestryLetter.copy() : fromLetter(letter));
+		stack.set(MailDataComponents.LETTER_DATA, letter instanceof Letter forestryLetter ? forestryLetter.copy() : fromLetter(letter));
 	}
 
 	private static Letter fromLetter(ILetter letter) {

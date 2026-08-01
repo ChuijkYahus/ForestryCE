@@ -34,7 +34,6 @@ core/data/models/ForestryWoodModelProvider.java
 core/data/recipe/ForestryRecipeProvider.java
 core/data/TreeSpeciesProvider.java
 core/EventHandlerCore.java
-core/features/CoreDataComponents.java
 core/genetics/GeneticsReloadHandler.java
 core/genetics/ProductTypes.java
 core/gui/widgets/TankWidget.java

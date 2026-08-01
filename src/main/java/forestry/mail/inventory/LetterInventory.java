@@ -39,7 +39,7 @@ public class LetterInventory extends ItemInventory implements IErrorSource {
 
 	@Override
 	protected void writeInventoryToParent(ItemStack parent) {
-		// Letter contents are stored in CoreDataComponents.LETTER_DATA, not ItemInventory's legacy custom_data storage.
+		// Letter contents are stored in MailDataComponents.LETTER_DATA, not ItemInventory's legacy custom_data storage.
 	}
 
 	public ILetter getLetter() {

@@ -2,7 +2,6 @@ package forestry.core.features;
 
 import forestry.api.genetics.IGenome;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.mail.Letter;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
@@ -75,14 +74,6 @@ public class CoreDataComponents {
 
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ITEM_INVENTORY_UID =
 		intComponent("item_inventory_uid");
-
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Letter>> LETTER_DATA =
-		DATA_COMPONENT_TYPES.register(
-			"letter_data",
-			() -> DataComponentType.<Letter>builder()
-				.persistent(Letter.CODEC)
-				.networkSynchronized(ByteBufCodecs.fromCodec(Letter.CODEC))
-				.build());
 
 	private static DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> booleanComponent(String id) {
 		return DATA_COMPONENT_TYPES.register(id, () -> DataComponentType.<Boolean>builder()
