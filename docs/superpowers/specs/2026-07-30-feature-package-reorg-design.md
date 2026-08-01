@@ -375,11 +375,12 @@ Everything that makes the split real lands before a single package moves. Phases
                                        or relocating, none added; runData
                                        determinism proven by two consecutive
                                        runs with written: 0 and no diff
-1a  sever api -> impl, mechanical      checkApiBoundary gate, 3 javadoc-only
+1a  DONE 2026-07-31                    checkApiBoundary gate, 3 javadoc-only
                                        imports, the 84 ForestryTags aliases,
                                        the 3 life stage enums. 16 -> 9 files
-1b  sever api -> impl, api additions   the 9 files needing a new public type
-                                       or an SPI inversion. 9 -> 0 files
+1b  DONE 2026-07-31                    5 relocations into api, 2 SPI
+                                       inversions, chromosome machinery
+                                       moved. 9 -> 0 files, gate green
 2   central indexes -> extension       creative tabs, packet ids,
     points                             Core{Blocks,Items,Tiles,DataComponents}
 3   species-aware engine               bucket C
@@ -400,11 +401,19 @@ Everything that makes the split real lands before a single package moves. Phases
 10  publish six artifacts
 ```
 
-Phase 1a landed 2026-07-31. `checkApiBoundary` is in place and down from 16 files / 24 imports
-to 9 / 16. The remaining nine all need a new public api type or an SPI inversion and are
-phase 1b: `IBeeEffect`, `IHiveManager`, the three `*Chromosomes`, `IAlleleDisplayHelper`,
-`IIndividualHandlerItem`, `ITradeStation`, `IMultiblockComponent`. Every step verified against
-a byte-identical `runData` diff and 96 passing GameTests.
+Phase 1 landed 2026-07-31. `checkApiBoundary` is green: `forestry.api` imports nothing outside
+`forestry.api`, and it now runs as part of `check`. Bucket F is closed.
+
+Seven types moved into api - `IWatchable`, `IFilterSlotDelegate`, `IInventoryAdapter`,
+`VillageHive`, `IGeneticTooltipProvider`, `Chromosome`, `ChromosomeFactory` - and two were
+added: `IIndividualItem` and `GeneticTranslationKeys`. `IGeneticManager` gained
+`genomeComponent()`. Two api default methods were inverted behind api interfaces the impl
+implements.
+
+Five of those seven turned out to reference only api or Minecraft types already, so they were
+relocations rather than the new wrapper interfaces the bucket-F estimate assumed. Every step
+was verified against a byte-identical `runData` diff and the GameTest suite, which grew from
+96 to 98 with the life stage guard.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
