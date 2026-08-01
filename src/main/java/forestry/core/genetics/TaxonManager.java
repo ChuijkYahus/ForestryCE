@@ -1,4 +1,4 @@
-package forestry.apiculture.genetics;
+package forestry.core.genetics;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,8 +15,6 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import forestry.Forestry;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.TaxonDefinition;
 
 /**
  * Datapack loader for taxa: a {@link SimpleJsonResourceReloadListener} over the {@code taxon} folder. Decodes each JSON

@@ -19,7 +19,7 @@ import forestry.api.genetics.IGeneticManager;
 import forestry.api.genetics.ITaxon;
 import forestry.api.genetics.TaxonomicRank;
 import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.genetics.TaxonManager;
+import forestry.core.genetics.TaxonManager;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.TaxonDefinition;
 import forestry.core.utils.SpeciesUtil;

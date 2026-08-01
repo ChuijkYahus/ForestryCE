@@ -13,7 +13,7 @@ import forestry.api.modules.IPacketRegistry;
 import forestry.apiculture.genetics.BeeSpeciesManager;
 import forestry.apiculture.genetics.BeeEffectManager;
 import forestry.apiculture.genetics.FlowerTypeManager;
-import forestry.apiculture.genetics.TaxonManager;
+import forestry.core.genetics.TaxonManager;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.arboriculture.loot.GrafterLootModifier;

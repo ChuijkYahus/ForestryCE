@@ -24,7 +24,7 @@ import forestry.api.genetics.alleles.IKaryotype;
 
 /**
  * A datapack-loadable definition of a taxon (a node in the classification tree), loaded through the reloadable
- * {@link forestry.apiculture.genetics.TaxonManager} (a {@code SimpleJsonResourceReloadListener} over the {@code taxon}
+ * {@link TaxonManager} (a {@code SimpleJsonResourceReloadListener} over the {@code taxon}
  * folder, synced by {@code TaxonSyncPacket}) and merged into the live taxonomy by {@code GeneticManager#applyDatapackTaxa}
  * on every (re)load, before species are projected.
  * <p>
