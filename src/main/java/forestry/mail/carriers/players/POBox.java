@@ -7,7 +7,7 @@ import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
-import forestry.mail.IWatchable;
+import forestry.api.mail.IWatchable;
 import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
 import forestry.mail.MailAddress;

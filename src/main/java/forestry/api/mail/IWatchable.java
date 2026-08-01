@@ -1,4 +1,4 @@
-package forestry.mail;
+package forestry.api.mail;
 
 public interface IWatchable {
 	void setDirty();

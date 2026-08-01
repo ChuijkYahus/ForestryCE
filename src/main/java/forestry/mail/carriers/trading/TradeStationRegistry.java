@@ -3,7 +3,7 @@ package forestry.mail.carriers.trading;
 import com.mojang.authlib.GameProfile;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.ITradeStation;
-import forestry.mail.IWatchable;
+import forestry.api.mail.IWatchable;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.core.HolderLookup;

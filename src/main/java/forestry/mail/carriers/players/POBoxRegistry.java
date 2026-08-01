@@ -1,7 +1,7 @@
 package forestry.mail.carriers.players;
 
 import forestry.api.mail.IMailAddress;
-import forestry.mail.IWatchable;
+import forestry.api.mail.IWatchable;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.core.HolderLookup;
