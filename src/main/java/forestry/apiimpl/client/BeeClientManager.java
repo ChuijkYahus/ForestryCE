@@ -1,5 +1,11 @@
 package forestry.apiimpl.client;
 
+import forestry.api.apiculture.IBeeHousing;
+import forestry.api.genetics.IGenome;
+import forestry.core.render.ParticleRender;
+import net.minecraft.core.BlockPos;
+import java.util.List;
+
 import forestry.api.client.apiculture.IBeeClientManager;
 import forestry.api.genetics.ILifeStage;
 import net.minecraft.resources.ResourceLocation;
@@ -54,5 +60,10 @@ public class BeeClientManager implements IBeeClientManager {
 		}
 
 		return locations;
+	}
+
+	@Override
+	public void addBeeHiveParticles(IBeeHousing housing, IGenome genome, List<BlockPos> flowerPositions) {
+		ParticleRender.addBeeHiveFX(housing, genome, flowerPositions);
 	}
 }
