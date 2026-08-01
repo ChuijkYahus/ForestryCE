@@ -13,7 +13,7 @@ import forestry.core.genetics.ItemGE;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.SpeciesUtil;
-import forestry.core.utils.TreeUtil;
+import forestry.arboriculture.TreeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

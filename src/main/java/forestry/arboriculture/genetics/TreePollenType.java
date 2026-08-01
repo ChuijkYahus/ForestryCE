@@ -10,7 +10,7 @@ import forestry.arboriculture.blocks.BlockDefaultLeaves;
 import forestry.arboriculture.tiles.TileLeaves;
 import forestry.core.config.ForestryConfig;
 import forestry.core.utils.SpeciesUtil;
-import forestry.core.utils.TreeUtil;
+import forestry.arboriculture.TreeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;

@@ -12,7 +12,7 @@ import forestry.core.utils.BlockUtil;
 import forestry.core.utils.EntityUtil;
 import forestry.core.utils.NBTUtilForestry;
 import forestry.core.utils.SpeciesUtil;
-import forestry.core.utils.TreeUtil;
+import forestry.arboriculture.TreeUtil;
 import forestry.lepidopterology.entities.EntityButterfly;
 import forestry.lepidopterology.features.LepidopterologyEntities;
 import net.minecraft.core.BlockPos;

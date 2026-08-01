@@ -41,7 +41,6 @@ core/models/baker/ModelBakerModel.java
 core/ModuleCore.java
 core/multiblock/LevelStructureView.java
 core/render/ParticleRender.java
-core/utils/TreeUtil.java
 core/worldgen/ApiaristPoolElement.java
 core/worldgen/FeatureHelper.java
 plugin/client/BeeAnalyzerPlugin.java

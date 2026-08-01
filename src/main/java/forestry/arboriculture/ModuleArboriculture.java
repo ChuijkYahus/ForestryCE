@@ -43,6 +43,9 @@ import java.util.stream.Stream;
 
 @ForestryModule
 public class ModuleArboriculture extends BlankForestryModule {
+	// whether a tree can pollinate itself; read by TreeUtil.canPollinate
+	public static boolean doSelfPollination = false;
+
 	@Override
 	public ResourceLocation getId() {
 		return ForestryModuleIds.ARBORICULTURE;

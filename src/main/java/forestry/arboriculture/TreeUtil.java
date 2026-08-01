@@ -1,10 +1,10 @@
-package forestry.core.utils;
+package forestry.arboriculture;
 
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.lepidopterology.IButterflyNursery;
-import forestry.apiculture.ModuleApiculture;
 import forestry.arboriculture.tiles.TileLeaves;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -87,6 +87,6 @@ public class TreeUtil {
 	}
 
 	public static boolean canMate(@Nullable ITree leaves, ITree pollen) {
-		return leaves != null && leaves.getMate() == null && (ModuleApiculture.doSelfPollination || !leaves.getGenome().isSameAlleles(pollen.getGenome()));
+		return leaves != null && leaves.getMate() == null && (ModuleArboriculture.doSelfPollination || !leaves.getGenome().isSameAlleles(pollen.getGenome()));
 	}
 }
