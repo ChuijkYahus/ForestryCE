@@ -1,10 +1,13 @@
 package forestry.api.genetics.alleles;
 
+import com.mojang.logging.LogUtils;
+import forestry.api.IForestryApi;
+import net.neoforged.neoforge.common.util.Lazy;
+import org.slf4j.Logger;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.Forestry;
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
@@ -12,7 +15,6 @@ import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.core.utils.SpeciesUtil;
 
 import static forestry.api.ForestryConstants.forestry;
 
@@ -20,6 +22,10 @@ import static forestry.api.ForestryConstants.forestry;
  * All chromosomes of the Forestry bee species type.
  */
 public class BeeChromosomes {
+	private static final Logger LOGGER = LogUtils.getLogger();
+	// memoized exactly as core's SpeciesUtil did: these resolvers back every genome decode
+	private static final Lazy<IBeeSpeciesType> BEE_TYPE = Lazy.of(() -> IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(ForestrySpeciesTypes.BEE, IBeeSpeciesType.class));
+
 	static final Codec<ToleranceType> TOLERANCE_CODEC = Codec.STRING.xmap(ToleranceType::valueOf, Enum::name);
 	static final Codec<Vec3i> VEC3I_CODEC = Vec3i.CODEC;
 
@@ -35,12 +41,12 @@ public class BeeChromosomes {
 	 * (tooltips, the analyzer, breeding, etc.) - a bad/removed id here must never crash those paths.
 	 */
 	private static IBeeSpecies resolveSpeciesOrDefault(ResourceLocation id) {
-		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
+		IBeeSpeciesType type = BEE_TYPE.get();
 		IBeeSpecies species = type.getSpeciesSafe(id);
 		if (species != null) {
 			return species;
 		}
-		Forestry.LOGGER.warn("Bee species {} not found (removed by a datapack?); falling back to the default species", id);
+		LOGGER.warn("Bee species {} not found (removed by a datapack?); falling back to the default species", id);
 		return type.getDefaultSpecies();
 	}
 
@@ -67,7 +73,7 @@ public class BeeChromosomes {
 	/**
 	 * The activity type determines when this bee is awake. Builtin types are found in {@link forestry.api.apiculture.ForestryActivityTypes}.
 	 */
-	public static final IChromosome<ResourceLocation> ACTIVITY = ChromosomeFactory.referenceChromosome(forestry("activity"), id -> SpeciesUtil.BEE_TYPE.get().getActivityType(id), IActivityType::isDominant);
+	public static final IChromosome<ResourceLocation> ACTIVITY = ChromosomeFactory.referenceChromosome(forestry("activity"), id -> BEE_TYPE.get().getActivityType(id), IActivityType::isDominant);
 	/**
 	 * Whether this bee can work when the sky above its housing is obstructed.
 	 */
@@ -79,11 +85,11 @@ public class BeeChromosomes {
 	/**
 	 * The type of flowers this bee needs to work. Also includes flowers that a bee can plant.
 	 */
-	public static final IChromosome<ResourceLocation> FLOWER_TYPE = ChromosomeFactory.referenceChromosome(forestry("flower_type"), id -> SpeciesUtil.BEE_TYPE.get().getFlowerType(id), IFlowerType::isDominant);
+	public static final IChromosome<ResourceLocation> FLOWER_TYPE = ChromosomeFactory.referenceChromosome(forestry("flower_type"), id -> BEE_TYPE.get().getFlowerType(id), IFlowerType::isDominant);
 	/**
 	 * Determines the effect of a bee species. Its range is determined by {@link #TERRITORY}.
 	 */
-	public static final IChromosome<ResourceLocation> EFFECT = ChromosomeFactory.referenceChromosome(forestry("bee_effect"), id -> SpeciesUtil.BEE_TYPE.get().getBeeEffect(id), IBeeEffect::isDominant);
+	public static final IChromosome<ResourceLocation> EFFECT = ChromosomeFactory.referenceChromosome(forestry("bee_effect"), id -> BEE_TYPE.get().getBeeEffect(id), IBeeEffect::isDominant);
 	/**
 	 * Determines how fast the hive can pollinate trees and plant flowers. Range is determined by {@link #TERRITORY}.
 	 */
