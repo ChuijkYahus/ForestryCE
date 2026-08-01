@@ -8,7 +8,6 @@ import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.core.genetics.alleles.ChromosomeFactory;
 import forestry.core.utils.SpeciesUtil;
 
 import static forestry.api.ForestryConstants.forestry;

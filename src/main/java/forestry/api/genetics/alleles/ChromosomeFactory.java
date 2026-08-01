@@ -1,4 +1,4 @@
-package forestry.core.genetics.alleles;
+package forestry.api.genetics.alleles;
 
 import java.util.Locale;
 import java.util.function.Function;
@@ -7,8 +7,7 @@ import java.util.function.Predicate;
 import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.core.utils.GeneticsUtil;
+import forestry.api.genetics.GeneticTranslationKeys;
 
 /**
  * Factory for the generic {@link Chromosome}. Replaces the chromosome-creation methods of the old {@code IAlleleManager}.
@@ -62,7 +61,7 @@ public final class ChromosomeFactory {
 				return dominant.test(get.apply(refId));
 			}
 		};
-		return new Chromosome<>(id, ResourceLocation.CODEC, refId -> GeneticsUtil.createTranslationKey("allele", id, refId), resolver);
+		return new Chromosome<>(id, ResourceLocation.CODEC, refId -> GeneticTranslationKeys.createTranslationKey("allele", id, refId), resolver);
 	}
 
 	private static <V> Function<V, String> dataNaming(ResourceLocation id, Function<V, String> valueKeyPart) {

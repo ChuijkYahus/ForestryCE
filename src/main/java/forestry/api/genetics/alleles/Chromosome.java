@@ -1,4 +1,4 @@
-package forestry.core.genetics.alleles;
+package forestry.api.genetics.alleles;
 
 import java.util.function.Function;
 
@@ -9,7 +9,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.genetics.alleles.IChromosome;
 
 import javax.annotation.Nullable;
 

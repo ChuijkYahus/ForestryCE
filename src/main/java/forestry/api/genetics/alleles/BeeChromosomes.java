@@ -12,7 +12,6 @@ import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.core.genetics.alleles.ChromosomeFactory;
 import forestry.core.utils.SpeciesUtil;
 
 import static forestry.api.ForestryConstants.forestry;

@@ -11,7 +11,6 @@ import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
-import forestry.core.genetics.alleles.ChromosomeFactory;
 import forestry.core.utils.SpeciesUtil;
 
 import static forestry.api.ForestryConstants.forestry;

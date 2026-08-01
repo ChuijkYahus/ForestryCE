@@ -49,7 +49,7 @@ public abstract class Species<T extends ISpeciesType<? extends ISpecies<I>, I>, 
 		}
 		this.genus = genus;
 		this.binomial = createBinomial(this.genus.name(), this.species);
-		this.translationKey = GeneticsUtil.createTranslationKey("allele", speciesType.id(), id);
+		this.translationKey = GeneticTranslationKeys.createTranslationKey("allele", speciesType.id(), id);
 	}
 
 	private static String createBinomial(String genus, String species) {
