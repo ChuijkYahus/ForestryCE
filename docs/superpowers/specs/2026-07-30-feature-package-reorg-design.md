@@ -400,6 +400,12 @@ Everything that makes the split real lands before a single package moves. Phases
 10  publish six artifacts
 ```
 
+Phase 1a landed 2026-07-31. `checkApiBoundary` is in place and down from 16 files / 24 imports
+to 9 / 16. The remaining nine all need a new public api type or an SPI inversion and are
+phase 1b: `IBeeEffect`, `IHiveManager`, the three `*Chromosomes`, `IAlleleDisplayHelper`,
+`IIndividualHandlerItem`, `ITradeStation`, `IMultiblockComponent`. Every step verified against
+a byte-identical `runData` diff and 96 passing GameTests.
+
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
 in phases 1 through 6, which no amount of directory rearrangement addresses.
