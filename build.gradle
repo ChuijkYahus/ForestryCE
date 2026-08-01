@@ -88,6 +88,52 @@ tasks.named('test', Test) {
 	failOnNoDiscoveredTests = false
 }
 
+// Phase 1 of the feature reorg: nothing under forestry.api may import a forestry package
+// outside forestry.api. Import-based on purpose. A constant-pool scan misses types that
+// appear only in a method descriptor or an erased generic (IHiveManager's
+// ImmutableList<VillageHive>), and a plain text scan trips over javadoc that names impl
+// classes as {@code ...} prose. The descriptor-aware gate arrives with ArchUnit in phase 9.
+var checkApiBoundary = tasks.register('checkApiBoundary') {
+	group = 'verification'
+	description = 'Fails if forestry.api imports any forestry package outside forestry.api'
+
+	var apiDir = project.file('src/main/java/forestry/api')
+	inputs.dir(apiDir)
+	outputs.upToDateWhen { false }
+
+	doLast {
+		var offenders = new TreeMap<String, List<String>>()
+
+		apiDir.eachFileRecurse(groovy.io.FileType.FILES) { file ->
+			if (!file.name.endsWith('.java')) {
+				return
+			}
+			var relative = apiDir.toPath().relativize(file.toPath()).toString()
+			file.eachLine('UTF-8') { line, number ->
+				if (line ==~ /^import (static )?forestry\.(?!api\.).*/) {
+					offenders.computeIfAbsent(relative, { [] }).add("line ${number}: ${line.trim()}")
+				}
+			}
+		}
+
+		if (!offenders.isEmpty()) {
+			var total = offenders.values().sum { it.size() }
+			var report = offenders.collect { name, lines ->
+				"  ${name}\n" + lines.collect { "      ${it}" }.join('\n')
+			}.join('\n')
+			throw new GradleException(
+					"forestry.api must not import outside forestry.api.\n" +
+					"${offenders.size()} file(s), ${total} import(s):\n${report}")
+		}
+
+		logger.lifecycle('checkApiBoundary: forestry.api is clean')
+	}
+}
+
+tasks.named('check') {
+	dependsOn checkApiBoundary
+}
+
 repositories {
 	maven {
 		name = 'jei'
