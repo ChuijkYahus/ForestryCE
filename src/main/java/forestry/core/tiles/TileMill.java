@@ -6,6 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+// todo merge into TileMillRainmaker, its only subclass
 public abstract class TileMill extends TileBase {
 	public float speed;
 	public int stage = 0;

@@ -103,6 +103,10 @@ taken by step 7.2.
 
 `core.gui` fans out; see step 7.5. Move the package first, then split.
 
+`core.render` carries one passenger: `RenderMill` is mill-specific, so it leaves for
+`core.content.machines` rather than staying in `core.platform.render`. Same reasoning as
+`TileMill` in step 7.5.
+
 ---
 
 ## Step 7.4 - core to engine
@@ -131,8 +135,13 @@ AdjacentTileCache      IActivatable          IFilterSlotDelegate
 IForestryTicker        IItemStackDisplay     ILiquidTankTile
 IPowerHandler          IRenderableTile       ITitled
 TemperatureState       TileBase              TileForestry
-TilePowered            TileUtil              TileMill
-TileNaturalistChest
+TilePowered            TileUtil              TileNaturalistChest
+```
+
+To `core.content.machines`:
+
+```
+TileMill
 ```
 
 To `core.content.escritoire`:
@@ -148,9 +157,13 @@ To `core.content.analyzer`:
 TileAnalyzer
 ```
 
-`TileMill` is the shared base for the factory mill and the rainmaker, so it is platform,
-not content. `TileNaturalistChest` is the shared chest base; the three concrete chests
-left in phase 4.
+`TileMill` reads as framework and is not. `TileMillRainmaker` is its only subclass - the
+other mills were removed from the mod - so it belongs with the machines. It carries a
+`todo` to merge the two outright, which would delete this move. Its two remaining
+references follow it: `RenderMill`, pulled out of `core.render` in step 7.3, and
+`BlockTypeFactoryTesr`, already inside `factory` and so covered by step 7.6.
+
+`TileNaturalistChest` is the shared chest base; the three concrete chests left in phase 4.
 
 ### core/blocks (17 files)
 
