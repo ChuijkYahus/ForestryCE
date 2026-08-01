@@ -6,8 +6,10 @@ import forestry.api.genetics.*;
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.genetics.Taxon;
 import forestry.core.genetics.TaxonDefinition;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -20,6 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class GeneticManager implements IGeneticManager {
+	@Override
+	public DataComponentType<IGenome> genomeComponent() {
+		return CoreDataComponents.GENOME.get();
+	}
+
 	// The code-registered taxa from setup, kept as the immutable base so a datapack (re)load merges on top of them and
 	// removing a datapack cleanly reverts to exactly the built-in taxonomy (see applyDatapackTaxa).
 	private final ImmutableMap<String, ITaxon> baseTaxa;

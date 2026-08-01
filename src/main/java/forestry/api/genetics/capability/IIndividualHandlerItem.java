@@ -1,11 +1,12 @@
 package forestry.api.genetics.capability;
 
+import forestry.api.IForestryApi;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.IIndividualItem;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-import forestry.core.genetics.ItemGE;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -20,22 +21,33 @@ import java.util.function.Predicate;
  */
 public interface IIndividualHandlerItem {
 	static void ifPresent(ItemStack stack, BiConsumer<IIndividual, ILifeStage> action) {
-		ItemGE.ifPresent(stack, action);
+		IIndividual individual = getIndividual(stack);
+		ILifeStage lifeStage = getLifeStage(stack);
+		if (individual != null && lifeStage != null) {
+			action.accept(individual, lifeStage);
+		}
 	}
 
 	static void ifPresent(ItemStack stack, Consumer<IIndividual> action) {
-		ItemGE.ifPresent(stack, action);
+		IIndividual individual = getIndividual(stack);
+		if (individual != null) {
+			action.accept(individual);
+		}
 	}
 
 	/**
 	 * @return Whether the given item has an individual capability. (Vanilla saplings have a capability too)
 	 */
 	static boolean isIndividual(ItemStack stack) {
-		return ItemGE.isIndividual(stack);
+		return getIndividual(stack) != null;
 	}
 
+	/**
+	 * @return Whether the stack carries a genome component. Weaker than {@link #isIndividual}: a stack can hold
+	 * the component without resolving to an individual, ex. villager trade wildcard bees
+	 */
 	static boolean hasIndividual(ItemStack stack) {
-		return ItemGE.hasIndividual(stack);
+		return stack.has(IForestryApi.INSTANCE.getGeneticManager().genomeComponent());
 	}
 
 	/**
@@ -46,37 +58,42 @@ public interface IIndividualHandlerItem {
 	 * @return {@code true} if the individual was present and the predicate returned true, false otherwise.
 	 */
 	static boolean filter(ItemStack stack, Predicate<IIndividual> predicate) {
-		return ItemGE.filter(stack, predicate);
+		IIndividual individual = getIndividual(stack);
+		return individual != null && predicate.test(individual);
 	}
 
 	static boolean filter(ItemStack stack, BiPredicate<IIndividual, ILifeStage> predicate) {
-		return ItemGE.filter(stack, predicate);
+		IIndividual individual = getIndividual(stack);
+		ILifeStage lifeStage = getLifeStage(stack);
+		return individual != null && lifeStage != null && predicate.test(individual, lifeStage);
 	}
 
 	@Nullable
 	static IIndividual getIndividual(ItemStack stack) {
-		return ItemGE.getIndividual(stack);
+		return stack.getItem() instanceof IIndividualItem item ? item.getIndividualFromComponent(stack) : null;
 	}
 
 	@Nullable
 	static IGenome getGenome(ItemStack stack) {
-		return ItemGE.getGenome(stack);
+		return stack.get(IForestryApi.INSTANCE.getGeneticManager().genomeComponent());
 	}
 
 	@Nullable
 	static ILifeStage getLifeStage(ItemStack stack) {
-		return ItemGE.getLifeStage(stack);
+		return stack.getItem() instanceof IIndividualItem item ? item.getLifeStage() : null;
 	}
 
 	@Nullable
 	static ISpeciesType<?, ?> getSpeciesType(ItemStack stack) {
-		return ItemGE.getSpeciesType(stack);
+		return stack.getItem() instanceof IIndividualItem item ? item.getSpeciesType() : null;
 	}
 
 	/**
 	 * Gets the species of the current item stack, or returns the default species for the species type.
 	 */
+	@SuppressWarnings("unchecked")
 	static <S extends ISpecies<?>> S getSpecies(ItemStack stack, ISpeciesType<S, ?> type) {
-		return ItemGE.getSpecies(stack, type);
+		IIndividual individual = getIndividual(stack);
+		return individual != null ? (S) individual.getSpecies() : type.getDefaultSpecies();
 	}
 }

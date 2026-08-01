@@ -1,5 +1,6 @@
 package forestry.api.genetics;
 
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
@@ -12,6 +13,11 @@ import java.util.Collection;
  * Keeps track of all taxonomy, breeding trackers, and mutations.
  */
 public interface IGeneticManager {
+	/**
+	 * @return The data component type that stores an individual's genome on an item stack
+	 */
+	DataComponentType<IGenome> genomeComponent();
+
 	/**
 	 * @return The taxon instance with the given (lowercase) name. See {@link ForestryTaxa} for all names used by base Forestry.
 	 * @throws IllegalArgumentException If no taxon was registered with that name.

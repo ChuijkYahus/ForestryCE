@@ -3,6 +3,8 @@ package forestry.core.genetics;
 import forestry.Forestry;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.IIndividualItem;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.IIndividualLiving;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
@@ -26,7 +28,17 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public abstract class ItemGE extends ItemForestry {
+public abstract class ItemGE extends ItemForestry implements IIndividualItem {
+	@Override
+	public ILifeStage getLifeStage() {
+		return this.stage;
+	}
+
+	@Override
+	public ISpeciesType<?, ?> getSpeciesType() {
+		return getType();
+	}
+
 	protected final ILifeStage stage;
 
 	protected ItemGE(Item.Properties properties, ILifeStage stage) {
@@ -89,37 +101,27 @@ public abstract class ItemGE extends ItemForestry {
 	}
 
 	public static boolean hasIndividual(ItemStack stack) {
-		return stack.has(CoreDataComponents.GENOME);
+		return IIndividualHandlerItem.hasIndividual(stack);
 	}
 
 	public static boolean isIndividual(ItemStack stack) {
-		return getIndividual(stack) != null;
+		return IIndividualHandlerItem.isIndividual(stack);
 	}
 
 	public static void ifPresent(ItemStack stack, Consumer<IIndividual> action) {
-		IIndividual individual = getIndividual(stack);
-		if (individual != null) {
-			action.accept(individual);
-		}
+		IIndividualHandlerItem.ifPresent(stack, action);
 	}
 
 	public static void ifPresent(ItemStack stack, BiConsumer<IIndividual, ILifeStage> action) {
-		IIndividual individual = getIndividual(stack);
-		ILifeStage lifeStage = getLifeStage(stack);
-		if (individual != null && lifeStage != null) {
-			action.accept(individual, lifeStage);
-		}
+		IIndividualHandlerItem.ifPresent(stack, action);
 	}
 
 	public static boolean filter(ItemStack stack, Predicate<IIndividual> predicate) {
-		IIndividual individual = getIndividual(stack);
-		return individual != null && predicate.test(individual);
+		return IIndividualHandlerItem.filter(stack, predicate);
 	}
 
 	public static boolean filter(ItemStack stack, BiPredicate<IIndividual, ILifeStage> predicate) {
-		IIndividual individual = getIndividual(stack);
-		ILifeStage lifeStage = getLifeStage(stack);
-		return individual != null && lifeStage != null && predicate.test(individual, lifeStage);
+		return IIndividualHandlerItem.filter(stack, predicate);
 	}
 
 	@SuppressWarnings("unchecked")
