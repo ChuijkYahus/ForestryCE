@@ -12,8 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeEffectManager;
-import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.apiculture.network.ApiculturePacketIds;
 
 /**
@@ -52,6 +52,6 @@ public record BeeEffectSyncPacket(Map<ResourceLocation, IBeeEffect> effects) imp
 			return;
 		}
 		BeeEffectManager.INSTANCE.setEffects(msg.effects);
-		GeneticsReloadHandler.rebuildBeeEffects(msg.effects);
+		ApicultureReloadHandler.rebuildBeeEffects(msg.effects);
 	}
 }

@@ -11,10 +11,11 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
+import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesManager;
-import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.apiculture.network.ApiculturePacketIds;
+import forestry.core.genetics.GeneticsReloadHandler;
 
 /**
  * Server -&gt; client sync of the loaded bee species definitions, sent on player login/reload (see
@@ -53,7 +54,7 @@ public record BeeSpeciesSyncPacket(Map<ResourceLocation, BeeSpeciesDefinition> d
 			return;
 		}
 		BeeSpeciesManager.INSTANCE.setDefinitions(msg.definitions);
-		GeneticsReloadHandler.rebuildSpecies(msg.definitions);
+		ApicultureReloadHandler.rebuildSpecies(msg.definitions);
 		GeneticsReloadHandler.rebuildMutations(Minecraft.getInstance().getConnection().getRecipeManager());
 	}
 

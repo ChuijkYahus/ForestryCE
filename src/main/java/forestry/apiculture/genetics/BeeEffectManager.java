@@ -21,7 +21,7 @@ import forestry.core.genetics.GeneticsReloadHandler;
 /**
  * Datapack loader for bee effects: a {@link SimpleJsonResourceReloadListener} over the {@code bee_effect} folder.
  * Decodes each JSON entry via the {@link IBeeEffect#CODEC} dispatch codec (fail-soft: a bad file is logged and
- * skipped), stores the last-parsed map, and hands it to {@link GeneticsReloadHandler#rebuildBeeEffects} to merge onto
+ * skipped), stores the last-parsed map, and hands it to {@link ApicultureReloadHandler#rebuildBeeEffects} to merge onto
  * the code builtins in the live bee species type.
  * <p>
  * This mirrors {@link BeeSpeciesManager}, and for the same reason: bee effects are datapack-defined and must reload on
@@ -77,6 +77,6 @@ public final class BeeEffectManager extends SimpleJsonResourceReloadListener {
 		}
 
 		this.effects = Map.copyOf(parsed);
-		GeneticsReloadHandler.rebuildBeeEffects(this.effects);
+		ApicultureReloadHandler.rebuildBeeEffects(this.effects);
 	}
 }

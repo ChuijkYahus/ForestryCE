@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
 import forestry.lepidopterology.genetics.ButterflySpeciesManager;
+import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
 
 /**
  * Server -&gt; client sync of the loaded butterfly species definitions, sent on player login/reload (see
@@ -59,7 +60,7 @@ public record ButterflySpeciesSyncPacket(Map<ResourceLocation, ButterflySpeciesD
 			return;
 		}
 		ButterflySpeciesManager.INSTANCE.setDefinitions(msg.definitions);
-		GeneticsReloadHandler.rebuildButterflySpecies(msg.definitions);
+		LepidopterologyReloadHandler.rebuildButterflySpecies(msg.definitions);
 		GeneticsReloadHandler.rebuildMutations(Minecraft.getInstance().getConnection().getRecipeManager());
 	}
 

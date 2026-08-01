@@ -12,6 +12,7 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
+import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesManager;
 import forestry.core.genetics.GeneticsReloadHandler;
@@ -22,7 +23,7 @@ import forestry.core.utils.SpeciesUtil;
  * that {@code getAllSpecies()}/{@code getSpeciesCount()} on the live bee type are safe to call without throwing (the
  * old {@code checkSpecies()} guard used to throw {@code IllegalStateException} before registration completed) and
  * stay consistent with each other, and that the real reload path - {@link BeeSpeciesManager} parsing the generated
- * {@code bee_species} datapack JSON at server start, then {@link GeneticsReloadHandler#rebuildSpecies} projecting it
+ * {@code bee_species} datapack JSON at server start, then {@link ApicultureReloadHandler#rebuildSpecies} projecting it
  * into the live species type - actually produces the full built-in set.
  */
 @GameTestHolder(ForestryConstants.MOD_ID)
@@ -55,7 +56,7 @@ public class SpeciesReloadTest {
 	 * Proves the actual load path: {@link BeeSpeciesManager#INSTANCE} must have parsed the generated
 	 * {@code bee_species} JSON at server start (this test only reads {@code getDefinitions()}, it never parses JSON
 	 * itself - a manager that silently loaded 0 definitions, e.g. because the generated-resources source set is not
-	 * on the runtime classpath, must fail here). Re-driving {@link GeneticsReloadHandler#rebuildSpecies} from those
+	 * on the runtime classpath, must fail here). Re-driving {@link ApicultureReloadHandler#rebuildSpecies} from those
 	 * definitions must then (re)populate the live bee species type with the full built-in set, one live species per
 	 * definition id.
 	 */
@@ -68,7 +69,7 @@ public class SpeciesReloadTest {
 			return;
 		}
 
-		GeneticsReloadHandler.rebuildSpecies(defs);
+		ApicultureReloadHandler.rebuildSpecies(defs);
 		// Species and mutations are always rebuilt together in production (species-before-mutations, since the
 		// mutation index keys species by object identity - see GeneticsReloadHandler's class doc). Re-pairing them
 		// here keeps the live state consistent for any other GameTest that runs later in this same server session.

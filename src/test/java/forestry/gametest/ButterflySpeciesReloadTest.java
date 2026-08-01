@@ -21,6 +21,7 @@ import forestry.core.genetics.SpeciesType;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
 import forestry.lepidopterology.genetics.ButterflySpeciesManager;
+import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
 
 /**
  * Note: {@code rebuildRepopulates} builds a single definition inline from the live Monarch species (mirroring
@@ -52,7 +53,7 @@ public class ButterflySpeciesReloadTest {
 		Map<ResourceLocation, ButterflySpeciesDefinition> defs = Map.of(ForestryButterflySpecies.MONARCH, def);
 
 		try {
-			GeneticsReloadHandler.rebuildButterflySpecies(defs);
+			LepidopterologyReloadHandler.rebuildButterflySpecies(defs);
 
 			if (type.getAllSpeciesIds().isEmpty()) {
 				helper.fail("Expected rebuildButterflySpecies to repopulate the species map from the projected definitions");
@@ -99,7 +100,7 @@ public class ButterflySpeciesReloadTest {
 		);
 
 		try {
-			GeneticsReloadHandler.rebuildButterflySpecies(definitions);
+			LepidopterologyReloadHandler.rebuildButterflySpecies(definitions);
 
 			if (type.getAllSpeciesIds().size() != 35) {
 				helper.fail("Expected rebuildButterflySpecies(manager definitions) to reproduce the full 35-species built-in set, got " + type.getAllSpeciesIds().size());

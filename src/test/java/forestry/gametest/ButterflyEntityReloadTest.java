@@ -21,10 +21,11 @@ import forestry.core.genetics.SpeciesType;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.entities.EntityButterfly;
 import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
 
 /**
  * Verifies that a live {@link EntityButterfly} is refreshed to hold a fresh species instance after a datapack
- * reload swaps the butterfly species map ({@code GeneticsReloadHandler#rebuildButterflySpecies}), rather than
+ * reload swaps the butterfly species map ({@code LepidopterologyReloadHandler#rebuildButterflySpecies}), rather than
  * keeping the stale instance it cached at spawn time - see {@code EntityButterfly#refreshSpeciesFromReload}.
  * <p>
  * Note: {@code ButterflySpeciesProvider.buildDefinitions()} (Task 8) doesn't exist yet, so the reload here builds
@@ -59,7 +60,7 @@ public class ButterflyEntityReloadTest {
 			Map<ResourceLocation, ButterflySpeciesDefinition> defs = Map.of(defaultSpecies.id(), def);
 
 			// reload: rebuild the species map (fresh species instances) then refresh loaded entities.
-			GeneticsReloadHandler.rebuildButterflySpecies(defs);
+			LepidopterologyReloadHandler.rebuildButterflySpecies(defs);
 
 			IButterflySpecies afterSpecies = entity.getButterfly().getSpecies();
 			if (afterSpecies == beforeSpecies) {

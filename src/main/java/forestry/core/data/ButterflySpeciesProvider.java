@@ -21,9 +21,9 @@ import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.api.plugin.ILepidopterologyRegistration;
 import forestry.apiimpl.plugin.LepidopterologyRegistration;
-import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
 import forestry.plugin.DefaultButterflySpecies;
 
 /**
@@ -109,7 +109,7 @@ public class ButterflySpeciesProvider implements DataProvider {
 	 * JSON itself is derived from, so this does not reintroduce a second, divergent species source.
 	 */
 	public static void seedLiveSpeciesForDatagen() {
-		GeneticsReloadHandler.rebuildButterflySpecies(buildDefinitions());
+		LepidopterologyReloadHandler.rebuildButterflySpecies(buildDefinitions());
 	}
 
 	private static ButterflySpeciesDefinition buildDefinition(IButterflySpeciesBuilder builder) {

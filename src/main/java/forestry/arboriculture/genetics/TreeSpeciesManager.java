@@ -20,7 +20,7 @@ import forestry.core.genetics.GeneticsReloadHandler;
 /**
  * Datapack loader for tree species: a {@link SimpleJsonResourceReloadListener} over the {@code tree_species} folder.
  * Decodes each JSON entry via {@link TreeSpeciesDefinition#codec()} (fail-soft: a bad file is logged and skipped),
- * stores the last-parsed map, and hands it to {@link GeneticsReloadHandler#rebuildTreeSpecies} to swap into the live
+ * stores the last-parsed map, and hands it to {@link ArboricultureReloadHandler#rebuildTreeSpecies} to swap into the live
  * tree species type. Mirrors {@code forestry.apiculture.genetics.BeeSpeciesManager}.
  * <p>
  * Singleton, registered once as a server reload listener (see {@code ModuleCore#registerReloadListeners}); the
@@ -75,6 +75,6 @@ public final class TreeSpeciesManager extends SimpleJsonResourceReloadListener {
 		}
 
 		this.definitions = Map.copyOf(parsed);
-		GeneticsReloadHandler.rebuildTreeSpecies(this.definitions);
+		ArboricultureReloadHandler.rebuildTreeSpecies(this.definitions);
 	}
 }

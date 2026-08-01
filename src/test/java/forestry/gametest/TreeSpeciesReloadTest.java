@@ -16,6 +16,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.core.genetics.GeneticsReloadHandler;
@@ -54,7 +55,7 @@ public class TreeSpeciesReloadTest {
 		Map<ResourceLocation, TreeSpeciesDefinition> defs = Map.of(ForestryTreeSpecies.OAK, def);
 
 		try {
-			GeneticsReloadHandler.rebuildTreeSpecies(defs);
+			ArboricultureReloadHandler.rebuildTreeSpecies(defs);
 
 			if (type.getSpeciesSafe(ForestryTreeSpecies.OAK) == null) {
 				helper.fail("Expected rebuildTreeSpecies to repopulate oak from the projected definitions map");
@@ -96,7 +97,7 @@ public class TreeSpeciesReloadTest {
 		);
 
 		try {
-			GeneticsReloadHandler.rebuildTreeSpecies(definitions);
+			ArboricultureReloadHandler.rebuildTreeSpecies(definitions);
 
 			if (type.getAllSpeciesIds().size() != 50) {
 				helper.fail("Expected rebuildTreeSpecies(manager definitions) to reproduce the full 50-species built-in set, got " + type.getAllSpeciesIds().size());

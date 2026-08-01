@@ -13,6 +13,7 @@ import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.apiculture.PhotosynthesisFlowerType;
 import forestry.apiculture.TagFlowerType;
 import forestry.apiculture.WaterTagFlowerType;
+import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.FlowerTypeManager;
 import forestry.core.utils.SpeciesUtil;
 
@@ -94,7 +95,7 @@ public class FlowerTypeTest {
 		// This mutation of the shared live flower-type map is safe only because mutate -> assert -> restore all run
 		// synchronously in this method body with no tick yield between them, so no concurrent test observes the
 		// transient state. Do not insert an await/runAtTickTime between the rebuild above and the finally restore.
-		forestry.core.genetics.GeneticsReloadHandler.rebuildFlowerTypes(data);
+		ApicultureReloadHandler.rebuildFlowerTypes(data);
 		try {
 			if (!(bees.getFlowerTypeSafe(probe) instanceof PhotosynthesisFlowerType)) {
 				helper.fail("datapack-only flower type should resolve after rebuild");
@@ -106,7 +107,7 @@ public class FlowerTypeTest {
 			}
 		} finally {
 			// Restore the real datapack-loaded map so later tests/gameplay are unaffected.
-			forestry.core.genetics.GeneticsReloadHandler.rebuildFlowerTypes(FlowerTypeManager.INSTANCE.getDefinitions());
+			ApicultureReloadHandler.rebuildFlowerTypes(FlowerTypeManager.INSTANCE.getDefinitions());
 		}
 		helper.succeed();
 	}

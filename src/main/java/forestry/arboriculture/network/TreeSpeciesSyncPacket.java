@@ -11,6 +11,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
+import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.core.genetics.GeneticsReloadHandler;
@@ -53,7 +54,7 @@ public record TreeSpeciesSyncPacket(Map<ResourceLocation, TreeSpeciesDefinition>
 			return;
 		}
 		TreeSpeciesManager.INSTANCE.setDefinitions(msg.definitions);
-		GeneticsReloadHandler.rebuildTreeSpecies(msg.definitions);
+		ArboricultureReloadHandler.rebuildTreeSpecies(msg.definitions);
 		GeneticsReloadHandler.rebuildMutations(Minecraft.getInstance().getConnection().getRecipeManager());
 	}
 

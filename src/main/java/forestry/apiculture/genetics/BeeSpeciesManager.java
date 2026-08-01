@@ -20,7 +20,7 @@ import forestry.core.genetics.GeneticsReloadHandler;
 /**
  * Datapack loader for bee species: a {@link SimpleJsonResourceReloadListener} over the {@code bee_species} folder.
  * Decodes each JSON entry via {@link BeeSpeciesDefinition#codec()} (fail-soft: a bad file is logged and skipped),
- * stores the last-parsed map, and hands it to {@link GeneticsReloadHandler#rebuildSpecies} to swap into the live
+ * stores the last-parsed map, and hands it to {@link ApicultureReloadHandler#rebuildSpecies} to swap into the live
  * bee species type.
  * <p>
  * Singleton, registered once as a server reload listener (see {@code ModuleCore#registerReloadListeners}); the
@@ -87,6 +87,6 @@ public final class BeeSpeciesManager extends SimpleJsonResourceReloadListener {
 		}
 
 		this.definitions = Map.copyOf(parsed);
-		GeneticsReloadHandler.rebuildSpecies(this.definitions);
+		ApicultureReloadHandler.rebuildSpecies(this.definitions);
 	}
 }

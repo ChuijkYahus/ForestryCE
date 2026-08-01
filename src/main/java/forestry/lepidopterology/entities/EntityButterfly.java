@@ -373,7 +373,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 	/**
 	 * Re-resolves the cached individual/species from the current live species map after a datapack reload
-	 * (see {@code GeneticsReloadHandler#rebuildButterflySpecies}).
+	 * (see {@code LepidopterologyReloadHandler#rebuildButterflySpecies}).
 	 * <p>
 	 * The cached {@link #contained} individual resolved and cached its {@code species}/{@code inactiveSpecies}
 	 * fields (see {@link forestry.core.genetics.Individual}) against the species map that was live at the time it

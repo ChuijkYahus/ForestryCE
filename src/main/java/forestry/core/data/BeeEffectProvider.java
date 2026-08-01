@@ -23,6 +23,7 @@ import com.mojang.serialization.JsonOps;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.core.TemperatureType;
+import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.genetics.effects.DamageBeeEffect;
 import forestry.apiculture.genetics.effects.PotionBeeEffect;
@@ -30,7 +31,6 @@ import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.apiculture.genetics.effects.ThrottleSettings;
 import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
 import forestry.core.damage.CoreDamageTypes;
-import forestry.core.genetics.GeneticsReloadHandler;
 
 /**
  * Generates {@code data/forestry/bee_effect/*.json} for the built-in bee effects that are expressible through the
@@ -125,7 +125,7 @@ public class BeeEffectProvider implements DataProvider {
 	public static void seedLiveBeeEffectsForDatagen() {
 		BeeEffectProvider collector = new BeeEffectProvider();
 		collector.addEffects();
-		GeneticsReloadHandler.rebuildBeeEffects(collector.pending);
+		ApicultureReloadHandler.rebuildBeeEffects(collector.pending);
 	}
 
 	@Override

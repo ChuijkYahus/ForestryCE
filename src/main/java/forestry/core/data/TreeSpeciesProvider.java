@@ -20,8 +20,8 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.apiimpl.plugin.ArboricultureRegistration;
+import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.utils.SpeciesUtil;
 import forestry.plugin.DefaultTreeSpecies;
 
@@ -107,7 +107,7 @@ public class TreeSpeciesProvider implements DataProvider {
 	 * {@code DefaultTreeSpecies} source the generated JSON is derived from.
 	 */
 	public static void seedLiveSpeciesForDatagen() {
-		GeneticsReloadHandler.rebuildTreeSpecies(buildDefinitions());
+		ArboricultureReloadHandler.rebuildTreeSpecies(buildDefinitions());
 	}
 
 	private static TreeSpeciesDefinition buildDefinition(ITreeSpeciesBuilder builder) {

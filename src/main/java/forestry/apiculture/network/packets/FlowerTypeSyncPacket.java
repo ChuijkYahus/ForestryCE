@@ -12,9 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import forestry.api.apiculture.IFlowerType;
+import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.FlowerTypeManager;
 import forestry.apiculture.genetics.FlowerTypeTypes;
-import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.apiculture.network.ApiculturePacketIds;
 
 /**
@@ -45,6 +45,6 @@ public record FlowerTypeSyncPacket(Map<ResourceLocation, IFlowerType> definition
 			return;
 		}
 		FlowerTypeManager.INSTANCE.setDefinitions(msg.definitions);
-		GeneticsReloadHandler.rebuildFlowerTypes(msg.definitions);
+		ApicultureReloadHandler.rebuildFlowerTypes(msg.definitions);
 	}
 }

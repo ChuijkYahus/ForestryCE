@@ -21,7 +21,7 @@ import forestry.core.genetics.GeneticsReloadHandler;
 /**
  * Datapack loader for flower types: a {@link SimpleJsonResourceReloadListener} over the {@code flower_type} folder.
  * Decodes each entry via {@link FlowerTypeTypes#CODEC} (fail-soft), stores the last-parsed map, and hands it to
- * {@link GeneticsReloadHandler#rebuildFlowerTypes} which installs code-base union datapack into the bee species type.
+ * {@link ApicultureReloadHandler#rebuildFlowerTypes} which installs code-base union datapack into the bee species type.
  * Server-only reload listener; the client reuses the instance as a data holder for {@code FlowerTypeSyncPacket}.
  */
 public class FlowerTypeManager extends SimpleJsonResourceReloadListener {
@@ -57,6 +57,6 @@ public class FlowerTypeManager extends SimpleJsonResourceReloadListener {
 		}
 
 		this.definitions = Map.copyOf(parsed);
-		GeneticsReloadHandler.rebuildFlowerTypes(this.definitions);
+		ApicultureReloadHandler.rebuildFlowerTypes(this.definitions);
 	}
 }

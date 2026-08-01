@@ -16,6 +16,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.apiculture.BeeSpecies;
+import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesManager;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
@@ -38,7 +39,7 @@ import forestry.core.utils.SpeciesUtil;
 public class SpeciesFallbackTest {
 	/**
 	 * {@link BeeSpeciesProjector#project} must return {@code null} (not throw) for a definition referencing an
-	 * unknown jubilance id, and {@link GeneticsReloadHandler#rebuildSpecies} over a map containing that one bad
+	 * unknown jubilance id, and {@link ApicultureReloadHandler#rebuildSpecies} over a map containing that one bad
 	 * definition alongside the real, currently-loaded ones must yield a species set missing only that entry.
 	 */
 	@GameTest(template = "empty")
@@ -68,7 +69,7 @@ public class SpeciesFallbackTest {
 		combined.put(badId, badDefinition);
 
 		try {
-			GeneticsReloadHandler.rebuildSpecies(combined);
+			ApicultureReloadHandler.rebuildSpecies(combined);
 
 			IBeeSpeciesType typeAfterRebuild = SpeciesUtil.BEE_TYPE.get();
 			if (typeAfterRebuild.getAllSpeciesIds().contains(badId)) {
@@ -83,7 +84,7 @@ public class SpeciesFallbackTest {
 			}
 		} finally {
 			// Restore the live state from the real, already-loaded definitions so later tests aren't affected.
-			GeneticsReloadHandler.rebuildSpecies(realDefinitions);
+			ApicultureReloadHandler.rebuildSpecies(realDefinitions);
 			GeneticsReloadHandler.rebuildMutations(helper.getLevel().getServer().getRecipeManager());
 		}
 
@@ -128,7 +129,7 @@ public class SpeciesFallbackTest {
 			}
 		} finally {
 			// Restore the live state so later tests in this same server session see the full built-in set again.
-			GeneticsReloadHandler.rebuildSpecies(realDefinitions);
+			ApicultureReloadHandler.rebuildSpecies(realDefinitions);
 			GeneticsReloadHandler.rebuildMutations(helper.getLevel().getServer().getRecipeManager());
 		}
 

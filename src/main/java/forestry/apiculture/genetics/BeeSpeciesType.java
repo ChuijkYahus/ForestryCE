@@ -202,7 +202,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		((ForestryApiImpl) IForestryApi.INSTANCE).setHiveManager(registration.buildHiveManager());
 
 		// Bee species are no longer built at setup; they come exclusively from the datapack loader
-		// (BeeSpeciesManager -> GeneticsReloadHandler.rebuildSpecies), which replaces this species
+		// (BeeSpeciesManager -> ApicultureReloadHandler.rebuildSpecies), which replaces this species
 		// type's species map on datapack reload.
 		return ImmutableMap.of();
 	}

@@ -20,8 +20,8 @@ import forestry.api.apiculture.IFlowerType;
 import forestry.apiculture.PhotosynthesisFlowerType;
 import forestry.apiculture.TagFlowerType;
 import forestry.apiculture.WaterTagFlowerType;
+import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.FlowerTypeTypes;
-import forestry.core.genetics.GeneticsReloadHandler;
 
 /**
  * Generates {@code data/forestry/flower_type/*.json} for the 15 built-in flower types. This provider is the single
@@ -83,7 +83,7 @@ public class FlowerTypeProvider implements DataProvider {
 		FlowerTypeTypes.registerBuiltins();
 		FlowerTypeProvider collector = new FlowerTypeProvider();
 		collector.addFlowerTypes();
-		GeneticsReloadHandler.rebuildFlowerTypes(collector.pending);
+		ApicultureReloadHandler.rebuildFlowerTypes(collector.pending);
 	}
 
 	@Override
