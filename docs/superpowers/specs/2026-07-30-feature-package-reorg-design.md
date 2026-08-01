@@ -381,8 +381,8 @@ Everything that makes the split real lands before a single package moves. Phases
 1b  DONE 2026-07-31                    5 relocations into api, 2 SPI
                                        inversions, chromosome machinery
                                        moved. 9 -> 0 files, gate green
-2   central indexes -> extension       creative tabs, packet ids,
-    points                             Core{Blocks,Items,Tiles,DataComponents}
+2   DONE 2026-08-01                    creative tabs, packet ids,
+                                       Core{Blocks,Items,Tiles,DataComponents}
 3   species-aware engine               bucket C
 4   misfiled content, plumbing,        buckets D, E and H
     lifecycle wiring
@@ -414,6 +414,18 @@ Five of those seven turned out to reference only api or Minecraft types already,
 relocations rather than the new wrapper interfaces the bucket-F estimate assumed. Every step
 was verified against a byte-identical `runData` diff and the GameTest suite, which grew from
 96 to 98 with the life stage guard.
+
+Phase 2 landed 2026-08-01. Bucket B is closed and `checkBaseBoundary` now ratchets the whole base
+artifact against a checked-in baseline: 68 files at the start of the phase, 60 remaining. It fails
+both on a leak absent from the baseline and on a baseline entry that no longer leaks, so the count
+can only fall.
+
+Only one of the seven bucket-B files needed an extension point. Four were misfiled types and two
+were per-module constant holders. Two prerequisites surfaced during execution that file-level import
+analysis could not see: `addGeneticBasics`, shared by four creative tabs, named two apiculture items,
+and the lepidopterology tab named the apiculture scoop - so `SCOOP`, `HONEY_DROP` and `HONEYDEW`
+moved to core first. Two new golden-master GameTests were added, for creative tab membership and for
+data component registration, because neither datagen nor any existing test saw those.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
