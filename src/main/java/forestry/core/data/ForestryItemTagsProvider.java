@@ -104,7 +104,7 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.BEE_COMBS).add(ApicultureItems.BEE_COMBS.itemArray());
 		tags.tag(ForestryTags.Items.VILLAGE_COMBS).add(ApicultureItems.BEE_COMBS.itemArray());
 		tags.tag(ForestryTags.Items.PROPOLIS).add(ApicultureItems.PROPOLIS.itemArray());
-		tags.tag(ForestryTags.Items.DROP_HONEY).add(ApicultureItems.HONEY_DROP, ApicultureItems.HONEYDEW);
+		tags.tag(ForestryTags.Items.DROP_HONEY).add(CoreItems.HONEY_DROP, CoreItems.HONEYDEW);
 
 		tags.copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
@@ -134,7 +134,7 @@ public class ForestryItemTagsProvider {
 			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "workbench"))
 			.add(Items.CRAFTING_TABLE);
 
-		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());
+		tags.tag(ForestryTags.Items.SCOOPS).add(CoreItems.SCOOP.item());
 
 		tags.tag(ForestryTags.Items.BEES).add(ApicultureItems.BEE_DRONE.get(), ApicultureItems.BEE_PRINCESS.get(), ApicultureItems.BEE_QUEEN.get(), ApicultureItems.BEE_LARVAE.get());
 		tags.tag(ItemTags.BOATS).add(ArboricultureItems.BOAT.itemArray());

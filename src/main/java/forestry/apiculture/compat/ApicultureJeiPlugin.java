@@ -1,5 +1,7 @@
 package forestry.apiculture.compat;
 
+import forestry.core.features.CoreItems;
+
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 import forestry.api.core.IProductProducer;
@@ -91,7 +93,7 @@ public class ApicultureJeiPlugin implements IModPlugin {
 			ApicultureItems.APIARIST_LEGS
 		);
 
-		JeiUtil.addDescription(registry, ApicultureItems.SCOOP);
+		JeiUtil.addDescription(registry, CoreItems.SCOOP);
 
 		for (MutationsRecipeCategory category : mutationsCategories) {
 			registry.addRecipes(category.getRecipeType(), category.speciesType.getMutations().getAllMutations().stream().map(MutationDisplay::new).toList());

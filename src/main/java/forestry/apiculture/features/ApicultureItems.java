@@ -28,8 +28,6 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemCreativeHiveFrame> FRAME_CREATIVE = REGISTRY.item(ItemCreativeHiveFrame::new, "creative_frame");
 
 	// BEE RESOURCES
-	public static final FeatureItem<Item> HONEY_DROP = REGISTRY.item("honey_drop");
-	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
 	public static final FeatureItem<Item> EXPERIENCE_DROP = REGISTRY.item("experience_drop");
 	public static final FeatureItemGroup<ItemPropolis, EnumPropolis> PROPOLIS = REGISTRY.itemGroup(ItemPropolis::new, EnumPropolis.values()).identifier(type -> type == EnumPropolis.NORMAL ? "propolis" : type.getSerializedName() + "_propolis").create();
 
@@ -50,7 +48,6 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemArmorApiarist> APIARIST_BOOTS = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.BOOTS), "apiarists_shoes");
 
 	// TOOLS
-	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(ItemScoop::new, "scoop");
 	public static final FeatureItem<ItemSmoker> SMOKER = REGISTRY.item(ItemSmoker::new, "bee_smoker");
 
 	// MISC

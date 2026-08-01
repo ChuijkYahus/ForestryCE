@@ -112,7 +112,7 @@ public class ForestryCreativeTabs {
 		// Genetics tools
 		addGeneticBasics(items);
 		items.accept(CoreItems.FORESTERS_MANUAL);
-		items.accept(ApicultureItems.SCOOP);
+		items.accept(CoreItems.SCOOP);
 		items.accept(ApicultureItems.SMOKER);
 		items.accept(ArboricultureItems.GRAFTER);
 		items.accept(ArboricultureItems.PROVEN_GRAFTER);
@@ -205,7 +205,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.APIARIST_CHEST));
 
 		// Gear
-		items.accept(ApicultureItems.SCOOP);
+		items.accept(CoreItems.SCOOP);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(ApicultureItems.APIARIST_HELMET);
 		items.accept(ApicultureItems.APIARIST_CHEST);
@@ -302,7 +302,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST));
 
 		// Gear
-		items.accept(ApicultureItems.SCOOP);
+		items.accept(CoreItems.SCOOP);
 
 		// Specimens
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.BUTTERFLY);
@@ -457,8 +457,8 @@ public class ForestryCreativeTabs {
 
 	private static void addGeneticBasics(CreativeModeTab.Output items) {
 		items.accept(CoreItems.PORTABLE_ALYZER);
-		items.accept(ApicultureItems.HONEY_DROP);
-		items.accept(ApicultureItems.HONEYDEW);
+		items.accept(CoreItems.HONEY_DROP);
+		items.accept(CoreItems.HONEYDEW);
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE));
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER));
 	}

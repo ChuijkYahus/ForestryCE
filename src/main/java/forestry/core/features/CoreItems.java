@@ -2,6 +2,7 @@ package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.items.ItemBeesWax;
+import forestry.core.items.ItemScoop;
 import forestry.core.items.ItemRefractoryWax;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.circuits.ItemCircuitBoard;
@@ -114,6 +115,11 @@ public class CoreItems {
 	/* Misc */
 	public static final FeatureItemGroup<ItemCraftingMaterial, EnumCraftingMaterial> CRAFTING_MATERIALS = REGISTRY.itemGroup(ItemCraftingMaterial::new, EnumCraftingMaterial.values()).create();
 	public static final FeatureItemGroup<ItemFruit, ItemFruit.EnumFruit> FRUITS = REGISTRY.itemGroup(ItemFruit::new, ItemFruit.EnumFruit.values()).identifier(type -> type == ItemFruit.EnumFruit.DATES ? "date" : type.getSerializedName()).create();
+	// moved out of apiculture: the scoop catches butterflies as well as bees, and the honey
+	// drops are the Portable Analyzer's fuel, so all three are base concerns
+	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(ItemScoop::new, "scoop");
+	public static final FeatureItem<Item> HONEY_DROP = REGISTRY.item("honey_drop");
+	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
 	public static final FeatureItem<ItemBeesWax> BEESWAX = REGISTRY.item(ItemBeesWax::new, "beeswax");
 	public static final FeatureItem<ItemRefractoryWax> REFRACTORY_WAX = REGISTRY.item(ItemRefractoryWax::new, "refractory_wax");
 }

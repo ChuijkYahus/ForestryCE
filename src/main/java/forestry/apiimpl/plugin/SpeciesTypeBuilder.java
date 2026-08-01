@@ -1,5 +1,7 @@
 package forestry.apiimpl.plugin;
 
+import forestry.core.features.CoreItems;
+
 import com.google.common.base.Preconditions;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpeciesType;
@@ -36,8 +38,8 @@ public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 
 		// The default research materials across all species in Forestry
 		this.researchMaterials = map -> {
-			map.put(ApicultureItems.HONEY_DROP.item(), 0.5f);
-			map.put(ApicultureItems.HONEYDEW.item(), 0.7f);
+			map.put(CoreItems.HONEY_DROP.item(), 0.5f);
+			map.put(CoreItems.HONEYDEW.item(), 0.7f);
 			map.put(ApicultureItems.BEE_COMBS.item(EnumHoneyComb.HONEY), 0.4f);
 		};
 	}

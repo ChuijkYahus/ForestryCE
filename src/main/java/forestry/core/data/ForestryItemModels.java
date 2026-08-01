@@ -55,7 +55,7 @@ public class ForestryItemModels {
 		models.generic2d(ArboricultureItems.PROVEN_GRAFTER);
 		models.generic2d(CoreItems.REFRACTORY_WAX);
 		models.generic2d(ApicultureItems.ROYAL_JELLY);
-		models.generic2d(ApicultureItems.SCOOP);
+		models.generic2d(CoreItems.SCOOP);
 		models.generic2d(CoreItems.SOLDERING_IRON);
 		models.generic2d(CoreItems.SPECTACLES);
 		models.generic2d(CoreItems.STURDY_CASING);
@@ -123,8 +123,8 @@ public class ForestryItemModels {
 		}
 		layered(models, ArboricultureItems.TREE_POLLEN, "item/pollen.0", "item/pollen.1");
 
-		models.generic2d(ApicultureItems.HONEY_DROP);
-		models.generic2d(ApicultureItems.HONEYDEW);
+		models.generic2d(CoreItems.HONEY_DROP);
+		models.generic2d(CoreItems.HONEYDEW);
 		models.generic2d(ApicultureItems.EXPERIENCE_DROP);
 		models.generic2d(ApicultureItems.HONEY_POT);
 		models.generic2d(ApicultureItems.HONEYED_SLICE);

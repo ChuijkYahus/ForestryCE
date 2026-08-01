@@ -320,7 +320,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("# #");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.TOOLS, ApicultureItems.SCOOP, recipe -> {
+		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SCOOP, recipe -> {
 			recipe.define('#', Tags.Items.RODS_WOODEN);
 			recipe.define('X', ItemTags.WOOL);
 			recipe.pattern("#X#");
@@ -347,8 +347,8 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting("glistering_melon_slice", RecipeCategory.MISC, Items.GLISTERING_MELON_SLICE, recipe -> {
-			recipe.define('#', ApicultureItems.HONEY_DROP);
-			recipe.define('X', ApicultureItems.HONEYDEW);
+			recipe.define('#', CoreItems.HONEY_DROP);
+			recipe.define('X', CoreItems.HONEYDEW);
 			recipe.define('Y', Items.MELON_SLICE);
 			recipe.pattern("#X#");
 			recipe.pattern("#Y#");
@@ -481,10 +481,10 @@ public class ForestryRecipeProvider {
 
 	private static void registerFoodRecipes(MKRecipeProvider recipes) {
 		ItemLike waxCapsule = FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE);
-		ItemLike honeyDrop = ApicultureItems.HONEY_DROP;
+		ItemLike honeyDrop = CoreItems.HONEY_DROP;
 
 		recipes.shapedCrafting(RecipeCategory.FOOD, ApicultureItems.AMBROSIA, recipe -> {
-			recipe.define('#', ApicultureItems.HONEYDEW);
+			recipe.define('#', CoreItems.HONEYDEW);
 			recipe.define('X', ApicultureItems.ROYAL_JELLY);
 			recipe.define('Y', waxCapsule);
 			recipe.pattern("#Y#");
@@ -814,7 +814,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting("honey_drop_block", RecipeCategory.MISC, Items.HONEY_BLOCK, 1, recipe -> {
-			recipe.define('V', ApicultureItems.HONEY_DROP);
+			recipe.define('V', CoreItems.HONEY_DROP);
 			recipe.pattern("VVV");
 			recipe.pattern("V V");
 			recipe.pattern("VVV");
@@ -835,7 +835,7 @@ public class ForestryRecipeProvider {
 		});
 
 		// Books
-		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
+		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, CoreItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
 		recipes.shapelessCrafting("foresters_manual_butterfly", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, LepidopterologyItems.BUTTERFLY_GE);
 	}
@@ -1253,7 +1253,7 @@ public class ForestryRecipeProvider {
 				.define('#', ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL))
 				.define('X', Items.GUNPOWDER)
 				.define('Y', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
-				.define('Z', ApicultureItems.HONEY_DROP))
+				.define('Z', CoreItems.HONEY_DROP))
 			.build(consumer, id("carpenter", "iodine_charge"));
 		new CarpenterRecipeBuilder()
 			.setLiquid(new FluidStack(Fluids.WATER, 1000))
@@ -1265,7 +1265,7 @@ public class ForestryRecipeProvider {
 				.define('#', ApicultureItems.ROYAL_JELLY)
 				.define('X', Items.GUNPOWDER)
 				.define('Y', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
-				.define('Z', ApicultureItems.HONEYDEW))
+				.define('Z', CoreItems.HONEYDEW))
 			.build(consumer, id("carpenter", "dissipation_charge"));
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(100)
@@ -1582,7 +1582,7 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_POLLEN_CLUSTER_NORMAL.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL)));
 		crate(consumer, CrateItems.CRATED_POLLEN_CLUSTER_CRYSTALLINE.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.CRYSTALLINE)));
 		crate(consumer, CrateItems.CRATED_PROPOLIS.get(), Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)));
-		crate(consumer, CrateItems.CRATED_HONEYDEW.get(), Ingredient.of(ApicultureItems.HONEYDEW));
+		crate(consumer, CrateItems.CRATED_HONEYDEW.get(), Ingredient.of(CoreItems.HONEYDEW));
 		crate(consumer, CrateItems.CRATED_ROYAL_JELLY.get(), Ingredient.of(ApicultureItems.ROYAL_JELLY));
 
 		for (EnumHoneyComb comb : EnumHoneyComb.VALUES) {
@@ -1645,7 +1645,7 @@ public class ForestryRecipeProvider {
 
 	private static void registerCentrifuge(RecipeOutput consumer) {
 
-		ItemStack honeyDrop = ApicultureItems.HONEY_DROP.stack();
+		ItemStack honeyDrop = CoreItems.HONEY_DROP.stack();
 
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -1674,7 +1674,7 @@ public class ForestryRecipeProvider {
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.DRIPPING)))
-			.product(1.0f, ApicultureItems.HONEYDEW.stack())
+			.product(1.0f, CoreItems.HONEYDEW.stack())
 			.product(0.4f, honeyDrop)
 			.build(consumer, id("centrifuge", "dripping_comb"));
 		new CentrifugeRecipeBuilder()
@@ -1732,7 +1732,7 @@ public class ForestryRecipeProvider {
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MELLOW)))
-			.product(0.6f, ApicultureItems.HONEYDEW.stack())
+			.product(0.6f, CoreItems.HONEYDEW.stack())
 			.product(0.2f, CoreItems.BEESWAX.stack())
 			.product(0.3f, new ItemStack(Items.QUARTZ))
 			.build(consumer, id("centrifuge", "mellow_comb"));
@@ -1740,7 +1740,7 @@ public class ForestryRecipeProvider {
 			.setProcessingTime(20)
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE)))
 			.product(1.0f, CoreItems.BEESWAX.stack())
-			.product(0.9f, ApicultureItems.HONEYDEW.stack())
+			.product(0.9f, CoreItems.HONEYDEW.stack())
 			.product(0.5f, CoreItems.AMBER.stack())
 			.build(consumer, id("centrifuge", "vintage_comb"));
 		new CentrifugeRecipeBuilder()
@@ -1995,7 +1995,7 @@ public class ForestryRecipeProvider {
 	private static void registerFermenter(RecipeOutput consumer) {
 		// Apiculture
 		new FermenterRecipeBuilder()
-			.setResource(Ingredient.of(ApicultureItems.HONEYDEW))
+			.setResource(Ingredient.of(CoreItems.HONEYDEW))
 			.setFermentationValue(500)
 			.setOutput(ForestryFluids.SHORT_MEAD.getFluid())
 			.setFluidResource(ForestryFluids.HONEY.getFluid(1))
@@ -2104,7 +2104,7 @@ public class ForestryRecipeProvider {
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
-			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEY_DROP)))
+			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEY_DROP)))
 			.setFluidOutput(honeyDropFluid)
 			.setRemnants(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
 			.setRemnantsChance(5 / 100f)
@@ -2125,7 +2125,7 @@ public class ForestryRecipeProvider {
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
-			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEYDEW)))
+			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEYDEW)))
 			.setFluidOutput(honeyDropFluid)
 			.build(consumer, id("squeezer", "honey_dew"));
 

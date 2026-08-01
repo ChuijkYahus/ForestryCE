@@ -1,4 +1,4 @@
-package forestry.apiculture.items;
+package forestry.core.items;
 
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryBeeSpecies;

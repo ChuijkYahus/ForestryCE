@@ -158,7 +158,7 @@ public class LootTableHelper {
 			LootTable.lootTable().withPool(LootPool.lootPool()
 				.name("forestry_apiculture_bees")
 				.setRolls(ConstantValue.exactly(1))
-				.add(LootItem.lootTableItem(ApicultureItems.SCOOP.item()))
+				.add(LootItem.lootTableItem(CoreItems.SCOOP.item()))
 			));
 		add(BuiltInLootTables.STRONGHOLD_CORRIDOR, "apiculture",
 			LootTable.lootTable().withPool(LootPool.lootPool()
@@ -198,7 +198,7 @@ public class LootTableHelper {
 				.name("forestry_apiculture_items")
 				.setRolls(ConstantValue.exactly(4))
 				.add(TagEntry.expandTag(ForestryTags.Items.VILLAGE_COMBS).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 4))))
-				.add(LootItem.lootTableItem(ApicultureItems.SCOOP.item()).setWeight(5))
+				.add(LootItem.lootTableItem(CoreItems.SCOOP.item()).setWeight(5))
 				.add(LootItem.lootTableItem(ApicultureItems.SMOKER))
 			).withPool(LootPool.lootPool()
 				.name("forestry_apiculture_bees")
