@@ -19,7 +19,7 @@ import forestry.api.multiblock.IMultiblockInventoryProbe;
 import forestry.core.config.ForestryConfig;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.FakeInventoryAdapter;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.multiblock.MultiblockController;
 import forestry.core.tiles.ILiquidTankTile;

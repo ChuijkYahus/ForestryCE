@@ -1,4 +1,4 @@
-package forestry.core.tiles;
+package forestry.api.core;
 
 import net.minecraft.world.item.ItemStack;
 

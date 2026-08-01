@@ -4,7 +4,7 @@ import forestry.api.climate.IClimateProvider;
 import forestry.api.multiblock.IFarmController;
 import forestry.core.circuits.ISocketable;
 import forestry.core.fluids.ITankManager;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.network.IStreamableGui;
 import forestry.core.owner.IOwnedTile;
 import forestry.cultivation.IFarmHousingInternal;

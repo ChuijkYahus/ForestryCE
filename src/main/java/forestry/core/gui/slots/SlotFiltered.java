@@ -2,7 +2,7 @@ package forestry.core.gui.slots;
 
 import com.mojang.datafixers.util.Pair;
 import forestry.api.client.ForestrySprites;
-import forestry.core.tiles.IFilterSlotDelegate;
+import forestry.api.core.IFilterSlotDelegate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.InventoryMenu;

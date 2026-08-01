@@ -2,7 +2,7 @@ package forestry.apiculture.multiblock;
 
 import forestry.api.climate.IClimateProvider;
 import forestry.api.multiblock.IAlvearyController;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.network.IStreamableGui;
 import forestry.core.owner.IOwnedTile;
 

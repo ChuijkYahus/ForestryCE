@@ -3,7 +3,7 @@ package forestry.core.gui;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.features.CoreMenuTypes;
 import forestry.core.gui.slots.SlotFilteredInventory;
-import forestry.core.tiles.IFilterSlotDelegate;
+import forestry.api.core.IFilterSlotDelegate;
 import forestry.core.tiles.TileNaturalistChest;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.network.FriendlyByteBuf;

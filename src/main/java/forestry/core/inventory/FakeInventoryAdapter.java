@@ -1,5 +1,6 @@
 package forestry.core.inventory;
 
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.config.Constants;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Direction;

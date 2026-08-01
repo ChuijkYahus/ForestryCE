@@ -5,7 +5,7 @@ import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IStamps;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.owner.IOwnedTile;
 import forestry.core.owner.IOwnerHandler;
 import forestry.core.owner.OwnerHandler;

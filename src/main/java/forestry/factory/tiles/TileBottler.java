@@ -7,7 +7,7 @@ import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.FluidHelper.FillStatus;
 import forestry.core.fluids.StandardTank;
 import forestry.core.fluids.TankManager;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.inventory.watchers.ISlotPickupWatcher;
 import forestry.core.render.TankRenderInfo;
 import forestry.core.tiles.ILiquidTankTile;

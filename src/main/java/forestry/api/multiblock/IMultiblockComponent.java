@@ -1,7 +1,7 @@
 package forestry.api.multiblock;
 
 import com.mojang.authlib.GameProfile;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import net.minecraft.core.BlockPos;
 
 import javax.annotation.Nullable;

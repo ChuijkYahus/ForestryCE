@@ -16,7 +16,7 @@ import forestry.api.multiblock.IMultiblockInventoryProbe;
 import forestry.apiculture.AlvearyBeeModifier;
 import forestry.apiculture.InventoryBeeHousing;
 import forestry.core.inventory.FakeInventoryAdapter;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.multiblock.MultiblockController;
 import forestry.core.render.ParticleRender;
 import forestry.core.tiles.TileUtil;

@@ -13,7 +13,7 @@ import forestry.apiculture.FakeBeekeepingLogic;
 import forestry.apiculture.tiles.FakeBeeHousingInventory;
 import forestry.core.errors.FakeErrorLogic;
 import forestry.core.inventory.FakeInventoryAdapter;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.owner.FakeOwnerHandler;
 import forestry.core.owner.IOwnerHandler;
 import net.minecraft.core.BlockPos;

@@ -5,7 +5,7 @@ import forestry.apiculture.inventory.InventoryApiary;
 import forestry.core.gui.ContainerForestry;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotOutput;
-import forestry.core.tiles.IFilterSlotDelegate;
+import forestry.api.core.IFilterSlotDelegate;
 import net.minecraft.world.Container;
 
 public abstract class ContainerBeeHelper {

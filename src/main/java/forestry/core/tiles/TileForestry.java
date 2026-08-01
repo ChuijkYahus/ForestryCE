@@ -1,5 +1,6 @@
 package forestry.core.tiles;
 
+import forestry.api.core.IFilterSlotDelegate;
 import com.google.common.base.Preconditions;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorLogicSource;
@@ -8,7 +9,7 @@ import forestry.api.util.TickHelper;
 import forestry.core.blocks.TileStreamUpdateTracker;
 import forestry.core.errors.ErrorLogic;
 import forestry.core.inventory.FakeInventoryAdapter;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.BlockPos;

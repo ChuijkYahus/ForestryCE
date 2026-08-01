@@ -11,7 +11,7 @@ import forestry.apiculture.hives.Hive;
 import forestry.apiculture.hives.HiveDecorator;
 import forestry.apiculture.hives.HiveDefinitionSwarmer;
 import forestry.apiculture.inventory.InventorySwarmer;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.tiles.IActivatable;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.SpeciesUtil;

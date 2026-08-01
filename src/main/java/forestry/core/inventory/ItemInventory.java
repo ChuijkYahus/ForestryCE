@@ -2,7 +2,7 @@ package forestry.core.inventory;
 
 import com.google.common.base.Preconditions;
 import forestry.core.features.CoreDataComponents;
-import forestry.core.tiles.IFilterSlotDelegate;
+import forestry.api.core.IFilterSlotDelegate;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.NonNullList;

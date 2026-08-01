@@ -4,7 +4,7 @@ import forestry.api.core.ForestryError;
 import forestry.api.fuels.FuelManager;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.tiles.TemperatureState;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.inventory.InventoryEnginePeat;

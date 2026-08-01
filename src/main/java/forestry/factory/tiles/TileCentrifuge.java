@@ -8,7 +8,7 @@ import forestry.api.core.IErrorLogic;
 import forestry.api.recipes.ICentrifugeRecipe;
 import forestry.core.circuits.ISocketable;
 import forestry.core.config.Constants;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.tiles.IItemStackDisplay;
 import forestry.core.tiles.TilePowered;

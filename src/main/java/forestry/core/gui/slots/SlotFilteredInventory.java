@@ -1,6 +1,6 @@
 package forestry.core.gui.slots;
 
-import forestry.core.tiles.IFilterSlotDelegate;
+import forestry.api.core.IFilterSlotDelegate;
 import net.minecraft.world.Container;
 
 /**

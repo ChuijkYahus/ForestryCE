@@ -11,7 +11,7 @@ import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.FluidRecipeFilter;
 import forestry.core.fluids.TankManager;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.utils.RecipeUtils;
 import net.minecraft.core.BlockPos;

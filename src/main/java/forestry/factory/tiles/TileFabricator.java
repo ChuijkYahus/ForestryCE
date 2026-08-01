@@ -7,7 +7,7 @@ import forestry.api.recipes.IFabricatorSmeltingRecipe;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidRecipeFilter;
 import forestry.core.fluids.TankManager;
-import forestry.core.inventory.IInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.inventory.InventoryGhostCrafting;
