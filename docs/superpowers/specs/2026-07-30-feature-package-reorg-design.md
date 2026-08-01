@@ -47,7 +47,7 @@ Resources: 10,232 generated + 1,959 hand-authored = 12,191 files. 11 locales. 40
 
 | # | Decision | Rationale |
 | --- | --- | --- |
-| D1 | Six jars: `core`, `apiculture`, `arboriculture`, `lepidopterology`, `agriculture`, `mail` | Stated by project owner. Intended deps: everything requires `core`; `lepidopterology` also requires `arboriculture`. **The code contradicts this today - see Unresolved graph problems** |
+| D1 | Six jars: `core`, `apiculture`, `arboriculture`, `lepidopterology`, `agriculture`, `mail` | Stated by project owner. Deps: everything requires `core`; `lepidopterology` also requires `arboriculture`. The code contradicted this; every edge was resolved on 2026-07-31 without adding one - see Graph decisions |
 | D2 | `core` gets an internal layer split (`platform` / `engine` / `content`); content jars go straight to feature subpackages | `core` absorbs ~700 files under D1, so its internal shape does the real work. Layers give one enforceable edge: nothing in `platform` or `engine` may import `content` |
 | D3 | `api` ships whole and undivided in the base artifact; only impl splits | `IForestryPlugin` names every module's registration type in its own signatures. Shipping api whole means those types always resolve; a missing content jar means no registered implementation, not a missing class. Verified: `IForestryPlugin` signatures name only api types, the `Forestry*Species` holders are pure `ResourceLocation` constants with no class-init side effects, and cross-jar `ServiceLoader` works in the FML game layer |
 | D4 | The split is real and optional: a pack may install base + one content jar | Implies six mod ids and makes severing all cross-boundary leaks a hard prerequisite |
@@ -75,23 +75,49 @@ word is taken, so it is not used for the new content directories. The framework 
 `forestry.core.platform.registration`; per-jar registration holders keep the name
 `features/`.
 
-## Unresolved graph problems
+## Graph decisions
 
-D1's dependency graph does not hold today. These must be decided before phase 1, because
-each is either an edge to add to the graph or an edge to sever, and the answer changes
-scope.
+D1's dependency graph did not hold in code. Each edge was resolved on 2026-07-31; none of
+them ended up requiring a new edge in the jar graph.
 
-| Edge | Evidence | Options |
+| Edge | Evidence | Decision |
 | --- | --- | --- |
-| arboriculture -> apiculture | `arboriculture/villagers/ArboricultureVillagers.java:10` imports `apiculture.blocks.NaturalistChestBlockType` | Move the chest-type enum to base, or add the edge |
-| agriculture -> arboriculture | `farming/logic/farmables/FarmableGE.java:14` imports `ArboricultureBlocks` | Likely add the edge: the Arboretum planter farms Forestry trees and is the agriculture tab icon (`ForestryCreativeTabs.java:97-98`), so "agriculture without arboriculture" may not be a coherent configuration |
-| core-jar content -> apiculture | `factory/features/FactoryRecipeTypes.java:5` (`HygroregulatorRecipe`); `storage/features/CrateItems.java:4-7` (`ApicultureItems`, `EnumHoneyComb`, `EnumPollenCluster`, `EnumPropolis`) | Must be severed - D2 puts factory and storage in the base jar, so these are base -> content edges |
-| mail -> apiculture, at the data level | `data/forestry/recipe/stamp_1n.json` requires `forestry:drop_honey` | Needs a cross-jar recipe strategy (see below) |
+| arboriculture -> apiculture | `arboriculture/villagers/ArboricultureVillagers.java:52` uses `apiculture.blocks.NaturalistChestBlockType` | Not a graph edge - the enum is misfiled. Its consumers are `CoreBlocks`, `CoreTiles`, `ForestryCreativeTabs`, `ForestryBewlr` and `ForestryRecipeProvider`, all base, plus one arboriculture file. It moves to `core.platform.block`, which also removes five core -> apiculture references. Folded into bucket D |
+| agriculture -> arboriculture | `farming/logic/farmables/FarmableGE.java:47` calls `ArboricultureBlocks.SAPLING_GE.blockEqual(state)` | Sever. One call site; resolve the sapling by block tag or registry id instead. Without arboriculture the Arboretum still farms vanilla saplings and simply never matches Forestry ones - degrades rather than breaks |
+| base -> apiculture (recipe type) | `factory/features/FactoryRecipeTypes.java:21` registers `HygroregulatorRecipe` | Not a graph edge - one misplaced registration line. The hygroregulator is an alveary component, `IHygroregulatorRecipe` is already in api, and the impl already lives in apiculture. Only the `REGISTRY.recipeType(...)` call moves |
+| base -> apiculture (crates) | `storage/features/CrateItems.java:95-100` registers crated bee products | Needs a crate extension point so apiculture registers its own crates. Base cannot register apiculture items and the only alternative is abandoning the split. Bucket-B-shaped work |
+| base -> apiculture (analyzer fuel) | `core/inventory/PortableAnalyzerInventory.java:42` gates its fuel slot on `ForestryTags.Items.DROP_HONEY`, populated only by `ApicultureItems.HONEY_DROP` and `HONEYDEW` | Move `HONEY_DROP` and `HONEYDEW` to `core.content.resources`. This also populates the `drop_honey` tag from base, so the tag resolves without apiculture |
+| mail -> apiculture (data level) | `data/forestry/recipe/stamp_1n.json` references tag `forestry:drop_honey` | Dissolved by the decision above. See the correction below |
 
-**Cross-jar recipe conditions are an unsolved problem in this design.** Any recipe whose
-ingredients cross a jar boundary needs NeoForge conditions or alternates, or the dependent
-jar is gameplay-dead when installed alone. Mail stamps are the clearest case. No strategy
-exists yet; this needs designing before phase 9.
+### Correction: mail is not gameplay-dead without apiculture
+
+An earlier draft recorded that mail installed without apiculture has uncraftable stamps. That
+is wrong. The `Z` key in `stamp_1n.json` is an alternatives list:
+
+```json
+"Z": [ { "tag": "forestry:drop_honey" }, { "item": "minecraft:slime_ball" } ]
+```
+
+Slime balls are vanilla, so stamps were always craftable. The real exposure was narrower - the
+tag file `data/forestry/tags/item/drop_honey.json` lists two items that would not exist, which
+fails datapack load. Moving `HONEY_DROP` and `HONEYDEW` to base resolves that too.
+
+### Accepted cost: the Portable Analyzer is bee-gated
+
+Honey drops are produced only by centrifuging bee combs. Moving the items to base makes them
+registerable, not obtainable, so a base-only install has a Portable Analyzer whose fuel slot
+accepts an item nothing in base can produce. This was accepted deliberately over adding a
+vanilla-sourced recipe, which would have been a balance change visible to every player
+including those who never split the jars. The tool is inert rather than broken, in the same
+spirit as D7's no-op managers, but with no in-game signposting of why.
+
+### Cross-jar recipes: no general policy yet
+
+The one known instance dissolved by relocation rather than by conditions, so no
+`neoforge:conditions` strategy is committed. No systematic audit of cross-jar recipes has been
+run. That audit belongs to phase 9, when the resource partition makes each recipe's owning jar
+explicit; if it turns up further instances, a conditions-and-alternates policy is the expected
+answer.
 
 **Cross-jar loot modifiers likewise.** `data/forestry/loot_modifiers/chests/abandoned_mineshaft.json`
 is a single file whose `extensions` list spans `["apiculture", "factory", "storage"]`.
@@ -259,7 +285,7 @@ merges via `getResourceStack` and server-side `LanguageHook.java:63` likewise; t
 atlases merge via `SpriteSourceList.java:85`, so this repo's
 `assets/forestry/atlases/{blocks,gui}.json` split cleanly; models, blockstates, recipes and
 loot tables have unique per-item paths. The exception is cross-jar loot *modifiers*, noted
-above under Unresolved graph problems.
+above under Graph decisions.
 
 **Creative tabs.** Per-jar tabs are viable: NeoForge's `CreativeModeTabRegistry` null-checks
 both endpoints of a sort edge, so `withTabsBefore/After` across optional jars degrades
@@ -345,13 +371,15 @@ Everything that makes the split real lands before a single package moves. Phases
 6 are independently reviewable and shippable on the current layout.
 
 ```
-0   cut a release, tag it              the branch-divergence freeze point
-0a  resolve the graph problems         decide each edge in Unresolved graph
-                                       problems; design cross-jar recipe
-                                       conditions; prove runData determinism
-1   sever api -> impl                  ForestryTags todo first (deletes 84
-                                       aliases), then the 9 other crossing
-                                       files, then the 6 core-impl ones
+0a  prerequisites  DONE 2026-07-31     every graph edge resolved by severing
+                                       or relocating, none added; runData
+                                       determinism proven by two consecutive
+                                       runs with written: 0 and no diff
+1a  sever api -> impl, mechanical      checkApiBoundary gate, 3 javadoc-only
+                                       imports, the 84 ForestryTags aliases,
+                                       the 3 life stage enums. 16 -> 9 files
+1b  sever api -> impl, api additions   the 9 files needing a new public type
+                                       or an SPI inversion. 9 -> 0 files
 2   central indexes -> extension       creative tabs, packet ids,
     points                             Core{Blocks,Items,Tiles,DataComponents}
 3   species-aware engine               bucket C
@@ -446,9 +474,15 @@ cherry-picks, and bucket B's work (packet registration, creative tabs) sits prec
 the Forge 1.20.1 and NeoForge 1.21.1 APIs diverge most. After phase 7 even manual porting
 becomes impractical. Decide early whether `1.20.1` is frozen.
 
-**Two breaking waves.** Phase 1 removes 84 public constants; phase 7 renames api packages.
-Both break addons. Batch them into one major version rather than shipping two migrations.
+**One breaking wave, deliberately.** Phase 1 removes 84 public constants and phase 7 renames
+api packages; both break any addon that touches the code. No release is cut ahead of this
+work: the whole restructure ships as a single breaking change so addon authors migrate once
+rather than tracking a sequence of them. That is why there is no phase 0.
 `ForestryCE Migration Guide.md` is the natural home for the mapping table.
+
+The cost is accepted knowingly: without a fresh tag there is no recent known-good build to
+bisect against if phases 1 through 6 regress something. The GameTest suite and the
+byte-identical `runData` diff are the compensating controls.
 
 **Registration-order shift.** Six mods register in mod-sort order instead of one mod's
 module order, and plugins sort by id, so six ids replace one. Mostly benign, but it will
@@ -477,6 +511,10 @@ mechanism, the six-mod-id conclusion, the D5 build shape and the runtime resourc
 claims. It found one substantive defect: the gating audit scoped to `forestry/core` and
 `forestry/api`, but the base artifact also ships `apiimpl` and `plugin`, leaving 19 files
 and 64 imports uncounted - including `ForestryApiImpl` and `PluginManager`, the two classes
-D3 depends on most. That produced buckets I and G, the restated phase-6 gate, and the
-Unresolved graph problems section. It also corrected the alias count from 86 to 84,
+D3 depends on most. That produced buckets I and G, the restated phase-6 gate, and the graph
+problems that Graph decisions now resolves. It also corrected the alias count from 86 to 84,
 corrected bucket C's prescription, and established that `1.20.1` is a legacy-Forge branch.
+
+2026-07-31: phase 0a resolved every graph edge, dropped phase 0, and corrected the review's
+claim that mail is gameplay-dead without apiculture - the stamp recipe already accepts vanilla
+slime balls. Added the Portable Analyzer fuel finding, which the review did not catch either.
