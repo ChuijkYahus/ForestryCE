@@ -1,6 +1,5 @@
 package forestry.arboriculture;
 
-import forestry.api.ForestryTags;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.IGenome;
@@ -49,9 +48,9 @@ public class PodFruit extends Fruit {
 	@Override
 	public TagKey<Block> getLogTag() {
 		return switch (this.type) {
-			case DATES -> ForestryTags.Blocks.PALM_LOGS;
-			case PAPAYA -> ForestryTags.Blocks.PAPAYA_LOGS;
-			case COCONUT -> ForestryTags.Blocks.COCONUT_LOGS;
+			case DATES -> ForestryWoodType.PALM.blockTag;
+			case PAPAYA -> ForestryWoodType.PAPAYA.blockTag;
+			case COCONUT -> ForestryWoodType.COCONUT.blockTag;
 			default -> BlockTags.JUNGLE_LOGS;
 		};
 	}

@@ -1,6 +1,5 @@
 package forestry.api;
 
-import forestry.arboriculture.ForestryWoodType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -32,50 +31,6 @@ public class ForestryTags {
 		public static final TagKey<Block> ORES_APATITE = commonTag("ores/apatite");
 
 		public static final TagKey<Block> STORAGE_BLOCKS_RAW_TIN = commonTag("storage_blocks/raw_tin");
-
-		// todo remove in favor of directly using ITreeManager
-		public static final TagKey<Block> LARCH_LOGS = ForestryWoodType.LARCH.blockTag;
-		public static final TagKey<Block> TEAK_LOGS = ForestryWoodType.TEAK.blockTag;
-		public static final TagKey<Block> ACACIA_DESERT_LOGS = ForestryWoodType.CAMELTHORN.blockTag;
-		public static final TagKey<Block> LIME_LOGS = ForestryWoodType.LIME.blockTag;
-		public static final TagKey<Block> CHESTNUT_LOGS = ForestryWoodType.CHESTNUT.blockTag;
-		public static final TagKey<Block> WENGE_LOGS = ForestryWoodType.WENGE.blockTag;
-		public static final TagKey<Block> BAOBAB_LOGS = ForestryWoodType.BAOBAB.blockTag;
-		public static final TagKey<Block> SEQUOIA_LOGS = ForestryWoodType.SEQUOIA.blockTag;
-		public static final TagKey<Block> KAPOK_LOGS = ForestryWoodType.KAPOK.blockTag;
-		public static final TagKey<Block> EBONY_LOGS = ForestryWoodType.EBONY.blockTag;
-		public static final TagKey<Block> MAHOGANY_LOGS = ForestryWoodType.MAHOGANY.blockTag;
-		public static final TagKey<Block> BALSA_LOGS = ForestryWoodType.BALSA.blockTag;
-		public static final TagKey<Block> WILLOW_LOGS = ForestryWoodType.WILLOW.blockTag;
-		public static final TagKey<Block> WALNUT_LOGS = ForestryWoodType.WALNUT.blockTag;
-		public static final TagKey<Block> GREENHEART_LOGS = ForestryWoodType.GREENHEART.blockTag;
-		public static final TagKey<Block> MAHOE_LOGS = ForestryWoodType.MAHOE.blockTag;
-		public static final TagKey<Block> POPLAR_LOGS = ForestryWoodType.POPLAR.blockTag;
-		public static final TagKey<Block> PALM_LOGS = ForestryWoodType.PALM.blockTag;
-		public static final TagKey<Block> PAPAYA_LOGS = ForestryWoodType.PAPAYA.blockTag;
-		public static final TagKey<Block> PINE_LOGS = ForestryWoodType.PINE.blockTag;
-		public static final TagKey<Block> PLUM_LOGS = ForestryWoodType.PLUM.blockTag;
-		public static final TagKey<Block> MAPLE_LOGS = ForestryWoodType.MAPLE.blockTag;
-		public static final TagKey<Block> CITRUS_LOGS = ForestryWoodType.LEMON.blockTag;
-		public static final TagKey<Block> GIGANTEUM_LOGS = ForestryWoodType.GIANT_SEQUOIA.blockTag;
-		public static final TagKey<Block> IPE_LOGS = ForestryWoodType.IPE.blockTag;
-		public static final TagKey<Block> PADAUK_LOGS = ForestryWoodType.PADAUK.blockTag;
-		public static final TagKey<Block> COCOBOLO_LOGS = ForestryWoodType.COCOBOLO.blockTag;
-		public static final TagKey<Block> ZEBRANO_LOGS = ForestryWoodType.ZEBRANO.blockTag;
-		public static final TagKey<Block> ELM_LOGS = ForestryWoodType.ELM.blockTag;
-		public static final TagKey<Block> FIR_LOGS = ForestryWoodType.FIR.blockTag;
-		public static final TagKey<Block> COCONUT_LOGS = ForestryWoodType.COCONUT.blockTag;
-		public static final TagKey<Block> BEECH_LOGS = ForestryWoodType.BEECH.blockTag;
-		public static final TagKey<Block> FEIJOA_LOGS = ForestryWoodType.FEIJOA.blockTag;
-		public static final TagKey<Block> DOGWOOD_LOGS = ForestryWoodType.DOGWOOD.blockTag;
-		public static final TagKey<Block> GINKGO_LOGS = ForestryWoodType.GINKGO.blockTag;
-		public static final TagKey<Block> JACARANDA_LOGS = ForestryWoodType.JACARANDA.blockTag;
-		public static final TagKey<Block> PEWEN_LOGS = ForestryWoodType.PEWEN.blockTag;
-		public static final TagKey<Block> MACROCARPA_LOGS = ForestryWoodType.MACROCARPA.blockTag;
-		public static final TagKey<Block> OLIVE_LOGS = ForestryWoodType.OLIVE.blockTag;
-		public static final TagKey<Block> ORANGE_LOGS = ForestryWoodType.ORANGE.blockTag;
-		public static final TagKey<Block> PEAR_LOGS = ForestryWoodType.PEAR.blockTag;
-		public static final TagKey<Block> KAURI_LOGS = ForestryWoodType.KAURI.blockTag;
 
 		// Categories of flowers
 		public static final TagKey<Block> VANILLA_FLOWERS = blockTag("flowers/vanilla");
@@ -145,49 +100,6 @@ public class ForestryTags {
 		public static final TagKey<Item> ORES_APATITE = commonTag("ores/apatite");
 
 		public static final TagKey<Item> STORAGE_BLOCKS_RAW_TIN = commonTag("storage_blocks/raw_tin");
-
-		public static final TagKey<Item> LARCH_LOGS = ForestryWoodType.LARCH.itemTag;
-		public static final TagKey<Item> TEAK_LOGS = ForestryWoodType.TEAK.itemTag;
-		public static final TagKey<Item> ACACIA_DESERT_LOGS = ForestryWoodType.CAMELTHORN.itemTag;
-		public static final TagKey<Item> LIME_LOGS = ForestryWoodType.LIME.itemTag;
-		public static final TagKey<Item> CHESTNUT_LOGS = ForestryWoodType.CHESTNUT.itemTag;
-		public static final TagKey<Item> WENGE_LOGS = ForestryWoodType.WENGE.itemTag;
-		public static final TagKey<Item> BAOBAB_LOGS = ForestryWoodType.BAOBAB.itemTag;
-		public static final TagKey<Item> SEQUOIA_LOGS = ForestryWoodType.SEQUOIA.itemTag;
-		public static final TagKey<Item> KAPOK_LOGS = ForestryWoodType.KAPOK.itemTag;
-		public static final TagKey<Item> EBONY_LOGS = ForestryWoodType.EBONY.itemTag;
-		public static final TagKey<Item> MAHOGANY_LOGS = ForestryWoodType.MAHOGANY.itemTag;
-		public static final TagKey<Item> BALSA_LOGS = ForestryWoodType.BALSA.itemTag;
-		public static final TagKey<Item> WILLOW_LOGS = ForestryWoodType.WILLOW.itemTag;
-		public static final TagKey<Item> WALNUT_LOGS = ForestryWoodType.WALNUT.itemTag;
-		public static final TagKey<Item> GREENHEART_LOGS = ForestryWoodType.GREENHEART.itemTag;
-		public static final TagKey<Item> MAHOE_LOGS = ForestryWoodType.MAHOE.itemTag;
-		public static final TagKey<Item> POPLAR_LOGS = ForestryWoodType.POPLAR.itemTag;
-		public static final TagKey<Item> PALM_LOGS = ForestryWoodType.PALM.itemTag;
-		public static final TagKey<Item> PAPAYA_LOGS = ForestryWoodType.PAPAYA.itemTag;
-		public static final TagKey<Item> PINE_LOGS = ForestryWoodType.PINE.itemTag;
-		public static final TagKey<Item> PLUM_LOGS = ForestryWoodType.PLUM.itemTag;
-		public static final TagKey<Item> MAPLE_LOGS = ForestryWoodType.MAPLE.itemTag;
-		public static final TagKey<Item> CITRUS_LOGS = ForestryWoodType.LEMON.itemTag;
-		public static final TagKey<Item> GIGANTEUM_LOGS = ForestryWoodType.GIANT_SEQUOIA.itemTag;
-		public static final TagKey<Item> IPE_LOGS = ForestryWoodType.IPE.itemTag;
-		public static final TagKey<Item> PADAUK_LOGS = ForestryWoodType.PADAUK.itemTag;
-		public static final TagKey<Item> COCOBOLO_LOGS = ForestryWoodType.COCOBOLO.itemTag;
-		public static final TagKey<Item> ZEBRANO_LOGS = ForestryWoodType.ZEBRANO.itemTag;
-		public static final TagKey<Item> ELM_LOGS = ForestryWoodType.ELM.itemTag;
-		public static final TagKey<Item> FIR_LOGS = ForestryWoodType.FIR.itemTag;
-		public static final TagKey<Item> COCONUT_LOGS = ForestryWoodType.COCONUT.itemTag;
-		public static final TagKey<Item> BEECH_LOGS = ForestryWoodType.BEECH.itemTag;
-		public static final TagKey<Item> FEIJOA_LOGS = ForestryWoodType.FEIJOA.itemTag;
-		public static final TagKey<Item> DOGWOOD_LOGS = ForestryWoodType.DOGWOOD.itemTag;
-		public static final TagKey<Item> GINKGO_LOGS = ForestryWoodType.GINKGO.itemTag;
-		public static final TagKey<Item> JACARANDA_LOGS = ForestryWoodType.JACARANDA.itemTag;
-		public static final TagKey<Item> PEWEN_LOGS = ForestryWoodType.PEWEN.itemTag;
-		public static final TagKey<Item> MACROCARPA_LOGS = ForestryWoodType.MACROCARPA.itemTag;
-		public static final TagKey<Item> OLIVE_LOGS = ForestryWoodType.OLIVE.itemTag;
-		public static final TagKey<Item> ORANGE_LOGS = ForestryWoodType.ORANGE.itemTag;
-		public static final TagKey<Item> PEAR_LOGS = ForestryWoodType.PEAR.itemTag;
-		public static final TagKey<Item> KAURI_LOGS = ForestryWoodType.KAURI.itemTag;
 
 		public static final TagKey<Item> STAMPS = itemTag("stamps");
 
@@ -264,7 +176,6 @@ public class ForestryTags {
 		}
 	}
 
-	// These have to be outside of Blocks and Items classes so that ForestryWoodType doesn't cause a circular dependency
 	@ApiStatus.Internal
 	public static TagKey<Block> blockTag(String name) {
 		return BlockTags.create(ForestryConstants.forestry(name));
