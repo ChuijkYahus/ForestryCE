@@ -1,7 +1,5 @@
 package forestry.api.arboriculture;
 
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,12 +13,11 @@ import java.util.function.Supplier;
 
 /**
  * Provides access to tree-related registries, and to Forestry and Vanilla wood items.
+ * Wood types are supplied by the arboriculture module as {@link IWoodType} implementations.
  * Forestry wood blocks have the same block state properties as vanilla ones.
  * Note that all doors are fireproof (even vanilla).
  *
  * @see WoodBlockKind
- * @see ForestryWoodType
- * @see VanillaWoodType
  * @since 2.6.0
  */
 public interface ITreeManager {
