@@ -40,11 +40,6 @@ core/items/ItemSpectacles.java
 core/models/baker/ModelBakerModel.java
 core/ModuleCore.java
 core/multiblock/LevelStructureView.java
-core/network/packets/BeeEffectSyncPacket.java
-core/network/packets/BeeSpeciesSyncPacket.java
-core/network/packets/ButterflySpeciesSyncPacket.java
-core/network/packets/FlowerTypeSyncPacket.java
-core/network/packets/TreeSpeciesSyncPacket.java
 core/render/ParticleRender.java
 core/utils/TreeUtil.java
 core/worldgen/ApiaristPoolElement.java

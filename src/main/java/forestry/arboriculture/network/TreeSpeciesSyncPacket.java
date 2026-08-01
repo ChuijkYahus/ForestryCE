@@ -1,4 +1,4 @@
-package forestry.core.network.packets;
+package forestry.arboriculture.network;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.network.PacketIdClient;
 
 /**
  * Server -&gt; client sync of the loaded tree species definitions, sent on player login/reload (see
@@ -32,7 +31,7 @@ import forestry.core.network.PacketIdClient;
 public record TreeSpeciesSyncPacket(Map<ResourceLocation, TreeSpeciesDefinition> definitions) implements CustomPacketPayload {
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.TREE_SPECIES_SYNC;
+		return ArboriculturePacketIds.TREE_SPECIES_SYNC;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, TreeSpeciesSyncPacket msg) {

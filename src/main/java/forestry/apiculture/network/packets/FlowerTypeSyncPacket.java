@@ -1,4 +1,4 @@
-package forestry.core.network.packets;
+package forestry.apiculture.network.packets;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import forestry.api.apiculture.IFlowerType;
 import forestry.apiculture.genetics.FlowerTypeManager;
 import forestry.apiculture.genetics.FlowerTypeTypes;
 import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.network.PacketIdClient;
+import forestry.apiculture.network.ApiculturePacketIds;
 
 /**
  * Server -&gt; client sync of the loaded flower-type definitions, sent on player login/reload (before
@@ -28,7 +28,7 @@ public record FlowerTypeSyncPacket(Map<ResourceLocation, IFlowerType> definition
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.FLOWER_TYPE_SYNC;
+		return ApiculturePacketIds.FLOWER_TYPE_SYNC;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, FlowerTypeSyncPacket msg) {

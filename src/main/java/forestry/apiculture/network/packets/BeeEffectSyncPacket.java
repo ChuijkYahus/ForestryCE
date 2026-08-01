@@ -1,4 +1,4 @@
-package forestry.core.network.packets;
+package forestry.apiculture.network.packets;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.apiculture.genetics.BeeEffectManager;
 import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.network.PacketIdClient;
+import forestry.apiculture.network.ApiculturePacketIds;
 
 /**
  * Server -&gt; client sync of the datapack-loaded bee effects, sent on player login/reload (see {@code ModuleCore}'s
@@ -33,7 +33,7 @@ public record BeeEffectSyncPacket(Map<ResourceLocation, IBeeEffect> effects) imp
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.BEE_EFFECT_SYNC;
+		return ApiculturePacketIds.BEE_EFFECT_SYNC;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, BeeEffectSyncPacket msg) {

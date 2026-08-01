@@ -1,4 +1,4 @@
-package forestry.core.network.packets;
+package forestry.lepidopterology.network;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.network.PacketIdClient;
 import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
 import forestry.lepidopterology.genetics.ButterflySpeciesManager;
 
@@ -38,7 +37,7 @@ import forestry.lepidopterology.genetics.ButterflySpeciesManager;
 public record ButterflySpeciesSyncPacket(Map<ResourceLocation, ButterflySpeciesDefinition> definitions) implements CustomPacketPayload {
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.BUTTERFLY_SPECIES_SYNC;
+		return LepidopterologyPacketIds.BUTTERFLY_SPECIES_SYNC;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, ButterflySpeciesSyncPacket msg) {

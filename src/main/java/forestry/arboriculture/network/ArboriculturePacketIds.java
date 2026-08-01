@@ -9,4 +9,5 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
  */
 public class ArboriculturePacketIds {
 	public static final CustomPacketPayload.Type<PacketRipeningUpdate> RIPENING_UPDATE = PacketIdServer.type("ripening_update");
+	public static final CustomPacketPayload.Type<TreeSpeciesSyncPacket> TREE_SPECIES_SYNC = PacketIdServer.type("tree_species_sync");
 }

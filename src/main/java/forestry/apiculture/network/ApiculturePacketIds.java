@@ -1,5 +1,8 @@
 package forestry.apiculture.network;
 
+import forestry.apiculture.network.packets.BeeEffectSyncPacket;
+import forestry.apiculture.network.packets.BeeSpeciesSyncPacket;
+import forestry.apiculture.network.packets.FlowerTypeSyncPacket;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
@@ -14,4 +17,7 @@ public class ApiculturePacketIds {
 	public static final CustomPacketPayload.Type<PacketBeeLogicActive> BEE_LOGIC_ACTIVE = PacketIdServer.type("bee_logic_active");
 	public static final CustomPacketPayload.Type<PacketHabitatBiomePointer> HABITAT_BIOME_POINTER = PacketIdServer.type("habitat_biome_pointer");
 	public static final CustomPacketPayload.Type<PacketAlvearyChange> ALVEARY_CONTROLLER_CHANGE = PacketIdServer.type("alveary_controller_change");
+	public static final CustomPacketPayload.Type<BeeSpeciesSyncPacket> BEE_SPECIES_SYNC = PacketIdServer.type("bee_species_sync");
+	public static final CustomPacketPayload.Type<FlowerTypeSyncPacket> FLOWER_TYPE_SYNC = PacketIdServer.type("flower_type_sync");
+	public static final CustomPacketPayload.Type<BeeEffectSyncPacket> BEE_EFFECT_SYNC = PacketIdServer.type("bee_effect_sync");
 }

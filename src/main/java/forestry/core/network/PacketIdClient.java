@@ -1,11 +1,6 @@
 package forestry.core.network;
 
-import forestry.core.network.packets.BeeSpeciesSyncPacket;
-import forestry.core.network.packets.ButterflySpeciesSyncPacket;
-import forestry.core.network.packets.BeeEffectSyncPacket;
-import forestry.core.network.packets.FlowerTypeSyncPacket;
 import forestry.core.network.packets.TaxonSyncPacket;
-import forestry.core.network.packets.TreeSpeciesSyncPacket;
 import forestry.core.network.packets.PacketActiveUpdate;
 import forestry.core.network.packets.PacketErrorUpdate;
 import forestry.core.network.packets.PacketGenomeTrackerSync;
@@ -50,14 +45,8 @@ public class PacketIdClient {
 	public static final CustomPacketPayload.Type<PacketWorktableRecipeUpdate> WORKTABLE_CRAFTING_UPDATE = type("worktable_crafting_update");
 	// Apiculture
 	public static final CustomPacketPayload.Type<PacketActiveUpdate> TILE_FORESTRY_ACTIVE = type("tile_forestry_active");
-	public static final CustomPacketPayload.Type<BeeSpeciesSyncPacket> BEE_SPECIES_SYNC = type("bee_species_sync");
-	public static final CustomPacketPayload.Type<FlowerTypeSyncPacket> FLOWER_TYPE_SYNC = type("flower_type_sync");
-	public static final CustomPacketPayload.Type<BeeEffectSyncPacket> BEE_EFFECT_SYNC = type("bee_effect_sync");
+	// Genetics
 	public static final CustomPacketPayload.Type<TaxonSyncPacket> TAXON_SYNC = type("taxon_sync");
-	// Arboriculture
-	public static final CustomPacketPayload.Type<TreeSpeciesSyncPacket> TREE_SPECIES_SYNC = type("tree_species_sync");
-	// Lepidopterology
-	public static final CustomPacketPayload.Type<ButterflySpeciesSyncPacket> BUTTERFLY_SPECIES_SYNC = type("butterfly_species_sync");
 	// Mail
 	// Sorting
 	public static final CustomPacketPayload.Type<PacketGuiFilterUpdate> GUI_UPDATE_FILTER = type("gui_update_filter");
