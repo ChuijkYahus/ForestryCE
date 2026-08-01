@@ -1,6 +1,6 @@
 package forestry.energy.blocks;
 
-import forestry.energy.tiles.SolarEngineTileEntity;
+import forestry.energy.tiles.SolarEngineBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
@@ -10,7 +10,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DaylightDetectorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -51,7 +50,7 @@ public class SolarPanelBlock extends Block {
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
 		if(oldState.getBlock()==this)
 			return;
-		for(Direction dir: SolarEngineTileEntity.HORIZONTAL_DIRECTOINS){
+		for(Direction dir: SolarEngineBlockEntity.HORIZONTAL_DIRECTOINS){
 			BlockState newState=level.getBlockState(pos.relative(dir));
 			if(newState.getBlock()==this && newState.getValue(CONNECTED)){
 				for(int x = SectionPos.blockToSectionCoord(pos.getX())-1;x<=SectionPos.blockToSectionCoord(pos.getX())+1;x++){
@@ -60,7 +59,7 @@ public class SolarPanelBlock extends Block {
 							for(Map.Entry<BlockPos, BlockEntity> entry:level.getChunk(x,z).getBlockEntities().entrySet()){
 								BlockPos targetPos=entry.getKey();
 								//max range 16 and correct y level
-								if(entry.getValue() instanceof SolarEngineTileEntity tile && targetPos.getY()==pos.getY()-1 && (targetPos.getX()-pos.getX())*(targetPos.getX()-pos.getX())<=256 && (targetPos.getZ()-pos.getZ())*(targetPos.getZ()-pos.getZ())<=256){
+								if(entry.getValue() instanceof SolarEngineBlockEntity tile && targetPos.getY()==pos.getY()-1 && (targetPos.getX()-pos.getX())*(targetPos.getX()-pos.getX())<=256 && (targetPos.getZ()-pos.getZ())*(targetPos.getZ()-pos.getZ())<=256){
 									if(tile.attachNewPanel(pos,level,state))
 										return;
 								}
@@ -81,7 +80,7 @@ public class SolarPanelBlock extends Block {
 				for(int z=SectionPos.blockToSectionCoord(pos.getZ())-1;z<=SectionPos.blockToSectionCoord(pos.getZ())+1;z++){
 					if(level.hasChunk(x,z)){
 						for(Map.Entry<BlockPos, BlockEntity> entry:level.getChunk(x,z).getBlockEntities().entrySet()){
-							if(entry.getValue() instanceof SolarEngineTileEntity tile){
+							if(entry.getValue() instanceof SolarEngineBlockEntity tile){
 								if(tile.clearPanels(pos))
 									return;
 							}
@@ -107,7 +106,7 @@ public class SolarPanelBlock extends Block {
 					for(int z=SectionPos.blockToSectionCoord(pos.getZ())-1;z<=SectionPos.blockToSectionCoord(pos.getZ())+1;z++){
 						if(level.hasChunk(x,z)){
 							for(Map.Entry<BlockPos, BlockEntity> entry:level.getChunk(x,z).getBlockEntities().entrySet()){
-								if(entry.getValue() instanceof SolarEngineTileEntity tile){
+								if(entry.getValue() instanceof SolarEngineBlockEntity tile){
 									if(tile.updatePanelExposure(pos,light))
 										return;
 								}

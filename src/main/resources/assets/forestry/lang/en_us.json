@@ -176,6 +176,8 @@
   "chromosome.forestry.activity": "Activity",
   "for.gui.empty": "Empty",
   "for.gui.emptysocket": "Empty Socket",
+  "for.gui.engine.tin.active_panel_count": "Active Panel Count: %s",
+  "for.gui.engine.tin.total_panel_count": "Total Panel Count: %s",
   "for.gui.farm.fertilizer": "Fertilizer: %s",
   "for.gui.farm.water": "Water: %s",
   "for.gui.socket.remove": "Removable with a Soldering Iron",

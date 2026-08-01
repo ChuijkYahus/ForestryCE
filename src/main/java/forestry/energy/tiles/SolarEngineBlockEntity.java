@@ -1,39 +1,58 @@
 package forestry.energy.tiles;
 
+import com.google.common.collect.ImmutableSet;
+import forestry.api.IForestryApi;
+import forestry.api.circuits.ForestryCircuitSocketTypes;
+import forestry.api.circuits.ICircuitBoard;
+import forestry.api.genetics.alleles.IKaryotype;
+import forestry.core.circuits.IEngineUpgradeable;
+import forestry.core.circuits.ISocketable;
 import forestry.core.config.Constants;
 import forestry.core.config.ForestryConfig;
+import forestry.core.inventory.InventoryAdapter;
 import forestry.energy.blocks.SolarPanelBlock;
 import forestry.energy.features.EnergyBlocks;
 import forestry.energy.features.EnergyTiles;
+import forestry.energy.menu.PeatEngineMenu;
+import forestry.energy.menu.SolarEngineMenu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
-public class SolarEngineTileEntity extends EngineBlockEntity{
+public class SolarEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ISocketable, IEngineUpgradeable {
 
 	private int activePanels;
 	private int miliBuffer;
 	private final HashSet<BlockPos> array;
+	private final InventoryAdapter sockets = new InventoryAdapter(1, "sockets");
+
+	//used for clientside only
+	private int activeCount = 0;
+	private int totalCount = 0;
 
 	public static final Direction[] HORIZONTAL_DIRECTOINS=new Direction[]{Direction.NORTH,Direction.EAST,Direction.SOUTH,Direction.WEST};
 
-	public SolarEngineTileEntity(BlockPos pos, BlockState state){
+	public SolarEngineBlockEntity(BlockPos pos, BlockState state){
 		super(EnergyTiles.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 2000);
 
-		array=new HashSet<>();
+		this.array=new HashSet<>();
 	}
 
 	@Override
@@ -42,9 +61,9 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 		if (!updateOnInterval(20)) {
 			return;
 		}
-		if(array.isEmpty()){
+		if(this.array.isEmpty()){
 			activePanels = 0;
-			attachPanel(array, pos.above(), level);
+			attachPanel(this.array, pos.above(), level);
 			setChanged();
 		}
 	}
@@ -164,17 +183,19 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 
 	@Override
 	public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-		return null;
+		return new SolarEngineMenu(containerId, playerInventory, this);
 	}
 
 	@Override
 	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		player.displayClientMessage(Component.literal(ChatFormatting.GREEN+"Solar Array Status: "+activePanels+"/"+array.size()+ChatFormatting.WHITE+" | "+ChatFormatting.DARK_RED+"Current Output: "+(isRedstoneActivated()?currentOutput:0)+"/"+activePanels*ForestryConfig.SERVER.solarRF.get()/1000+"RF/t"),true);
+		//player.displayClientMessage(Component.literal(ChatFormatting.GREEN+"Solar Array Status: "+activePanels+"/"+array.size()+ChatFormatting.WHITE+" | "+ChatFormatting.DARK_RED+"Current Output: "+(isRedstoneActivated()?currentOutput:0)+"/"+activePanels*ForestryConfig.SERVER.solarRF.get()/1000+"RF/t"),true);
+		super.openGui(player, hand, pos);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
+		this.sockets.write(nbt);
 		nbt.putInt("active",activePanels);
 		//it has to be this way, long array stalls the game
 		nbt.putInt("array_size",array.size());
@@ -188,6 +209,7 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 	@Override
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
+		this.sockets.read(nbt);
 		activePanels= nbt.getInt("active");
 		int i=nbt.getInt("array_size");
 		i--;
@@ -196,5 +218,83 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 			i--;
 
 		}
+	}
+
+	@Override
+	public void writeGuiData(FriendlyByteBuf data) {
+		super.writeGuiData(data);
+		this.sockets.writeData(data);
+		data.writeInt(this.activePanels);
+		data.writeInt(this.array.size());
+	}
+
+	@Override
+	public void readGuiData(FriendlyByteBuf data) {
+		super.readGuiData(data);
+		this.sockets.readData(data);
+		this.activeCount = data.readInt();
+		this.totalCount = data.readInt();
+
+	}
+
+	@Override
+	public void applyEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
+
+	}
+
+	@Override
+	public void removeEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
+
+	}
+
+	@Override
+	public int getSocketCount() {
+		return this.sockets.getContainerSize();
+	}
+
+	@Override
+	public ItemStack getSocket(int slot) {
+		return this.sockets.getItem(slot);
+	}
+
+	@Override
+	public void setSocket(int slot, ItemStack stack) {
+		if (!stack.isEmpty() && !IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(stack)) {
+			return;
+		}
+
+		// Dispose correctly of old chipsets
+		if (!this.sockets.getItem(slot).isEmpty()) {
+			if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(this.sockets.getItem(slot))) {
+				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(this.sockets.getItem(slot));
+				if (chipset != null) {
+					chipset.onRemoval(this);
+				}
+			}
+		}
+
+		this.sockets.setItem(slot, stack);
+		if (stack.isEmpty()) {
+			return;
+		}
+
+		ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(stack);
+		if (chipset != null) {
+			chipset.onInsertion(this);
+		}
+	}
+
+	@Override
+	public ResourceLocation getSocketType() {
+		return ForestryCircuitSocketTypes.ENGINE;
+	}
+
+	//WORKS CLIENTSIDE ONLY
+	public int getActivePanelCount() {
+		return this.activeCount;
+	}
+	//WORKS CLIENTSIDE ONLY
+	public int getPanelCount() {
+		return this.totalCount;
 	}
 }
