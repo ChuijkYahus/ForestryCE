@@ -202,6 +202,11 @@ public class PluginManager {
 		}
 	}
 
+	// todo this method and registerClient below are the last four base-boundary leaks: they name
+	//  FarmingRegistration, FarmingManager, BeeClientManager and TreeClientManager. All four are the
+	//  same problem - base assembling a content module's manager - and all four need the same fix,
+	//  which is phase 6's no-op manager work. The inversion used elsewhere is to hand LOADED_PLUGINS
+	//  to a module-side object, the way handleSpeciesRegistration does above.
 	public static void registerFarming() {
 		FarmingRegistration registration = new FarmingRegistration();
 
