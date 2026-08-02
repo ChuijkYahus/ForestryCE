@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "minecraft:glass_bottle"
+              "forestry:bucket_experience"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:exp_bottle_from_exp_drop"
+        "recipe": "forestry:experience_bucket_to_bottles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:exp_bottle_from_exp_drop"
+      "forestry:experience_bucket_to_bottles"
     ]
   },
   "sends_telemetry_event": true

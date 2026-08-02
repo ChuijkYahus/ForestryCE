@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-02T20:51:20.0904232	Recipes
+// 1.20.1	2026-08-02T22:54:43.2460539	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -943,7 +943,7 @@ e6747047f6ae638614a3423f181a2f2acb65d2ea data/forestry/advancements/recipes/misc
 faf68b22db5548ded442a94d357f17dfdef097c7 data/forestry/advancements/recipes/misc/engine_combustion.json
 e39afa7988f313152da81dcb0801ec07111b5066 data/forestry/advancements/recipes/misc/engine_peat.json
 9cfd781d45bef3e0e3c36cfdf74efedc1595ae8c data/forestry/advancements/recipes/misc/engine_solar.json
-2413a8701827c88e42acaddc527798ab41457d54 data/forestry/advancements/recipes/misc/exp_bottle_from_exp_drop.json
+d31b3b09018cce65774b6240e098d8a93e21d91b data/forestry/advancements/recipes/misc/experience_bucket_to_bottles.json
 b325a3fa2ff653e4f47c4a71b0b8b5e1d2e4cecd data/forestry/advancements/recipes/misc/fabricator.json
 eda7e2ebb2400c9a7175ea08360751b05928dc37 data/forestry/advancements/recipes/misc/farm_control_brick.json
 483152f6f531b007d1922328e6972f3ce6acef43 data/forestry/advancements/recipes/misc/farm_control_brick_chiseled.json
@@ -2051,7 +2051,7 @@ fd7b5fcc01286d07296c5242979c495aeb1cf4ed data/forestry/recipes/engine_clockwork.
 53610cc59735107bd5636265d51266b354f21eb2 data/forestry/recipes/engine_combustion.json
 7345c007d4125ac17dcd07cc908de9587883523f data/forestry/recipes/engine_peat.json
 71917d71e110b00c15b4714f7e582dfc2112004f data/forestry/recipes/engine_solar.json
-c4258e03fa0d4f7685625fe19d46acbc9881b475 data/forestry/recipes/exp_bottle_from_exp_drop.json
+94000b54ca1768ad7cbd9df326755115d944ff1a data/forestry/recipes/experience_bucket_to_bottles.json
 b8e35ea64317a0f4019dc5abf53e0dc69fb42e0c data/forestry/recipes/fabricator.json
 eaaf019535c2c47fc6d35b42b627b6e4420e194c data/forestry/recipes/fabricator/electron_tubes/amber.json
 4f0b61db2509241fa32d8feb666a27d7297414e3 data/forestry/recipes/fabricator/electron_tubes/apatite.json
@@ -3218,6 +3218,7 @@ d705bcb3f6103cd5a9bff768dc57ac4c5e84cebf data/forestry/recipes/spruce_fireproof_
 c3f53f8e86dca10cc454f4e01d4dc039dfe1d217 data/forestry/recipes/squeezer/container/can.json
 b627309251fed349a0002deee557cfaf7f139c40 data/forestry/recipes/squeezer/container/capsule.json
 7776736ca1040cb587970b1b4bf1ec9506498072 data/forestry/recipes/squeezer/container/refractory.json
+227b199de6421fe30359975651498a489cf88b2a data/forestry/recipes/squeezer/experience_drop.json
 e9e5edb562bca5478a5fae4d2261d93b80c719da data/forestry/recipes/squeezer/fruit/cherry.json
 f7d52496ae19405317a78a2f03a6c9a8fb82886b data/forestry/recipes/squeezer/fruit/chestnut.json
 85a397d1c07b1dffdacf5cde0f2d92210981cc19 data/forestry/recipes/squeezer/fruit/coconut.json

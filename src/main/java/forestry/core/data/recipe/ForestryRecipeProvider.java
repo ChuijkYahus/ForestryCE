@@ -34,6 +34,7 @@ import forestry.core.data.builder.*;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
+import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.EnumContainerType;
 import forestry.core.items.definitions.EnumCraftingMaterial;
@@ -374,7 +375,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		recipes.shapelessCrafting("uncraft_wax_block", RecipeCategory.MISC, CoreItems.BEESWAX, 9, ApicultureBlocks.WAX_BLOCK);
 		recipes.shapelessCrafting("uncraft_refractory_wax_block", RecipeCategory.MISC, CoreItems.REFRACTORY_WAX, 9, ApicultureBlocks.REFRACTORY_WAX_BLOCK);
 
-		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
+		//recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
 
 		//TODO: remove in 1.21.1 when volcanic propolis is removed
 		recipes.shapelessCrafting("volcanic_propolis_to_magmatic_drop", RecipeCategory.MISC, ApicultureItems.MAGMATIC_DROP, 1, ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC));
@@ -1255,6 +1256,10 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 
 
 
+		//Gross temporary crafting recipe TODO: Move this to the Bottler
+		recipes.shapelessCrafting("experience_bucket_to_bottles", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 4, ForestryFluids.EXPERIENCE.getBucket(), Items.GLASS_BOTTLE, Items.GLASS_BOTTLE, Items.GLASS_BOTTLE, Items.GLASS_BOTTLE);
+
+
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
@@ -1694,6 +1699,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern("CCC");
 			recipe.pattern("QDQ");
 		});
+
 	}
 
 	private static void registerCarpenter(Consumer<FinishedRecipe> consumer) {
@@ -2889,6 +2895,12 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEYDEW)))
 			.setFluidOutput(honeyDropFluid)
 			.build(consumer, id("squeezer", "honey_dew"));
+
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.EXPERIENCE_DROP)))
+			.setFluidOutput(new FluidStack(ForestryFluids.EXPERIENCE.getFluid(), 250))
+			.build(consumer, id("squeezer", "experience_drop"));
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)

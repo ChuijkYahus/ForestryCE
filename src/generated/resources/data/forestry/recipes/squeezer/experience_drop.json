@@ -1,0 +1,18 @@
+{
+  "type": "forestry:squeezer",
+  "chance": 0.0,
+  "output": {
+    "Amount": 250,
+    "FluidName": "forestry:experience"
+  },
+  "remnant": {
+    "Count": 0,
+    "id": "minecraft:air"
+  },
+  "resources": [
+    {
+      "item": "forestry:experience_drop"
+    }
+  ],
+  "time": 10
+}

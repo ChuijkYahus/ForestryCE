@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-02T13:42:45.1999782	Item Models: forestry
+// 1.20.1	2026-08-02T21:48:19.2688966	Item Models: forestry
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/adventurer_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/adventurer_bag_woven.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/apiarist_bag.json
@@ -9,6 +9,7 @@ b58ed81496fd3f1c01d06ae7c4b3cb1edcfc877d assets/forestry/models/item/arboretum_m
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/brewer_bag_woven.json
 327ba5dd15f54c895af33c627024c1e38cd72081 assets/forestry/models/item/bucket_biomass.json
 de7994ae9b08486b6ee10cdc983d820f4af8a2ba assets/forestry/models/item/bucket_bio_ethanol.json
+b8bc82311f5cd07fbe7b134f4c1101c6d0c931b6 assets/forestry/models/item/bucket_experience.json
 fba777fb364ea95cd9c78e27354b312dc2a60c3c assets/forestry/models/item/bucket_glass.json
 ad160b28b6224e1966dd11a1458ff72d1a587204 assets/forestry/models/item/bucket_honey.json
 9959ba27079ea484e0e7d4a220ffd383bf902fba assets/forestry/models/item/bucket_ice.json

@@ -3,13 +3,23 @@
   "category": "misc",
   "ingredients": [
     {
+      "item": "forestry:bucket_experience"
+    },
+    {
       "item": "minecraft:glass_bottle"
     },
     {
-      "item": "forestry:experience_drop"
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
     }
   ],
   "result": {
+    "count": 4,
     "item": "minecraft:experience_bottle"
   }
 }
