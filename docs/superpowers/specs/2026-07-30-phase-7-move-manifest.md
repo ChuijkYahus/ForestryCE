@@ -21,16 +21,57 @@ step that would otherwise carry them.
 Counts in this manifest were taken on 2026-07-31 and will drift as phases 1 through 6 land.
 Re-derive before executing; the per-file assignments stay valid, the totals may not.
 
+## Status
+
+**Steps 7.1 through 7.6 landed 2026-08-01 as phase 7a.** Steps 7.7 through 7.12 remain.
+
+### Correction: these were not IDE moves
+
+The spec's `### Who performs phase 7` says a human drives these in IntelliJ because the
+JetBrains MCP server exposes no move-class tool. 7a was executed instead as scripted
+rewrites of the fully-qualified package prefix, for two reasons measured on 2026-08-01: the
+collision surface is empty (no lang key begins with any rewritten prefix, no FQCN appears in
+`src/generated/resources`, and the one `Class.forName` site reads FML scan data), and phase
+6's `checkBaseBytecode` now verifies at the constant-pool level, so a rewrite that compiles
+but is wrong gets caught.
+
+The IDE was never sufficient on its own in any case: it cannot update the Patchouli JSON, the
+`META-INF/services` contents or `kubejs.plugins.txt`, all of which name classes that move in
+7b.
+
+A prefix rewrite also catches what an import-targeted one misses, which mattered: 194
+`package-info` annotations, 55 javadoc `{@link}`s and 30 inline fully-qualified references,
+including the three `ProductTypes` calls in step 7.4.
+
+### Corrections to this manifest, found during 7a
+
+The Prerequisite below is **wrong**, and four packages were never assigned:
+
+| Item | Correction |
+| --- | --- |
+| `TileApiaristChest`, `TileArboristChest`, `TileLepidopteristChest` | Phase 4 did **not** move these; they are still in `core/tiles`. They belong to content jars, so 7b moves them. They do not leak |
+| `IFilterSlotDelegate` (step 7.5 list) | Not in `core/tiles`; phase 1b moved it to `forestry/api/core` |
+| `NaturalistChestBlockType` | Was a `(?)` in step 7.7. Resolved by the spec's Graph decisions table: `core.platform.block`. Moved in 7a |
+| `ItemSpectacles` | Was a `(?)` in step 7.5. Phase 4 moved `SpectacleVision` to base, so it is a core tool: `core.content.tools` |
+| `ItemScoop`, `ItemBeesWax`, `ItemRefractoryWax` | Arrived in `core` during phase 2, after this manifest was written. To `core.content.tools` and `core.content.resources` |
+| `ItemFruit` | Still a `(?)`. Nothing instantiates it by name anywhere, so it goes with arboriculture in 7b |
+| `forestry/apiimpl` (30 files) | Not in any step. **Stays** - the spec's target tree keeps it at the top level of base |
+| `forestry/core/features` (9 files) | Not in any step. **Stays** at `forestry.core.features` per D6 |
+| `forestry/core/data` (50 files) | Not in any step. **Stays** until phase 8; moving it would invalidate 20 baseline paths and the jar's `exclude` rule |
+| `forestry/core/capabilities` | Not in any step. Holds `SpectacleVision`; to `core.platform.capabilities`. Moved in 7a |
+| `forestry/plugin` (10 files) | Not in any step. Deferred to 7b: seven of the ten belong to content jars |
+
 ## Prerequisite
 
 Phases 1 through 6 are complete. In particular phase 4 has already moved
-`TileApiaristChest`, `TileArboristChest` and `TileLepidopteristChest` out of `core/tiles`,
-`ApiaristPoolElement` out of `core/worldgen`, and `FeatureHelper` out of `core/worldgen`.
-This manifest assumes those files are gone from `core`.
+`ApiaristPoolElement` out of `core/worldgen` and `FeatureHelper` out of `core/worldgen`.
+
+**It did not move the three naturalist chests out of `core/tiles`**, contrary to what this
+section originally claimed. See the corrections table above.
 
 ---
 
-## Step 7.1 - api package moves
+## Step 7.1 - api package moves (DONE 2026-08-01)
 
 Package moves. Addresses `api` only; nothing here changes behavior.
 
@@ -55,7 +96,7 @@ in `api.core`.
 
 ---
 
-## Step 7.2 - registration framework
+## Step 7.2 - registration framework (DONE 2026-08-01)
 
 Package move.
 
@@ -70,7 +111,7 @@ Per-jar registration holders keep the name `features/` and do not move in this s
 
 ---
 
-## Step 7.3 - core to platform
+## Step 7.3 - core to platform (DONE 2026-08-01)
 
 Package moves. Every one of these is framework with no game content.
 
@@ -109,7 +150,7 @@ taken by step 7.2.
 
 ---
 
-## Step 7.4 - core to engine
+## Step 7.4 - core to engine (DONE 2026-08-01)
 
 Package moves.
 
@@ -121,7 +162,7 @@ Package moves.
 
 ---
 
-## Step 7.5 - core fan-out
+## Step 7.5 - core fan-out (DONE 2026-08-01)
 
 Four packages split. This is the only step in phase 7 that needs per-file work inside
 `core`.
@@ -262,7 +303,7 @@ naturalist-chest UI that all three species jars reuse.
 
 ---
 
-## Step 7.6 - absorb the five modules into core/content
+## Step 7.6 - absorb the five modules into core/content (DONE 2026-08-01)
 
 Package moves. Each top-level module becomes a content directory.
 

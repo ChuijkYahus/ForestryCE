@@ -401,9 +401,12 @@ Everything that makes the split real lands before a single package moves. Phases
     packaged leaks and checkBaseBytecode confirms it at the class-file level.
     The 20 remaining files are datagen, which the jar already strips; they
     dissolve in phase 8
-7   package moves                      api renames, core/{platform,engine,
-                                       content}, feature dirs. Twelve ordered
-                                       steps in the phase 7 move manifest
+7a  DONE 2026-08-01                    manifest steps 7.1-7.6: api renames and
+                                       core/{platform,engine,content}. Base is
+                                       in its target shape
+7b  content jar fan-outs               manifest steps 7.7-7.12, plus
+                                       forestry/plugin and the three naturalist
+                                       chests deferred from 7a
 8   datagen -> per-jar source sets     deletes the exclude hack
 9   build split                        six source sets, mods.toml, service
                                        files, resource partition, lang merge
@@ -586,6 +589,42 @@ moved to `ApicultureForestryPlugin.registerGenetics`, which runs earlier in the 
 ordering both comments require still holds. The lesson generalizes: the import gate is necessary but
 not sufficient, and phase 7 should run the bytecode gate after each move step rather than only at
 the end.
+
+Phase 7a landed 2026-08-01. Manifest steps 7.1 through 7.6 are done and `forestry.core` is in
+its target shape: `platform` (23 packages), `engine` (3) and `content` (10). Both gates held
+throughout - 0 packaged leaks, `checkBaseBytecode` clean - and the datagen tree stayed
+byte-identical at every step.
+
+**The gate had a blind spot exactly where this phase needed it not to.** `checkBaseBoundary`'s
+`basePackages` list is `core, apiimpl, plugin, modules, compat`, so `factory`, `energy`, `storage`,
+`sorting` and `worktable` - 220 files that ship in the base jar - had **never been scanned**. Step
+7.6 moves all five under `core.content`, which brings them into scope. Two leaked, and both were
+already decided in the Graph decisions table above and never executed because nothing could see
+them: `FactoryRecipeTypes` registered an apiculture serializer, and `CrateItems` named four
+apiculture classes. Neither was a one-line move - `FactoryRecipeTypes.HYGROREGULATOR` had two base
+consumers and the crated bee products had one in `CoreClientHandler` - so each needed the phase-4
+relocation treatment. They were severed first, which is why step 7.6 reports zero across 220
+newly-measured files.
+
+The moves were scripted rather than IDE-driven, against this spec's `### Who performs phase 7`. The
+reasoning there was sound when written; both premises had weakened by the time it ran, and the
+manifest now records why. What matters for 7b: a prefix rewrite catches 194 `package-info`
+annotations, 55 javadoc `{@link}`s and 30 inline fully-qualified references that an import-targeted
+rewrite does not, and it reaches resources the IDE cannot touch at all.
+
+Three failure modes worth carrying into 7b, none of which a package-level move hits:
+
+- **A per-file fan-out does not rewrite package declarations.** `move-package.sh` gets them free as
+  part of the prefix; step 7.5 moved 81 files individually and every one needed its `package` line
+  repaired from its new directory path.
+- **The same-package effect runs in both directions and cascades hard.** 32 imports had to be added
+  for classes that moved away from files that stayed, and 9 for classes that stayed behind files
+  that moved. `ItemFruit` alone losing its `ItemForestryFood` superclass produced 754 compile
+  errors from one missing import.
+- **`protected` access is package-scoped.** `GuiAnalyzer` read `analyzer.tile` and
+  `PortableAnalyzerScreen` read `container.inventory`; both compiled only while they shared a
+  package with the container. Public accessors already existed. Nothing but the compiler catches
+  this, and it will recur in every fan-out that separates a screen from its container.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives

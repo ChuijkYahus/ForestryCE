@@ -1,2 +1,10 @@
 # Mass reformatting
 73ae0b49ba5759a1c24b120f75109490a710c7d1
+
+# Phase 7a: mechanical package moves (move-manifest steps 7.1-7.6)
+ad5fafa5980b9ad29b815207ab422f4506bb5035  # api: group the shared api under api.core
+2546b732616de97e3ccfc1b9a9b2dcfc5bd41bde  # core: registration framework to core.platform.registration
+b55d49aa84a00379a52e09fdcac41eb9154e4077  # core: platform layer
+6cd3e2a35a2b4bbf059f168e2aa8b2530e9c6dca  # core: engine layer
+9ad0cbca3178917c90eb1cb386912a6473c990d2  # core: fan out tiles, blocks, items and the analyzer/escritoire screens
+7960559aff696e5e7c1efebed5b4834f66eaaa9d  # core: absorb factory, energy, storage, sorting and worktable
