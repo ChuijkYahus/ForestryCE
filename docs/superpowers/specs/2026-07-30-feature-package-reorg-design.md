@@ -393,9 +393,14 @@ Everything that makes the split real lands before a single package moves. Phases
 5a  DONE 2026-08-01                    bucket I: registration chains go home,
                                        ClientHelper by ServiceLoader.
                                        32 -> 21, PluginManager deferred to 6
-6   no-op managers + isLoaded()        also PluginManager's four manager
-                                       constructions, carried over from 5a
+6   DONE 2026-08-01                    no-op managers + isLoaded(), the four
+                                       PluginManager constructions, and
+                                       checkBaseBytecode. 21 -> 20, all datagen
     ---- gate: the base artifact references no split-jar types ----
+    MET for the packaged artifact 2026-08-01: checkBaseBoundary reports 0
+    packaged leaks and checkBaseBytecode confirms it at the class-file level.
+    The 20 remaining files are datagen, which the jar already strips; they
+    dissolve in phase 8
 7   package moves                      api renames, core/{platform,engine,
                                        content}, feature dirs. Twelve ordered
                                        steps in the phase 7 move manifest
@@ -540,6 +545,47 @@ exactly what phase 6's no-op managers address, so inverting one of them alone wo
 file baselined and established a fourth pattern for a problem phase 6 solves with one. There is a
 `todo` on the file recording this and naming the inversion used elsewhere: hand `LOADED_PLUGINS` to
 a module-side object, the way `handleSpeciesRegistration` already does.
+
+Phase 6 landed 2026-08-01. D7 is implemented and the gate is met for the packaged artifact:
+`checkBaseBoundary` reports **0 packaged leaking files**, with 20 datagen-only ones the jar already
+strips.
+
+The phase was smaller than the spec implies, for a measured reason. The six managers have **59 call
+sites, of which only 8 are outside the owning jar** - everything else is a module calling its own
+manager, which cannot happen when that jar is absent. Of those 8, two are datagen and the other six
+already handled the degenerate case: `ForestryBiomeModifier` loops over `getHives()`,
+`ItemRefractoryWax` already branches on null, `CoreClientHandler` iterates model collections, and
+`IBeeEffect.doFX` calls a void method. **D7 needed no defensive rewriting of callers, only the null
+objects themselves.**
+
+`IClientHelper` was a live crash rather than a hypothetical. Phase 5a left the `ServiceLoader`
+lookup as `orElseThrow` in a **field initialiser**, so an absent arboriculture jar would have thrown
+while constructing `IForestryClientApi.INSTANCE` on every client start, not merely on the paths that
+draw leaves.
+
+Seven of the thirteen throwing getters deliberately still throw. `IErrorManager`, `IFilterManager`,
+`IGeneticManager`, `ICircuitManager`, `IPollenManager`, `ITextureManager` and
+`IGeneticClientManager` are supplied by base itself, so a null there is a lifecycle ordering bug,
+not an absent module, and silencing it would turn a clear error into an NPE somewhere later.
+
+`PluginManager` cleared through the same `IForestryModule` hook mechanism phase 4 introduced, and
+the no-op work is what made it possible: once the field holds a working no-op, base has nothing left
+to build, so `registerFarming` and the two client-manager assemblies simply move to their modules. A
+module that implements neither hook leaves the no-op in place, which is exactly what an absent jar
+looks like.
+
+The nine imports orphaned by that move were found by checking each import against the file body.
+A simple-name occurrence count - the technique the phase 5a plan reached for - is wrong for anything
+a wildcard import also covers: `IdentityHashMap` scored 1 and was still in use.
+
+**`checkBaseBytecode` found a real leak on its first run, and it closes the D3 question in the
+expensive direction.** `PluginManager` called `FlowerTypeTypes.registerBuiltins()` and
+`ApicultureProductTypes.registerBuiltins()` **fully qualified, with no import**, so six phases of
+import-driven work never saw them - exactly the descriptor-level reference D3 warns about. Both
+moved to `ApicultureForestryPlugin.registerGenetics`, which runs earlier in the same method, so the
+ordering both comments require still holds. The lesson generalizes: the import gate is necessary but
+not sufficient, and phase 7 should run the bytecode gate after each move step rather than only at
+the end.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
