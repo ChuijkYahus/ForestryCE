@@ -3,7 +3,7 @@ package forestry.arboriculture;
 import com.mojang.authlib.GameProfile;
 import forestry.api.ForestryTags;
 import forestry.api.arboriculture.IWoodType;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;

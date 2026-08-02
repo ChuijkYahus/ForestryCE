@@ -2,10 +2,10 @@ package forestry.factory.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.fuels.FermenterFuel;
-import forestry.api.fuels.FuelManager;
-import forestry.api.recipes.IFermenterRecipe;
-import forestry.api.recipes.IVariableFermentable;
+import forestry.api.core.machines.fuels.FermenterFuel;
+import forestry.api.core.machines.fuels.FuelManager;
+import forestry.api.core.machines.IFermenterRecipe;
+import forestry.api.core.machines.IVariableFermentable;
 import forestry.core.config.Constants;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidHelper;

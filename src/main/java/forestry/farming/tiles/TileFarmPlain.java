@@ -1,7 +1,7 @@
 package forestry.farming.tiles;
 
 import forestry.farming.multiblock.FarmPattern;
-import forestry.api.multiblock.IMultiblockController;
+import forestry.api.core.multiblock.IMultiblockController;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingTiles;
 import net.minecraft.core.BlockPos;

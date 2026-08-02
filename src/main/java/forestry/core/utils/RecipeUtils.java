@@ -1,6 +1,6 @@
 package forestry.core.utils;
 
-import forestry.api.recipes.*;
+import forestry.api.core.machines.*;
 import forestry.core.ClientsideCode;
 import forestry.core.fluids.FluidHelper;
 import forestry.factory.features.FactoryRecipeTypes;

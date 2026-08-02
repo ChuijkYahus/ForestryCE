@@ -1,7 +1,7 @@
 package forestry.factory.inventory;
 
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.RainSubstrate;
+import forestry.api.core.machines.fuels.FuelManager;
+import forestry.api.core.machines.fuels.RainSubstrate;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.factory.tiles.TileMillRainmaker;
 import net.minecraft.world.item.ItemStack;

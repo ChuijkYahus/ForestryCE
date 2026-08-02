@@ -12,9 +12,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.IMutationCondition;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.IMutationCondition;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.core.genetics.mutations.MutationConditionBiome;
 import forestry.core.genetics.mutations.MutationConditionCave;
 import forestry.core.genetics.mutations.MutationConditionDaytime;

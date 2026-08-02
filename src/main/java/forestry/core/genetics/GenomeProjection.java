@@ -5,9 +5,9 @@ import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.Forestry;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.plugin.IGenomeBuilder;
 
 /**

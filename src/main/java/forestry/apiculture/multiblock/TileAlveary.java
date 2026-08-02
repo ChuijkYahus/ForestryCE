@@ -1,12 +1,12 @@
 package forestry.apiculture.multiblock;
 
 import forestry.api.apiculture.*;
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.TemperatureType;
-import forestry.api.multiblock.IAlvearyComponent;
-import forestry.api.multiblock.IMultiblockController;
+import forestry.api.core.multiblock.IAlvearyComponent;
+import forestry.api.core.multiblock.IMultiblockController;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.gui.ContainerAlveary;

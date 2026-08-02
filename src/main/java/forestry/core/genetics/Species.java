@@ -1,8 +1,8 @@
 package forestry.core.genetics;
 
 import forestry.api.IForestryApi;
-import forestry.api.genetics.*;
-import forestry.api.genetics.alleles.*;
+import forestry.api.core.genetics.*;
+import forestry.api.core.genetics.alleles.*;
 import forestry.api.plugin.ISpeciesBuilder;
 import forestry.core.utils.GeneticsUtil;
 import net.minecraft.ChatFormatting;

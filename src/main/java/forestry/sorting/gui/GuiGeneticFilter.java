@@ -1,7 +1,7 @@
 package forestry.sorting.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import forestry.api.genetics.filter.IFilterLogic;
+import forestry.api.core.genetics.filter.IFilterLogic;
 import forestry.core.config.Constants;
 import forestry.core.gui.Drawable;
 import forestry.core.gui.GuiForestryTitled;

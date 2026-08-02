@@ -1,10 +1,10 @@
 package forestry.farming.circuits;
 
 import forestry.api.IForestryApi;
-import forestry.api.farming.HorizontalDirection;
-import forestry.api.farming.IFarmCircuit;
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmType;
+import forestry.api.agriculture.HorizontalDirection;
+import forestry.api.agriculture.IFarmCircuit;
+import forestry.api.agriculture.IFarmHousing;
+import forestry.api.agriculture.IFarmType;
 import forestry.core.circuits.Circuit;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

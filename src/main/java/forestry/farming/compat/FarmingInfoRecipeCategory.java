@@ -1,10 +1,10 @@
 package forestry.farming.compat;
 
 import forestry.api.ForestryConstants;
-import forestry.api.circuits.ICircuit;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
-import forestry.api.farming.Soil;
+import forestry.api.core.circuits.ICircuit;
+import forestry.api.agriculture.IFarmType;
+import forestry.api.agriculture.IFarmable;
+import forestry.api.agriculture.Soil;
 import forestry.core.ForestryColors;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.config.Constants;

@@ -1,6 +1,6 @@
 package forestry.core.network.packets;
 
-import forestry.api.multiblock.IMultiblockComponent;
+import forestry.api.core.multiblock.IMultiblockComponent;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.IActivatable;
 import forestry.core.tiles.TileUtil;

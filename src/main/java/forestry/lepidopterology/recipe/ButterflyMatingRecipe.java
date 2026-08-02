@@ -1,11 +1,11 @@
 package forestry.lepidopterology.recipe;
 
 import forestry.Forestry;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.ILifeStage;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.lepidopterology.features.LepidopterologyRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;

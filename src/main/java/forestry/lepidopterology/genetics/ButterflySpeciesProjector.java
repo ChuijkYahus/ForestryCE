@@ -5,8 +5,8 @@ import javax.annotation.Nullable;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.Forestry;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.genetics.SpeciesProjection;
 import forestry.lepidopterology.ButterflySpecies;

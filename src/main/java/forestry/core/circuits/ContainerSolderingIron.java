@@ -1,6 +1,6 @@
 package forestry.core.circuits;
 
-import forestry.api.circuits.ICircuitLayout;
+import forestry.api.core.circuits.ICircuitLayout;
 import forestry.core.features.CoreMenuTypes;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.IGuiSelectable;

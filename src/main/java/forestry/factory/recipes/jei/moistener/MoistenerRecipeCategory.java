@@ -1,9 +1,9 @@
 package forestry.factory.recipes.jei.moistener;
 
 import forestry.api.ForestryConstants;
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.MoistenerFuel;
-import forestry.api.recipes.IMoistenerRecipe;
+import forestry.api.core.machines.fuels.FuelManager;
+import forestry.api.core.machines.fuels.MoistenerFuel;
+import forestry.api.core.machines.IMoistenerRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;

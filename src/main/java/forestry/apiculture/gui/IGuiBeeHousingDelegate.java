@@ -1,6 +1,6 @@
 package forestry.apiculture.gui;
 
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.IErrorLogicSource;
 import forestry.core.owner.IOwnedTile;
 import forestry.core.tiles.ITitled;

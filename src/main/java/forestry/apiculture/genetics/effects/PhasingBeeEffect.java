@@ -2,8 +2,8 @@ package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;

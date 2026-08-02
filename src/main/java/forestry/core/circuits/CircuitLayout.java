@@ -1,6 +1,6 @@
 package forestry.core.circuits;
 
-import forestry.api.circuits.ICircuitLayout;
+import forestry.api.core.circuits.ICircuitLayout;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;

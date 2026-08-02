@@ -1,9 +1,9 @@
 package forestry.storage;
 
 import com.google.common.base.Preconditions;
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
-import forestry.api.storage.IBackpackInterface;
+import forestry.api.core.backpacks.EnumBackpackType;
+import forestry.api.core.backpacks.IBackpackDefinition;
+import forestry.api.core.backpacks.IBackpackInterface;
 import forestry.storage.items.BackpackItem;
 import forestry.storage.items.NaturalistBackpackItem;
 import net.minecraft.core.component.DataComponents;

@@ -6,9 +6,9 @@ import net.minecraft.network.chat.TextColor;
 
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.plugin.IGenomeBuilder;
 import forestry.api.plugin.ISpeciesBuilder;
 

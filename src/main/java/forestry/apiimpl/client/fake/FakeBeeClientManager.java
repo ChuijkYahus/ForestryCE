@@ -8,8 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.client.apiculture.IBeeClientManager;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ILifeStage;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.ILifeStage;
 
 /**
  * The bee client manager used when the apiculture module is absent. No model is registered, so

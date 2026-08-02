@@ -9,17 +9,17 @@ import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.api.climate.IClimateManager;
+import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.*;
-import forestry.api.genetics.ClimateHelper;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.pollen.IPollen;
-import forestry.api.genetics.pollen.IPollenManager;
-import forestry.api.genetics.pollen.IPollenType;
+import forestry.api.core.genetics.ClimateHelper;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.IMutation;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.pollen.IPollen;
+import forestry.api.core.genetics.pollen.IPollenManager;
+import forestry.api.core.genetics.pollen.IPollenType;
 import forestry.core.config.Constants;
 import forestry.core.config.ForestryConfig;
 import forestry.core.features.CoreDataComponents;
@@ -40,7 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.IChromosome;
 
 public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> implements IBee {
 	public static final Codec<Bee> CODEC = RecordCodecBuilder.create(instance -> {

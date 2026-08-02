@@ -1,8 +1,8 @@
 package forestry.core.recipes.jei;
 
 import forestry.api.ForestryConstants;
-import forestry.api.fuels.RainSubstrate;
-import forestry.api.recipes.*;
+import forestry.api.core.machines.fuels.RainSubstrate;
+import forestry.api.core.machines.*;
 import mezz.jei.api.recipe.RecipeType;
 
 public class ForestryRecipeType {

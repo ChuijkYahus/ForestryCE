@@ -1,6 +1,6 @@
 package forestry.api.apiculture.genetics;
 
-import forestry.api.genetics.IEffectData;
+import forestry.api.core.genetics.IEffectData;
 
 /**
  * Basic effect allele.

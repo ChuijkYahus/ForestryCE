@@ -11,8 +11,8 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;

@@ -1,6 +1,6 @@
 package forestry.core.genetics;
 
-import forestry.api.genetics.IEffectData;
+import forestry.api.core.genetics.IEffectData;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 

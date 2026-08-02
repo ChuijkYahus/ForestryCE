@@ -1,6 +1,6 @@
 package forestry.farming;
 
-import forestry.api.farming.IFarmHousing;
+import forestry.api.agriculture.IFarmHousing;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;

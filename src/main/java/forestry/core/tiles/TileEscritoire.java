@@ -1,10 +1,10 @@
 package forestry.core.tiles;
 
 import com.mojang.authlib.GameProfile;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.features.CoreTiles;
 import forestry.core.gui.ContainerEscritoire;
 import forestry.core.inventory.InventoryAnalyzer;

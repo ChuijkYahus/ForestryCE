@@ -3,7 +3,7 @@ package forestry.apiculture.genetics;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 
 public enum DefaultBeeJubilance implements IBeeJubilance {
 	INSTANCE;

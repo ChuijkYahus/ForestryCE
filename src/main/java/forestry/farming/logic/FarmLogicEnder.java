@@ -1,10 +1,10 @@
 package forestry.farming.logic;
 
 import com.google.common.collect.ImmutableSet;
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
+import forestry.api.agriculture.ICrop;
+import forestry.api.agriculture.IFarmHousing;
+import forestry.api.agriculture.IFarmType;
+import forestry.api.agriculture.IFarmable;
 import forestry.core.utils.BlockUtil;
 import forestry.farming.logic.crops.CropDestroy;
 import forestry.farming.logic.farmables.FarmableChorus;

@@ -2,10 +2,10 @@ package forestry.storage;
 
 import forestry.api.ForestryTags;
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.api.storage.IBackpackInterface;
+import forestry.api.core.backpacks.IBackpackInterface;
 import forestry.core.ForestryColors;
 import forestry.core.config.ForestryConfig;
 import forestry.modules.BlankForestryModule;

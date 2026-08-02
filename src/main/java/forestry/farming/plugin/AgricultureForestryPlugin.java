@@ -2,9 +2,9 @@ package forestry.farming.plugin;
 
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.circuits.ForestryCircuitLayouts;
-import forestry.api.circuits.ForestryCircuitSocketTypes;
-import forestry.api.farming.ForestryFarmTypes;
+import forestry.api.core.circuits.ForestryCircuitLayouts;
+import forestry.api.core.circuits.ForestryCircuitSocketTypes;
+import forestry.api.agriculture.ForestryFarmTypes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.plugin.ICircuitRegistration;
 import forestry.api.plugin.IFarmingRegistration;

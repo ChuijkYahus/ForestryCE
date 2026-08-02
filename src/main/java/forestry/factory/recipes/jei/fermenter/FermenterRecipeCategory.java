@@ -1,10 +1,10 @@
 package forestry.factory.recipes.jei.fermenter;
 
 import forestry.api.ForestryConstants;
-import forestry.api.fuels.FermenterFuel;
-import forestry.api.fuels.FuelManager;
-import forestry.api.recipes.IFermenterRecipe;
-import forestry.api.recipes.IVariableFermentable;
+import forestry.api.core.machines.fuels.FermenterFuel;
+import forestry.api.core.machines.fuels.FuelManager;
+import forestry.api.core.machines.IFermenterRecipe;
+import forestry.api.core.machines.IVariableFermentable;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;

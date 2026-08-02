@@ -1,6 +1,6 @@
 package forestry.core.fluids;
 
-import forestry.api.recipes.*;
+import forestry.api.core.machines.*;
 import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.resources.ResourceLocation;

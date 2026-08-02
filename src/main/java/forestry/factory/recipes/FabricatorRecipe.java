@@ -3,7 +3,7 @@ package forestry.factory.recipes;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.api.recipes.IFabricatorRecipe;
+import forestry.api.core.machines.IFabricatorRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;

@@ -12,8 +12,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;
 import forestry.core.utils.VecUtil;
 

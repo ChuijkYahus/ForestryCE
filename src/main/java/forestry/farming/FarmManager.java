@@ -6,7 +6,7 @@ import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
-import forestry.api.farming.*;
+import forestry.api.agriculture.*;
 import forestry.core.config.Constants;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidTagFilter;

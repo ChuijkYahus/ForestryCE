@@ -1,7 +1,7 @@
 package forestry.core.gui;
 
 import forestry.api.IForestryApi;
-import forestry.api.circuits.ICircuitBoard;
+import forestry.api.core.circuits.ICircuitBoard;
 import forestry.core.circuits.ISocketable;
 import forestry.core.circuits.ISolderingIron;
 import forestry.core.network.packets.PacketChipsetClick;

@@ -2,7 +2,7 @@ package forestry.api;
 
 import forestry.api.apiculture.IBeeProtection;
 import forestry.api.core.ISpectacleVision;
-import forestry.api.genetics.filter.IFilterLogic;
+import forestry.api.core.genetics.filter.IFilterLogic;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.ItemCapability;
 

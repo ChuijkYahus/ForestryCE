@@ -1,8 +1,8 @@
 package forestry.farming.tiles;
 
 import forestry.farming.multiblock.FarmPattern;
-import forestry.api.multiblock.IFarmComponent;
-import forestry.api.multiblock.IFarmController;
+import forestry.api.core.multiblock.IFarmComponent;
+import forestry.api.core.multiblock.IFarmController;
 import forestry.energy.EnergyHelper;
 import forestry.energy.ForestryEnergyStorage;
 import forestry.farming.features.FarmingTiles;

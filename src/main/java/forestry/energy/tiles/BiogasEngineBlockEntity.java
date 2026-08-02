@@ -2,8 +2,8 @@ package forestry.energy.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.fuels.EngineBronzeFuel;
-import forestry.api.fuels.FuelManager;
+import forestry.api.core.machines.fuels.EngineBronzeFuel;
+import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.config.Constants;
 import forestry.core.fluids.*;
 import forestry.core.tiles.ILiquidTankTile;

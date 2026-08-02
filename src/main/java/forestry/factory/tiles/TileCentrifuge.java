@@ -1,11 +1,11 @@
 package forestry.factory.tiles;
 
 import forestry.api.IForestryApi;
-import forestry.api.circuits.ForestryCircuitSocketTypes;
-import forestry.api.circuits.ICircuitBoard;
+import forestry.api.core.circuits.ForestryCircuitSocketTypes;
+import forestry.api.core.circuits.ICircuitBoard;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.recipes.ICentrifugeRecipe;
+import forestry.api.core.machines.ICentrifugeRecipe;
 import forestry.core.circuits.ISocketable;
 import forestry.core.config.Constants;
 import forestry.api.core.IInventoryAdapter;

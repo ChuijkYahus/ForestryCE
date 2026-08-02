@@ -1,8 +1,8 @@
 package forestry.core.multiblock;
 
-import forestry.api.multiblock.IMultiblockComponent;
-import forestry.api.multiblock.IMultiblockController;
-import forestry.api.multiblock.IMultiblockLogic;
+import forestry.api.core.multiblock.IMultiblockComponent;
+import forestry.api.core.multiblock.IMultiblockController;
+import forestry.api.core.multiblock.IMultiblockLogic;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;

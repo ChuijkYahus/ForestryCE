@@ -1,6 +1,6 @@
 package forestry.core.inventory;
 
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.tiles.TileNaturalistChest;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;

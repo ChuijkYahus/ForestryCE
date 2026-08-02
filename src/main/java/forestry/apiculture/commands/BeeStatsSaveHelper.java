@@ -3,7 +3,7 @@ package forestry.apiculture.commands;
 import com.mojang.authlib.GameProfile;
 import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.genetics.IBreedingTracker;
+import forestry.api.core.genetics.IBreedingTracker;
 import forestry.core.commands.IStatsSaveHelper;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.network.chat.Component;

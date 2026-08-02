@@ -1,7 +1,7 @@
 package forestry.storage.items;
 
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.core.backpacks.EnumBackpackType;
+import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.storage.gui.ContainerNaturalistBackpack;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

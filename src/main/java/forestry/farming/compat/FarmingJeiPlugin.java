@@ -1,8 +1,8 @@
 package forestry.farming.compat;
 
 import forestry.api.IForestryApi;
-import forestry.api.circuits.CircuitHolder;
-import forestry.api.farming.IFarmCircuit;
+import forestry.api.core.circuits.CircuitHolder;
+import forestry.api.agriculture.IFarmCircuit;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.features.CoreItems;

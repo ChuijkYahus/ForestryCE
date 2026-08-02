@@ -1,12 +1,12 @@
 package forestry.core.utils;
 
 import forestry.Forestry;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.modules.features.FeatureItem;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

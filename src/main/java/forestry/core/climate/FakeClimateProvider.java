@@ -1,6 +1,6 @@
 package forestry.core.climate;
 
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 

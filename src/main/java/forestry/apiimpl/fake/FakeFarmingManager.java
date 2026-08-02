@@ -5,8 +5,8 @@ import javax.annotation.Nullable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmingManager;
+import forestry.api.agriculture.IFarmType;
+import forestry.api.agriculture.IFarmingManager;
 
 /**
  * The farming manager used when the agriculture module is absent. Farms find no types and no

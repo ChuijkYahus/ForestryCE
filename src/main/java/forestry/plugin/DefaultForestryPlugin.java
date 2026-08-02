@@ -2,7 +2,7 @@ package forestry.plugin;
 
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.*;
-import forestry.api.circuits.ForestryCircuitLayouts;
+import forestry.api.core.circuits.ForestryCircuitLayouts;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
 import forestry.api.plugin.*;

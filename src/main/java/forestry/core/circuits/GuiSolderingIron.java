@@ -1,10 +1,10 @@
 package forestry.core.circuits;
 
 import forestry.api.IForestryApi;
-import forestry.api.circuits.ForestryCircuitSocketTypes;
-import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitLayout;
-import forestry.api.farming.HorizontalDirection;
+import forestry.api.core.circuits.ForestryCircuitSocketTypes;
+import forestry.api.core.circuits.ICircuit;
+import forestry.api.core.circuits.ICircuitLayout;
+import forestry.api.agriculture.HorizontalDirection;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
 import forestry.core.inventory.SolderingIronInventory;

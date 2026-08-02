@@ -2,8 +2,8 @@ package forestry.api.apiculture;
 
 import com.mojang.authlib.GameProfile;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.api.climate.IBiomeProvider;
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IBiomeProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.ILocationProvider;
 import net.minecraft.world.phys.Vec3;

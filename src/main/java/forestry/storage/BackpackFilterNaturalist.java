@@ -1,6 +1,6 @@
 package forestry.storage;
 
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

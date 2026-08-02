@@ -9,9 +9,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import forestry.api.multiblock.IMultiblockComponent;
-import forestry.api.multiblock.IMultiblockController;
-import forestry.api.multiblock.IMultiblockInventoryProbe;
+import forestry.api.core.multiblock.IMultiblockComponent;
+import forestry.api.core.multiblock.IMultiblockController;
+import forestry.api.core.multiblock.IMultiblockInventoryProbe;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.farming.blocks.EnumFarmBlockType;

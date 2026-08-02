@@ -2,7 +2,7 @@ package forestry.apiculture;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeListener;
-import forestry.api.genetics.pollen.IPollen;
+import forestry.api.core.genetics.pollen.IPollen;
 
 public class BeeHousingListener implements IBeeListener {
 	private final IBeeHousing beeHousing;

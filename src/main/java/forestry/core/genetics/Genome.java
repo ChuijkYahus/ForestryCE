@@ -2,12 +2,12 @@ package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.plugin.IGenomeBuilder;
 import net.minecraft.resources.ResourceLocation;
 

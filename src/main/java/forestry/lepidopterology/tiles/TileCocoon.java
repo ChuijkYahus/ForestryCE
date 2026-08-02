@@ -1,7 +1,7 @@
 package forestry.lepidopterology.tiles;
 
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.SpeciesUtil;

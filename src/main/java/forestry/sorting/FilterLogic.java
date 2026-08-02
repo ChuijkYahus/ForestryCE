@@ -2,12 +2,12 @@ package forestry.sorting;
 
 import forestry.api.IForestryApi;
 import forestry.api.core.ILocationProvider;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.genetics.filter.FilterData;
-import forestry.api.genetics.filter.IFilterLogic;
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.filter.FilterData;
+import forestry.api.core.genetics.filter.IFilterLogic;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import forestry.sorting.network.packets.PacketFilterChangeGenome;

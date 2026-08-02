@@ -1,9 +1,9 @@
 package forestry.core.items;
 
 import forestry.api.IForestryApi;
-import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitLayout;
-import forestry.api.circuits.ICircuitManager;
+import forestry.api.core.circuits.ICircuit;
+import forestry.api.core.circuits.ICircuitLayout;
+import forestry.api.core.circuits.ICircuitManager;
 import forestry.api.core.ItemGroups;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.ChatFormatting;

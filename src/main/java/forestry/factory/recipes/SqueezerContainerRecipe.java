@@ -6,7 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.core.FluidProductType;
 import forestry.api.core.IFluidProduct;
-import forestry.api.recipes.ISqueezerContainerRecipe;
+import forestry.api.core.machines.ISqueezerContainerRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;

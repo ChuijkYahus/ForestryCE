@@ -2,8 +2,8 @@ package forestry.core.genetics;
 
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.plugin.IGenomeBuilder;
 import forestry.apiimpl.plugin.SpeciesRegistration;
 

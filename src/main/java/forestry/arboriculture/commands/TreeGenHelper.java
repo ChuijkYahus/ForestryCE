@@ -1,7 +1,7 @@
 package forestry.arboriculture.commands;
 
 import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import forestry.core.utils.BlockUtil;
 import forestry.core.worldgen.FeatureBase;
 import net.minecraft.core.BlockPos;

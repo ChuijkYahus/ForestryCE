@@ -1,7 +1,7 @@
 package forestry.core.inventory;
 
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.tiles.EscritoireGame;
 import forestry.core.tiles.TileEscritoire;
 import forestry.core.utils.GeneticsUtil;

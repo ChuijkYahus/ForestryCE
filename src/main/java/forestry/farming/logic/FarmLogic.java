@@ -1,7 +1,7 @@
 package forestry.farming.logic;
 
 import com.google.common.base.Predicate;
-import forestry.api.farming.*;
+import forestry.api.agriculture.*;
 import forestry.core.utils.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

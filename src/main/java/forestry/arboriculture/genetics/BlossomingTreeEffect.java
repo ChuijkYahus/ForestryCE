@@ -1,6 +1,6 @@
 package forestry.arboriculture.genetics;
 
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;

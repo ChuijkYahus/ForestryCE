@@ -10,8 +10,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
 import forestry.core.damage.CoreDamageTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

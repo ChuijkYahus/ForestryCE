@@ -1,6 +1,6 @@
 package forestry.core.tiles;
 
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.gui.ContainerNaturalistInventory;
 import forestry.core.gui.IPagedInventory;
 import forestry.core.inventory.InventoryNaturalistChest;

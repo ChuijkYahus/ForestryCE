@@ -1,8 +1,8 @@
 package forestry.farming.logic.farmables;
 
 import com.google.common.collect.ImmutableSet;
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmable;
+import forestry.api.agriculture.ICrop;
+import forestry.api.agriculture.IFarmable;
 import forestry.core.utils.BlockUtil;
 import forestry.farming.logic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;

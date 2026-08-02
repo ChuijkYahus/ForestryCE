@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.Allele;
 
 /**
  * The base genetics/metadata shared by every data-driven species definition

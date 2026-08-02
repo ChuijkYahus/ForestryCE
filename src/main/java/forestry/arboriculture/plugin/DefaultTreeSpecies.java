@@ -9,15 +9,15 @@ import net.minecraft.world.level.block.Blocks;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 
-import static forestry.api.genetics.ForestryTaxa.*;
+import static forestry.api.core.genetics.ForestryTaxa.*;
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ForestryFruits;
 

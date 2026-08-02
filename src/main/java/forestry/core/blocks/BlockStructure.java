@@ -1,8 +1,8 @@
 package forestry.core.blocks;
 
 import com.mojang.authlib.GameProfile;
-import forestry.api.multiblock.IMultiblockComponent;
-import forestry.api.multiblock.IMultiblockController;
+import forestry.api.core.multiblock.IMultiblockComponent;
+import forestry.api.core.multiblock.IMultiblockController;
 import forestry.core.multiblock.MultiblockTileEntityForestry;
 import forestry.core.multiblock.MultiblockValidation;
 import forestry.core.tiles.TileUtil;

@@ -1,8 +1,8 @@
 package forestry.api.lepidopterology;
 
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.ILocationProvider;
-import forestry.api.genetics.IIndividual;
+import forestry.api.core.genetics.IIndividual;
 import forestry.api.lepidopterology.genetics.IButterfly;
 
 import javax.annotation.Nullable;

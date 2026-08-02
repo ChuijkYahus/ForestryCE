@@ -1,7 +1,7 @@
 package forestry.apiculture;
 
 import forestry.api.apiculture.IBeeModifier;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 
 public class ApiaryBeeModifier implements IBeeModifier {
 	@Override

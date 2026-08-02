@@ -2,11 +2,11 @@ package forestry.core.genetics.mutations;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.api.climate.IClimateProvider;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationCondition;
-import forestry.api.genetics.MutationConditionType;
+import forestry.api.core.climate.IClimateProvider;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.IMutation;
+import forestry.api.core.genetics.IMutationCondition;
+import forestry.api.core.genetics.MutationConditionType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;

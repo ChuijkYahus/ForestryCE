@@ -1,6 +1,6 @@
 package forestry.farming.tiles;
 
-import forestry.api.multiblock.IFarmComponent;
+import forestry.api.core.multiblock.IFarmComponent;
 import forestry.core.inventory.AdjacentInventoryCache;
 import forestry.core.tiles.AdjacentTileCache;
 import forestry.core.utils.InventoryUtil;

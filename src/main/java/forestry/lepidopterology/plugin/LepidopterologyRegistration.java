@@ -1,7 +1,7 @@
 package forestry.lepidopterology.plugin;
 
 import com.google.common.collect.ImmutableMap;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;

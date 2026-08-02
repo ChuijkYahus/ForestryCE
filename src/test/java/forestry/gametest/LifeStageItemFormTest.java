@@ -13,8 +13,8 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpeciesType;
 
 /**
  * Guard for the life stage item form, which resolves through the item registry rather than holding

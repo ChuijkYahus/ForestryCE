@@ -35,7 +35,7 @@ import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeEffectManager;
 import forestry.apiculture.genetics.effects.AgingBeeEffect;

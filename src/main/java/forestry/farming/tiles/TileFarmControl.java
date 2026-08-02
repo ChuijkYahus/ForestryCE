@@ -1,8 +1,8 @@
 package forestry.farming.tiles;
 
-import forestry.api.farming.IFarmListener;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.multiblock.IFarmComponent;
+import forestry.api.agriculture.IFarmListener;
+import forestry.api.agriculture.IFarmLogic;
+import forestry.api.core.multiblock.IFarmComponent;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingTiles;
 import net.minecraft.core.BlockPos;

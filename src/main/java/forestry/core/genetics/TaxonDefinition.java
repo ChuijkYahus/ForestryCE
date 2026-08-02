@@ -17,10 +17,10 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.IForestryApi;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.TaxonomicRank;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.TaxonomicRank;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IKaryotype;
 
 /**
  * A datapack-loadable definition of a taxon (a node in the classification tree), loaded through the reloadable

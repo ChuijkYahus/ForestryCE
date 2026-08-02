@@ -1,9 +1,9 @@
 package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableMap;
-import forestry.api.genetics.pollen.IPollen;
-import forestry.api.genetics.pollen.IPollenManager;
-import forestry.api.genetics.pollen.IPollenType;
+import forestry.api.core.genetics.pollen.IPollen;
+import forestry.api.core.genetics.pollen.IPollenManager;
+import forestry.api.core.genetics.pollen.IPollenType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelAccessor;

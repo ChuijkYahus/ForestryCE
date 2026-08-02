@@ -5,8 +5,8 @@ import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.hives.IHiveDefinition;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -23,7 +23,7 @@ public interface IApicultureRegistration {
 	 * Register a new bee species.
 	 *
 	 * @param id       The unique ID for this species.
-	 * @param genus    The scientific name of the genus containing this species. See {@link forestry.api.genetics.ForestryTaxa}.
+	 * @param genus    The scientific name of the genus containing this species. See {@link forestry.api.core.genetics.ForestryTaxa}.
 	 * @param species  The scientific name of this species without the genus. (Ex. mellifera, for <i>Apis mellifera</i>)
 	 * @param dominant Whether this species appears as a dominant allele in a genome.
 	 * @param outline  The color used for tinting the bee's outline. IntelliJ should show a nice color preview.

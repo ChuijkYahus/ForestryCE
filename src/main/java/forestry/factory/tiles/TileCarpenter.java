@@ -2,7 +2,7 @@ package forestry.factory.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.recipes.ICarpenterRecipe;
+import forestry.api.core.machines.ICarpenterRecipe;
 import forestry.core.config.Constants;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidHelper;

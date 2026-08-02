@@ -8,7 +8,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.api.recipes.ISqueezerRecipe;
+import forestry.api.core.machines.ISqueezerRecipe;
 import forestry.core.config.Constants;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.utils.RecipeUtils;

@@ -1,6 +1,6 @@
 package forestry.farming.logic.farmables;
 
-import forestry.api.farming.ICrop;
+import forestry.api.agriculture.ICrop;
 import forestry.core.utils.BlockUtil;
 import forestry.farming.logic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;

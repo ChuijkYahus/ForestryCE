@@ -1,7 +1,7 @@
 package forestry.storage.gui;
 
 import forestry.api.IForestryApi;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.ContainerNaturalistInventory;
 import forestry.core.gui.IGuiSelectable;

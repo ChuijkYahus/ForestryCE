@@ -1,7 +1,7 @@
 package forestry.api.lepidopterology.genetics;
 
 import forestry.api.ForestryConstants;
-import forestry.api.genetics.ILifeStage;
+import forestry.api.core.genetics.ILifeStage;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

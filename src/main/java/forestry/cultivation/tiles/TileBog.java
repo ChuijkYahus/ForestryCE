@@ -1,6 +1,6 @@
 package forestry.cultivation.tiles;
 
-import forestry.api.farming.ForestryFarmTypes;
+import forestry.api.agriculture.ForestryFarmTypes;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.cultivation.features.CultivationTiles;

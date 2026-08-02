@@ -2,12 +2,12 @@ package forestry.core.genetics.mutations;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.authlib.GameProfile;
-import forestry.api.climate.IClimateProvider;
-import forestry.api.genetics.*;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.climate.IClimateProvider;
+import forestry.api.core.genetics.*;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.core.genetics.ItemResearchNote;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

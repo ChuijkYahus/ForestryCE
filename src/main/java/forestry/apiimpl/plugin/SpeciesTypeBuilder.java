@@ -4,8 +4,8 @@ import forestry.core.features.CoreItems;
 
 import com.google.common.base.Preconditions;
 import forestry.api.ForestryConstants;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.plugin.IKaryotypeBuilder;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ISpeciesTypeFactory;

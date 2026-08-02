@@ -1,6 +1,6 @@
 package forestry.farming.multiblock;
 
-import forestry.api.farming.IFarmable;
+import forestry.api.agriculture.IFarmable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

@@ -2,8 +2,8 @@ package forestry.apiculture;
 
 import forestry.api.apiculture.IBeeModifier;
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.IMutation;
 
 import javax.annotation.Nullable;
 

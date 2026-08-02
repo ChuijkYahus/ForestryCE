@@ -1,9 +1,9 @@
 package forestry.core.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;

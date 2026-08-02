@@ -5,7 +5,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.core.IBlockSubtype;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;

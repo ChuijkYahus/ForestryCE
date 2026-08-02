@@ -1,7 +1,7 @@
 package forestry.factory.recipes.jei.carpenter;
 
 import forestry.api.ForestryConstants;
-import forestry.api.recipes.ICarpenterRecipe;
+import forestry.api.core.machines.ICarpenterRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;

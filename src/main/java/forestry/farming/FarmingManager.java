@@ -1,8 +1,8 @@
 package forestry.farming;
 
 import com.google.common.collect.ImmutableMap;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmingManager;
+import forestry.api.agriculture.IFarmType;
+import forestry.api.agriculture.IFarmingManager;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

@@ -3,7 +3,7 @@ package forestry.arboriculture.blocks;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.client.IForestryClientApi;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.core.blocks.IColoredBlock;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;

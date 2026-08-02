@@ -2,7 +2,7 @@ package forestry.core.commands;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ISpeciesType;
 
 /**
  * Parses the raw token identifying an allele value. Alleles are no longer interned in a global registry, so the token

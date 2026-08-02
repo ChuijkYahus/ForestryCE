@@ -1,8 +1,8 @@
 package forestry.api.plugin;
 
 import forestry.api.apiculture.hives.IHiveDrop;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

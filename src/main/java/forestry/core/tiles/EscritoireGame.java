@@ -2,9 +2,9 @@ package forestry.core.tiles;
 
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.HolderLookup;

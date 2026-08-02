@@ -1,6 +1,6 @@
 package forestry.core.gui;
 
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.features.CoreMenuTypes;
 import forestry.core.gui.slots.SlotFilteredInventory;
 import forestry.api.core.IFilterSlotDelegate;

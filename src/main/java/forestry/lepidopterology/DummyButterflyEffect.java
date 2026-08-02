@@ -1,6 +1,6 @@
 package forestry.lepidopterology;
 
-import forestry.api.genetics.IEffectData;
+import forestry.api.core.genetics.IEffectData;
 import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.IEntityButterfly;
 

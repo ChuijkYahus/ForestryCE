@@ -2,7 +2,7 @@ package forestry.farming.logic;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import forestry.api.farming.*;
+import forestry.api.agriculture.*;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

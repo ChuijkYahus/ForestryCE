@@ -1,8 +1,8 @@
 package forestry.lepidopterology.entities;
 
 import forestry.api.IForestryApi;
-import forestry.api.genetics.pollen.IPollen;
-import forestry.api.genetics.pollen.IPollenManager;
+import forestry.api.core.genetics.pollen.IPollen;
+import forestry.api.core.genetics.pollen.IPollenManager;
 
 public class AIButterflyPollinate extends AIButterflyInteract {
 	public AIButterflyPollinate(EntityButterfly entity) {

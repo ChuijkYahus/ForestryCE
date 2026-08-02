@@ -1,6 +1,6 @@
 package forestry.lepidopterology.entities;
 
-import forestry.api.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import net.minecraft.world.entity.player.Player;
 

@@ -1,8 +1,8 @@
 package forestry.api.client.apiculture;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ILifeStage;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.ILifeStage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 

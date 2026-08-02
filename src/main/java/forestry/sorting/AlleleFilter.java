@@ -1,6 +1,6 @@
 package forestry.sorting;
 
-import forestry.api.genetics.ISpecies;
+import forestry.api.core.genetics.ISpecies;
 
 import javax.annotation.Nullable;
 

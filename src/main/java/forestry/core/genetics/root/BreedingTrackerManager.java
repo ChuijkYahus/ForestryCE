@@ -1,9 +1,9 @@
 package forestry.core.genetics.root;
 
 import com.mojang.authlib.GameProfile;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.IBreedingTrackerManager;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.IBreedingTracker;
+import forestry.api.core.genetics.IBreedingTrackerManager;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.ClientsideCode;
 import net.minecraft.world.level.LevelAccessor;
 import net.neoforged.api.distmarker.Dist;

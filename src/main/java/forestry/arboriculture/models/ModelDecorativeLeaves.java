@@ -5,7 +5,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.blocks.BlockAbstractLeaves;
 import forestry.arboriculture.blocks.BlockDecorativeLeaves;
 import forestry.core.models.ModelBlockCached;

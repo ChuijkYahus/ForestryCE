@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.api.recipes.IHygroregulatorRecipe;
+import forestry.api.core.machines.IHygroregulatorRecipe;
 import forestry.apiculture.features.ApicultureRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;

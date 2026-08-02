@@ -9,8 +9,8 @@ import com.mojang.serialization.MapCodec;
 import forestry.api.ForestryRegistries;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
 import forestry.api.client.IForestryClientApi;
 import net.minecraft.core.BlockPos;
 

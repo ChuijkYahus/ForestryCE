@@ -1,6 +1,6 @@
 package forestry.api.client.genetics;
 
-import forestry.api.genetics.*;
+import forestry.api.core.genetics.*;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;

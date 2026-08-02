@@ -5,9 +5,9 @@ import forestry.api.client.plugin.IClientRegistration;
 import java.util.function.Consumer;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.genetics.TreeSpeciesType;
 import java.util.List;
 

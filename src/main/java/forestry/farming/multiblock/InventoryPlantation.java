@@ -1,9 +1,9 @@
 package forestry.farming.multiblock;
 
 import forestry.api.IForestryApi;
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmable;
+import forestry.api.agriculture.IFarmHousing;
+import forestry.api.agriculture.IFarmLogic;
+import forestry.api.agriculture.IFarmable;
 import forestry.core.config.Preference;
 import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.TankManager;

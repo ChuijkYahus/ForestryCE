@@ -36,16 +36,16 @@ import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationCondition;
-import forestry.api.genetics.IMutationManager;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.IMutation;
+import forestry.api.core.genetics.IMutationCondition;
+import forestry.api.core.genetics.IMutationManager;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.core.features.GeneticsRecipeTypes;
@@ -317,7 +317,7 @@ public class MutationRecipeTest {
 	}
 
 	@Nullable
-	private static <S extends forestry.api.genetics.ISpecies<?>> IMutation<S> findMutation(List<IMutation<S>> mutations, ResourceLocation resultId) {
+	private static <S extends forestry.api.core.genetics.ISpecies<?>> IMutation<S> findMutation(List<IMutation<S>> mutations, ResourceLocation resultId) {
 		for (IMutation<S> mutation : mutations) {
 			if (mutation.getResult().id().equals(resultId)) {
 				return mutation;

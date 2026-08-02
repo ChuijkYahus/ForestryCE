@@ -11,7 +11,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;

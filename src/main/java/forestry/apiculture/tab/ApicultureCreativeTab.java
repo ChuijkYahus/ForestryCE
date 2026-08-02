@@ -1,7 +1,7 @@
 package forestry.apiculture.tab;
 
 import forestry.api.ForestryConstants;
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.blocks.NaturalistChestBlockType;
 import forestry.core.features.CoreBlocks;

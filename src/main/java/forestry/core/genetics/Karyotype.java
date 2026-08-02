@@ -10,11 +10,11 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.plugin.IChromosomeBuilder;
 import forestry.api.plugin.IGenomeBuilder;
 import forestry.api.plugin.IKaryotypeBuilder;

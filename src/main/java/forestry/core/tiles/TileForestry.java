@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.ILocationProvider;
-import forestry.api.util.TickHelper;
+import forestry.api.core.util.TickHelper;
 import forestry.core.blocks.TileStreamUpdateTracker;
 import forestry.core.errors.ErrorLogic;
 import forestry.core.inventory.FakeInventoryAdapter;

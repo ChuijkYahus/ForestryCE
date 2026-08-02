@@ -3,7 +3,7 @@ package forestry.core.genetics;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.api.genetics.*;
+import forestry.api.core.genetics.*;
 import forestry.core.features.CoreDataComponents;
 import net.minecraft.world.item.ItemStack;
 

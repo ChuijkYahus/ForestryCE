@@ -2,9 +2,9 @@ package forestry.apiculture;
 
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.client.ForestrySprites;
-import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.api.genetics.filter.FilterData;
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.filter.FilterData;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

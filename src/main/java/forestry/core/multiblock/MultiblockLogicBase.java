@@ -2,7 +2,7 @@ package forestry.core.multiblock;
 
 import javax.annotation.Nullable;
 
-import forestry.api.multiblock.IMultiblockLogic;
+import forestry.api.core.multiblock.IMultiblockLogic;
 
 /**
  * Thin replacement for the deleted {@code MultiblockLogic} save-delegate object (plan Task 2.2 and 2.3). It

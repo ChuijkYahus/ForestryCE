@@ -1,8 +1,8 @@
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;

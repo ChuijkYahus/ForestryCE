@@ -1,8 +1,8 @@
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;

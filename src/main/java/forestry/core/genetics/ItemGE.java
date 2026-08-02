@@ -1,14 +1,14 @@
 package forestry.core.genetics;
 
 import forestry.Forestry;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.IIndividualItem;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.genetics.IIndividualLiving;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.IIndividualItem;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.IIndividualLiving;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.config.ForestryConfig;
 import forestry.core.features.CoreDataComponents;
 import forestry.core.items.ItemForestry;

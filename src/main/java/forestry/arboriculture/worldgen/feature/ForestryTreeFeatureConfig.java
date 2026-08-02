@@ -2,7 +2,7 @@ package forestry.arboriculture.worldgen.feature;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 

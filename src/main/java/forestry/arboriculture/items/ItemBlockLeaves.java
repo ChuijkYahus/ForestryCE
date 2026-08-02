@@ -1,7 +1,7 @@
 package forestry.arboriculture.items;
 
 import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.genetics.ISpecies;
+import forestry.api.core.genetics.ISpecies;
 import forestry.arboriculture.blocks.BlockAbstractLeaves;
 import forestry.arboriculture.tiles.TileLeaves;
 import forestry.core.items.ItemBlockForestry;

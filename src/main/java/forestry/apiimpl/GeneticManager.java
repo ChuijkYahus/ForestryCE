@@ -2,10 +2,10 @@ package forestry.apiimpl;
 
 import com.google.common.collect.ImmutableMap;
 import forestry.Forestry;
-import forestry.api.genetics.*;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.*;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.core.features.CoreDataComponents;
 import forestry.core.genetics.Taxon;
 import forestry.core.genetics.TaxonDefinition;

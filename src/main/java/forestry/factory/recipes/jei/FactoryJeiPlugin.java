@@ -1,7 +1,7 @@
 package forestry.factory.recipes.jei;
 
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.RainSubstrate;
+import forestry.api.core.machines.fuels.FuelManager;
+import forestry.api.core.machines.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.ClientsideCode;
 import forestry.core.features.FluidsItems;

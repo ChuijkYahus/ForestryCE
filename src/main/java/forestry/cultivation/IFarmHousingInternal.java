@@ -1,7 +1,7 @@
 package forestry.cultivation;
 
-import forestry.api.climate.IClimateProvider;
-import forestry.api.farming.IFarmHousing;
+import forestry.api.core.climate.IClimateProvider;
+import forestry.api.agriculture.IFarmHousing;
 import forestry.core.fluids.ITankManager;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.farming.FarmTarget;

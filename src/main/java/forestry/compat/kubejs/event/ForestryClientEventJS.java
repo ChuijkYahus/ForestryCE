@@ -4,7 +4,7 @@ import dev.latvian.mods.kubejs.event.KubeEvent;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.client.plugin.IClientRegistration;
-import forestry.api.genetics.ILifeStage;
+import forestry.api.core.genetics.ILifeStage;
 import net.minecraft.resources.ResourceLocation;
 
 public class ForestryClientEventJS implements KubeEvent {

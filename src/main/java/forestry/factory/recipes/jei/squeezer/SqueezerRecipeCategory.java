@@ -1,7 +1,7 @@
 package forestry.factory.recipes.jei.squeezer;
 
 import forestry.api.ForestryConstants;
-import forestry.api.recipes.ISqueezerRecipe;
+import forestry.api.core.machines.ISqueezerRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ChanceTooltipCallback;
 import forestry.core.recipes.jei.ForestryRecipeCategory;

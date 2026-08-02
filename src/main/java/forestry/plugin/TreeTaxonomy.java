@@ -1,6 +1,6 @@
 package forestry.plugin;
 
-import forestry.api.genetics.ForestryTaxa;
+import forestry.api.core.genetics.ForestryTaxa;
 import forestry.api.plugin.IGeneticRegistration;
 
 public class TreeTaxonomy {

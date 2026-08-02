@@ -1,7 +1,7 @@
 package forestry.factory.recipes.jei.still;
 
 import forestry.api.ForestryConstants;
-import forestry.api.recipes.IStillRecipe;
+import forestry.api.core.machines.IStillRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;

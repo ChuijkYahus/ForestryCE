@@ -6,8 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 
 import forestry.Forestry;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.arboriculture.TreeSpecies;
 import forestry.core.genetics.SpeciesProjection;
 

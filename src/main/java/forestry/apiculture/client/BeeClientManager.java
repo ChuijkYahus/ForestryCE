@@ -1,13 +1,13 @@
 package forestry.apiculture.client;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import forestry.apiculture.particles.BeeParticleRender;
 import net.minecraft.core.BlockPos;
 import java.util.List;
 
 import forestry.api.client.apiculture.IBeeClientManager;
-import forestry.api.genetics.ILifeStage;
+import forestry.api.core.genetics.ILifeStage;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collection;

@@ -1,7 +1,7 @@
 package forestry.apiculture;
 
 import forestry.api.apiculture.IBeeModifier;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import net.minecraft.core.Vec3i;
 
 public class AlvearyBeeModifier implements IBeeModifier {

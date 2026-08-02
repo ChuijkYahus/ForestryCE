@@ -2,8 +2,8 @@ package forestry.farming.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import forestry.api.core.tooltips.ToolTip;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmType;
+import forestry.api.agriculture.IFarmLogic;
+import forestry.api.agriculture.IFarmType;
 import forestry.core.gui.GuiUtil;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.gui.widgets.WidgetManager;

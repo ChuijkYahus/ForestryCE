@@ -1,7 +1,7 @@
 package forestry.arboriculture;
 
 import forestry.api.core.IProduct;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockGetter;

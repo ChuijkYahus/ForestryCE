@@ -4,7 +4,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ICharcoalPileWall;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.charcoal.jei.CharcoalPileWallCategory;
 import forestry.arboriculture.features.ArboricultureItems;

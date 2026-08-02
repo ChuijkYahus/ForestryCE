@@ -1,8 +1,8 @@
 package forestry.arboriculture.genetics;
 
 import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.core.tiles.TileUtil;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;

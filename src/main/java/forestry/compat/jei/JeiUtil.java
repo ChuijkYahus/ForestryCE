@@ -1,9 +1,9 @@
 package forestry.compat.jei;
 
 import forestry.Forestry;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.utils.ModUtil;
 import forestry.modules.features.FeatureItem;
 import mezz.jei.api.constants.VanillaTypes;

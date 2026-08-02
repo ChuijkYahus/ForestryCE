@@ -8,7 +8,7 @@ import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.TemperatureType;
-import forestry.api.multiblock.IMultiblockComponent;
+import forestry.api.core.multiblock.IMultiblockComponent;
 import forestry.apiimpl.fake.FakeBeekeepingLogic;
 import forestry.apiculture.tiles.FakeBeeHousingInventory;
 import forestry.core.errors.FakeErrorLogic;

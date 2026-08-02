@@ -17,10 +17,10 @@ import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.ITaxon;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.ITaxon;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.TaxonDefinition;
 import forestry.plugin.ForestryTaxonomy;

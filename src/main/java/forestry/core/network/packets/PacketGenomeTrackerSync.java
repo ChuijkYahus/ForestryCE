@@ -2,8 +2,8 @@ package forestry.core.network.packets;
 
 import forestry.api.IForestryApi;
 import forestry.api.core.ForestryEvent;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.IBreedingTracker;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.genetics.BreedingTracker;
 import forestry.core.network.PacketIdClient;
 import net.minecraft.nbt.CompoundTag;

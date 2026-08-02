@@ -1,11 +1,11 @@
 package forestry.sorting.tiles;
 
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.filter.FilterData;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.filter.FilterData;
 import forestry.core.inventory.AdjacentInventoryCache;
 import forestry.core.inventory.InventoryAdapterTile;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.network.IStreamableGui;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;

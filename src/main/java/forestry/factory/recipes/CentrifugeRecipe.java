@@ -20,7 +20,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import forestry.api.core.IProduct;
-import forestry.api.recipes.ICentrifugeRecipe;
+import forestry.api.core.machines.ICentrifugeRecipe;
 import forestry.core.genetics.ProductTypes;
 import forestry.factory.features.FactoryRecipeTypes;
 

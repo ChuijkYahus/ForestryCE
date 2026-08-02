@@ -7,10 +7,10 @@ import forestry.api.IForestryApi;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.ClimateHelper;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.ClimateHelper;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.IEntityButterfly;
@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.IChromosome;
 
 public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, IButterflySpeciesType> implements IButterfly {
 	private static final RandomSource rand = RandomSource.create();

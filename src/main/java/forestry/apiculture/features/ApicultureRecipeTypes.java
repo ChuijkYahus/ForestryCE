@@ -1,7 +1,7 @@
 package forestry.apiculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.api.recipes.IHygroregulatorRecipe;
+import forestry.api.core.machines.IHygroregulatorRecipe;
 import forestry.apiculture.recipes.HygroregulatorRecipe;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureRecipeType;

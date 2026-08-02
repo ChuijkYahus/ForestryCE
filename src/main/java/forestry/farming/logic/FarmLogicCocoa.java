@@ -1,6 +1,6 @@
 package forestry.farming.logic;
 
-import forestry.api.farming.*;
+import forestry.api.agriculture.*;
 import forestry.core.utils.BlockUtil;
 import forestry.farming.logic.farmables.FarmableCocoa;
 import net.minecraft.core.BlockPos;

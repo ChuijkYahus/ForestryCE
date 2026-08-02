@@ -25,9 +25,9 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.IProduct;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.utils.SpeciesUtil;

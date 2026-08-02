@@ -2,8 +2,8 @@ package forestry.farming.tiles;
 
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorLogicSource;
-import forestry.api.multiblock.IFarmComponent;
-import forestry.api.multiblock.IMultiblockController;
+import forestry.api.core.multiblock.IFarmComponent;
+import forestry.api.core.multiblock.IMultiblockController;
 import forestry.core.circuits.ISocketable;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.multiblock.MultiblockTileEntityForestry;

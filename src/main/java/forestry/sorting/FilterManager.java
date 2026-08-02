@@ -2,8 +2,8 @@ package forestry.sorting;
 
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
-import forestry.api.genetics.filter.IFilterManager;
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.core.genetics.filter.IFilterManager;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 

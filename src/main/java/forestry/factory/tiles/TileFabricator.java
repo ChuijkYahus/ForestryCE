@@ -2,8 +2,8 @@ package forestry.factory.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.recipes.IFabricatorRecipe;
-import forestry.api.recipes.IFabricatorSmeltingRecipe;
+import forestry.api.core.machines.IFabricatorRecipe;
+import forestry.api.core.machines.IFabricatorSmeltingRecipe;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidRecipeFilter;
 import forestry.core.fluids.TankManager;

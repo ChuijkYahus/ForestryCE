@@ -9,7 +9,7 @@ import forestry.api.arboriculture.ITreeManager;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.circuits.ICircuit;
+import forestry.api.core.circuits.ICircuit;
 import forestry.apiculture.features.ApicultureCrates;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.blocks.BlockTypeApiculture;

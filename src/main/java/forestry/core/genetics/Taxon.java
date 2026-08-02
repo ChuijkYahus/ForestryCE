@@ -1,9 +1,9 @@
 package forestry.core.genetics;
 
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ITaxon;
-import forestry.api.genetics.TaxonomicRank;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ITaxon;
+import forestry.api.core.genetics.TaxonomicRank;
+import forestry.api.core.genetics.alleles.IChromosome;
 import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;

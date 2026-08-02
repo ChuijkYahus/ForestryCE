@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.client.plugin.IClientRegistration;
 
 /**

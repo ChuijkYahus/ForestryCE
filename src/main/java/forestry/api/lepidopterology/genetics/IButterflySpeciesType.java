@@ -1,8 +1,8 @@
 package forestry.api.lepidopterology.genetics;
 
 import com.mojang.authlib.GameProfile;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.IBreedingTracker;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
 import net.minecraft.core.BlockPos;

@@ -2,9 +2,9 @@ package forestry.arboriculture.tiles;
 
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.core.IProduct;
-import forestry.api.genetics.IFruitBearer;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.IFruitBearer;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.features.ArboricultureTiles;
 import forestry.core.ClientsideCode;
 import forestry.core.network.IStreamable;

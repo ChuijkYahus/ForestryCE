@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.hives.IHive;
-import forestry.api.climate.IClimateManager;
+import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.core.config.ForestryConfig;

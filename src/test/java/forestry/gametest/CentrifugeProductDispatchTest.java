@@ -20,7 +20,7 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.core.IProduct;
 import forestry.api.core.Product;
-import forestry.api.recipes.ICentrifugeRecipe;
+import forestry.api.core.machines.ICentrifugeRecipe;
 import forestry.apiculture.genetics.FireworkProduct;
 import forestry.core.features.CoreItems;
 import forestry.core.genetics.ProductTypes;

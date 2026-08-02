@@ -1,7 +1,7 @@
 package forestry.cultivation.inventory;
 
-import forestry.api.farming.HorizontalDirection;
-import forestry.api.farming.IFarmable;
+import forestry.api.agriculture.HorizontalDirection;
+import forestry.api.agriculture.IFarmable;
 import forestry.cultivation.tiles.TilePlanter;
 import forestry.farming.multiblock.IFarmInventoryInternal;
 import forestry.farming.multiblock.InventoryPlantation;

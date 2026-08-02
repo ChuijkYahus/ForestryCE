@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import forestry.api.multiblock.IMultiblockComponent;
+import forestry.api.core.multiblock.IMultiblockComponent;
 import forestry.core.multiblock.pattern.MultiblockPattern;
 import forestry.core.multiblock.pattern.PatternResult;
 import forestry.core.multiblock.pattern.StructurePos;

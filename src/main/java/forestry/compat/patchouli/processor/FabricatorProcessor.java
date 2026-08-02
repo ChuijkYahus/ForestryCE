@@ -1,7 +1,7 @@
 package forestry.compat.patchouli.processor;
 
 import com.google.common.base.Preconditions;
-import forestry.api.recipes.IFabricatorRecipe;
+import forestry.api.core.machines.IFabricatorRecipe;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;

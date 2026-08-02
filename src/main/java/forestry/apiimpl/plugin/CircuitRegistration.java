@@ -1,7 +1,7 @@
 package forestry.apiimpl.plugin;
 
-import forestry.api.circuits.CircuitHolder;
-import forestry.api.circuits.ICircuit;
+import forestry.api.core.circuits.CircuitHolder;
+import forestry.api.core.circuits.ICircuit;
 import forestry.api.plugin.ICircuitRegistration;
 import forestry.core.circuits.CircuitLayout;
 import net.minecraft.resources.ResourceLocation;

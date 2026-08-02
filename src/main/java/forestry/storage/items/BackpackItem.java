@@ -1,9 +1,9 @@
 package forestry.storage.items;
 
 import com.google.common.base.Preconditions;
-import forestry.api.storage.BackpackStowEvent;
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.core.backpacks.BackpackStowEvent;
+import forestry.api.core.backpacks.EnumBackpackType;
+import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.core.config.ForestryConfig;
 import forestry.core.inventory.ItemHandlerInventoryManipulator;
 import forestry.core.inventory.ItemInventory;

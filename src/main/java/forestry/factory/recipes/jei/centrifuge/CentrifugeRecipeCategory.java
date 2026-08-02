@@ -2,7 +2,7 @@ package forestry.factory.recipes.jei.centrifuge;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.IProduct;
-import forestry.api.recipes.ICentrifugeRecipe;
+import forestry.api.core.machines.ICentrifugeRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ChanceTooltipCallback;
 import forestry.core.recipes.jei.ForestryRecipeCategory;

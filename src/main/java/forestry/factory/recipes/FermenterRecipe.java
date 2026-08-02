@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.api.recipes.IFermenterRecipe;
+import forestry.api.core.machines.IFermenterRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;

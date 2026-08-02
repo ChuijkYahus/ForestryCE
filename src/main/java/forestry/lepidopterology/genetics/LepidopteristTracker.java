@@ -1,7 +1,7 @@
 package forestry.lepidopterology.genetics;
 
-import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.api.genetics.ISpecies;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ISpecies;
 import forestry.api.lepidopterology.ILepidopteristTracker;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.core.genetics.BreedingTracker;

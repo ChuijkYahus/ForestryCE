@@ -1,6 +1,6 @@
 package forestry.lepidopterology.compat;
 
-import forestry.api.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.SpeciesUtil;

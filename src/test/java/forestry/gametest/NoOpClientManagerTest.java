@@ -7,7 +7,7 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.arboriculture.ILeafSprite;
-import forestry.api.genetics.ILifeStage;
+import forestry.api.core.genetics.ILifeStage;
 import forestry.apiimpl.client.fake.FakeBeeClientManager;
 import forestry.apiimpl.client.fake.FakeButterflyClientManager;
 import forestry.apiimpl.client.fake.FakeClientHelper;

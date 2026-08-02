@@ -1,7 +1,7 @@
 package forestry.apiculture.compat;
 
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;

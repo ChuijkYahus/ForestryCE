@@ -21,8 +21,8 @@ import net.minecraft.world.level.block.Blocks;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.genetics.IBeeEffect;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
 import forestry.core.utils.EntityUtil;
 import forestry.core.utils.ItemStackUtil;
 

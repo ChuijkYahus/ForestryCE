@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.genetics.mutations.MutationRecipe;
 import forestry.modules.features.FeatureProvider;

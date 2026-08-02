@@ -7,8 +7,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpeciesType;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 

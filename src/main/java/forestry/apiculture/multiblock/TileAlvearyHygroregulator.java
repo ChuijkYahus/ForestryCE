@@ -1,9 +1,9 @@
 package forestry.apiculture.multiblock;
 
-import forestry.api.climate.IClimateControlled;
-import forestry.api.multiblock.IAlvearyComponent;
+import forestry.api.core.climate.IClimateControlled;
+import forestry.api.core.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.api.recipes.IHygroregulatorRecipe;
+import forestry.api.core.machines.IHygroregulatorRecipe;
 import forestry.apiculture.features.ApicultureRecipeTypes;
 import forestry.apiculture.gui.ContainerAlvearyHygroregulator;
 import forestry.apiculture.inventory.InventoryHygroregulator;

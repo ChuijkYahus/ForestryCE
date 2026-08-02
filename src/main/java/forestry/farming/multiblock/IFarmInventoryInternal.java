@@ -1,6 +1,6 @@
 package forestry.farming.multiblock;
 
-import forestry.api.farming.IFarmInventory;
+import forestry.api.agriculture.IFarmInventory;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayDeque;

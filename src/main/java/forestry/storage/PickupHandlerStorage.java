@@ -1,6 +1,6 @@
 package forestry.storage;
 
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.storage.gui.ContainerBackpack;
 import forestry.storage.gui.ContainerNaturalistBackpack;
 import forestry.storage.items.BackpackItem;

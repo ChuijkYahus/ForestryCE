@@ -2,7 +2,7 @@ package forestry.core.genetics;
 
 import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
-import forestry.api.genetics.*;
+import forestry.api.core.genetics.*;
 import forestry.core.features.CoreItems;
 import forestry.core.genetics.mutations.EnumMutateChance;
 import forestry.core.items.ItemForestry;

@@ -1,6 +1,6 @@
 package forestry.cultivation.tiles;
 
-import forestry.api.farming.ForestryFarmTypes;
+import forestry.api.agriculture.ForestryFarmTypes;
 import forestry.cultivation.features.CultivationTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;

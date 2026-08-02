@@ -1,8 +1,8 @@
 package forestry.factory.recipes.jei.fabricator;
 
 import forestry.api.ForestryConstants;
-import forestry.api.recipes.IFabricatorRecipe;
-import forestry.api.recipes.IFabricatorSmeltingRecipe;
+import forestry.api.core.machines.IFabricatorRecipe;
+import forestry.api.core.machines.IFabricatorSmeltingRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;

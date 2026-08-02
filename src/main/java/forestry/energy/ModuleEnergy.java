@@ -1,9 +1,9 @@
 package forestry.energy;
 
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.fuels.EngineBronzeFuel;
-import forestry.api.fuels.EngineCopperFuel;
-import forestry.api.fuels.FuelManager;
+import forestry.api.core.machines.fuels.EngineBronzeFuel;
+import forestry.api.core.machines.fuels.EngineCopperFuel;
+import forestry.api.core.machines.fuels.FuelManager;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.config.Constants;

@@ -2,7 +2,7 @@ package forestry.core.circuits;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
-import forestry.api.circuits.*;
+import forestry.api.core.circuits.*;
 import forestry.core.features.CoreItems;
 import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.nbt.CompoundTag;

@@ -2,7 +2,7 @@ package forestry.sorting.network.packets;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.IForestryApi;
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;

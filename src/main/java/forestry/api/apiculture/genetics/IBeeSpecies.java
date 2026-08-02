@@ -4,8 +4,8 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.IClimateSensitive;
 import forestry.api.core.IProductProducer;
 import forestry.api.core.ISpecialtyProducer;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ISpecies;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.ISpecies;
 
 /**
  * Represents a bee species. Defines a bee's traits, default genome, and produce.

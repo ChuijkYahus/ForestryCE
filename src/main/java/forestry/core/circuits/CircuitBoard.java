@@ -1,9 +1,9 @@
 package forestry.core.circuits;
 
 import forestry.api.IForestryApi;
-import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitBoard;
-import forestry.api.circuits.ICircuitLayout;
+import forestry.api.core.circuits.ICircuit;
+import forestry.api.core.circuits.ICircuitBoard;
+import forestry.api.core.circuits.ICircuitLayout;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.HolderLookup;

@@ -2,7 +2,7 @@ package forestry.lepidopterology.client.plugin;
 
 import java.util.function.Consumer;
 
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.plugin.client.ButterflyAnalyzerPlugin;
 import net.minecraft.resources.ResourceLocation;

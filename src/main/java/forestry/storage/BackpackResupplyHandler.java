@@ -1,6 +1,6 @@
 package forestry.storage;
 
-import forestry.api.storage.BackpackResupplyEvent;
+import forestry.api.core.backpacks.BackpackResupplyEvent;
 import forestry.core.inventory.ItemInventory;
 import forestry.storage.inventory.BackpackInventory;
 import forestry.storage.items.BackpackItem;

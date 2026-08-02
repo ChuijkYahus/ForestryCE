@@ -1,7 +1,7 @@
 package forestry.farming.logic;
 
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmType;
+import forestry.api.agriculture.IFarmHousing;
+import forestry.api.agriculture.IFarmType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 

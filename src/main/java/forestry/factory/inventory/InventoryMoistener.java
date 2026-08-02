@@ -1,6 +1,6 @@
 package forestry.factory.inventory;
 
-import forestry.api.fuels.FuelManager;
+import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.utils.RecipeUtils;
 import forestry.core.utils.SlotUtil;

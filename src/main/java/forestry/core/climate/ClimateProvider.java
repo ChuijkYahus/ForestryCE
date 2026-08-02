@@ -1,8 +1,8 @@
 package forestry.core.climate;
 
 import forestry.api.IForestryApi;
-import forestry.api.climate.IBiomeProvider;
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IBiomeProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import net.minecraft.core.BlockPos;

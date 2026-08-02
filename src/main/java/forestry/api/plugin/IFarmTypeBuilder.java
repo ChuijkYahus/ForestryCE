@@ -1,6 +1,6 @@
 package forestry.api.plugin;
 
-import forestry.api.farming.*;
+import forestry.api.agriculture.*;
 import it.unimi.dsi.fastutil.floats.Float2IntFunction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

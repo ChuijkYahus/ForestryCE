@@ -1,8 +1,8 @@
 package forestry.farming.logic;
 
-import forestry.api.farming.ICrop;
-import forestry.api.farming.IFarmHousing;
-import forestry.api.farming.IFarmType;
+import forestry.api.agriculture.ICrop;
+import forestry.api.agriculture.IFarmHousing;
+import forestry.api.agriculture.IFarmType;
 import forestry.core.features.CoreBlocks;
 import forestry.farming.logic.crops.CropPeat;
 import net.minecraft.core.BlockPos;

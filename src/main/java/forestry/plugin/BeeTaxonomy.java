@@ -1,8 +1,8 @@
 package forestry.plugin;
 
-import forestry.api.genetics.ForestryTaxa;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.ForestryTaxa;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.plugin.IGeneticRegistration;
 import forestry.api.apiculture.ForestryActivityTypes;
 import forestry.api.apiculture.ForestryBeeEffects;

@@ -2,9 +2,9 @@ package forestry.apiculture.multiblock;
 
 import forestry.api.apiculture.IBeeModifier;
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.api.multiblock.IAlvearyComponent;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.IMutation;
+import forestry.api.core.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

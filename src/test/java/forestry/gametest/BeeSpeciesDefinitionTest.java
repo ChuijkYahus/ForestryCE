@@ -23,9 +23,9 @@ import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.core.HumidityType;
 import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 
 /**

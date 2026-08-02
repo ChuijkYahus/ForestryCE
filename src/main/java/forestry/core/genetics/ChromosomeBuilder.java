@@ -1,7 +1,7 @@
 package forestry.core.genetics;
 
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.plugin.IChromosomeBuilder;
 import net.minecraft.resources.ResourceLocation;
 

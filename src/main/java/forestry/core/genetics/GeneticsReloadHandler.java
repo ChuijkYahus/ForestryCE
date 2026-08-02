@@ -12,9 +12,9 @@ import net.minecraft.world.item.crafting.RecipeManager;
 
 import forestry.Forestry;
 import forestry.api.IForestryApi;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.IMutation;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.apiimpl.GeneticManager;
 import forestry.core.features.GeneticsRecipeTypes;
 import forestry.core.genetics.mutations.Mutation;

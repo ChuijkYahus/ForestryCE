@@ -1,8 +1,8 @@
 package forestry.arboriculture.commands;
 
 import com.mojang.authlib.GameProfile;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.ISpecies;
+import forestry.api.core.genetics.IBreedingTracker;
+import forestry.api.core.genetics.ISpecies;
 import forestry.core.commands.IStatsSaveHelper;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.network.chat.Component;

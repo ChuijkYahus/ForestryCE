@@ -2,8 +2,8 @@ package forestry.core.utils;
 
 import com.google.common.base.Preconditions;
 import forestry.api.IForestryApi;
-import forestry.api.climate.ClimateState;
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.ClimateState;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.core.network.IStreamable;

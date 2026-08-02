@@ -5,7 +5,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITreeEffect;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.TreeManager;

@@ -1,9 +1,9 @@
 package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableList;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.IMutationManager;
-import forestry.api.genetics.ISpecies;
+import forestry.api.core.genetics.IMutation;
+import forestry.api.core.genetics.IMutationManager;
+import forestry.api.core.genetics.ISpecies;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
 import net.minecraft.util.RandomSource;

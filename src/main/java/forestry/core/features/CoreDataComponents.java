@@ -1,6 +1,6 @@
 package forestry.core.features;
 
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;

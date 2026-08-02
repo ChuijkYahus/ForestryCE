@@ -2,12 +2,12 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.ITaxon;
-import forestry.api.genetics.TaxonomicRank;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.ITaxon;
+import forestry.api.core.genetics.TaxonomicRank;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import forestry.api.plugin.IGeneticRegistration;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ISpeciesTypeFactory;

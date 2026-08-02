@@ -1,9 +1,9 @@
 package forestry.storage.features;
 
 import forestry.api.core.ItemGroups;
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.api.storage.EnumBackpackType;
+import forestry.api.core.backpacks.EnumBackpackType;
 import forestry.modules.features.FeatureItem;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;

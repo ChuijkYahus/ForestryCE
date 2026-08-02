@@ -2,8 +2,8 @@ package forestry.core.inventory;
 
 import com.google.common.collect.ImmutableSet;
 import forestry.api.IForestryApi;
-import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitLayout;
+import forestry.api.core.circuits.ICircuit;
+import forestry.api.core.circuits.ICircuitLayout;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
 import forestry.api.core.IErrorSource;

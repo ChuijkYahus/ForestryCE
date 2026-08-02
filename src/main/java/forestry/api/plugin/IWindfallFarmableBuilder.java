@@ -1,6 +1,6 @@
 package forestry.api.plugin;
 
-import forestry.api.farming.IFarmable;
+import forestry.api.agriculture.IFarmable;
 import net.minecraft.world.item.Item;
 
 /**

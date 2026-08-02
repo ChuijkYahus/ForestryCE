@@ -2,8 +2,8 @@ package forestry.plugin;
 
 import com.google.common.collect.ImmutableMap;
 
-import forestry.api.genetics.ForestryTaxa;
-import forestry.api.genetics.ITaxon;
+import forestry.api.core.genetics.ForestryTaxa;
+import forestry.api.core.genetics.ITaxon;
 import forestry.api.plugin.ITaxonBuilder;
 import forestry.apiimpl.plugin.GeneticRegistration;
 

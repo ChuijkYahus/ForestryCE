@@ -2,9 +2,9 @@ package forestry.core.gui;
 
 import com.google.common.collect.ImmutableList;
 import forestry.api.apiculture.IApiaristTracker;
-import forestry.api.genetics.*;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.*;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.config.Constants;
 import forestry.core.gui.buttons.GuiBetterButton;
 import forestry.core.gui.buttons.StandardButtonTextureSets;

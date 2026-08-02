@@ -2,8 +2,8 @@ package forestry.core;
 
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.IBreedingTracker;
+import forestry.api.core.genetics.ISpeciesType;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.bus.api.SubscribeEvent;

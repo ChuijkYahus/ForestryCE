@@ -9,8 +9,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import forestry.api.ForestryConstants;
-import forestry.api.genetics.IMutationCondition;
-import forestry.api.genetics.MutationConditionType;
+import forestry.api.core.genetics.IMutationCondition;
+import forestry.api.core.genetics.MutationConditionType;
 
 public final class MutationConditionTypes {
 	private static final Map<ResourceLocation, MutationConditionType<?>> BY_ID = new ConcurrentHashMap<>();

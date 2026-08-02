@@ -2,12 +2,12 @@ package forestry.cultivation.tiles;
 
 import com.google.common.base.Preconditions;
 import forestry.api.IForestryApi;
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmType;
-import forestry.api.farming.IFarmable;
+import forestry.api.agriculture.IFarmLogic;
+import forestry.api.agriculture.IFarmType;
+import forestry.api.agriculture.IFarmable;
 import forestry.core.config.ForestryConfig;
 import forestry.core.fluids.ITankManager;
 import forestry.core.network.IStreamableGui;

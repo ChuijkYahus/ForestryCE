@@ -6,8 +6,8 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.alleles.IChromosome;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.resources.ResourceLocation;
 

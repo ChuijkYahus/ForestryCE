@@ -1,10 +1,10 @@
 package forestry.factory;
 
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.fuels.FermenterFuel;
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.MoistenerFuel;
-import forestry.api.fuels.RainSubstrate;
+import forestry.api.core.machines.fuels.FermenterFuel;
+import forestry.api.core.machines.fuels.FuelManager;
+import forestry.api.core.machines.fuels.MoistenerFuel;
+import forestry.api.core.machines.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;

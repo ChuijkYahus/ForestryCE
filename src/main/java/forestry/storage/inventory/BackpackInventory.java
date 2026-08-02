@@ -1,7 +1,7 @@
 package forestry.storage.inventory;
 
 import com.google.common.base.Preconditions;
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.core.inventory.ItemInventory;
 import forestry.storage.items.BackpackItem;
 import net.minecraft.world.entity.player.Player;

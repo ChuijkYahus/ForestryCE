@@ -1,8 +1,8 @@
 package forestry.farming.plugin;
 
 import com.google.common.collect.ImmutableSet;
-import forestry.api.farming.IFarmable;
-import forestry.api.farming.IFarmableFactory;
+import forestry.api.agriculture.IFarmable;
+import forestry.api.agriculture.IFarmableFactory;
 import forestry.api.plugin.IWindfallFarmableBuilder;
 import net.minecraft.world.item.Item;
 

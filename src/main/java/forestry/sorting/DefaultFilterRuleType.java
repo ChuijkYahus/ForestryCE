@@ -1,9 +1,9 @@
 package forestry.sorting;
 
 import forestry.api.client.ForestrySprites;
-import forestry.api.genetics.filter.FilterData;
-import forestry.api.genetics.filter.IFilterRule;
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.core.genetics.filter.FilterData;
+import forestry.api.core.genetics.filter.IFilterRule;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

@@ -2,7 +2,7 @@ package forestry.arboriculture.tiles;
 
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
-import forestry.api.genetics.IBreedingTracker;
+import forestry.api.core.genetics.IBreedingTracker;
 import forestry.arboriculture.features.ArboricultureTiles;
 import forestry.arboriculture.worldgen.FeatureArboriculture;
 import forestry.core.owner.IOwnedTile;

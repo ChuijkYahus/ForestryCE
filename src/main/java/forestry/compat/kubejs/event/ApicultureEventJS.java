@@ -7,10 +7,10 @@ import forestry.api.apiculture.LightPreference;
 import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.api.plugin.IHiveBuilder;
@@ -45,11 +45,11 @@ public class ApicultureEventJS implements KubeEvent {
 	 * found in {@link IBeeSpeciesBuilder} and {@link forestry.api.plugin.ISpeciesBuilder}.
 	 *
 	 * @param id       The unique ID of the species.
-	 * @param genus    The lowercase name of this species's taxonomic genus. See {@link forestry.api.genetics.ForestryTaxa}
+	 * @param genus    The lowercase name of this species's taxonomic genus. See {@link forestry.api.core.genetics.ForestryTaxa}
 	 *                 for examples. The genus is used to group similar bees together (ex. the HEROIC bees) and can
 	 *                 specify default alleles for all bees sharing that genus. <br>
 	 *                 To use a custom genus, you must define its taxon in {@link GeneticsEventJS}.
-	 * @param species  The lowercase name of the taxonomic species. See {@link forestry.api.genetics.ForestryTaxa} for
+	 * @param species  The lowercase name of the taxonomic species. See {@link forestry.api.core.genetics.ForestryTaxa} for
 	 *                 examples. This is really only used in the fifth tab of the analyzer. Not really important, but
 	 *                 it must be different from any other bee species.
 	 * @param dominant Whether the allele for this species is dominant or recessive. Used during inheritance.

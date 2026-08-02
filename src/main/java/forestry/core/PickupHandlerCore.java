@@ -1,7 +1,7 @@
 package forestry.core;
 
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.IBreedingTracker;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

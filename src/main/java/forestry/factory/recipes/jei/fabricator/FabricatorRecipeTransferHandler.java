@@ -1,6 +1,6 @@
 package forestry.factory.recipes.jei.fabricator;
 
-import forestry.api.recipes.IFabricatorRecipe;
+import forestry.api.core.machines.IFabricatorRecipe;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.NetworkUtil;

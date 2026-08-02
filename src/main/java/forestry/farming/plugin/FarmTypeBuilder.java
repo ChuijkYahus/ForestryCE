@@ -3,7 +3,7 @@ package forestry.farming.plugin;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import forestry.api.farming.*;
+import forestry.api.agriculture.*;
 import forestry.api.plugin.IFarmTypeBuilder;
 import forestry.api.plugin.IWindfallFarmableBuilder;
 import forestry.core.utils.ModUtil;

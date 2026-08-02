@@ -1,7 +1,7 @@
 package forestry.compat.jei;
 
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.world.item.ItemStack;

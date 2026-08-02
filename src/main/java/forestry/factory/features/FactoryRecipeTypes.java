@@ -1,7 +1,7 @@
 package forestry.factory.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.api.recipes.*;
+import forestry.api.core.machines.*;
 import forestry.factory.recipes.*;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.FeatureRecipeType;

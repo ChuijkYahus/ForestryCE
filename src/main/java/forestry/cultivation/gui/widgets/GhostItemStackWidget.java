@@ -2,7 +2,7 @@ package forestry.cultivation.gui.widgets;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import forestry.api.core.tooltips.ToolTip;
-import forestry.api.farming.HorizontalDirection;
+import forestry.api.agriculture.HorizontalDirection;
 import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.WidgetManager;
 import forestry.core.render.ColourProperties;

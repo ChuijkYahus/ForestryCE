@@ -2,8 +2,8 @@ package forestry.modules.features;
 
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.core.backpacks.EnumBackpackType;
+import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.core.utils.datastructures.TriFunction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;

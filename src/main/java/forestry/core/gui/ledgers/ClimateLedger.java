@@ -1,9 +1,9 @@
 package forestry.core.gui.ledgers;
 
 import forestry.api.client.IForestryClientApi;
-import forestry.api.climate.IClimateProvider;
+import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.ClimateHelper;
+import forestry.api.core.genetics.ClimateHelper;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 

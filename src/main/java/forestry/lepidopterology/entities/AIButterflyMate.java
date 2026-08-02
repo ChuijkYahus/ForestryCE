@@ -1,6 +1,6 @@
 package forestry.lepidopterology.entities;
 
-import forestry.api.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.core.utils.GeneticsUtil;
 import forestry.arboriculture.TreeUtil;

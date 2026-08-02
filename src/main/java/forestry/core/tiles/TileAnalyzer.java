@@ -1,8 +1,8 @@
 package forestry.core.tiles;
 
 import forestry.api.core.ForestryError;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreTiles;
 import forestry.core.fluids.FilteredTank;

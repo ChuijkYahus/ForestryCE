@@ -2,12 +2,12 @@ package forestry.apiculture;
 
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.genetics.IBee;
-import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.filter.FilterData;
-import forestry.api.genetics.filter.IFilterRule;
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.filter.FilterData;
+import forestry.api.core.genetics.filter.IFilterRule;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import forestry.sorting.DefaultFilterRuleType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;

@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.client.arboriculture.ForestryLeafSprites;
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.arboriculture.client.BiomeLeafTint;
 import forestry.arboriculture.client.FixedLeafTint;
 import forestry.plugin.client.TreeAnalyzerPlugin;

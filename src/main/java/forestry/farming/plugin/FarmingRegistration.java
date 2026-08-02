@@ -1,8 +1,8 @@
 package forestry.farming.plugin;
 
 import com.google.common.collect.ImmutableMap;
-import forestry.api.farming.IFarmLogic;
-import forestry.api.farming.IFarmType;
+import forestry.api.agriculture.IFarmLogic;
+import forestry.api.agriculture.IFarmType;
 import forestry.api.plugin.IFarmTypeBuilder;
 import forestry.api.plugin.IFarmingRegistration;
 import forestry.apiimpl.plugin.ModifiableRegistrar;

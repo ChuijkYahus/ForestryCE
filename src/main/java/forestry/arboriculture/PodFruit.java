@@ -2,8 +2,8 @@ package forestry.arboriculture;
 
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.core.IProduct;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.blocks.ForestryPodType;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.SpeciesUtil;

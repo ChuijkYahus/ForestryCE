@@ -1,9 +1,9 @@
 package forestry.apiculture.compat;
 
-import forestry.api.genetics.*;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.core.genetics.*;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.plugin.IGenomeBuilder;
 import net.minecraft.world.item.ItemStack;
 
