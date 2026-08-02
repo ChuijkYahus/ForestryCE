@@ -2,7 +2,7 @@
 
 Date: 2026-07-30, amended 2026-07-31 after adversarial review
 Branch: `1.21.1-restructure`
-Status: phases 1-7 complete (2026-08-02); phase 8 next
+Status: phases 1-8 complete (2026-08-02); phase 9 next
 
 ## Problem
 
@@ -58,10 +58,16 @@ Resources: 10,232 generated + 1,959 hand-authored = 12,191 files. 11 locales. 40
 ### The D3 safety condition, stated precisely
 
 D3's mechanism is sound, but its safety condition is stricter than "no core imports".
-`build.gradle:286-297` documents an existing crash: FML's annotation scanner resolves
-method signatures at boot via `getDeclaredMethods0`, and `core/data/Data.java:23` is an
-`@EventBusSubscriber` whose lambda synthetics carry ModKit parameter types, which crashes
-the JVM link step in production. The same failure mode threatens this design.
+The `jar` task's `exclude 'forestry/core/data/**'` rule documented an existing crash: FML's
+annotation scanner resolves method signatures at boot via `getDeclaredMethods0`, and
+`core/data/Data.java` is an `@EventBusSubscriber` whose lambda synthetics carry ModKit
+parameter types, which crashes the JVM link step in production. The same failure mode
+threatens this design.
+
+**Phase 8 removed that particular instance at the root.** Datagen is its own source set,
+`main` no longer compiles against ModKit, and the exclude rule is gone. The failure *mode*
+is unchanged and still governs every jar boundary - it is why `checkBaseBytecode` reads the
+constant pool rather than trusting imports - but the one known live example is closed.
 
 The real invariant is therefore: **the base artifact must contain zero references to
 split-jar types anywhere**, not merely zero imports in `forestry/core`. Any base class
@@ -323,6 +329,18 @@ set per jar (`coreData`, `apicultureData`, ...) that is never packaged, which re
 post-hoc split. This is the least-supported part of the build story and should be
 prototyped early.
 
+**As built, phase 8 (2026-08-02).** One source set, `datagen`, at `src/datagen/java`, registered as a
+third source set of the `forestry` mod and given Minecraft via `addModdingDependenciesTo`. ModKit sits
+in its own `modkit` configuration extended by `runtimeOnly` and `datagenCompileOnly`, so it reaches
+datagen's compile classpath and the dev runs' game layer but never `main`'s compile classpath. The
+`exclude 'forestry/core/data/**'` hack is deleted. See the phase-8 paragraph under Sequencing for the
+three MDG failure modes found while prototyping this.
+
+The **`--output` question above is still open** and is now phase 9's. One data run writes one output
+directory; six jars need six. Neither the chained-`--existing` approach nor a post-hoc split has been
+tried, and phase 8 did not need to - with one source set there is still exactly one data run. This is
+the part to prototype early in phase 9, before the source-set split makes it urgent.
+
 ## Gating work
 
 The base artifact ships `api`, `apiimpl`, `modules`, `compat`, `plugin`, `Forestry.java`
@@ -420,15 +438,22 @@ Everything that makes the split real lands before a single package moves. Phases
     packaged leaks and checkBaseBytecode confirms it at the class-file level.
     The 20 remaining files are datagen, which the jar already strips; they
     dissolve in phase 8
+    FULLY DISCHARGED 2026-08-02: phase 8 moved datagen to its own source set,
+    so the 20 are no longer in src/main/java at all. The baseline file is
+    deleted and checkBaseBoundary is a hard gate with nothing grandfathered
 7a  DONE 2026-08-01                    manifest steps 7.1-7.6: api renames and
                                        core/{platform,engine,content}. Base is
                                        in its target shape
-7b  content jar fan-outs               manifest steps 7.7-7.12, plus
-                                       forestry/plugin and the three naturalist
-                                       chests deferred from 7a
-8   datagen -> per-jar source sets     deletes the exclude hack
+7b  DONE 2026-08-02                    manifest steps 7.7-7.12, plus
+                                       forestry/plugin. The naturalist chests
+                                       and ItemFruit stayed base instead
+8   DONE 2026-08-02                    ONE datagen source set, not six. Deletes
+                                       the exclude hack and the ratchet; takes
+                                       ModKit off main's compile classpath
 9   build split                        six source sets, mods.toml, service
-                                       files, resource partition, lang merge
+                                       files, resource partition, lang merge,
+                                       AND the per-jar datagen split deferred
+                                       from 8
 10  publish six artifacts
 ```
 
@@ -686,6 +711,59 @@ failed; the agriculture edge simply stopped being checked. Both lists were retar
 'agriculture', 'mail']`, and the retargeted gate was verified to fail on a planted
 `forestry.agriculture` import in `ModuleCore`. A gate that names things by literal has to move with
 the tree, and it fails silent rather than loud when it does not.
+
+Phase 8 landed 2026-08-02. `forestry.core.data` (55 files) moved from `src/main/java` to a `datagen`
+source set at `src/datagen/java`, with no Java change at all - the package name is unchanged and
+nothing in `main` referenced it. Three commits.
+
+**One source set, not six.** This spec's Build structure section names `coreData`, `apicultureData`
+and so on, and that is still the end state, but it is not reachable yet and building a rename toward
+it now would be wasted. Phase 8's actual deliverables - "deletes the exclude hack" and discharging the
+20 datagen files from the gate - are both fully met by one source set. Six requires the *providers* to
+be partitioned by owning jar, and they are not partitionable today: `ForestryRecipeProvider` alone
+emits recipes for every jar, and `ForestryBlockLootTables` and `ForestryDataMapProvider` have the same
+shape. That partition is phase 9's work, `main` is still one source set until phase 9, and six datagen
+source sets over one main source set would be five empty directories. **The per-jar datagen split moves
+to phase 9.**
+
+**The real invariant is ModKit, not the filename.** The `exclude 'forestry/core/data/**'` jar rule was
+treating a symptom. The cause is that datagen providers are the only code in the repo touching ModKit,
+a dev-only dependency, so every datagen lambda put a ModKit type into a method descriptor that FML's
+boot-time annotation scanner then tried to resolve from the shipped jar. `main` now does not compile
+against ModKit at all - asserted directly, `compileClasspath` has zero ModKit entries - and the jar is
+built from `main`'s output, so datagen cannot reach it by construction. The jar has 14,666 files and
+zero `forestry/core/data` entries with no filter involved.
+
+This spec warned that the datagen build story is "the least-supported part" and "should be prototyped
+early". That was correct and the advice was taken; three things failed before the working configuration
+was found, and they are worth recording because phase 9 will hit the same layer rules:
+
+1. `datagenImplementation 'ModKit'` is not sufficient. MDG 2.0.140 offers no way to scope a mod's
+   source set to one run - `ModModel.sourceSet` is additive and global - so *every* dev run loads
+   `sourceSets.datagen`, and FML's `AutomaticEventSubscriber` calls `getDeclaredMethods0` on `Data` at
+   construction. `runData` died with exactly the `NoClassDefFoundError: thedarkcolour/modkit/data/MKTagsProvider`
+   the jar exclude was documented to prevent: the same crash, relocated from production into the data run.
+2. `additionalRuntimeClasspath` does not exist on MDG 2.0.140's `RunModel`. The property is
+   `additionalRuntimeClasspathConfiguration`, a `Configuration`.
+3. That configuration is loaded **outside the game layer**. With ModKit there the run got one error
+   further and died on `NoClassDefFoundError: net/minecraft/data/tags/TagsProvider`, because
+   `MKTagsProvider` extends a Minecraft class. ModKit has to ride in on `main`'s `runtimeClasspath`.
+   `runtimeOnly` does that while keeping it off `main`'s *compile* classpath, which is the objective,
+   and the published POM strips dependency nodes anyway.
+
+So datagen loads in the client, server and gameTest runs as well as the data run. That is exactly the
+status quo - `core/data` was in `main` and ModKit was an `implementation` dependency - so nothing
+regresses; it is simply now explicit.
+
+**The ratchet is retired.** `gradle/base-boundary-baseline.txt` is deleted and `checkBaseBoundary` is a
+hard gate: no base file may reference a split module, nothing grandfathered. The ratchet did its job
+across six phases, 68 -> 20 -> 0, and its stale-baseline arm is what proved the discharge - moving
+datagen out made it fail with all 20 entries listed as no longer leaking. `checkBaseBytecode` lost its
+`core/data/` skip, which is now dead, and `checkResourceFqcn` resolves class names against both source
+roots. The new gate was verified to fail on a planted `forestry.apiculture` import in `ModuleCore`.
+
+One deliberate consequence: the published **sources jar no longer contains datagen**, since it is built
+from `sourceSets.main.allJava`. Datagen is dev-only tooling and does not belong in a sources artifact.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
