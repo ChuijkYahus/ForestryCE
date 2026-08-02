@@ -388,7 +388,7 @@ Everything that makes the split real lands before a single package moves. Phases
 4   DONE 2026-08-01                    SpectacleVision, FeatureHelper, the
                                        apiarist house, ParticleRender split,
                                        patternTypeId, per-module lifecycle
-5   split the default plugins          bucket G: six plugins, still one jar,
+5   DONE 2026-08-01                    bucket G: five plugins, still one jar,
                                        still one service file
 5a  PluginManager extension point      bucket I: apiimpl stops constructing
                                        content classes
@@ -469,6 +469,31 @@ no import to find them by. `BeeClientManager` was assumed baselined and was not,
 the fix was to give apiculture its client manager, which needed `setBeeManager` to take
 `IBeeClientManager` like its two siblings already did. And `CoreItems.HONEY_DROP` sits under an
 `// Apiculture` comment in the colour handlers but has been a core item since phase 2.
+
+Phase 5 landed 2026-08-01. Bucket G is closed; `checkBaseBoundary` is at 32 of the original 68. The
+split produced **five** plugins, not six: mail registers nothing through `IForestryPlugin`.
+
+Most of it was mechanical for a checkable reason - `PluginManager` makes six passes over the loaded
+plugins, the three content hooks are called by the species types themselves, and every hook has a
+no-op default, so a plugin implementing only its own hooks behaves identically to one implementing
+all nine.
+
+Two ordering questions decided by reading the code rather than guessing. Errors keep their numeric
+ids from insertion order and those shorts are the wire form, so `registerErrors` stayed whole in the
+core plugin. Filter rules also get int ids, but `FilterManager` sorts alphabetically before assigning
+them, so splitting `registerFilterRuleTypes` four ways was safe.
+
+The one the plan got wrong: **species type registration order is not incidental.** The plan reasoned
+that species types key by `ResourceLocation` and were therefore order-independent. That is true of
+lookup and false of the taxonomy projection - `TaxonProvider` types each taxon by iterating the
+species type map, so moving the bee type out alone regenerated `caldapis` and five other bee genera
+as `forestry:butterfly_species` and dropped their `bee_effect` allele. `GenomeBaselineTest` caught it
+through austere's activity flipping nocturnal to diurnal. All three species type blocks had to move
+in one commit; the id sort then restores bee, tree, butterfly exactly.
+
+`PluginManager` no longer names a plugin class to sort it first. It partitions on an explicit set of
+base plugin ids - deliberately not on the `forestry` namespace, which `forestry:kubejs` also uses and
+which would have run KubeJS's user script events before lepidopterology registered its species type.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
