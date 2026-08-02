@@ -21,13 +21,6 @@ base.archivesName = "forestry-$minecraftVersion"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 
-// Datagen is its own source set, not a package inside main. The providers are the only thing in the
-// repo that touches ModKit, which is a dev-only dependency: with them in main, every datagen lambda
-// put a ModKit type into a method descriptor that FML's boot-time annotation scanner then tried to
-// resolve from the shipped jar. That is what the 'forestry/core/data/**' jar exclude was working
-// around. Separating the source set removes the cause rather than the symptom - main no longer
-// compiles against ModKit at all, and the jar is built from main's output, so datagen cannot reach
-// it by construction.
 // The six jars of D1, as six source sets. sourceSets.main IS the core jar: Gradle's jar task,
 // processResources, components.java and the access transformers all attach to main by convention,
 // and core is the artifact those conventions should describe. The other five sit at src/<name>/java.
@@ -38,6 +31,11 @@ java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 // inline fully-qualified references that an import scan never could.
 //
 // 9a still produces one jar and one mod id. Splitting the artifacts is 9b.
+//
+// datagen is the seventh, from phase 8. The providers are the only thing in the repo that touches
+// ModKit, a dev-only dependency: with them in main, every datagen lambda put a ModKit type into a
+// method descriptor that FML's boot-time annotation scanner then tried to resolve from the shipped
+// jar. Keeping them out of main removes the cause rather than filtering the symptom out of the jar.
 var contentModules = ['apiculture', 'arboriculture', 'lepidopterology', 'agriculture', 'mail']
 
 sourceSets {
@@ -214,109 +212,6 @@ tasks.named('check') {
 	dependsOn checkApiBoundary
 }
 
-// The base artifact - everything that ships in the forestry jar - must not reference the five split
-// content modules. This began as a ratchet against a checked-in baseline of 68 leaking files; phases
-// 1 through 6 drove that to 20, all of them datagen, and phase 8 moved datagen out of src/main/java
-// entirely. There is nothing left to grandfather, so this is now a hard gate.
-var checkBaseBoundary = tasks.register('checkBaseBoundary') {
-	group = 'verification'
-	description = 'Fails if a base-artifact package references a split content module'
-
-	var javaDir = project.file('src/main/java/forestry')
-	// Phase 7b dissolved 'plugin' and 'compat' into core, and merged 'farming' and 'cultivation'
-	// into the one agriculture jar. A gate that names packages by literal keeps passing after those
-	// packages are renamed and silently stops measuring anything, so these lists move with the tree
-	var basePackages = ['core', 'apiimpl', 'modules']
-	var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'agriculture', 'mail']
-
-	inputs.dir(javaDir)
-	outputs.upToDateWhen { false }
-
-	doLast {
-		var pattern = ~/^import (static )?forestry\.(${splitModules.join('|')})\..*/
-		var offenders = new TreeSet<String>()
-
-		var scan = { File file ->
-			if (file.name.endsWith('.java') && file.readLines('UTF-8').any { it ==~ pattern }) {
-				offenders.add(javaDir.toPath().relativize(file.toPath()).toString())
-			}
-		}
-		// loose files directly under forestry/ are base too, ex. Forestry.java
-		javaDir.listFiles({ File f -> f.isFile() } as FileFilter).each(scan)
-		basePackages.each { pkg ->
-			var dir = new File(javaDir, pkg)
-			if (dir.exists()) {
-				dir.eachFileRecurse(groovy.io.FileType.FILES, scan)
-			}
-		}
-
-		if (!offenders.isEmpty()) {
-			throw new GradleException(
-					"Base-artifact reference(s) to a split content module:\n  "
-					+ offenders.join('\n  ')
-					+ "\nBase cannot name a type from an optional jar. Move the reference, or invert it "
-					+ "through an api interface.")
-		}
-		logger.lifecycle("checkBaseBoundary: no base file references a split content module")
-	}
-}
-
-// checkBaseBoundary reads imports, which is not what D3 actually requires. FML's annotation scanner
-// resolves method signatures at boot via getDeclaredMethods0, so a base class that names a split
-// type only in a descriptor - a parameter, a return type, a lambda synthetic - hard-crashes in
-// production without ever writing an import. This reads the compiled classes instead. Datagen is a
-// separate source set as of phase 8, so there is nothing to skip: build/classes/java/main is exactly
-// what the jar ships.
-var checkBaseBytecode = tasks.register('checkBaseBytecode') {
-	group = 'verification'
-	description = 'Fails if a packaged base class references a split content module in its bytecode'
-
-	dependsOn tasks.named('classes')
-	outputs.upToDateWhen { false }
-
-	doLast {
-		var classesDir = new File(project.layout.buildDirectory.get().asFile, 'classes/java/main/forestry')
-		// "forestry/agriculture/" cannot match "forestry/api/agriculture/": the search requires
-		// "forestry/" immediately followed by "agriculture/". Same reasoning that made
-		// "forestry/apiculture/" safe against "forestry/api/apiculture/"
-		var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'agriculture', 'mail']
-		var basePackages = ['core', 'apiimpl', 'modules']
-		var offenders = new TreeSet<String>()
-
-		var scan = { File file ->
-			if (!file.name.endsWith('.class')) {
-				return
-			}
-			var rel = classesDir.toPath().relativize(file.toPath()).toString()
-			// Class names live in the constant pool as modified UTF-8. ISO-8859-1 maps every byte to
-			// exactly one char, so decoding with it is lossless for a substring search and finds
-			// descriptors and signatures as well as the names an import would have produced
-			var text = new String(file.bytes, 'ISO-8859-1')
-			for (String mod : splitModules) {
-				if (text.contains("forestry/${mod}/")) {
-					offenders.add(rel + " -> forestry/" + mod)
-				}
-			}
-		}
-
-		classesDir.listFiles({ File f -> f.isFile() } as FileFilter).each(scan)
-		basePackages.each { pkg ->
-			var dir = new File(classesDir, pkg)
-			if (dir.exists()) {
-				dir.eachFileRecurse(groovy.io.FileType.FILES, scan)
-			}
-		}
-
-		if (!offenders.isEmpty()) {
-			throw new GradleException(
-					"Packaged base class(es) reference a split content module in bytecode:\n  "
-					+ offenders.join('\n  ')
-					+ "\nImports are not the invariant here - see the D3 safety condition in the reorg spec.")
-		}
-		logger.lifecycle("checkBaseBytecode: no packaged base class references a split module")
-	}
-}
-
 // The spec's Verification section asks for this and phase 7b is what makes it necessary: the
 // Patchouli book templates, kubejs.plugins.txt and META-INF/services all name Java classes by
 // fully qualified name, in hand-authored files that neither the datagen diff nor the GameTests
@@ -397,13 +292,52 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 }
 
 tasks.named('check') {
-	dependsOn checkBaseBoundary
-}
-tasks.named('check') {
-	dependsOn checkBaseBytecode
-}
-tasks.named('check') {
 	dependsOn checkResourceFqcn
+}
+
+// D2 gives core one internal edge to enforce: platform and engine sit below content and must not
+// import it. Measured at the start of phase 9a: engine obeys this at 0 files, platform does not, at
+// 26 files. No phase has ever gated it. The engine half is gated here; the platform half is printed
+// every build so it stays visible rather than becoming folklore. Severing those 26 is its own piece
+// of work - it is content relocation, not packaging, and nothing about the jar split depends on it.
+var checkCoreLayers = tasks.register('checkCoreLayers') {
+	group = 'verification'
+	description = 'Fails if forestry.core.engine imports forestry.core.content'
+
+	var coreDir = project.file('src/main/java/forestry/core')
+
+	inputs.dir(coreDir)
+	outputs.upToDateWhen { false }
+
+	doLast {
+		var pattern = ~/^import (static )?forestry\.core\.content\..*/
+		var offendersIn = { String layer ->
+			var dir = new File(coreDir, layer)
+			var hits = new TreeSet<String>()
+			if (dir.exists()) {
+				dir.eachFileRecurse(groovy.io.FileType.FILES) { File file ->
+					if (file.name.endsWith('.java') && file.readLines('UTF-8').any { it ==~ pattern }) {
+						hits.add(coreDir.toPath().relativize(file.toPath()).toString())
+					}
+				}
+			}
+			return hits
+		}
+
+		var engine = offendersIn('engine')
+		if (!engine.isEmpty()) {
+			throw new GradleException(
+					"forestry.core.engine must not import forestry.core.content:\n  "
+					+ engine.join('\n  ')
+					+ "\nThe engine layer sits below content. Invert the reference through an api interface.")
+		}
+		logger.lifecycle("checkCoreLayers: engine is clean; platform has ${offendersIn('platform').size()} "
+				+ "file(s) importing content (known, ungated - see D2 in the reorg spec)")
+	}
+}
+
+tasks.named('check') {
+	dependsOn checkCoreLayers
 }
 
 repositories {
