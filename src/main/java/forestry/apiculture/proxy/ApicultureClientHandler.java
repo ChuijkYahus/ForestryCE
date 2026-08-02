@@ -6,6 +6,7 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.apiculture.features.ApicultureBlocks;
+import forestry.apiculture.features.ApicultureCrates;
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.gui.*;
 import forestry.apiculture.models.ModelBee;
@@ -85,6 +86,14 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.PROPOLIS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.POLLEN_CLUSTER.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.BEE_COMBS.itemArray());
+
+		// Crates for bee products. Registered here rather than in CoreClientHandler so the base
+		// artifact does not name a bee item
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureCrates.CRATED_BEE_COMBS.itemArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR,
+			ApicultureCrates.CRATED_POLLEN_CLUSTER_NORMAL.item(),
+			ApicultureCrates.CRATED_POLLEN_CLUSTER_CRYSTALLINE.item(),
+			ApicultureCrates.CRATED_PROPOLIS.item());
 	}
 
 }

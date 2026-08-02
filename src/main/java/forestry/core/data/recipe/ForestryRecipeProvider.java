@@ -10,6 +10,7 @@ import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.circuits.ICircuit;
+import forestry.apiculture.features.ApicultureCrates;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.core.blocks.NaturalistChestBlockType;
@@ -1579,14 +1580,14 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_BEESWAX.get(), Ingredient.of(CoreItems.BEESWAX));
 		crate(consumer, CrateItems.CRATED_REFRACTORY_WAX.get(), Ingredient.of(CoreItems.REFRACTORY_WAX));
 
-		crate(consumer, CrateItems.CRATED_POLLEN_CLUSTER_NORMAL.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL)));
-		crate(consumer, CrateItems.CRATED_POLLEN_CLUSTER_CRYSTALLINE.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.CRYSTALLINE)));
-		crate(consumer, CrateItems.CRATED_PROPOLIS.get(), Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)));
+		crate(consumer, ApicultureCrates.CRATED_POLLEN_CLUSTER_NORMAL.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL)));
+		crate(consumer, ApicultureCrates.CRATED_POLLEN_CLUSTER_CRYSTALLINE.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.CRYSTALLINE)));
+		crate(consumer, ApicultureCrates.CRATED_PROPOLIS.get(), Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)));
 		crate(consumer, CrateItems.CRATED_HONEYDEW.get(), Ingredient.of(CoreItems.HONEYDEW));
-		crate(consumer, CrateItems.CRATED_ROYAL_JELLY.get(), Ingredient.of(ApicultureItems.ROYAL_JELLY));
+		crate(consumer, ApicultureCrates.CRATED_ROYAL_JELLY.get(), Ingredient.of(ApicultureItems.ROYAL_JELLY));
 
 		for (EnumHoneyComb comb : EnumHoneyComb.VALUES) {
-			crate(consumer, CrateItems.CRATED_BEE_COMBS.get(comb).get(), Ingredient.of(ApicultureItems.BEE_COMBS.get(comb)));
+			crate(consumer, ApicultureCrates.CRATED_BEE_COMBS.get(comb).get(), Ingredient.of(ApicultureItems.BEE_COMBS.get(comb)));
 		}
 
 		new CarpenterRecipeBuilder()

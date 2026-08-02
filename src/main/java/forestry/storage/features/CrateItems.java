@@ -1,10 +1,6 @@
 package forestry.storage.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.EnumPollenCluster;
-import forestry.apiculture.items.EnumPropolis;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.items.definitions.EnumCraftingMaterial;
@@ -91,16 +87,37 @@ public class CrateItems {
 	public static final FeatureItem<ItemCrated> CRATED_BEESWAX = register(CoreItems.BEESWAX, "crated_beeswax");
 	public static final FeatureItem<ItemCrated> CRATED_REFRACTORY_WAX = register(CoreItems.REFRACTORY_WAX, "crated_refractory_wax");
 
-	// Apiculture
-	public static final FeatureItem<ItemCrated> CRATED_POLLEN_CLUSTER_NORMAL = register(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL), "crated_pollen_cluster_normal");
-	public static final FeatureItem<ItemCrated> CRATED_POLLEN_CLUSTER_CRYSTALLINE = register(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.CRYSTALLINE), "crated_pollen_cluster_crystalline");
-	public static final FeatureItem<ItemCrated> CRATED_PROPOLIS = register(ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL), "crated_propolis");
+	// Honeydew is a core item since phase 2, so its crate stays here. The rest of the bee crates
+	// live in ApicultureCrates and register through registerCrate below
 	public static final FeatureItem<ItemCrated> CRATED_HONEYDEW = register(CoreItems.HONEYDEW, "crated_honeydew");
-	public static final FeatureItem<ItemCrated> CRATED_ROYAL_JELLY = register(ApicultureItems.ROYAL_JELLY, "crated_royal_jelly");
-	public static final FeatureItemGroup<ItemCrated, EnumHoneyComb> CRATED_BEE_COMBS = REGISTRY.itemGroup(comb -> new ItemCrated(() -> ApicultureItems.BEE_COMBS.get(comb).stack()), EnumHoneyComb.VALUES).identifier(comb -> "crated_" + (comb == EnumHoneyComb.SPONGE ? "spongy" : comb.getSerializedName()) + "_comb").create();
 
-	static {
-		CRATES.addAll(CRATED_BEE_COMBS.getFeatures());
+	/**
+	 * Used by another module to register a crate for an item it owns. The crate is registered through
+	 * this registry, so its id and generated models are the same as any other crate, and it is added
+	 * to {@link #getCrates()} so model datagen picks it up.
+	 *
+	 * @param contained  The item the crate holds
+	 * @param identifier The registry path, ex. "crated_propolis"
+	 * @return The registered crate
+	 */
+	public static FeatureItem<ItemCrated> registerCrate(ItemLike contained, String identifier) {
+		return register(contained, identifier);
+	}
+
+	/**
+	 * @return The crate registry, for a module registering a crate group of its own
+	 */
+	public static IFeatureRegistry registry() {
+		return REGISTRY;
+	}
+
+	/**
+	 * Used to add a crate group's members to the crate list after the group is built.
+	 *
+	 * @param crates The group's crates
+	 */
+	public static void addCrates(java.util.Collection<FeatureItem<ItemCrated>> crates) {
+		CRATES.addAll(crates);
 	}
 
 	private static FeatureItem<ItemCrated> register(ItemLike contained, String identifier) {

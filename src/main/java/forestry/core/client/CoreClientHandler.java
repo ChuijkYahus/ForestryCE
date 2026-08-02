@@ -263,13 +263,8 @@ public class CoreClientHandler implements IClientModuleHandler {
 			BackpackItems.BUILDER_BACKPACK_T_2.item()
 		);
 
-		// Crates
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, CrateItems.CRATED_BEE_COMBS.itemArray());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR,
-			CrateItems.CRATED_GRASS_BLOCK.item(),
-			CrateItems.CRATED_POLLEN_CLUSTER_NORMAL.item(),
-			CrateItems.CRATED_POLLEN_CLUSTER_CRYSTALLINE.item(),
-			CrateItems.CRATED_PROPOLIS.item());
+		// Crates. The bee ones are registered by ApicultureClientHandler
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, CrateItems.CRATED_GRASS_BLOCK.item());
 
 	}
 
