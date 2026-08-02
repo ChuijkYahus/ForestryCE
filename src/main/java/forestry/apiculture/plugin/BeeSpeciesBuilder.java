@@ -1,4 +1,4 @@
-package forestry.apiimpl.plugin;
+package forestry.apiculture.plugin;
 
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -7,6 +7,7 @@ import forestry.api.core.IProduct;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.DefaultBeeJubilance;
+import forestry.apiimpl.plugin.SpeciesBuilder;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 

@@ -1,4 +1,4 @@
-package forestry.apiimpl.plugin;
+package forestry.apiculture.plugin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -16,6 +16,9 @@ import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.api.plugin.IHiveBuilder;
 import forestry.api.apiculture.hives.VillageHive;
 import forestry.apiculture.hives.HiveManager;
+import forestry.apiimpl.plugin.ModifiableRegistrar;
+import forestry.apiimpl.plugin.Registrar;
+import forestry.apiimpl.plugin.SpeciesRegistration;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;

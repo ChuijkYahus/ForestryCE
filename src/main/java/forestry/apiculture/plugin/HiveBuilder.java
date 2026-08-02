@@ -1,4 +1,4 @@
-package forestry.apiimpl.plugin;
+package forestry.apiculture.plugin;
 
 import com.google.common.collect.ImmutableList;
 import forestry.api.apiculture.hives.IHive;

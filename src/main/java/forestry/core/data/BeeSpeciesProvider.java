@@ -26,7 +26,7 @@ import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.DefaultBeeJubilance;
 import forestry.apiculture.genetics.HermitBeeJubilance;
-import forestry.apiimpl.plugin.ApicultureRegistration;
+import forestry.apiculture.plugin.ApicultureRegistration;
 import forestry.core.utils.SpeciesUtil;
 import forestry.apiculture.plugin.DefaultBeeSpecies;
 
