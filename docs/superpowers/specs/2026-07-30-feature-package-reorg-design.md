@@ -2,7 +2,7 @@
 
 Date: 2026-07-30, amended 2026-07-31 after adversarial review
 Branch: `1.21.1-restructure`
-Status: phases 1-8 complete (2026-08-02); phase 9 next
+Status: phases 1-9a complete (2026-08-02); phase 9b next
 
 ## Problem
 
@@ -48,7 +48,7 @@ Resources: 10,232 generated + 1,959 hand-authored = 12,191 files. 11 locales. 40
 | # | Decision | Rationale |
 | --- | --- | --- |
 | D1 | Six jars: `core`, `apiculture`, `arboriculture`, `lepidopterology`, `agriculture`, `mail` | Stated by project owner. Deps: everything requires `core`; `lepidopterology` also requires `arboriculture`. The code contradicted this; every edge was resolved on 2026-07-31 without adding one - see Graph decisions |
-| D2 | `core` gets an internal layer split (`platform` / `engine` / `content`); content jars go straight to feature subpackages | `core` absorbs ~700 files under D1, so its internal shape does the real work. Layers give one enforceable edge: nothing in `platform` or `engine` may import `content` |
+| D2 | `core` gets an internal layer split (`platform` / `engine` / `content`); content jars go straight to feature subpackages | `core` absorbs ~700 files under D1, so its internal shape does the real work. Layers give one enforceable edge: nothing in `platform` or `engine` may import `content`. **Measured 2026-08-02, and the rationale only half holds: `engine` obeys it at 0 files, `platform` violates it in 26 files across 64 imports, and no phase ever gated it.** `checkCoreLayers` gates the engine half and prints the platform count every build. Severing platform's 26 is unscheduled content-relocation work that no phase owns; nothing about the jar split depends on it |
 | D3 | `api` ships whole and undivided in the base artifact; only impl splits | `IForestryPlugin` names every module's registration type in its own signatures. Shipping api whole means those types always resolve; a missing content jar means no registered implementation, not a missing class. Verified: `IForestryPlugin` signatures name only api types, the `Forestry*Species` holders are pure `ResourceLocation` constants with no class-init side effects, and cross-jar `ServiceLoader` works in the FML game layer |
 | D4 | The split is real and optional: a pack may install base + one content jar | Implies six mod ids and makes severing all cross-boundary leaks a hard prerequisite |
 | D5 | One Gradle project, six source sets with explicit compile-classpath edges | Compiler-enforced dependency graph without a multi-project restructure. The build already proves the pattern with `addModdingDependenciesTo sourceSets.test`, and MDG's `ModModel` supports multiple mods with per-mod source sets |
@@ -66,8 +66,11 @@ threatens this design.
 
 **Phase 8 removed that particular instance at the root.** Datagen is its own source set,
 `main` no longer compiles against ModKit, and the exclude rule is gone. The failure *mode*
-is unchanged and still governs every jar boundary - it is why `checkBaseBytecode` reads the
+is unchanged and still governs every jar boundary - it is why the phase-6 gate read the
 constant pool rather than trusting imports - but the one known live example is closed.
+**Phase 9a retired that gate**, because `main`'s compile classpath no longer contains any
+content output: the compiler now rejects the descriptor-level reference the gate was
+looking for, which is why it could be deleted rather than merely relaxed.
 
 The real invariant is therefore: **the base artifact must contain zero references to
 split-jar types anywhere**, not merely zero imports in `forestry/core`. Any base class
@@ -450,10 +453,14 @@ Everything that makes the split real lands before a single package moves. Phases
 8   DONE 2026-08-02                    ONE datagen source set, not six. Deletes
                                        the exclude hack and the ratchet; takes
                                        ModKit off main's compile classpath
-9   build split                        six source sets, mods.toml, service
-                                       files, resource partition, lang merge,
-                                       AND the per-jar datagen split deferred
-                                       from 8
+9a  DONE 2026-08-02                   six source sets with compile-classpath
+                                       edges, still one jar and one mod id. The
+                                       compiler now enforces D1; the two
+                                       stand-in gates are deleted
+9b  six jars                           mods.toml x6, service file split,
+                                       resource partition, per-jar datagen and
+                                       the --output question, lang merge x6,
+                                       loot modifier redesign, publishing
 10  publish six artifacts
 ```
 
@@ -765,6 +772,69 @@ roots. The new gate was verified to fail on a planted `forestry.apiculture` impo
 One deliberate consequence: the published **sources jar no longer contains datagen**, since it is built
 from `sourceSets.main.allJava`. Datagen is dev-only tooling and does not belong in a sources artifact.
 
+Phase 9a landed 2026-08-02. The five content modules moved to `src/<name>/java` as five source sets
+alongside `main`, each with only what D1 allows on its compile classpath. Four commits.
+
+**The graph was already right.** Measured before starting: 1,220 cross-package imports out of the five
+content modules, of which exactly **one** was illegal - `FarmableGE` naming `ArboricultureBlocks`, the
+edge the Graph decisions table resolved on 2026-07-31 and which nothing had yet executed. Wiring all
+six source sets and compiling produced exactly two errors, both in that file. No hidden cycle, no split
+package, no surprise from `apiimpl` or `modules`. That is the payoff for phases 1 through 8: 9a only
+asked the build system to start believing what was already true.
+
+`FarmableGE` now reads a new `forestry:tree_saplings` block tag. `BlockTags.SAPLINGS` was the tempting
+option - `ForestryBlockTagsProvider` already puts `SAPLING_GE` in it - but that tag also holds every
+vanilla sapling, and widening the *genetic* farmable to match them would have been a silent gameplay
+change. The new tag is arboriculture-populated and resolves empty without it, which is exactly the
+"degrades rather than breaks" the graph decision asked for.
+
+**`sourceSets.main` is core.** The Build structure sketch shows `src/core/java`, and that was not
+followed: Gradle's `jar`, `processResources`, `components.java` and MDG's `accessTransformers` all
+attach to `main` by convention, and core is precisely the artifact those conventions should describe.
+Renaming would have bought a matching directory name and cost every one of those.
+
+**`checkBaseBoundary` and `checkBaseBytecode` are deleted.** Not because the boundary stopped
+mattering, but because they became unfalsifiable: `main`'s compile classpath contains no content
+output, so neither task can fail, and a gate that cannot fail measures nothing. The classpath edges
+were verified to *reject* rather than merely to compile - a planted `forestry.apiculture` import in
+`ModuleMail` fails `compileMailJava`, and a planted `forestry.lepidopterology` import in
+`ModuleArboriculture` fails `compileArboricultureJava`, which is the one that matters, since it proves
+the allowed lepidopterology -> arboriculture edge is one-way.
+
+### The finding: a data-level lepidopterology -> apiculture edge
+
+Splitting the source sets broke ten butterfly GameTests, and the cause is worth recording in full
+because no gate in this project could have caught it.
+
+FML's annotation scan enumerates classes in classpath order, `ForestryModuleManager.discoverModules`
+kept that order, and `ModuleCore` dispatches `registerReloadListeners` in module order. Going from one
+classes directory to six reordered the modules, so lepidopterology's reload listener began running
+before apiculture's, and every butterfly failed to project with
+`No flower type was registered with the ID: forestry:flower_type_vanilla`.
+
+The proximate bug is that **module load order depended on classpath scan order at all**. That is fixed:
+`discoverModules` now sorts by `isCore()` then by module id, so order depends on the ids and nothing
+else. Datagen stayed byte-identical and the creative-tab baseline held, so the new order is
+observationally equivalent to the old one.
+
+The underlying issue is not fixed and is 9b's problem. `ButterflyChromosomes.FLOWER_TYPE` **is**
+`BeeChromosomes.FLOWER_TYPE`, and its default value `forestry:flower_type_vanilla` is registered only
+by `ApicultureForestryPlugin`. Butterflies therefore depend on apiculture at the *data* level, through
+a `ResourceLocation` in a karyotype default. D1 forbids that edge, and:
+
+- The compiler cannot see it - it is a `ResourceLocation`, not a type reference.
+- `checkBaseBoundary` and `checkBaseBytecode` could never have seen it either; both scanned base, and
+  this is content-to-content.
+- It is invisible while everything ships in one jar, and fatal the moment lepidopterology can be
+  installed without apiculture, which is exactly what 9b enables.
+
+**9b must relocate flower-type registration to core before splitting the jars.** `FlowerTypeTypes`
+lives in `apiculture.bees.genetics` but flower types are a shared genetics concept that both bees and
+butterflies read; `core.engine.genetics` is the natural home, and this is ordinary phase-4-shaped
+relocation work. It also raises the question of whether any *other* karyotype default crosses a jar
+boundary - nothing has ever audited that, and a `ResourceLocation`-valued default is precisely the
+shape that hides from every gate this project has.
+
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
 in phases 1 through 6, which no amount of directory rearrangement addresses.
@@ -832,6 +902,14 @@ own plan, written when that phase starts, so earlier phases can inform later one
 - **Boundary test.** An ArchUnit-style test is added at phase 1 and tightened at each
   phase, enforcing the dependency graph long before the compiler can at phase 9. Until
   phase 9 this is the *only* proof available for the phase-6 gate.
+  **Discharged 2026-08-02 without ever being written.** The role was filled instead by
+  `checkBaseBoundary` (imports, phase 2) and `checkBaseBytecode` (constant pool, phase 6),
+  and phase 9a handed the job to the compiler, which is strictly stronger than either.
+  Both gates are now deleted. Two boundaries the compiler still cannot see keep their own
+  gates: `checkApiBoundary`, because `api` ships inside core, and `checkCoreLayers`, because
+  D2's layers are inside one source set. A third kind of boundary has **no** gate and cannot
+  easily have one - a cross-jar reference carried as data rather than as a type. See the
+  butterfly flower-type finding under phase 9a.
 - **Boot configurations.** Base alone, base + apiculture, and all six. Only runnable from
   phase 9.
 
