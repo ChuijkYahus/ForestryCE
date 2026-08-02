@@ -21,6 +21,34 @@ base.archivesName = "forestry-$minecraftVersion"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 
+// Datagen is its own source set, not a package inside main. The providers are the only thing in the
+// repo that touches ModKit, which is a dev-only dependency: with them in main, every datagen lambda
+// put a ModKit type into a method descriptor that FML's boot-time annotation scanner then tried to
+// resolve from the shipped jar. That is what the 'forestry/core/data/**' jar exclude was working
+// around. Separating the source set removes the cause rather than the symptom - main no longer
+// compiles against ModKit at all, and the jar is built from main's output, so datagen cannot reach
+// it by construction.
+sourceSets {
+	datagen {
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.output
+	}
+}
+
+configurations {
+	// ModKit, isolated so it can reach exactly two places and no others: datagen's compile classpath,
+	// and the dev runs' runtime classpath. It must go on main's *runtime* classpath rather than an
+	// MDG additionalRuntimeClasspath, because the latter loads outside the game layer and ModKit
+	// extends net.minecraft.data.tags.TagsProvider. runtimeOnly keeps it off main's compile
+	// classpath, which is the whole point, and the published POM strips dependencies anyway
+	modkit
+	runtimeOnly.extendsFrom modkit
+	datagenCompileOnly.extendsFrom modkit
+	// Curios, KubeJS and the rest of the optional-mod surface
+	datagenImplementation.extendsFrom implementation
+	datagenCompileOnly.extendsFrom compileOnly
+}
+
 neoForge {
 	version = "$forgeVersion"
 
@@ -38,6 +66,10 @@ neoForge {
 			logLevel = org.slf4j.event.Level.DEBUG
 			jvmArgument '-XX:+AllowEnhancedClassRedefinition'
 			jvmArgument '-XX:+IgnoreUnrecognizedVMOptions'
+			// Every dev run loads sourceSets.datagen as part of the forestry mod, and FML's
+			// AutomaticEventSubscriber resolves Data's method signatures at construction, so ModKit
+			// has to be on the runtime classpath of all of them - not just runData. See the modkit
+			// configuration above; it rides in on main's runtimeClasspath
 		}
 
 		client {
@@ -77,12 +109,16 @@ neoForge {
 			// GameTest suite lives in src/test (forestry.gametest). It is part of the forestry mod so the
 			// gameTestServer run loads it, but stays out of the published jar (jar/apiJar use main only).
 			sourceSet sourceSets.test
+			// Datagen lives in src/datagen (forestry.core.data). Part of the mod so the data run's
+			// GatherDataEvent subscriber is discovered, and out of the jar for the same reason as test.
+			sourceSet sourceSets.datagen
 		}
 	}
 
-	// src/test has no Minecraft/NeoForge on its classpath by default — moddev only wires that into source sets
-	// it's told about. Without this the gametest sources won't compile.
+	// src/test and src/datagen have no Minecraft/NeoForge on their classpath by default — moddev only wires
+	// that into source sets it's told about. Without this those sources won't compile.
 	addModdingDependenciesTo sourceSets.test
+	addModdingDependenciesTo sourceSets.datagen
 }
 
 // The test source set holds GameTests (run via runGameTestServer), not JUnit tests, so the standard `test` task
@@ -415,8 +451,12 @@ dependencies {
 	// PATCHOULI REQUIRED
 	compileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE:api"
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
-	// ModKit DEV ONLY
-	implementation 'com.github.thedarkcolour:ModKit:51b8760'
+	// ModKit DEV ONLY - datagen and nothing else. Keeping it off main's classpath is the point of
+	// the datagen source set; see the sourceSets block above
+	modkit 'com.github.thedarkcolour:ModKit:51b8760'
+
+	// two GameTests build their expected species maps from the datagen providers
+	testImplementation sourceSets.datagen.output
 }
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
@@ -548,15 +588,6 @@ neoForge.ideSyncTask generateModMetadata
 jar {
 	from sourceSets.main.output.classesDirs
 	from sourceSets.main.output.resourcesDir
-
-	// Datagen providers reference ModKit types (com.github.thedarkcolour:ModKit) that
-	// aren't shipped to end users. FML's annotation scanner resolves method signatures
-	// at boot via getDeclaredMethods0; the lambda method-reference synthetics in
-	// forestry.core.data.Data carry MKTagsProvider parameters, which crashes the JVM
-	// link step in production with NoClassDefFoundError. Strip the datagen package
-	// from the production jar — runData uses build/classes directly, not the jar, so
-	// datagen still works in dev. Nothing outside this package references it.
-	exclude 'forestry/core/data/**'
 
 	manifest {
 		attributes([
