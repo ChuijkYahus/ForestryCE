@@ -36,7 +36,6 @@ core/data/TreeSpeciesProvider.java
 core/EventHandlerCore.java
 core/ModuleCore.java
 core/multiblock/LevelStructureView.java
-core/render/ParticleRender.java
 plugin/client/BeeAnalyzerPlugin.java
 plugin/client/DefaultForestryClientRegistration.java
 plugin/DefaultBeeSpecies.java

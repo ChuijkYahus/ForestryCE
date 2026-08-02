@@ -21,7 +21,7 @@ import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.IPollenRegistration;
 import forestry.apiimpl.ForestryApiImpl;
 import forestry.apiimpl.GeneticManager;
-import forestry.apiimpl.client.BeeClientManager;
+import forestry.apiculture.client.BeeClientManager;
 import forestry.apiimpl.client.ButterflyClientManager;
 import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.client.TreeClientManager;

@@ -96,7 +96,7 @@ public class ForestryClientApiImpl implements IForestryClientApi {
 	}
 
 	@ApiStatus.Internal
-	public void setBeeManager(BeeClientManager beeManager) {
+	public void setBeeManager(IBeeClientManager beeManager) {
 		this.beeManager = beeManager;
 	}
 }

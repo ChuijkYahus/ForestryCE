@@ -1,38 +1,21 @@
 package forestry.core.render;
 
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.apiculture.hives.IHiveTile;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.genetics.Bee;
-import forestry.apiculture.genetics.effects.ThrottledBeeEffect;
-import forestry.apiculture.particles.ApicultureParticles;
-import forestry.apiculture.particles.BeeParticleData;
-import forestry.apiculture.particles.BeeTargetParticleData;
-import forestry.apiculture.particles.ParticleSnow;
 import forestry.core.config.ForestryConfig;
 import forestry.core.entities.ParticleIgnition;
 import forestry.core.entities.ParticleSmoke;
-import forestry.core.utils.VecUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleRender {
@@ -55,55 +38,6 @@ public class ParticleRender {
 		}
 	}
 
-	public static void addBeeHiveFX(IBeeHousing housing, IGenome genome, List<BlockPos> flowerPositions) {
-		LevelAccessor world1 = housing.getLevel();
-		ClientLevel world = (ClientLevel) world1;
-		if (!shouldSpawnParticle(world)) {
-			return;
-		}
-
-		Vec3 particleStart = housing.getBeeFXCoordinates();
-
-		// Avoid rendering bee particles that are too far away, they're very small.
-		// At 32+ distance, have no bee particles. Make more particles up close.
-		BlockPos playerPosition = Minecraft.getInstance().player.blockPosition();
-		double playerDistanceSq = playerPosition.distToCenterSqr(particleStart.x, particleStart.y, particleStart.z);
-		if (world.random.nextInt(1024) < playerDistanceSq) {
-			return;
-		}
-
-		IBeeSpecies species = genome.resolveActive(BeeChromosomes.SPECIES);
-		int color = species.getOutline();
-
-		int randomInt = world.random.nextInt(100);
-
-		if (housing instanceof IHiveTile) {
-			if (((IHiveTile) housing).isAngry() || randomInt >= 85) {
-				List<LivingEntity> entitiesInRange = ThrottledBeeEffect.getEntitiesInRange(genome, housing, LivingEntity.class);
-				if (!entitiesInRange.isEmpty()) {
-					LivingEntity entity = entitiesInRange.get(world.random.nextInt(entitiesInRange.size()));
-					//Particle particle = new ParticleBeeTargetEntity(world, particleStart, entity, color);
-					//effectRenderer.add(particle);
-					world.addParticle(new BeeTargetParticleData(entity.getId(), color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
-					return;
-				}
-			}
-		}
-
-		if (randomInt < 75 && !flowerPositions.isEmpty()) {
-			BlockPos destination = flowerPositions.get(world.random.nextInt(flowerPositions.size()));
-			//Particle particle = new ParticleBeeRoundTrip(world, particleStart, destination, color);
-			//effectRenderer.add(particle);
-			world.addParticle(new BeeParticleData(ApicultureParticles.BEE_ROUND_TRIP_PARTICLE.get(), destination, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
-		} else {
-			Vec3i area = Bee.getParticleArea(genome, housing);
-			Vec3i offset = housing.getBlockPos().offset(-area.getX() / 2, -area.getY() / 4, -area.getZ() / 2);
-			BlockPos destination = VecUtil.getRandomPositionInArea(world.random, area).offset(offset);
-			world.addParticle(new BeeParticleData(ApicultureParticles.BEE_EXPLORER_PARTICLE.get(), destination, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
-			//Particle particle = new ParticleBeeExplore(world, particleStart, destination, color);
-			//effectRenderer.add(particle);
-		}
-	}
 
 	public static void addEntityHoneyDustFX(Level world, double x, double y, double z) {
 		if (!shouldSpawnParticle(world)) {
@@ -125,14 +59,6 @@ public class ParticleRender {
 		effectRenderer.add(Particle);
 	}
 
-	public static void addEntitySnowFX(Level world, double x, double y, double z) {
-		if (!shouldSpawnParticle(world)) {
-			return;
-		}
-
-		ParticleEngine effectRenderer = Minecraft.getInstance().particleEngine;
-		effectRenderer.add(new ParticleSnow((ClientLevel) world, x + world.random.nextGaussian(), y, z + world.random.nextGaussian()));
-	}
 
 	public static void addEntityIgnitionFX(ClientLevel world, double x, double y, double z) {
 		if (!shouldSpawnParticle(world)) {

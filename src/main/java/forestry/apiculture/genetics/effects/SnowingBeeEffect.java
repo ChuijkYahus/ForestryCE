@@ -5,7 +5,7 @@ import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;
-import forestry.core.render.ParticleRender;
+import forestry.apiculture.particles.BeeParticleRender;
 import forestry.core.utils.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -67,7 +67,7 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 			BlockPos coordinates = housing.getBlockPos();
 
 			BlockPos spawn = VecUtil.getRandomPositionInArea(level.random, area).offset(coordinates).offset(VecUtil.center(area));
-			ParticleRender.addEntitySnowFX(level, spawn.getX(), spawn.getY(), spawn.getZ());
+			BeeParticleRender.addEntitySnowFX(level, spawn.getX(), spawn.getY(), spawn.getZ());
 			return storedData;
 		} else {
 			return super.doFX(genome, storedData, housing);
