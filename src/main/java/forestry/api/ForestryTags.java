@@ -20,6 +20,12 @@ public class ForestryTags {
 		// Blocks that can be used as farmland bases for multiblock farms
 		public static final TagKey<Block> VALID_FARM_BASE = blockTag("valid_farm_base");
 
+		// Saplings that grow into a genetic tree. Read by the Arboretum's farm logic, which lives in
+		// the agriculture jar and cannot name an arboriculture block. Undefined without the
+		// arboriculture jar, which vanilla resolves as empty, so the Arboretum then farms only
+		// vanilla saplings
+		public static final TagKey<Block> TREE_SAPLINGS = blockTag("tree_saplings");
+
 		public static final TagKey<Block> CHARCOAL_BLOCK = commonTag("storage_blocks/charcoal");
 
 		public static final TagKey<Block> STORAGE_BLOCKS_APATITE = commonTag("storage_blocks/apatite");

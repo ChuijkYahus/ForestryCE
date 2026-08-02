@@ -11,7 +11,7 @@ import forestry.api.agriculture.ICrop;
 import forestry.api.agriculture.IFarmable;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
-import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.api.ForestryTags;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.agriculture.farmlogic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;
@@ -44,7 +44,7 @@ public class FarmableGE implements IFarmable {
 
 	@Override
 	public boolean isSaplingAt(Level level, BlockPos pos, BlockState state) {
-		return ArboricultureBlocks.SAPLING_GE.blockEqual(state);
+		return state.is(ForestryTags.Blocks.TREE_SAPLINGS);
 	}
 
 	@Override

@@ -152,6 +152,7 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(BlockTags.WALL_HANGING_SIGNS).add(ArboricultureBlocks.WALL_HANGING_SIGN.blockArray());
 
 		tags.tag(BlockTags.SAPLINGS).add(ArboricultureBlocks.SAPLING_GE.block());
+		tags.tag(ForestryTags.Blocks.TREE_SAPLINGS).add(ArboricultureBlocks.SAPLING_GE.block());
 		tags.tag(BlockTags.LEAVES).add(ArboricultureBlocks.LEAVES.block()).add(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray()).add(ArboricultureBlocks.LEAVES_DEFAULT.blockArray()).add(ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
 
 		tags.tag(Tags.Blocks.ORES).addTags(ForestryTags.Blocks.ORES_TIN, ForestryTags.Blocks.ORES_APATITE);
