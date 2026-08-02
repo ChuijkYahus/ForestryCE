@@ -1,5 +1,6 @@
 package forestry.core.data;
 
+import forestry.arboriculture.plugin.DefaultTreeSpecies;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,7 +24,6 @@ import forestry.apiimpl.plugin.ArboricultureRegistration;
 import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.core.utils.SpeciesUtil;
-import forestry.plugin.DefaultTreeSpecies;
 
 /**
  * Generates {@code data/forestry/tree_species/*.json} for every built-in tree, read directly from the

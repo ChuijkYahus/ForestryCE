@@ -1,4 +1,4 @@
-package forestry.plugin;
+package forestry.arboriculture.plugin;
 
 import forestry.arboriculture.worldgen.*;
 import net.minecraft.network.chat.TextColor;
