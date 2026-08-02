@@ -173,20 +173,15 @@ tasks.named('check') {
 	dependsOn checkApiBoundary
 }
 
-// Phase 2 of the feature reorg: the base artifact (everything that ships in the forestry jar and
-// is not a content module) must stop referencing the five split modules. 68 files still do, so
-// this gate ratchets against a checked-in baseline rather than failing outright: a leak that is
-// not in the baseline is a new regression, and a baseline entry that no longer leaks is a stale
-// baseline that must be trimmed. Both directions fail, which is what drives the count down.
-//
-// Files under core/data are reported separately: the jar task strips that package, so they cannot
-// reach a player. They dissolve in phase 8 when datagen becomes a per-jar source set.
+// The base artifact - everything that ships in the forestry jar - must not reference the five split
+// content modules. This began as a ratchet against a checked-in baseline of 68 leaking files; phases
+// 1 through 6 drove that to 20, all of them datagen, and phase 8 moved datagen out of src/main/java
+// entirely. There is nothing left to grandfather, so this is now a hard gate.
 var checkBaseBoundary = tasks.register('checkBaseBoundary') {
 	group = 'verification'
-	description = 'Fails if a base-artifact package gains a new reference to a split content module'
+	description = 'Fails if a base-artifact package references a split content module'
 
 	var javaDir = project.file('src/main/java/forestry')
-	var baselineFile = project.file('gradle/base-boundary-baseline.txt')
 	// Phase 7b dissolved 'plugin' and 'compat' into core, and merged 'farming' and 'cultivation'
 	// into the one agriculture jar. A gate that names packages by literal keeps passing after those
 	// packages are renamed and silently stops measuring anything, so these lists move with the tree
@@ -194,16 +189,15 @@ var checkBaseBoundary = tasks.register('checkBaseBoundary') {
 	var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'agriculture', 'mail']
 
 	inputs.dir(javaDir)
-	inputs.file(baselineFile)
 	outputs.upToDateWhen { false }
 
 	doLast {
 		var pattern = ~/^import (static )?forestry\.(${splitModules.join('|')})\..*/
-		var actual = new TreeSet<String>()
+		var offenders = new TreeSet<String>()
 
 		var scan = { File file ->
 			if (file.name.endsWith('.java') && file.readLines('UTF-8').any { it ==~ pattern }) {
-				actual.add(javaDir.toPath().relativize(file.toPath()).toString())
+				offenders.add(javaDir.toPath().relativize(file.toPath()).toString())
 			}
 		}
 		// loose files directly under forestry/ are base too, ex. Forestry.java
@@ -215,39 +209,23 @@ var checkBaseBoundary = tasks.register('checkBaseBoundary') {
 			}
 		}
 
-		var baseline = new TreeSet<String>(
-				baselineFile.exists()
-						? baselineFile.readLines('UTF-8').findAll { !it.trim().isEmpty() && !it.startsWith('#') }
-						: [])
-
-		var added = new TreeSet<String>(actual); added.removeAll(baseline)
-		var fixed = new TreeSet<String>(baseline); fixed.removeAll(actual)
-
-		if (!added.isEmpty()) {
+		if (!offenders.isEmpty()) {
 			throw new GradleException(
-					"New base-artifact reference(s) to a split content module:\n  "
-					+ added.join('\n  ')
-					+ "\nFix them, or if intentional add them to gradle/base-boundary-baseline.txt.")
+					"Base-artifact reference(s) to a split content module:\n  "
+					+ offenders.join('\n  ')
+					+ "\nBase cannot name a type from an optional jar. Move the reference, or invert it "
+					+ "through an api interface.")
 		}
-		if (!fixed.isEmpty()) {
-			throw new GradleException(
-					"gradle/base-boundary-baseline.txt is stale. These no longer leak and must be removed from it:\n  "
-					+ fixed.join('\n  '))
-		}
-
-		var packaged = actual.findAll { !it.startsWith('core/data/') }
-		var datagenOnly = actual.size() - packaged.size()
-
-		logger.lifecycle("checkBaseBoundary: ${packaged.size()} packaged leaking file(s), "
-				+ "${datagenOnly} datagen-only (excluded from the jar by the 'forestry/core/data/**' rule)")
+		logger.lifecycle("checkBaseBoundary: no base file references a split content module")
 	}
 }
 
 // checkBaseBoundary reads imports, which is not what D3 actually requires. FML's annotation scanner
 // resolves method signatures at boot via getDeclaredMethods0, so a base class that names a split
 // type only in a descriptor - a parameter, a return type, a lambda synthetic - hard-crashes in
-// production without ever writing an import. This reads the compiled classes instead, and skips
-// the datagen package because the jar task strips it.
+// production without ever writing an import. This reads the compiled classes instead. Datagen is a
+// separate source set as of phase 8, so there is nothing to skip: build/classes/java/main is exactly
+// what the jar ships.
 var checkBaseBytecode = tasks.register('checkBaseBytecode') {
 	group = 'verification'
 	description = 'Fails if a packaged base class references a split content module in its bytecode'
@@ -269,9 +247,6 @@ var checkBaseBytecode = tasks.register('checkBaseBytecode') {
 				return
 			}
 			var rel = classesDir.toPath().relativize(file.toPath()).toString()
-			if (rel.startsWith('core/data/')) {
-				return
-			}
 			// Class names live in the constant pool as modified UTF-8. ISO-8859-1 maps every byte to
 			// exactly one char, so decoding with it is lossless for a substring search and finds
 			// descriptors and signatures as well as the names an import would have produced
@@ -309,10 +284,12 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 	group = 'verification'
 	description = 'Fails if a resource file names a forestry class that does not exist'
 
-	var javaDir = project.file('src/main/java')
+	// Both source roots. No resource names a datagen class today, but a name that is valid must not
+	// start reading as missing simply because it lives in the other root
+	var javaDirs = [project.file('src/main/java'), project.file('src/datagen/java')]
 	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')]
 
-	inputs.dir(javaDir)
+	inputs.files(javaDirs)
 	outputs.upToDateWhen { false }
 
 	doLast {
@@ -336,7 +313,8 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 			}
 			var name = parts[0..end].join('.')
 			seen.add(name)
-			if (!new File(javaDir, name.replace('.', '/') + '.java').exists()) {
+			var relative = name.replace('.', '/') + '.java'
+			if (javaDirs.every { !new File(it, relative).exists() }) {
 				missing.add("${name} (${where})")
 			}
 		}
