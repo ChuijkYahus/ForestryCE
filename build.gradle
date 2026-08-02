@@ -28,11 +28,48 @@ java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 // around. Separating the source set removes the cause rather than the symptom - main no longer
 // compiles against ModKit at all, and the jar is built from main's output, so datagen cannot reach
 // it by construction.
+// The six jars of D1, as six source sets. sourceSets.main IS the core jar: Gradle's jar task,
+// processResources, components.java and the access transformers all attach to main by convention,
+// and core is the artifact those conventions should describe. The other five sit at src/<name>/java.
+//
+// This is the point at which the dependency graph stops being a convention checked by a gradle task
+// and becomes a compile error. checkBaseBoundary and checkBaseBytecode were standing in for the
+// compiler since phase 2; from here the compiler does it, and it sees descriptors, generics and
+// inline fully-qualified references that an import scan never could.
+//
+// 9a still produces one jar and one mod id. Splitting the artifacts is 9b.
+var contentModules = ['apiculture', 'arboriculture', 'lepidopterology', 'agriculture', 'mail']
+
 sourceSets {
-	datagen {
-		compileClasspath += sourceSets.main.output
-		runtimeClasspath += sourceSets.main.output
-	}
+	apiculture
+	arboriculture
+	lepidopterology
+	agriculture
+	mail
+	datagen
+}
+
+// Everything requires core. lepidopterology also requires arboriculture - the only cross-content
+// edge D1 allows, and the only one the code has: three TreeUtil imports for butterfly pollination
+sourceSets.apiculture.compileClasspath += sourceSets.main.output
+sourceSets.arboriculture.compileClasspath += sourceSets.main.output
+sourceSets.agriculture.compileClasspath += sourceSets.main.output
+sourceSets.mail.compileClasspath += sourceSets.main.output
+sourceSets.lepidopterology.compileClasspath += sourceSets.main.output + sourceSets.arboriculture.output
+
+contentModules.each { m ->
+	sourceSets[m].runtimeClasspath += sourceSets.main.output
+	configurations["${m}Implementation"].extendsFrom configurations.implementation
+	configurations["${m}CompileOnly"].extendsFrom configurations.compileOnly
+}
+sourceSets.lepidopterology.runtimeClasspath += sourceSets.arboriculture.output
+
+// Datagen and the GameTests both read every jar, so they get all six
+sourceSets.datagen.compileClasspath += sourceSets.main.output
+sourceSets.datagen.runtimeClasspath += sourceSets.main.output
+contentModules.each { m ->
+	sourceSets.datagen.compileClasspath += sourceSets[m].output
+	sourceSets.datagen.runtimeClasspath += sourceSets[m].output
 }
 
 configurations {
@@ -112,13 +149,17 @@ neoForge {
 			// Datagen lives in src/datagen (forestry.core.data). Part of the mod so the data run's
 			// GatherDataEvent subscriber is discovered, and out of the jar for the same reason as test.
 			sourceSet sourceSets.datagen
+			// The five content source sets. Still one mod id in 9a: module discovery is annotation-scan
+			// based over the mod's paths, so all six are scanned exactly as one source set was.
+			contentModules.each { sourceSet sourceSets[it] }
 		}
 	}
 
-	// src/test and src/datagen have no Minecraft/NeoForge on their classpath by default — moddev only wires
-	// that into source sets it's told about. Without this those sources won't compile.
+	// src/test, src/datagen and the five content roots have no Minecraft/NeoForge on their classpath by
+	// default — moddev only wires that into source sets it's told about. Without this they won't compile.
 	addModdingDependenciesTo sourceSets.test
 	addModdingDependenciesTo sourceSets.datagen
+	contentModules.each { addModdingDependenciesTo sourceSets[it] }
 }
 
 // The test source set holds GameTests (run via runGameTestServer), not JUnit tests, so the standard `test` task
@@ -284,9 +325,10 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 	group = 'verification'
 	description = 'Fails if a resource file names a forestry class that does not exist'
 
-	// Both source roots. No resource names a datagen class today, but a name that is valid must not
-	// start reading as missing simply because it lives in the other root
-	var javaDirs = [project.file('src/main/java'), project.file('src/datagen/java')]
+	// Every source root. The service file names one plugin class per content jar, and those left
+	// src/main/java in 9a; a single-root check reports all four as missing
+	var javaDirs = [project.file('src/main/java'), project.file('src/datagen/java')] +
+			contentModules.collect { project.file("src/${it}/java") }
 	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')]
 
 	inputs.files(javaDirs)
@@ -435,6 +477,8 @@ dependencies {
 
 	// two GameTests build their expected species maps from the datagen providers
 	testImplementation sourceSets.datagen.output
+	// GameTests exercise every jar
+	contentModules.each { testImplementation sourceSets[it].output }
 }
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
@@ -566,6 +610,12 @@ neoForge.ideSyncTask generateModMetadata
 jar {
 	from sourceSets.main.output.classesDirs
 	from sourceSets.main.output.resourcesDir
+	// 9a keeps one artifact: the five content source sets compile separately but ship together, so
+	// the jar's contents are unchanged. 9b gives each its own jar task and mod id.
+	// Take the whole SourceSetOutput rather than its classesDirs and resourcesDir separately - only
+	// the former carries the builtBy wiring, and without it Gradle fails the build on an undeclared
+	// dependency from jar to processAgricultureResources
+	contentModules.each { from sourceSets[it].output }
 
 	manifest {
 		attributes([

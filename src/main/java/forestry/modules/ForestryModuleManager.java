@@ -147,6 +147,15 @@ public class ForestryModuleManager implements IModuleManager {
 			}
 		});
 
+		// Discovery order comes from FML's annotation scan, which follows the mod's classpath entries.
+		// Phase 9a split those from one directory into six, which reordered the modules and with them
+		// the reload listeners ModuleCore dispatches: butterflies began projecting before apiculture
+		// had registered the flower types their karyotype defaults to. Sort so that load order depends
+		// on the module ids and nothing else. Core modules still come first
+		modules.values().forEach(modModules -> modModules.sort(
+				Comparator.comparing((IForestryModule module) -> !module.isCore())
+						.thenComparing(module -> module.getId().toString())));
+
 		return modules;
 	}
 
