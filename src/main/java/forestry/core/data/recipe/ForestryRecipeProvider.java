@@ -645,6 +645,13 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE), CoreItems.APATITE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.INGOT_BRONZE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN), CoreItems.INGOT_TIN);
+		recipes.shapedCrafting("tin_ingot_from_nuggets", RecipeCategory.BUILDING_BLOCKS, CoreItems.INGOT_TIN, recipe -> {
+			recipe.define('#', Ingredient.of(ForestryTags.Items.NUGGETS_TIN));
+			recipe.pattern("###");
+			recipe.pattern("###");
+			recipe.pattern("###");
+		});
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.NUGGET_TIN, 9, CoreItems.INGOT_TIN);
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER), recipe -> {
 			recipe.define('#', CoreItems.AMBER);
 			recipe.pattern("##");

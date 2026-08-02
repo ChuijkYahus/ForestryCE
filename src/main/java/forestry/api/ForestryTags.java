@@ -127,6 +127,7 @@ public class ForestryTags {
 
 		public static final TagKey<Item> INGOTS_BRONZE = forgeTag("ingots/bronze");
 		public static final TagKey<Item> INGOTS_TIN = forgeTag("ingots/tin");
+		public static final TagKey<Item> NUGGETS_TIN = forgeTag("nuggets/tin");
 
 		public static final TagKey<Item> GEARS = forgeTag("gears");
 		public static final TagKey<Item> GEARS_BRONZE = forgeTag("gears/bronze");

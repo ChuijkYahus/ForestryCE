@@ -26,6 +26,7 @@ public class ForestryItemModels {
 			models.generic2d(ArboricultureItems.CHEST_BOAT.get(type));
 		}
 
+		models.generic2d(CoreItems.NUGGET_TIN.get());
 		models.generic2d(CoreItems.CARTON.get());
 		models.generic2d(CoreItems.BROKEN_BRONZE_PICKAXE.get());
 		models.generic2d(CoreItems.BROKEN_BRONZE_SHOVEL.get());

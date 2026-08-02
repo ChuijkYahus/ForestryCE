@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-02T18:09:44.8516123	Recipes
+// 1.20.1	2026-08-02T18:41:21.0542337	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -734,6 +734,7 @@ cc003fb988f0b7cf54a48851204f684fba70cc91 data/forestry/advancements/recipes/buil
 da368cc5879315981e47182ecff050c2200d1cc8 data/forestry/advancements/recipes/building_blocks/teak_stairs.json
 3f762b465af768e57d0d91ba0bbdf40076274257 data/forestry/advancements/recipes/building_blocks/teak_stripped_wood.json
 6ee406c49c8067472a8db73c9ea62f28935eb1bd data/forestry/advancements/recipes/building_blocks/teak_wood.json
+3d90a8ec5ef42aec630b3c16025989dca90d4d41 data/forestry/advancements/recipes/building_blocks/tin_ingot_from_nuggets.json
 1fafa12415607fee5833f50fb36751c53b29a0cb data/forestry/advancements/recipes/building_blocks/turf.json
 e025d57c69a65dd01a4deb169f9a845d439e5b76 data/forestry/advancements/recipes/building_blocks/walnut_fence.json
 21ddeb326949f8b34baa1e7ce699876a1e38d5ae data/forestry/advancements/recipes/building_blocks/walnut_fence_gate.json
@@ -1098,6 +1099,7 @@ d14a0bce57462676979f21cdbc31173652f49cf8 data/forestry/advancements/recipes/misc
 3842b0954df5127fdff38ef8e51a0ee5337d9035 data/forestry/advancements/recipes/misc/maple_hanging_sign.json
 eb720f75fa7d3549d06efaa5970fe9fb89d3a783 data/forestry/advancements/recipes/misc/maple_sign.json
 acd1d4c4f397d933cff0ddcd71009193636c0c7f data/forestry/advancements/recipes/misc/moistener.json
+421e3f74305186e0124eefaa43039b36dddb58dd data/forestry/advancements/recipes/misc/nugget_tin.json
 34065151333707fbe88e1b227b6bebbe09d40b5b data/forestry/advancements/recipes/misc/olive_boat.json
 12f275f0ea8066163ea9a84bc86003669107adc7 data/forestry/advancements/recipes/misc/olive_chest_boat.json
 7be8d9477df4c471abd731ddc1c4b1a1405cd2e4 data/forestry/advancements/recipes/misc/olive_hanging_sign.json
@@ -2868,6 +2870,7 @@ f4b9b7ccfba88f107e64b932354db4ca978acc82 data/forestry/recipes/moistener/mossy_c
 63aaea26f5c3e26e619b14e707aafd8edc667cbc data/forestry/recipes/moistener/mycelium.json
 00de5b3b3395a5708f417fc732582c36b87cb149 data/forestry/recipes/moistener/podzol.json
 ac06a9feb89f6abf72aa0d14692376464321ebf1 data/forestry/recipes/naturalist_helmet.json
+8c7540eb2cd5c4208177cdad04ce6c6d1cccb172 data/forestry/recipes/nugget_tin.json
 7de0ec126b33b14d4346197b1e0e932363dc0646 data/forestry/recipes/oak_door.json
 937e2639039a09a6fdb54741797b59efc6453ff7 data/forestry/recipes/oak_fireproof_fence.json
 75cc3979f420591fec4d342625516b84e0352e46 data/forestry/recipes/oak_fireproof_fence_gate.json
@@ -3267,6 +3270,7 @@ b9a19821de5b16ad63bf1c3764d9e08bb6cf59ed data/forestry/recipes/teak_pressure_pla
 d1829b14312672abd590ca7a5f6a73318df2091e data/forestry/recipes/teak_stripped_wood.json
 9dbd1761b34550a46398e2400380cfaaed6bf1a5 data/forestry/recipes/teak_trapdoor.json
 51af8c7bfd113bc7ca0e3941828f91294790fbc8 data/forestry/recipes/teak_wood.json
+7b96850dd323c35442694c5713cded4f8d0212b2 data/forestry/recipes/tin_ingot_from_nuggets.json
 ec88dd63401b58d4b6bdf27afcee2c3f55e063e0 data/forestry/recipes/torch_from_wax.json
 053ffabc3e2a3e10e96c734f9f308af31f53b57c data/forestry/recipes/trade_station.json
 ef6678334f954268dec42f7fef2c08b9c3d1e493 data/forestry/recipes/tree_chest.json

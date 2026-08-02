@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-02T17:57:47.5301173	ModKit Item Models for mod 'forestry'
+// 1.20.1	2026-08-02T18:41:21.045216	ModKit Item Models for mod 'forestry'
 d4fc4a9bad07ae793214bbf363d922b4e1084b41 assets/forestry/models/block/balsa_sapling.json
 8b29dc322c7266c9e3077cf74cbadb08f9e75cda assets/forestry/models/block/baobab_sapling.json
 0c9e9100a2276b60c4b1febcbc9154620a02cb4a assets/forestry/models/block/beech_sapling.json
@@ -145,6 +145,7 @@ bd9b161dcafab0bcb37c5c5660792500a13bb1e7 assets/forestry/models/item/mahogany_ch
 1a65002487a1154d4cd7ad10f3a10f785eedfe80 assets/forestry/models/item/maple_boat.json
 8f9ab4aeae57cf79a56c5670d6a2666b207d3b8a assets/forestry/models/item/maple_chest_boat.json
 0afc82963e4afa8a973e36e1290dd18450311217 assets/forestry/models/item/maple_sapling.json
+c6775cfdd73f483437f1d9aa54e797e1a26e95db assets/forestry/models/item/nugget_tin.json
 cf2d84cfca5bd363f425b296afce9fb91e224bd5 assets/forestry/models/item/olive_boat.json
 2a60aed919f44a591576aece8d6e1d7d0fac6897 assets/forestry/models/item/olive_chest_boat.json
 64ee6a0b867acc11b98736887faab046ec89899f assets/forestry/models/item/olive_sapling.json
