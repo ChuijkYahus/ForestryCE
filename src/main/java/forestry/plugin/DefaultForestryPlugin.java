@@ -1,5 +1,6 @@
 package forestry.plugin;
 
+import forestry.farming.plugin.DefaultFarms;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.*;
 import forestry.api.apiculture.genetics.BeeLifeStage;

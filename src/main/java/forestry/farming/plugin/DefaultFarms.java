@@ -1,4 +1,4 @@
-package forestry.plugin;
+package forestry.farming.plugin;
 
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;

@@ -35,7 +35,6 @@ core/data/TreeSpeciesProvider.java
 plugin/client/BeeAnalyzerPlugin.java
 plugin/client/DefaultForestryClientRegistration.java
 plugin/DefaultBeeSpecies.java
-plugin/DefaultFarms.java
 plugin/DefaultForestryPlugin.java
 plugin/DefaultTreeSpecies.java
 plugin/DefaultWoods.java
