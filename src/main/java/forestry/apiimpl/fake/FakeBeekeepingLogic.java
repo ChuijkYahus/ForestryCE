@@ -1,4 +1,4 @@
-package forestry.apiculture;
+package forestry.apiimpl.fake;
 
 import forestry.api.apiculture.IBeekeepingLogic;
 import net.minecraft.core.BlockPos;
