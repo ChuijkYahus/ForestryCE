@@ -6,8 +6,8 @@ import forestry.core.platform.block.MachineProperties;
 import forestry.core.platform.tile.IForestryTicker;
 import forestry.core.platform.tile.TileForestry;
 import forestry.mail.features.MailTiles;
-import forestry.mail.tiles.TileStampCollector;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.postoffice.TileStampCollector;
+import forestry.mail.tradestation.TileTrader;
 import forestry.core.platform.registration.FeatureTileType;
 
 import javax.annotation.Nullable;

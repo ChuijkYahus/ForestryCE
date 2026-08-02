@@ -1,9 +1,9 @@
-package forestry.mail.items;
+package forestry.mail.letters;
 
 import forestry.api.core.IItemSubtype;
 import forestry.core.platform.item.WithScreenItem;
-import forestry.mail.Letter;
-import forestry.mail.LetterUtils;
+import forestry.mail.letters.Letter;
+import forestry.mail.letters.LetterUtils;
 import forestry.mail.gui.LetterMenu;
 import forestry.mail.inventory.LetterInventory;
 import net.minecraft.ChatFormatting;

@@ -10,7 +10,7 @@ import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.mail.features.MailItems;
-import forestry.mail.items.LetterItem;
+import forestry.mail.letters.LetterItem;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.content.backpacks.features.CrateItems;
 import net.minecraft.resources.ResourceLocation;

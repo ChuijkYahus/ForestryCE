@@ -1,4 +1,4 @@
-package forestry.mail.tiles;
+package forestry.mail.postoffice;
 
 import com.mojang.authlib.GameProfile;
 import forestry.api.mail.ILetter;
@@ -6,14 +6,14 @@ import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
 import forestry.core.platform.inventory.InventoryAdapter;
 import forestry.core.platform.tile.TileBase;
-import forestry.mail.LetterUtils;
-import forestry.mail.MailAddress;
-import forestry.mail.PostOffice;
+import forestry.mail.letters.LetterUtils;
+import forestry.mail.letters.MailAddress;
+import forestry.mail.postoffice.PostOffice;
 import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.features.MailTiles;
 import forestry.mail.gui.ContainerMailbox;
-import forestry.mail.postalstates.EnumDeliveryState;
+import forestry.mail.letters.EnumDeliveryState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

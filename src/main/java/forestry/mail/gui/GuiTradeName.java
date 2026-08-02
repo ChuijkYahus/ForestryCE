@@ -5,7 +5,7 @@ import forestry.core.platform.gui.GuiForestry;
 import forestry.core.platform.render.ColourProperties;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.network.packets.PacketTraderAddressRequest;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tradestation.TileTrader;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;

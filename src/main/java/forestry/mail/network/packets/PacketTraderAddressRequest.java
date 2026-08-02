@@ -3,7 +3,7 @@ package forestry.mail.network.packets;
 import forestry.mail.network.MailPacketIds;
 
 import forestry.core.platform.tile.TileUtil;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tradestation.TileTrader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

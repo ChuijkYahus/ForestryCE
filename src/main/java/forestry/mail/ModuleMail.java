@@ -25,6 +25,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.bus.api.IEventBus;
 
 import java.util.function.Consumer;
+import forestry.mail.letters.MailAddress;
 
 @ForestryModule
 public class ModuleMail extends BlankForestryModule {

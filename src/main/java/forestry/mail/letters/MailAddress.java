@@ -1,4 +1,4 @@
-package forestry.mail;
+package forestry.mail.letters;
 
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;

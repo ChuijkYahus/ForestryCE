@@ -1,7 +1,7 @@
 package forestry.mail.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.mail.Letter;
+import forestry.mail.letters.Letter;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;
 import forestry.core.platform.registration.ModFeatureRegistry;

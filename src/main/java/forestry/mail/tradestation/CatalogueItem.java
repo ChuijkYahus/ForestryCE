@@ -1,4 +1,4 @@
-package forestry.mail.items;
+package forestry.mail.tradestation;
 
 import forestry.core.platform.item.WithScreenItem;
 import forestry.mail.gui.ContainerCatalogue;

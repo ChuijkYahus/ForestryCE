@@ -1,4 +1,4 @@
-package forestry.mail.tiles;
+package forestry.mail.tradestation;
 
 import com.google.common.base.Preconditions;
 import forestry.api.core.ForestryError;
@@ -12,7 +12,7 @@ import forestry.core.platform.owner.OwnerHandler;
 import forestry.core.platform.tile.TileBase;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.NetworkUtil;
-import forestry.mail.MailAddress;
+import forestry.mail.letters.MailAddress;
 import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailTiles;

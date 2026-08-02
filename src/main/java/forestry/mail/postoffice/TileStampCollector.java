@@ -1,10 +1,10 @@
-package forestry.mail.tiles;
+package forestry.mail.postoffice;
 
 import forestry.api.mail.IStamps;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.tile.TileBase;
 import forestry.core.platform.util.InventoryUtil;
-import forestry.mail.PostOffice;
+import forestry.mail.postoffice.PostOffice;
 import forestry.mail.features.MailTiles;
 import forestry.mail.gui.ContainerStampCollector;
 import forestry.mail.inventory.InventoryStampCollector;

@@ -7,7 +7,7 @@ import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.ITradeStationInfo;
 import forestry.core.platform.util.NetworkUtil;
-import forestry.mail.MailAddress;
+import forestry.mail.letters.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.carriers.trading.TradeStationInfo;
 import forestry.mail.gui.ILetterInfoReceiver;

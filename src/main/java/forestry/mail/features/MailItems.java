@@ -1,10 +1,10 @@
 package forestry.mail.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.mail.items.EnumStampDefinition;
-import forestry.mail.items.CatalogueItem;
-import forestry.mail.items.LetterItem;
-import forestry.mail.items.ItemStamp;
+import forestry.mail.letters.EnumStampDefinition;
+import forestry.mail.tradestation.CatalogueItem;
+import forestry.mail.letters.LetterItem;
+import forestry.mail.letters.ItemStamp;
 import forestry.core.platform.registration.*;
 
 @FeatureProvider

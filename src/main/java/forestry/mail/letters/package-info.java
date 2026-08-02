@@ -1,4 +1,4 @@
 @javax.annotation.ParametersAreNonnullByDefault
 @forestry.core.platform.util.FieldsAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
-package forestry.mail.tiles;
+package forestry.mail.letters;

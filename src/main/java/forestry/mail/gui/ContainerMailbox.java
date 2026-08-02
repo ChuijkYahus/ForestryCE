@@ -9,7 +9,7 @@ import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxInfo;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
-import forestry.mail.tiles.TileMailbox;
+import forestry.mail.postoffice.TileMailbox;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;

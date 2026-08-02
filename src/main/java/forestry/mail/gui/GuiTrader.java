@@ -3,7 +3,7 @@ package forestry.mail.gui;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.gui.GuiForestry;
 import forestry.core.platform.render.ColourProperties;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tradestation.TileTrader;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;

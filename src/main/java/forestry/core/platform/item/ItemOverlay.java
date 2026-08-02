@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
  * @see forestry.core.content.resources.ItemElectronTube
  * @see forestry.apiculture.bees.ItemPollenCluster
  * @see forestry.apiculture.bees.ItemPropolis
- * @see forestry.mail.items.ItemStamp
+ * @see forestry.mail.letters.ItemStamp
  */
 public class ItemOverlay extends ItemForestry implements IColoredItem {
 	// Variant of subtype that has primary/secondary color fields

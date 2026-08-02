@@ -4,7 +4,7 @@ import forestry.api.mail.IMailAddress;
 import forestry.core.platform.gui.ContainerTile;
 import forestry.core.platform.tile.TileUtil;
 import forestry.mail.features.MailMenuTypes;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tradestation.TileTrader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;

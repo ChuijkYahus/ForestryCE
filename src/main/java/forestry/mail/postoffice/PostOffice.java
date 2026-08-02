@@ -1,15 +1,16 @@
-package forestry.mail;
+package forestry.mail.postoffice;
 
 import forestry.api.mail.*;
 import forestry.mail.features.MailItems;
-import forestry.mail.items.EnumStampDefinition;
-import forestry.mail.postalstates.EnumDeliveryState;
+import forestry.mail.letters.EnumStampDefinition;
+import forestry.mail.letters.EnumDeliveryState;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
+import forestry.mail.letters.LetterUtils;
 
 public class PostOffice extends SavedData implements IPostOffice {
 	public static final String SAVE_NAME = "forestry_mail";

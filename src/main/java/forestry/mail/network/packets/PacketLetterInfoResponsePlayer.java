@@ -4,7 +4,7 @@ import forestry.mail.network.MailPacketIds;
 
 import com.mojang.authlib.GameProfile;
 import forestry.api.mail.IMailAddress;
-import forestry.mail.MailAddress;
+import forestry.mail.letters.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.gui.ILetterInfoReceiver;
 import net.minecraft.network.RegistryFriendlyByteBuf;

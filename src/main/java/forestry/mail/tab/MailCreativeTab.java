@@ -16,7 +16,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import forestry.mail.blocks.BlockTypeMail;
 import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
-import forestry.mail.items.LetterItem;
+import forestry.mail.letters.LetterItem;
 
 /**
  * The mail creative tab. Ordering keys are built from tab ids rather than tab objects so

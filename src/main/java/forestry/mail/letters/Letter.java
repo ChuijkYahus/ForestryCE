@@ -1,4 +1,4 @@
-package forestry.mail;
+package forestry.mail.letters;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
+import forestry.mail.letters.MailAddress;
 
 public class Letter implements ILetter {
 	public static final Codec<Letter> CODEC = RecordCodecBuilder.create(instance -> instance.group(

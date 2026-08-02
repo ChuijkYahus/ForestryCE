@@ -8,7 +8,7 @@ import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.tile.TileUtil;
 import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.features.MailMenuTypes;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tradestation.TileTrader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 

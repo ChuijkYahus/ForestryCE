@@ -6,7 +6,7 @@ import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.tile.TileUtil;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.inventory.InventoryStampCollector;
-import forestry.mail.tiles.TileStampCollector;
+import forestry.mail.postoffice.TileStampCollector;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 

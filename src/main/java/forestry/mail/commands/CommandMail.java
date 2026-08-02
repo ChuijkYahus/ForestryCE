@@ -19,7 +19,7 @@ import forestry.api.mail.ITradeStation;
 import forestry.api.mail.ITradeStationInfo;
 import forestry.core.platform.commands.CommandHelpers;
 import forestry.core.platform.util.StringUtil;
-import forestry.mail.MailAddress;
+import forestry.mail.letters.MailAddress;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;

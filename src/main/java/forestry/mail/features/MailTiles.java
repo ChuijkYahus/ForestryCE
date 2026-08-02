@@ -2,9 +2,9 @@ package forestry.mail.features;
 
 import forestry.api.modules.ForestryModuleIds;
 import forestry.mail.blocks.BlockTypeMail;
-import forestry.mail.tiles.TileMailbox;
-import forestry.mail.tiles.TileStampCollector;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.postoffice.TileMailbox;
+import forestry.mail.postoffice.TileStampCollector;
+import forestry.mail.tradestation.TileTrader;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.FeatureTileType;
 import forestry.core.platform.registration.IFeatureRegistry;

@@ -1,4 +1,4 @@
-package forestry.mail;
+package forestry.mail.letters;
 
 import forestry.api.mail.ILetter;
 import forestry.mail.features.MailDataComponents;
@@ -6,6 +6,9 @@ import forestry.mail.features.MailItems;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
+import forestry.mail.letters.Letter;
+import forestry.mail.letters.LetterProperties;
+import forestry.mail.letters.MailAddress;
 
 public class LetterUtils {
 	public static ItemStack createLetterStack(ILetter letter) {

@@ -1,4 +1,4 @@
-package forestry.mail.items;
+package forestry.mail.letters;
 
 import forestry.api.ForestryTags;
 import forestry.api.mail.EnumPostage;

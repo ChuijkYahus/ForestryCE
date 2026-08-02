@@ -1,12 +1,14 @@
-package forestry.mail;
+package forestry.mail.letters;
 
 import forestry.api.mail.ILetter;
 import forestry.core.features.CoreDataComponents;
 import net.minecraft.core.HolderLookup;
 import forestry.mail.features.MailItems;
-import forestry.mail.items.LetterItem;
+import forestry.mail.letters.LetterItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import forestry.mail.letters.Letter;
+import forestry.mail.letters.LetterUtils;
 
 public class LetterProperties {
 	public static ItemStack createStampedLetterStack(ILetter letter) {
