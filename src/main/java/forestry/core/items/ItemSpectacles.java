@@ -3,7 +3,7 @@ package forestry.core.items;
 import forestry.api.ForestryCapabilities;
 import forestry.api.ForestryConstants;
 import forestry.api.core.ISpectacleVision;
-import forestry.arboriculture.capabilities.SpectacleVision;
+import forestry.core.capabilities.SpectacleVision;
 import forestry.core.config.Constants;
 import forestry.core.utils.ItemTooltipUtil;
 import net.minecraft.network.chat.Component;

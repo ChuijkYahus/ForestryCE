@@ -1,4 +1,4 @@
-package forestry.arboriculture.capabilities;
+package forestry.core.capabilities;
 
 import forestry.api.core.ISpectacleVision;
 import net.minecraft.world.entity.player.Player;

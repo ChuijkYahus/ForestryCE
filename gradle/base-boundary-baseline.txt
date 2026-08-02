@@ -35,7 +35,6 @@ core/data/recipe/ForestryRecipeProvider.java
 core/data/TreeSpeciesProvider.java
 core/EventHandlerCore.java
 core/gui/widgets/TankWidget.java
-core/items/ItemSpectacles.java
 core/models/baker/ModelBakerModel.java
 core/ModuleCore.java
 core/multiblock/LevelStructureView.java
