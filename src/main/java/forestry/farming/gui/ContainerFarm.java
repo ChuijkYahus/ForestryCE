@@ -1,6 +1,7 @@
 package forestry.farming.gui;
 
 import forestry.core.gui.ContainerSocketed;
+import forestry.core.gui.IContainerTank;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotLiquidIn;
 import forestry.core.gui.slots.SlotOutput;
@@ -13,7 +14,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.fluids.IFluidTank;
 
-public class ContainerFarm extends ContainerSocketed<TileFarm> {
+public class ContainerFarm extends ContainerSocketed<TileFarm> implements IContainerTank {
 	public static ContainerFarm fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TileFarm tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileFarm.class);
 		return new ContainerFarm(windowId, inv, tile);
@@ -63,6 +64,7 @@ public class ContainerFarm extends ContainerSocketed<TileFarm> {
 		sendPacketToListeners(packet);
 	}
 
+	@Override
 	public IFluidTank getTank(int slot) {
 		return this.tile.getMultiblockLogic().getController().getTankManager().getTank(slot);
 	}

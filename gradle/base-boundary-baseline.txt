@@ -34,7 +34,6 @@ core/data/models/ForestryWoodModelProvider.java
 core/data/recipe/ForestryRecipeProvider.java
 core/data/TreeSpeciesProvider.java
 core/EventHandlerCore.java
-core/gui/widgets/TankWidget.java
 core/ModuleCore.java
 core/multiblock/LevelStructureView.java
 core/render/ParticleRender.java
