@@ -18,7 +18,7 @@ import forestry.core.engine.circuits.CircuitManager;
 import forestry.core.engine.climate.ForestryClimateManager;
 import forestry.core.platform.errors.ErrorManager;
 import forestry.modules.ForestryModuleManager;
-import forestry.sorting.FilterManager;
+import forestry.core.content.sorting.FilterManager;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 

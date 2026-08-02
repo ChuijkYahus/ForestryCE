@@ -1,6 +1,6 @@
 package forestry.core.data.builder;
 
-import forestry.factory.recipes.FermenterRecipe;
+import forestry.core.content.machines.recipes.FermenterRecipe;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;

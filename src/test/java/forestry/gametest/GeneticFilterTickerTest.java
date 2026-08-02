@@ -15,10 +15,10 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.sorting.blocks.BlockGeneticFilter;
-import forestry.sorting.features.SortingBlocks;
-import forestry.sorting.features.SortingTiles;
-import forestry.sorting.tiles.TileGeneticFilter;
+import forestry.core.content.sorting.blocks.BlockGeneticFilter;
+import forestry.core.content.sorting.features.SortingBlocks;
+import forestry.core.content.sorting.features.SortingTiles;
+import forestry.core.content.sorting.tiles.TileGeneticFilter;
 
 /**
  * Regression suite for the Genetic Filter never forwarding items.

@@ -1,6 +1,6 @@
 package forestry.core.data.builder;
 
-import forestry.factory.recipes.SqueezerContainerRecipe;
+import forestry.core.content.machines.recipes.SqueezerContainerRecipe;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

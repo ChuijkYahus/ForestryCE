@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import forestry.core.platform.util.ModUtil;
-import forestry.storage.client.FilledCrateModel;
+import forestry.core.content.backpacks.client.FilledCrateModel;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;

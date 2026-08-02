@@ -28,7 +28,7 @@ import forestry.core.engine.circuits.CircuitLayout;
 import forestry.core.engine.circuits.CircuitManager;
 import forestry.core.platform.errors.ErrorManager;
 import forestry.core.engine.genetics.PollenManager;
-import forestry.sorting.FilterManager;
+import forestry.core.content.sorting.FilterManager;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;

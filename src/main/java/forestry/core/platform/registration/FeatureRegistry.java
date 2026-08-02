@@ -8,7 +8,7 @@ import forestry.api.core.backpacks.EnumBackpackType;
 import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.core.platform.item.ItemForestry;
 import forestry.core.platform.util.datastructures.TriFunction;
-import forestry.storage.ModuleStorage;
+import forestry.core.content.backpacks.ModuleStorage;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

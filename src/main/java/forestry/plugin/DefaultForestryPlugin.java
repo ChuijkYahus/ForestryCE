@@ -8,8 +8,8 @@ import forestry.api.core.IError;
 import forestry.api.plugin.*;
 import forestry.core.features.CoreItems;
 import forestry.core.content.resources.EnumElectronTube;
-import forestry.factory.circuits.CircuitMachineUpgrade;
-import forestry.sorting.DefaultFilterRuleType;
+import forestry.core.content.machines.circuits.CircuitMachineUpgrade;
+import forestry.core.content.sorting.DefaultFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 
 

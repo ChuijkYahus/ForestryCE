@@ -668,7 +668,7 @@
   "block.forestry.rainmaker": "Генератор дождя",
   "block.forestry.thermionic_fabricator": "Электроламповый завод",
   "block.forestry.raintank": "Бак для дождя",
-  "block.forestry.worktable": "Рабочий стол",
+  "block.forestry.core.content.worktable": "Рабочий стол",
   "block.forestry.mailbox": "Почтовый ящик",
   "block.forestry.trade_station": "Торговая станция",
   "block.forestry.stamp_collector": "Сборщик марок",

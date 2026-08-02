@@ -16,7 +16,7 @@ import forestry.core.platform.gui.widgets.Widget;
 import forestry.core.platform.gui.widgets.WidgetManager;
 import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.render.ColourProperties;
-import forestry.energy.ForestryEnergyStorage;
+import forestry.core.content.energy.ForestryEnergyStorage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

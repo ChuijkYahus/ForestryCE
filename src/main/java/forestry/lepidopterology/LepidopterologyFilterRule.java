@@ -7,7 +7,7 @@ import forestry.api.core.genetics.filter.FilterData;
 import forestry.api.core.genetics.filter.IFilterRule;
 import forestry.api.core.genetics.filter.IFilterRuleType;
 import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.sorting.DefaultFilterRuleType;
+import forestry.core.content.sorting.DefaultFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

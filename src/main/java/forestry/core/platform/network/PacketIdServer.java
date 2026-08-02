@@ -5,10 +5,10 @@ import forestry.core.platform.network.packets.PacketChipsetClick;
 import forestry.core.platform.network.packets.PacketGuiSelectRequest;
 import forestry.core.platform.network.packets.PacketPipetteClick;
 import forestry.core.platform.network.packets.PacketSolderingIronClick;
-import forestry.factory.network.packets.PacketRecipeTransferRequest;
-import forestry.sorting.network.packets.PacketFilterChangeGenome;
-import forestry.sorting.network.packets.PacketFilterChangeRule;
-import forestry.worktable.network.packets.PacketWorktableRecipeRequest;
+import forestry.core.content.machines.network.packets.PacketRecipeTransferRequest;
+import forestry.core.content.sorting.network.packets.PacketFilterChangeGenome;
+import forestry.core.content.sorting.network.packets.PacketFilterChangeRule;
+import forestry.core.content.worktable.network.packets.PacketWorktableRecipeRequest;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /**

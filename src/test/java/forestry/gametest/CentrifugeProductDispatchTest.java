@@ -25,7 +25,7 @@ import forestry.apiculture.genetics.FireworkProduct;
 import forestry.core.features.CoreItems;
 import forestry.core.engine.genetics.ProductTypes;
 import forestry.core.platform.util.RecipeUtils;
-import forestry.factory.features.FactoryRecipeTypes;
+import forestry.core.content.machines.features.FactoryRecipeTypes;
 
 /**
  * Behavioral oracle for "centrifuge products as an IProduct dispatch". Proves that the default {@link Product}

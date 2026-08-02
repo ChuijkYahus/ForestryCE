@@ -621,7 +621,7 @@
   "block.forestry.rainmaker": "造雨机",
   "block.forestry.thermionic_fabricator": "热电子加工台",
   "block.forestry.raintank": "集雨蓄水槽",
-  "block.forestry.worktable": "工作站",
+  "block.forestry.core.content.worktable": "工作站",
   "block.forestry.mailbox": "信箱",
   "block.forestry.trade_station": "贸易站",
   "block.forestry.stamp_collector": "集邮箱",

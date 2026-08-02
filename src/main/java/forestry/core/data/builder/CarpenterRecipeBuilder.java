@@ -1,6 +1,6 @@
 package forestry.core.data.builder;
 
-import forestry.factory.recipes.CarpenterRecipe;
+import forestry.core.content.machines.recipes.CarpenterRecipe;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;

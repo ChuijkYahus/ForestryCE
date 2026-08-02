@@ -1,6 +1,6 @@
 package forestry.core.platform.gui.slots;
 
-import forestry.worktable.tiles.ICrafterWorktable;
+import forestry.core.content.worktable.tiles.ICrafterWorktable;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;

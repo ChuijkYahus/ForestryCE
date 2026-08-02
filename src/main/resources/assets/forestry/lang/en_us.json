@@ -629,7 +629,7 @@
   "block.forestry.rainmaker": "Rainmaker",
   "block.forestry.thermionic_fabricator": "Thermionic Fabricator",
   "block.forestry.raintank": "Rain Tank",
-  "block.forestry.worktable": "Worktable",
+  "block.forestry.core.content.worktable": "Worktable",
   "block.forestry.mailbox": "Mailbox",
   "block.forestry.trade_station": "Trade Station",
   "block.forestry.stamp_collector": "Stamp Collector",

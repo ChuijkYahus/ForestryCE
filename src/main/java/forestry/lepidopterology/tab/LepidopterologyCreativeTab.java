@@ -11,7 +11,7 @@ import forestry.core.platform.registration.FeatureCreativeTab;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;
 import forestry.core.platform.registration.ModFeatureRegistry;
-import forestry.storage.features.BackpackItems;
+import forestry.core.content.backpacks.features.BackpackItems;
 import net.minecraft.world.item.CreativeModeTab;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;

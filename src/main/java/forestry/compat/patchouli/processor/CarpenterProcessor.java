@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import forestry.api.core.machines.ICarpenterRecipe;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.platform.util.RecipeUtils;
-import forestry.factory.features.FactoryRecipeTypes;
+import forestry.core.content.machines.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;

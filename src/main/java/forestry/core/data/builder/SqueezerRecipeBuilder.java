@@ -2,7 +2,7 @@ package forestry.core.data.builder;
 
 import forestry.api.core.FluidProduct;
 import forestry.api.core.IFluidProduct;
-import forestry.factory.recipes.SqueezerRecipe;
+import forestry.core.content.machines.recipes.SqueezerRecipe;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

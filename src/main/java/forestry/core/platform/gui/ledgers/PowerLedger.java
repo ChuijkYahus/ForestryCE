@@ -3,7 +3,7 @@ package forestry.core.platform.gui.ledgers;
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
 import forestry.core.platform.gui.GuiUtil;
-import forestry.energy.ForestryEnergyStorage;
+import forestry.core.content.energy.ForestryEnergyStorage;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 

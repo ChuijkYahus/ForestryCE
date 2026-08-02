@@ -2,7 +2,7 @@ package forestry.core.platform.fluids;
 
 import forestry.api.core.machines.*;
 import forestry.core.platform.util.RecipeUtils;
-import forestry.factory.features.FactoryRecipeTypes;
+import forestry.core.content.machines.features.FactoryRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeManager;
 

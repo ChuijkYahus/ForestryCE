@@ -6,8 +6,8 @@ import forestry.apiculture.items.EnumPropolis;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.platform.registration.FeatureItemGroup;
 import forestry.core.platform.registration.FeatureProvider;
-import forestry.storage.features.CrateItems;
-import forestry.storage.items.ItemCrated;
+import forestry.core.content.backpacks.features.CrateItems;
+import forestry.core.content.backpacks.items.ItemCrated;
 
 /**
  * Crates for apiculture products. Registered here rather than in {@link CrateItems} so the base

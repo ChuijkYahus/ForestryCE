@@ -13,7 +13,7 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.loot.OrganismFunction;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.storage.features.BackpackItems;
+import forestry.core.content.backpacks.features.BackpackItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.registries.Registries;

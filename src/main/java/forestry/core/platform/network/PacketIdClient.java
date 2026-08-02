@@ -13,10 +13,10 @@ import forestry.core.platform.network.packets.PacketTankLevelUpdate;
 import forestry.core.platform.network.packets.PacketTileStream;
 import forestry.core.platform.network.packets.RecipeCachePacket;
 import forestry.core.platform.network.packets.PacketRefractoryWax;
-import forestry.factory.network.packets.PacketRecipeTransferUpdate;
-import forestry.sorting.network.packets.PacketGuiFilterUpdate;
-import forestry.worktable.network.packets.PacketWorktableMemoryUpdate;
-import forestry.worktable.network.packets.PacketWorktableRecipeUpdate;
+import forestry.core.content.machines.network.packets.PacketRecipeTransferUpdate;
+import forestry.core.content.sorting.network.packets.PacketGuiFilterUpdate;
+import forestry.core.content.worktable.network.packets.PacketWorktableMemoryUpdate;
+import forestry.core.content.worktable.network.packets.PacketWorktableRecipeUpdate;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 import static forestry.core.platform.network.PacketIdServer.type;

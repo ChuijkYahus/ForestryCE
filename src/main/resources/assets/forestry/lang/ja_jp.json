@@ -608,7 +608,7 @@
     "block.forestry.rainmaker": "人工降雨マシン",
     "block.forestry.thermionic_fabricator": "電子工作機",
     "block.forestry.raintank": "雨水タンク",
-    "block.forestry.worktable": "加工作業台",
+    "block.forestry.core.content.worktable": "加工作業台",
     "block.forestry.mailbox": "郵便箱",
     "block.forestry.trade_station": "トレードステーション",
     "block.forestry.stamp_collector": "切手回収箱",

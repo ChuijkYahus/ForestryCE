@@ -20,7 +20,7 @@ import com.mojang.serialization.JsonOps;
 import forestry.api.ForestryConstants;
 import forestry.api.core.FluidProduct;
 import forestry.core.platform.fluids.FluidProductTypes;
-import forestry.factory.recipes.SqueezerRecipe;
+import forestry.core.content.machines.recipes.SqueezerRecipe;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
