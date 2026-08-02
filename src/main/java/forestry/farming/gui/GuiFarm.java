@@ -1,9 +1,9 @@
 package forestry.farming.gui;
 
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.widgets.SocketWidget;
-import forestry.core.gui.widgets.TankWidget;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.widgets.SocketWidget;
+import forestry.core.platform.gui.widgets.TankWidget;
 import forestry.farming.multiblock.IFarmControllerInternal;
 import forestry.farming.tiles.TileFarm;
 import net.minecraft.client.gui.GuiGraphics;

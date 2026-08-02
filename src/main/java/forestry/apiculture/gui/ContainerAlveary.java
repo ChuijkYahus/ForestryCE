@@ -2,8 +2,8 @@ package forestry.apiculture.gui;
 
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.multiblock.TileAlveary;
-import forestry.core.gui.ContainerTile;
-import forestry.core.network.packets.PacketGuiStream;
+import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

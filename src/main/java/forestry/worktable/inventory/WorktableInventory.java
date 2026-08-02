@@ -1,7 +1,7 @@
 package forestry.worktable.inventory;
 
-import forestry.core.inventory.InventoryAdapterTile;
-import forestry.core.utils.SlotUtil;
+import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.core.platform.util.SlotUtil;
 import forestry.worktable.tiles.WorktableTile;
 import net.minecraft.world.item.ItemStack;
 

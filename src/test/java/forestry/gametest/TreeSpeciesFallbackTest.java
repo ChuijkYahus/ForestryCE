@@ -22,7 +22,7 @@ import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.core.data.TreeSpeciesProvider;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for {@link TreeChromosomes#SPECIES}'s fail-soft resolver: a saved individual can reference a

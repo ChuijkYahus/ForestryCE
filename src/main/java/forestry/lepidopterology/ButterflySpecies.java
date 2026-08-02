@@ -23,7 +23,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import forestry.core.utils.GeneticsUtil;
+import forestry.core.platform.util.GeneticsUtil;
 
 public class ButterflySpecies extends Species<IButterflySpeciesType, IButterfly> implements IButterflySpecies {
 	private final TemperatureType temperature;

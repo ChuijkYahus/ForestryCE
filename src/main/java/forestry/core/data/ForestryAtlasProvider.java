@@ -1,7 +1,7 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
-import forestry.core.render.ForestrySpriteUploader;
+import forestry.core.platform.render.ForestrySpriteUploader;
 import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;

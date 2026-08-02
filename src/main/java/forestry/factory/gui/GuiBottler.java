@@ -1,10 +1,10 @@
 package forestry.factory.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.widgets.TankWidget;
-import forestry.core.render.ColourProperties;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.widgets.TankWidget;
+import forestry.core.platform.render.ColourProperties;
 import forestry.factory.tiles.TileBottler;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

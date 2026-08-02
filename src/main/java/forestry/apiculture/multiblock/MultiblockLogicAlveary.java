@@ -1,8 +1,8 @@
 package forestry.apiculture.multiblock;
 
 import forestry.api.core.multiblock.IMultiblockLogicAlveary;
-import forestry.core.multiblock.MultiblockController;
-import forestry.core.multiblock.MultiblockLogicBase;
+import forestry.core.platform.multiblock.MultiblockController;
+import forestry.core.platform.multiblock.MultiblockLogicBase;
 
 public class MultiblockLogicAlveary extends MultiblockLogicBase implements IMultiblockLogicAlveary {
 	public MultiblockLogicAlveary() {

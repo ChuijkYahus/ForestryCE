@@ -32,7 +32,7 @@ import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for {@link BeeSpeciesProjector}: proves a hand-built {@link BeeSpeciesDefinition} (modeled on

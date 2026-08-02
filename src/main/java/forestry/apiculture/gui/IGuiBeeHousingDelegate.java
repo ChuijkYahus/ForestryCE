@@ -2,7 +2,7 @@ package forestry.apiculture.gui;
 
 import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.IErrorLogicSource;
-import forestry.core.owner.IOwnedTile;
+import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.tiles.ITitled;
 
 public interface IGuiBeeHousingDelegate extends ITitled, IErrorLogicSource, IOwnedTile, IClimateProvider {

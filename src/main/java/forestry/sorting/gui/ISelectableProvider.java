@@ -1,6 +1,6 @@
 package forestry.sorting.gui;
 
-import forestry.core.gui.GuiForestry;
+import forestry.core.platform.gui.GuiForestry;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 

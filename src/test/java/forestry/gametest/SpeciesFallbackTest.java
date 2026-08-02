@@ -22,7 +22,7 @@ import forestry.apiculture.genetics.BeeSpeciesManager;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for the data-driven bee species type's fail-soft/empty-tolerant behavior, now that species come

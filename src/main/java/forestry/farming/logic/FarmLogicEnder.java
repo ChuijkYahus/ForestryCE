@@ -5,7 +5,7 @@ import forestry.api.agriculture.ICrop;
 import forestry.api.agriculture.IFarmHousing;
 import forestry.api.agriculture.IFarmType;
 import forestry.api.agriculture.IFarmable;
-import forestry.core.utils.BlockUtil;
+import forestry.core.platform.util.BlockUtil;
 import forestry.farming.logic.crops.CropDestroy;
 import forestry.farming.logic.farmables.FarmableChorus;
 import net.minecraft.core.BlockPos;

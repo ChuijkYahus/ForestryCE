@@ -2,9 +2,9 @@ package forestry.apiculture.gui;
 
 import forestry.apiculture.multiblock.IAlvearyControllerInternal;
 import forestry.apiculture.multiblock.TileAlveary;
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.render.EnumTankLevel;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.render.EnumTankLevel;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;

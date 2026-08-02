@@ -2,8 +2,8 @@ package forestry.energy.screen;
 
 
 import forestry.api.core.tooltips.ToolTip;
-import forestry.core.gui.widgets.ReservoirWidget;
-import forestry.core.gui.widgets.WidgetManager;
+import forestry.core.platform.gui.widgets.ReservoirWidget;
+import forestry.core.platform.gui.widgets.WidgetManager;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.IFluidTank;

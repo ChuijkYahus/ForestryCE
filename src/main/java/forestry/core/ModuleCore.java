@@ -13,22 +13,22 @@ import forestry.api.modules.IPacketRegistry;
 import forestry.core.genetics.TaxonManager;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.blocks.TileStreamUpdateTracker;
-import forestry.core.client.CoreClientHandler;
+import forestry.core.platform.client.CoreClientHandler;
 import forestry.core.climate.ForestryClimateManager;
-import forestry.core.commands.DiagnosticsCommand;
-import forestry.core.commands.DumpCommand;
+import forestry.core.platform.commands.DiagnosticsCommand;
+import forestry.core.platform.commands.DumpCommand;
 import forestry.core.features.CoreItems;
 import forestry.core.features.CoreTiles;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.items.ItemPipette;
 import forestry.core.items.ItemSpectacles;
-import forestry.core.loot.ConditionLootModifier;
-import forestry.core.network.PacketIdClient;
-import forestry.core.network.PacketIdServer;
-import forestry.core.network.packets.*;
-import forestry.core.owner.GameProfileDataSerializer;
-import forestry.core.recipes.RecipeManagers;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.loot.ConditionLootModifier;
+import forestry.core.platform.network.PacketIdClient;
+import forestry.core.platform.network.PacketIdServer;
+import forestry.core.platform.network.packets.*;
+import forestry.core.platform.owner.GameProfileDataSerializer;
+import forestry.core.platform.recipes.RecipeManagers;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.modules.BlankForestryModule;
 import forestry.modules.ForestryModuleManager;
 import forestry.modules.ModuleUtil;
@@ -228,7 +228,7 @@ public class ModuleCore extends BlankForestryModule {
 
 		forestryCommand.then(DiagnosticsCommand.register());
 		forestryCommand.then(DumpCommand.register());
-		forestryCommand.then(forestry.core.commands.MultiblockDebugCommand.register());
+		forestryCommand.then(forestry.core.platform.commands.MultiblockDebugCommand.register());
 
 		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getModulesForMod(ForestryConstants.MOD_ID)) {
 			if (module instanceof BlankForestryModule forestryModule) {

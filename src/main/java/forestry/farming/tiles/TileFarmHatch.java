@@ -1,9 +1,9 @@
 package forestry.farming.tiles;
 
 import forestry.api.core.multiblock.IFarmComponent;
-import forestry.core.inventory.AdjacentInventoryCache;
+import forestry.core.platform.inventory.AdjacentInventoryCache;
 import forestry.core.tiles.AdjacentTileCache;
-import forestry.core.utils.InventoryUtil;
+import forestry.core.platform.util.InventoryUtil;
 import forestry.farming.features.FarmingTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

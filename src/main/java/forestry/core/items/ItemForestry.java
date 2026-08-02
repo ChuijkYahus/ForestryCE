@@ -1,6 +1,6 @@
 package forestry.core.items;
 
-import forestry.core.utils.ItemTooltipUtil;
+import forestry.core.platform.util.ItemTooltipUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

@@ -1,6 +1,6 @@
 package forestry.energy;
 
-import forestry.core.config.Preference;
+import forestry.core.platform.config.Preference;
 import forestry.energy.tiles.EngineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;

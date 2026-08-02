@@ -3,9 +3,9 @@ package forestry.arboriculture.commands;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import forestry.api.arboriculture.genetics.ITree;
-import forestry.core.commands.CommandHelpers;
-import forestry.core.commands.SpeciesArgument;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.commands.CommandHelpers;
+import forestry.core.platform.commands.SpeciesArgument;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 

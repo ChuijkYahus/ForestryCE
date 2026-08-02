@@ -3,7 +3,7 @@ package forestry.arboriculture;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
-import forestry.core.utils.Translator;
+import forestry.core.platform.util.Translator;
 import net.minecraft.network.chat.Component;
 
 public class WoodHelper {

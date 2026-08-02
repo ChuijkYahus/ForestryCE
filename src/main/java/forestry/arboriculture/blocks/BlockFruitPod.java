@@ -2,7 +2,7 @@ package forestry.arboriculture.blocks;
 
 import forestry.arboriculture.tiles.TileFruitPod;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.BlockUtil;
+import forestry.core.platform.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

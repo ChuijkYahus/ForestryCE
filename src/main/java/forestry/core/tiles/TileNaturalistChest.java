@@ -1,9 +1,9 @@
 package forestry.core.tiles;
 
 import forestry.api.core.genetics.ISpeciesType;
-import forestry.core.gui.ContainerNaturalistInventory;
-import forestry.core.gui.IPagedInventory;
-import forestry.core.inventory.InventoryNaturalistChest;
+import forestry.core.platform.gui.ContainerNaturalistInventory;
+import forestry.core.platform.gui.IPagedInventory;
+import forestry.core.platform.inventory.InventoryNaturalistChest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;

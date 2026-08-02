@@ -3,8 +3,8 @@ package forestry.apiculture.multiblock;
 import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.multiblock.IAlvearyController;
 import forestry.api.core.IInventoryAdapter;
-import forestry.core.network.IStreamableGui;
-import forestry.core.owner.IOwnedTile;
+import forestry.core.platform.network.IStreamableGui;
+import forestry.core.platform.owner.IOwnedTile;
 
 /**
  * Machine-specific surface of the alveary controller.

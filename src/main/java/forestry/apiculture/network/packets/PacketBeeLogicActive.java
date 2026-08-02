@@ -5,7 +5,7 @@ import forestry.apiculture.network.ApiculturePacketIds;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;

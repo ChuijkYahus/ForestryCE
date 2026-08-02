@@ -2,7 +2,7 @@ package forestry.sorting.network.packets;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.core.genetics.filter.IFilterRuleType;
-import forestry.core.network.PacketIdClient;
+import forestry.core.platform.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.sorting.AlleleFilter;
 import forestry.sorting.FilterLogic;

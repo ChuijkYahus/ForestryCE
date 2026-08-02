@@ -1,7 +1,7 @@
 package forestry.energy.tiles;
 
-import forestry.core.config.Constants;
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.damage.CoreDamageTypes;
 import forestry.core.tiles.TemperatureState;
 import forestry.energy.features.EnergyTiles;
 import net.minecraft.core.BlockPos;

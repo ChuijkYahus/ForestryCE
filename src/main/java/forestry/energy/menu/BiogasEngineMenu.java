@@ -1,8 +1,8 @@
 package forestry.energy.menu;
 
-import forestry.core.gui.ContainerLiquidTanks;
-import forestry.core.gui.slots.SlotLiquidIn;
-import forestry.core.network.packets.PacketGuiStream;
+import forestry.core.platform.gui.ContainerLiquidTanks;
+import forestry.core.platform.gui.slots.SlotLiquidIn;
+import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 import forestry.energy.features.EnergyMenus;
 import forestry.energy.inventory.InventoryEngineBiogas;

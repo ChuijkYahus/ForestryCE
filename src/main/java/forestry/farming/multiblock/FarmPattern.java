@@ -1,9 +1,9 @@
 package forestry.farming.multiblock;
 
-import forestry.core.multiblock.pattern.CellPredicate;
-import forestry.core.multiblock.pattern.MultiblockPattern;
-import forestry.core.multiblock.pattern.PatternResult;
-import forestry.core.multiblock.pattern.Predicates;
+import forestry.core.platform.multiblock.pattern.CellPredicate;
+import forestry.core.platform.multiblock.pattern.MultiblockPattern;
+import forestry.core.platform.multiblock.pattern.PatternResult;
+import forestry.core.platform.multiblock.pattern.Predicates;
 
 /**
  * The declarative Farm pattern (spec 5.1), modeling {@code FarmController.isMachineWhole} plus the base

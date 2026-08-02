@@ -15,7 +15,7 @@ import forestry.apiculture.TagFlowerType;
 import forestry.apiculture.WaterTagFlowerType;
 import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.FlowerTypeManager;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)

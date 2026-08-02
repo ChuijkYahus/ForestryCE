@@ -1,11 +1,11 @@
 package forestry.worktable.tiles;
 
-import forestry.core.inventory.InventoryGhostCrafting;
-import forestry.core.inventory.wrappers.InventoryMapper;
+import forestry.core.platform.inventory.InventoryGhostCrafting;
+import forestry.core.platform.inventory.wrappers.InventoryMapper;
 import forestry.core.tiles.TileBase;
-import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.platform.util.InventoryUtil;
+import forestry.core.platform.util.ItemStackUtil;
+import forestry.core.platform.util.RecipeUtils;
 import forestry.worktable.features.WorktableTiles;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import forestry.worktable.inventory.WorktableInventory;

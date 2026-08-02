@@ -11,7 +11,7 @@ import forestry.apiimpl.client.fake.FakeBeeClientManager;
 import forestry.apiimpl.client.fake.FakeButterflyClientManager;
 import forestry.apiimpl.client.fake.FakeClientHelper;
 import forestry.apiimpl.client.fake.FakeTreeClientManager;
-import forestry.core.render.ForestryTextureManager;
+import forestry.core.platform.render.ForestryTextureManager;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;

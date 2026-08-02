@@ -1,15 +1,15 @@
 package forestry.worktable.screens;
 
-import forestry.core.gui.ContainerTile;
-import forestry.core.gui.IContainerCrafting;
-import forestry.core.gui.IGuiSelectable;
-import forestry.core.gui.slots.SlotCraftMatrix;
-import forestry.core.gui.slots.WorktableSlot;
-import forestry.core.inventory.InventoryGhostCrafting;
-import forestry.core.network.packets.PacketGuiSelectRequest;
+import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.IContainerCrafting;
+import forestry.core.platform.gui.IGuiSelectable;
+import forestry.core.platform.gui.slots.SlotCraftMatrix;
+import forestry.core.platform.gui.slots.WorktableSlot;
+import forestry.core.platform.inventory.InventoryGhostCrafting;
+import forestry.core.platform.network.packets.PacketGuiSelectRequest;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.ItemStackUtil;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.worktable.features.WorktableMenus;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import forestry.worktable.inventory.WorktableInventory;

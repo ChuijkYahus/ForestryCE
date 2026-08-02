@@ -2,7 +2,7 @@ package forestry.mail.network.packets;
 
 import forestry.mail.network.MailPacketIds;
 
-import forestry.core.config.ForestryConfig;
+import forestry.core.platform.config.ForestryConfig;
 import forestry.mail.carriers.players.POBoxInfo;
 import forestry.mail.gui.ToastMailboxInfo;
 import net.minecraft.client.Minecraft;

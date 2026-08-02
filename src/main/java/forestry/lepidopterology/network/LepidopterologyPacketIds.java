@@ -1,6 +1,6 @@
 package forestry.lepidopterology.network;
 
-import forestry.core.network.PacketIdServer;
+import forestry.core.platform.network.PacketIdServer;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /**

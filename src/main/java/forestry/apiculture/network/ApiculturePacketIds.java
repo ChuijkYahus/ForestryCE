@@ -6,7 +6,7 @@ import forestry.apiculture.network.packets.FlowerTypeSyncPacket;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
-import forestry.core.network.PacketIdServer;
+import forestry.core.platform.network.PacketIdServer;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /**

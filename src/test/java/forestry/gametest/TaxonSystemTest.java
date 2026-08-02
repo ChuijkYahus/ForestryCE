@@ -22,7 +22,7 @@ import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.core.genetics.TaxonManager;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.TaxonDefinition;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for the (now fully data-driven) taxonomy. Proves that base Forestry's whole taxonomy is loaded from

@@ -1,10 +1,10 @@
 package forestry.factory.gui;
 
-import forestry.core.gui.ContainerSocketed;
-import forestry.core.gui.slots.SlotFiltered;
-import forestry.core.gui.slots.SlotLocked;
-import forestry.core.gui.slots.SlotOutput;
-import forestry.core.network.packets.PacketItemStackDisplay;
+import forestry.core.platform.gui.ContainerSocketed;
+import forestry.core.platform.gui.slots.SlotFiltered;
+import forestry.core.platform.gui.slots.SlotLocked;
+import forestry.core.platform.gui.slots.SlotOutput;
+import forestry.core.platform.network.packets.PacketItemStackDisplay;
 import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.tiles.TileCentrifuge;

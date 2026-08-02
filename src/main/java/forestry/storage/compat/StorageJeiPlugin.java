@@ -1,7 +1,7 @@
 package forestry.storage.compat;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.utils.JeiUtil;
+import forestry.core.platform.util.JeiUtil;
 import forestry.storage.features.BackpackItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;

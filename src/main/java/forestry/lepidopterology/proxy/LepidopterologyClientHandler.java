@@ -1,11 +1,11 @@
 package forestry.lepidopterology.proxy;
 
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import forestry.core.models.ClientManager;
+import forestry.core.platform.models.ClientManager;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.render.ForestryModelLayers;
+import forestry.core.platform.render.ForestryModelLayers;
 import forestry.lepidopterology.features.LepidopterologyEntities;
 import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.lepidopterology.items.ItemButterflyGE;

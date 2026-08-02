@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import forestry.api.core.circuits.*;
 import forestry.core.features.CoreItems;
-import forestry.core.utils.NBTUtilForestry;
+import forestry.core.platform.util.NBTUtilForestry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 

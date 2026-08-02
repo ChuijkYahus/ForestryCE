@@ -12,7 +12,7 @@ import forestry.api.core.genetics.ClimateHelper;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.features.ApicultureBlocks;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;

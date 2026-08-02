@@ -2,8 +2,8 @@ package forestry.core.blocks;
 
 import com.mojang.authlib.GameProfile;
 import forestry.Forestry;
-import forestry.core.owner.IOwnedTile;
-import forestry.core.owner.IOwnerHandler;
+import forestry.core.platform.owner.IOwnedTile;
+import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;

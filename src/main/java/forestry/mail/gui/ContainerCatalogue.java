@@ -1,8 +1,8 @@
 package forestry.mail.gui;
 
 import forestry.api.mail.*;
-import forestry.core.gui.IGuiSelectable;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.gui.IGuiSelectable;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.network.packets.PacketLetterInfoResponseTrader;

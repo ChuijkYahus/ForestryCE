@@ -1,7 +1,7 @@
 package forestry.storage.gui;
 
-import forestry.core.gui.ContainerItemInventory;
-import forestry.core.gui.slots.SlotFilteredInventory;
+import forestry.core.platform.gui.ContainerItemInventory;
+import forestry.core.platform.gui.slots.SlotFilteredInventory;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.inventory.BackpackInventory;
 import net.minecraft.network.RegistryFriendlyByteBuf;

@@ -1,9 +1,9 @@
 package forestry.factory.gui;
 
-import forestry.core.gui.ContainerLiquidTanks;
-import forestry.core.gui.IContainerCrafting;
-import forestry.core.gui.slots.*;
-import forestry.core.network.packets.PacketItemStackDisplay;
+import forestry.core.platform.gui.ContainerLiquidTanks;
+import forestry.core.platform.gui.IContainerCrafting;
+import forestry.core.platform.gui.slots.*;
+import forestry.core.platform.network.packets.PacketItemStackDisplay;
 import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryCarpenter;

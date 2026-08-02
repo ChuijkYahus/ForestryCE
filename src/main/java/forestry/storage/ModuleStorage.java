@@ -7,7 +7,7 @@ import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.core.backpacks.IBackpackInterface;
 import forestry.core.ForestryColors;
-import forestry.core.config.ForestryConfig;
+import forestry.core.platform.config.ForestryConfig;
 import forestry.modules.BlankForestryModule;
 import forestry.storage.client.StorageClientHandler;
 import net.minecraft.resources.ResourceLocation;

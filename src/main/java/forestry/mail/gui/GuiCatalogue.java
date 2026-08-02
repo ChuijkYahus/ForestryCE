@@ -1,13 +1,13 @@
 package forestry.mail.gui;
 
 import forestry.api.mail.ITradeStationInfo;
-import forestry.core.config.SessionVars;
-import forestry.core.gui.GuiForestry;
-import forestry.core.gui.widgets.ItemStackWidget;
-import forestry.core.gui.widgets.Widget;
-import forestry.core.network.packets.PacketGuiSelectRequest;
-import forestry.core.render.ColourProperties;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.config.SessionVars;
+import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.widgets.ItemStackWidget;
+import forestry.core.platform.gui.widgets.Widget;
+import forestry.core.platform.network.packets.PacketGuiSelectRequest;
+import forestry.core.platform.render.ColourProperties;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

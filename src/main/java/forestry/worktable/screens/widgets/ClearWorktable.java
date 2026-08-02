@@ -1,8 +1,8 @@
 package forestry.worktable.screens.widgets;
 
-import forestry.core.gui.widgets.Widget;
-import forestry.core.gui.widgets.WidgetManager;
-import forestry.core.utils.SoundUtil;
+import forestry.core.platform.gui.widgets.Widget;
+import forestry.core.platform.gui.widgets.WidgetManager;
+import forestry.core.platform.util.SoundUtil;
 import forestry.worktable.screens.WorktableMenu;
 import net.minecraft.client.gui.GuiGraphics;
 

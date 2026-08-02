@@ -2,7 +2,7 @@ package forestry.arboriculture.blocks;
 
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.core.IBlockSubtype;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 import net.minecraft.resources.ResourceLocation;
 

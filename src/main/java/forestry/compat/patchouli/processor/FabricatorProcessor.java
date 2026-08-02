@@ -2,8 +2,8 @@ package forestry.compat.patchouli.processor;
 
 import com.google.common.base.Preconditions;
 import forestry.api.core.machines.IFabricatorRecipe;
-import forestry.core.utils.ModUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.platform.util.ModUtil;
+import forestry.core.platform.util.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;

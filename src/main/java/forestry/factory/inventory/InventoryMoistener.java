@@ -1,9 +1,9 @@
 package forestry.factory.inventory;
 
 import forestry.api.core.machines.fuels.FuelManager;
-import forestry.core.inventory.InventoryAdapterTile;
-import forestry.core.utils.RecipeUtils;
-import forestry.core.utils.SlotUtil;
+import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.core.platform.util.RecipeUtils;
+import forestry.core.platform.util.SlotUtil;
 import forestry.factory.tiles.TileMoistener;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;

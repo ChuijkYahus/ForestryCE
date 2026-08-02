@@ -9,9 +9,9 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.ISqueezerRecipe;
-import forestry.core.config.Constants;
-import forestry.core.fluids.ForestryFluids;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.fluids.ForestryFluids;
+import forestry.core.platform.util.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
 
 /**

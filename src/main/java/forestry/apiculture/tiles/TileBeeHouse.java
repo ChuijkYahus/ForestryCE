@@ -8,7 +8,7 @@ import forestry.apiculture.InventoryBeeHousing;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.gui.ContainerBeeHousing;
 import forestry.apiculture.gui.GuiBeeHousing;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

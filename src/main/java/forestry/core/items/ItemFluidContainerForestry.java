@@ -1,14 +1,14 @@
 package forestry.core.items;
 
-import forestry.core.config.Constants;
-import forestry.core.fluids.ForestryFluids;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.items.definitions.DrinkProperties;
 import forestry.core.items.definitions.EnumContainerType;
 import forestry.core.items.definitions.FluidHandlerItemForestry;
 import forestry.core.items.definitions.IColoredItem;
-import forestry.core.models.FluidContainerModel;
-import forestry.core.utils.ModUtil;
-import forestry.core.utils.Translator;
+import forestry.core.platform.models.FluidContainerModel;
+import forestry.core.platform.util.ModUtil;
+import forestry.core.platform.util.Translator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;

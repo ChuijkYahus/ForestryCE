@@ -1,7 +1,7 @@
 package forestry.mail.compat;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.utils.JeiUtil;
+import forestry.core.platform.util.JeiUtil;
 import forestry.mail.blocks.BlockTypeMail;
 import forestry.mail.features.MailBlocks;
 import mezz.jei.api.IModPlugin;

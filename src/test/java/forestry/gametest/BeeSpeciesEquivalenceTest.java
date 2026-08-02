@@ -50,7 +50,7 @@ import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.apiculture.BeeSpecies;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * The pivotal "no behavior change" proof for Stage 3: for every built-in bee species, decodes the

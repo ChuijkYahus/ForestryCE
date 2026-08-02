@@ -2,8 +2,8 @@ package forestry.lepidopterology.compat;
 
 import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.utils.JeiUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.JeiUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.ISubtypeRegistration;

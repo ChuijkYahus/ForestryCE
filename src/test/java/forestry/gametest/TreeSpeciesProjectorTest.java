@@ -16,7 +16,7 @@ import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.TreeSpecies;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesProjector;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)

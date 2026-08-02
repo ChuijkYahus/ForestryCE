@@ -3,7 +3,7 @@
 @MethodsReturnNonnullByDefault
 package forestry.apiculture.villagers;
 
-import forestry.core.utils.FieldsAreNonnullByDefault;
+import forestry.core.platform.util.FieldsAreNonnullByDefault;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;

@@ -1,7 +1,7 @@
 package forestry.apiculture.inventory;
 
 import forestry.apiculture.multiblock.TileAlvearyHygroregulator;
-import forestry.core.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.InventoryAdapterTile;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;

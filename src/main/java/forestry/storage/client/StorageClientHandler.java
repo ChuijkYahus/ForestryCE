@@ -3,7 +3,7 @@ package forestry.storage.client;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.gui.GuiNaturalistInventory;
+import forestry.core.platform.gui.GuiNaturalistInventory;
 import forestry.core.platform.registration.IFeatureRegistry;
 import forestry.core.platform.registration.ModFeatureRegistry;
 import forestry.storage.features.BackpackMenuTypes;

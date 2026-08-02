@@ -2,7 +2,7 @@ package forestry.apiculture.network.packets;
 
 import forestry.apiculture.network.ApiculturePacketIds;
 
-import forestry.core.multiblock.MultiblockValidation;
+import forestry.core.platform.multiblock.MultiblockValidation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

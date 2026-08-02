@@ -3,10 +3,10 @@ package forestry.farming.multiblock;
 import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.multiblock.IFarmController;
 import forestry.core.circuits.ISocketable;
-import forestry.core.fluids.ITankManager;
+import forestry.core.platform.fluids.ITankManager;
 import forestry.api.core.IInventoryAdapter;
-import forestry.core.network.IStreamableGui;
-import forestry.core.owner.IOwnedTile;
+import forestry.core.platform.network.IStreamableGui;
+import forestry.core.platform.owner.IOwnedTile;
 import forestry.cultivation.IFarmHousingInternal;
 import forestry.farming.gui.IFarmLedgerDelegate;
 

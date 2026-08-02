@@ -1,7 +1,7 @@
 package forestry.apiculture.hives;
 
 import forestry.api.apiculture.hives.IHivePlacement;
-import forestry.core.utils.BlockUtil;
+import forestry.core.platform.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.TagKey;

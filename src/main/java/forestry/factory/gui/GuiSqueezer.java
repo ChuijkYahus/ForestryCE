@@ -1,9 +1,9 @@
 package forestry.factory.gui;
 
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.widgets.SocketWidget;
-import forestry.core.gui.widgets.TankWidget;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.widgets.SocketWidget;
+import forestry.core.platform.gui.widgets.TankWidget;
 import forestry.factory.tiles.TileSqueezer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

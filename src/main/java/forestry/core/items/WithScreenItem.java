@@ -1,6 +1,6 @@
 package forestry.core.items;
 
-import forestry.core.gui.ContainerItemInventory;
+import forestry.core.platform.gui.ContainerItemInventory;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

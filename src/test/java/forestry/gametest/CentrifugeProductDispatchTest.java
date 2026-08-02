@@ -24,7 +24,7 @@ import forestry.api.core.machines.ICentrifugeRecipe;
 import forestry.apiculture.genetics.FireworkProduct;
 import forestry.core.features.CoreItems;
 import forestry.core.genetics.ProductTypes;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.platform.util.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
 
 /**

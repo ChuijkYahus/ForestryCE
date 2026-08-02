@@ -1,7 +1,7 @@
 package forestry.cultivation.blocks;
 
 import forestry.core.blocks.BlockBase;
-import forestry.core.render.ParticleRender;
+import forestry.core.platform.render.ParticleRender;
 import forestry.cultivation.tiles.TilePlanter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;

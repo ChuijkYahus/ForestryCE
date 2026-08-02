@@ -14,7 +14,7 @@ import forestry.apiculture.inventory.InventorySwarmer;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.tiles.IActivatable;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

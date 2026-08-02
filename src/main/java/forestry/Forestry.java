@@ -4,7 +4,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.EventHandlerCore;
-import forestry.core.config.ForestryConfig;
+import forestry.core.platform.config.ForestryConfig;
 import forestry.modules.ForestryModuleManager;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;

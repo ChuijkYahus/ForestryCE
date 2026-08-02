@@ -2,8 +2,8 @@ package forestry.apiculture.compat;
 
 import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.ISpeciesType;
-import forestry.core.utils.JeiUtil;
-import forestry.core.utils.ModUtil;
+import forestry.core.platform.util.JeiUtil;
+import forestry.core.platform.util.ModUtil;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;

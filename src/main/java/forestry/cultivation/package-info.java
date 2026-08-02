@@ -1,4 +1,4 @@
 @javax.annotation.ParametersAreNonnullByDefault
-@forestry.core.utils.FieldsAreNonnullByDefault
+@forestry.core.platform.util.FieldsAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
 package forestry.cultivation;

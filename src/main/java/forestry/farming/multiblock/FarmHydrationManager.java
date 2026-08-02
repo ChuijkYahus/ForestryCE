@@ -4,7 +4,7 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.api.core.TemperatureType;
-import forestry.core.network.IStreamable;
+import forestry.core.platform.network.IStreamable;
 import forestry.cultivation.IFarmHousingInternal;
 import forestry.farming.gui.IFarmLedgerDelegate;
 import net.minecraft.core.BlockPos;

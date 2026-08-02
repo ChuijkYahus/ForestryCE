@@ -2,10 +2,10 @@ package forestry.mail.carriers.trading;
 
 import com.mojang.authlib.GameProfile;
 import forestry.api.mail.*;
-import forestry.core.inventory.InventoryAdapter;
-import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.NBTUtilForestry;
+import forestry.core.platform.inventory.InventoryAdapter;
+import forestry.core.platform.util.InventoryUtil;
+import forestry.core.platform.util.ItemStackUtil;
+import forestry.core.platform.util.NBTUtilForestry;
 import forestry.mail.*;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.features.MailItems;

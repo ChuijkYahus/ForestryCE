@@ -6,7 +6,7 @@ import forestry.api.apiculture.hives.IHiveFrame;
 import forestry.api.core.genetics.IIndividual;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.apiculture.InventoryBeeHousing;
-import forestry.core.utils.SlotUtil;
+import forestry.core.platform.util.SlotUtil;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

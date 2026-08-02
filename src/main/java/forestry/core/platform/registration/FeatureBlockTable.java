@@ -1,7 +1,7 @@
 package forestry.core.platform.registration;
 
 import forestry.api.core.IBlockSubtype;
-import forestry.core.utils.datastructures.TriFunction;
+import forestry.core.platform.util.datastructures.TriFunction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

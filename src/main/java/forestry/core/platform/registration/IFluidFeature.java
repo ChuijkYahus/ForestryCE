@@ -1,6 +1,6 @@
 package forestry.core.platform.registration;
 
-import forestry.core.fluids.BlockForestryFluid;
+import forestry.core.platform.fluids.BlockForestryFluid;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.neoforged.neoforge.fluids.FluidStack;

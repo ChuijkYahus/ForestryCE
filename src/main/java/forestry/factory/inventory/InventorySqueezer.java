@@ -1,11 +1,11 @@
 package forestry.factory.inventory;
 
-import forestry.core.fluids.FluidHelper;
-import forestry.core.fluids.TankManager;
-import forestry.core.inventory.InventoryAdapterTile;
-import forestry.core.inventory.wrappers.InventoryMapper;
-import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.platform.fluids.FluidHelper;
+import forestry.core.platform.fluids.TankManager;
+import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.wrappers.InventoryMapper;
+import forestry.core.platform.util.InventoryUtil;
+import forestry.core.platform.util.RecipeUtils;
 import forestry.factory.tiles.TileSqueezer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;

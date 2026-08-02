@@ -2,10 +2,10 @@ package forestry.sorting.network.packets;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.core.genetics.ISpecies;
-import forestry.core.network.PacketIdServer;
+import forestry.core.platform.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.NetworkUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.RegistryFriendlyByteBuf;

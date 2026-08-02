@@ -12,7 +12,7 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.arboriculture.TreeSpecies;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Rebuilds arboriculture's runtime genetics state from loaded data. Split out of

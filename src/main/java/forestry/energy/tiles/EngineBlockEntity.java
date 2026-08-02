@@ -2,13 +2,13 @@ package forestry.energy.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.core.config.Constants;
-import forestry.core.network.IStreamableGui;
-import forestry.core.network.packets.PacketActiveUpdate;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.network.IStreamableGui;
+import forestry.core.platform.network.packets.PacketActiveUpdate;
 import forestry.core.tiles.IActivatable;
 import forestry.core.tiles.TemperatureState;
 import forestry.core.tiles.TileBase;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.energy.EnergyHelper;
 import forestry.energy.EnergyTransferMode;
 import forestry.energy.ForestryEnergyStorage;

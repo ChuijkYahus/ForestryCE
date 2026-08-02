@@ -1,10 +1,10 @@
 package forestry.mail.gui;
 
 import forestry.api.mail.IMailAddress;
-import forestry.core.gui.ContainerTile;
-import forestry.core.gui.slots.SlotFiltered;
-import forestry.core.gui.slots.SlotForestry;
-import forestry.core.gui.slots.SlotOutput;
+import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.slots.SlotFiltered;
+import forestry.core.platform.gui.slots.SlotForestry;
+import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.features.MailMenuTypes;

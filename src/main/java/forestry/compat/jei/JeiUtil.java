@@ -4,7 +4,7 @@ import forestry.Forestry;
 import forestry.api.core.genetics.ILifeStage;
 import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.ISpeciesType;
-import forestry.core.utils.ModUtil;
+import forestry.core.platform.util.ModUtil;
 import forestry.core.platform.registration.FeatureItem;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

@@ -2,10 +2,10 @@ package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.circuits.ContainerSolderingIron;
-import forestry.core.gui.PortableAnalyzerMenu;
-import forestry.core.gui.ContainerAnalyzer;
-import forestry.core.gui.ContainerEscritoire;
-import forestry.core.gui.ContainerNaturalistInventory;
+import forestry.core.platform.gui.PortableAnalyzerMenu;
+import forestry.core.platform.gui.ContainerAnalyzer;
+import forestry.core.platform.gui.ContainerEscritoire;
+import forestry.core.platform.gui.ContainerNaturalistInventory;
 import forestry.core.platform.registration.FeatureMenuType;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;

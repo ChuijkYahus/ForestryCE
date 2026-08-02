@@ -1,8 +1,8 @@
 package forestry.worktable.recipes;
 
 import forestry.api.core.INbtWritable;
-import forestry.core.network.IStreamable;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.network.IStreamable;
+import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

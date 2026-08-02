@@ -1,7 +1,7 @@
 package forestry.core.circuits;
 
 import forestry.api.core.circuits.ICircuit;
-import forestry.core.utils.Translator;
+import forestry.core.platform.util.Translator;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 

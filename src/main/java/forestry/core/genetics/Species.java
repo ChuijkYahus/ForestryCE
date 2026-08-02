@@ -4,7 +4,7 @@ import forestry.api.IForestryApi;
 import forestry.api.core.genetics.*;
 import forestry.api.core.genetics.alleles.*;
 import forestry.api.plugin.ISpeciesBuilder;
-import forestry.core.utils.GeneticsUtil;
+import forestry.core.platform.util.GeneticsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

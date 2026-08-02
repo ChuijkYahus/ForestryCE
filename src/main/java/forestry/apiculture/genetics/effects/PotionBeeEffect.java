@@ -8,7 +8,7 @@ import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.genetics.IEffectData;
 import forestry.api.core.genetics.IGenome;
-import forestry.core.render.ParticleRender;
+import forestry.core.platform.render.ParticleRender;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;

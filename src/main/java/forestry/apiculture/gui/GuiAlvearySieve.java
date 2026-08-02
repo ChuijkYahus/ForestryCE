@@ -1,8 +1,8 @@
 package forestry.apiculture.gui;
 
 import forestry.apiculture.multiblock.TileAlvearySieve;
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestryTitled;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 

@@ -16,7 +16,7 @@ import forestry.apiimpl.fake.FakeHiveManager;
 import forestry.apiimpl.fake.FakeTreeManager;
 import forestry.core.circuits.CircuitManager;
 import forestry.core.climate.ForestryClimateManager;
-import forestry.core.errors.ErrorManager;
+import forestry.core.platform.errors.ErrorManager;
 import forestry.modules.ForestryModuleManager;
 import forestry.sorting.FilterManager;
 import org.jetbrains.annotations.ApiStatus;

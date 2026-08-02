@@ -1,6 +1,6 @@
 package forestry.sorting.gui;
 
-import forestry.core.gui.ContainerTile;
+import forestry.core.platform.gui.ContainerTile;
 import forestry.core.tiles.TileUtil;
 import forestry.sorting.features.SortingMenuTypes;
 import forestry.sorting.network.packets.PacketGuiFilterUpdate;

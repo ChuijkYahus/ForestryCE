@@ -8,7 +8,7 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.IMutation;
 import forestry.api.core.genetics.IMutationCondition;
 import forestry.api.core.genetics.MutationConditionType;
-import forestry.core.utils.DayMonth;
+import forestry.core.platform.util.DayMonth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;

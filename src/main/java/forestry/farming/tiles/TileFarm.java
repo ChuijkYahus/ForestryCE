@@ -6,10 +6,10 @@ import forestry.api.core.multiblock.IFarmComponent;
 import forestry.api.core.multiblock.IMultiblockController;
 import forestry.core.circuits.ISocketable;
 import forestry.api.core.IInventoryAdapter;
-import forestry.core.multiblock.MultiblockTileEntityForestry;
-import forestry.core.network.IStreamableGui;
-import forestry.core.owner.IOwnedTile;
-import forestry.core.owner.IOwnerHandler;
+import forestry.core.platform.multiblock.MultiblockTileEntityForestry;
+import forestry.core.platform.network.IStreamableGui;
+import forestry.core.platform.owner.IOwnedTile;
+import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.tiles.ITitled;
 import forestry.farming.gui.ContainerFarm;
 import forestry.farming.multiblock.MultiblockLogicFarm;
@@ -32,12 +32,12 @@ public abstract class TileFarm extends MultiblockTileEntityForestry<MultiblockLo
 	}
 
 	@Override
-	public forestry.core.multiblock.MultiblockController createController(net.minecraft.world.level.Level level) {
+	public forestry.core.platform.multiblock.MultiblockController createController(net.minecraft.world.level.Level level) {
 		return new forestry.farming.multiblock.FarmController(level);
 	}
 
 	@Override
-	public forestry.core.multiblock.pattern.MultiblockPattern getPattern() {
+	public forestry.core.platform.multiblock.pattern.MultiblockPattern getPattern() {
 		return forestry.farming.multiblock.FarmPattern.FARM_PATTERN;
 	}
 

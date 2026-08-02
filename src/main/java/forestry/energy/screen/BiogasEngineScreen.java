@@ -1,7 +1,7 @@
 package forestry.energy.screen;
 
-import forestry.core.config.Constants;
-import forestry.core.gui.widgets.TankWidget;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.widgets.TankWidget;
 import forestry.energy.menu.BiogasEngineMenu;
 import forestry.energy.tiles.BiogasEngineBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;

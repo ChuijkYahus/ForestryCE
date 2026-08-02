@@ -1,10 +1,10 @@
 package forestry.factory.gui;
 
-import forestry.core.gui.ContainerLiquidTanks;
-import forestry.core.gui.slots.SlotFiltered;
-import forestry.core.gui.slots.SlotWatched;
-import forestry.core.gui.slots.SlotWorking;
-import forestry.core.inventory.watchers.ISlotChangeWatcher;
+import forestry.core.platform.gui.ContainerLiquidTanks;
+import forestry.core.platform.gui.slots.SlotFiltered;
+import forestry.core.platform.gui.slots.SlotWatched;
+import forestry.core.platform.gui.slots.SlotWorking;
+import forestry.core.platform.inventory.watchers.ISlotChangeWatcher;
 import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.tiles.TileMoistener;

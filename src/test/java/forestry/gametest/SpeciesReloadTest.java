@@ -16,7 +16,7 @@ import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesManager;
 import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for the reloadable {@code allSpecies} map on {@link forestry.core.genetics.SpeciesType}: proves

@@ -8,7 +8,7 @@ import forestry.api.mail.IMailAddress;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.client.MailClientHandler;

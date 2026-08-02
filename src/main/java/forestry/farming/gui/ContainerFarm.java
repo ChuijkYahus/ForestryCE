@@ -1,11 +1,11 @@
 package forestry.farming.gui;
 
-import forestry.core.gui.ContainerSocketed;
-import forestry.core.gui.IContainerTank;
-import forestry.core.gui.slots.SlotFiltered;
-import forestry.core.gui.slots.SlotLiquidIn;
-import forestry.core.gui.slots.SlotOutput;
-import forestry.core.network.packets.PacketGuiStream;
+import forestry.core.platform.gui.ContainerSocketed;
+import forestry.core.platform.gui.IContainerTank;
+import forestry.core.platform.gui.slots.SlotFiltered;
+import forestry.core.platform.gui.slots.SlotLiquidIn;
+import forestry.core.platform.gui.slots.SlotOutput;
+import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 import forestry.farming.features.FarmingMenuTypes;
 import forestry.farming.multiblock.InventoryFarm;

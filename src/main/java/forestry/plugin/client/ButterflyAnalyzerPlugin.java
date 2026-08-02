@@ -10,8 +10,8 @@ import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
-import forestry.core.utils.GeneticsUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.GeneticsUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 

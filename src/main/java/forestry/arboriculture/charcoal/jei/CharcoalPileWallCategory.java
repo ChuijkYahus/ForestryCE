@@ -5,7 +5,7 @@ import forestry.api.arboriculture.ICharcoalPileWall;
 import forestry.arboriculture.compat.ArboricultureJeiPlugin;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.recipes.jei.ForestryRecipeCategory;
+import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;

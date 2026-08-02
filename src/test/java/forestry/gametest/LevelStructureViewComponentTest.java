@@ -14,7 +14,7 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
-import forestry.core.multiblock.LevelStructureView;
+import forestry.core.platform.multiblock.LevelStructureView;
 import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.features.FarmingBlocks;

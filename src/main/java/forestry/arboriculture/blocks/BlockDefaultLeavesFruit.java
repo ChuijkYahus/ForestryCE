@@ -8,7 +8,7 @@ import forestry.api.client.IForestryClientApi;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.core.utils.BlockUtil;
+import forestry.core.platform.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;

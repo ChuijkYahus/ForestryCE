@@ -3,7 +3,7 @@ package forestry.core.data;
 import forestry.api.ForestryConstants;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.loot.GrafterLootModifier;
-import forestry.core.loot.ConditionLootModifier;
+import forestry.core.platform.loot.ConditionLootModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.HolderLookup;

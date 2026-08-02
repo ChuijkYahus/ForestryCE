@@ -1,6 +1,6 @@
 package forestry.mail.network;
 
-import forestry.core.network.PacketIdServer;
+import forestry.core.platform.network.PacketIdServer;
 import forestry.mail.network.packets.PacketLetterInfoRequest;
 import forestry.mail.network.packets.PacketLetterInfoResponsePlayer;
 import forestry.mail.network.packets.PacketLetterInfoResponseTrader;

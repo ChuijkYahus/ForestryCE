@@ -10,7 +10,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureTiles;
 import forestry.arboriculture.models.*;
-import forestry.core.models.ClientManager;
+import forestry.core.platform.models.ClientManager;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;

@@ -3,7 +3,7 @@ package forestry.mail.tiles;
 import forestry.api.mail.IStamps;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.tiles.TileBase;
-import forestry.core.utils.InventoryUtil;
+import forestry.core.platform.util.InventoryUtil;
 import forestry.mail.PostOffice;
 import forestry.mail.features.MailTiles;
 import forestry.mail.gui.ContainerStampCollector;

@@ -23,8 +23,8 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.core.genetics.IEffectData;
 import forestry.api.core.genetics.IGenome;
-import forestry.core.utils.EntityUtil;
-import forestry.core.utils.ItemStackUtil;
+import forestry.core.platform.util.EntityUtil;
+import forestry.core.platform.util.ItemStackUtil;
 
 /**
  * The {@code forestry:resurrect} primitive: finds mob drops on the floor and resurrects them into their creature

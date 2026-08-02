@@ -3,7 +3,7 @@ package forestry.arboriculture.worldgen.feature;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.core.genetics.IGenome;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
 public record ForestryTreeFeatureConfig(IGenome genome) implements FeatureConfiguration {

@@ -1,7 +1,7 @@
 package forestry.core.circuits;
 
 import forestry.api.core.IItemSubtype;
-import forestry.core.render.ColourProperties;
+import forestry.core.platform.render.ColourProperties;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 

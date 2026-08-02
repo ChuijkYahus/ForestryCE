@@ -4,7 +4,7 @@ import forestry.api.agriculture.IFarmHousing;
 import forestry.api.agriculture.IFarmType;
 import forestry.api.agriculture.IFarmable;
 import forestry.api.agriculture.Soil;
-import forestry.core.utils.BlockUtil;
+import forestry.core.platform.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;

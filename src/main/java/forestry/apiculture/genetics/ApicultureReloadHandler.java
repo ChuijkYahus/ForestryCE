@@ -15,7 +15,7 @@ import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.apiculture.BeeSpecies;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Rebuilds apiculture's runtime genetics state from loaded data. Split out of

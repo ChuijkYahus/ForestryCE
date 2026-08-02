@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import forestry.api.client.ForestrySprites;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.mail.IPostalCarrier;
-import forestry.core.gui.widgets.Widget;
-import forestry.core.gui.widgets.WidgetManager;
-import forestry.core.utils.SoundUtil;
+import forestry.core.platform.gui.widgets.Widget;
+import forestry.core.platform.gui.widgets.WidgetManager;
+import forestry.core.platform.util.SoundUtil;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class AddresseeSlot extends Widget {

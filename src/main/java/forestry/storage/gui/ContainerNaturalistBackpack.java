@@ -2,10 +2,10 @@ package forestry.storage.gui;
 
 import forestry.api.IForestryApi;
 import forestry.api.core.genetics.ISpeciesType;
-import forestry.core.gui.ContainerItemInventory;
-import forestry.core.gui.ContainerNaturalistInventory;
-import forestry.core.gui.IGuiSelectable;
-import forestry.core.gui.INaturalistMenu;
+import forestry.core.platform.gui.ContainerItemInventory;
+import forestry.core.platform.gui.ContainerNaturalistInventory;
+import forestry.core.platform.gui.IGuiSelectable;
+import forestry.core.platform.gui.INaturalistMenu;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.inventory.PagedBackpackInventory;
 import forestry.storage.items.BackpackItem;

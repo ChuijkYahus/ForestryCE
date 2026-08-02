@@ -12,7 +12,7 @@ import forestry.api.agriculture.IFarmable;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import forestry.farming.logic.crops.CropDestroy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;

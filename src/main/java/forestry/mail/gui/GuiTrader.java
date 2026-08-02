@@ -1,8 +1,8 @@
 package forestry.mail.gui;
 
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestry;
-import forestry.core.render.ColourProperties;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.render.ColourProperties;
 import forestry.mail.tiles.TileTrader;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

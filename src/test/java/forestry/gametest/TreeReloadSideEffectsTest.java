@@ -18,7 +18,7 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Exercises {@code TreeSpeciesType}'s overridden {@code setSpecies} directly, without going through

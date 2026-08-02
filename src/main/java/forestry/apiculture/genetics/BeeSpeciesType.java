@@ -21,7 +21,7 @@ import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
 import forestry.apiculture.plugin.ApicultureRegistration;
-import forestry.core.config.ForestryConfig;
+import forestry.core.platform.config.ForestryConfig;
 import forestry.core.genetics.BreedingTracker;
 import forestry.core.genetics.SpeciesType;
 import forestry.core.genetics.root.BreedingTrackerManager;

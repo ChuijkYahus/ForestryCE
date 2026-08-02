@@ -5,7 +5,7 @@ import forestry.apiculture.blocks.BlockApiculture;
 import forestry.apiculture.items.ItemBeeGE;
 import forestry.apiculture.tiles.TileBeeHouse;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.InventoryUtil;
+import forestry.core.platform.util.InventoryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;

@@ -1,7 +1,7 @@
 package forestry.mail.client;
 
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import forestry.core.models.ClientManager;
+import forestry.core.platform.models.ClientManager;
 import forestry.mail.features.MailItems;
 import forestry.api.client.IClientModuleHandler;
 import forestry.mail.features.MailMenuTypes;

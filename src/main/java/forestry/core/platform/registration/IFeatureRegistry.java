@@ -4,7 +4,7 @@ import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
 import forestry.api.core.backpacks.EnumBackpackType;
 import forestry.api.core.backpacks.IBackpackDefinition;
-import forestry.core.utils.datastructures.TriFunction;
+import forestry.core.platform.util.datastructures.TriFunction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

@@ -1,9 +1,9 @@
 package forestry.cultivation.gui;
 
-import forestry.core.config.Constants;
+import forestry.core.platform.config.Constants;
 import forestry.core.features.CoreItems;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.widgets.TankWidget;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.widgets.TankWidget;
 import forestry.cultivation.gui.widgets.GhostItemStackWidget;
 import forestry.cultivation.inventory.InventoryPlanter;
 import forestry.cultivation.tiles.TilePlanter;

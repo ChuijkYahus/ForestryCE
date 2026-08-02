@@ -1,7 +1,7 @@
 package forestry.mail.gui;
 
 import forestry.api.mail.IMailAddress;
-import forestry.core.gui.ContainerTile;
+import forestry.core.platform.gui.ContainerTile;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.tiles.TileTrader;

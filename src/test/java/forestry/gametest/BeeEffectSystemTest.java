@@ -44,9 +44,9 @@ import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.apiculture.genetics.effects.ThrottleSettings;
 import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.platform.damage.CoreDamageTypes;
 import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for the data-driven bee effect system ported onto the upstream foundation (migration Module 2).

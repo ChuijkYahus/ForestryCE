@@ -1,9 +1,9 @@
 package forestry.mail.inventory;
 
 import forestry.api.mail.IStamps;
-import forestry.core.inventory.InventoryAdapter;
-import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.SlotUtil;
+import forestry.core.platform.inventory.InventoryAdapter;
+import forestry.core.platform.util.ItemStackUtil;
+import forestry.core.platform.util.SlotUtil;
 import forestry.mail.carriers.trading.TradeStation;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;

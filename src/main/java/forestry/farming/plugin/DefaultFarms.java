@@ -12,7 +12,7 @@ import forestry.api.plugin.IFarmingRegistration;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemFruit;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import forestry.farming.logic.*;
 import forestry.farming.logic.farmables.*;
 import net.minecraft.resources.ResourceLocation;

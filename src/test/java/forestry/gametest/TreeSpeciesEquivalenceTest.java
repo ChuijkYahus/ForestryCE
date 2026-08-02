@@ -29,7 +29,7 @@ import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.arboriculture.TreeSpecies;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesProjector;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * The pivotal "no behavior change" proof for Stage 4's tree species datagen: for every built-in tree species,

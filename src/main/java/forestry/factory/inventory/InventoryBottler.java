@@ -1,7 +1,7 @@
 package forestry.factory.inventory;
 
-import forestry.core.fluids.FluidHelper;
-import forestry.core.inventory.InventoryAdapterTile;
+import forestry.core.platform.fluids.FluidHelper;
+import forestry.core.platform.inventory.InventoryAdapterTile;
 import forestry.factory.tiles.TileBottler;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;

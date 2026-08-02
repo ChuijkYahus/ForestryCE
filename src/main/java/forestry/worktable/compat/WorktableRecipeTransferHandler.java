@@ -1,7 +1,7 @@
 package forestry.worktable.compat;
 
 import forestry.compat.jei.JeiUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.platform.util.RecipeUtils;
 import forestry.worktable.features.WorktableMenus;
 import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.screens.WorktableMenu;

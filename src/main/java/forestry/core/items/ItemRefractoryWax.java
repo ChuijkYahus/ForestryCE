@@ -1,8 +1,8 @@
 package forestry.core.items;
 
 import forestry.api.IForestryApi;
-import forestry.core.network.packets.PacketRefractoryWax;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.network.packets.PacketRefractoryWax;
+import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;

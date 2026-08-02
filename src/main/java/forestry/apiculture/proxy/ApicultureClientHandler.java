@@ -1,7 +1,7 @@
 package forestry.apiculture.proxy;
 
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import forestry.core.models.ClientManager;
+import forestry.core.platform.models.ClientManager;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;

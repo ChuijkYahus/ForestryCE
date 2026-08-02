@@ -2,7 +2,7 @@ package forestry.factory.tiles;
 
 import forestry.api.core.machines.fuels.FuelManager;
 import forestry.api.core.machines.fuels.RainSubstrate;
-import forestry.core.render.ParticleRender;
+import forestry.core.platform.render.ParticleRender;
 import forestry.core.tiles.TileMill;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.inventory.InventoryRainmaker;

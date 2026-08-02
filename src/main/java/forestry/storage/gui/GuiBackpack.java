@@ -1,7 +1,7 @@
 package forestry.storage.gui;
 
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestry;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 

@@ -3,7 +3,7 @@ package forestry.core.features;
 import com.mojang.serialization.MapCodec;
 import forestry.api.ForestryConstants;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.worldgen.ForestryBiomeModifier;
+import forestry.core.platform.worldgen.ForestryBiomeModifier;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.core.registries.Registries;

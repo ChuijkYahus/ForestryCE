@@ -1,9 +1,9 @@
 package forestry.apiculture.gui;
 
 import forestry.apiculture.multiblock.TileAlvearyHygroregulator;
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.widgets.TankWidget;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.widgets.TankWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 

@@ -1,6 +1,6 @@
 package forestry.worktable.inventory;
 
-import forestry.core.gui.DummyMenu;
+import forestry.core.platform.gui.DummyMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.TransientCraftingContainer;
 

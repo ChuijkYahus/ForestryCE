@@ -1,8 +1,8 @@
 package forestry.factory.network.packets;
 
-import forestry.core.network.PacketIdClient;
+import forestry.core.platform.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.factory.tiles.TileCarpenter;
 import forestry.factory.tiles.TileFabricator;
 import net.minecraft.core.BlockPos;

@@ -2,11 +2,11 @@ package forestry.factory.recipes.jei.carpenter;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.ICarpenterRecipe;
-import forestry.core.config.Constants;
-import forestry.core.recipes.jei.ForestryRecipeCategory;
-import forestry.core.recipes.jei.ForestryRecipeType;
-import forestry.core.utils.JeiUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
+import forestry.core.platform.recipes.jei.ForestryRecipeType;
+import forestry.core.platform.util.JeiUtil;
+import forestry.core.platform.util.RecipeUtils;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;

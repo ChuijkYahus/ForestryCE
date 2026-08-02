@@ -2,7 +2,7 @@ package forestry.energy.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.machines.fuels.FuelManager;
-import forestry.core.config.Constants;
+import forestry.core.platform.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.tiles.TemperatureState;

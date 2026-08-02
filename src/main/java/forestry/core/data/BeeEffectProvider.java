@@ -30,7 +30,7 @@ import forestry.apiculture.genetics.effects.PotionBeeEffect;
 import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.apiculture.genetics.effects.ThrottleSettings;
 import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.platform.damage.CoreDamageTypes;
 
 /**
  * Generates {@code data/forestry/bee_effect/*.json} for the built-in bee effects that are expressible through the

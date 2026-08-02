@@ -1,6 +1,6 @@
 package forestry.energy.screen;
 
-import forestry.core.config.Constants;
+import forestry.core.platform.config.Constants;
 import forestry.energy.menu.PeatEngineMenu;
 import forestry.energy.tiles.PeatEngineBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;

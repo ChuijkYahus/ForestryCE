@@ -2,10 +2,10 @@ package forestry.worktable.recipes;
 
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
-import forestry.core.network.IStreamable;
-import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.NetworkUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.platform.network.IStreamable;
+import forestry.core.platform.util.InventoryUtil;
+import forestry.core.platform.util.NetworkUtil;
+import forestry.core.platform.util.RecipeUtils;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

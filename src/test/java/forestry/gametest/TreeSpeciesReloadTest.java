@@ -21,7 +21,7 @@ import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.core.genetics.GeneticsReloadHandler;
 import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Note: {@code TreeSpeciesProvider.buildDefinitions()} (Task 8) doesn't exist yet, so {@code rebuildRepopulatesSpecies}

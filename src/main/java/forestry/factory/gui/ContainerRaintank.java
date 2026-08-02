@@ -1,8 +1,8 @@
 package forestry.factory.gui;
 
-import forestry.core.gui.ContainerLiquidTanks;
-import forestry.core.gui.slots.SlotEmptyLiquidContainerIn;
-import forestry.core.gui.slots.SlotOutput;
+import forestry.core.platform.gui.ContainerLiquidTanks;
+import forestry.core.platform.gui.slots.SlotEmptyLiquidContainerIn;
+import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.tiles.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryRaintank;

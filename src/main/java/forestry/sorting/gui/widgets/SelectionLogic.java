@@ -1,8 +1,8 @@
 package forestry.sorting.gui.widgets;
 
 import forestry.api.core.tooltips.ToolTip;
-import forestry.core.gui.GuiForestry;
-import forestry.core.gui.widgets.IScrollable;
+import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.widgets.IScrollable;
 import forestry.sorting.gui.ISelectableProvider;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

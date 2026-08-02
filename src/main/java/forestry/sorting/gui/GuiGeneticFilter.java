@@ -2,11 +2,11 @@ package forestry.sorting.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import forestry.api.core.genetics.filter.IFilterLogic;
-import forestry.core.config.Constants;
-import forestry.core.gui.Drawable;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.widgets.Widget;
-import forestry.core.gui.widgets.WidgetScrollBar;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.Drawable;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.widgets.Widget;
+import forestry.core.platform.gui.widgets.WidgetScrollBar;
 import forestry.sorting.gui.widgets.RuleWidget;
 import forestry.sorting.gui.widgets.SelectionWidget;
 import forestry.sorting.gui.widgets.SpeciesWidget;

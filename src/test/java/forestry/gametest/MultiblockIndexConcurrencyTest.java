@@ -1,8 +1,8 @@
 package forestry.gametest;
 
 import forestry.api.ForestryConstants;
-import forestry.core.multiblock.MultiblockController;
-import forestry.core.multiblock.MultiblockIndex;
+import forestry.core.platform.multiblock.MultiblockController;
+import forestry.core.platform.multiblock.MultiblockIndex;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;

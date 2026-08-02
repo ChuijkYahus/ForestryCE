@@ -1,8 +1,8 @@
 package forestry.core.items;
 
 import forestry.core.features.CoreDataComponents;
-import forestry.core.gui.PortableAnalyzerMenu;
-import forestry.core.inventory.PortableAnalyzerInventory;
+import forestry.core.platform.gui.PortableAnalyzerMenu;
+import forestry.core.platform.inventory.PortableAnalyzerInventory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

@@ -1,6 +1,6 @@
 package forestry.apiculture.items;
 
-import forestry.core.config.Constants;
+import forestry.core.platform.config.Constants;
 import forestry.core.items.ItemForestryFood;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

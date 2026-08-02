@@ -16,7 +16,7 @@ import forestry.api.core.genetics.alleles.AllelePair;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.core.genetics.Individual;
 import forestry.core.genetics.mutations.Mutation;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;

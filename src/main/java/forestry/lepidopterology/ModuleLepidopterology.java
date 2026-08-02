@@ -4,7 +4,7 @@ import forestry.lepidopterology.network.LepidopterologyPacketIds;
 import forestry.api.modules.IPacketRegistry;
 import forestry.lepidopterology.genetics.ButterflySpeciesManager;
 import forestry.lepidopterology.network.ButterflySpeciesSyncPacket;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.NetworkUtil;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;

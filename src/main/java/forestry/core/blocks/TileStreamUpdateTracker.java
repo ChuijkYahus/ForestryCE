@@ -1,6 +1,6 @@
 package forestry.core.blocks;
 
-import forestry.core.network.packets.PacketTileStream;
+import forestry.core.platform.network.packets.PacketTileStream;
 import forestry.core.tiles.TileForestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;

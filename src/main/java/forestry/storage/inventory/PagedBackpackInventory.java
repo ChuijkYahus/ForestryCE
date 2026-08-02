@@ -1,6 +1,6 @@
 package forestry.storage.inventory;
 
-import forestry.core.gui.IPagedInventory;
+import forestry.core.platform.gui.IPagedInventory;
 import forestry.storage.gui.ContainerNaturalistBackpack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

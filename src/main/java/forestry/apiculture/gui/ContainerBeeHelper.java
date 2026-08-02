@@ -2,9 +2,9 @@ package forestry.apiculture.gui;
 
 import forestry.apiculture.InventoryBeeHousing;
 import forestry.apiculture.inventory.InventoryApiary;
-import forestry.core.gui.ContainerForestry;
-import forestry.core.gui.slots.SlotFiltered;
-import forestry.core.gui.slots.SlotOutput;
+import forestry.core.platform.gui.ContainerForestry;
+import forestry.core.platform.gui.slots.SlotFiltered;
+import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.api.core.IFilterSlotDelegate;
 import net.minecraft.world.Container;
 

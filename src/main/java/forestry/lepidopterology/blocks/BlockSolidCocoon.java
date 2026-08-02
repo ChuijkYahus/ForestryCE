@@ -1,6 +1,6 @@
 package forestry.lepidopterology.blocks;
 
-import forestry.core.utils.ItemStackUtil;
+import forestry.core.platform.util.ItemStackUtil;
 import forestry.lepidopterology.tiles.TileCocoon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

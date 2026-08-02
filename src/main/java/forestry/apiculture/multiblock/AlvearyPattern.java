@@ -3,10 +3,10 @@ package forestry.apiculture.multiblock;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import forestry.core.multiblock.pattern.CellPredicate;
-import forestry.core.multiblock.pattern.MultiblockPattern;
-import forestry.core.multiblock.pattern.Predicates;
-import forestry.core.multiblock.pattern.StructurePos;
+import forestry.core.platform.multiblock.pattern.CellPredicate;
+import forestry.core.platform.multiblock.pattern.MultiblockPattern;
+import forestry.core.platform.multiblock.pattern.Predicates;
+import forestry.core.platform.multiblock.pattern.StructurePos;
 
 /**
  * The declarative Alveary pattern (spec 5.1), modeling {@code AlvearyController.isMachineWhole} plus the

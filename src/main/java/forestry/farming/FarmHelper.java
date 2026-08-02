@@ -1,7 +1,7 @@
 package forestry.farming;
 
 import forestry.api.agriculture.*;
-import forestry.core.utils.VecUtil;
+import forestry.core.platform.util.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;

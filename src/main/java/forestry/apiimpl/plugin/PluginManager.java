@@ -26,7 +26,7 @@ import forestry.apiimpl.client.genetics.GeneticClientManager;
 import forestry.apiimpl.client.plugin.ClientRegistration;
 import forestry.core.circuits.CircuitLayout;
 import forestry.core.circuits.CircuitManager;
-import forestry.core.errors.ErrorManager;
+import forestry.core.platform.errors.ErrorManager;
 import forestry.core.genetics.PollenManager;
 import forestry.sorting.FilterManager;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;

@@ -1,8 +1,8 @@
 package forestry.worktable.network.packets;
 
-import forestry.core.network.PacketIdServer;
+import forestry.core.platform.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.screens.WorktableMenu;
 import forestry.worktable.tiles.WorktableTile;

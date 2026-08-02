@@ -7,7 +7,7 @@ import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.core.genetics.IMutationManager;
 import forestry.api.core.genetics.ISpecies;
 import forestry.core.genetics.BreedingTracker;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.nbt.CompoundTag;
 
 public class ApiaristTracker extends BreedingTracker implements IApiaristTracker {

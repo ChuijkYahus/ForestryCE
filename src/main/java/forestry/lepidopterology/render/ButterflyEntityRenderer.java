@@ -1,7 +1,7 @@
 package forestry.lepidopterology.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import forestry.core.render.ForestryModelLayers;
+import forestry.core.platform.render.ForestryModelLayers;
 import forestry.lepidopterology.entities.EntityButterfly;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

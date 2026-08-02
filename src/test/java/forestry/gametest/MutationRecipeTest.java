@@ -59,7 +59,7 @@ import forestry.core.genetics.mutations.MutationConditionTemperature;
 import forestry.core.genetics.mutations.MutationConditionTimeLimited;
 import forestry.core.genetics.mutations.MutationConditionTypes;
 import forestry.core.genetics.mutations.MutationRecipe;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for "mutations as recipes". Proves that the datapack-loaded mutation recipes were parsed into the

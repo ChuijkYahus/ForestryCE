@@ -2,7 +2,7 @@ package forestry.storage.items;
 
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.IColoredItem;
-import forestry.core.utils.ItemStackUtil;
+import forestry.core.platform.util.ItemStackUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.network.chat.Component;

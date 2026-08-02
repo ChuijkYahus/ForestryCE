@@ -20,7 +20,7 @@ import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.genetics.IndividualLiving;
 import forestry.core.genetics.mutations.Mutation;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import forestry.lepidopterology.ModuleLepidopterology;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

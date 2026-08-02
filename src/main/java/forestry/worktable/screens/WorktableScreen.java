@@ -1,12 +1,12 @@
 package forestry.worktable.screens;
 
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.buttons.GuiBetterButton;
-import forestry.core.gui.buttons.StandardButtonTextureSets;
-import forestry.core.network.packets.PacketGuiSelectRequest;
-import forestry.core.utils.NetworkUtil;
-import forestry.core.utils.SoundUtil;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.buttons.GuiBetterButton;
+import forestry.core.platform.gui.buttons.StandardButtonTextureSets;
+import forestry.core.platform.network.packets.PacketGuiSelectRequest;
+import forestry.core.platform.util.NetworkUtil;
+import forestry.core.platform.util.SoundUtil;
 import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.screens.widgets.ClearWorktable;
 import forestry.worktable.screens.widgets.MemorizedRecipeSlot;

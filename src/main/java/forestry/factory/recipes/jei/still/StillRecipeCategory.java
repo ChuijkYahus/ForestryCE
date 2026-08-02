@@ -2,9 +2,9 @@ package forestry.factory.recipes.jei.still;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.IStillRecipe;
-import forestry.core.config.Constants;
-import forestry.core.recipes.jei.ForestryRecipeCategory;
-import forestry.core.recipes.jei.ForestryRecipeType;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
+import forestry.core.platform.recipes.jei.ForestryRecipeType;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;

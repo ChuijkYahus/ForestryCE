@@ -1,8 +1,8 @@
 package forestry.farming.multiblock;
 
 import forestry.api.core.multiblock.IMultiblockLogicFarm;
-import forestry.core.multiblock.MultiblockController;
-import forestry.core.multiblock.MultiblockLogicBase;
+import forestry.core.platform.multiblock.MultiblockController;
+import forestry.core.platform.multiblock.MultiblockLogicBase;
 
 public class MultiblockLogicFarm extends MultiblockLogicBase implements IMultiblockLogicFarm {
 	public MultiblockLogicFarm() {

@@ -4,7 +4,7 @@ import forestry.core.blocks.BlockBase;
 import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
-import forestry.core.config.Constants;
+import forestry.core.platform.config.Constants;
 import forestry.core.tiles.IForestryTicker;
 import forestry.core.tiles.TileBase;
 import forestry.core.tiles.TileMill;

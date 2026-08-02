@@ -2,7 +2,7 @@ package forestry.apiculture.items;
 
 import forestry.api.apiculture.hives.IHiveTile;
 import forestry.core.items.ItemForestry;
-import forestry.core.render.ParticleRender;
+import forestry.core.platform.render.ParticleRender;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

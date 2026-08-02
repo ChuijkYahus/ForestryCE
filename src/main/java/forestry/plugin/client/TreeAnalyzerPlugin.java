@@ -10,8 +10,8 @@ import forestry.api.core.ISpecialtyProducer;
 import forestry.api.core.genetics.ILifeStage;
 import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.core.utils.GeneticsUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.GeneticsUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 

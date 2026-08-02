@@ -1,6 +1,6 @@
 package forestry.factory.inventory;
 
-import forestry.core.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.InventoryAdapterTile;
 import forestry.factory.tiles.TileRaintank;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;

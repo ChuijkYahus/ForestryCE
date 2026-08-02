@@ -5,7 +5,7 @@ import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.arboriculture.tiles.TileTreeContainer;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;

@@ -23,7 +23,7 @@ import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 import forestry.api.apiculture.ForestryActivityTypes;
-import forestry.core.utils.GeneticsUtil;
+import forestry.core.platform.util.GeneticsUtil;
 
 public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSpecies {
 	private final List<IProduct> products;

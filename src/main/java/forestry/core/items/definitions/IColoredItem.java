@@ -5,7 +5,7 @@ import net.minecraft.world.item.ItemStack;
 /**
  * Gives an item the ability to be colored.
  * <p>
- * Item marked with this class get registered to the minecraft color system by {@link forestry.core.models.ClientManager}
+ * Item marked with this class get registered to the minecraft color system by {@link forestry.core.platform.models.ClientManager}
  */
 public interface IColoredItem {
 	/**

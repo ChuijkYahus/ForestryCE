@@ -1,7 +1,7 @@
 package forestry.mail.inventory;
 
 import forestry.api.mail.IStamps;
-import forestry.core.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.InventoryAdapterTile;
 import forestry.mail.tiles.TileStampCollector;
 import net.minecraft.world.item.ItemStack;
 

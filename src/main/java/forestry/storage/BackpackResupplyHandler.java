@@ -1,7 +1,7 @@
 package forestry.storage;
 
 import forestry.api.core.backpacks.BackpackResupplyEvent;
-import forestry.core.inventory.ItemInventory;
+import forestry.core.platform.inventory.ItemInventory;
 import forestry.storage.inventory.BackpackInventory;
 import forestry.storage.items.BackpackItem;
 import net.minecraft.core.NonNullList;

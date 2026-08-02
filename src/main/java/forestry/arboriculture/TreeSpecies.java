@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ForestryFruits;
-import forestry.core.utils.GeneticsUtil;
+import forestry.core.platform.util.GeneticsUtil;
 
 public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITreeSpecies {
 	private final TemperatureType temperature;

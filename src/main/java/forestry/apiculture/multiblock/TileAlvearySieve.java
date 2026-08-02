@@ -7,7 +7,7 @@ import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.gui.ContainerAlvearySieve;
 import forestry.apiculture.inventory.InventoryAlvearySieve;
 import forestry.api.core.IInventoryAdapter;
-import forestry.core.inventory.watchers.ISlotPickupWatcher;
+import forestry.core.platform.inventory.watchers.ISlotPickupWatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

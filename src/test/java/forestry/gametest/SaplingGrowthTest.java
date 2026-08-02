@@ -15,7 +15,7 @@ import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.genetics.TreeGrowthHelper;
 import forestry.arboriculture.tiles.TileSapling;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Regression test for Forestry saplings never growing (on bonemeal or random tick) after the allele-foundation

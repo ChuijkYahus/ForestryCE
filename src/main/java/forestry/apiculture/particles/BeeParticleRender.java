@@ -21,8 +21,8 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.genetics.Bee;
 import forestry.apiculture.genetics.effects.ThrottledBeeEffect;
-import forestry.core.render.ParticleRender;
-import forestry.core.utils.VecUtil;
+import forestry.core.platform.render.ParticleRender;
+import forestry.core.platform.util.VecUtil;
 
 /**
  * Bee-specific particle spawns. Split out of {@link ParticleRender} so the base artifact does not

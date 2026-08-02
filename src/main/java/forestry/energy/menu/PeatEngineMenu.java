@@ -1,9 +1,9 @@
 package forestry.energy.menu;
 
-import forestry.core.gui.ContainerTile;
-import forestry.core.gui.slots.SlotFiltered;
-import forestry.core.gui.slots.SlotOutput;
-import forestry.core.network.packets.PacketGuiStream;
+import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.slots.SlotFiltered;
+import forestry.core.platform.gui.slots.SlotOutput;
+import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 import forestry.energy.features.EnergyMenus;
 import forestry.energy.tiles.PeatEngineBlockEntity;

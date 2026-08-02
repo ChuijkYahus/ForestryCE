@@ -11,10 +11,10 @@ import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.gui.ContainerAlveary;
 import forestry.api.core.IInventoryAdapter;
-import forestry.core.multiblock.MultiblockTileEntityForestry;
-import forestry.core.network.IStreamableGui;
-import forestry.core.owner.IOwnedTile;
-import forestry.core.owner.IOwnerHandler;
+import forestry.core.platform.multiblock.MultiblockTileEntityForestry;
+import forestry.core.platform.network.IStreamableGui;
+import forestry.core.platform.owner.IOwnedTile;
+import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.tiles.ITitled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -53,12 +53,12 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 	}
 
 	@Override
-	public forestry.core.multiblock.MultiblockController createController(net.minecraft.world.level.Level level) {
+	public forestry.core.platform.multiblock.MultiblockController createController(net.minecraft.world.level.Level level) {
 		return new AlvearyController(level);
 	}
 
 	@Override
-	public forestry.core.multiblock.pattern.MultiblockPattern getPattern() {
+	public forestry.core.platform.multiblock.pattern.MultiblockPattern getPattern() {
 		return AlvearyPattern.ALVEARY_PATTERN;
 	}
 

@@ -1,8 +1,8 @@
 package forestry.energy.inventory;
 
 import forestry.api.core.machines.fuels.FuelManager;
-import forestry.core.inventory.InventoryAdapterTile;
-import forestry.core.utils.SlotUtil;
+import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.core.platform.util.SlotUtil;
 import forestry.energy.tiles.PeatEngineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;

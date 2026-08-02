@@ -1,7 +1,7 @@
 package forestry.storage;
 
 import forestry.api.core.backpacks.IBackpackDefinition;
-import forestry.core.utils.NBTUtilForestry;
+import forestry.core.platform.util.NBTUtilForestry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

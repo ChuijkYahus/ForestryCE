@@ -1,6 +1,6 @@
 package forestry.storage;
 
-import forestry.core.utils.TagUtil;
+import forestry.core.platform.util.TagUtil;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;

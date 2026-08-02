@@ -6,7 +6,7 @@ import forestry.arboriculture.loot.GrafterLootModifier;
 import forestry.api.ForestryConstants;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.arboriculture.network.TreeSpeciesSyncPacket;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.util.NetworkUtil;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import forestry.arboriculture.network.ArboriculturePacketIds;

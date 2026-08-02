@@ -2,9 +2,9 @@ package forestry.core.items;
 
 import forestry.api.core.IToolPipette;
 import forestry.core.features.CoreDataComponents;
-import forestry.core.fluids.PipetteContents;
+import forestry.core.platform.fluids.PipetteContents;
 import forestry.core.items.definitions.IColoredItem;
-import forestry.core.utils.RenderUtil;
+import forestry.core.platform.util.RenderUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

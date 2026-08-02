@@ -1,6 +1,6 @@
 package forestry.energy.inventory;
 
-import forestry.core.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.InventoryAdapterTile;
 import forestry.energy.tiles.BiogasEngineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;

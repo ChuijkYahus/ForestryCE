@@ -1,7 +1,7 @@
 package forestry.core.tiles;
 
 import forestry.core.features.CoreTiles;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 

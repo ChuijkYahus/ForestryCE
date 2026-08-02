@@ -23,7 +23,7 @@ import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.plugin.ArboricultureRegistration;
 import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Generates {@code data/forestry/tree_species/*.json} for every built-in tree, read directly from the

@@ -2,8 +2,8 @@ package forestry.mail.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import forestry.api.ForestryConstants;
-import forestry.core.config.Constants;
-import forestry.core.config.ForestryConfig;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.config.ForestryConfig;
 import forestry.mail.carriers.players.POBoxInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

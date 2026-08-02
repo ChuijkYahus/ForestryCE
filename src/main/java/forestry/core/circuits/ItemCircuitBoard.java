@@ -7,7 +7,7 @@ import forestry.api.core.circuits.ICircuitLayout;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.IColoredItem;
-import forestry.core.utils.NBTUtilForestry;
+import forestry.core.platform.util.NBTUtilForestry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

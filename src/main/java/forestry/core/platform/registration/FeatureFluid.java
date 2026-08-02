@@ -1,7 +1,7 @@
 package forestry.core.platform.registration;
 
 import forestry.core.ForestryColors;
-import forestry.core.fluids.BlockForestryFluid;
+import forestry.core.platform.fluids.BlockForestryFluid;
 import forestry.core.items.definitions.DrinkProperties;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;

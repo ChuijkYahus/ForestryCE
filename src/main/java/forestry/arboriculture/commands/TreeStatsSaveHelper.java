@@ -3,8 +3,8 @@ package forestry.arboriculture.commands;
 import com.mojang.authlib.GameProfile;
 import forestry.api.core.genetics.IBreedingTracker;
 import forestry.api.core.genetics.ISpecies;
-import forestry.core.commands.IStatsSaveHelper;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.commands.IStatsSaveHelper;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 

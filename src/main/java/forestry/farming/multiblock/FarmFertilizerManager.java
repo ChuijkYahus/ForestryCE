@@ -2,7 +2,7 @@ package forestry.farming.multiblock;
 
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
-import forestry.core.network.IStreamable;
+import forestry.core.platform.network.IStreamable;
 import forestry.cultivation.IFarmHousingInternal;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

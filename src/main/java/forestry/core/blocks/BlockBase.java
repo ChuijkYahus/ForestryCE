@@ -5,7 +5,7 @@ import forestry.core.circuits.ISocketable;
 import forestry.core.tiles.TileBase;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.InventoryUtil;
+import forestry.core.platform.util.InventoryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

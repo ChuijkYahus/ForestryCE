@@ -2,7 +2,7 @@ package forestry.farming.logic.farmables;
 
 import forestry.api.agriculture.ICrop;
 import forestry.api.agriculture.IFarmable;
-import forestry.core.utils.BlockUtil;
+import forestry.core.platform.util.BlockUtil;
 import forestry.farming.logic.crops.CropChorusFlower;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;

@@ -1,7 +1,7 @@
 package forestry.farming.logic.crops;
 
-import forestry.core.utils.BlockUtil;
-import forestry.core.utils.ItemStackUtil;
+import forestry.core.platform.util.BlockUtil;
+import forestry.core.platform.util.ItemStackUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

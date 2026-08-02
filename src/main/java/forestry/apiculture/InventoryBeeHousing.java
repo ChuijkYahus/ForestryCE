@@ -3,10 +3,10 @@ package forestry.apiculture;
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.core.genetics.ILifeStage;
-import forestry.core.inventory.InventoryAdapterRestricted;
-import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.SlotUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.inventory.InventoryAdapterRestricted;
+import forestry.core.platform.util.InventoryUtil;
+import forestry.core.platform.util.SlotUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 

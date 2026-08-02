@@ -1,9 +1,9 @@
 package forestry.factory.recipes.jei.carpenter;
 
 import forestry.api.core.machines.ICarpenterRecipe;
-import forestry.core.recipes.jei.ForestryRecipeType;
-import forestry.core.utils.JeiUtil;
-import forestry.core.utils.NetworkUtil;
+import forestry.core.platform.recipes.jei.ForestryRecipeType;
+import forestry.core.platform.util.JeiUtil;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.gui.ContainerCarpenter;
 import forestry.factory.network.packets.PacketRecipeTransferRequest;

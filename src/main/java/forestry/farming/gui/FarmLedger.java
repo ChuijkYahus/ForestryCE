@@ -1,9 +1,9 @@
 package forestry.farming.gui;
 
-import forestry.core.gui.ledgers.Ledger;
-import forestry.core.gui.ledgers.LedgerManager;
-import forestry.core.utils.ResourceUtil;
-import forestry.core.utils.StringUtil;
+import forestry.core.platform.gui.ledgers.Ledger;
+import forestry.core.platform.gui.ledgers.LedgerManager;
+import forestry.core.platform.util.ResourceUtil;
+import forestry.core.platform.util.StringUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

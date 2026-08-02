@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
-import forestry.core.inventory.InventoryAdapter;
+import forestry.core.platform.inventory.InventoryAdapter;
 import forestry.core.tiles.TileBase;
 import forestry.mail.LetterUtils;
 import forestry.mail.MailAddress;

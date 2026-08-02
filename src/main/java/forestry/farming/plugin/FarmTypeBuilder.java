@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import forestry.api.agriculture.*;
 import forestry.api.plugin.IFarmTypeBuilder;
 import forestry.api.plugin.IWindfallFarmableBuilder;
-import forestry.core.utils.ModUtil;
+import forestry.core.platform.util.ModUtil;
 import forestry.farming.logic.FarmType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

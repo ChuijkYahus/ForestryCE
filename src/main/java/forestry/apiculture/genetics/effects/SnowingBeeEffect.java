@@ -6,7 +6,7 @@ import forestry.api.core.genetics.IEffectData;
 import forestry.api.core.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;
 import forestry.apiculture.particles.BeeParticleRender;
-import forestry.core.utils.VecUtil;
+import forestry.core.platform.util.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.Level;

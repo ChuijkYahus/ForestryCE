@@ -2,10 +2,10 @@ package forestry.sorting.gui.widgets;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.tooltips.ToolTip;
-import forestry.core.config.Constants;
-import forestry.core.gui.widgets.Widget;
-import forestry.core.gui.widgets.WidgetManager;
-import forestry.core.gui.widgets.WidgetScrollBar;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.widgets.Widget;
+import forestry.core.platform.gui.widgets.WidgetManager;
+import forestry.core.platform.gui.widgets.WidgetScrollBar;
 import forestry.sorting.gui.GuiGeneticFilter;
 import forestry.sorting.gui.ISelectableProvider;
 import net.minecraft.client.gui.GuiGraphics;

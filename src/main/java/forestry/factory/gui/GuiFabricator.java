@@ -1,8 +1,8 @@
 package forestry.factory.gui;
 
-import forestry.core.config.Constants;
-import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.widgets.ReservoirWidget;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.widgets.ReservoirWidget;
 import forestry.factory.tiles.TileFabricator;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
