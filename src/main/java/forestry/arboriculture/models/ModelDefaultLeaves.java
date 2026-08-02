@@ -7,6 +7,7 @@ import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.arboriculture.blocks.BlockAbstractLeaves;
 import forestry.arboriculture.blocks.BlockDefaultLeaves;
 import forestry.core.models.ModelBlockCached;
+import forestry.core.models.ModelTransforms;
 import forestry.core.models.baker.ModelBaker;
 import forestry.core.utils.ResourceUtil;
 import forestry.core.utils.SpeciesUtil;
@@ -115,6 +116,6 @@ public class ModelDefaultLeaves extends ModelBlockCached<BlockDefaultLeaves, Mod
 
 	@Override
 	public ItemTransforms getTransforms() {
-		return ModelLeaves.TRANSFORMS;
+		return ModelTransforms.BLOCK;
 	}
 }

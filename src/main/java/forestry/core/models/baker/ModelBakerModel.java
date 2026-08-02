@@ -1,6 +1,6 @@
 package forestry.core.models.baker;
 
-import forestry.arboriculture.models.ModelLeaves;
+import forestry.core.models.ModelTransforms;
 import forestry.core.utils.ResourceUtil;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
@@ -100,7 +100,7 @@ public class ModelBakerModel implements BakedModel {
 
 	@Override
 	public ItemTransforms getTransforms() {
-		return ModelLeaves.TRANSFORMS;
+		return ModelTransforms.BLOCK;
 	}
 
 	@Override

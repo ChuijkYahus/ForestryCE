@@ -9,6 +9,7 @@ import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.blocks.BlockAbstractLeaves;
 import forestry.arboriculture.blocks.BlockDecorativeLeaves;
 import forestry.core.models.ModelBlockCached;
+import forestry.core.models.ModelTransforms;
 import forestry.core.models.baker.ModelBaker;
 import forestry.core.utils.ResourceUtil;
 import forestry.core.utils.SpeciesUtil;
@@ -93,6 +94,6 @@ public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, 
 
 	@Override
 	public ItemTransforms getTransforms() {
-		return ModelLeaves.TRANSFORMS;
+		return ModelTransforms.BLOCK;
 	}
 }
