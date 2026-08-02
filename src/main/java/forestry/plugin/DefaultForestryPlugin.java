@@ -54,7 +54,9 @@ import forestry.lepidopterology.LepidopterologyFilterRule;
 import forestry.lepidopterology.LepidopterologyFilterRuleType;
 import forestry.lepidopterology.genetics.ButterflySpeciesType;
 import forestry.lepidopterology.genetics.DefaultCocoon;
-import forestry.plugin.client.DefaultForestryClientRegistration;
+import forestry.apiculture.client.plugin.ApicultureClientRegistration;
+import forestry.arboriculture.client.plugin.ArboricultureClientRegistration;
+import forestry.lepidopterology.client.plugin.LepidopterologyClientRegistration;
 import forestry.sorting.DefaultFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -399,7 +401,9 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 
 	@Override
 	public void registerClient(Consumer<Consumer<IClientRegistration>> registrar) {
-		registrar.accept(new DefaultForestryClientRegistration());
+		registrar.accept(new ApicultureClientRegistration());
+		registrar.accept(new ArboricultureClientRegistration());
+		registrar.accept(new LepidopterologyClientRegistration());
 	}
 
 	@Override

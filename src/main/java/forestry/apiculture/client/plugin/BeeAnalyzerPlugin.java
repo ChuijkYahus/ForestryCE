@@ -1,4 +1,4 @@
-package forestry.plugin.client;
+package forestry.apiculture.client.plugin;
 
 import com.google.common.collect.Lists;
 import forestry.api.apiculture.genetics.BeeLifeStage;

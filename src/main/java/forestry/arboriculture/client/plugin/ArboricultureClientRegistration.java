@@ -1,40 +1,26 @@
-package forestry.plugin.client;
-
-import forestry.api.ForestryConstants;
-import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.client.arboriculture.ForestryLeafSprites;
-import forestry.api.client.plugin.IClientRegistration;
-import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.api.lepidopterology.ForestryButterflySpecies;
-import forestry.arboriculture.client.BiomeLeafTint;
-import forestry.arboriculture.client.FixedLeafTint;
-import net.minecraft.resources.ResourceLocation;
+package forestry.arboriculture.client.plugin;
 
 import java.util.function.Consumer;
 
-public class DefaultForestryClientRegistration implements Consumer<IClientRegistration> {
+import forestry.api.ForestryConstants;
+import forestry.api.arboriculture.ForestryTreeSpecies;
+import forestry.api.client.arboriculture.ForestryLeafSprites;
+import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.arboriculture.client.BiomeLeafTint;
+import forestry.arboriculture.client.FixedLeafTint;
+import forestry.plugin.client.TreeAnalyzerPlugin;
+import net.minecraft.resources.ResourceLocation;
+import forestry.api.client.plugin.IClientRegistration;
+
+/**
+ * Base Forestry's arboriculture client registrations. Split out of
+ * base Forestry's default plugin so the base artifact does not name
+ * arboriculture client types.
+ */
+public class ArboricultureClientRegistration implements Consumer<IClientRegistration> {
 	@Override
 	public void accept(IClientRegistration client) {
-		registerApiculture(client);
-		registerArboriculture(client);
-		registerLepidopterology(client);
-	}
 
-	private static void registerApiculture(IClientRegistration client) {
-		client.setAnalyzerPlugin(ForestrySpeciesTypes.BEE, new BeeAnalyzerPlugin());
-
-		client.setDefaultBeeModel(BeeLifeStage.DRONE, ForestryConstants.forestry("item/bee_drone_default"));
-		client.setDefaultBeeModel(BeeLifeStage.PRINCESS, ForestryConstants.forestry("item/bee_princess_default"));
-		client.setDefaultBeeModel(BeeLifeStage.QUEEN, ForestryConstants.forestry("item/bee_queen_default"));
-		client.setDefaultBeeModel(BeeLifeStage.LARVAE, ForestryConstants.forestry("item/bee_larvae_default"));
-		client.setCustomBeeModel(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE, ForestryConstants.forestry("item/bee_drone_cube"));
-		client.setCustomBeeModel(ForestryBeeSpecies.VANILLA, BeeLifeStage.PRINCESS, ForestryConstants.forestry("item/bee_princess_cube"));
-		client.setCustomBeeModel(ForestryBeeSpecies.VANILLA, BeeLifeStage.QUEEN, ForestryConstants.forestry("item/bee_queen_cube"));
-	}
-
-	private static void registerArboriculture(IClientRegistration client) {
 		client.setAnalyzerPlugin(ForestrySpeciesTypes.TREE, new TreeAnalyzerPlugin());
 
 		// Vanilla sapling models
@@ -120,24 +106,5 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		ResourceLocation blockModel = ResourceLocation.fromNamespaceAndPath(modId, "block/" + path);
 		ResourceLocation itemModel = ResourceLocation.fromNamespaceAndPath(modId, "item/" + path);
 		registration.setSaplingModel(speciesId, blockModel, itemModel);
-	}
-
-	private static void registerLepidopterology(IClientRegistration client) {
-		client.setAnalyzerPlugin(ForestrySpeciesTypes.BUTTERFLY, new ButterflyAnalyzerPlugin());
-
-		// Register the default item/entity texture naming convention for every built-in butterfly species, so
-		// ButterflyItemModel can bake a per-species model instead of falling back to the default (cabbage white)
-		// for all of them. Sourced from the static compile-time id list, not the live/reloadable species map.
-		for (ResourceLocation speciesId : ForestryButterflySpecies.ALL) {
-			registerDefaultButterflyTextures(client, speciesId);
-		}
-	}
-
-	private static void registerDefaultButterflyTextures(IClientRegistration client, ResourceLocation speciesId) {
-		// Mirrors ButterflyClientManager#defaultTexturesFor's render-time fallback naming convention.
-		String path = speciesId.getPath().replace("butterfly_", "");
-		ResourceLocation itemTexture = ResourceLocation.fromNamespaceAndPath(speciesId.getNamespace(), "item/butterfly/" + path);
-		ResourceLocation entityTexture = ResourceLocation.fromNamespaceAndPath(speciesId.getNamespace(), "textures/entity/butterfly/" + path + ".png");
-		client.setButterflySprites(speciesId, itemTexture, entityTexture);
 	}
 }

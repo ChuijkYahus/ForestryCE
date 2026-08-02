@@ -32,6 +32,4 @@ core/data/models/ForestryItemModelProvider.java
 core/data/models/ForestryWoodModelProvider.java
 core/data/recipe/ForestryRecipeProvider.java
 core/data/TreeSpeciesProvider.java
-plugin/client/BeeAnalyzerPlugin.java
-plugin/client/DefaultForestryClientRegistration.java
 plugin/DefaultForestryPlugin.java
