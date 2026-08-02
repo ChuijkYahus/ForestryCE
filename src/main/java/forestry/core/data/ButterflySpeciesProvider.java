@@ -24,7 +24,7 @@ import forestry.lepidopterology.plugin.LepidopterologyRegistration;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
 import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
-import forestry.plugin.DefaultButterflySpecies;
+import forestry.lepidopterology.plugin.DefaultButterflySpecies;
 
 /**
  * Generates {@code data/forestry/butterfly_species/*.json} for every built-in butterfly/moth, read directly from the

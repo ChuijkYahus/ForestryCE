@@ -1,4 +1,4 @@
-package forestry.plugin.client;
+package forestry.arboriculture.client.plugin;
 
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;

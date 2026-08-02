@@ -36,7 +36,7 @@ import forestry.core.platform.item.ItemFruit;
 
 /**
  * Base Forestry's arboriculture registrations. Split out of
- * {@code forestry.plugin.DefaultForestryPlugin} so the base artifact does not register tree content.
+ * {@code forestry.core.plugin.DefaultForestryPlugin} so the base artifact does not register tree content.
  */
 public class ArboricultureForestryPlugin implements IForestryPlugin {
 	@Override

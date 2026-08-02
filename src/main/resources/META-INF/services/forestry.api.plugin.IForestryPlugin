@@ -1,4 +1,4 @@
-forestry.plugin.DefaultForestryPlugin
+forestry.core.plugin.DefaultForestryPlugin
 forestry.apiculture.plugin.ApicultureForestryPlugin
 forestry.arboriculture.plugin.ArboricultureForestryPlugin
 forestry.lepidopterology.plugin.LepidopterologyForestryPlugin

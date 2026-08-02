@@ -1,4 +1,4 @@
-package forestry.plugin;
+package forestry.lepidopterology.plugin;
 
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;

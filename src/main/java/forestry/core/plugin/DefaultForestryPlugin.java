@@ -1,4 +1,4 @@
-package forestry.plugin;
+package forestry.core.plugin;
 
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.*;

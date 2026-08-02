@@ -28,11 +28,11 @@ import forestry.lepidopterology.DummyButterflyEffect;
 import forestry.lepidopterology.LepidopterologyFilterRule;
 import forestry.lepidopterology.LepidopterologyFilterRuleType;
 import forestry.lepidopterology.genetics.DefaultCocoon;
-import forestry.plugin.DefaultButterflySpecies;
+import forestry.lepidopterology.plugin.DefaultButterflySpecies;
 
 /**
  * Base Forestry's lepidopterology registrations. Split out of
- * {@code forestry.plugin.DefaultForestryPlugin} so the base artifact does not register butterfly
+ * {@code forestry.core.plugin.DefaultForestryPlugin} so the base artifact does not register butterfly
  * content.
  */
 public class LepidopterologyForestryPlugin implements IForestryPlugin {

@@ -14,7 +14,7 @@ import forestry.core.content.resources.EnumElectronTube;
 import forestry.farming.circuits.CircuitFarmLogic;
 
 /**
- * Base Forestry's farming registrations. Split out of {@code forestry.plugin.DefaultForestryPlugin}
+ * Base Forestry's farming registrations. Split out of {@code forestry.core.plugin.DefaultForestryPlugin}
  * so the base artifact does not register farm content. The machine-upgrade circuits stay with core;
  * circuits key by string id, so splitting registerCircuits across two plugins changes nothing.
  */

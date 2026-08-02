@@ -1,4 +1,4 @@
-package forestry.plugin;
+package forestry.core.data.taxonomy;
 
 import forestry.api.core.genetics.ForestryTaxa;
 import forestry.api.plugin.IGeneticRegistration;

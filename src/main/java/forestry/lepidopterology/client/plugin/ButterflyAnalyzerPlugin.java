@@ -1,4 +1,4 @@
-package forestry.plugin.client;
+package forestry.lepidopterology.client.plugin;
 
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.genetics.IAnalyzerGraphics;

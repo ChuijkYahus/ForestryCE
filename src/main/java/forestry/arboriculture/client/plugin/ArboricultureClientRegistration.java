@@ -8,7 +8,7 @@ import forestry.api.client.arboriculture.ForestryLeafSprites;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.arboriculture.client.BiomeLeafTint;
 import forestry.arboriculture.client.FixedLeafTint;
-import forestry.plugin.client.TreeAnalyzerPlugin;
+import forestry.arboriculture.client.plugin.TreeAnalyzerPlugin;
 import net.minecraft.resources.ResourceLocation;
 import forestry.api.client.plugin.IClientRegistration;
 

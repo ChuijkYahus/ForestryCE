@@ -23,7 +23,7 @@ import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.TaxonDefinition;
-import forestry.plugin.ForestryTaxonomy;
+import forestry.core.data.taxonomy.ForestryTaxonomy;
 
 /**
  * Generates {@code data/forestry/taxon/*.json} for base Forestry's whole taxonomy (domains down to genera, including the

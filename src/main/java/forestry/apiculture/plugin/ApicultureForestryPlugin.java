@@ -57,7 +57,7 @@ import forestry.apiculture.genetics.FlowerTypeTypes;
 import forestry.apiculture.genetics.ApicultureProductTypes;
 
 /**
- * Base Forestry's apiculture registrations. Split out of {@code forestry.plugin.DefaultForestryPlugin}
+ * Base Forestry's apiculture registrations. Split out of {@code forestry.core.plugin.DefaultForestryPlugin}
  * so the base artifact does not register bee content.
  */
 public class ApicultureForestryPlugin implements IForestryPlugin {

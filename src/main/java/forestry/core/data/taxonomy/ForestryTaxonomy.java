@@ -1,4 +1,4 @@
-package forestry.plugin;
+package forestry.core.data.taxonomy;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -6,6 +6,9 @@ import forestry.api.core.genetics.ForestryTaxa;
 import forestry.api.core.genetics.ITaxon;
 import forestry.api.plugin.ITaxonBuilder;
 import forestry.apiimpl.plugin.GeneticRegistration;
+import forestry.core.data.taxonomy.BeeTaxonomy;
+import forestry.core.data.taxonomy.ButterflyTaxonomy;
+import forestry.core.data.taxonomy.TreeTaxonomy;
 
 /**
  * The authoritative in-code definition of base Forestry's whole taxonomy (domains down to genera, including each
