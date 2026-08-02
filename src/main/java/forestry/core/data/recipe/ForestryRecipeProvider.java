@@ -2550,6 +2550,16 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 				.define('#', Tags.Items.DUSTS_REDSTONE)
 				.define('X', ForestryTags.Items.GEMS_AMBER))
 			.build(consumer, id("fabricator", "electron_tubes", "amber"));
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(liquidGlass)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.SILICON), 4)
+				.pattern(" X ")
+				.pattern("#X#")
+				.pattern("XXX")
+				.define('#', Tags.Items.DUSTS_REDSTONE)
+				.define('X', ForestryTags.Items.GEMS_SILICON))
+			.build(consumer, id("fabricator", "electron_tubes", "silicon"));
 
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)

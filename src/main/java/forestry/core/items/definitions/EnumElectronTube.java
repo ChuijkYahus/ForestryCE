@@ -20,7 +20,8 @@ public enum EnumElectronTube implements IItemSubtype {
 	APATITE,
 	LAPIS,
 	ENDER,
-	AMBER;
+	AMBER,
+	SILICON;
 
 	private final String uid;
 

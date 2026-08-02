@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-06T23:19:16.5421802	Item Models: forestry
+// 1.20.1	2026-08-02T13:42:45.1999782	Item Models: forestry
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/adventurer_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/adventurer_bag_woven.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/apiarist_bag.json
@@ -116,6 +116,7 @@ c1fa119d3565cf08dffb742fb2867c31c9049c2a assets/forestry/models/item/electron_tu
 1c27c720c766d8d74b26bba030e8569d1ba0cd41 assets/forestry/models/item/electron_tube_iron.json
 eeb1221f626c806e05108f001cf992f40b456e8a assets/forestry/models/item/electron_tube_lapis.json
 580874a8ca47949700130f5bdf7094bc8cb17b62 assets/forestry/models/item/electron_tube_obsidian.json
+d9fd096d0226ee88205740ffa864030f06cf0449 assets/forestry/models/item/electron_tube_silicon.json
 87d073d8de449450ec4ec6a50ba756789fbe11ec assets/forestry/models/item/electron_tube_tin.json
 7b0b204564a5cebeef0690196f2fb8d4523cdb98 assets/forestry/models/item/farm_crops_managed.json
 7b0b204564a5cebeef0690196f2fb8d4523cdb98 assets/forestry/models/item/farm_crops_manual.json

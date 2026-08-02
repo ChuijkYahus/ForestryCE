@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-25T19:44:09.0869006	Recipes
+// 1.20.1	2026-08-02T13:42:45.2049775	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -2061,6 +2061,7 @@ eaaf019535c2c47fc6d35b42b627b6e4420e194c data/forestry/recipes/fabricator/electr
 99c747d63225b31c8433af9ec25d25329eaffcc1 data/forestry/recipes/fabricator/electron_tubes/iron.json
 57f412e361f004cab07699bb0324cd84b31fb214 data/forestry/recipes/fabricator/electron_tubes/lapis.json
 99ee013956488c82e4802c985ebb210c873608a1 data/forestry/recipes/fabricator/electron_tubes/obsidian.json
+0013548b0135c92e6744856f8a777bf35242dd6a data/forestry/recipes/fabricator/electron_tubes/silicon.json
 16dc2c517a8c6ffe0358fcbf9a3f51156a349226 data/forestry/recipes/fabricator/electron_tubes/tin.json
 1309fb16e9bf38aa23f979a10b15f0c1a99ff53b data/forestry/recipes/fabricator/fireproof/log/acacia.json
 3f2142050bee05dddd62682d5a927c2642414e56 data/forestry/recipes/fabricator/fireproof/log/acacia_desert.json

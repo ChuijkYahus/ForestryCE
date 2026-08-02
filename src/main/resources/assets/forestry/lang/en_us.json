@@ -634,6 +634,7 @@
   "item.forestry.electron_tube_ender": "Ender Electron Tube",
   "item.forestry.electron_tube_orchid": "Orchid Electron Tube",
   "item.forestry.electron_tube_amber": "Amber Electron Tube",
+  "item.forestry.electron_tube_silicon": "Silicon Electron Tube",
   "item.forestry.electron_tube_tooltip": "Used to program circuit boards.",
   "item.forestry.capsule.empty": "Wax Capsule",
   "item.forestry.capsule.tooltip": "Can't hold hot liquids.",
