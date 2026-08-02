@@ -1,4 +1,4 @@
-package forestry.core.worldgen;
+package forestry.arboriculture.worldgen;
 
 import forestry.Forestry;
 import forestry.api.arboriculture.ITreeGenData;
@@ -7,10 +7,6 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.worldgen.ITreeBlockType;
-import forestry.arboriculture.worldgen.TreeBlockType;
-import forestry.arboriculture.worldgen.TreeBlockTypeLog;
-import forestry.arboriculture.worldgen.TreeContour;
 import forestry.core.utils.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

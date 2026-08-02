@@ -3,7 +3,6 @@ package forestry.arboriculture.worldgen;
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.api.genetics.IGenome;
 import forestry.arboriculture.ForestryWoodType;
-import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
