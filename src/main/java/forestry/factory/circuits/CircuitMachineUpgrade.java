@@ -1,7 +1,7 @@
 package forestry.factory.circuits;
 
-import forestry.core.circuits.Circuit;
-import forestry.core.circuits.IMachineUpgradable;
+import forestry.core.engine.circuits.Circuit;
+import forestry.core.engine.circuits.IMachineUpgradable;
 
 public class CircuitMachineUpgrade extends Circuit {
 	private final double speedBoost;

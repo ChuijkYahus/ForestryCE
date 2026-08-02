@@ -15,11 +15,11 @@ import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesManager;
-import forestry.core.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**
- * Behavioral oracle for the reloadable {@code allSpecies} map on {@link forestry.core.genetics.SpeciesType}: proves
+ * Behavioral oracle for the reloadable {@code allSpecies} map on {@link forestry.core.engine.genetics.SpeciesType}: proves
  * that {@code getAllSpecies()}/{@code getSpeciesCount()} on the live bee type are safe to call without throwing (the
  * old {@code checkSpecies()} guard used to throw {@code IllegalStateException} before registration completed) and
  * stay consistent with each other, and that the real reload path - {@link BeeSpeciesManager} parsing the generated

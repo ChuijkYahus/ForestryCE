@@ -20,8 +20,8 @@ import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.core.data.TreeSpeciesProvider;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

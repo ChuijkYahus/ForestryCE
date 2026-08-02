@@ -15,7 +15,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import forestry.Forestry;
-import forestry.core.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
 
 /**
  * Datapack loader for bee species: a {@link SimpleJsonResourceReloadListener} over the {@code bee_species} folder.
@@ -75,7 +75,7 @@ public final class BeeSpeciesManager extends SimpleJsonResourceReloadListener {
 		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, getRegistryLookup());
 
 		// Idempotent safety net: the product dispatch codec resolves the optional `type` key against these ids.
-		forestry.core.genetics.ProductTypes.registerBuiltins();
+		forestry.core.engine.genetics.ProductTypes.registerBuiltins();
 		ApicultureProductTypes.registerBuiltins();
 
 		Map<ResourceLocation, BeeSpeciesDefinition> parsed = new LinkedHashMap<>();

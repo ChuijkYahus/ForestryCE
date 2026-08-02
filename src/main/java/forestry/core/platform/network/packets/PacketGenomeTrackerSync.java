@@ -4,7 +4,7 @@ import forestry.api.IForestryApi;
 import forestry.api.core.ForestryEvent;
 import forestry.api.core.genetics.IBreedingTracker;
 import forestry.api.core.genetics.ISpeciesType;
-import forestry.core.genetics.BreedingTracker;
+import forestry.core.engine.genetics.BreedingTracker;
 import forestry.core.platform.network.PacketIdClient;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;

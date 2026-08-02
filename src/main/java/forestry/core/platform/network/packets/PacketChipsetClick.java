@@ -1,6 +1,6 @@
 package forestry.core.platform.network.packets;
 
-import forestry.core.circuits.ItemCircuitBoard;
+import forestry.core.engine.circuits.ItemCircuitBoard;
 import forestry.core.platform.gui.IContainerSocketed;
 import forestry.core.platform.network.PacketIdServer;
 import net.minecraft.network.RegistryFriendlyByteBuf;

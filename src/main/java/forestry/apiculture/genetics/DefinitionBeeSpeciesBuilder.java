@@ -10,7 +10,7 @@ import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.plugin.IBeeSpeciesBuilder;
-import forestry.core.genetics.AbstractDefinitionSpeciesBuilder;
+import forestry.core.engine.genetics.AbstractDefinitionSpeciesBuilder;
 
 /**
  * Read-only {@link IBeeSpeciesBuilder} adapter over a {@link BeeSpeciesDefinition}: the base

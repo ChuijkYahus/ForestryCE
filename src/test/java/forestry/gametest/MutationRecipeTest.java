@@ -49,16 +49,16 @@ import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.core.features.GeneticsRecipeTypes;
-import forestry.core.genetics.mutations.Mutation;
-import forestry.core.genetics.mutations.MutationConditionBiome;
-import forestry.core.genetics.mutations.MutationConditionCave;
-import forestry.core.genetics.mutations.MutationConditionDaytime;
-import forestry.core.genetics.mutations.MutationConditionHumidity;
-import forestry.core.genetics.mutations.MutationConditionRequiresResource;
-import forestry.core.genetics.mutations.MutationConditionTemperature;
-import forestry.core.genetics.mutations.MutationConditionTimeLimited;
-import forestry.core.genetics.mutations.MutationConditionTypes;
-import forestry.core.genetics.mutations.MutationRecipe;
+import forestry.core.engine.genetics.mutations.Mutation;
+import forestry.core.engine.genetics.mutations.MutationConditionBiome;
+import forestry.core.engine.genetics.mutations.MutationConditionCave;
+import forestry.core.engine.genetics.mutations.MutationConditionDaytime;
+import forestry.core.engine.genetics.mutations.MutationConditionHumidity;
+import forestry.core.engine.genetics.mutations.MutationConditionRequiresResource;
+import forestry.core.engine.genetics.mutations.MutationConditionTemperature;
+import forestry.core.engine.genetics.mutations.MutationConditionTimeLimited;
+import forestry.core.engine.genetics.mutations.MutationConditionTypes;
+import forestry.core.engine.genetics.mutations.MutationRecipe;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

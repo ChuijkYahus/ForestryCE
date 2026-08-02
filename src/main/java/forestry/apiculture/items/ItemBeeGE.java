@@ -6,7 +6,7 @@ import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.core.genetics.IIndividual;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
-import forestry.core.genetics.ItemGE;
+import forestry.core.engine.genetics.ItemGE;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.ChatFormatting;

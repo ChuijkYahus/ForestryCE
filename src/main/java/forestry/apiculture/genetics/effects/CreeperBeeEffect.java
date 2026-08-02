@@ -4,7 +4,7 @@ import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.genetics.IEffectData;
 import forestry.api.core.genetics.IGenome;
-import forestry.core.genetics.EffectData;
+import forestry.core.engine.genetics.EffectData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

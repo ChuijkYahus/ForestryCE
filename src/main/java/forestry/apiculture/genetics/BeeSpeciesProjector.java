@@ -10,7 +10,7 @@ import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.apiculture.BeeSpecies;
-import forestry.core.genetics.SpeciesProjection;
+import forestry.core.engine.genetics.SpeciesProjection;
 
 /**
  * Projects a pure-data {@link BeeSpeciesDefinition} into a runtime {@link BeeSpecies}, without ever touching the

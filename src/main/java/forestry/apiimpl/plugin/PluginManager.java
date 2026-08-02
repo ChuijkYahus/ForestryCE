@@ -24,10 +24,10 @@ import forestry.apiimpl.client.ButterflyClientManager;
 import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.client.genetics.GeneticClientManager;
 import forestry.apiimpl.client.plugin.ClientRegistration;
-import forestry.core.circuits.CircuitLayout;
-import forestry.core.circuits.CircuitManager;
+import forestry.core.engine.circuits.CircuitLayout;
+import forestry.core.engine.circuits.CircuitManager;
 import forestry.core.platform.errors.ErrorManager;
-import forestry.core.genetics.PollenManager;
+import forestry.core.engine.genetics.PollenManager;
 import forestry.sorting.FilterManager;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
@@ -163,11 +163,11 @@ public class PluginManager {
 
 		// Register the built-in mutation condition types so their `type` ids are known before any
 		// datapack/recipe parse populates the mutation managers in a later reload handler.
-		forestry.core.genetics.mutations.MutationConditionTypes.registerBuiltins();
+		forestry.core.engine.genetics.mutations.MutationConditionTypes.registerBuiltins();
 
 		// Register the built-in product types so the optional `type` key on species products (e.g. the
 		// Patriotic bee's randomized firework) resolves before any species JSON parse or network sync.
-		forestry.core.genetics.ProductTypes.registerBuiltins();
+		forestry.core.engine.genetics.ProductTypes.registerBuiltins();
 
 		// Register the built-in fluid product types so the optional `type` key on machine fluid outputs (e.g. the
 		// squeezer) resolves before any recipe JSON parse or network sync.

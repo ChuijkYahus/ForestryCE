@@ -6,7 +6,7 @@ import forestry.api.apiculture.genetics.IBee;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.core.genetics.IMutationManager;
 import forestry.api.core.genetics.ISpecies;
-import forestry.core.genetics.BreedingTracker;
+import forestry.core.engine.genetics.BreedingTracker;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.nbt.CompoundTag;
 

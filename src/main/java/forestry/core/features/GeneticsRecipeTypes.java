@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.genetics.mutations.MutationRecipe;
+import forestry.core.engine.genetics.mutations.MutationRecipe;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.FeatureRecipeType;
 import forestry.core.platform.registration.IFeatureRegistry;

@@ -12,7 +12,7 @@ import forestry.api.plugin.IGeneticRegistration;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ISpeciesTypeFactory;
 import forestry.api.plugin.ITaxonBuilder;
-import forestry.core.genetics.Taxon;
+import forestry.core.engine.genetics.Taxon;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;

@@ -12,7 +12,7 @@ import forestry.api.core.IProduct;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
-import forestry.core.genetics.AbstractDefinitionSpeciesBuilder;
+import forestry.core.engine.genetics.AbstractDefinitionSpeciesBuilder;
 
 /**
  * Read-only {@link IButterflySpeciesBuilder} adapter over a {@link ButterflySpeciesDefinition}: base

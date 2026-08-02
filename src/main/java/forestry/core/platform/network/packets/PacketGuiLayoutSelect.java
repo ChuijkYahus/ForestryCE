@@ -2,7 +2,7 @@ package forestry.core.platform.network.packets;
 
 import forestry.api.IForestryApi;
 import forestry.api.core.circuits.ICircuitLayout;
-import forestry.core.circuits.ContainerSolderingIron;
+import forestry.core.engine.circuits.ContainerSolderingIron;
 import forestry.core.platform.network.PacketIdClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

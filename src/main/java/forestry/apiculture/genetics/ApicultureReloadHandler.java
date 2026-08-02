@@ -13,8 +13,8 @@ import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.apiculture.BeeSpecies;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

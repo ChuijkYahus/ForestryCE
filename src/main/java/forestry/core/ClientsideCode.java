@@ -1,7 +1,7 @@
 package forestry.core;
 
-import forestry.core.genetics.root.ClientBreedingHandler;
-import forestry.core.genetics.root.ServerBreedingHandler;
+import forestry.core.engine.genetics.root.ClientBreedingHandler;
+import forestry.core.engine.genetics.root.ServerBreedingHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.BlockPos;

@@ -20,8 +20,8 @@ import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesManager;
 import forestry.apiculture.genetics.BeeSpeciesProjector;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

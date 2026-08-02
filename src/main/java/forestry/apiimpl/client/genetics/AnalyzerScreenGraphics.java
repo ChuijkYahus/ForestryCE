@@ -12,7 +12,7 @@ import forestry.api.core.ToleranceType;
 import forestry.api.core.genetics.*;
 import forestry.api.core.genetics.alleles.*;
 import forestry.core.ForestryColors;
-import forestry.core.genetics.mutations.EnumMutateChance;
+import forestry.core.engine.genetics.mutations.EnumMutateChance;
 import forestry.core.platform.gui.GuiUtil;
 import forestry.core.platform.gui.PortableAnalyzerScreen;
 import forestry.core.platform.util.GeneticsUtil;

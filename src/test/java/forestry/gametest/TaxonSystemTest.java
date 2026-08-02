@@ -19,9 +19,9 @@ import forestry.api.core.genetics.IGeneticManager;
 import forestry.api.core.genetics.ITaxon;
 import forestry.api.core.genetics.TaxonomicRank;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
-import forestry.core.genetics.TaxonManager;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.TaxonDefinition;
+import forestry.core.engine.genetics.TaxonManager;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.TaxonDefinition;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

@@ -376,7 +376,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	 * (see {@code LepidopterologyReloadHandler#rebuildButterflySpecies}).
 	 * <p>
 	 * The cached {@link #contained} individual resolved and cached its {@code species}/{@code inactiveSpecies}
-	 * fields (see {@link forestry.core.genetics.Individual}) against the species map that was live at the time it
+	 * fields (see {@link forestry.core.engine.genetics.Individual}) against the species map that was live at the time it
 	 * was constructed, so after a reload swaps in fresh species instances, that cache goes stale. Rebuilding the
 	 * individual the same way {@link #readAdditionalSaveData} does - serialize to NBT, then decode - re-resolves the
 	 * SPECIES chromosome against the CURRENT live map while preserving the individual's other state (mate, analyzed,

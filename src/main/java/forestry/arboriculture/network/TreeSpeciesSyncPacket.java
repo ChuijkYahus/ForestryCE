@@ -14,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
-import forestry.core.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
 
 /**
  * Server -&gt; client sync of the loaded tree species definitions, sent on player login/reload (see

@@ -21,8 +21,8 @@ import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.ITaxon;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IChromosome;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.TaxonDefinition;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.TaxonDefinition;
 import forestry.plugin.ForestryTaxonomy;
 
 /**

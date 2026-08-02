@@ -2,7 +2,7 @@ package forestry.core.platform.util;
 
 import com.mojang.serialization.DataResult;
 import net.minecraft.nbt.NbtOps;
-import forestry.core.circuits.ISocketable;
+import forestry.core.engine.circuits.ISocketable;
 import forestry.core.platform.inventory.ItemHandlerInventoryManipulator;
 import forestry.core.platform.inventory.StandardStackFilters;
 import net.minecraft.core.BlockPos;

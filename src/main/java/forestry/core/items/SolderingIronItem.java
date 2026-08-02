@@ -1,7 +1,7 @@
 package forestry.core.items;
 
-import forestry.core.circuits.ContainerSolderingIron;
-import forestry.core.circuits.ISolderingIron;
+import forestry.core.engine.circuits.ContainerSolderingIron;
+import forestry.core.engine.circuits.ISolderingIron;
 import forestry.core.platform.inventory.SolderingIronInventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;

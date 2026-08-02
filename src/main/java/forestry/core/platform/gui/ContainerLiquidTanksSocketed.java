@@ -1,6 +1,6 @@
 package forestry.core.platform.gui;
 
-import forestry.core.circuits.ISocketable;
+import forestry.core.engine.circuits.ISocketable;
 import forestry.core.tiles.ILiquidTankTile;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;

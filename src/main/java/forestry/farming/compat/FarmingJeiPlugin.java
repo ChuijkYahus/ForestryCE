@@ -4,7 +4,7 @@ import forestry.api.IForestryApi;
 import forestry.api.core.circuits.CircuitHolder;
 import forestry.api.agriculture.IFarmCircuit;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.circuits.EnumCircuitBoardType;
+import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.features.CoreItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;

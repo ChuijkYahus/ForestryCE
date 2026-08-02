@@ -4,7 +4,7 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.genetics.IEffectData;
 import forestry.api.core.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;
-import forestry.core.genetics.EffectData;
+import forestry.core.engine.genetics.EffectData;
 import forestry.core.platform.util.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;

@@ -25,10 +25,10 @@ import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IKaryotype;
-import forestry.core.genetics.GenomeCodecs;
-import forestry.core.genetics.ISpeciesDefinition;
-import forestry.core.genetics.ProductTypes;
-import forestry.core.genetics.SpeciesCore;
+import forestry.core.engine.genetics.GenomeCodecs;
+import forestry.core.engine.genetics.ISpeciesDefinition;
+import forestry.core.engine.genetics.ProductTypes;
+import forestry.core.engine.genetics.SpeciesCore;
 
 /**
  * Pure-data, datapack-loadable genetics layer of a butterfly species (the entity/cocoon/item bindings stay

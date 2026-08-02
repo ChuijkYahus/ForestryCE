@@ -9,7 +9,7 @@ import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.plugin.IKaryotypeBuilder;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ISpeciesTypeFactory;
-import forestry.core.genetics.Karyotype;
+import forestry.core.engine.genetics.Karyotype;
 import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

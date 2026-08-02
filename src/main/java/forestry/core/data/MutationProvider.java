@@ -24,7 +24,7 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.core.data.builder.MutationRecipeBuilder;
-import forestry.core.genetics.mutations.MutationRecipe;
+import forestry.core.engine.genetics.mutations.MutationRecipe;
 
 import static forestry.api.apiculture.ForestryBeeSpecies.*;
 import static forestry.api.arboriculture.ForestryTreeSpecies.*;

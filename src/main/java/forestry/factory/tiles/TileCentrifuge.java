@@ -6,7 +6,7 @@ import forestry.api.core.circuits.ICircuitBoard;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.machines.ICentrifugeRecipe;
-import forestry.core.circuits.ISocketable;
+import forestry.core.engine.circuits.ISocketable;
 import forestry.core.platform.config.Constants;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.inventory.InventoryAdapter;

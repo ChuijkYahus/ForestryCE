@@ -21,10 +21,10 @@ import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IKaryotype;
-import forestry.core.genetics.GenomeCodecs;
-import forestry.core.genetics.ProductTypes;
-import forestry.core.genetics.ISpeciesDefinition;
-import forestry.core.genetics.SpeciesCore;
+import forestry.core.engine.genetics.GenomeCodecs;
+import forestry.core.engine.genetics.ProductTypes;
+import forestry.core.engine.genetics.ISpeciesDefinition;
+import forestry.core.engine.genetics.SpeciesCore;
 
 /**
  * The pure-data, datapack-loadable shape of a bee species: everything a {@code BeeSpeciesBuilder} would otherwise
@@ -33,7 +33,7 @@ import forestry.core.genetics.SpeciesCore;
  * <p>
  * The {@link #codec()} and {@link #streamCodec()} are built lazily on first use: they are keyed against the bee
  * karyotype ({@link IForestryApi#getGeneticManager()}), which does not exist at class-load time - only once the bee
- * species type has been registered. See {@code forestry.core.genetics.mutations.MutationRecipe.Serializer} for the
+ * species type has been registered. See {@code forestry.core.engine.genetics.mutations.MutationRecipe.Serializer} for the
  * same pattern applied to mutation recipes.
  *
  * @param genus          The scientific genus name (e.g. {@code "Apis"}).

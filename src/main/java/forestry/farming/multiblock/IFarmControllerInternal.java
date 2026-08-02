@@ -2,7 +2,7 @@ package forestry.farming.multiblock;
 
 import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.multiblock.IFarmController;
-import forestry.core.circuits.ISocketable;
+import forestry.core.engine.circuits.ISocketable;
 import forestry.core.platform.fluids.ITankManager;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.network.IStreamableGui;

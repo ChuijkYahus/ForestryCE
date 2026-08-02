@@ -11,9 +11,9 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import forestry.core.genetics.TaxonManager;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.TaxonDefinition;
+import forestry.core.engine.genetics.TaxonManager;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.TaxonDefinition;
 import forestry.core.platform.network.PacketIdClient;
 
 /**

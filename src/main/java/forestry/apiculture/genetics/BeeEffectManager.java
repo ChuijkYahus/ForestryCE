@@ -16,7 +16,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 
 import forestry.Forestry;
 import forestry.api.apiculture.genetics.IBeeEffect;
-import forestry.core.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
 
 /**
  * Datapack loader for bee effects: a {@link SimpleJsonResourceReloadListener} over the {@code bee_effect} folder.

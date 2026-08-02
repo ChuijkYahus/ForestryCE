@@ -2,7 +2,7 @@ package forestry.core.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.core.circuits.IMachineUpgradable;
+import forestry.core.engine.circuits.IMachineUpgradable;
 import forestry.core.platform.network.IStreamableGui;
 import forestry.core.platform.render.TankRenderInfo;
 import forestry.energy.EnergyHelper;

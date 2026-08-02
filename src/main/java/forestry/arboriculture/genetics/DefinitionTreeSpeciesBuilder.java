@@ -16,7 +16,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.ITreeSpeciesBuilder;
-import forestry.core.genetics.AbstractDefinitionSpeciesBuilder;
+import forestry.core.engine.genetics.AbstractDefinitionSpeciesBuilder;
 
 /**
  * Read-only {@link ITreeSpeciesBuilder} adapter over a {@link TreeSpeciesDefinition} + its code-side

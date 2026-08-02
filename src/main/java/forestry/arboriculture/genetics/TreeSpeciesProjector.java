@@ -9,7 +9,7 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.arboriculture.TreeSpecies;
-import forestry.core.genetics.SpeciesProjection;
+import forestry.core.engine.genetics.SpeciesProjection;
 
 /**
  * Projects a pure-data {@link TreeSpeciesDefinition} + its code-side {@link TreeBlockBindings} into a runtime

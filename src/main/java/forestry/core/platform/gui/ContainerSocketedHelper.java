@@ -2,8 +2,8 @@ package forestry.core.platform.gui;
 
 import forestry.api.IForestryApi;
 import forestry.api.core.circuits.ICircuitBoard;
-import forestry.core.circuits.ISocketable;
-import forestry.core.circuits.ISolderingIron;
+import forestry.core.engine.circuits.ISocketable;
+import forestry.core.engine.circuits.ISolderingIron;
 import forestry.core.platform.network.packets.PacketChipsetClick;
 import forestry.core.platform.network.packets.PacketSocketUpdate;
 import forestry.core.platform.network.packets.PacketSolderingIronClick;

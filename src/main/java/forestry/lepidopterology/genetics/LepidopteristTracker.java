@@ -4,7 +4,7 @@ import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.core.genetics.ISpecies;
 import forestry.api.lepidopterology.ILepidopteristTracker;
 import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.core.genetics.BreedingTracker;
+import forestry.core.engine.genetics.BreedingTracker;
 
 public class LepidopteristTracker extends BreedingTracker implements ILepidopteristTracker {
 	public LepidopteristTracker() {

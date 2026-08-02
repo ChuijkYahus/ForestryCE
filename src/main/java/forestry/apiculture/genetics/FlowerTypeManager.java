@@ -16,7 +16,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 
 import forestry.Forestry;
 import forestry.api.apiculture.IFlowerType;
-import forestry.core.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
 
 /**
  * Datapack loader for flower types: a {@link SimpleJsonResourceReloadListener} over the {@code flower_type} folder.

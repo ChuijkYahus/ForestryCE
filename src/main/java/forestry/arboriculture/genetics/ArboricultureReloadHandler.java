@@ -10,8 +10,8 @@ import forestry.Forestry;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.arboriculture.TreeSpecies;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

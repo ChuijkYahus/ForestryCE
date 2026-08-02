@@ -1,7 +1,7 @@
 package forestry.core.blocks;
 
 import forestry.api.agriculture.HorizontalDirection;
-import forestry.core.circuits.ISocketable;
+import forestry.core.engine.circuits.ISocketable;
 import forestry.core.tiles.TileBase;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;

@@ -19,7 +19,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.genetics.Tree;
 import forestry.arboriculture.genetics.TreeGrowthHelper;
 import forestry.arboriculture.tiles.TileLeaves;
-import forestry.core.genetics.Species;
+import forestry.core.engine.genetics.Species;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

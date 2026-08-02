@@ -41,7 +41,7 @@ public record Product(Item item, int count, DataComponentPatch patch, float chan
 		Product::new
 	);
 	/**
-	 * The default product type. The dispatch codec in {@code forestry.core.genetics.ProductTypes} treats this type
+	 * The default product type. The dispatch codec in {@code forestry.core.engine.genetics.ProductTypes} treats this type
 	 * specially: products of this type serialize without a {@code "type"} key, and a missing {@code "type"} key on
 	 * decode resolves back to it. This keeps the common case (a plain item) as clean, backwards-compatible JSON.
 	 */

@@ -15,7 +15,7 @@ import forestry.apiculture.genetics.ApicultureReloadHandler;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.BeeSpeciesManager;
 import forestry.apiculture.network.ApiculturePacketIds;
-import forestry.core.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
 
 /**
  * Server -&gt; client sync of the loaded bee species definitions, sent on player login/reload (see

@@ -1,7 +1,7 @@
 package forestry.apiculture.genetics;
 
 import forestry.api.ForestryConstants;
-import forestry.core.genetics.ProductTypes;
+import forestry.core.engine.genetics.ProductTypes;
 
 /**
  * Registers apiculture's product types into the core {@link ProductTypes} registry. Core owns the

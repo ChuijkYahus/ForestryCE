@@ -15,7 +15,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import forestry.Forestry;
-import forestry.core.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
 
 /**
  * Datapack loader for butterfly species: a {@link SimpleJsonResourceReloadListener} over the {@code butterfly_species}
@@ -67,7 +67,7 @@ public final class ButterflySpeciesManager extends SimpleJsonResourceReloadListe
 		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, getRegistryLookup());
 
 		// Idempotent safety net: the product dispatch codec resolves the optional `type` key against these ids.
-		forestry.core.genetics.ProductTypes.registerBuiltins();
+		forestry.core.engine.genetics.ProductTypes.registerBuiltins();
 
 		Map<ResourceLocation, ButterflySpeciesDefinition> parsed = new LinkedHashMap<>();
 		for (Map.Entry<ResourceLocation, JsonElement> entry : object.entrySet()) {

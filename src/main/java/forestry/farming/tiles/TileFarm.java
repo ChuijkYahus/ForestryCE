@@ -4,7 +4,7 @@ import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.multiblock.IFarmComponent;
 import forestry.api.core.multiblock.IMultiblockController;
-import forestry.core.circuits.ISocketable;
+import forestry.core.engine.circuits.ISocketable;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.multiblock.MultiblockTileEntityForestry;
 import forestry.core.platform.network.IStreamableGui;

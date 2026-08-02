@@ -6,7 +6,7 @@ import forestry.api.agriculture.IFarmType;
 import forestry.api.agriculture.IFarmable;
 import forestry.api.agriculture.Soil;
 import forestry.core.ForestryColors;
-import forestry.core.circuits.EnumCircuitBoardType;
+import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.platform.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;

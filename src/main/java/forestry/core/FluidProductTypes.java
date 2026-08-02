@@ -21,7 +21,7 @@ import forestry.api.core.FluidProductType;
 import forestry.api.core.IFluidProduct;
 
 /**
- * Registry and dispatch codec for {@link IFluidProduct} types. Mirrors {@code forestry.core.genetics.ProductTypes}:
+ * Registry and dispatch codec for {@link IFluidProduct} types. Mirrors {@code forestry.core.engine.genetics.ProductTypes}:
  * the {@code "type"} key is optional. When absent, the product decodes as the default {@link FluidProduct#TYPE}, and a
  * {@link FluidProduct} encodes without writing a {@code "type"} key at all. This keeps the common case (a fixed fluid)
  * as clean, backwards-compatible JSON, while dynamic products (addon-provided tag/random/chance outputs) round-trip

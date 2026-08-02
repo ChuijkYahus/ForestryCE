@@ -15,7 +15,7 @@ import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.genetics.Bee;
-import forestry.core.genetics.Species;
+import forestry.core.engine.genetics.Species;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

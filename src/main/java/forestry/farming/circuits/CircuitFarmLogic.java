@@ -5,7 +5,7 @@ import forestry.api.agriculture.HorizontalDirection;
 import forestry.api.agriculture.IFarmCircuit;
 import forestry.api.agriculture.IFarmHousing;
 import forestry.api.agriculture.IFarmType;
-import forestry.core.circuits.Circuit;
+import forestry.core.engine.circuits.Circuit;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.util.Lazy;

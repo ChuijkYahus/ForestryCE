@@ -1,9 +1,9 @@
 package forestry.core.platform.gui.widgets;
 
 import forestry.api.core.tooltips.ToolTip;
-import forestry.core.circuits.ISocketable;
-import forestry.core.circuits.ISolderingIron;
-import forestry.core.circuits.ItemCircuitBoard;
+import forestry.core.engine.circuits.ISocketable;
+import forestry.core.engine.circuits.ISolderingIron;
+import forestry.core.engine.circuits.ItemCircuitBoard;
 import forestry.core.platform.gui.GuiUtil;
 import forestry.core.platform.gui.IContainerSocketed;
 import forestry.core.platform.util.ItemTooltipUtil;

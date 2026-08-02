@@ -21,7 +21,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 import forestry.api.core.IProduct;
 import forestry.api.core.machines.ICentrifugeRecipe;
-import forestry.core.genetics.ProductTypes;
+import forestry.core.engine.genetics.ProductTypes;
 import forestry.factory.features.FactoryRecipeTypes;
 
 public class CentrifugeRecipe implements ICentrifugeRecipe {

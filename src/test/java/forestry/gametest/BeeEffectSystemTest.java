@@ -45,7 +45,7 @@ import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
 import forestry.apiculture.genetics.effects.ThrottleSettings;
 import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
 import forestry.core.platform.damage.CoreDamageTypes;
-import forestry.core.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**
