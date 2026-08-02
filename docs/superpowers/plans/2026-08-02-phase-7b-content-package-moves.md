@@ -366,10 +366,10 @@ Then add it to the `check` wiring next to the existing `dependsOn checkBaseBytec
 ./gradlew checkResourceFqcn --console=plain
 ```
 
-Expected: `checkResourceFqcn: 13 resource-borne class name(s) all resolve`, and `BUILD SUCCESSFUL`.
-The 13 are 4 service-file names, 5 service-file contents (`ForestryApiImpl`, `ForestryClientApiImpl`,
+Expected: `checkResourceFqcn: 17 resource-borne class name(s) all resolve`, and `BUILD SUCCESSFUL`.
+The 17 are 4 service-file names, 9 service-file contents (`ForestryApiImpl`, `ForestryClientApiImpl`,
 `DefaultForestryPlugin`, the four content plugins, `KubeForestryPlugin`, `ClientHelper`), 1 kubejs
-plugin and 4 Patchouli class names. If the count is lower than 13 the regex is not reaching the
+plugin and 3 distinct Patchouli class names. If the count is lower than 17 the regex is not reaching the
 Patchouli templates - fix that before proceeding, because Task 9 depends on it.
 
 - [ ] **Step 8: Prove the gate actually fails**
@@ -1315,7 +1315,7 @@ grep -rn '\bforestry\.compat\b' src/main/java src/test/java src/main/resources \
 ./gradlew runGameTestServer --console=plain 2>&1 | tail -20
 ```
 
-`checkResourceFqcn` must still report 13 names resolving. If it reports fewer, the Patchouli templates
+`checkResourceFqcn` must still report 17 names resolving. If it reports fewer, the Patchouli templates
 were rewritten into something the regex no longer recognizes - investigate rather than accepting a lower
 number.
 

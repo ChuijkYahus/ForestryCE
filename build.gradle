@@ -259,11 +259,89 @@ var checkBaseBytecode = tasks.register('checkBaseBytecode') {
 	}
 }
 
+// The spec's Verification section asks for this and phase 7b is what makes it necessary: the
+// Patchouli book templates, kubejs.plugins.txt and META-INF/services all name Java classes by
+// fully qualified name, in hand-authored files that neither the datagen diff nor the GameTests
+// can see. A move that forgets one of them fails silently at runtime.
+var checkResourceFqcn = tasks.register('checkResourceFqcn') {
+	group = 'verification'
+	description = 'Fails if a resource file names a forestry class that does not exist'
+
+	var javaDir = project.file('src/main/java')
+	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')]
+
+	inputs.dir(javaDir)
+	outputs.upToDateWhen { false }
+
+	doLast {
+		// A dotted run starting at "forestry"; the class is the first segment that starts with an
+		// uppercase letter, so lang keys such as "block.forestry.mailbox" never match
+		var token = ~/forestry(?:\.[A-Za-z_$][A-Za-z0-9_$]*)+/
+		var missing = new TreeSet<String>()
+		var seen = new TreeSet<String>()
+
+		var check = { String fqcn, String where ->
+			var parts = fqcn.split('\\.')
+			var end = -1
+			for (int i = 1; i < parts.length; i++) {
+				if (Character.isUpperCase(parts[i].charAt(0) as char)) {
+					end = i
+					break
+				}
+			}
+			if (end < 0) {
+				return
+			}
+			var name = parts[0..end].join('.')
+			seen.add(name)
+			if (!new File(javaDir, name.replace('.', '/') + '.java').exists()) {
+				missing.add("${name} (${where})")
+			}
+		}
+
+		resourceDirs.each { dir ->
+			if (!dir.exists()) {
+				return
+			}
+			dir.eachFileRecurse(groovy.io.FileType.FILES) { File file ->
+				// service files name the service in the file name itself
+				if (file.parentFile.name == 'services') {
+					check(file.name, file.name)
+				}
+				if (file.length() > 4_000_000) {
+					return
+				}
+				var text
+				try {
+					text = file.getText('UTF-8')
+				} catch (ignored) {
+					return
+				}
+				var m = token.matcher(text)
+				while (m.find()) {
+					check(m.group(), dir.toPath().relativize(file.toPath()).toString())
+				}
+			}
+		}
+
+		if (!missing.isEmpty()) {
+			throw new GradleException(
+					"Resource file(s) name a forestry class that does not exist:\n  "
+					+ missing.join('\n  ')
+					+ "\nA package move must update hand-authored JSON, service files and kubejs.plugins.txt.")
+		}
+		logger.lifecycle("checkResourceFqcn: ${seen.size()} resource-borne class name(s) all resolve")
+	}
+}
+
 tasks.named('check') {
 	dependsOn checkBaseBoundary
 }
 tasks.named('check') {
 	dependsOn checkBaseBytecode
+}
+tasks.named('check') {
+	dependsOn checkResourceFqcn
 }
 
 repositories {
