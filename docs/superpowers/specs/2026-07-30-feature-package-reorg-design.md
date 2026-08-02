@@ -385,8 +385,9 @@ Everything that makes the split real lands before a single package moves. Phases
                                        Core{Blocks,Items,Tiles,DataComponents}
 3   DONE 2026-08-01                    species sync packets, TaxonManager,
                                        TreeUtil, GeneticsReloadHandler split
-4   misfiled content, plumbing,        buckets D, E and H
-    lifecycle wiring
+4   DONE 2026-08-01                    SpectacleVision, FeatureHelper, the
+                                       apiarist house, ParticleRender split,
+                                       patternTypeId, per-module lifecycle
 5   split the default plugins          bucket G: six plugins, still one jar,
                                        still one service file
 5a  PluginManager extension point      bucket I: apiimpl stops constructing
@@ -440,6 +441,34 @@ public, so the "one small extension point" this phase was supposed to add did no
 `ModuleApiculture.doSelfPollination` went to `ModuleArboriculture` rather than to a core config: it
 has exactly one reader, `TreeUtil.canPollinate`, and no config binding of any kind, so a core surface
 would have been dead weight.
+
+Phase 4 landed 2026-08-01. Buckets D, E and H are closed; `checkBaseBoundary` is at 39 of the
+original 68. The dead-import sweep that paid off in phase 3 came back empty here, over all ten files
+and all 45 leaking imports - it is settled for these buckets.
+
+Buckets D and E stayed true to the pattern: `SpectacleVision` was a misfiled 14-line enum whose old
+package held nothing else, `FeatureHelper` was 647 lines of tree worldgen whose 47 users were all
+already in `arboriculture.worldgen`, and `TankWidget`'s farm special case vanished once
+`IContainerTank` was split out of `IContainerLiquidTanks` - `ContainerFarm.getTank` already had the
+exact signature. Only `LevelStructureView` needed a real extension point, and the abstraction was
+already next door: `MultiblockTileEntityForestry` declares an abstract `getPattern()`, so
+`patternTypeId()` is the same shape.
+
+Bucket H was different in kind and is the template for phase 5a. `ModuleCore`'s reload and sync
+blocks encoded a cross-module ordering the data genuinely requires, and it survives relocation only
+because `ForestryModuleManager` topologically sorts by `getModuleDependencies`. Apiculture and
+arboriculture declared no dependencies at all, so their position relative to core was discovery
+order; both now declare `CORE`. Core stays the sequencer and iterates modules through two new
+`IForestryModule` hooks. There is a `todo` on that loop asking whether an event with explicit
+ordering phases would beat leaning on module dependency order.
+
+Three plan errors that execution caught, all of the same kind - assuming a survey was complete.
+`ModelLeaves.TRANSFORMS` had three users, not one; the two extra were in its own package and so had
+no import to find them by. `BeeClientManager` was assumed baselined and was not, so moving
+`addBeeHiveFX` would have relocated a leak rather than removed one - `checkBaseBoundary` failed and
+the fix was to give apiculture its client manager, which needed `setBeeManager` to take
+`IBeeClientManager` like its two siblings already did. And `CoreItems.HONEY_DROP` sits under an
+`// Apiculture` comment in the colour handlers but has been a core item since phase 2.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
