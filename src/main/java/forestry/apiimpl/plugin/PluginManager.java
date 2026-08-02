@@ -26,7 +26,7 @@ import forestry.apiimpl.GeneticManager;
 import forestry.apiculture.client.BeeClientManager;
 import forestry.apiimpl.client.ButterflyClientManager;
 import forestry.apiimpl.client.ForestryClientApiImpl;
-import forestry.apiimpl.client.TreeClientManager;
+import forestry.arboriculture.client.TreeClientManager;
 import forestry.apiimpl.client.genetics.GeneticClientManager;
 import forestry.apiimpl.client.plugin.ClientRegistration;
 import forestry.core.circuits.CircuitLayout;

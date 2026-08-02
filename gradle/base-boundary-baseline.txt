@@ -1,7 +1,6 @@
 # Base-artifact files that still reference a split content module.
 # Generated 2026-07-31 at the start of phase 2. Shrinks each phase; never grows.
 apiimpl/client/plugin/ClientHelper.java
-apiimpl/client/TreeClientManager.java
 apiimpl/plugin/PluginManager.java
 apiimpl/plugin/SpeciesTypeBuilder.java
 core/data/BeeEffectProvider.java
