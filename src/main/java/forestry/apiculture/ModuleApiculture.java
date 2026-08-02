@@ -1,5 +1,14 @@
 package forestry.apiculture;
 
+import forestry.apiculture.genetics.BeeEffectManager;
+import forestry.apiculture.genetics.BeeSpeciesManager;
+import forestry.apiculture.genetics.FlowerTypeManager;
+import forestry.apiculture.network.packets.BeeEffectSyncPacket;
+import forestry.apiculture.network.packets.BeeSpeciesSyncPacket;
+import forestry.apiculture.network.packets.FlowerTypeSyncPacket;
+import forestry.core.utils.NetworkUtil;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import forestry.apiculture.network.ApiculturePacketIds;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -117,6 +126,53 @@ public class ModuleApiculture extends BlankForestryModule {
 	@Override
 	public ResourceLocation getId() {
 		return ForestryModuleIds.APICULTURE;
+	}
+
+	// declared so the load order that carries the reload ordering is stated rather than incidental
+	@Override
+	public List<ResourceLocation> getModuleDependencies() {
+		return List.of(ForestryModuleIds.CORE);
+	}
+
+	/**
+	 * Order within this method matters. Apply order follows registration order, and bee species
+	 * projection resolves each genome's flower type and bee_effect reference as it runs, so both must
+	 * already be loaded. Core's taxa are registered before any module for the same reason.
+	 */
+	@Override
+	public void registerReloadListeners(AddReloadListenerEvent event) {
+		// Load flower types from the "flower_type" datapack folder and install the code-base union
+		// datapack map into the live bee species type. The FLOWER_TYPE chromosome resolves ids lazily
+		// via BeeSpeciesType#getFlowerType, so strict ordering against BeeSpeciesManager isn't required
+		// today, but this keeps the "referenced data before dependent data" convention.
+		event.addListener(FlowerTypeManager.INSTANCE);
+
+		// Load bee effects from the "bee_effect" folder. Registered before BeeSpeciesManager: species
+		// projection resolves each genome's bee_effect reference via getBeeEffect, so effects must exist
+		// first.
+		event.addListener(BeeEffectManager.INSTANCE);
+
+		// Load bee species from the "bee_species" datapack folder and rebuild the live species map from
+		// them. SimpleJsonResourceReloadListener#apply already runs on the game executor, so no extra
+		// marshalling is needed here. Core registers the mutation rebuild after every module, and
+		// mutations must resolve species that already exist in the live map.
+		event.addListener(BeeSpeciesManager.INSTANCE);
+	}
+
+	/**
+	 * Flower types and effects are sent before species for the same reason they load first: the client
+	 * rebuilds its species index from the species packet's handler, and projection reads both.
+	 */
+	@Override
+	public void syncDatapack(OnDatapackSyncEvent event) {
+		FlowerTypeSyncPacket flowerTypePacket = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
+		BeeEffectSyncPacket beeEffectPacket = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getEffects());
+		BeeSpeciesSyncPacket beePacket = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
+		event.getRelevantPlayers().forEach(player -> {
+			NetworkUtil.sendToPlayer(flowerTypePacket, player);
+			NetworkUtil.sendToPlayer(beeEffectPacket, player);
+			NetworkUtil.sendToPlayer(beePacket, player);
+		});
 	}
 
 	@Override

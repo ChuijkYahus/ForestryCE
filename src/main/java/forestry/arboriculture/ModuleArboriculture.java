@@ -1,5 +1,10 @@
 package forestry.arboriculture;
 
+import forestry.arboriculture.genetics.TreeSpeciesManager;
+import forestry.arboriculture.network.TreeSpeciesSyncPacket;
+import forestry.core.utils.NetworkUtil;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import forestry.arboriculture.network.ArboriculturePacketIds;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -49,6 +54,26 @@ public class ModuleArboriculture extends BlankForestryModule {
 	@Override
 	public ResourceLocation getId() {
 		return ForestryModuleIds.ARBORICULTURE;
+	}
+
+	// declared so the load order that carries the reload ordering is stated rather than incidental
+	@Override
+	public List<ResourceLocation> getModuleDependencies() {
+		return List.of(ForestryModuleIds.CORE);
+	}
+
+	@Override
+	public void registerReloadListeners(AddReloadListenerEvent event) {
+		// Load tree species from the "tree_species" datapack folder and rebuild the live species map from
+		// them. Core registers the mutation rebuild after every module, and mutations must resolve
+		// species that already exist in the live map.
+		event.addListener(TreeSpeciesManager.INSTANCE);
+	}
+
+	@Override
+	public void syncDatapack(OnDatapackSyncEvent event) {
+		TreeSpeciesSyncPacket treePacket = new TreeSpeciesSyncPacket(TreeSpeciesManager.INSTANCE.getDefinitions());
+		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(treePacket, player));
 	}
 
 	@Override

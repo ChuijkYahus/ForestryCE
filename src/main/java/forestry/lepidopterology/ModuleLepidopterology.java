@@ -1,5 +1,10 @@
 package forestry.lepidopterology;
 
+import forestry.lepidopterology.genetics.ButterflySpeciesManager;
+import forestry.lepidopterology.network.ButterflySpeciesSyncPacket;
+import forestry.core.utils.NetworkUtil;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
@@ -56,6 +61,20 @@ public class ModuleLepidopterology extends BlankForestryModule {
 	@Override
 	public List<ResourceLocation> getModuleDependencies() {
 		return List.of(ForestryModuleIds.CORE, ForestryModuleIds.ARBORICULTURE);
+	}
+
+	@Override
+	public void registerReloadListeners(AddReloadListenerEvent event) {
+		// Load butterfly species from the "butterfly_species" datapack folder and rebuild the live species
+		// map from them. Core registers the mutation rebuild after every module, and mutations must
+		// resolve species that already exist in the live map.
+		event.addListener(ButterflySpeciesManager.INSTANCE);
+	}
+
+	@Override
+	public void syncDatapack(OnDatapackSyncEvent event) {
+		ButterflySpeciesSyncPacket butterflyPacket = new ButterflySpeciesSyncPacket(ButterflySpeciesManager.INSTANCE.getDefinitions());
+		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(butterflyPacket, player));
 	}
 
 	@Override
