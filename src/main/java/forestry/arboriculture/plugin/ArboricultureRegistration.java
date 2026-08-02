@@ -1,4 +1,4 @@
-package forestry.apiimpl.plugin;
+package forestry.arboriculture.plugin;
 
 import com.google.common.collect.ImmutableMap;
 import forestry.api.arboriculture.ITreeSpecies;
@@ -10,6 +10,8 @@ import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.TreeManager;
 import forestry.arboriculture.charcoal.CharcoalManager;
+import forestry.apiimpl.plugin.Registrar;
+import forestry.apiimpl.plugin.SpeciesRegistration;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;

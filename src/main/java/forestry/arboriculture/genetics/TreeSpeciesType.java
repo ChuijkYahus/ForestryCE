@@ -20,7 +20,7 @@ import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
-import forestry.apiimpl.plugin.ArboricultureRegistration;
+import forestry.arboriculture.plugin.ArboricultureRegistration;
 import forestry.arboriculture.PodFruit;
 import forestry.arboriculture.blocks.BlockFruitPod;
 import forestry.arboriculture.blocks.ForestryLeafType;

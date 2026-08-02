@@ -1,4 +1,4 @@
-package forestry.apiimpl.plugin;
+package forestry.arboriculture.plugin;
 
 import com.google.common.base.Preconditions;
 import forestry.api.arboriculture.ITreeGenData;
@@ -9,6 +9,7 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.TreeSpecies;
 import forestry.arboriculture.worldgen.DefaultTreeGenerator;
+import forestry.apiimpl.plugin.SpeciesBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

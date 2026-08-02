@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
-import forestry.apiimpl.plugin.ArboricultureRegistration;
+import forestry.arboriculture.plugin.ArboricultureRegistration;
 import forestry.arboriculture.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.genetics.TreeSpeciesDefinition;
 import forestry.core.utils.SpeciesUtil;
