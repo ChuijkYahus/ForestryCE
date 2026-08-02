@@ -7,6 +7,10 @@ import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.client.genetics.IGeneticClientManager;
 import forestry.api.client.lepidopterology.IButterflyClientManager;
 import forestry.api.client.plugin.IClientHelper;
+import forestry.apiimpl.client.fake.FakeBeeClientManager;
+import forestry.apiimpl.client.fake.FakeButterflyClientManager;
+import forestry.apiimpl.client.fake.FakeClientHelper;
+import forestry.apiimpl.client.fake.FakeTreeClientManager;
 import forestry.core.render.ForestryTextureManager;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import org.jetbrains.annotations.ApiStatus;
@@ -17,21 +21,19 @@ import java.util.ServiceLoader;
 public class ForestryClientApiImpl implements IForestryClientApi {
 	// Resolved by service rather than constructed: every IClientHelper method returns an arboriculture
 	// type, and ForestryLeafSprites resolves the helper from a static initializer, too early for any
-	// lifecycle hook to have installed one.
-	// todo orElseThrow is correct while there is one jar, since the service is always present. Phase 6
-	//  replaces it with the isLoaded() no-op helper, once a missing arboriculture jar is possible.
-	private final IClientHelper helper = ServiceLoader.load(IClientHelper.class).findFirst().orElseThrow();
+	// lifecycle hook to have installed one. Falls back to the no-op when the arboriculture module is
+	// absent.
+	private final IClientHelper helper = ServiceLoader.load(IClientHelper.class).findFirst().orElse(FakeClientHelper.INSTANCE);
 
 	@Nullable
 	private ITextureManager textureManager;
 	@Nullable
 	private IGeneticClientManager geneticManager;
-	@Nullable
-	private IBeeClientManager beeManager;
-	@Nullable
-	private ITreeClientManager treeManager;
-	@Nullable
-	private IButterflyClientManager butterflyManager;
+	// The three managers whose module can be absent start at their no-op, and the owning module
+	// overwrites them. See IForestryModule.installClientManagers
+	private IBeeClientManager beeManager = FakeBeeClientManager.INSTANCE;
+	private ITreeClientManager treeManager = FakeTreeClientManager.INSTANCE;
+	private IButterflyClientManager butterflyManager = FakeButterflyClientManager.INSTANCE;
 
 	@Override
 	public ITextureManager getTextureManager() {
@@ -51,29 +53,17 @@ public class ForestryClientApiImpl implements IForestryClientApi {
 	}
 
 	public IBeeClientManager getBeeManager() {
-		IBeeClientManager manager = this.beeManager;
-		if (manager == null) {
-			throw new IllegalStateException("IBeeClientManager not initialized yet");
-		}
-		return manager;
+		return this.beeManager;
 	}
 
 	@Override
 	public ITreeClientManager getTreeManager() {
-		ITreeClientManager manager = this.treeManager;
-		if (manager == null) {
-			throw new IllegalStateException("ITreeClientManager not initialized yet");
-		}
-		return manager;
+		return this.treeManager;
 	}
 
 	@Override
 	public IButterflyClientManager getButterflyManager() {
-		IButterflyClientManager manager = this.butterflyManager;
-		if (manager == null) {
-			throw new IllegalStateException("IButterflyClientManager not initialized yet");
-		}
-		return manager;
+		return this.butterflyManager;
 	}
 
 	@Override

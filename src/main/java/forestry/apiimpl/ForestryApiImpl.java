@@ -11,6 +11,9 @@ import forestry.api.genetics.IGeneticManager;
 import forestry.api.genetics.filter.IFilterManager;
 import forestry.api.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
+import forestry.apiimpl.fake.FakeFarmingManager;
+import forestry.apiimpl.fake.FakeHiveManager;
+import forestry.apiimpl.fake.FakeTreeManager;
 import forestry.core.circuits.CircuitManager;
 import forestry.core.climate.ForestryClimateManager;
 import forestry.core.errors.ErrorManager;
@@ -21,13 +24,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class ForestryApiImpl implements IForestryApi {
 	private final IModuleManager moduleManager = new ForestryModuleManager();
-	@Nullable
-	private IFarmingManager farmingManager;
+	// The three managers whose module can be absent start at their no-op, and the owning module
+	// overwrites them. See IForestryModule.installManagers
+	private IFarmingManager farmingManager = FakeFarmingManager.INSTANCE;
 	private final IClimateManager biomeManager = new ForestryClimateManager();
-	@Nullable
-	private IHiveManager hiveManager;
-	@Nullable
-	private ITreeManager treeManager;
+	private IHiveManager hiveManager = FakeHiveManager.INSTANCE;
+	private ITreeManager treeManager = FakeTreeManager.INSTANCE;
 	@Nullable
 	private IGeneticManager geneticManager;
 	@Nullable
@@ -46,11 +48,7 @@ public class ForestryApiImpl implements IForestryApi {
 
 	@Override
 	public IFarmingManager getFarmingManager() {
-		IFarmingManager manager = this.farmingManager;
-		if (manager == null) {
-			throw new IllegalStateException("IFarmingManager not initialized yet");
-		}
-		return manager;
+		return this.farmingManager;
 	}
 
 	@Override
@@ -69,20 +67,12 @@ public class ForestryApiImpl implements IForestryApi {
 
 	@Override
 	public IHiveManager getHiveManager() {
-		IHiveManager manager = this.hiveManager;
-		if (manager == null) {
-			throw new IllegalStateException("IHiveManager not initialized yet");
-		}
-		return manager;
+		return this.hiveManager;
 	}
 
 	@Override
 	public ITreeManager getTreeManager() {
-		ITreeManager manager = this.treeManager;
-		if (manager == null) {
-			throw new IllegalStateException("ITreeManager not initialized yet");
-		}
-		return manager;
+		return this.treeManager;
 	}
 
 	@Override
