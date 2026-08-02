@@ -142,11 +142,6 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	public static IHygroregulatorRecipe getHygroRegulatorRecipe(RecipeManager manager, FluidStack input) {
-		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> FluidStack.isSameFluidSameComponents(input, recipe.getInputFluid()) && input.getAmount() >= recipe.getInputFluid().getAmount());
-	}
-
-	@Nullable
 	public static IFermenterRecipe getFermenterRecipe(RecipeManager manager, ItemStack inputItem, FluidStack inputFluid) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.FERMENTER, recipe -> recipe.matches(inputItem, inputFluid));
 	}
@@ -220,7 +215,7 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	private static <R extends IForestryRecipe> R getMatchingRecipe(RecipeManager manager, FeatureRecipeType<R> type, Predicate<R> matcher) {
+	public static <R extends IForestryRecipe> R getMatchingRecipe(RecipeManager manager, FeatureRecipeType<R> type, Predicate<R> matcher) {
 		return getRecipes(manager, type)
 			.filter(matcher)
 			.findFirst()

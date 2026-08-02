@@ -4,6 +4,7 @@ import forestry.api.climate.IClimateControlled;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.api.recipes.IHygroregulatorRecipe;
+import forestry.apiculture.features.ApicultureRecipeTypes;
 import forestry.apiculture.gui.ContainerAlvearyHygroregulator;
 import forestry.apiculture.inventory.InventoryHygroregulator;
 import forestry.core.config.Constants;
@@ -22,6 +23,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -29,6 +31,10 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import javax.annotation.Nullable;
 
 public class TileAlvearyHygroregulator extends TileAlveary implements Container, ILiquidTankTile, IAlvearyComponent.Climatiser<MultiblockLogicAlveary>, IAlvearyComponent.HasInventory {
+	// Both of these lived in core (FluidRecipeFilter and RecipeUtils) and named the hygroregulator
+	// recipe type, which is apiculture's. This tile is their only consumer
+	private static final FluidRecipeFilter HYGROREGULATOR_INPUT = new FluidRecipeFilter(manager -> RecipeUtils.getTargetFluidsFromStacks(manager, ApicultureRecipeTypes.HYGROREGULATOR.type(), IHygroregulatorRecipe::getInputFluid));
+
 	private final TankManager tankManager;
 	private final FilteredTank liquidTank;
 	private final IInventoryAdapter inventory;
@@ -42,7 +48,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 		super(BlockAlveary.Type.HYGRO, pos, state);
 
 		this.inventory = new InventoryHygroregulator(this);
-		this.liquidTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY).setFilter(FluidRecipeFilter.HYGROREGULATOR_INPUT);
+		this.liquidTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY).setFilter(HYGROREGULATOR_INPUT);
 		this.tankManager = new TankManager(this, this.liquidTank);
 	}
 
@@ -63,7 +69,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 			FluidStack fluid = this.liquidTank.getFluid();
 
 			if (!fluid.isEmpty()) {
-				this.currentRecipe = RecipeUtils.getHygroRegulatorRecipe(this.level.getRecipeManager(), fluid);
+				this.currentRecipe = getHygroRegulatorRecipe(this.level.getRecipeManager(), fluid);
 
 				if (this.currentRecipe != null) {
 					this.liquidTank.drainInternal(this.currentRecipe.getInputFluid().getAmount(), IFluidHandler.FluidAction.EXECUTE);
@@ -98,7 +104,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 
 		if (compoundNBT.contains("CurrentLiquid")) {
 			FluidStack liquid = FluidStack.parseOptional(registries, compoundNBT.getCompound("CurrentLiquid"));
-            this.currentRecipe = RecipeUtils.getHygroRegulatorRecipe(RecipeUtils.getRecipeManager(), liquid);
+            this.currentRecipe = getHygroRegulatorRecipe(RecipeUtils.getRecipeManager(), liquid);
 		}
 	}
 
@@ -128,5 +134,10 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
 		return new ContainerAlvearyHygroregulator(windowId, inv, this);
+	}
+
+	@Nullable
+	private static IHygroregulatorRecipe getHygroRegulatorRecipe(RecipeManager manager, FluidStack input) {
+		return RecipeUtils.getMatchingRecipe(manager, ApicultureRecipeTypes.HYGROREGULATOR, recipe -> FluidStack.isSameFluidSameComponents(input, recipe.getInputFluid()) && input.getAmount() >= recipe.getInputFluid().getAmount());
 	}
 }
