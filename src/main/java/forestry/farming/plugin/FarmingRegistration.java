@@ -1,10 +1,11 @@
-package forestry.apiimpl.plugin;
+package forestry.farming.plugin;
 
 import com.google.common.collect.ImmutableMap;
 import forestry.api.farming.IFarmLogic;
 import forestry.api.farming.IFarmType;
 import forestry.api.plugin.IFarmTypeBuilder;
 import forestry.api.plugin.IFarmingRegistration;
+import forestry.apiimpl.plugin.ModifiableRegistrar;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

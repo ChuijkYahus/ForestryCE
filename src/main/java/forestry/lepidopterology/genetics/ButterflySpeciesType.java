@@ -17,7 +17,7 @@ import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
-import forestry.apiimpl.plugin.LepidopterologyRegistration;
+import forestry.lepidopterology.plugin.LepidopterologyRegistration;
 import forestry.core.genetics.SpeciesType;
 import forestry.core.genetics.root.BreedingTrackerManager;
 import forestry.core.tiles.TileUtil;

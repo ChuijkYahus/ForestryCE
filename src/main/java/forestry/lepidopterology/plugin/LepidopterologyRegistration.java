@@ -1,4 +1,4 @@
-package forestry.apiimpl.plugin;
+package forestry.lepidopterology.plugin;
 
 import com.google.common.collect.ImmutableMap;
 import forestry.api.genetics.ISpeciesType;
@@ -7,6 +7,8 @@ import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.api.plugin.ILepidopterologyRegistration;
+import forestry.apiimpl.plugin.Registrar;
+import forestry.apiimpl.plugin.SpeciesRegistration;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 

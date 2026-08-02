@@ -1,4 +1,4 @@
-package forestry.apiimpl.plugin;
+package forestry.farming.plugin;
 
 import com.google.common.collect.ImmutableSet;
 import forestry.api.farming.IFarmable;

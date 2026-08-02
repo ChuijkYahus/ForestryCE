@@ -35,6 +35,7 @@ import forestry.core.errors.ErrorManager;
 import forestry.core.genetics.PollenManager;
 import forestry.core.utils.SpeciesUtil;
 import forestry.farming.FarmingManager;
+import forestry.farming.plugin.FarmingRegistration;
 import forestry.sorting.FilterManager;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;

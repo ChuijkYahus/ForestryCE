@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.api.plugin.ILepidopterologyRegistration;
-import forestry.apiimpl.plugin.LepidopterologyRegistration;
+import forestry.lepidopterology.plugin.LepidopterologyRegistration;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
 import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
