@@ -15,7 +15,7 @@ import forestry.core.platform.multiblock.MultiblockTileEntityForestry;
 import forestry.core.platform.network.IStreamableGui;
 import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
-import forestry.core.tiles.ITitled;
+import forestry.core.platform.tile.ITitled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;

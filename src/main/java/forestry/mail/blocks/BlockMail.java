@@ -1,6 +1,6 @@
 package forestry.mail.blocks;
 
-import forestry.core.blocks.BlockBase;
+import forestry.core.platform.block.BlockBase;
 
 public class BlockMail extends BlockBase<BlockTypeMail> {
 	public BlockMail(BlockTypeMail blockType) {

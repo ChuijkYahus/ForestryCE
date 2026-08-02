@@ -22,7 +22,7 @@ import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.arboriculture.features.ArboricultureTiles;
 import forestry.arboriculture.network.IRipeningPacketReceiver;
 import forestry.arboriculture.network.PacketRipeningUpdate;
-import forestry.core.ClientsideCode;
+import forestry.core.platform.client.ClientsideCode;
 import forestry.core.platform.network.packets.PacketTileStream;
 import forestry.core.platform.util.ColourUtil;
 import forestry.core.platform.util.NetworkUtil;

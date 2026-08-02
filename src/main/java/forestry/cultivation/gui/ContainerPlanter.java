@@ -5,7 +5,7 @@ import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotLiquidIn;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.network.packets.PacketGuiStream;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.cultivation.features.CultivationMenuTypes;
 import forestry.cultivation.inventory.InventoryPlanter;
 import forestry.cultivation.tiles.TilePlanter;

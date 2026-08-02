@@ -2,7 +2,7 @@ package forestry.mail.network.packets;
 
 import forestry.mail.network.MailPacketIds;
 
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.mail.tiles.TileTrader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;

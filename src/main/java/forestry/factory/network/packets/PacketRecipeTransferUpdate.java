@@ -1,7 +1,7 @@
 package forestry.factory.network.packets;
 
 import forestry.core.platform.network.PacketIdClient;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.factory.tiles.TileCarpenter;
 import forestry.factory.tiles.TileFabricator;

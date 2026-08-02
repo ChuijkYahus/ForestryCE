@@ -5,7 +5,7 @@ import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotLocked;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.network.packets.PacketItemStackDisplay;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.tiles.TileCentrifuge;
 import net.minecraft.network.FriendlyByteBuf;

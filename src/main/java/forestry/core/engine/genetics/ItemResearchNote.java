@@ -5,7 +5,7 @@ import forestry.api.IForestryApi;
 import forestry.api.core.genetics.*;
 import forestry.core.features.CoreItems;
 import forestry.core.engine.genetics.mutations.EnumMutateChance;
-import forestry.core.items.ItemForestry;
+import forestry.core.platform.item.ItemForestry;
 import forestry.core.platform.util.NBTUtilForestry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;

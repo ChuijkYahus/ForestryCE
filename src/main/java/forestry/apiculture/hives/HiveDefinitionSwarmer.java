@@ -8,7 +8,7 @@ import forestry.api.core.TemperatureType;
 import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.tiles.TileHive;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;

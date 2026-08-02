@@ -5,7 +5,7 @@ import forestry.arboriculture.blocks.BlockAsh;
 import forestry.arboriculture.blocks.BlockCharcoal;
 import forestry.arboriculture.blocks.DecorativeLogPileBlock;
 import forestry.arboriculture.blocks.LogPileBlock;
-import forestry.core.items.ItemBlockForestry;
+import forestry.core.platform.item.ItemBlockForestry;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;

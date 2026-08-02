@@ -1,7 +1,7 @@
 package forestry.core.platform.registration;
 
-import forestry.core.ClientsideCode;
-import forestry.core.items.definitions.DrinkProperties;
+import forestry.core.platform.client.ClientsideCode;
+import forestry.core.platform.item.DrinkProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;

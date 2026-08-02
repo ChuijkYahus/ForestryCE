@@ -23,7 +23,7 @@ import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.IGeneticRegistration;
 import forestry.api.plugin.ILepidopterologyRegistration;
 import forestry.core.features.CoreItems;
-import forestry.core.items.definitions.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.lepidopterology.DummyButterflyEffect;
 import forestry.lepidopterology.LepidopterologyFilterRule;
 import forestry.lepidopterology.LepidopterologyFilterRuleType;

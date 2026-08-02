@@ -3,7 +3,7 @@ package forestry.factory.recipes.jei;
 import forestry.api.core.machines.fuels.FuelManager;
 import forestry.api.core.machines.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.ClientsideCode;
+import forestry.core.platform.client.ClientsideCode;
 import forestry.core.features.FluidsItems;
 import forestry.core.platform.gui.GuiForestry;
 import forestry.core.platform.gui.widgets.TankWidget;

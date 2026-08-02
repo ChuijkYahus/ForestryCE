@@ -2,7 +2,7 @@ package forestry.mail.items;
 
 import forestry.api.ForestryTags;
 import forestry.api.mail.EnumPostage;
-import forestry.core.items.ItemOverlay;
+import forestry.core.platform.item.ItemOverlay;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;

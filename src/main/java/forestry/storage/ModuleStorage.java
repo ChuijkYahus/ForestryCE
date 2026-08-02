@@ -6,7 +6,7 @@ import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.core.backpacks.IBackpackInterface;
-import forestry.core.ForestryColors;
+import forestry.core.platform.client.ForestryColors;
 import forestry.core.platform.config.ForestryConfig;
 import forestry.modules.BlankForestryModule;
 import forestry.storage.client.StorageClientHandler;

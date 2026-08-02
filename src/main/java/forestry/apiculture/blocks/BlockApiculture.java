@@ -1,6 +1,6 @@
 package forestry.apiculture.blocks;
 
-import forestry.core.blocks.BlockBase;
+import forestry.core.platform.block.BlockBase;
 import net.minecraft.world.level.block.SoundType;
 
 public class BlockApiculture extends BlockBase<BlockTypeApiculture> {

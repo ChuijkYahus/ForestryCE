@@ -1,6 +1,6 @@
 package forestry.cultivation.items;
 
-import forestry.core.items.ItemBlockForestry;
+import forestry.core.platform.item.ItemBlockForestry;
 import forestry.cultivation.blocks.BlockPlanter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

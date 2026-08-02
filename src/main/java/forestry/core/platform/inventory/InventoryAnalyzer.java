@@ -1,7 +1,7 @@
 package forestry.core.platform.inventory;
 
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
-import forestry.core.tiles.TileAnalyzer;
+import forestry.core.content.analyzer.TileAnalyzer;
 import forestry.core.platform.util.GeneticsUtil;
 import forestry.core.platform.util.SlotUtil;
 import forestry.core.platform.util.SpeciesUtil;

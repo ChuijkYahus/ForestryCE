@@ -1,10 +1,12 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.blocks.NaturalistChestBlockType;
-import forestry.core.blocks.*;
-import forestry.core.items.ItemBlockForestry;
-import forestry.core.items.ItemBlockTesr;
+import forestry.core.platform.block.NaturalistChestBlockType;
+import forestry.core.platform.block.*;
+import forestry.core.content.soil.*;
+import forestry.core.content.resources.*;
+import forestry.core.platform.item.ItemBlockForestry;
+import forestry.core.platform.item.ItemBlockTesr;
 import forestry.core.platform.registration.*;
 import java.util.List;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -13,7 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.MapColor;
 

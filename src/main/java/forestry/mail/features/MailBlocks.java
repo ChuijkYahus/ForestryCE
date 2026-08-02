@@ -1,7 +1,7 @@
 package forestry.mail.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.items.ItemBlockForestry;
+import forestry.core.platform.item.ItemBlockForestry;
 import forestry.mail.blocks.BlockMail;
 import forestry.mail.blocks.BlockTypeMail;
 import forestry.core.platform.registration.FeatureBlockGroup;

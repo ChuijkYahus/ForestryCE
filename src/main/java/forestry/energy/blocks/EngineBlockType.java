@@ -1,8 +1,8 @@
 package forestry.energy.blocks;
 
-import forestry.core.blocks.IBlockType;
-import forestry.core.blocks.IMachineProperties;
-import forestry.core.blocks.MachineProperties;
+import forestry.core.platform.block.IBlockType;
+import forestry.core.platform.block.IMachineProperties;
+import forestry.core.platform.block.MachineProperties;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.tiles.EngineBlockEntity;
 import forestry.core.platform.registration.FeatureTileType;

@@ -11,7 +11,7 @@ import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.platform.config.ForestryConfig;
 import forestry.core.features.CoreDataComponents;
-import forestry.core.items.ItemForestry;
+import forestry.core.platform.item.ItemForestry;
 import forestry.core.platform.util.GeneticsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;

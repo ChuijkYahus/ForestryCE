@@ -3,7 +3,7 @@ package forestry.mail.items;
 import forestry.api.core.ItemGroups;
 import forestry.api.mail.EnumPostage;
 import forestry.api.mail.IStamps;
-import forestry.core.items.ItemOverlay;
+import forestry.core.platform.item.ItemOverlay;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemStamp extends ItemOverlay implements IStamps {

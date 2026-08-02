@@ -1,7 +1,7 @@
 package forestry.farming.logic.crops;
 
 import forestry.api.core.genetics.IFruitBearer;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;

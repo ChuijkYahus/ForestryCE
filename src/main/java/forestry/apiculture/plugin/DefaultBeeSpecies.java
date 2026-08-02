@@ -12,7 +12,7 @@ import forestry.apiculture.genetics.HermitBeeJubilance;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.core.features.CoreItems;
-import forestry.core.items.definitions.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumCraftingMaterial;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

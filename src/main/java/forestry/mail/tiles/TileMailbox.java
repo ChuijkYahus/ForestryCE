@@ -5,7 +5,7 @@ import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
 import forestry.core.platform.inventory.InventoryAdapter;
-import forestry.core.tiles.TileBase;
+import forestry.core.platform.tile.TileBase;
 import forestry.mail.LetterUtils;
 import forestry.mail.MailAddress;
 import forestry.mail.PostOffice;

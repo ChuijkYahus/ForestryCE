@@ -1,16 +1,20 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.items.ItemBeesWax;
-import forestry.core.items.ItemScoop;
-import forestry.core.items.ItemRefractoryWax;
+import forestry.core.content.resources.ItemBeesWax;
+import forestry.core.content.tools.ItemScoop;
+import forestry.core.content.resources.ItemRefractoryWax;
 import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.engine.circuits.ItemCircuitBoard;
 import forestry.core.engine.genetics.ItemResearchNote;
 import forestry.core.items.*;
-import forestry.core.items.definitions.EnumCraftingMaterial;
-import forestry.core.items.definitions.EnumElectronTube;
-import forestry.core.items.definitions.ToolTier;
+import forestry.core.platform.item.*;
+import forestry.core.content.tools.*;
+import forestry.core.content.analyzer.*;
+import forestry.core.content.resources.*;
+import forestry.core.content.resources.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumElectronTube;
+import forestry.core.content.tools.ToolTier;
 import forestry.core.platform.registration.*;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.AxeItem;

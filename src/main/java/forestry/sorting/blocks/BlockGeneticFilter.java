@@ -1,8 +1,8 @@
 package forestry.sorting.blocks;
 
-import forestry.core.blocks.BlockForestry;
-import forestry.core.tiles.IForestryTicker;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.block.BlockForestry;
+import forestry.core.platform.tile.IForestryTicker;
+import forestry.core.platform.tile.TileUtil;
 import forestry.sorting.features.SortingTiles;
 import forestry.sorting.tiles.TileGeneticFilter;
 import net.minecraft.core.BlockPos;

@@ -7,7 +7,7 @@ import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.engine.genetics.ItemGE;
-import forestry.core.items.definitions.IColoredItem;
+import forestry.core.platform.item.IColoredItem;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.EntityUtil;
 import forestry.core.platform.util.NBTUtilForestry;

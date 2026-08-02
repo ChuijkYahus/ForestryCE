@@ -12,7 +12,7 @@ import forestry.api.core.genetics.IIndividual;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.apiculture.genetics.Bee;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;

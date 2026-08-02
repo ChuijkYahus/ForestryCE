@@ -6,7 +6,7 @@ import forestry.core.platform.gui.slots.SlotCraftMatrix;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.inventory.InventoryGhostCrafting;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryFabricator;
 import forestry.factory.tiles.TileFabricator;

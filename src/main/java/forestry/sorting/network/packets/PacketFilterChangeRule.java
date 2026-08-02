@@ -4,7 +4,7 @@ import forestry.api.ForestryCapabilities;
 import forestry.api.IForestryApi;
 import forestry.api.core.genetics.filter.IFilterRuleType;
 import forestry.core.platform.network.PacketIdServer;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.RegistryFriendlyByteBuf;

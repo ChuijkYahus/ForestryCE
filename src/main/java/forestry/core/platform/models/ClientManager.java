@@ -1,7 +1,7 @@
 package forestry.core.platform.models;
 
-import forestry.core.blocks.IColoredBlock;
-import forestry.core.items.definitions.IColoredItem;
+import forestry.core.platform.block.IColoredBlock;
+import forestry.core.platform.item.IColoredItem;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.platform.util.ResourceUtil;
 import forestry.core.platform.registration.FeatureBlock;

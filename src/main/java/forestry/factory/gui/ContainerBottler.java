@@ -4,7 +4,7 @@ import forestry.core.platform.gui.ContainerLiquidTanks;
 import forestry.core.platform.gui.slots.SlotEmptyLiquidContainerIn;
 import forestry.core.platform.gui.slots.SlotLiquidIn;
 import forestry.core.platform.gui.slots.SlotOutput;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryBottler;
 import forestry.factory.tiles.TileBottler;

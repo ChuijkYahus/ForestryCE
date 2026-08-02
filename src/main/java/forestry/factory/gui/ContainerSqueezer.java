@@ -4,7 +4,7 @@ import forestry.core.platform.gui.ContainerLiquidTanksSocketed;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotLiquidIn;
 import forestry.core.platform.gui.slots.SlotOutput;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventorySqueezer;
 import forestry.factory.tiles.TileSqueezer;

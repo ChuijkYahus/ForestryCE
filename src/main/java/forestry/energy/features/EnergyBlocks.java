@@ -1,7 +1,7 @@
 package forestry.energy.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.items.ItemBlockTesr;
+import forestry.core.platform.item.ItemBlockTesr;
 import forestry.energy.blocks.EngineBlock;
 import forestry.energy.blocks.EngineBlockType;
 import forestry.core.platform.registration.FeatureBlockGroup;

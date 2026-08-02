@@ -2,7 +2,7 @@ package forestry.worktable.tiles;
 
 import forestry.core.platform.inventory.InventoryGhostCrafting;
 import forestry.core.platform.inventory.wrappers.InventoryMapper;
-import forestry.core.tiles.TileBase;
+import forestry.core.platform.tile.TileBase;
 import forestry.core.platform.util.InventoryUtil;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.RecipeUtils;

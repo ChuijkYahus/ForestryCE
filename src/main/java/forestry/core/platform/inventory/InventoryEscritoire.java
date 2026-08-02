@@ -2,8 +2,8 @@ package forestry.core.platform.inventory;
 
 import forestry.api.core.genetics.IIndividual;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
-import forestry.core.tiles.EscritoireGame;
-import forestry.core.tiles.TileEscritoire;
+import forestry.core.content.escritoire.EscritoireGame;
+import forestry.core.content.escritoire.TileEscritoire;
 import forestry.core.platform.util.GeneticsUtil;
 import forestry.core.platform.util.SlotUtil;
 import net.minecraft.core.Direction;

@@ -1,10 +1,9 @@
 package forestry.core.platform.util;
 
 import forestry.api.core.machines.*;
-import forestry.core.ClientsideCode;
+import forestry.core.platform.client.ClientsideCode;
 import forestry.core.platform.fluids.FluidHelper;
 import forestry.factory.features.FactoryRecipeTypes;
-import forestry.factory.recipes.FabricatorSmeltingRecipe;
 import forestry.core.platform.registration.FeatureRecipeType;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import net.minecraft.core.NonNullList;

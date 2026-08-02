@@ -5,7 +5,7 @@ import forestry.api.apiculture.IBeeModifier;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.hives.IHiveFrame;
 import forestry.api.core.genetics.IGenome;
-import forestry.core.items.ItemForestry;
+import forestry.core.platform.item.ItemForestry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

@@ -1,7 +1,7 @@
 package forestry.energy.blocks;
 
-import forestry.core.blocks.BlockBase;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.tile.TileUtil;
 import forestry.energy.EnergyHelper;
 import forestry.energy.ForestryEnergyStorage;
 import forestry.energy.tiles.EngineBlockEntity;

@@ -1,6 +1,6 @@
 package forestry.farming.blocks;
 
-import forestry.core.blocks.BlockStructure;
+import forestry.core.platform.block.BlockStructure;
 import forestry.farming.tiles.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

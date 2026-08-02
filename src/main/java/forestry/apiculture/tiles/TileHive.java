@@ -21,7 +21,7 @@ import forestry.apiculture.genetics.effects.ThrottledBeeEffect;
 import forestry.core.platform.damage.CoreDamageTypes;
 import forestry.core.platform.inventory.InventoryAdapter;
 import forestry.core.platform.network.packets.PacketActiveUpdate;
-import forestry.core.tiles.IActivatable;
+import forestry.core.platform.tile.IActivatable;
 import forestry.core.platform.util.InventoryUtil;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.NetworkUtil;

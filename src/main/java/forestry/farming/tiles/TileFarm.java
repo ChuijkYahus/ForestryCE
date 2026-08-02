@@ -10,7 +10,7 @@ import forestry.core.platform.multiblock.MultiblockTileEntityForestry;
 import forestry.core.platform.network.IStreamableGui;
 import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
-import forestry.core.tiles.ITitled;
+import forestry.core.platform.tile.ITitled;
 import forestry.farming.gui.ContainerFarm;
 import forestry.farming.multiblock.MultiblockLogicFarm;
 import net.minecraft.core.BlockPos;

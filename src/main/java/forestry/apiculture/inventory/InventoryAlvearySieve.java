@@ -4,7 +4,7 @@ import forestry.apiculture.multiblock.TileAlvearySieve;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.inventory.InventoryAdapterTile;
 import forestry.core.platform.inventory.watchers.ISlotPickupWatcher;
-import forestry.core.items.definitions.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.core.platform.util.ItemStackUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

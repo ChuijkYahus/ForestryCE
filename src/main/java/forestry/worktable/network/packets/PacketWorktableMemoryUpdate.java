@@ -1,7 +1,7 @@
 package forestry.worktable.network.packets;
 
 import forestry.core.platform.network.PacketIdClient;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.tiles.WorktableTile;
 import net.minecraft.core.BlockPos;

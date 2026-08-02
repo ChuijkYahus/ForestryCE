@@ -3,7 +3,7 @@ package forestry.core.platform.gui;
 import forestry.api.core.IToolPipette;
 import forestry.core.platform.fluids.StandardTank;
 import forestry.core.platform.network.packets.PacketPipetteClick;
-import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.platform.tile.ILiquidTankTile;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

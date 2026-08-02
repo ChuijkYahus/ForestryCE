@@ -9,7 +9,7 @@ import forestry.api.core.multiblock.IMultiblockComponent;
 import forestry.core.platform.multiblock.pattern.MultiblockPattern;
 import forestry.core.platform.multiblock.pattern.PatternResult;
 import forestry.core.platform.multiblock.pattern.StructurePos;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 

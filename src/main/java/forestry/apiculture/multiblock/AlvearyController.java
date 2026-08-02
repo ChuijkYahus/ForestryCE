@@ -19,7 +19,7 @@ import forestry.core.platform.inventory.FakeInventoryAdapter;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.multiblock.MultiblockController;
 import forestry.core.platform.render.ParticleRender;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

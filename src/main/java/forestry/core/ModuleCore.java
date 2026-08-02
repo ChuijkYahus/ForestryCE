@@ -12,7 +12,7 @@ import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IPacketRegistry;
 import forestry.core.engine.genetics.TaxonManager;
 import forestry.apiimpl.plugin.PluginManager;
-import forestry.core.blocks.TileStreamUpdateTracker;
+import forestry.core.platform.block.TileStreamUpdateTracker;
 import forestry.core.platform.client.CoreClientHandler;
 import forestry.core.engine.climate.ForestryClimateManager;
 import forestry.core.platform.commands.DiagnosticsCommand;
@@ -20,8 +20,8 @@ import forestry.core.platform.commands.DumpCommand;
 import forestry.core.features.CoreItems;
 import forestry.core.features.CoreTiles;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
-import forestry.core.items.ItemPipette;
-import forestry.core.items.ItemSpectacles;
+import forestry.core.content.tools.ItemPipette;
+import forestry.core.content.tools.ItemSpectacles;
 import forestry.core.platform.loot.ConditionLootModifier;
 import forestry.core.platform.network.PacketIdClient;
 import forestry.core.platform.network.PacketIdServer;
@@ -56,6 +56,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
+import forestry.core.platform.PickupHandlerCore;
 
 @ForestryModule
 public class ModuleCore extends BlankForestryModule {

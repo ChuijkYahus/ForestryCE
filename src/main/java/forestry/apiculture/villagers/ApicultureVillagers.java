@@ -9,7 +9,7 @@ import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumPropolis;
-import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.platform.block.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;
 import forestry.core.platform.villager.VillagerTrade;
 import forestry.core.platform.villager.VillagerTrade.*;
@@ -36,7 +36,6 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.List;
 import java.util.Objects;

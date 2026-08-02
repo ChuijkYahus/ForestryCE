@@ -2,9 +2,9 @@ package forestry.apiculture.blocks;
 
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.tiles.TileBeeHousingBase;
-import forestry.core.blocks.IBlockType;
-import forestry.core.blocks.IMachineProperties;
-import forestry.core.blocks.MachineProperties;
+import forestry.core.platform.block.IBlockType;
+import forestry.core.platform.block.IMachineProperties;
+import forestry.core.platform.block.MachineProperties;
 import forestry.core.platform.registration.FeatureTileType;
 
 public enum BlockTypeApiculture implements IBlockType {

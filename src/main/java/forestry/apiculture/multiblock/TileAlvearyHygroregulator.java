@@ -13,7 +13,7 @@ import forestry.core.platform.fluids.FluidHelper;
 import forestry.core.platform.fluids.FluidRecipeFilter;
 import forestry.core.platform.fluids.TankManager;
 import forestry.api.core.IInventoryAdapter;
-import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.platform.tile.ILiquidTankTile;
 import forestry.core.platform.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

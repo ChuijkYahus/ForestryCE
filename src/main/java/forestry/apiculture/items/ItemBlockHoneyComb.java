@@ -1,8 +1,8 @@
 package forestry.apiculture.items;
 
 import forestry.apiculture.blocks.BlockHoneyComb;
-import forestry.core.items.ItemBlockForestry;
-import forestry.core.items.definitions.IColoredItem;
+import forestry.core.platform.item.ItemBlockForestry;
+import forestry.core.platform.item.IColoredItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 

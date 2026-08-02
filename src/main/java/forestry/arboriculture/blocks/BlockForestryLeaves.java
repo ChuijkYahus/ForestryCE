@@ -7,7 +7,7 @@ import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.arboriculture.tiles.TileLeaves;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.SpeciesUtil;

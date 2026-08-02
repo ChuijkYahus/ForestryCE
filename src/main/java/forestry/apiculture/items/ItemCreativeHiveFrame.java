@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.Level;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeModifier;
@@ -21,7 +20,7 @@ import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveFrame;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.IMutation;
-import forestry.core.items.ItemForestry;
+import forestry.core.platform.item.ItemForestry;
 
 import org.jetbrains.annotations.Nullable;
 

@@ -1,11 +1,15 @@
 package forestry.core.platform.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import forestry.core.blocks.NaturalistChestBlockType;
-import forestry.core.blocks.BlockBase;
-import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.platform.block.NaturalistChestBlockType;
+import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.block.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;
 import forestry.core.tiles.*;
+import forestry.core.platform.tile.*;
+import forestry.core.content.machines.*;
+import forestry.core.content.escritoire.*;
+import forestry.core.content.analyzer.*;
 import forestry.energy.blocks.EngineBlockType;
 import forestry.energy.features.EnergyBlocks;
 import forestry.energy.tiles.BiogasEngineBlockEntity;

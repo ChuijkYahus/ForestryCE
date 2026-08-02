@@ -3,7 +3,7 @@ package forestry.mail.gui;
 import forestry.core.platform.gui.ContainerTile;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotOutput;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.inventory.InventoryStampCollector;
 import forestry.mail.tiles.TileStampCollector;

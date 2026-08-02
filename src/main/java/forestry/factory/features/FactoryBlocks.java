@@ -1,8 +1,8 @@
 package forestry.factory.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.items.ItemBlockForestry;
-import forestry.core.items.ItemBlockTesr;
+import forestry.core.platform.item.ItemBlockForestry;
+import forestry.core.platform.item.ItemBlockTesr;
 import forestry.factory.blocks.BlockFactoryPlain;
 import forestry.factory.blocks.BlockFactoryTESR;
 import forestry.factory.blocks.BlockTypeFactoryPlain;

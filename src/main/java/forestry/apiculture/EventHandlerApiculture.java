@@ -20,7 +20,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
 /**
- * Apiculture's game-bus handlers. Split out of {@code forestry.core.EventHandlerCore} so the base
+ * Apiculture's game-bus handlers. Split out of {@code forestry.core.platform.EventHandlerCore} so the base
  * artifact does not wire bee content.
  */
 @EventBusSubscriber(modid = ForestryConstants.MOD_ID)

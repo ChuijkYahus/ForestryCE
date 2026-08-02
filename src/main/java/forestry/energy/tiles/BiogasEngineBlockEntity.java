@@ -6,7 +6,7 @@ import forestry.api.core.machines.fuels.EngineBronzeFuel;
 import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.fluids.*;
-import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.platform.tile.ILiquidTankTile;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.inventory.InventoryEngineBiogas;
 import forestry.energy.menu.BiogasEngineMenu;

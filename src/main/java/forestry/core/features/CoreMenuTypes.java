@@ -2,9 +2,9 @@ package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.engine.circuits.ContainerSolderingIron;
-import forestry.core.platform.gui.PortableAnalyzerMenu;
-import forestry.core.platform.gui.ContainerAnalyzer;
-import forestry.core.platform.gui.ContainerEscritoire;
+import forestry.core.content.analyzer.PortableAnalyzerMenu;
+import forestry.core.content.analyzer.ContainerAnalyzer;
+import forestry.core.content.escritoire.ContainerEscritoire;
 import forestry.core.platform.gui.ContainerNaturalistInventory;
 import forestry.core.platform.registration.FeatureMenuType;
 import forestry.core.platform.registration.FeatureProvider;

@@ -5,7 +5,7 @@ import forestry.apiculture.inventory.InventoryHygroregulator;
 import forestry.apiculture.multiblock.TileAlvearyHygroregulator;
 import forestry.core.platform.gui.ContainerLiquidTanks;
 import forestry.core.platform.gui.slots.SlotLiquidIn;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 

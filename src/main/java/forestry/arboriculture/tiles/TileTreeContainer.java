@@ -3,7 +3,7 @@ package forestry.arboriculture.tiles;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.core.ClientsideCode;
+import forestry.core.platform.client.ClientsideCode;
 import forestry.core.platform.network.IStreamable;
 import forestry.core.platform.util.NBTUtilForestry;
 import forestry.core.platform.util.SpeciesUtil;

@@ -9,7 +9,7 @@ import forestry.core.platform.fluids.FluidHelper;
 import forestry.core.platform.fluids.TankManager;
 import forestry.core.platform.inventory.InventoryAdapterRestricted;
 import forestry.core.platform.inventory.wrappers.InventoryMapper;
-import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.platform.tile.ILiquidTankTile;
 import forestry.core.platform.util.InventoryUtil;
 import forestry.core.platform.util.SlotUtil;
 import net.minecraft.core.BlockPos;

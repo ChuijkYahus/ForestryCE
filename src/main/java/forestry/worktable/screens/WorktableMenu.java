@@ -7,7 +7,7 @@ import forestry.core.platform.gui.slots.SlotCraftMatrix;
 import forestry.core.platform.gui.slots.WorktableSlot;
 import forestry.core.platform.inventory.InventoryGhostCrafting;
 import forestry.core.platform.network.packets.PacketGuiSelectRequest;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.worktable.features.WorktableMenus;

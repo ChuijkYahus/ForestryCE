@@ -6,7 +6,7 @@ import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotLiquidIn;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.network.packets.PacketGuiStream;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.farming.features.FarmingMenuTypes;
 import forestry.farming.multiblock.InventoryFarm;
 import forestry.farming.tiles.TileFarm;

@@ -13,7 +13,7 @@ import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.platform.owner.OwnerHandler;
 import forestry.core.platform.render.ParticleRender;
-import forestry.core.tiles.TileBase;
+import forestry.core.platform.tile.TileBase;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

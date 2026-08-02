@@ -12,7 +12,7 @@ import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.platform.owner.OwnerHandler;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

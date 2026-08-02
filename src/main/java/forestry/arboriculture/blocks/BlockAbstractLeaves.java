@@ -8,7 +8,7 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.core.blocks.IColoredBlock;
+import forestry.core.platform.block.IColoredBlock;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;

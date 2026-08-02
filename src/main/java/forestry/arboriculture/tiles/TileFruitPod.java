@@ -6,7 +6,7 @@ import forestry.api.core.genetics.IFruitBearer;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.features.ArboricultureTiles;
-import forestry.core.ClientsideCode;
+import forestry.core.platform.client.ClientsideCode;
 import forestry.core.platform.network.IStreamable;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.NBTUtilForestry;

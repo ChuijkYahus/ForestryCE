@@ -1,7 +1,7 @@
 package forestry.farming.tiles;
 
 import forestry.core.platform.fluids.ITankManager;
-import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.platform.tile.ILiquidTankTile;
 import forestry.farming.features.FarmingTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

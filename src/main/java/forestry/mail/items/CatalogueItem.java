@@ -1,6 +1,6 @@
 package forestry.mail.items;
 
-import forestry.core.items.WithScreenItem;
+import forestry.core.platform.item.WithScreenItem;
 import forestry.mail.gui.ContainerCatalogue;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;

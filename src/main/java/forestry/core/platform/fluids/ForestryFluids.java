@@ -2,8 +2,8 @@ package forestry.core.platform.fluids;
 
 import forestry.api.ForestryConstants;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.ForestryColors;
-import forestry.core.items.definitions.DrinkProperties;
+import forestry.core.platform.client.ForestryColors;
+import forestry.core.platform.item.DrinkProperties;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.platform.registration.*;
 import net.minecraft.core.Holder;

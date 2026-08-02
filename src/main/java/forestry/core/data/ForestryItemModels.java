@@ -7,7 +7,7 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemFruit;
-import forestry.core.items.definitions.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.LetterItem;

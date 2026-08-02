@@ -4,7 +4,7 @@ import forestry.core.platform.gui.ContainerLiquidTanks;
 import forestry.core.platform.gui.IContainerCrafting;
 import forestry.core.platform.gui.slots.*;
 import forestry.core.platform.network.packets.PacketItemStackDisplay;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryCarpenter;
 import forestry.factory.tiles.TileCarpenter;

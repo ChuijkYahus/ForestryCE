@@ -4,7 +4,7 @@ import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.apiculture.blocks.BlockApiculture;
 import forestry.apiculture.items.ItemBeeGE;
 import forestry.apiculture.tiles.TileBeeHouse;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.InventoryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.SimpleContainer;

@@ -3,7 +3,7 @@ package forestry.sorting.network.packets;
 import forestry.api.ForestryCapabilities;
 import forestry.api.core.genetics.ISpecies;
 import forestry.core.platform.network.PacketIdServer;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;

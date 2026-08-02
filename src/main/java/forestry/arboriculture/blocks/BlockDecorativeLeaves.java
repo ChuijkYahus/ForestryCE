@@ -4,7 +4,7 @@ import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.core.blocks.IColoredBlock;
+import forestry.core.platform.block.IColoredBlock;
 import forestry.core.platform.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -13,7 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +40,7 @@ import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.compat.curios.CuriosCompat;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.engine.genetics.ItemGE;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 
 public class GeneticsUtil {
 	private static String getKeyPrefix(ISpecies<?> allele) {

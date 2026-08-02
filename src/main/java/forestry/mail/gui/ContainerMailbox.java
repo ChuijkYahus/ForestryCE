@@ -2,7 +2,7 @@ package forestry.mail.gui;
 
 import forestry.core.platform.gui.ContainerTile;
 import forestry.core.platform.gui.slots.SlotOutput;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.core.platform.util.SlotUtil;
 import forestry.mail.carriers.players.POBox;

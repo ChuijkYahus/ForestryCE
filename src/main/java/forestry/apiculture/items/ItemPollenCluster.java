@@ -1,7 +1,7 @@
 package forestry.apiculture.items;
 
 import forestry.api.core.ItemGroups;
-import forestry.core.items.ItemOverlay;
+import forestry.core.platform.item.ItemOverlay;
 
 public class ItemPollenCluster extends ItemOverlay {
 	public ItemPollenCluster(EnumPollenCluster type) {

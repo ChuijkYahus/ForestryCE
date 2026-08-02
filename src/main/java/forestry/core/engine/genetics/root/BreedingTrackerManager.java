@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.core.genetics.IBreedingTracker;
 import forestry.api.core.genetics.IBreedingTrackerManager;
 import forestry.api.core.genetics.ISpeciesType;
-import forestry.core.ClientsideCode;
+import forestry.core.platform.client.ClientsideCode;
 import net.minecraft.world.level.LevelAccessor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;

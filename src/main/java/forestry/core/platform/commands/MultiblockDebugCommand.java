@@ -16,7 +16,7 @@ import forestry.core.platform.multiblock.MultiblockController;
 import forestry.core.platform.multiblock.MultiblockIndex;
 import forestry.core.platform.multiblock.MultiblockTileEntityForestry;
 import forestry.core.platform.multiblock.MultiblockValidation;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;

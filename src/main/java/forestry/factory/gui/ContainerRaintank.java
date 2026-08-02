@@ -3,7 +3,7 @@ package forestry.factory.gui;
 import forestry.core.platform.gui.ContainerLiquidTanks;
 import forestry.core.platform.gui.slots.SlotEmptyLiquidContainerIn;
 import forestry.core.platform.gui.slots.SlotOutput;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.inventory.InventoryRaintank;
 import forestry.factory.tiles.TileRaintank;

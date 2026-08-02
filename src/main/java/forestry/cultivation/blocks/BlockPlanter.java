@@ -1,6 +1,6 @@
 package forestry.cultivation.blocks;
 
-import forestry.core.blocks.BlockBase;
+import forestry.core.platform.block.BlockBase;
 import forestry.core.platform.render.ParticleRender;
 import forestry.cultivation.tiles.TilePlanter;
 import net.minecraft.core.BlockPos;

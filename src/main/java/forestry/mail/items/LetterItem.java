@@ -1,7 +1,7 @@
 package forestry.mail.items;
 
 import forestry.api.core.IItemSubtype;
-import forestry.core.items.WithScreenItem;
+import forestry.core.platform.item.WithScreenItem;
 import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
 import forestry.mail.gui.LetterMenu;

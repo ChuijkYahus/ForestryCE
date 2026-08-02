@@ -2,7 +2,7 @@ package forestry.lepidopterology.blocks;
 
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NBTUtilForestry;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.lepidopterology.items.ItemButterflyGE;

@@ -1,10 +1,10 @@
 package forestry.mail.blocks;
 
-import forestry.core.blocks.IBlockType;
-import forestry.core.blocks.IMachineProperties;
-import forestry.core.blocks.MachineProperties;
-import forestry.core.tiles.IForestryTicker;
-import forestry.core.tiles.TileForestry;
+import forestry.core.platform.block.IBlockType;
+import forestry.core.platform.block.IMachineProperties;
+import forestry.core.platform.block.MachineProperties;
+import forestry.core.platform.tile.IForestryTicker;
+import forestry.core.platform.tile.TileForestry;
 import forestry.mail.features.MailTiles;
 import forestry.mail.tiles.TileStampCollector;
 import forestry.mail.tiles.TileTrader;

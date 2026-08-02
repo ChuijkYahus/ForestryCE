@@ -10,7 +10,7 @@ import forestry.api.plugin.ICircuitRegistration;
 import forestry.api.plugin.IFarmingRegistration;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.core.features.CoreItems;
-import forestry.core.items.definitions.EnumElectronTube;
+import forestry.core.content.resources.EnumElectronTube;
 import forestry.farming.circuits.CircuitFarmLogic;
 
 /**

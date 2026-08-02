@@ -4,7 +4,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.apiculture.IBeeProtection;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.core.features.CoreItems;
-import forestry.core.items.definitions.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumCraftingMaterial;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;

@@ -4,7 +4,7 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.tiles.TileSapling;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;

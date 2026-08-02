@@ -3,7 +3,7 @@ package forestry.arboriculture.items;
 import forestry.api.arboriculture.IWoodType;
 import forestry.arboriculture.IWoodTyped;
 import forestry.arboriculture.WoodHelper;
-import forestry.core.items.ItemBlockForestry;
+import forestry.core.platform.item.ItemBlockForestry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

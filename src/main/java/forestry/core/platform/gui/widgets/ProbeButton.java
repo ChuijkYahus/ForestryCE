@@ -1,7 +1,7 @@
 package forestry.core.platform.gui.widgets;
 
 import forestry.api.core.tooltips.ToolTip;
-import forestry.core.platform.gui.GuiEscritoire;
+import forestry.core.content.escritoire.GuiEscritoire;
 import forestry.core.platform.network.packets.PacketGuiSelectRequest;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.core.platform.util.SoundUtil;

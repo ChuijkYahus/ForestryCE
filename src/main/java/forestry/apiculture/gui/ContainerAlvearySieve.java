@@ -7,7 +7,7 @@ import forestry.core.platform.gui.ContainerTile;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.inventory.watchers.ISlotPickupWatcher;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 

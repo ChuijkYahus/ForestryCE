@@ -1,7 +1,7 @@
 package forestry.core.platform.inventory;
 
-import forestry.core.tiles.AdjacentTileCache;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.AdjacentTileCache;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.IItemHandler;

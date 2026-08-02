@@ -7,7 +7,7 @@ import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
 import forestry.api.plugin.*;
 import forestry.core.features.CoreItems;
-import forestry.core.items.definitions.EnumElectronTube;
+import forestry.core.content.resources.EnumElectronTube;
 import forestry.factory.circuits.CircuitMachineUpgrade;
 import forestry.sorting.DefaultFilterRuleType;
 import net.minecraft.resources.ResourceLocation;

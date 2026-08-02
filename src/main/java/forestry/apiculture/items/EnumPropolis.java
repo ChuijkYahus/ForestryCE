@@ -1,6 +1,6 @@
 package forestry.apiculture.items;
 
-import forestry.core.items.ItemOverlay;
+import forestry.core.platform.item.ItemOverlay;
 import net.minecraft.network.chat.TextColor;
 
 import java.util.Locale;

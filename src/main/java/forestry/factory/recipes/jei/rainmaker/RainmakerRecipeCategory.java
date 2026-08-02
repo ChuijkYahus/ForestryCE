@@ -1,7 +1,7 @@
 package forestry.factory.recipes.jei.rainmaker;
 
 import forestry.api.core.machines.fuels.RainSubstrate;
-import forestry.core.ForestryColors;
+import forestry.core.platform.client.ForestryColors;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
 import forestry.factory.blocks.BlockTypeFactoryTesr;

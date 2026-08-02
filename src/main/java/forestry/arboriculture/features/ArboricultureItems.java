@@ -6,7 +6,7 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.items.ItemForestryBoat;
 import forestry.arboriculture.items.TreeItem;
 import forestry.arboriculture.items.GrafterItem;
-import forestry.core.items.ItemForestry;
+import forestry.core.platform.item.ItemForestry;
 import forestry.core.platform.registration.*;
 
 @FeatureProvider

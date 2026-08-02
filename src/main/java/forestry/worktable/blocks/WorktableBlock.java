@@ -1,6 +1,6 @@
 package forestry.worktable.blocks;
 
-import forestry.core.blocks.BlockBase;
+import forestry.core.platform.block.BlockBase;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

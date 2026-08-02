@@ -6,7 +6,7 @@ import forestry.api.core.IError;
 import forestry.api.core.IErrorSource;
 import forestry.api.mail.ILetter;
 import forestry.core.platform.inventory.ItemInventory;
-import forestry.core.items.WithScreenItem;
+import forestry.core.platform.item.WithScreenItem;
 import forestry.core.platform.util.SlotUtil;
 import forestry.mail.Letter;
 import forestry.mail.LetterProperties;

@@ -35,6 +35,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;
 import forestry.api.modules.IForestryModule;
+import forestry.core.platform.fluids.FluidProductTypes;
 
 public class PluginManager {
 	private static final ArrayList<IForestryPlugin> LOADED_PLUGINS = new ArrayList<>();
@@ -171,7 +172,7 @@ public class PluginManager {
 
 		// Register the built-in fluid product types so the optional `type` key on machine fluid outputs (e.g. the
 		// squeezer) resolves before any recipe JSON parse or network sync.
-		forestry.core.FluidProductTypes.registerBuiltins();
+		forestry.core.platform.fluids.FluidProductTypes.registerBuiltins();
 
 		ForestryApiImpl api = (ForestryApiImpl) IForestryApi.INSTANCE;
 		GeneticManager geneticManager = new GeneticManager(taxa, speciesTypes);

@@ -1,9 +1,13 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.blocks.NaturalistChestBlockType;
-import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.platform.block.NaturalistChestBlockType;
+import forestry.core.platform.block.BlockTypeCoreTesr;
 import forestry.core.tiles.*;
+import forestry.core.platform.tile.*;
+import forestry.core.content.machines.*;
+import forestry.core.content.escritoire.*;
+import forestry.core.content.analyzer.*;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.FeatureTileType;
 import forestry.core.platform.registration.IFeatureRegistry;

@@ -20,7 +20,7 @@ import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.lepidopterology.plugin.LepidopterologyRegistration;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.engine.genetics.root.BreedingTrackerManager;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.EntityUtil;
 import forestry.core.platform.util.SpeciesUtil;

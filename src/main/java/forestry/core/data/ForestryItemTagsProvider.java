@@ -8,7 +8,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemFruit;
-import forestry.core.items.definitions.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.mail.features.MailItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;

@@ -2,7 +2,7 @@ package forestry.arboriculture.items;
 
 import forestry.api.ForestryTags;
 import forestry.api.arboriculture.IToolGrafter;
-import forestry.core.items.ItemForestry;
+import forestry.core.platform.item.ItemForestry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

@@ -1,7 +1,7 @@
 package forestry.apiculture.items;
 
 import forestry.api.core.ItemGroups;
-import forestry.core.items.ItemOverlay;
+import forestry.core.platform.item.ItemOverlay;
 
 //TODO - create common superclass for items/blocks defined by an enum.
 //Will help with automatic creation of stuff too.

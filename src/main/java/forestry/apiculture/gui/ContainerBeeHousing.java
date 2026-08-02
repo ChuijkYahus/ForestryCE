@@ -4,7 +4,7 @@ import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.tiles.TileBeeHousingBase;
 import forestry.core.platform.gui.ContainerTile;
 import forestry.core.platform.network.packets.PacketGuiStream;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

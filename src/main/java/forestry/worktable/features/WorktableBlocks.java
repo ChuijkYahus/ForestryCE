@@ -1,7 +1,7 @@
 package forestry.worktable.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.items.ItemBlockForestry;
+import forestry.core.platform.item.ItemBlockForestry;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IBlockFeature;
 import forestry.core.platform.registration.IFeatureRegistry;

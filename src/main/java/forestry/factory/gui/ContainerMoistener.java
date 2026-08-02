@@ -5,7 +5,7 @@ import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotWatched;
 import forestry.core.platform.gui.slots.SlotWorking;
 import forestry.core.platform.inventory.watchers.ISlotChangeWatcher;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.tiles.TileMoistener;
 import net.minecraft.network.FriendlyByteBuf;

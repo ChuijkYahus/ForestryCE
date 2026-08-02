@@ -1,7 +1,7 @@
 package forestry.apiculture.blocks;
 
 import forestry.apiculture.items.EnumHoneyComb;
-import forestry.core.blocks.IColoredBlock;
+import forestry.core.platform.block.IColoredBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;

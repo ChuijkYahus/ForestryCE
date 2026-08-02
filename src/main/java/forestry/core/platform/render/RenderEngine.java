@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import forestry.api.ForestryConstants;
 import forestry.core.platform.config.Constants;
-import forestry.core.tiles.TemperatureState;
+import forestry.core.platform.tile.TemperatureState;
 import forestry.energy.blocks.EngineBlock;
 import forestry.energy.tiles.EngineBlockEntity;
 import net.minecraft.client.model.geom.ModelPart;

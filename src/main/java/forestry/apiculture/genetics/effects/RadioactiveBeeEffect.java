@@ -7,7 +7,7 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.core.platform.damage.CoreDamageTypes;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.VecUtil;
 import net.minecraft.core.BlockPos;

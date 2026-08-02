@@ -1,7 +1,7 @@
 package forestry.farming.items;
 
-import forestry.core.TranslationKeys;
-import forestry.core.items.ItemBlockForestry;
+import forestry.core.platform.util.TranslationKeys;
+import forestry.core.platform.item.ItemBlockForestry;
 import forestry.farming.blocks.FarmBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;

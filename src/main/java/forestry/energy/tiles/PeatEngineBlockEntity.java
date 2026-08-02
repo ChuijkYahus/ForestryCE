@@ -5,7 +5,7 @@ import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.platform.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.api.core.IInventoryAdapter;
-import forestry.core.tiles.TemperatureState;
+import forestry.core.platform.tile.TemperatureState;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.inventory.InventoryEnginePeat;
 import forestry.energy.menu.PeatEngineMenu;

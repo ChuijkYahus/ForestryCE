@@ -3,7 +3,7 @@ package forestry.arboriculture.items;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.entities.ForestryBoat;
 import forestry.arboriculture.entities.ForestryChestBoat;
-import forestry.core.items.ItemForestry;
+import forestry.core.platform.item.ItemForestry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;

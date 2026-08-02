@@ -23,7 +23,7 @@ public record FluidProduct(FluidStack stack) implements IFluidProduct {
 	public static final MapCodec<FluidProduct> MAP_CODEC = FluidStack.CODEC.fieldOf("stack").xmap(FluidProduct::new, FluidProduct::stack);
 	public static final StreamCodec<RegistryFriendlyByteBuf, FluidProduct> STREAM_CODEC = FluidStack.STREAM_CODEC.map(FluidProduct::new, FluidProduct::stack);
 	/**
-	 * The default product type. The dispatch codec in {@code forestry.core.FluidProductTypes} treats this type
+	 * The default product type. The dispatch codec in {@code forestry.core.platform.fluids.FluidProductTypes} treats this type
 	 * specially: products of this type serialize without a {@code "type"} key, and a missing {@code "type"} key on
 	 * decode resolves back to it.
 	 */

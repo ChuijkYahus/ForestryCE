@@ -1,9 +1,9 @@
 package forestry.core.platform.network.packets;
 
 import forestry.core.platform.network.PacketIdClient;
-import forestry.core.tiles.IItemStackDisplay;
-import forestry.core.tiles.TileForestry;
-import forestry.core.tiles.TileUtil;
+import forestry.core.platform.tile.IItemStackDisplay;
+import forestry.core.platform.tile.TileForestry;
+import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

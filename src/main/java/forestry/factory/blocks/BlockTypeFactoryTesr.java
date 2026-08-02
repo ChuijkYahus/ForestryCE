@@ -1,13 +1,13 @@
 package forestry.factory.blocks;
 
-import forestry.core.blocks.BlockBase;
-import forestry.core.blocks.IBlockType;
-import forestry.core.blocks.IMachineProperties;
-import forestry.core.blocks.MachineProperties;
+import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.block.IBlockType;
+import forestry.core.platform.block.IMachineProperties;
+import forestry.core.platform.block.MachineProperties;
 import forestry.core.platform.config.Constants;
-import forestry.core.tiles.IForestryTicker;
-import forestry.core.tiles.TileBase;
-import forestry.core.tiles.TileMill;
+import forestry.core.platform.tile.IForestryTicker;
+import forestry.core.platform.tile.TileBase;
+import forestry.core.content.machines.TileMill;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.tiles.*;
 import forestry.core.platform.registration.FeatureTileType;

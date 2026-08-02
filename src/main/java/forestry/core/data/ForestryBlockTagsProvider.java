@@ -6,7 +6,7 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.blocks.EnumResourceType;
+import forestry.core.content.resources.EnumResourceType;
 import forestry.core.features.CoreBlocks;
 import forestry.energy.features.EnergyBlocks;
 import forestry.factory.features.FactoryBlocks;

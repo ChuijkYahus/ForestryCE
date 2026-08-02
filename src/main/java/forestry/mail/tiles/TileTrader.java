@@ -9,7 +9,7 @@ import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.platform.owner.OwnerHandler;
-import forestry.core.tiles.TileBase;
+import forestry.core.platform.tile.TileBase;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.MailAddress;

@@ -1,7 +1,7 @@
 package forestry.storage.items;
 
-import forestry.core.items.ItemForestry;
-import forestry.core.items.definitions.IColoredItem;
+import forestry.core.platform.item.ItemForestry;
+import forestry.core.platform.item.IColoredItem;
 import forestry.core.platform.util.ItemStackUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;
