@@ -151,8 +151,11 @@ var checkBaseBoundary = tasks.register('checkBaseBoundary') {
 
 	var javaDir = project.file('src/main/java/forestry')
 	var baselineFile = project.file('gradle/base-boundary-baseline.txt')
-	var basePackages = ['core', 'apiimpl', 'plugin', 'modules', 'compat']
-	var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'farming', 'cultivation', 'mail']
+	// Phase 7b dissolved 'plugin' and 'compat' into core, and merged 'farming' and 'cultivation'
+	// into the one agriculture jar. A gate that names packages by literal keeps passing after those
+	// packages are renamed and silently stops measuring anything, so these lists move with the tree
+	var basePackages = ['core', 'apiimpl', 'modules']
+	var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'agriculture', 'mail']
 
 	inputs.dir(javaDir)
 	inputs.file(baselineFile)
@@ -218,8 +221,11 @@ var checkBaseBytecode = tasks.register('checkBaseBytecode') {
 
 	doLast {
 		var classesDir = new File(project.layout.buildDirectory.get().asFile, 'classes/java/main/forestry')
-		var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'farming', 'cultivation', 'mail']
-		var basePackages = ['core', 'apiimpl', 'plugin', 'modules', 'compat']
+		// "forestry/agriculture/" cannot match "forestry/api/agriculture/": the search requires
+		// "forestry/" immediately followed by "agriculture/". Same reasoning that made
+		// "forestry/apiculture/" safe against "forestry/api/apiculture/"
+		var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'agriculture', 'mail']
+		var basePackages = ['core', 'apiimpl', 'modules']
 		var offenders = new TreeSet<String>()
 
 		var scan = { File file ->

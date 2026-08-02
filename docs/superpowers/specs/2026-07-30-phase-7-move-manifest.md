@@ -23,7 +23,10 @@ Re-derive before executing; the per-file assignments stay valid, the totals may 
 
 ## Status
 
-**Steps 7.1 through 7.6 landed 2026-08-01 as phase 7a.** Steps 7.7 through 7.12 remain.
+**Fully executed.** Steps 7.1 through 7.6 landed 2026-08-01 as phase 7a; steps 7.7 through 7.12
+landed 2026-08-02 as phase 7b, together with two packages this manifest never assigned
+(`forestry/plugin`, and the `core` residue 7a left behind). Every package named here is in the
+spec's target tree. Nothing in phase 7 remains.
 
 ### Correction: these were not IDE moves
 
@@ -49,17 +52,39 @@ The Prerequisite below is **wrong**, and four packages were never assigned:
 
 | Item | Correction |
 | --- | --- |
-| `TileApiaristChest`, `TileArboristChest`, `TileLepidopteristChest` | Phase 4 did **not** move these; they are still in `core/tiles`. They belong to content jars, so 7b moves them. They do not leak |
+| `TileApiaristChest`, `TileArboristChest`, `TileLepidopteristChest` | Phase 4 did **not** move these; they are still in `core/tiles`. ~~They belong to content jars, so 7b moves them.~~ **Reversed in 7b - see the 7b table below.** They do not leak |
 | `IFilterSlotDelegate` (step 7.5 list) | Not in `core/tiles`; phase 1b moved it to `forestry/api/core` |
 | `NaturalistChestBlockType` | Was a `(?)` in step 7.7. Resolved by the spec's Graph decisions table: `core.platform.block`. Moved in 7a |
 | `ItemSpectacles` | Was a `(?)` in step 7.5. Phase 4 moved `SpectacleVision` to base, so it is a core tool: `core.content.tools` |
 | `ItemScoop`, `ItemBeesWax`, `ItemRefractoryWax` | Arrived in `core` during phase 2, after this manifest was written. To `core.content.tools` and `core.content.resources` |
-| `ItemFruit` | Still a `(?)`. Nothing instantiates it by name anywhere, so it goes with arboriculture in 7b |
+| `ItemFruit` | Still a `(?)`. ~~Nothing instantiates it by name anywhere, so it goes with arboriculture in 7b.~~ **That measurement was wrong - see the 7b table below** |
 | `forestry/apiimpl` (30 files) | Not in any step. **Stays** - the spec's target tree keeps it at the top level of base |
 | `forestry/core/features` (9 files) | Not in any step. **Stays** at `forestry.core.features` per D6 |
 | `forestry/core/data` (50 files) | Not in any step. **Stays** until phase 8; moving it would invalidate 20 baseline paths and the jar's `exclude` rule |
 | `forestry/core/capabilities` | Not in any step. Holds `SpectacleVision`; to `core.platform.capabilities`. Moved in 7a |
 | `forestry/plugin` (10 files) | Not in any step. Deferred to 7b: seven of the ten belong to content jars |
+
+### Corrections to this manifest, found during 7b
+
+Steps 7.7 through 7.12 were written 2026-07-31 and six phases landed before they ran. Everything
+below was measured on 2026-08-02 and is what actually shipped.
+
+| Manifest claim | Correction |
+| --- | --- |
+| The three naturalist chests "belong to content jars, so 7b moves them" | **Reversed.** Each is a 13-line subclass importing only `CoreTiles`, `SpeciesUtil` and `TileNaturalistChest` - all base. Everything else about the chest is base by prior decision: the enum (moved to `core.platform.block` in 7a *to remove five leaks*), `CoreBlocks.NATURALIST_CHEST`, the item, the recipes, the block tags, the blockstate models, `ForestryBewlr`, `ForestryModelLayers`, `RenderNaturalistChest` and the base creative tab. Moving only the tile classes would put a base-registered block's BlockEntity in an optional jar and add two packaged leaks (`CoreTiles`, `ForestryBewlr`) for no gain. They went to `core.platform.tile` next to `TileNaturalistChest` |
+| `ItemFruit` "nothing instantiates it by name anywhere" | **Wrong.** `core/features/CoreItems.java:121` does: `REGISTRY.itemGroup(ItemFruit::new, ...)`. Moving it to arboriculture creates a new *packaged* base leak. It went to `core.platform.item`, the step-7.5 alternative |
+| 7.7 apiculture loose files (25) | `FakeBeekeepingLogic` left in phase 6 (`apiimpl.fake`); `ItemScoop`, `ItemBeesWax`, `ItemRefractoryWax` left in phase 2; `VillageHive` no longer exists. `EventHandlerApiculture` and `IApiary` were unassigned: `EventHandlerApiculture` stays at the jar root by symmetry with `core.platform.EventHandlerCore`, `IApiary` went to `apiary` |
+| 7.8 `forestry.arboriculture.capabilities` | Did not exist. Phase 4 moved `SpectacleVision` to base. An empty directory was left on disk (git does not track those) and was removed in 7b |
+| 7.8 arboriculture loose files (13) | `TreeUtil` was unassigned. It resolves leaf pollination through `SpeciesUtil` and `TileLeaves`, so it went to `trees` |
+| 7.10 "`farming.IFarmHousingInternal` and `cultivation.IFarmHousingInternal`" | There is only one, in `cultivation`. No name collision to resolve |
+| 7.10 loose `farming` files | Six were unassigned - `FarmHelper`, `FarmingManager`, `FarmingStage`, `FarmManager`, `FarmTarget`, `FarmWorkStatus` - and all six went to `farmlogic`. `farming/plugin` and `farming/tab` were also unassigned; both carried straight across as `agriculture.plugin` and `agriculture.tab` |
+| 7.11 `postoffice` gets `IWatchable` | `IWatchable` is in `forestry/api/mail`, not `forestry/mail` |
+| 7.12 "`forestry.compat.jei` split per jar" | Nothing per-jar was left in it. Each content jar already had its own `compat/`; `forestry.compat.jei` held only `JeiUtil` and `IndividualSubtypeInterpreter`, both shared plumbing. The whole of `forestry.compat` went to `forestry.core.platform.compat` in one prefix rewrite |
+| 7.12 "three Patchouli FQCNs" | Three distinct classes but **four** occurrences - `FluidComponent` appears in both `carpenter/base.json` and `fabricator/base.json`. All four were rewritten mechanically; `checkResourceFqcn` now guards them |
+
+One spec-versus-manifest conflict, resolved in favour of this manifest as the more specific
+document: the spec's content tree lists `postalstates/` as a surviving mail directory, while step
+7.11 assigns both its files to `letters`. `mail/postalstates` did not survive.
 
 ## Prerequisite
 
@@ -323,7 +348,7 @@ move with their packages and keep their module ids.
 
 ---
 
-## Step 7.7 - apiculture fan-out
+## Step 7.7 - apiculture fan-out (DONE 2026-08-02)
 
 Package moves first:
 
@@ -398,7 +423,7 @@ it goes to `core.platform.block`; if the arboriculture edge is accepted it goes 
 
 ---
 
-## Step 7.8 - arboriculture fan-out
+## Step 7.8 - arboriculture fan-out (DONE 2026-08-02)
 
 Package moves first:
 
@@ -452,7 +477,7 @@ throughout, so a `trees.worldgen` nesting would add depth without separating any
 
 ---
 
-## Step 7.9 - lepidopterology fan-out
+## Step 7.9 - lepidopterology fan-out (DONE 2026-08-02)
 
 Package move:
 
@@ -473,7 +498,7 @@ does not fix that; do not conflate the two.
 
 ---
 
-## Step 7.10 - agriculture
+## Step 7.10 - agriculture (DONE 2026-08-02)
 
 Package moves. `farming` and `cultivation` merge under one jar.
 
@@ -506,7 +531,7 @@ they are not merged into one module.
 
 ---
 
-## Step 7.11 - mail fan-out
+## Step 7.11 - mail fan-out (DONE 2026-08-02)
 
 | To | Files |
 | --- | --- |
@@ -521,7 +546,7 @@ mail machines, so they stay at jar level rather than picking one feature dir.
 
 ---
 
-## Step 7.12 - dissolve compat
+## Step 7.12 - dissolve compat (DONE 2026-08-02)
 
 `forestry.compat` does not survive. Each integration moves to the jar whose content it
 describes.

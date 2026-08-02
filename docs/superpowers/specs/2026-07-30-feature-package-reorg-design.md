@@ -2,7 +2,7 @@
 
 Date: 2026-07-30, amended 2026-07-31 after adversarial review
 Branch: `1.21.1-restructure`
-Status: design approved, not started
+Status: phases 1-7 complete (2026-08-02); phase 8 next
 
 ## Problem
 
@@ -143,11 +143,14 @@ forestry/
                             stays in base, but must stop constructing
                             content classes - see bucket I
   modules/                  module framework; clean today, no content refs
-  compat/                   only the shared plumbing stays; per-mod
-                            integrations move to their owning jar
 
   core/
+    plugin/                 base's own IForestryPlugin (7b)
+    data/                   datagen; partitions per jar in phase 8
+      taxonomy/             the four Taxonomy classes (7b)
     platform/               no game content, no genetics
+      compat/               shared JEI/Patchouli/KubeJS/Curios plumbing;
+                            per-jar integrations live in their own jar (7b)
       block/  tile/  item/  inventory/  gui/  network/
       fluids/               tanks, filters, FluidHelper
       multiblock/           the framework only
@@ -180,6 +183,11 @@ classes (`DefaultBeeSpecies`, `DefaultTreeSpecies`, `DefaultWoods`, `DefaultFarm
 `DefaultForestryPlugin`, `client/BeeAnalyzerPlugin`,
 `client/DefaultForestryClientRegistration`) distribute to their owning jars in phase 5.
 
+Phase 5 moved seven and left ten; phase 7b dissolved the rest. `DefaultButterflySpecies` and the
+two analyzer plugins went to their jars, the four taxonomy classes to `core.data.taxonomy` and
+`DefaultForestryPlugin` to `core.plugin` - so one of the seven listed above ended up base after
+all, as base's own `IForestryPlugin`.
+
 ### Content jars
 
 ```
@@ -211,7 +219,9 @@ agriculture/              JAR forestry_agriculture      -> core
   multifarm/              was farming: the multiblock
   planter/                was cultivation: Arboretum, Bog, Crops, Ender,
                           Gourd, Mushroom, Nether
-  features/  client/  compat/  ModuleAgriculture
+  features/  client/  compat/  plugin/  tab/
+                          ModuleFarming + ModuleCultivation, NOT merged: the two
+                          module ids stay, per Deferred
 
 mail/                     JAR forestry_mail             -> core
   letters/  postoffice/  tradestation/  carriers/  postalstates/
@@ -223,10 +233,19 @@ mail/                     JAR forestry_mail             -> core
 - `compat/` does not survive as a top-level directory. JEI plugins, Patchouli pages and
   KubeJS bindings are per-feature, and under an optional split the apiculture JEI plugin
   must ship in the apiculture jar. It dissolves into a `compat/` subpackage per jar, with
-  only shared plumbing staying in base.
-- `TileApiaristChest`, `TileArboristChest` and `TileLepidopteristChest` are misfiled in
-  `core/tiles` today. The shared `TileNaturalistChest` base stays in
-  `core/platform/tile/`; the three concrete chests move to their jars.
+  only shared plumbing staying in base. **As executed 2026-08-02**: the per-jar split had already
+  happened in earlier phases, so what was left in `forestry.compat` was shared plumbing only, and
+  all 30 files went to `core.platform.compat` in one prefix rewrite. There is no `compat/` at the
+  top level of base either - it is `core/platform/compat/`.
+- ~~`TileApiaristChest`, `TileArboristChest` and `TileLepidopteristChest` are misfiled in
+  `core/tiles` today. The shared `TileNaturalistChest` base stays in `core/platform/tile/`; the
+  three concrete chests move to their jars.~~ **Corrected 2026-08-02.** They are not misfiled.
+  Each imports only `CoreTiles`, `SpeciesUtil` and `TileNaturalistChest`, and every other part of
+  the naturalist chest is base by prior decision - including `NaturalistChestBlockType`, which the
+  Graph decisions table moved to base *to remove five leaks*. All four now sit together in
+  `core/platform/tile/`. Splitting them would have put a base-registered block's BlockEntity in an
+  optional jar and added two packaged leaks.
+- `ItemFruit` stays base too, in `core/platform/item/`. `CoreItems.FRUITS` instantiates it.
 - `arboriculture/wood` stays inside arboriculture. It is ~25 classes with no genetic
   coupling and could plausibly be a seventh jar. Splitting a jar out later is cheaper
   than merging two back, so this is deferred.
@@ -626,6 +645,48 @@ Three failure modes worth carrying into 7b, none of which a package-level move h
   package with the container. Public accessors already existed. Nothing but the compiler catches
   this, and it will recur in every fan-out that separates a screen from its container.
 
+Phase 7b landed 2026-08-02. Manifest steps 7.7 through 7.12 are done, `forestry/plugin` and
+`forestry/compat` no longer exist, and every package in this spec's target tree is now in place.
+Ten commits, eight of them pure moves and in `.git-blame-ignore-revs`. Byte-identical datagen and
+108 GameTests at every step.
+
+The three per-file failure modes listed just above were closed in tooling rather than left to the
+compiler, and it worked: two new scripts (`explode-package-imports.sh`, which makes every
+intra-package reference explicit before a package fans out, and `expand-wildcard.sh`, which
+replaces a wildcard import with the classes actually used) meant the apiculture fan-out - 186 files
+across six splitting packages - compiled clean on the first attempt, where the comparable 7a step
+produced 754 errors. `protected` access never bit, because no 7b fan-out separated a screen from
+its container. Only one same-package break got through, in `ModuleFarming`: the plan omitted an
+explode pass on the `agriculture` root before moving six loose files out of it.
+
+Four decisions 7b had to make that the spec and manifest had left open or wrong:
+
+- **The three naturalist chests and `ItemFruit` stayed base**, reversing two statements in this
+  spec's `### Notes on placement` and one in the manifest's 7a corrections table. Both entries are
+  corrected in place above. The chests are 13-line subclasses referencing nothing outside base, and
+  every other part of the naturalist chest - enum, block group, item, recipes, tags, models, BEWLR,
+  renderer, creative tab - is base by prior decision, several of them made in 7a *specifically to
+  remove leaks*. `ItemFruit` is instantiated by `CoreItems.FRUITS`. Moving either would have added
+  packaged leaks rather than removed them.
+- **`BeeTaxonomy`, `TreeTaxonomy`, `ButterflyTaxonomy` and `ForestryTaxonomy` went to
+  `core.data.taxonomy`**, not to the three content jars. Their only consumer chain is
+  `TaxonProvider`, so they are datagen input. Sending them to content jars would have made
+  `ForestryTaxonomy` import all three split modules and grown a baseline whose header says it never
+  does - for nothing, since phase 8 partitions all of `core/data` per jar and would carry them
+  along regardless.
+- **`DefaultForestryPlugin` went to `core.plugin`**, symmetric with every content jar's `plugin/`.
+- **`mail/postalstates` did not survive**, contradicting this spec's content tree; the manifest's
+  per-file assignment won as the more specific document.
+
+The 7a lesson about gate blind spots recurred in a second form. `checkBaseBoundary` and
+`checkBaseBytecode` name their packages by literal, so after `farming`, `cultivation`, `plugin` and
+`compat` ceased to exist the gates kept reporting green while measuring strictly less. Nothing
+failed; the agriculture edge simply stopped being checked. Both lists were retargeted to
+`['core', 'apiimpl', 'modules']` and `['apiculture', 'arboriculture', 'lepidopterology',
+'agriculture', 'mail']`, and the retargeted gate was verified to fail on a planted
+`forestry.agriculture` import in `ModuleCore`. A gate that names things by literal has to move with
+the tree, and it fails silent rather than loud when it does not.
+
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
 in phases 1 through 6, which no amount of directory rearrangement addresses.
@@ -681,8 +742,13 @@ own plan, written when that phase starts, so earlier phases can inform later one
   `forestry.compat.patchouli.component.FluidComponent`,
   `forestry.compat.patchouli.processor.CarpenterProcessor`,
   `forestry.compat.patchouli.processor.FabricatorProcessor`. `META-INF/services` files
-  carry FQCNs of classes that move in phases 5 through 9. Add a grep-based check that every
-  FQCN appearing in a resource file resolves to an existing class.
+  carry FQCNs of classes that move in phases 5 through 9. **Done 2026-08-02**: the
+  `checkResourceFqcn` Gradle task scans `src/main/resources` and `src/generated/resources` for
+  dotted runs beginning `forestry`, resolves the first segment that starts with an uppercase letter
+  as the class, and fails if no matching `.java` exists. It also reads `META-INF/services` file
+  names. 17 names resolve today. It runs as part of `check`, and was verified to fail on a planted
+  bad name before being relied on. All three Patchouli classes moved to
+  `forestry.core.platform.compat.patchouli.*` in phase 7b, mechanically, and this is what proved it.
 - **GameTests.** `./gradlew runGameTestServer` stays green throughout. It was green as of
   2026-07-28.
 - **Boundary test.** An ArchUnit-style test is added at phase 1 and tightened at each
