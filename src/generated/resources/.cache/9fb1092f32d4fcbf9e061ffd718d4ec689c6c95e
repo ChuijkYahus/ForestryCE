@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-02T17:57:47.535636	Recipes
+// 1.20.1	2026-08-02T18:09:44.8516123	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -2321,7 +2321,7 @@ a0471923e14f5521555474628258ae7929e80e25 data/forestry/recipes/fabricator/smelti
 abe3c7c23d1a8a3d4eb73b2115c73954c09f1a5e data/forestry/recipes/fabricator/smelting/sandstone.json
 2c4d8bccbd6601dce358aa18a39a11035759fcd8 data/forestry/recipes/fabricator/smelting/wax.json
 c487937f0e16ed0e1372f23c1634070ec4fda992 data/forestry/recipes/fabricator/smelting/wax_block.json
-e4cdc0f9ae029d0aef8d838b5ec8aa0a44447971 data/forestry/recipes/fabricator/solar_cell.json
+20f0c5ab3707c8af0f4caad96972c0dceee7637a data/forestry/recipes/fabricator/solar_cell.json
 5f0760dcb45de59e884c99e1b33dbcc53776b26a data/forestry/recipes/farm_control_brick.json
 0ce784c519e05fbf3f7ddd7a305524885b818341 data/forestry/recipes/farm_control_brick_chiseled.json
 8a46dc6749d4dcdfc7d043be7fefdf1d2651c073 data/forestry/recipes/farm_control_brick_nether.json

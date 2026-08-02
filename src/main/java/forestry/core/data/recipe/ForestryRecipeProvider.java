@@ -2589,7 +2589,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL, 2)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL)
 				.pattern("DOD")
 				.pattern("^^^")
 				.pattern("DOD")
