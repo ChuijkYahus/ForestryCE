@@ -2,7 +2,6 @@
 # Generated 2026-07-31 at the start of phase 2. Shrinks each phase; never grows.
 apiimpl/client/plugin/ClientHelper.java
 apiimpl/plugin/PluginManager.java
-apiimpl/plugin/SpeciesTypeBuilder.java
 core/data/BeeEffectProvider.java
 core/data/BeeSpeciesProvider.java
 core/data/builder/HygroregulatorRecipeBuilder.java
