@@ -1,46 +1,26 @@
 package forestry.plugin;
 
-import forestry.api.apiculture.ForestryActivityTypes;
-import forestry.api.apiculture.ForestryBeeEffects;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.genetics.BeeSpeciesType;
 import forestry.farming.plugin.DefaultFarms;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.*;
-import forestry.api.arboriculture.ForestryFruits;
-import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.circuits.ForestryCircuitLayouts;
 import forestry.api.circuits.ForestryCircuitSocketTypes;
 import forestry.api.client.plugin.IClientRegistration;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
 import forestry.api.farming.ForestryFarmTypes;
-import forestry.api.genetics.ForestrySpeciesTypes;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.api.lepidopterology.ForestryButterflySpecies;
-import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.plugin.*;
-import forestry.arboriculture.genetics.TreeSpeciesType;
 import forestry.core.features.CoreItems;
 import forestry.core.items.definitions.EnumElectronTube;
 import forestry.factory.circuits.CircuitMachineUpgrade;
 import forestry.farming.circuits.CircuitFarmLogic;
-import forestry.lepidopterology.genetics.ButterflySpeciesType;
 import forestry.apiculture.client.plugin.ApicultureClientRegistration;
 import forestry.arboriculture.client.plugin.ArboricultureClientRegistration;
 import forestry.lepidopterology.client.plugin.LepidopterologyClientRegistration;
 import forestry.sorting.DefaultFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
-import forestry.api.lepidopterology.ForestryButterflyEffects;
-import forestry.api.lepidopterology.ForestryCocoons;
-import forestry.api.apiculture.ForestryFlowerTypes;
 
 public class DefaultForestryPlugin implements IForestryPlugin {
 	public static final ResourceLocation ID = ForestryConstants.forestry("default");
@@ -48,73 +28,8 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 	@Override
 	public void registerGenetics(IGeneticRegistration genetics) {
 
-		// Bee type
-		genetics.registerSpeciesType(ForestrySpeciesTypes.BEE, BeeSpeciesType::new)
-			.setKaryotype(karyotype -> {
-				karyotype.setSpecies(BeeChromosomes.SPECIES, ForestryBeeSpecies.FOREST);
-				karyotype.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
-				karyotype.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER);
-				karyotype.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_2);
-				karyotype.set(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-					.setWeaklyInherited(true);
-				karyotype.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-					.setWeaklyInherited(true);
-				karyotype.set(BeeChromosomes.ACTIVITY, ForestryActivityTypes.DIURNAL)
-					.setWeaklyInherited(true);
-				karyotype.set(BeeChromosomes.CAVE_DWELLING, false)
-					.setWeaklyInherited(true);
-				karyotype.set(BeeChromosomes.TOLERATES_RAIN, false)
-					.setWeaklyInherited(true);
-				karyotype.set(BeeChromosomes.FLOWER_TYPE, ForestryFlowerTypes.VANILLA);
-				karyotype.set(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_AVERAGE);
-				karyotype.set(BeeChromosomes.EFFECT, ForestryBeeEffects.NONE);
-				karyotype.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWEST);
-			})
-			.addStages(BeeLifeStage.DRONE, BeeLifeStage.PRINCESS, BeeLifeStage.QUEEN, BeeLifeStage.LARVAE)
-			.setDefaultStage(BeeLifeStage.DRONE);
 
-		// Tree type
-		genetics.registerSpeciesType(ForestrySpeciesTypes.TREE, TreeSpeciesType::new)
-			.setKaryotype(karyotype -> {
-				karyotype.setSpecies(TreeChromosomes.SPECIES, ForestryTreeSpecies.OAK);
-				karyotype.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
-				karyotype.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
-				karyotype.set(TreeChromosomes.FRUIT, ForestryFruits.NONE);
-				karyotype.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWEST);
-				karyotype.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWEST);
-				karyotype.set(TreeChromosomes.EFFECT, ForestryConstants.forestry("tree_effect_none"));
-				karyotype.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
-				karyotype.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_1);
-				karyotype.set(TreeChromosomes.FIREPROOF, false);
-			})
-			.addStages(TreeLifeStage.SAPLING, TreeLifeStage.POLLEN)
-			.setDefaultStage(TreeLifeStage.SAPLING);
 
-		// Butterfly type
-		genetics.registerSpeciesType(ForestrySpeciesTypes.BUTTERFLY, ButterflySpeciesType::new)
-			.setKaryotype(karyotype -> {
-				karyotype.setSpecies(ButterflyChromosomes.SPECIES, ForestryButterflySpecies.MONARCH);
-				karyotype.set(ButterflyChromosomes.SIZE, ForestryAlleles.SIZE_SMALL);
-				karyotype.set(ButterflyChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
-				karyotype.set(ButterflyChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER);
-				karyotype.set(ButterflyChromosomes.METABOLISM, ForestryAlleles.METABOLISM_SLOWER);
-				karyotype.set(ButterflyChromosomes.FERTILITY, ForestryAlleles.FERTILITY_3);
-				karyotype.set(ButterflyChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-					.setWeaklyInherited(true);
-				karyotype.set(ButterflyChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
-					.setWeaklyInherited(true);
-				karyotype.set(ButterflyChromosomes.NEVER_SLEEPS, false)
-					.setWeaklyInherited(true);
-				karyotype.set(ButterflyChromosomes.TOLERATES_RAIN, false)
-					.setWeaklyInherited(true);
-				karyotype.set(ButterflyChromosomes.FIREPROOF, false);
-				karyotype.set(ButterflyChromosomes.FLOWER_TYPE, ForestryFlowerTypes.VANILLA);
-				karyotype.set(ButterflyChromosomes.EFFECT, ForestryButterflyEffects.NONE);
-				karyotype.set(ButterflyChromosomes.COCOON, ForestryCocoons.DEFAULT);
-			})
-			.addStages(ButterflyLifeStage.BUTTERFLY, ButterflyLifeStage.SERUM, ButterflyLifeStage.CATERPILLAR, ButterflyLifeStage.COCOON)
-			.setDefaultStage(ButterflyLifeStage.BUTTERFLY)
-			.addResearchMaterials(map -> map.put(Items.GLASS_BOTTLE, 0.9f));
 
 		// Taxonomy is no longer registered in code here: base Forestry's whole taxonomy ships as datapack JSON
 		// (generated by TaxonProvider from ForestryTaxonomy) and is merged into the live taxonomy on datapack

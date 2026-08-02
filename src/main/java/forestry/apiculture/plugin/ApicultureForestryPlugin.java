@@ -58,6 +58,31 @@ import forestry.apiculture.items.EnumHoneyComb;
 public class ApicultureForestryPlugin implements IForestryPlugin {
 	@Override
 	public void registerGenetics(IGeneticRegistration genetics) {
+		// Bee type
+		genetics.registerSpeciesType(ForestrySpeciesTypes.BEE, BeeSpeciesType::new)
+			.setKaryotype(karyotype -> {
+				karyotype.setSpecies(BeeChromosomes.SPECIES, ForestryBeeSpecies.FOREST);
+				karyotype.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
+				karyotype.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER);
+				karyotype.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_2);
+				karyotype.set(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.ACTIVITY, ForestryActivityTypes.DIURNAL)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.CAVE_DWELLING, false)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.TOLERATES_RAIN, false)
+					.setWeaklyInherited(true);
+				karyotype.set(BeeChromosomes.FLOWER_TYPE, ForestryFlowerTypes.VANILLA);
+				karyotype.set(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_AVERAGE);
+				karyotype.set(BeeChromosomes.EFFECT, ForestryBeeEffects.NONE);
+				karyotype.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWEST);
+			})
+			.addStages(BeeLifeStage.DRONE, BeeLifeStage.PRINCESS, BeeLifeStage.QUEEN, BeeLifeStage.LARVAE)
+			.setDefaultStage(BeeLifeStage.DRONE);
+
 
 		genetics.registerFilterRuleTypes(ApicultureFilterRuleType.values());
 		ApicultureFilterRule.init();

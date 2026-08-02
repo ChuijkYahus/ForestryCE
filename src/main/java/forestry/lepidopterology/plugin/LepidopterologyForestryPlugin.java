@@ -1,5 +1,12 @@
 package forestry.lepidopterology.plugin;
 
+import forestry.api.apiculture.ForestryFlowerTypes;
+import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.genetics.alleles.ButterflyChromosomes;
+import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.lepidopterology.ForestryButterflySpecies;
+import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
+import forestry.lepidopterology.genetics.ButterflySpeciesType;
 import java.util.List;
 
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +35,32 @@ import forestry.plugin.DefaultButterflySpecies;
 public class LepidopterologyForestryPlugin implements IForestryPlugin {
 	@Override
 	public void registerGenetics(IGeneticRegistration genetics) {
+		// Butterfly type
+		genetics.registerSpeciesType(ForestrySpeciesTypes.BUTTERFLY, ButterflySpeciesType::new)
+			.setKaryotype(karyotype -> {
+				karyotype.setSpecies(ButterflyChromosomes.SPECIES, ForestryButterflySpecies.MONARCH);
+				karyotype.set(ButterflyChromosomes.SIZE, ForestryAlleles.SIZE_SMALL);
+				karyotype.set(ButterflyChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
+				karyotype.set(ButterflyChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER);
+				karyotype.set(ButterflyChromosomes.METABOLISM, ForestryAlleles.METABOLISM_SLOWER);
+				karyotype.set(ButterflyChromosomes.FERTILITY, ForestryAlleles.FERTILITY_3);
+				karyotype.set(ButterflyChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
+					.setWeaklyInherited(true);
+				karyotype.set(ButterflyChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
+					.setWeaklyInherited(true);
+				karyotype.set(ButterflyChromosomes.NEVER_SLEEPS, false)
+					.setWeaklyInherited(true);
+				karyotype.set(ButterflyChromosomes.TOLERATES_RAIN, false)
+					.setWeaklyInherited(true);
+				karyotype.set(ButterflyChromosomes.FIREPROOF, false);
+				karyotype.set(ButterflyChromosomes.FLOWER_TYPE, ForestryFlowerTypes.VANILLA);
+				karyotype.set(ButterflyChromosomes.EFFECT, ForestryButterflyEffects.NONE);
+				karyotype.set(ButterflyChromosomes.COCOON, ForestryCocoons.DEFAULT);
+			})
+			.addStages(ButterflyLifeStage.BUTTERFLY, ButterflyLifeStage.SERUM, ButterflyLifeStage.CATERPILLAR, ButterflyLifeStage.COCOON)
+			.setDefaultStage(ButterflyLifeStage.BUTTERFLY)
+			.addResearchMaterials(map -> map.put(Items.GLASS_BOTTLE, 0.9f));
+
 		genetics.registerFilterRuleTypes(LepidopterologyFilterRuleType.values());
 		LepidopterologyFilterRule.init();
 	}

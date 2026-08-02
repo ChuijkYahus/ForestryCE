@@ -1,5 +1,11 @@
 package forestry.arboriculture.plugin;
 
+import forestry.api.arboriculture.ForestryTreeSpecies;
+import forestry.api.arboriculture.genetics.TreeLifeStage;
+import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.genetics.TreeSpeciesType;
 import java.util.List;
 
 import net.minecraft.resources.ResourceLocation;
@@ -32,6 +38,23 @@ import forestry.core.items.ItemFruit;
 public class ArboricultureForestryPlugin implements IForestryPlugin {
 	@Override
 	public void registerGenetics(IGeneticRegistration genetics) {
+		// Tree type
+		genetics.registerSpeciesType(ForestrySpeciesTypes.TREE, TreeSpeciesType::new)
+			.setKaryotype(karyotype -> {
+				karyotype.setSpecies(TreeChromosomes.SPECIES, ForestryTreeSpecies.OAK);
+				karyotype.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
+				karyotype.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
+				karyotype.set(TreeChromosomes.FRUIT, ForestryFruits.NONE);
+				karyotype.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWEST);
+				karyotype.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWEST);
+				karyotype.set(TreeChromosomes.EFFECT, ForestryConstants.forestry("tree_effect_none"));
+				karyotype.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+				karyotype.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_1);
+				karyotype.set(TreeChromosomes.FIREPROOF, false);
+			})
+			.addStages(TreeLifeStage.SAPLING, TreeLifeStage.POLLEN)
+			.setDefaultStage(TreeLifeStage.SAPLING);
+
 		genetics.registerFilterRuleTypes(ArboricultureFilterRuleType.values());
 	}
 
