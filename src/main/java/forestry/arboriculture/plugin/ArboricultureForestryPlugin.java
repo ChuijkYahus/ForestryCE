@@ -1,5 +1,8 @@
 package forestry.arboriculture.plugin;
 
+import forestry.arboriculture.client.plugin.ArboricultureClientRegistration;
+import forestry.api.client.plugin.IClientRegistration;
+import java.util.function.Consumer;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.genetics.ForestrySpeciesTypes;
@@ -107,5 +110,10 @@ public class ArboricultureForestryPlugin implements IForestryPlugin {
 	@Override
 	public ResourceLocation id() {
 		return ForestryModuleIds.ARBORICULTURE;
+	}
+
+	@Override
+	public void registerClient(Consumer<Consumer<IClientRegistration>> registrar) {
+		registrar.accept(new ArboricultureClientRegistration());
 	}
 }

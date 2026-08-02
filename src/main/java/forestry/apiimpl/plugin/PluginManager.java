@@ -1,5 +1,7 @@
 package forestry.apiimpl.plugin;
 
+import forestry.api.modules.ForestryModuleIds;
+import forestry.api.ForestryConstants;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.mojang.datafixers.util.Pair;
@@ -33,7 +35,6 @@ import forestry.core.errors.ErrorManager;
 import forestry.core.genetics.PollenManager;
 import forestry.core.utils.SpeciesUtil;
 import forestry.farming.FarmingManager;
-import forestry.plugin.DefaultForestryPlugin;
 import forestry.sorting.FilterManager;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
@@ -45,23 +46,38 @@ import java.util.*;
 public class PluginManager {
 	private static final ArrayList<IForestryPlugin> LOADED_PLUGINS = new ArrayList<>();
 
+	// The plugins that ship base Forestry's own content. Listed rather than derived from the namespace
+	// because forestry:kubejs shares that namespace and must keep running after them, as it did when
+	// this was a single DefaultForestryPlugin moved to the front.
+	private static final Set<ResourceLocation> BASE_PLUGIN_IDS = Set.of(
+		ForestryConstants.forestry("default"),
+		ForestryModuleIds.APICULTURE,
+		ForestryModuleIds.ARBORICULTURE,
+		ForestryModuleIds.LEPIDOPTEROLOGY,
+		ForestryModuleIds.FARMING);
+
 	// Loads all plugins from the service loader.
 	public static void loadPlugins() {
 		ServiceLoader<IForestryPlugin> serviceLoader = ServiceLoader.load(IForestryPlugin.class);
 
+		// Base Forestry's plugins register before every other plugin, including forestry:kubejs, so a
+		// script or addon can build on the base content. Partitioned rather than moved to the front one
+		// at a time: there are five of them now, and a repeated add(0, ...) would reverse their order.
+		// The id sort is preserved within each group, and species type registration order depends on it.
+		List<IForestryPlugin> basePlugins = new ArrayList<>();
+		List<IForestryPlugin> otherPlugins = new ArrayList<>();
+
 		serviceLoader.stream().map(ServiceLoader.Provider::get).sorted(Comparator.comparing(IForestryPlugin::id)).forEachOrdered(plugin -> {
 			if (plugin.shouldLoad()) {
-				if (plugin.getClass() == DefaultForestryPlugin.class) {
-					LOADED_PLUGINS.add(0, plugin);
-				} else {
-					LOADED_PLUGINS.add(plugin);
-				}
+				(BASE_PLUGIN_IDS.contains(plugin.id()) ? basePlugins : otherPlugins).add(plugin);
 				Forestry.LOGGER.debug("Registered IForestryPlugin {} with class {}", plugin.id(), plugin.getClass().getName());
 			} else {
 				Forestry.LOGGER.warn("Detected IForestryPlugin {} with class {} but did not load it because IForestryPlugin.shouldLoad returned false.", plugin.id(), plugin.getClass().getName());
 			}
 		});
 
+		LOADED_PLUGINS.addAll(basePlugins);
+		LOADED_PLUGINS.addAll(otherPlugins);
 		LOADED_PLUGINS.trimToSize();
 	}
 

@@ -1,5 +1,8 @@
 package forestry.apiculture.plugin;
 
+import forestry.apiculture.client.plugin.ApicultureClientRegistration;
+import forestry.api.client.plugin.IClientRegistration;
+import java.util.function.Consumer;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -214,5 +217,10 @@ public class ApicultureForestryPlugin implements IForestryPlugin {
 	@Override
 	public ResourceLocation id() {
 		return ForestryModuleIds.APICULTURE;
+	}
+
+	@Override
+	public void registerClient(Consumer<Consumer<IClientRegistration>> registrar) {
+		registrar.accept(new ApicultureClientRegistration());
 	}
 }

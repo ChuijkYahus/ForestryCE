@@ -32,4 +32,3 @@ core/data/models/ForestryItemModelProvider.java
 core/data/models/ForestryWoodModelProvider.java
 core/data/recipe/ForestryRecipeProvider.java
 core/data/TreeSpeciesProvider.java
-plugin/DefaultForestryPlugin.java

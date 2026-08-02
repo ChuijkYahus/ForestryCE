@@ -1,5 +1,8 @@
 package forestry.lepidopterology.plugin;
 
+import forestry.lepidopterology.client.plugin.LepidopterologyClientRegistration;
+import forestry.api.client.plugin.IClientRegistration;
+import java.util.function.Consumer;
 import forestry.api.apiculture.ForestryFlowerTypes;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
@@ -86,5 +89,10 @@ public class LepidopterologyForestryPlugin implements IForestryPlugin {
 	@Override
 	public ResourceLocation id() {
 		return ForestryModuleIds.LEPIDOPTEROLOGY;
+	}
+
+	@Override
+	public void registerClient(Consumer<Consumer<IClientRegistration>> registrar) {
+		registrar.accept(new LepidopterologyClientRegistration());
 	}
 }

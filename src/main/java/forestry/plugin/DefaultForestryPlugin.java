@@ -1,26 +1,17 @@
 package forestry.plugin;
 
-import forestry.farming.plugin.DefaultFarms;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.*;
 import forestry.api.circuits.ForestryCircuitLayouts;
-import forestry.api.circuits.ForestryCircuitSocketTypes;
-import forestry.api.client.plugin.IClientRegistration;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
-import forestry.api.farming.ForestryFarmTypes;
 import forestry.api.plugin.*;
 import forestry.core.features.CoreItems;
 import forestry.core.items.definitions.EnumElectronTube;
 import forestry.factory.circuits.CircuitMachineUpgrade;
-import forestry.farming.circuits.CircuitFarmLogic;
-import forestry.apiculture.client.plugin.ApicultureClientRegistration;
-import forestry.arboriculture.client.plugin.ArboricultureClientRegistration;
-import forestry.lepidopterology.client.plugin.LepidopterologyClientRegistration;
 import forestry.sorting.DefaultFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.function.Consumer;
 
 public class DefaultForestryPlugin implements IForestryPlugin {
 	public static final ResourceLocation ID = ForestryConstants.forestry("default");
@@ -50,30 +41,6 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 	@Override
 	public void registerCircuits(ICircuitRegistration circuits) {
 		// Layouts
-		circuits.registerLayout(ForestryCircuitLayouts.MANAGED_FARM, ForestryCircuitSocketTypes.FARM);
-		circuits.registerLayout(ForestryCircuitLayouts.MANUAL_FARM, ForestryCircuitSocketTypes.FARM);
-		circuits.registerLayout(ForestryCircuitLayouts.MACHINE_UPGRADE, ForestryCircuitSocketTypes.MACHINE);
-
-		// Managed Farms
-		registerFarmCircuit(circuits, EnumElectronTube.COPPER, ForestryFarmTypes.ARBOREAL, false);
-		registerFarmCircuit(circuits, EnumElectronTube.TIN, ForestryFarmTypes.PEAT, false);
-		registerFarmCircuit(circuits, EnumElectronTube.BRONZE, ForestryFarmTypes.CROPS, false);
-		registerFarmCircuit(circuits, EnumElectronTube.IRON, ForestryFarmTypes.ENDER, false);
-		registerFarmCircuit(circuits, EnumElectronTube.BLAZE, ForestryFarmTypes.INFERNAL, false);
-		registerFarmCircuit(circuits, EnumElectronTube.OBSIDIAN, ForestryFarmTypes.GOURD, false);
-		registerFarmCircuit(circuits, EnumElectronTube.APATITE, ForestryFarmTypes.SHROOM, false);
-
-		// Manual Farms
-		registerFarmCircuit(circuits, EnumElectronTube.COPPER, ForestryFarmTypes.ORCHARD, true);
-		registerFarmCircuit(circuits, EnumElectronTube.TIN, ForestryFarmTypes.PEAT, true);
-		registerFarmCircuit(circuits, EnumElectronTube.BRONZE, ForestryFarmTypes.CROPS, true);
-		registerFarmCircuit(circuits, EnumElectronTube.IRON, ForestryFarmTypes.ENDER, true);
-		registerFarmCircuit(circuits, EnumElectronTube.GOLD, ForestryFarmTypes.SUCCULENTES, true);
-		registerFarmCircuit(circuits, EnumElectronTube.DIAMOND, ForestryFarmTypes.POALES, true);
-		registerFarmCircuit(circuits, EnumElectronTube.OBSIDIAN, ForestryFarmTypes.GOURD, true);
-		registerFarmCircuit(circuits, EnumElectronTube.APATITE, ForestryFarmTypes.SHROOM, true);
-		registerFarmCircuit(circuits, EnumElectronTube.LAPIS, ForestryFarmTypes.COCOA, true);
-
 		// Factory
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.EMERALD, 1), new CircuitMachineUpgrade("machine.speed.boost.1", 0.125f, 0.05f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.BLAZE, 1), new CircuitMachineUpgrade("machine.speed.boost.2", 0.250f, 0.10f, 1.0f));
@@ -81,10 +48,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.AMBER, 1), new CircuitMachineUpgrade("machine.fortune.1", 0, 0.05f, 1.25f));
 	}
 
-	private static void registerFarmCircuit(ICircuitRegistration circuits, EnumElectronTube tube, ResourceLocation typeId, boolean manual) {
-		String id = manual ? "farm.manual." + typeId.getPath() : "farm.managed." + typeId.getPath();
-		circuits.registerCircuit(manual ? ForestryCircuitLayouts.MANUAL_FARM : ForestryCircuitLayouts.MANAGED_FARM, CoreItems.ELECTRON_TUBES.stack(tube, 1), new CircuitFarmLogic(id, typeId, manual));
-	}
+
 
 	@Override
 	public void registerErrors(IErrorRegistration errors) {
@@ -93,21 +57,9 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		}
 	}
 
-	@Override
-	public void registerFarming(IFarmingRegistration farming) {
-		DefaultFarms.registerFarmTypes(farming);
-
-		farming.registerFertilizer(CoreItems.FERTILIZER_COMPOUND.get(), 500);
-	}
 
 
 
-	@Override
-	public void registerClient(Consumer<Consumer<IClientRegistration>> registrar) {
-		registrar.accept(new ApicultureClientRegistration());
-		registrar.accept(new ArboricultureClientRegistration());
-		registrar.accept(new LepidopterologyClientRegistration());
-	}
 
 	@Override
 	public ResourceLocation id() {
