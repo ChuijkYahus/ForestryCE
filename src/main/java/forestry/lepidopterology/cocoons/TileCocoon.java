@@ -1,11 +1,11 @@
-package forestry.lepidopterology.tiles;
+package forestry.lepidopterology.cocoons;
 
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.blocks.BlockCocoon;
+import forestry.lepidopterology.cocoons.BlockCocoon;
 import forestry.lepidopterology.features.LepidopterologyTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

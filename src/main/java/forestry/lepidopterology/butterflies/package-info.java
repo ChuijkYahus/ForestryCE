@@ -1,4 +1,4 @@
 @javax.annotation.ParametersAreNonnullByDefault
 @forestry.core.platform.util.FieldsAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
-package forestry.lepidopterology.genetics;
+package forestry.lepidopterology.butterflies;

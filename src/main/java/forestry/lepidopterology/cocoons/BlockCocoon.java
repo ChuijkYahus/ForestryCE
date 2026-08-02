@@ -1,12 +1,12 @@
-package forestry.lepidopterology.blocks;
+package forestry.lepidopterology.cocoons;
 
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NBTUtilForestry;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.items.ItemButterflyGE;
-import forestry.lepidopterology.tiles.TileCocoon;
+import forestry.lepidopterology.butterflies.ItemButterflyGE;
+import forestry.lepidopterology.cocoons.TileCocoon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

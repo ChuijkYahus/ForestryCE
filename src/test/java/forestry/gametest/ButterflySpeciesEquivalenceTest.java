@@ -31,9 +31,9 @@ import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.ButterflySpecies;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
-import forestry.lepidopterology.genetics.ButterflySpeciesProjector;
+import forestry.lepidopterology.butterflies.ButterflySpecies;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesProjector;
 
 /**
  * The pivotal "no behavior change" proof for Stage 5's butterfly datagen: for every built-in butterfly/moth, decodes

@@ -20,9 +20,9 @@ import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.ButterflySpawner;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
-import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
+import forestry.lepidopterology.butterflies.ButterflySpawner;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 
 /**
  * Locks the Stage-5 §6 invariant: {@code ButterflySpawner} is registered on the tree species type's leaf tick

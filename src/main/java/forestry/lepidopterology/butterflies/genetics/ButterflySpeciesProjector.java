@@ -1,4 +1,4 @@
-package forestry.lepidopterology.genetics;
+package forestry.lepidopterology.butterflies.genetics;
 
 import javax.annotation.Nullable;
 
@@ -9,7 +9,7 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.engine.genetics.SpeciesProjection;
-import forestry.lepidopterology.ButterflySpecies;
+import forestry.lepidopterology.butterflies.ButterflySpecies;
 
 /**
  * Projects a pure-data {@link ButterflySpeciesDefinition} into a runtime {@link ButterflySpecies}, reusing the same

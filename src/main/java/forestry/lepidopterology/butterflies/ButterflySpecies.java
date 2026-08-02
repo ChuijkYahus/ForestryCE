@@ -1,4 +1,4 @@
-package forestry.lepidopterology;
+package forestry.lepidopterology.butterflies;
 
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
@@ -13,7 +13,7 @@ import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.core.engine.genetics.GenericRatings;
 import forestry.core.engine.genetics.Species;
-import forestry.lepidopterology.genetics.Butterfly;
+import forestry.lepidopterology.butterflies.genetics.Butterfly;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

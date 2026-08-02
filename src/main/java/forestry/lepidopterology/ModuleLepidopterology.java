@@ -2,7 +2,7 @@ package forestry.lepidopterology;
 
 import forestry.lepidopterology.network.LepidopterologyPacketIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.lepidopterology.genetics.ButterflySpeciesManager;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesManager;
 import forestry.lepidopterology.network.ButterflySpeciesSyncPacket;
 import forestry.core.platform.util.NetworkUtil;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;

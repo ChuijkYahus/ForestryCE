@@ -22,8 +22,8 @@ import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.api.plugin.ILepidopterologyRegistration;
 import forestry.lepidopterology.plugin.LepidopterologyRegistration;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
-import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 import forestry.lepidopterology.plugin.DefaultButterflySpecies;
 
 /**

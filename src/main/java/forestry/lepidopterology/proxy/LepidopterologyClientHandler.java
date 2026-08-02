@@ -8,7 +8,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.core.platform.render.ForestryModelLayers;
 import forestry.lepidopterology.features.LepidopterologyEntities;
 import forestry.lepidopterology.features.LepidopterologyItems;
-import forestry.lepidopterology.items.ItemButterflyGE;
+import forestry.lepidopterology.butterflies.ItemButterflyGE;
 import forestry.lepidopterology.render.ButterflyEntityRenderer;
 import forestry.lepidopterology.render.ButterflyItemModel;
 import forestry.lepidopterology.render.ButterflyModel;

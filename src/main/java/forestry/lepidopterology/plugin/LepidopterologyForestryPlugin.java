@@ -9,7 +9,7 @@ import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
-import forestry.lepidopterology.genetics.ButterflySpeciesType;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesType;
 import java.util.List;
 
 import net.minecraft.resources.ResourceLocation;
@@ -24,10 +24,10 @@ import forestry.api.plugin.IGeneticRegistration;
 import forestry.api.plugin.ILepidopterologyRegistration;
 import forestry.core.features.CoreItems;
 import forestry.core.content.resources.EnumCraftingMaterial;
-import forestry.lepidopterology.DummyButterflyEffect;
-import forestry.lepidopterology.LepidopterologyFilterRule;
-import forestry.lepidopterology.LepidopterologyFilterRuleType;
-import forestry.lepidopterology.genetics.DefaultCocoon;
+import forestry.lepidopterology.butterflies.DummyButterflyEffect;
+import forestry.lepidopterology.butterflies.LepidopterologyFilterRule;
+import forestry.lepidopterology.butterflies.LepidopterologyFilterRuleType;
+import forestry.lepidopterology.butterflies.genetics.DefaultCocoon;
 import forestry.lepidopterology.plugin.DefaultButterflySpecies;
 
 /**

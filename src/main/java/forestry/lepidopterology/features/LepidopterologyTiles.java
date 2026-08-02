@@ -1,7 +1,7 @@
 package forestry.lepidopterology.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.lepidopterology.tiles.TileCocoon;
+import forestry.lepidopterology.cocoons.TileCocoon;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.FeatureTileType;
 import forestry.core.platform.registration.IFeatureRegistry;

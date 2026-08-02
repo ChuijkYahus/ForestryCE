@@ -2,7 +2,7 @@ package forestry.lepidopterology.features;
 
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.lepidopterology.items.ItemButterflyGE;
+import forestry.lepidopterology.butterflies.ItemButterflyGE;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;

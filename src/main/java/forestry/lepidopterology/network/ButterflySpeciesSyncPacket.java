@@ -12,9 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import forestry.core.engine.genetics.GeneticsReloadHandler;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
-import forestry.lepidopterology.genetics.ButterflySpeciesManager;
-import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesManager;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 
 /**
  * Server -&gt; client sync of the loaded butterfly species definitions, sent on player login/reload (see

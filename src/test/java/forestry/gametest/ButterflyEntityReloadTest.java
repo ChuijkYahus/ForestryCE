@@ -20,8 +20,8 @@ import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.lepidopterology.entities.EntityButterfly;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
-import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 
 /**
  * Verifies that a live {@link EntityButterfly} is refreshed to hold a fresh species instance after a datapack

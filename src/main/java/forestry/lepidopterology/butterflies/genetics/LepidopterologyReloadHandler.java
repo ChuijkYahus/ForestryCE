@@ -1,4 +1,4 @@
-package forestry.lepidopterology.genetics;
+package forestry.lepidopterology.butterflies.genetics;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.ButterflySpecies;
+import forestry.lepidopterology.butterflies.ButterflySpecies;
 import forestry.lepidopterology.entities.EntityButterfly;
 
 /**

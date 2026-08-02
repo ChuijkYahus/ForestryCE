@@ -15,7 +15,7 @@ import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
 import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
 
 /**
  * Fluent, default-seeded builders for the three species definitions, used by the reload / projector /

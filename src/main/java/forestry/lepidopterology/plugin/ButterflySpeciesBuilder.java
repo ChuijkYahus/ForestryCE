@@ -4,7 +4,7 @@ import forestry.api.core.IProduct;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
-import forestry.lepidopterology.ButterflySpecies;
+import forestry.lepidopterology.butterflies.ButterflySpecies;
 import forestry.apiimpl.plugin.SpeciesBuilder;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;

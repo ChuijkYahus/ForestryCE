@@ -1,4 +1,4 @@
-package forestry.lepidopterology.genetics;
+package forestry.lepidopterology.butterflies.genetics;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.authlib.GameProfile;
@@ -25,13 +25,13 @@ import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.EntityUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.arboriculture.trees.TreeUtil;
-import forestry.lepidopterology.ButterflySpawner;
+import forestry.lepidopterology.butterflies.ButterflySpawner;
 import forestry.lepidopterology.ModuleLepidopterology;
-import forestry.lepidopterology.blocks.BlockCocoon;
+import forestry.lepidopterology.cocoons.BlockCocoon;
 import forestry.lepidopterology.entities.EntityButterfly;
 import forestry.lepidopterology.features.LepidopterologyBlocks;
 import forestry.lepidopterology.features.LepidopterologyEntities;
-import forestry.lepidopterology.tiles.TileCocoon;
+import forestry.lepidopterology.cocoons.TileCocoon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

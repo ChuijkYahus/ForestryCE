@@ -1,4 +1,4 @@
-package forestry.lepidopterology;
+package forestry.lepidopterology.butterflies;
 
 import forestry.Forestry;
 import forestry.api.arboriculture.ILeafTickHandler;
@@ -15,6 +15,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import forestry.lepidopterology.ModuleLepidopterology;
 
 public class ButterflySpawner implements ILeafTickHandler {
 	static boolean attemptButterflySpawn(Level world, IButterfly butterfly, BlockPos pos) {

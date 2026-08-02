@@ -26,8 +26,8 @@ import forestry.core.data.ButterflySpeciesProvider;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
-import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 
 /**
  * Behavioral oracle for {@link ButterflyChromosomes#SPECIES}'s fail-soft resolver: a saved individual can reference a

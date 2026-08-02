@@ -1,4 +1,4 @@
-package forestry.lepidopterology.genetics;
+package forestry.lepidopterology.butterflies.genetics;
 
 import forestry.api.core.IProduct;
 import forestry.api.lepidopterology.IButterflyCocoon;

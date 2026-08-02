@@ -1,4 +1,4 @@
-package forestry.lepidopterology.genetics;
+package forestry.lepidopterology.butterflies.genetics;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;

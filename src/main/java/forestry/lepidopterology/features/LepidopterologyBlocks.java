@@ -1,8 +1,8 @@
 package forestry.lepidopterology.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.lepidopterology.blocks.BlockCocoon;
-import forestry.lepidopterology.blocks.BlockSolidCocoon;
+import forestry.lepidopterology.cocoons.BlockCocoon;
+import forestry.lepidopterology.cocoons.BlockSolidCocoon;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;

@@ -1,4 +1,4 @@
-package forestry.lepidopterology.genetics;
+package forestry.lepidopterology.butterflies.genetics;
 
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.core.genetics.ISpecies;

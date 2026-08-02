@@ -19,9 +19,9 @@ import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
-import forestry.lepidopterology.genetics.ButterflySpeciesManager;
-import forestry.lepidopterology.genetics.LepidopterologyReloadHandler;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesManager;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 
 /**
  * Note: {@code rebuildRepopulates} builds a single definition inline from the live Monarch species (mirroring
