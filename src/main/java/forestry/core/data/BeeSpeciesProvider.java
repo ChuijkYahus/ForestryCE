@@ -28,7 +28,7 @@ import forestry.apiculture.genetics.DefaultBeeJubilance;
 import forestry.apiculture.genetics.HermitBeeJubilance;
 import forestry.apiimpl.plugin.ApicultureRegistration;
 import forestry.core.utils.SpeciesUtil;
-import forestry.plugin.DefaultBeeSpecies;
+import forestry.apiculture.plugin.DefaultBeeSpecies;
 
 /**
  * Generates {@code data/forestry/bee_species/*.json} for every built-in bee, read directly from the

@@ -1,4 +1,4 @@
-package forestry.plugin;
+package forestry.apiculture.plugin;
 
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.core.HumidityType;

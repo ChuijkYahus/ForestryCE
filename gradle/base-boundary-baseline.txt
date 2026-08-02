@@ -34,5 +34,4 @@ core/data/recipe/ForestryRecipeProvider.java
 core/data/TreeSpeciesProvider.java
 plugin/client/BeeAnalyzerPlugin.java
 plugin/client/DefaultForestryClientRegistration.java
-plugin/DefaultBeeSpecies.java
 plugin/DefaultForestryPlugin.java
