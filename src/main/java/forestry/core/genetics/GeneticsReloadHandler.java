@@ -20,7 +20,7 @@ import forestry.core.features.GeneticsRecipeTypes;
 import forestry.core.genetics.mutations.Mutation;
 import forestry.core.genetics.mutations.MutationConditionTypes;
 import forestry.core.genetics.mutations.MutationRecipe;
-import forestry.modules.features.FeatureRecipeType;
+import forestry.core.platform.registration.FeatureRecipeType;
 
 /**
  * Rebuilds the engine-level runtime genetics state from loaded data. The per-species-type rebuilds live with their

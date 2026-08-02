@@ -20,7 +20,7 @@ import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.core.utils.SpeciesUtil;
-import forestry.modules.features.FeatureItem;
+import forestry.core.platform.registration.FeatureItem;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.items.BackpackItem;
 import net.minecraft.commands.CommandSourceStack;

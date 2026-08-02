@@ -30,7 +30,7 @@ import forestry.core.particles.CoreParticles;
 import forestry.core.render.*;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;
-import forestry.modules.features.FeatureFluid;
+import forestry.core.platform.registration.FeatureFluid;
 import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryTiles;
 import forestry.modules.ModuleUtil;

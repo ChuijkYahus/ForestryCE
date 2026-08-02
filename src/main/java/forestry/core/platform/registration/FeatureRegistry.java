@@ -1,4 +1,4 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.LinkedListMultimap;

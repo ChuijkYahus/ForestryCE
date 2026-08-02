@@ -5,10 +5,10 @@ import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.items.ItemBlockFarm;
-import forestry.modules.features.FeatureBlockTable;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureBlockTable;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 
 @FeatureProvider
 public class FarmingBlocks {

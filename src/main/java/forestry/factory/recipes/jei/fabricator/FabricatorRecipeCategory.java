@@ -12,7 +12,7 @@ import forestry.factory.blocks.BlockFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.features.FactoryBlocks;
 import forestry.factory.features.FactoryRecipeTypes;
-import forestry.modules.features.FeatureBlock;
+import forestry.core.platform.registration.FeatureBlock;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;

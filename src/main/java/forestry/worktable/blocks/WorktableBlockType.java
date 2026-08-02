@@ -4,7 +4,7 @@ import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
 import forestry.core.tiles.TileForestry;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 import forestry.worktable.features.WorktableTiles;
 
 public enum WorktableBlockType implements IBlockType {

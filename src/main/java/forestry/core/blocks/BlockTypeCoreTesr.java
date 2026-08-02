@@ -3,7 +3,7 @@ package forestry.core.blocks;
 import forestry.core.features.CoreTiles;
 import forestry.core.tiles.TileAnalyzer;
 import forestry.core.tiles.TileEscritoire;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;

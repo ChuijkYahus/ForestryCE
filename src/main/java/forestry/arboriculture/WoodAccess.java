@@ -2,7 +2,7 @@ package forestry.arboriculture;
 
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
-import forestry.modules.features.FeatureBlockGroup;
+import forestry.core.platform.registration.FeatureBlockGroup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;

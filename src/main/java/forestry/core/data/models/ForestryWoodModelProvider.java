@@ -4,7 +4,7 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.blocks.*;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.modules.features.FeatureBlockGroup;
+import forestry.core.platform.registration.FeatureBlockGroup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;

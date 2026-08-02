@@ -4,10 +4,10 @@ import forestry.api.core.ItemGroups;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.core.backpacks.EnumBackpackType;
-import forestry.modules.features.FeatureItem;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureItem;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import forestry.storage.ModuleStorage;
 
 @FeatureProvider

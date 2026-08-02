@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @FieldsAreNonnullByDefault
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import forestry.core.utils.FieldsAreNonnullByDefault;
 import net.minecraft.MethodsReturnNonnullByDefault;

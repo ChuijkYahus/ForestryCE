@@ -5,8 +5,8 @@ import forestry.api.mail.IPostalCarrier;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.mail.carriers.players.CarrierPlayer;
 import forestry.mail.carriers.trading.CarrierTrader;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.core.Holder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 

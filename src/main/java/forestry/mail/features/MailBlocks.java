@@ -4,10 +4,10 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.core.items.ItemBlockForestry;
 import forestry.mail.blocks.BlockMail;
 import forestry.mail.blocks.BlockTypeMail;
-import forestry.modules.features.FeatureBlockGroup;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureBlockGroup;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 
 import java.util.List;
 

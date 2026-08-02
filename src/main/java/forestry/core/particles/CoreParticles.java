@@ -1,8 +1,8 @@
 package forestry.core.particles;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;

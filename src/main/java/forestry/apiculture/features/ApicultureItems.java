@@ -5,7 +5,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.items.*;
 import forestry.core.items.ItemForestry;
 import forestry.core.items.ItemForestryFood;
-import forestry.modules.features.*;
+import forestry.core.platform.registration.*;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 

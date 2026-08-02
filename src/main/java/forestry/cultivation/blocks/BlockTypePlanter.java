@@ -5,7 +5,7 @@ import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
 import forestry.cultivation.features.CultivationTiles;
 import forestry.cultivation.tiles.TilePlanter;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 
 import java.util.List;
 

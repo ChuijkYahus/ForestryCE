@@ -14,7 +14,7 @@ import forestry.energy.tiles.PeatEngineBlockEntity;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import forestry.factory.tiles.*;
-import forestry.modules.features.FeatureBlock;
+import forestry.core.platform.registration.FeatureBlock;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;

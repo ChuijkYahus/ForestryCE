@@ -11,7 +11,7 @@ import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.utils.SpeciesUtil;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.LetterItem;
-import forestry.modules.features.FeatureItem;
+import forestry.core.platform.registration.FeatureItem;
 import forestry.storage.features.CrateItems;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ModelFile;

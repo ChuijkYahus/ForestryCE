@@ -3,9 +3,9 @@ package forestry.apiculture.features;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.apiculture.items.EnumPropolis;
-import forestry.modules.features.FeatureItem;
-import forestry.modules.features.FeatureItemGroup;
-import forestry.modules.features.FeatureProvider;
+import forestry.core.platform.registration.FeatureItem;
+import forestry.core.platform.registration.FeatureItemGroup;
+import forestry.core.platform.registration.FeatureProvider;
 import forestry.storage.features.CrateItems;
 import forestry.storage.items.ItemCrated;
 

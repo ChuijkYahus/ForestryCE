@@ -1,4 +1,4 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import com.google.common.base.Preconditions;
 import com.mojang.datafixers.util.Function3;

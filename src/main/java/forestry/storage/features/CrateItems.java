@@ -4,7 +4,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.items.definitions.EnumCraftingMaterial;
-import forestry.modules.features.*;
+import forestry.core.platform.registration.*;
 import forestry.storage.items.ItemCrated;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;

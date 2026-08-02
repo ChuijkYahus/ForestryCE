@@ -3,7 +3,7 @@ package forestry.core.blocks;
 import com.google.common.base.Preconditions;
 import forestry.core.tiles.IForestryTicker;
 import forestry.core.tiles.TileForestry;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;

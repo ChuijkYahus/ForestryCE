@@ -11,7 +11,7 @@ import forestry.core.items.*;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.items.definitions.EnumElectronTube;
 import forestry.core.items.definitions.ToolTier;
-import forestry.modules.features.*;
+import forestry.core.platform.registration.*;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoeItem;

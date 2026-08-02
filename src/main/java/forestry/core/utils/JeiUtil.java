@@ -7,7 +7,7 @@ import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
-import forestry.modules.features.FeatureItem;
+import forestry.core.platform.registration.FeatureItem;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;

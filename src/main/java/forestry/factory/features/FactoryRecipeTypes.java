@@ -3,10 +3,10 @@ package forestry.factory.features;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.core.machines.*;
 import forestry.factory.recipes.*;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.FeatureRecipeType;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.FeatureRecipeType;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 
 @FeatureProvider
 public class FactoryRecipeTypes {

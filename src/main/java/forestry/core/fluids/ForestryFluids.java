@@ -5,7 +5,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.core.ForestryColors;
 import forestry.core.items.definitions.DrinkProperties;
 import forestry.core.utils.ModUtil;
-import forestry.modules.features.*;
+import forestry.core.platform.registration.*;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;

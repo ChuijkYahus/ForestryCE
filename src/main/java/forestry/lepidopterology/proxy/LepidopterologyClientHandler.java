@@ -12,7 +12,7 @@ import forestry.lepidopterology.items.ItemButterflyGE;
 import forestry.lepidopterology.render.ButterflyEntityRenderer;
 import forestry.lepidopterology.render.ButterflyItemModel;
 import forestry.lepidopterology.render.ButterflyModel;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.core.registries.Registries;

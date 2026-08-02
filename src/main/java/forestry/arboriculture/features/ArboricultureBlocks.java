@@ -10,7 +10,7 @@ import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.blocks.*;
 import forestry.arboriculture.items.*;
-import forestry.modules.features.*;
+import forestry.core.platform.registration.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;

@@ -5,7 +5,7 @@ import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.tiles.EngineBlockEntity;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 
 public enum EngineBlockType implements IBlockType {
 	PEAT(createEngineProperties(EnergyTiles.PEAT_ENGINE, "peat")),

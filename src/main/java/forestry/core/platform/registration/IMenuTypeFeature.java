@@ -1,4 +1,4 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import forestry.api.core.IMenuTypeProvider;
 import net.minecraft.world.inventory.AbstractContainerMenu;

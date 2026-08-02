@@ -2,7 +2,7 @@ package forestry.core.blocks;
 
 import forestry.core.features.CoreTiles;
 import forestry.core.tiles.TileNaturalistChest;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 
 public enum NaturalistChestBlockType implements IBlockType {
 	APIARIST_CHEST("apiarists_chest", CoreTiles.APIARIST_CHEST),

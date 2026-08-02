@@ -5,7 +5,7 @@ import forestry.core.ClientsideCode;
 import forestry.core.fluids.FluidHelper;
 import forestry.factory.features.FactoryRecipeTypes;
 import forestry.factory.recipes.FabricatorSmeltingRecipe;
-import forestry.modules.features.FeatureRecipeType;
+import forestry.core.platform.registration.FeatureRecipeType;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;

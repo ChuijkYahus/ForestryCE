@@ -5,7 +5,7 @@ import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.items.CatalogueItem;
 import forestry.mail.items.LetterItem;
 import forestry.mail.items.ItemStamp;
-import forestry.modules.features.*;
+import forestry.core.platform.registration.*;
 
 @FeatureProvider
 public class MailItems {

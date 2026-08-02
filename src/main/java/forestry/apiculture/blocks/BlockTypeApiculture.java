@@ -5,7 +5,7 @@ import forestry.apiculture.tiles.TileBeeHousingBase;
 import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 
 public enum BlockTypeApiculture implements IBlockType {
 	BEE_HOUSE(ApicultureTiles.BEE_HOUSE, "bee_house"),

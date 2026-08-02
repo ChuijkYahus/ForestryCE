@@ -1,4 +1,4 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import com.google.common.collect.ImmutableMap;
 import forestry.api.core.IFeatureSubtype;

@@ -1,9 +1,9 @@
 package forestry.arboriculture.loot;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.neoforged.neoforge.registries.DeferredHolder;

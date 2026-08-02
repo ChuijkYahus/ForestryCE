@@ -8,7 +8,7 @@ import forestry.core.tiles.TileForestry;
 import forestry.mail.features.MailTiles;
 import forestry.mail.tiles.TileStampCollector;
 import forestry.mail.tiles.TileTrader;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 
 import javax.annotation.Nullable;
 

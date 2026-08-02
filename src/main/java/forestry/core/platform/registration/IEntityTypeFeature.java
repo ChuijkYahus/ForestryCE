@@ -1,4 +1,4 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

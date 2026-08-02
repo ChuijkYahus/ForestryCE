@@ -1,7 +1,7 @@
 package forestry.core.fluids;
 
-import forestry.modules.features.FeatureFluid;
-import forestry.modules.features.FluidProperties;
+import forestry.core.platform.registration.FeatureFluid;
+import forestry.core.platform.registration.FluidProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

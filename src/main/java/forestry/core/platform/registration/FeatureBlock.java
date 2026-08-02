@@ -1,4 +1,4 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import forestry.api.ForestryConstants;
 import net.minecraft.core.Registry;

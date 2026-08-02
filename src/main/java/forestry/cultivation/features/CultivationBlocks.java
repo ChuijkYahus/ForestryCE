@@ -4,7 +4,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.cultivation.blocks.BlockPlanter;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.items.ItemBlockPlanter;
-import forestry.modules.features.*;
+import forestry.core.platform.registration.*;
 
 @FeatureProvider
 public class CultivationBlocks {

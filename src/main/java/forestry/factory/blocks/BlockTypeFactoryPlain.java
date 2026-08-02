@@ -8,7 +8,7 @@ import forestry.core.tiles.TileForestry;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.tiles.TileFabricator;
 import forestry.factory.tiles.TileRaintank;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 
 public enum BlockTypeFactoryPlain implements IBlockType {
 	FABRICATOR(FactoryTiles.FABRICATOR, "thermionic_fabricator", TileFabricator::serverTick),

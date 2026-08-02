@@ -3,10 +3,10 @@ package forestry.cultivation.features;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.tiles.*;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.FeatureTileType;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.FeatureTileType;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 

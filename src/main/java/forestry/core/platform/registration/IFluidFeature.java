@@ -1,4 +1,4 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import forestry.core.fluids.BlockForestryFluid;
 import net.minecraft.world.item.BlockItem;

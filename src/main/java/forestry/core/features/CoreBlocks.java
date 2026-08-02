@@ -5,7 +5,7 @@ import forestry.core.blocks.NaturalistChestBlockType;
 import forestry.core.blocks.*;
 import forestry.core.items.ItemBlockForestry;
 import forestry.core.items.ItemBlockTesr;
-import forestry.modules.features.*;
+import forestry.core.platform.registration.*;
 import java.util.List;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;

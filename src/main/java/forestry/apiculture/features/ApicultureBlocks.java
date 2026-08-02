@@ -6,10 +6,10 @@ import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.ItemBlockHoneyComb;
 import forestry.core.blocks.BlockBase;
 import forestry.core.items.ItemBlockForestry;
-import forestry.modules.features.FeatureBlockGroup;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.FeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.registration.FeatureBlockGroup;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.FeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 

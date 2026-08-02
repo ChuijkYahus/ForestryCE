@@ -59,7 +59,7 @@ import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.items.LetterItem;
 import forestry.mail.items.ItemStamp;
-import forestry.modules.features.FeatureItem;
+import forestry.core.platform.registration.FeatureItem;
 import forestry.sorting.features.SortingBlocks;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;

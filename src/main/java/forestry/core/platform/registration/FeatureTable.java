@@ -1,9 +1,9 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import com.google.common.collect.ImmutableTable;
 import forestry.api.core.IFeatureSubtype;
 import forestry.api.core.IItemProvider;
-import forestry.modules.features.FeatureGroup.IdentifierType;
+import forestry.core.platform.registration.FeatureGroup.IdentifierType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;

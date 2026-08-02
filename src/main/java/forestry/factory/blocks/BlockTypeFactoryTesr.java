@@ -10,7 +10,7 @@ import forestry.core.tiles.TileBase;
 import forestry.core.tiles.TileMill;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.tiles.*;
-import forestry.modules.features.FeatureTileType;
+import forestry.core.platform.registration.FeatureTileType;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;

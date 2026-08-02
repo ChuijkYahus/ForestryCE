@@ -1,4 +1,4 @@
-package forestry.modules.features;
+package forestry.core.platform.registration;
 
 import forestry.modules.ModuleUtil;
 import net.neoforged.bus.api.IEventBus;
