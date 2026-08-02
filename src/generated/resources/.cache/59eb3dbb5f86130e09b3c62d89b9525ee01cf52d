@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-25T18:55:29.8955692	Loot Tables
+// 1.20.1	2026-08-02T20:45:42.0108659	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -1100,6 +1100,9 @@ b696d320bb0dca067eaabaf87228fdb31e4b9017 data/forestry/loot_tables/blocks/pewen_
 1c48400a7b6f53dd59d59fe3be1b51823300a4b6 data/forestry/loot_tables/blocks/pewen_stripped_wood.json
 5d5b776ff6e76a3f7bbc1ac8e2d48cde242026ae data/forestry/loot_tables/blocks/pewen_trapdoor.json
 cc64a52242e45829f3ed7d2dcd7cb4dc76a74d5c data/forestry/loot_tables/blocks/pewen_wood.json
+9880875048e84cdde36a46c34a6b3e735843e3f9 data/forestry/loot_tables/blocks/phosphor_lantern.json
+1aa0421c4c96cbea1536a855fcc7614eaf0b8404 data/forestry/loot_tables/blocks/phosphor_torch.json
+8845c70bbd0c75821b72d17a8b1c9775a6ea41b0 data/forestry/loot_tables/blocks/phosphor_wall_torch.json
 7f2fd2f5fd81fc77af465e312270eaa37a08a480 data/forestry/loot_tables/blocks/pine_button.json
 92ea1f1a48e5158533b4ac4045d30577e5cb13ce data/forestry/loot_tables/blocks/pine_door.json
 5e00c12f426fe6b439a59fddcfa73aa50ef7ebf1 data/forestry/loot_tables/blocks/pine_fence.json
@@ -1274,6 +1277,7 @@ b104889168835dc190178a517000f76379c167d7 data/forestry/loot_tables/blocks/teak_s
 95855098fcd8ff1d32867703c5be2f0f0716e158 data/forestry/loot_tables/blocks/teak_stripped_wood.json
 291e1b209ceb0aa1cf360b3beb4f5e52eaa6f194 data/forestry/loot_tables/blocks/teak_trapdoor.json
 62a0fadbddcb03789785362da27733b84eefbbd5 data/forestry/loot_tables/blocks/teak_wood.json
+c5563626f1dbb5d1580844ffed45faf3f7eaf0a8 data/forestry/loot_tables/blocks/tin_chain.json
 736dbbc8b9190efe4e41b4b68f3d0807303f3a4a data/forestry/loot_tables/blocks/tin_ore.json
 159d7310b5c435687335280243ae7506be49a012 data/forestry/loot_tables/blocks/trade_station.json
 8760f693387e3efbb192602e1ee577e94b5cd7cf data/forestry/loot_tables/blocks/tree_acacia_decorative_leaves.json

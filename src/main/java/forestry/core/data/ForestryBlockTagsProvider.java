@@ -11,6 +11,7 @@ import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.blocks.BlockTypeJumboCandle;
 import forestry.core.blocks.EnumResourceType;
 import forestry.core.features.CoreBlocks;
+import forestry.core.features.CoreItems;
 import forestry.cultivation.blocks.BlockPlanter;
 import forestry.cultivation.features.CultivationBlocks;
 import forestry.energy.features.EnergyBlocks;
@@ -39,6 +40,7 @@ public final class ForestryBlockTagsProvider {
 
 	//I have to do this here because it doesn't seem to exist in the BlockTags class
 	public static final TagKey<Block> PIGLIN_REPELLENTS = BlockTags.create(new ResourceLocation("minecraft", "piglin_repellents"));
+	public static final TagKey<Block> WALL_POST_OVERRIDE = BlockTags.create(new ResourceLocation("minecraft", "wall_post_override"));
 
 	public static void addTags(MKTagsProvider<Block> tags, HolderLookup.Provider lookup) {
 		tags.tag(ForestryTags.Blocks.MINEABLE_SCOOP).add(ApicultureBlocks.BEEHIVE.blockArray());
@@ -64,6 +66,8 @@ public final class ForestryBlockTagsProvider {
 			.add(CharcoalBlocks.CHARCOAL.block())
 			.add(EnergyBlocks.ENGINES.blockArray())
 			.add(EnergyBlocks.SOLAR_PANEL.block())
+			.add(CoreBlocks.PHOSPHOR_LANTERN.block())
+			.add(CoreBlocks.TIN_CHAIN.block())
 			.add(CoreBlocks.ASH_BRICKS.block())
 			.add(CoreBlocks.ASH_BRICKS_CHISELED.block())
 			.add(CoreBlocks.ASH_BRICK_WALL.block())
@@ -314,6 +318,8 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES).add(Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT, Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT);
 
 		//BUILDING BLOCKS
+		tags.tag(WALL_POST_OVERRIDE).add(CoreBlocks.PHOSPHOR_TORCH.block());
+
 		CoreBlocks.JUMBO_CANDLES.getBlocks().forEach(block ->
 			tags.tag(ForestryTags.Blocks.JUMBO_CANDLE).add(block)
 		);

@@ -839,13 +839,6 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern("VVV");
 		});
 
-		recipes.shapedCrafting("phosphor_torches", RecipeCategory.MISC, Items.TORCH, 6, recipe -> {
-			recipe.define('P', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
-			recipe.define('|', Tags.Items.RODS_WOODEN);
-			recipe.pattern(" P ");
-			recipe.pattern(" | ");
-		});
-
 		recipes.shapedCrafting("beeswax_candles", RecipeCategory.MISC, Items.CANDLE, 1, recipe -> {
 			recipe.define('|', Tags.Items.STRING);
 			recipe.define('^', CoreItems.BEESWAX);
@@ -864,6 +857,32 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TURF, 3, recipe -> {
 			recipe.define('X', CoreBlocks.TURF_BLOCK);
 			recipe.pattern("XX");
+		});
+
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TIN_CHAIN,  recipe -> {
+			recipe.define('|', Ingredient.of(ForestryTags.Items.INGOTS_TIN));
+			recipe.define('.', Ingredient.of(ForestryTags.Items.NUGGETS_TIN));
+			recipe.pattern(".");
+			recipe.pattern("|");
+			recipe.pattern(".");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreItems.PHOSPHOR_TORCH_ITEM, 4,  recipe -> {
+			recipe.define('.', CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.PHOSPHOR));
+			recipe.define('^', Ingredient.of(Items.COAL, Items.CHARCOAL)); //TODO: Should be Tags.Items.Coals but this tag doesn't exist in Forge 1.20.1
+			recipe.define('|', Items.STICK);
+			recipe.pattern(".");
+			recipe.pattern("^");
+			recipe.pattern("|");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PHOSPHOR_LANTERN,   recipe -> {
+			recipe.define('.', Ingredient.of(ForestryTags.Items.NUGGETS_TIN));
+			recipe.define('^', CoreItems.PHOSPHOR_TORCH_ITEM);
+			recipe.pattern("...");
+			recipe.pattern(".^.");
+			recipe.pattern("...");
 		});
 
 

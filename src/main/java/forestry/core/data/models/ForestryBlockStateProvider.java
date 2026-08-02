@@ -33,11 +33,13 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.core.Core;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -112,6 +114,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		simpleBlock(CoreBlocks.CORK.block());
 		generic3d(CoreBlocks.CORK.block());
+
 
 		jumboCandles();
 		bigCandles();

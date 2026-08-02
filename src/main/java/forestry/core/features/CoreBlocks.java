@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraftforge.registries.RegistryObject;
 
 @FeatureProvider
 public class CoreBlocks {
@@ -49,6 +50,12 @@ public class CoreBlocks {
 		"plywood_block");
 
 	public static final FeatureBlock<CorkBlock, BlockItem> CORK = REGISTRY.block(CorkBlock::new, (block) -> new ItemBlockForestry<>(block, new ItemProperties().burnTime(300)), "cork");
+
+	public static final FeatureBlock<ChainBlock, BlockItem> TIN_CHAIN = REGISTRY.block(() -> new ChainBlock(BlockBehaviour.Properties.copy(Blocks.CHAIN)), ItemBlockForestry::new, "tin_chain");
+	public static final FeatureBlock<LanternBlock, BlockItem> PHOSPHOR_LANTERN = REGISTRY.block(() -> new LanternBlock(BlockBehaviour.Properties.copy(Blocks.SOUL_LANTERN).lightLevel(s ->  13)), ItemBlockForestry::new, "phosphor_lantern");
+
+	public static final FeatureBlock<BlockWaterloggableTorch, ItemBlockForestry<?>> PHOSPHOR_TORCH = REGISTRY.block(BlockWaterloggableTorch::new, "phosphor_torch");
+	public static final FeatureBlock<BlockWaterloggableWallTorch, ItemBlockForestry<?>> PHOSPHOR_WALL_TORCH = REGISTRY.block(BlockWaterloggableWallTorch::new, "phosphor_wall_torch");
 
 
 	/* Block Sets */

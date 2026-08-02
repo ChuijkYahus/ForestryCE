@@ -166,6 +166,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.INGOT_TIN);
 		items.accept(CoreItems.INGOT_BRONZE);
+		items.accept(CoreItems.NUGGET_TIN);
 		// Block forms
 		items.accept(CoreBlocks.RAW_TIN_BLOCK);
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);
@@ -504,6 +505,9 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.PLYWOOD_BLOCK);
 		items.accept(CoreBlocks.PLYWOOD_SHEET);
 		items.accept(CoreBlocks.CORK);
+		items.accept(CoreItems.PHOSPHOR_TORCH_ITEM);
+		items.accept(CoreBlocks.PHOSPHOR_LANTERN);
+		items.accept(CoreBlocks.TIN_CHAIN);
 
 		items.accept(CharcoalBlocks.ASH);
 		items.accept(CoreBlocks.ASH_BRICKS);

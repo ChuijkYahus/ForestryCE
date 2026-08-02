@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    ".": {
+      "item": "forestry:phosphor"
+    },
+    "^": [
+      {
+        "item": "minecraft:coal"
+      },
+      {
+        "item": "minecraft:charcoal"
+      }
+    ],
+    "|": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    ".",
+    "^",
+    "|"
+  ],
+  "result": {
+    "count": 4,
+    "item": "forestry:phosphor_torch"
+  },
+  "show_notification": true
+}

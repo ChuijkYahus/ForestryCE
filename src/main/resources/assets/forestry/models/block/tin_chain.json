@@ -1,0 +1,7 @@
+{
+    "parent": "block/chain",
+    "textures": {
+        "particle": "forestry:block/tin_chain",
+        "all": "forestry:block/tin_chain"
+    }
+}
