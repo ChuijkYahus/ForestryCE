@@ -53,6 +53,8 @@ import forestry.apiculture.genetics.effects.SculkSpreadBeeEffect;
 import forestry.apiculture.genetics.effects.SnowingBeeEffect;
 import forestry.apiculture.hives.HiveDefinition;
 import forestry.apiculture.items.EnumHoneyComb;
+import forestry.apiculture.genetics.FlowerTypeTypes;
+import forestry.apiculture.genetics.ApicultureProductTypes;
 
 /**
  * Base Forestry's apiculture registrations. Split out of {@code forestry.plugin.DefaultForestryPlugin}
@@ -61,6 +63,13 @@ import forestry.apiculture.items.EnumHoneyComb;
 public class ApicultureForestryPlugin implements IForestryPlugin {
 	@Override
 	public void registerGenetics(IGeneticRegistration genetics) {
+		// Apiculture's serializer types, so their `type` ids resolve before any datapack or species
+		// JSON parse. Both are idempotent and independent of anything registered below. They ran from
+		// PluginManager until phase 6, as fully qualified calls with no import - which is how they
+		// stayed invisible to the import-based boundary gate.
+		FlowerTypeTypes.registerBuiltins();
+		ApicultureProductTypes.registerBuiltins();
+
 		// Bee type
 		genetics.registerSpeciesType(ForestrySpeciesTypes.BEE, BeeSpeciesType::new)
 			.setKaryotype(karyotype -> {

@@ -142,6 +142,9 @@ tasks.named('check') {
 // this gate ratchets against a checked-in baseline rather than failing outright: a leak that is
 // not in the baseline is a new regression, and a baseline entry that no longer leaks is a stale
 // baseline that must be trimmed. Both directions fail, which is what drives the count down.
+//
+// Files under core/data are reported separately: the jar task strips that package, so they cannot
+// reach a player. They dissolve in phase 8 when datagen becomes a per-jar source set.
 var checkBaseBoundary = tasks.register('checkBaseBoundary') {
 	group = 'verification'
 	description = 'Fails if a base-artifact package gains a new reference to a split content module'
@@ -193,12 +196,74 @@ var checkBaseBoundary = tasks.register('checkBaseBoundary') {
 					+ fixed.join('\n  '))
 		}
 
-		logger.lifecycle("checkBaseBoundary: ${actual.size()} known leaking file(s) remaining")
+		var packaged = actual.findAll { !it.startsWith('core/data/') }
+		var datagenOnly = actual.size() - packaged.size()
+
+		logger.lifecycle("checkBaseBoundary: ${packaged.size()} packaged leaking file(s), "
+				+ "${datagenOnly} datagen-only (excluded from the jar by the 'forestry/core/data/**' rule)")
+	}
+}
+
+// checkBaseBoundary reads imports, which is not what D3 actually requires. FML's annotation scanner
+// resolves method signatures at boot via getDeclaredMethods0, so a base class that names a split
+// type only in a descriptor - a parameter, a return type, a lambda synthetic - hard-crashes in
+// production without ever writing an import. This reads the compiled classes instead, and skips
+// the datagen package because the jar task strips it.
+var checkBaseBytecode = tasks.register('checkBaseBytecode') {
+	group = 'verification'
+	description = 'Fails if a packaged base class references a split content module in its bytecode'
+
+	dependsOn tasks.named('classes')
+	outputs.upToDateWhen { false }
+
+	doLast {
+		var classesDir = new File(project.layout.buildDirectory.get().asFile, 'classes/java/main/forestry')
+		var splitModules = ['apiculture', 'arboriculture', 'lepidopterology', 'farming', 'cultivation', 'mail']
+		var basePackages = ['core', 'apiimpl', 'plugin', 'modules', 'compat']
+		var offenders = new TreeSet<String>()
+
+		var scan = { File file ->
+			if (!file.name.endsWith('.class')) {
+				return
+			}
+			var rel = classesDir.toPath().relativize(file.toPath()).toString()
+			if (rel.startsWith('core/data/')) {
+				return
+			}
+			// Class names live in the constant pool as modified UTF-8. ISO-8859-1 maps every byte to
+			// exactly one char, so decoding with it is lossless for a substring search and finds
+			// descriptors and signatures as well as the names an import would have produced
+			var text = new String(file.bytes, 'ISO-8859-1')
+			for (String mod : splitModules) {
+				if (text.contains("forestry/${mod}/")) {
+					offenders.add(rel + " -> forestry/" + mod)
+				}
+			}
+		}
+
+		classesDir.listFiles({ File f -> f.isFile() } as FileFilter).each(scan)
+		basePackages.each { pkg ->
+			var dir = new File(classesDir, pkg)
+			if (dir.exists()) {
+				dir.eachFileRecurse(groovy.io.FileType.FILES, scan)
+			}
+		}
+
+		if (!offenders.isEmpty()) {
+			throw new GradleException(
+					"Packaged base class(es) reference a split content module in bytecode:\n  "
+					+ offenders.join('\n  ')
+					+ "\nImports are not the invariant here - see the D3 safety condition in the reorg spec.")
+		}
+		logger.lifecycle("checkBaseBytecode: no packaged base class references a split module")
 	}
 }
 
 tasks.named('check') {
 	dependsOn checkBaseBoundary
+}
+tasks.named('check') {
+	dependsOn checkBaseBytecode
 }
 
 repositories {
