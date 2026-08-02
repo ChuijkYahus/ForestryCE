@@ -7,14 +7,20 @@ import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.client.genetics.IGeneticClientManager;
 import forestry.api.client.lepidopterology.IButterflyClientManager;
 import forestry.api.client.plugin.IClientHelper;
-import forestry.apiimpl.client.plugin.ClientHelper;
 import forestry.core.render.ForestryTextureManager;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ServiceLoader;
+
 public class ForestryClientApiImpl implements IForestryClientApi {
-	private final IClientHelper helper = new ClientHelper();
+	// Resolved by service rather than constructed: every IClientHelper method returns an arboriculture
+	// type, and ForestryLeafSprites resolves the helper from a static initializer, too early for any
+	// lifecycle hook to have installed one.
+	// todo orElseThrow is correct while there is one jar, since the service is always present. Phase 6
+	//  replaces it with the isLoaded() no-op helper, once a missing arboriculture jar is possible.
+	private final IClientHelper helper = ServiceLoader.load(IClientHelper.class).findFirst().orElseThrow();
 
 	@Nullable
 	private ITextureManager textureManager;

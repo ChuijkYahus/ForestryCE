@@ -1,4 +1,4 @@
-package forestry.apiimpl.client.plugin;
+package forestry.arboriculture.client.plugin;
 
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
