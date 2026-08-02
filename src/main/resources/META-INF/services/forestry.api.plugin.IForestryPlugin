@@ -1,3 +1,4 @@
 forestry.plugin.DefaultForestryPlugin
 forestry.apiculture.plugin.ApicultureForestryPlugin
+forestry.arboriculture.plugin.ArboricultureForestryPlugin
 forestry.compat.kubejs.KubeForestryPlugin
