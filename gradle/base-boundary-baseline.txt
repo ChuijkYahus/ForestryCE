@@ -2,7 +2,6 @@
 # Generated 2026-07-31 at the start of phase 2. Shrinks each phase; never grows.
 apiimpl/client/plugin/ClientHelper.java
 apiimpl/client/TreeClientManager.java
-apiimpl/ForestryApiImpl.java
 apiimpl/plugin/ApicultureRegistration.java
 apiimpl/plugin/ArboricultureRegistration.java
 apiimpl/plugin/BeeSpeciesBuilder.java

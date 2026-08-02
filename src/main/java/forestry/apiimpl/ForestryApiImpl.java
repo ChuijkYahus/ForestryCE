@@ -11,12 +11,9 @@ import forestry.api.genetics.IGeneticManager;
 import forestry.api.genetics.filter.IFilterManager;
 import forestry.api.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
-import forestry.apiculture.hives.HiveManager;
-import forestry.arboriculture.TreeManager;
 import forestry.core.circuits.CircuitManager;
 import forestry.core.climate.ForestryClimateManager;
 import forestry.core.errors.ErrorManager;
-import forestry.farming.FarmingManager;
 import forestry.modules.ForestryModuleManager;
 import forestry.sorting.FilterManager;
 import org.jetbrains.annotations.ApiStatus;
@@ -145,17 +142,17 @@ public class ForestryApiImpl implements IForestryApi {
 	}
 
 	@ApiStatus.Internal
-	public void setFarmingManager(FarmingManager farmingManager) {
+	public void setFarmingManager(IFarmingManager farmingManager) {
 		this.farmingManager = farmingManager;
 	}
 
 	@ApiStatus.Internal
-	public void setHiveManager(HiveManager hiveManager) {
+	public void setHiveManager(IHiveManager hiveManager) {
 		this.hiveManager = hiveManager;
 	}
 
 	@ApiStatus.Internal
-	public void setTreeManager(TreeManager treeManager) {
+	public void setTreeManager(ITreeManager treeManager) {
 		this.treeManager = treeManager;
 	}
 
