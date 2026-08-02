@@ -1,5 +1,6 @@
 package forestry.farming.tiles;
 
+import forestry.farming.multiblock.FarmPattern;
 import forestry.api.multiblock.IFarmComponent;
 import forestry.api.multiblock.IFarmController;
 import forestry.energy.EnergyHelper;
@@ -94,4 +95,10 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 		}
 		return null;
 	}
+
+	@Override
+	public String patternTypeId() {
+		return FarmPattern.GEARBOX;
+	}
+
 }

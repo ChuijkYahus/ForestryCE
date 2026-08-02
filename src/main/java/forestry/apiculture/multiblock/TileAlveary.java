@@ -63,6 +63,11 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 	}
 
 	@Override
+	public String patternTypeId() {
+		return AlvearyPattern.PART;
+	}
+
+	@Override
 	public void onMachineAssembled(IMultiblockController multiblockController, BlockPos minCoord, BlockPos maxCoord) {
 		Block block = getBlockState().getBlock();
 		if (block instanceof BlockAlveary alveary) {

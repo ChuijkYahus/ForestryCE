@@ -14,4 +14,10 @@ public class TileAlvearyPlain extends TileAlveary {
 	public boolean allowsAutomation() {
 		return true;
 	}
+
+	@Override
+	public String patternTypeId() {
+		return AlvearyPattern.PLAIN;
+	}
+
 }

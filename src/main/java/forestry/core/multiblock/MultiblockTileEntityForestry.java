@@ -66,6 +66,15 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 	public abstract MultiblockPattern getPattern();
 
 	/**
+	 * Used by {@link LevelStructureView#typeIdFor} to resolve a cell's role without naming any part class.
+	 * A subclass that does not override this inherits its parent's role, so an addon part extending a role
+	 * part is that role, as it was before the pattern engine rewrite.
+	 *
+	 * @return The pattern type id for this part's role in its machine
+	 */
+	public abstract String patternTypeId();
+
+	/**
 	 * Resolves the live controller hosted at this member's anchor (spec 6.1). Returns {@code null} when
 	 * unassembled or the anchor is missing. The typed {@code TileAlveary} and {@code TileFarm} accessors fall
 	 * back to their {@code Fake} controller in that case.

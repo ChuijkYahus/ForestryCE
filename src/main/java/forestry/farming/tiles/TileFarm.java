@@ -42,6 +42,11 @@ public abstract class TileFarm extends MultiblockTileEntityForestry<MultiblockLo
 	}
 
 	@Override
+	public String patternTypeId() {
+		return forestry.farming.multiblock.FarmPattern.PART;
+	}
+
+	@Override
 	public void onMachineAssembled(IMultiblockController multiblockController, BlockPos minCoord, BlockPos maxCoord) {
         this.level.updateNeighborsAt(getBlockPos(), this.level.getBlockState(this.worldPosition).getBlock());    //TODO - removing false OK?
 		setChanged();

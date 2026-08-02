@@ -1,14 +1,7 @@
 package forestry.core.multiblock;
 
-import forestry.api.multiblock.IAlvearyComponent;
-import forestry.api.multiblock.IFarmComponent;
-import forestry.apiculture.multiblock.AlvearyPattern;
-import forestry.apiculture.multiblock.TileAlvearyPlain;
 import forestry.core.multiblock.pattern.StructurePos;
 import forestry.core.multiblock.pattern.StructureView;
-import forestry.farming.multiblock.FarmPattern;
-import forestry.farming.tiles.TileFarmGearbox;
-import forestry.farming.tiles.TileFarmPlain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
@@ -69,46 +62,26 @@ public final class LevelStructureView implements StructureView {
 	/* ===== BlockEntity -> pattern type-id mapping ===== */
 
 	/**
-	 * Resolves a cell's pattern type-id from its block entity, mirroring the pre-rewrite controllers
-	 * one-for-one.
+	 * Resolves a cell's pattern type-id from its block entity.
 	 *
-	 * <p>The machine comes from the public component interface, as in the old base cube loop's
-	 * {@code te instanceof IMultiblockComponent} and its controller-class guard. Any block entity that
-	 * implements {@link IAlvearyComponent} or {@link IFarmComponent} is a member of that machine, so addon
-	 * parts are recognised by the same rule as Forestry's own.
+	 * <p>The part declares its own role through
+	 * {@link MultiblockTileEntityForestry#patternTypeId}, so this class names no part class and no
+	 * machine. A subclass that does not override it inherits its parent's role, which keeps the
+	 * pre-rewrite behavior that an addon subclassing a role part is that role.
 	 *
-	 * <p>The role comes from the concrete part class, as in the old
-	 * {@code AlvearyController.isGoodForInterior} ({@code instanceof TileAlvearyPlain}) and
-	 * {@code FarmController} ({@code instanceof TileFarmPlain} or {@code TileFarmGearbox}). An addon that
-	 * subclasses a role part inherits that role, again as before the rewrite.
+	 * <p>Every part that is not a distinguished role returns the machine's generic {@code *_part}. The
+	 * pattern layer never tells those apart, because {@code Predicates} only compares {@code PLAIN} and
+	 * {@code GEARBOX} by equality and {@code PREFIX} by prefix, so a per-part id would carry no
+	 * information.
 	 *
-	 * <p>Every other component is the machine's generic {@code *_part}. The pattern layer never
-	 * distinguishes them, because {@code Predicates} only compares {@code PLAIN} and {@code GEARBOX} by
-	 * equality and {@code PREFIX} by prefix, so a per-part id would carry no information.
-	 *
-	 * <p>Membership also requires {@link MultiblockTileEntityForestry}, because the rest of the engine
-	 * does. {@code MultiblockValidation.assemble} resolves the holder (the lowest member) as one and
-	 * returns otherwise, and anchoring and stash-clearing skip anything else. A part the engine cannot
-	 * anchor would make a structure fail to form with no error. Addon parts therefore extend
+	 * <p>Membership requires {@link MultiblockTileEntityForestry}, because the rest of the engine does.
+	 * {@code MultiblockValidation.assemble} resolves the holder (the lowest member) as one and returns
+	 * otherwise, and anchoring and stash-clearing skip anything else. A part the engine cannot anchor
+	 * would make a structure fail to form with no error. Addon parts therefore extend
 	 * {@code TileAlveary} or {@code TileFarm}, as they did before the rewrite.
 	 */
 	@Nullable
 	static String typeIdFor(BlockEntity be) {
-		if (!(be instanceof MultiblockTileEntityForestry<?>)) {
-			return null;
-		}
-		if (be instanceof IAlvearyComponent<?>) {
-			return be instanceof TileAlvearyPlain ? AlvearyPattern.PLAIN : AlvearyPattern.PART;
-		}
-		if (be instanceof IFarmComponent<?>) {
-			if (be instanceof TileFarmPlain) {
-				return FarmPattern.PLAIN;
-			}
-			if (be instanceof TileFarmGearbox) {
-				return FarmPattern.GEARBOX;
-			}
-			return FarmPattern.PART;
-		}
-		return null;
+		return be instanceof MultiblockTileEntityForestry<?> component ? component.patternTypeId() : null;
 	}
 }
