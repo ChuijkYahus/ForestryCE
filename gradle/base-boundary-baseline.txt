@@ -12,7 +12,6 @@ apiimpl/plugin/HiveBuilder.java
 apiimpl/plugin/PluginManager.java
 apiimpl/plugin/SpeciesTypeBuilder.java
 apiimpl/plugin/TreeSpeciesBuilder.java
-core/client/CoreClientHandler.java
 core/data/BeeEffectProvider.java
 core/data/BeeSpeciesProvider.java
 core/data/builder/HygroregulatorRecipeBuilder.java
@@ -33,8 +32,6 @@ core/data/models/ForestryItemModelProvider.java
 core/data/models/ForestryWoodModelProvider.java
 core/data/recipe/ForestryRecipeProvider.java
 core/data/TreeSpeciesProvider.java
-core/EventHandlerCore.java
-core/ModuleCore.java
 plugin/client/BeeAnalyzerPlugin.java
 plugin/client/DefaultForestryClientRegistration.java
 plugin/DefaultBeeSpecies.java

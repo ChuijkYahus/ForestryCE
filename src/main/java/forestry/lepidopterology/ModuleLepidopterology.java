@@ -1,5 +1,7 @@
 package forestry.lepidopterology;
 
+import forestry.lepidopterology.network.LepidopterologyPacketIds;
+import forestry.api.modules.IPacketRegistry;
 import forestry.lepidopterology.genetics.ButterflySpeciesManager;
 import forestry.lepidopterology.network.ButterflySpeciesSyncPacket;
 import forestry.core.utils.NetworkUtil;
@@ -109,5 +111,10 @@ public class ModuleLepidopterology extends BlankForestryModule {
 	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
 		registrar.accept(new LepidopterologyClientHandler());
+	}
+
+	@Override
+	public void registerPackets(IPacketRegistry registry) {
+		registry.clientbound(LepidopterologyPacketIds.BUTTERFLY_SPECIES_SYNC, ButterflySpeciesSyncPacket::encode, ButterflySpeciesSyncPacket::decode, ButterflySpeciesSyncPacket::handle);
 	}
 }

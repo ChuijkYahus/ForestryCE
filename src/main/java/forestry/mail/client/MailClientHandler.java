@@ -1,5 +1,8 @@
 package forestry.mail.client;
 
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import forestry.core.models.ClientManager;
+import forestry.mail.features.MailItems;
 import forestry.api.client.IClientModuleHandler;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.gui.*;
@@ -9,6 +12,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 public class MailClientHandler implements IClientModuleHandler {
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(MailClientHandler::registerItemColors);
 		modBus.addListener(MailClientHandler::registerMenuScreens);
 	}
 
@@ -20,4 +24,9 @@ public class MailClientHandler implements IClientModuleHandler {
 		event.register(MailMenuTypes.TRADE_NAME.menuType(), GuiTradeName::new);
 		event.register(MailMenuTypes.TRADER.menuType(), GuiTrader::new);
 	}
+
+	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, MailItems.STAMPS.itemArray());
+	}
+
 }

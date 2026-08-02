@@ -199,6 +199,9 @@ public class ModuleApiculture extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
+		registry.clientbound(ApiculturePacketIds.FLOWER_TYPE_SYNC, FlowerTypeSyncPacket::encode, FlowerTypeSyncPacket::decode, FlowerTypeSyncPacket::handle);
+		registry.clientbound(ApiculturePacketIds.BEE_EFFECT_SYNC, BeeEffectSyncPacket::encode, BeeEffectSyncPacket::decode, BeeEffectSyncPacket::handle);
+		registry.clientbound(ApiculturePacketIds.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
 		registry.clientbound(ApiculturePacketIds.BEE_LOGIC_ACTIVE, PacketBeeLogicActive::encode, PacketBeeLogicActive::decode, PacketBeeLogicActive::handle);
 		registry.clientbound(ApiculturePacketIds.HABITAT_BIOME_POINTER, PacketHabitatBiomePointer::encode, PacketHabitatBiomePointer::decode, PacketHabitatBiomePointer::handle);
 		registry.clientbound(ApiculturePacketIds.ALVEARY_CONTROLLER_CHANGE, PacketAlvearyChange::encode, PacketAlvearyChange::decode, PacketAlvearyChange::handle);

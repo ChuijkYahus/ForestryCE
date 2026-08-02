@@ -14,12 +14,8 @@ import forestry.api.client.IForestryClientApi;
 import forestry.api.client.apiculture.IBeeClientManager;
 import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.core.ISpectacleBlock;
-import forestry.apiculture.features.ApicultureBlocks;
-import forestry.apiculture.features.ApicultureItems;
 import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.plugin.PluginManager;
-import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.circuits.GuiSolderingIron;
 import forestry.core.config.Constants;
 import forestry.core.genetics.GeneticsReloadHandler;
@@ -37,8 +33,6 @@ import forestry.core.utils.RenderUtil;
 import forestry.modules.features.FeatureFluid;
 import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryTiles;
-import forestry.lepidopterology.features.LepidopterologyItems;
-import forestry.mail.features.MailItems;
 import forestry.modules.ModuleUtil;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
@@ -238,13 +232,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
-		// Apiculture
-		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ApicultureBlocks.BEE_COMB.blockArray());
-		// Arboriculture
-		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES.block());
-		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES_DEFAULT.blockArray());
-		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray());
-		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
 	}
 
 	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
@@ -253,30 +240,9 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.CIRCUITBOARDS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, FluidsItems.CONTAINERS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.PIPETTE.item());
-		// Apiculture
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureBlocks.BEE_COMB.blockArray());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR,
-			ApicultureItems.BEE_QUEEN.item(),
-			ApicultureItems.BEE_DRONE.item(),
-			ApicultureItems.BEE_PRINCESS.item(),
-			ApicultureItems.BEE_LARVAE.item()
-		);
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.HONEY_DROP.item());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.PROPOLIS.itemArray());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.POLLEN_CLUSTER.itemArray());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.BEE_COMBS.itemArray());
 
-		// Arboriculture
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureBlocks.LEAVES.block());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureBlocks.LEAVES_DEFAULT.blockArray());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureItems.TREE_SAPLING.item());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureItems.TREE_POLLEN.item());
 
-		// Lepidopterology
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, LepidopterologyItems.CATERPILLAR_GE.item());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, LepidopterologyItems.SERUM_GE.item());
 
 		// Backpacks
 		event.register(ClientManager.FORESTRY_ITEM_COLOR,
@@ -305,8 +271,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 			CrateItems.CRATED_POLLEN_CLUSTER_CRYSTALLINE.item(),
 			CrateItems.CRATED_PROPOLIS.item());
 
-		// Mail
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, MailItems.STAMPS.itemArray());
 	}
 
 	private static void onRecipesUpdated(RecipesUpdatedEvent event) {

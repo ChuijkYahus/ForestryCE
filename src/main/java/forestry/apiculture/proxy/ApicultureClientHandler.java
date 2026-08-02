@@ -1,5 +1,8 @@
 package forestry.apiculture.proxy;
 
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import forestry.core.models.ClientManager;
+import forestry.apiculture.features.ApicultureItems;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.apiculture.features.ApicultureBlocks;
@@ -23,6 +26,8 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 public class ApicultureClientHandler implements IClientModuleHandler {
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ApicultureClientHandler::registerBlockColors);
+		modBus.addListener(ApicultureClientHandler::registerItemColors);
 		modBus.addListener(ApicultureClientHandler::setupClient);
 		modBus.addListener(ApicultureClientHandler::registerMenus);
 		modBus.addListener(ApicultureClientHandler::registerParticleFactory);
@@ -64,4 +69,22 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
 		event.register(ForestryConstants.forestry("bee_ge"), new ModelBee.Loader());
 	}
+
+	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ApicultureBlocks.BEE_COMB.blockArray());
+	}
+
+	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureBlocks.BEE_COMB.blockArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR,
+			ApicultureItems.BEE_QUEEN.item(),
+			ApicultureItems.BEE_DRONE.item(),
+			ApicultureItems.BEE_PRINCESS.item(),
+			ApicultureItems.BEE_LARVAE.item()
+		);
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.PROPOLIS.itemArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.POLLEN_CLUSTER.itemArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.BEE_COMBS.itemArray());
+	}
+
 }

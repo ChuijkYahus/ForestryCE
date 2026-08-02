@@ -1,5 +1,7 @@
 package forestry.lepidopterology.proxy;
 
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import forestry.core.models.ClientManager;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModuleIds;
@@ -21,6 +23,7 @@ import net.neoforged.bus.api.IEventBus;
 public class LepidopterologyClientHandler implements IClientModuleHandler {
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(LepidopterologyClientHandler::registerItemColors);
 		modBus.addListener(LepidopterologyClientHandler::setupRenderers);
 		modBus.addListener(LepidopterologyClientHandler::setupLayers);
 		modBus.addListener(LepidopterologyClientHandler::registerModelLoaders);
@@ -46,4 +49,10 @@ public class LepidopterologyClientHandler implements IClientModuleHandler {
 	public static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
 		event.register(ForestryConstants.forestry("butterfly_ge"), new ButterflyItemModel.Loader());
 	}
+
+	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, LepidopterologyItems.CATERPILLAR_GE.item());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, LepidopterologyItems.SERUM_GE.item());
+	}
+
 }

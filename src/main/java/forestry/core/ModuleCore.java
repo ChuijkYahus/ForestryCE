@@ -10,19 +10,8 @@ import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IPacketRegistry;
-import forestry.apiculture.genetics.BeeSpeciesManager;
-import forestry.apiculture.genetics.BeeEffectManager;
-import forestry.apiculture.genetics.FlowerTypeManager;
-import forestry.apiculture.network.ApiculturePacketIds;
-import forestry.apiculture.network.packets.BeeEffectSyncPacket;
-import forestry.apiculture.network.packets.BeeSpeciesSyncPacket;
-import forestry.apiculture.network.packets.FlowerTypeSyncPacket;
 import forestry.core.genetics.TaxonManager;
 import forestry.apiimpl.plugin.PluginManager;
-import forestry.arboriculture.genetics.TreeSpeciesManager;
-import forestry.arboriculture.loot.GrafterLootModifier;
-import forestry.arboriculture.network.ArboriculturePacketIds;
-import forestry.arboriculture.network.TreeSpeciesSyncPacket;
 import forestry.core.blocks.TileStreamUpdateTracker;
 import forestry.core.client.CoreClientHandler;
 import forestry.core.climate.ForestryClimateManager;
@@ -40,9 +29,6 @@ import forestry.core.network.packets.*;
 import forestry.core.owner.GameProfileDataSerializer;
 import forestry.core.recipes.RecipeManagers;
 import forestry.core.utils.NetworkUtil;
-import forestry.lepidopterology.genetics.ButterflySpeciesManager;
-import forestry.lepidopterology.network.ButterflySpeciesSyncPacket;
-import forestry.lepidopterology.network.LepidopterologyPacketIds;
 import forestry.modules.BlankForestryModule;
 import forestry.modules.ForestryModuleManager;
 import forestry.modules.ModuleUtil;
@@ -153,7 +139,6 @@ public class ModuleCore extends BlankForestryModule {
 	private static void registerGlobalLootModifiers(RegisterEvent event) {
 		event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
 			helper.register(ForestryConstants.forestry("condition_modifier"), ConditionLootModifier.CODEC);
-			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC);
 		});
 	}
 
@@ -277,12 +262,7 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.TANK_LEVEL_UPDATE, PacketTankLevelUpdate::encode, PacketTankLevelUpdate::decode, PacketTankLevelUpdate::handle);
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket::encode, RecipeCachePacket::decode, RecipeCachePacket::handle);
 		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax::encode, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
-		registry.clientbound(ApiculturePacketIds.FLOWER_TYPE_SYNC, FlowerTypeSyncPacket::encode, FlowerTypeSyncPacket::decode, FlowerTypeSyncPacket::handle);
-		registry.clientbound(ApiculturePacketIds.BEE_EFFECT_SYNC, BeeEffectSyncPacket::encode, BeeEffectSyncPacket::decode, BeeEffectSyncPacket::handle);
 		registry.clientbound(PacketIdClient.TAXON_SYNC, TaxonSyncPacket::encode, TaxonSyncPacket::decode, TaxonSyncPacket::handle);
-		registry.clientbound(ApiculturePacketIds.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
-		registry.clientbound(ArboriculturePacketIds.TREE_SPECIES_SYNC, TreeSpeciesSyncPacket::encode, TreeSpeciesSyncPacket::decode, TreeSpeciesSyncPacket::handle);
-		registry.clientbound(LepidopterologyPacketIds.BUTTERFLY_SPECIES_SYNC, ButterflySpeciesSyncPacket::encode, ButterflySpeciesSyncPacket::decode, ButterflySpeciesSyncPacket::handle);
 	}
 
 	@Override

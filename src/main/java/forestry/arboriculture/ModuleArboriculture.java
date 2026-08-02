@@ -1,5 +1,9 @@
 package forestry.arboriculture;
 
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import forestry.arboriculture.loot.GrafterLootModifier;
+import forestry.api.ForestryConstants;
 import forestry.arboriculture.genetics.TreeSpeciesManager;
 import forestry.arboriculture.network.TreeSpeciesSyncPacket;
 import forestry.core.utils.NetworkUtil;
@@ -78,6 +82,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ModuleArboriculture::registerGlobalLootModifiers);
 		modBus.addListener(ArboricultureCreativeTab::addToForestryTab);
 		NeoForge.EVENT_BUS.addListener(ArboricultureVillagers::villagerTrades);
 
@@ -135,11 +140,18 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
+		registry.clientbound(ArboriculturePacketIds.TREE_SPECIES_SYNC, TreeSpeciesSyncPacket::encode, TreeSpeciesSyncPacket::decode, TreeSpeciesSyncPacket::handle);
 		registry.clientbound(ArboriculturePacketIds.RIPENING_UPDATE, PacketRipeningUpdate::encode, PacketRipeningUpdate::decode, PacketRipeningUpdate::handle);
 	}
 
 	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
 		registrar.accept(new ArboricultureClientHandler());
+	}
+
+	// same registry name generated loot modifier JSON already references
+	private static void registerGlobalLootModifiers(RegisterEvent event) {
+		event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper ->
+			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC));
 	}
 }
