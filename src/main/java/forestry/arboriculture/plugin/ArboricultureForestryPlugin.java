@@ -32,7 +32,7 @@ import forestry.arboriculture.genetics.BlossomingTreeEffect;
 import forestry.arboriculture.genetics.DummyTreeEffect;
 import forestry.arboriculture.genetics.TreePollenType;
 import forestry.core.features.CoreItems;
-import forestry.core.items.ItemFruit;
+import forestry.core.platform.item.ItemFruit;
 
 /**
  * Base Forestry's arboriculture registrations. Split out of

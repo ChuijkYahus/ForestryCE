@@ -1,4 +1,4 @@
-package forestry.core.tiles;
+package forestry.core.platform.tile;
 
 import forestry.core.features.CoreTiles;
 import forestry.core.platform.util.SpeciesUtil;

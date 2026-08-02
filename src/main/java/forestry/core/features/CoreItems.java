@@ -7,7 +7,7 @@ import forestry.core.content.resources.ItemRefractoryWax;
 import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.engine.circuits.ItemCircuitBoard;
 import forestry.core.engine.genetics.ItemResearchNote;
-import forestry.core.items.*;
+import forestry.core.platform.item.ItemFruit;
 import forestry.core.platform.item.*;
 import forestry.core.content.tools.*;
 import forestry.core.content.analyzer.*;

@@ -1,4 +1,4 @@
-package forestry.core.items;
+package forestry.core.platform.item;
 
 import forestry.api.core.IItemSubtype;
 

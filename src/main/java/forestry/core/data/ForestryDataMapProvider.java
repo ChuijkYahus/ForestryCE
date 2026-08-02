@@ -20,7 +20,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.items.ItemFruit;
+import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.lepidopterology.features.LepidopterologyItems;
 
