@@ -11,6 +11,18 @@ import java.util.Collection;
  */
 public interface IButterflyClientManager {
 	/**
+	 * Used to check whether the module that supplies this manager is installed. Base ships a no-op
+	 * implementation of every manager whose module can be absent, so this returns {@code false}
+	 * rather than the getter returning null or throwing.
+	 *
+	 * @return Whether a real implementation is installed
+	 * @since 2.10.0
+	 */
+	default boolean isLoaded() {
+		return true;
+	}
+
+	/**
 	 * @return The butterfly item and entity textures, respectively, resolved by the species' id. Falls back to a
 	 * default-naming-convention pair (and ultimately {@link #getDefaultTextures()}) when no explicit pair was
 	 * registered for the species' id, so this never needs the species list/instance.
