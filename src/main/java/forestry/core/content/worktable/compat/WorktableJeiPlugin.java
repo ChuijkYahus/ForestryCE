@@ -1,7 +1,7 @@
 package forestry.core.content.worktable.compat;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.compat.jei.JeiUtil;
+import forestry.core.platform.compat.jei.JeiUtil;
 import forestry.core.content.worktable.features.WorktableBlocks;
 import forestry.core.content.worktable.screens.WorktableScreen;
 import mezz.jei.api.IModPlugin;

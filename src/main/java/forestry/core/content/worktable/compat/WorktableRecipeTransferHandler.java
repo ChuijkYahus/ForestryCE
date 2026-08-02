@@ -1,6 +1,6 @@
 package forestry.core.content.worktable.compat;
 
-import forestry.compat.jei.JeiUtil;
+import forestry.core.platform.compat.jei.JeiUtil;
 import forestry.core.platform.util.RecipeUtils;
 import forestry.core.content.worktable.features.WorktableMenus;
 import forestry.core.content.worktable.recipes.MemorizedRecipe;
