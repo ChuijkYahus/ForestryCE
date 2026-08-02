@@ -11,11 +11,8 @@ import forestry.api.circuits.CircuitHolder;
 import forestry.api.circuits.ICircuit;
 import forestry.api.circuits.ICircuitLayout;
 import forestry.api.client.IForestryClientApi;
-import forestry.api.client.arboriculture.ILeafSprite;
-import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.client.genetics.IAnalyzerPlugin;
 import forestry.api.core.IError;
-import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.ITaxon;
 import forestry.api.genetics.pollen.IPollenType;
@@ -23,29 +20,31 @@ import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.IPollenRegistration;
 import forestry.apiimpl.ForestryApiImpl;
 import forestry.apiimpl.GeneticManager;
-import forestry.apiculture.client.BeeClientManager;
 import forestry.apiimpl.client.ButterflyClientManager;
 import forestry.apiimpl.client.ForestryClientApiImpl;
-import forestry.arboriculture.client.TreeClientManager;
 import forestry.apiimpl.client.genetics.GeneticClientManager;
 import forestry.apiimpl.client.plugin.ClientRegistration;
 import forestry.core.circuits.CircuitLayout;
 import forestry.core.circuits.CircuitManager;
 import forestry.core.errors.ErrorManager;
 import forestry.core.genetics.PollenManager;
-import forestry.core.utils.SpeciesUtil;
-import forestry.farming.FarmingManager;
-import forestry.farming.plugin.FarmingRegistration;
 import forestry.sorting.FilterManager;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;
+import forestry.api.modules.IForestryModule;
 
 public class PluginManager {
 	private static final ArrayList<IForestryPlugin> LOADED_PLUGINS = new ArrayList<>();
+
+	/**
+	 * @return The loaded plugins, in the order their hooks are called
+	 */
+	public static List<IForestryPlugin> getLoadedPlugins() {
+		return Collections.unmodifiableList(LOADED_PLUGINS);
+	}
 
 	// The plugins that ship base Forestry's own content. Listed rather than derived from the namespace
 	// because forestry:kubejs shares that namespace and must keep running after them, as it did when
@@ -202,28 +201,6 @@ public class PluginManager {
 		}
 	}
 
-	// todo this method and registerClient below are the last four base-boundary leaks: they name
-	//  FarmingRegistration, FarmingManager, BeeClientManager and TreeClientManager. All four are the
-	//  same problem - base assembling a content module's manager - and all four need the same fix,
-	//  which is phase 6's no-op manager work. The inversion used elsewhere is to hand LOADED_PLUGINS
-	//  to a module-side object, the way handleSpeciesRegistration does above.
-	public static void registerFarming() {
-		FarmingRegistration registration = new FarmingRegistration();
-
-		for (IForestryPlugin plugin : LOADED_PLUGINS) {
-			try {
-				plugin.registerFarming(registration);
-			} catch (Throwable t) {
-				throw new RuntimeException("An error was thrown by plugin " + plugin.id() + " during IForestryPlugin.registerFarming", t);
-			}
-		}
-
-		// Defensive copy of fertilizers
-		FarmingManager manager = new FarmingManager(new Object2IntOpenHashMap<>(registration.getFertilizers()), registration.buildFarmTypes());
-
-		((ForestryApiImpl) IForestryApi.INSTANCE).setFarmingManager(manager);
-	}
-
 	public static void registerPollen() {
 		HashMap<ResourceLocation, IPollenType<?>> pollenTypes = new HashMap<>();
 		IPollenRegistration registration = pollen -> {
@@ -249,46 +226,11 @@ public class PluginManager {
 			plugin.registerClient(consumer -> consumer.accept(registration));
 		}
 
-		// Bees
-		// id-keyed: resolving a specific species happens at render time, so the (possibly
-		// datapack-driven) species list is not needed here.
-		IdentityHashMap<ILifeStage, ResourceLocation> defaultBeeModels = new IdentityHashMap<>();
-		IdentityHashMap<ILifeStage, Map<ResourceLocation, ResourceLocation>> customBeeModels = new IdentityHashMap<>();
-
-		for (ILifeStage stage : SpeciesUtil.BEE_TYPE.get().getLifeStages()) {
-			ResourceLocation defaultModel = Objects.requireNonNull(registration.getDefaultBeeModel(stage), "IClientRegistration.setDefaultBeeModel has not been called for life stage " + stage.getSerializedName() + ", unable to resolve bee default model");
-			defaultBeeModels.put(stage, defaultModel);
-			customBeeModels.put(stage, registration.getBeeModels().getOrDefault(stage, Map.of()));
+		// Each module builds its own client manager from the completed registration and installs it
+		// over the no-op. See IForestryModule.installClientManagers
+		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
+			module.installClientManagers(registration);
 		}
-		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setBeeManager(new BeeClientManager(defaultBeeModels, customBeeModels));
-
-		// Trees
-		// id-keyed: resolving a species happens at render time by id, so the (datapack-driven) species list is not
-		// needed to build the sprite/model maps below.
-		HashMap<ResourceLocation, ILeafSprite> spritesById = registration.getLeafSprites();
-		HashMap<ResourceLocation, ILeafTint> tintsById = registration.getTints();
-		HashMap<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> modelsById = registration.getSaplingModels();
-
-		// The escritoire-color tint fallback (for the ~40 built-in species that register no explicit client tint) is
-		// applied lazily at render time in TreeClientManager#getTint from the species object itself, so no species-list
-		// iteration is needed here and datapack-added species get the same fallback reloadably.
-
-		// For any species id that has a leaf sprite but no explicit sapling model, synthesize the default-path pair
-		// (removing the "tree_" prefix), exactly as the old per-species loop did.
-		Map<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> models = new HashMap<>(modelsById);
-		for (ResourceLocation id : spritesById.keySet()) {
-			models.computeIfAbsent(id, sid -> {
-				String path = sid.getPath().replace("tree_", "");
-				return Pair.of(
-					ResourceLocation.fromNamespaceAndPath(sid.getNamespace(), "block/" + path + "_sapling"),
-					ResourceLocation.fromNamespaceAndPath(sid.getNamespace(), "item/" + path + "_sapling")
-				);
-			});
-		}
-
-		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setTreeManager(new TreeClientManager(
-			new HashMap<>(spritesById), new HashMap<>(tintsById), models
-		));
 
 		// Butterflies
 		// id-keyed: resolving a species happens at render time by id (ButterflyClientManager#getTextures falls back

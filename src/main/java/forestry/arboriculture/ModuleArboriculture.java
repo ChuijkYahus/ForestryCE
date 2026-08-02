@@ -49,6 +49,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import com.mojang.datafixers.util.Pair;
+import forestry.api.client.IForestryClientApi;
+import forestry.api.client.arboriculture.ILeafSprite;
+import forestry.api.client.arboriculture.ILeafTint;
+import forestry.api.client.plugin.IClientRegistration;
+import forestry.apiimpl.client.ForestryClientApiImpl;
+import forestry.apiimpl.client.plugin.ClientRegistration;
+import forestry.arboriculture.client.TreeClientManager;
+import java.util.HashMap;
+import java.util.Map;
 
 @ForestryModule
 public class ModuleArboriculture extends BlankForestryModule {
@@ -153,5 +163,37 @@ public class ModuleArboriculture extends BlankForestryModule {
 	private static void registerGlobalLootModifiers(RegisterEvent event) {
 		event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper ->
 			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC));
+	}
+
+	@Override
+	public void installClientManagers(IClientRegistration registration) {
+		ClientRegistration impl = (ClientRegistration) registration;
+
+		// id-keyed: resolving a species happens at render time by id, so the (datapack-driven) species list is not
+		// needed to build the sprite/model maps below.
+		HashMap<ResourceLocation, ILeafSprite> spritesById = impl.getLeafSprites();
+		HashMap<ResourceLocation, ILeafTint> tintsById = impl.getTints();
+		HashMap<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> modelsById = impl.getSaplingModels();
+
+		// The escritoire-color tint fallback (for the ~40 built-in species that register no explicit client tint) is
+		// applied lazily at render time in TreeClientManager#getTint from the species object itself, so no species-list
+		// iteration is needed here and datapack-added species get the same fallback reloadably.
+
+		// For any species id that has a leaf sprite but no explicit sapling model, synthesize the default-path pair
+		// (removing the "tree_" prefix), exactly as the old per-species loop did.
+		Map<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> models = new HashMap<>(modelsById);
+		for (ResourceLocation id : spritesById.keySet()) {
+			models.computeIfAbsent(id, sid -> {
+				String path = sid.getPath().replace("tree_", "");
+				return Pair.of(
+					ResourceLocation.fromNamespaceAndPath(sid.getNamespace(), "block/" + path + "_sapling"),
+					ResourceLocation.fromNamespaceAndPath(sid.getNamespace(), "item/" + path + "_sapling")
+				);
+			});
+		}
+
+		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setTreeManager(new TreeClientManager(
+			new HashMap<>(spritesById), new HashMap<>(tintsById), models
+		));
 	}
 }

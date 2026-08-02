@@ -1,6 +1,7 @@
 package forestry.api.modules;
 
 import forestry.api.client.IClientModuleHandler;
+import forestry.api.client.plugin.IClientRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -78,6 +79,23 @@ public interface IForestryModule {
 	 * @param event The datapack sync event
 	 */
 	default void syncDatapack(OnDatapackSyncEvent event) {
+	}
+
+	/**
+	 * Called after item registration, in module load order. Modules build their manager from the
+	 * plugin data and install it here. Base ships a no-op for every manager whose module can be
+	 * absent, so a module that does not implement this leaves the no-op in place.
+	 */
+	default void installManagers() {
+	}
+
+	/**
+	 * Called during client plugin registration, after every plugin has registered. Modules build
+	 * their client manager from the assembled registration and install it here.
+	 *
+	 * @param registration The completed client registration
+	 */
+	default void installClientManagers(IClientRegistration registration) {
 	}
 
 	/**

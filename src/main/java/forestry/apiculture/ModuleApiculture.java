@@ -57,6 +57,15 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import forestry.api.client.IForestryClientApi;
+import forestry.api.client.plugin.IClientRegistration;
+import forestry.api.genetics.ILifeStage;
+import forestry.apiculture.client.BeeClientManager;
+import forestry.apiimpl.client.ForestryClientApiImpl;
+import forestry.apiimpl.client.plugin.ClientRegistration;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @ForestryModule
 public class ModuleApiculture extends BlankForestryModule {
@@ -210,5 +219,22 @@ public class ModuleApiculture extends BlankForestryModule {
 	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
 		registrar.accept(new ApicultureClientHandler());
+	}
+
+	@Override
+	public void installClientManagers(IClientRegistration registration) {
+		ClientRegistration impl = (ClientRegistration) registration;
+
+		// id-keyed: resolving a specific species happens at render time, so the (possibly
+		// datapack-driven) species list is not needed here.
+		IdentityHashMap<ILifeStage, ResourceLocation> defaultBeeModels = new IdentityHashMap<>();
+		IdentityHashMap<ILifeStage, Map<ResourceLocation, ResourceLocation>> customBeeModels = new IdentityHashMap<>();
+
+		for (ILifeStage stage : SpeciesUtil.BEE_TYPE.get().getLifeStages()) {
+			ResourceLocation defaultModel = Objects.requireNonNull(impl.getDefaultBeeModel(stage), "IClientRegistration.setDefaultBeeModel has not been called for life stage " + stage.getSerializedName() + ", unable to resolve bee default model");
+			defaultBeeModels.put(stage, defaultModel);
+			customBeeModels.put(stage, impl.getBeeModels().getOrDefault(stage, Map.of()));
+		}
+		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setBeeManager(new BeeClientManager(defaultBeeModels, customBeeModels));
 	}
 }

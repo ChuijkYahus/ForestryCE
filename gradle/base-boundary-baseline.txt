@@ -1,6 +1,5 @@
 # Base-artifact files that still reference a split content module.
 # Generated 2026-07-31 at the start of phase 2. Shrinks each phase; never grows.
-apiimpl/plugin/PluginManager.java
 core/data/BeeEffectProvider.java
 core/data/BeeSpeciesProvider.java
 core/data/builder/HygroregulatorRecipeBuilder.java

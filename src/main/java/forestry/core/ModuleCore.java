@@ -144,7 +144,13 @@ public class ModuleCore extends BlankForestryModule {
 
 	private static void postItemRegistry() {
 		PluginManager.registerGenetics();
-		PluginManager.registerFarming();
+
+		// Modules load in dependency order (see ForestryModuleManager). A module that supplies one of
+		// the api managers installs it here, over the no-op base put there at construction.
+		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
+			module.installManagers();
+		}
+
 		PluginManager.registerPollen();
 	}
 
