@@ -15,9 +15,9 @@ import forestry.api.ForestryConstants;
 import forestry.apiculture.alveary.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.core.platform.multiblock.LevelStructureView;
-import forestry.farming.blocks.EnumFarmBlockType;
-import forestry.farming.blocks.EnumFarmMaterial;
-import forestry.farming.features.FarmingBlocks;
+import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
+import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
+import forestry.agriculture.features.FarmingBlocks;
 
 /**
  * Covers component recognition in {@link LevelStructureView}. A member that fills no reserved role
