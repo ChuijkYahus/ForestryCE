@@ -2,7 +2,7 @@
   "type": "forestry:squeezer",
   "chance": 0.0,
   "output": {
-    "Amount": 1000,
+    "Amount": 100,
     "FluidName": "minecraft:lava"
   },
   "remnant": {
@@ -11,11 +11,8 @@
   },
   "resources": [
     {
-      "item": "forestry:phosphor"
-    },
-    {
-      "item": "minecraft:magma_block"
+      "item": "forestry:magmatic_drop"
     }
   ],
-  "time": 20
+  "time": 10
 }

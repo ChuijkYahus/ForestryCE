@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-21T21:18:31.3232606	ModKit Item Models for mod 'forestry'
+// 1.20.1	2026-08-02T17:57:47.5301173	ModKit Item Models for mod 'forestry'
 d4fc4a9bad07ae793214bbf363d922b4e1084b41 assets/forestry/models/block/balsa_sapling.json
 8b29dc322c7266c9e3077cf74cbadb08f9e75cda assets/forestry/models/block/baobab_sapling.json
 0c9e9100a2276b60c4b1febcbc9154620a02cb4a assets/forestry/models/block/beech_sapling.json
@@ -135,6 +135,7 @@ fdd3cab3bf9384a8de5f9149a62a02149eea8678 assets/forestry/models/item/lime_boat.j
 2555682184f01487cd264dced8c434fc8f2eaf93 assets/forestry/models/item/macrocarpa_boat.json
 d476d63293cf6362d1178f51aebde99c802cff32 assets/forestry/models/item/macrocarpa_chest_boat.json
 d735f68f9c1e253be411cf69d1937b6bf678d99a assets/forestry/models/item/macrocarpa_sapling.json
+6ca2156a37d5081233d288471ddd5fbf0441af99 assets/forestry/models/item/magmatic_drop.json
 151e0d6fa0d03f54b2a121728af27d37c4bee404 assets/forestry/models/item/mahoe_boat.json
 3e58eb67bb506f23edf8f57fda05e85cd5df21db assets/forestry/models/item/mahoe_chest_boat.json
 2ca55319bba055c38307df5c16e29f6b2d924d82 assets/forestry/models/item/mahoe_sapling.json

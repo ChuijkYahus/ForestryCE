@@ -376,8 +376,8 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 
 		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
 
-		// todo remove in 1.21.1 when volcanic propolis is removed
-		recipes.shapelessCrafting("volcanic_propolis_to_phosphor", RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR), 1, ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC));
+		//TODO: remove in 1.21.1 when volcanic propolis is removed
+		recipes.shapelessCrafting("volcanic_propolis_to_magmatic_drop", RecipeCategory.MISC, ApicultureItems.MAGMATIC_DROP, 1, ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC));
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
@@ -2304,6 +2304,8 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SIMMERING)))
 			.product(1.0f, CoreItems.REFRACTORY_WAX.stack())
 			.product(0.7f, honeyDrop)
+			//https://discord.com/channels/1473074457609507019/1473078303333290197/1532955569927880734
+			.product(0.4f, ApicultureItems.MAGMATIC_DROP.stack()) //Dark said this is okay!
 			.build(consumer, id("centrifuge", "simmering_comb"));
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -2587,7 +2589,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL, 2)
 				.pattern("DOD")
 				.pattern("^^^")
 				.pattern("DOD")
@@ -2863,31 +2865,21 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			.build(consumer, id("squeezer", "honey_dew"));
 
 		new SqueezerRecipeBuilder()
-			.setProcessingTime(20)
+			.setProcessingTime(10)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
-				ingredients.add(Ingredient.of(Items.SAND, Items.RED_SAND));
+				ingredients.add(Ingredient.of(ApicultureItems.MAGMATIC_DROP));
 			}))
-			.setFluidOutput(new FluidStack(Fluids.LAVA, 500))
-			.build(consumer, id("squeezer", "lava_sand"));
-
-		new SqueezerRecipeBuilder()
-			.setProcessingTime(30)
-			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
-				ingredients.add(Ingredient.of(Items.COBBLESTONE));
-			}))
-			.setFluidOutput(new FluidStack(Fluids.LAVA, 500))
-			.build(consumer, id("squeezer", "lava"));
+			.setFluidOutput(new FluidStack(Fluids.LAVA, 100))
+			.build(consumer, id("squeezer", "magmatic_drop"));
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
+				ingredients.add(Ingredient.of(ApicultureItems.MAGMATIC_DROP));
 				ingredients.add(Ingredient.of(Items.MAGMA_BLOCK));
 			}))
-			.setFluidOutput(new FluidStack(Fluids.LAVA, 1000))
-			.build(consumer, id("squeezer", "lava_magma"));
+			.setFluidOutput(new FluidStack(Fluids.LAVA, 250))
+			.build(consumer, id("squeezer", "magmatic_drop_plus_magma"));
 
 		int seedOilAmount = Preference.SQUEEZED_LIQUID_SEED;
 

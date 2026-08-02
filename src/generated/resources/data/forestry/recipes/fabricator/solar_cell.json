@@ -25,6 +25,7 @@
       "DOD"
     ],
     "result": {
+      "count": 2,
       "item": "forestry:solar_cell"
     },
     "show_notification": true
