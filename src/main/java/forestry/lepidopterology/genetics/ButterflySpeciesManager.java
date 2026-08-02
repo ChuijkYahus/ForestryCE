@@ -21,7 +21,7 @@ import forestry.core.engine.genetics.GeneticsReloadHandler;
  * Datapack loader for butterfly species: a {@link SimpleJsonResourceReloadListener} over the {@code butterfly_species}
  * folder. Decodes each JSON entry via {@link ButterflySpeciesDefinition#codec()} (fail-soft: a bad file is logged and
  * skipped), stores the last-parsed map, and hands it to {@link LepidopterologyReloadHandler#rebuildButterflySpecies} to swap
- * into the live butterfly species type. Mirrors {@code forestry.arboriculture.genetics.TreeSpeciesManager}.
+ * into the live butterfly species type. Mirrors {@code forestry.arboriculture.trees.genetics.TreeSpeciesManager}.
  * <p>
  * Singleton, registered once as a server reload listener (see {@code ModuleCore#registerReloadListeners}); the
  * client never registers it as a reload listener (it has no datapack access), but reuses the same instance as a

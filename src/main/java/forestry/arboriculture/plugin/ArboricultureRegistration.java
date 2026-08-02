@@ -8,7 +8,7 @@ import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
-import forestry.arboriculture.TreeManager;
+import forestry.arboriculture.trees.TreeManager;
 import forestry.arboriculture.charcoal.CharcoalManager;
 import forestry.apiimpl.plugin.Registrar;
 import forestry.apiimpl.plugin.SpeciesRegistration;

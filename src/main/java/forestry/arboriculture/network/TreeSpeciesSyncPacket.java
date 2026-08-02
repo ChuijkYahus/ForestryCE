@@ -11,9 +11,9 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import forestry.arboriculture.genetics.ArboricultureReloadHandler;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.arboriculture.genetics.TreeSpeciesManager;
+import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.TreeSpeciesManager;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 
 /**

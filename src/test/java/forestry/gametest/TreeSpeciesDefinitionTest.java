@@ -20,7 +20,7 @@ import forestry.api.core.genetics.ForestryTaxa;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)

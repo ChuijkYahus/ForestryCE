@@ -1,8 +1,20 @@
 package forestry.core.data.models;
 
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
-import forestry.arboriculture.blocks.*;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.VanillaWoodType;
+import forestry.arboriculture.wood.BlockForestryButton;
+import forestry.arboriculture.wood.BlockForestryDoor;
+import forestry.arboriculture.wood.BlockForestryFence;
+import forestry.arboriculture.wood.BlockForestryFenceGate;
+import forestry.arboriculture.wood.BlockForestryHangingSign;
+import forestry.arboriculture.wood.BlockForestryLog;
+import forestry.arboriculture.wood.BlockForestryPressurePlate;
+import forestry.arboriculture.wood.BlockForestrySlab;
+import forestry.arboriculture.wood.BlockForestryStairs;
+import forestry.arboriculture.wood.BlockForestryStandingSign;
+import forestry.arboriculture.wood.BlockForestryTrapdoor;
+import forestry.arboriculture.wood.BlockForestryWallHangingSign;
+import forestry.arboriculture.wood.BlockForestryWallSign;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.core.platform.registration.FeatureBlockGroup;
 import net.minecraft.data.PackOutput;

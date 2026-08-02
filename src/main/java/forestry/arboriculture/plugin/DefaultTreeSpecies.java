@@ -12,9 +12,9 @@ import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.plugin.IArboricultureRegistration;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
-import forestry.arboriculture.blocks.ForestryLeafType;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.VanillaWoodType;
+import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 
 import static forestry.api.core.genetics.ForestryTaxa.*;

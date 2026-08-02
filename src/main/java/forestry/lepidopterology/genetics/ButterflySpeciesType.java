@@ -24,7 +24,7 @@ import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.EntityUtil;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.arboriculture.TreeUtil;
+import forestry.arboriculture.trees.TreeUtil;
 import forestry.lepidopterology.ButterflySpawner;
 import forestry.lepidopterology.ModuleLepidopterology;
 import forestry.lepidopterology.blocks.BlockCocoon;

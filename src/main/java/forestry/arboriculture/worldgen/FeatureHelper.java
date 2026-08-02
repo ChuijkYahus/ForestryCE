@@ -5,7 +5,7 @@ import forestry.api.arboriculture.ITreeGenData;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.core.platform.util.VecUtil;
 import net.minecraft.core.BlockPos;

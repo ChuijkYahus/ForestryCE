@@ -4,7 +4,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import forestry.arboriculture.loot.GrafterLootModifier;
 import forestry.api.ForestryConstants;
-import forestry.arboriculture.genetics.TreeSpeciesManager;
+import forestry.arboriculture.trees.genetics.TreeSpeciesManager;
 import forestry.arboriculture.network.TreeSpeciesSyncPacket;
 import forestry.core.platform.util.NetworkUtil;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -21,7 +21,7 @@ import forestry.arboriculture.commands.CommandTree;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
-import forestry.arboriculture.items.ForestryBoatDispenserBehavior;
+import forestry.arboriculture.wood.ForestryBoatDispenserBehavior;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.arboriculture.villagers.ArboricultureVillagers;
 import forestry.modules.BlankForestryModule;
@@ -59,6 +59,8 @@ import forestry.apiimpl.client.plugin.ClientRegistration;
 import forestry.arboriculture.client.TreeClientManager;
 import java.util.HashMap;
 import java.util.Map;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.trees.TreeUtil;
 
 @ForestryModule
 public class ModuleArboriculture extends BlankForestryModule {

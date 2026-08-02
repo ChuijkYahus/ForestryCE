@@ -13,9 +13,9 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.TreeSpecies;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.arboriculture.genetics.TreeSpeciesProjector;
+import forestry.arboriculture.trees.TreeSpecies;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.TreeSpeciesProjector;
 import forestry.core.platform.util.SpeciesUtil;
 
 @GameTestHolder(ForestryConstants.MOD_ID)

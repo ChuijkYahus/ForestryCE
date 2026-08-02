@@ -1,10 +1,10 @@
 package forestry.arboriculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.arboriculture.blocks.BlockAsh;
-import forestry.arboriculture.blocks.BlockCharcoal;
-import forestry.arboriculture.blocks.DecorativeLogPileBlock;
-import forestry.arboriculture.blocks.LogPileBlock;
+import forestry.arboriculture.charcoal.BlockAsh;
+import forestry.arboriculture.charcoal.BlockCharcoal;
+import forestry.arboriculture.charcoal.DecorativeLogPileBlock;
+import forestry.arboriculture.charcoal.LogPileBlock;
 import forestry.core.platform.item.ItemBlockForestry;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureProvider;

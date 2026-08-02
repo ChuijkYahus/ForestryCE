@@ -1,7 +1,11 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
-import forestry.arboriculture.blocks.*;
+import forestry.arboriculture.leaves.BlockDecorativeLeaves;
+import forestry.arboriculture.leaves.BlockDefaultLeaves;
+import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
+import forestry.arboriculture.wood.BlockForestryDoor;
+import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;

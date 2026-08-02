@@ -13,8 +13,8 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.genetics.TreeGrowthHelper;
-import forestry.arboriculture.tiles.TileSapling;
+import forestry.arboriculture.trees.genetics.TreeGrowthHelper;
+import forestry.arboriculture.sapling.TileSapling;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

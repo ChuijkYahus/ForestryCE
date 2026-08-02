@@ -2,10 +2,10 @@ package forestry.arboriculture.features;
 
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.items.ItemForestryBoat;
-import forestry.arboriculture.items.TreeItem;
-import forestry.arboriculture.items.GrafterItem;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.ItemForestryBoat;
+import forestry.arboriculture.trees.TreeItem;
+import forestry.arboriculture.trees.GrafterItem;
 import forestry.core.platform.item.ItemForestry;
 import forestry.core.platform.registration.*;
 

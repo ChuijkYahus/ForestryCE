@@ -7,7 +7,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.ITreeSpeciesBuilder;
-import forestry.arboriculture.TreeSpecies;
+import forestry.arboriculture.trees.TreeSpecies;
 import forestry.arboriculture.worldgen.DefaultTreeGenerator;
 import forestry.apiimpl.plugin.SpeciesBuilder;
 import net.minecraft.resources.ResourceLocation;

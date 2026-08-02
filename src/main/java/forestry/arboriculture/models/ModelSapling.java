@@ -6,7 +6,7 @@ import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.core.genetics.IIndividual;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
-import forestry.arboriculture.tiles.TileSapling;
+import forestry.arboriculture.sapling.TileSapling;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;

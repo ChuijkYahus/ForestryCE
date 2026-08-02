@@ -7,7 +7,7 @@ import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.arboriculture.commands.TreeGenHelper;
-import forestry.arboriculture.genetics.Tree;
+import forestry.arboriculture.trees.genetics.Tree;
 import forestry.core.platform.config.ForestryConfig;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.SpeciesUtil;

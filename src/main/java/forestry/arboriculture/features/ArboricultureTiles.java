@@ -1,9 +1,9 @@
 package forestry.arboriculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.arboriculture.tiles.TileFruitPod;
-import forestry.arboriculture.tiles.TileLeaves;
-import forestry.arboriculture.tiles.TileSapling;
+import forestry.arboriculture.fruit.TileFruitPod;
+import forestry.arboriculture.leaves.TileLeaves;
+import forestry.arboriculture.sapling.TileSapling;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.FeatureTileType;
 import forestry.core.platform.registration.IFeatureRegistry;

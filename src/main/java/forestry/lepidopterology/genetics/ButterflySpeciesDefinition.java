@@ -35,7 +35,7 @@ import forestry.core.engine.genetics.SpeciesCore;
  * code-registered global singletons - see the Stage 5 design spec). Also the network sync payload.
  * {@link #codec()}/{@link #streamCodec()} are built lazily against the butterfly karyotype, which only exists once
  * the butterfly species type is registered - see {@link forestry.apiculture.bees.genetics.BeeSpeciesDefinition} and
- * {@link forestry.arboriculture.genetics.TreeSpeciesDefinition} for the same pattern.
+ * {@link forestry.arboriculture.trees.genetics.TreeSpeciesDefinition} for the same pattern.
  *
  * @param genus               The scientific genus name (e.g. {@code "Danaus"}).
  * @param species             The scientific species name (e.g. {@code "plexippus"}).

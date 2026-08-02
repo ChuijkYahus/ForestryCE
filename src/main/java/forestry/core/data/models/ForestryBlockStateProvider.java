@@ -8,7 +8,7 @@ import forestry.apiculture.hives.BlockHiveType;
 import forestry.apiculture.apiary.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.blocks.ForestryLeafType;
+import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.content.resources.EnumResourceType;
 import forestry.core.features.CoreBlocks;

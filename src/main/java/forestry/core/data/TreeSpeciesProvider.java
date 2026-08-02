@@ -21,8 +21,8 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.plugin.ArboricultureRegistration;
-import forestry.arboriculture.genetics.ArboricultureReloadHandler;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

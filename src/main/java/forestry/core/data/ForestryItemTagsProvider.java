@@ -2,8 +2,8 @@ package forestry.core.data;
 
 import forestry.api.ForestryTags;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;

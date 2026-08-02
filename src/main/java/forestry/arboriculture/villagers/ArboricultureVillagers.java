@@ -8,7 +8,7 @@ import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.core.genetics.ILifeStage;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.platform.block.NaturalistChestBlockType;
-import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreBlocks;
 import forestry.core.platform.villager.VillagerTrade;

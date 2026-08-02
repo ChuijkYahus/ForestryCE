@@ -1,6 +1,6 @@
 package forestry.arboriculture.network;
 
-import forestry.arboriculture.tiles.TileLeaves;
+import forestry.arboriculture.leaves.TileLeaves;
 import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;

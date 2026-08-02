@@ -3,7 +3,7 @@ package forestry.lepidopterology.entities;
 import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.core.platform.util.GeneticsUtil;
-import forestry.arboriculture.TreeUtil;
+import forestry.arboriculture.trees.TreeUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;

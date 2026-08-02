@@ -1,6 +1,6 @@
 package forestry.arboriculture.models;
 
-import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
+import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.RandomSource;

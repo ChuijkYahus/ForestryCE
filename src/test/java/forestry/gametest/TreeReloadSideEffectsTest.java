@@ -16,7 +16,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.arboriculture.genetics.ArboricultureReloadHandler;
+import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
 

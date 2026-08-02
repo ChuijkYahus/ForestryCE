@@ -17,8 +17,8 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.genetics.ArboricultureReloadHandler;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
 import forestry.core.data.TreeSpeciesProvider;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
@@ -50,7 +50,7 @@ public class TreeSpeciesFallbackTest {
 	}
 
 	/**
-	 * A definition referencing a species id with no code-side {@link forestry.arboriculture.genetics.TreeBlockBindings}
+	 * A definition referencing a species id with no code-side {@link forestry.arboriculture.trees.genetics.TreeBlockBindings}
 	 * (no {@code ArboricultureRegistration} builder was ever registered for it - a "phantom" datapack-only species)
 	 * must be skipped by {@link ArboricultureReloadHandler#rebuildTreeSpecies} without crashing, and must not disturb the
 	 * real built-in species alongside it.
