@@ -12,9 +12,9 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.apiculture.genetics.ApicultureReloadHandler;
-import forestry.apiculture.genetics.BeeSpeciesDefinition;
-import forestry.apiculture.genetics.BeeSpeciesManager;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
+import forestry.apiculture.bees.genetics.BeeSpeciesManager;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.platform.util.SpeciesUtil;
 

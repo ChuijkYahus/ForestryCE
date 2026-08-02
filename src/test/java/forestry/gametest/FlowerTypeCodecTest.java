@@ -14,10 +14,10 @@ import com.mojang.serialization.JsonOps;
 
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.IFlowerType;
-import forestry.apiculture.PhotosynthesisFlowerType;
-import forestry.apiculture.TagFlowerType;
-import forestry.apiculture.WaterTagFlowerType;
-import forestry.apiculture.genetics.FlowerTypeTypes;
+import forestry.apiculture.bees.PhotosynthesisFlowerType;
+import forestry.apiculture.bees.TagFlowerType;
+import forestry.apiculture.bees.WaterTagFlowerType;
+import forestry.apiculture.bees.genetics.FlowerTypeTypes;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)

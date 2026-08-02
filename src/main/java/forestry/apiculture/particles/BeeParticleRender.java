@@ -19,8 +19,8 @@ import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveTile;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.genetics.Bee;
-import forestry.apiculture.genetics.effects.ThrottledBeeEffect;
+import forestry.apiculture.bees.genetics.Bee;
+import forestry.apiculture.bees.genetics.effects.ThrottledBeeEffect;
 import forestry.core.platform.render.ParticleRender;
 import forestry.core.platform.util.VecUtil;
 

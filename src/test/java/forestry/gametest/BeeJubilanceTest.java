@@ -9,8 +9,8 @@ import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.apiculture.genetics.DefaultBeeJubilance;
-import forestry.apiculture.genetics.HermitBeeJubilance;
+import forestry.apiculture.bees.genetics.DefaultBeeJubilance;
+import forestry.apiculture.bees.genetics.HermitBeeJubilance;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

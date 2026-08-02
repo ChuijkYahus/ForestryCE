@@ -2,7 +2,7 @@ package forestry.apiculture;
 
 import forestry.api.ForestryConstants;
 import forestry.apiculture.features.ApicultureEffects;
-import forestry.apiculture.villagers.ApicultureVillagers;
+import forestry.apiculture.apiarist.villagers.ApicultureVillagers;
 import forestry.apiculture.worldgen.VillagerJigsaw;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -18,6 +18,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import forestry.apiculture.apiarist.ApiaristAI;
 
 /**
  * Apiculture's game-bus handlers. Split out of {@code forestry.core.platform.EventHandlerCore} so the base

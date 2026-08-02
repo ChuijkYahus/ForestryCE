@@ -7,7 +7,7 @@ import forestry.api.apiculture.hives.IHiveDrop;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.plugin.IHiveBuilder;
-import forestry.apiculture.genetics.HiveDrop;
+import forestry.apiculture.bees.genetics.HiveDrop;
 import forestry.apiculture.hives.Hive;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

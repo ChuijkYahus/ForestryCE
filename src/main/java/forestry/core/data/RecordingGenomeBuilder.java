@@ -14,7 +14,7 @@ import forestry.api.plugin.IGenomeBuilder;
  * A {@link IGenomeBuilder} that records the sparse genome overrides a species builder's {@code setGenome} closure
  * applies, instead of actually building a genome. Used by {@link BeeSpeciesProvider} to capture the same overrides
  * a {@code BeeSpeciesBuilder} would apply at build time, for serialization into a {@link
- * forestry.apiculture.genetics.BeeSpeciesDefinition}.
+ * forestry.apiculture.bees.genetics.BeeSpeciesDefinition}.
  * <p>
  * Only the two {@code set(chromosome, ...)} overloads are supported (mirroring what {@code createDefaultGenomeBuilder}
  * does NOT need from per-species override closures - those closures only ever call {@code set}, directly or via the

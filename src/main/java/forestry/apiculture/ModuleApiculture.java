@@ -1,8 +1,8 @@
 package forestry.apiculture;
 
-import forestry.apiculture.genetics.BeeEffectManager;
-import forestry.apiculture.genetics.BeeSpeciesManager;
-import forestry.apiculture.genetics.FlowerTypeManager;
+import forestry.apiculture.bees.genetics.BeeEffectManager;
+import forestry.apiculture.bees.genetics.BeeSpeciesManager;
+import forestry.apiculture.bees.genetics.FlowerTypeManager;
 import forestry.apiculture.network.packets.BeeEffectSyncPacket;
 import forestry.apiculture.network.packets.BeeSpeciesSyncPacket;
 import forestry.apiculture.network.packets.FlowerTypeSyncPacket;
@@ -25,13 +25,13 @@ import forestry.api.modules.IPacketRegistry;
 import forestry.apiculture.commands.CommandBee;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.features.ApicultureTiles;
-import forestry.apiculture.items.EnumPollenCluster;
-import forestry.apiculture.items.ItemArmorApiarist;
+import forestry.apiculture.bees.EnumPollenCluster;
+import forestry.apiculture.apiarist.ItemArmorApiarist;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
 import forestry.apiculture.proxy.ApicultureClientHandler;
-import forestry.apiculture.villagers.ApicultureVillagers;
+import forestry.apiculture.apiarist.villagers.ApicultureVillagers;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
@@ -66,6 +66,7 @@ import forestry.apiimpl.client.plugin.ClientRegistration;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Objects;
+import forestry.apiculture.apiarist.ArmorApiaristHelper;
 
 @ForestryModule
 public class ModuleApiculture extends BlankForestryModule {

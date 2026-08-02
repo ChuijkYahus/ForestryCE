@@ -7,7 +7,7 @@ import net.minecraft.network.codec.StreamCodec;
 /**
  * A code-registered serializer for a kind of {@link IFlowerType}. Mirrors {@code MutationConditionType}: the
  * dispatch key ("type" field in JSON) selects one of these, and its codecs (de)serialize the instance for
- * datapacks and network sync. Registered in {@code forestry.apiculture.genetics.FlowerTypeTypes}.
+ * datapacks and network sync. Registered in {@code forestry.apiculture.bees.genetics.FlowerTypeTypes}.
  */
 public record FlowerTypeType<T extends IFlowerType>(
 	MapCodec<T> codec,

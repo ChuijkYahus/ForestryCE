@@ -25,7 +25,7 @@ import forestry.core.engine.genetics.SpeciesCore;
  * Pure-data, datapack-loadable genetics layer of a tree species (the block/worldgen bindings live code-side in
  * {@link TreeBlockBindings}). Also the network sync payload. {@link #codec()}/{@link #streamCodec()} are built lazily
  * against the tree karyotype, which only exists once the tree species type is registered - see
- * {@code forestry.apiculture.genetics.BeeSpeciesDefinition} for the same pattern.
+ * {@code forestry.apiculture.bees.genetics.BeeSpeciesDefinition} for the same pattern.
  *
  * @param genus           The scientific genus name (e.g. {@code "Quercus"}).
  * @param species         The scientific species name (e.g. {@code "robur"}).

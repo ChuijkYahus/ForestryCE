@@ -34,7 +34,7 @@ import forestry.core.engine.genetics.SpeciesCore;
  * Pure-data, datapack-loadable genetics layer of a butterfly species (the entity/cocoon/item bindings stay
  * code-registered global singletons - see the Stage 5 design spec). Also the network sync payload.
  * {@link #codec()}/{@link #streamCodec()} are built lazily against the butterfly karyotype, which only exists once
- * the butterfly species type is registered - see {@link forestry.apiculture.genetics.BeeSpeciesDefinition} and
+ * the butterfly species type is registered - see {@link forestry.apiculture.bees.genetics.BeeSpeciesDefinition} and
  * {@link forestry.arboriculture.genetics.TreeSpeciesDefinition} for the same pattern.
  *
  * @param genus               The scientific genus name (e.g. {@code "Danaus"}).

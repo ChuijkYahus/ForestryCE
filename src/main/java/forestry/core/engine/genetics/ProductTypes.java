@@ -28,7 +28,7 @@ import java.util.List;
  * the {@code "type"} key is optional. When absent, the product decodes as the default {@link Product#TYPE}, and a
  * {@link Product} encodes without writing a {@code "type"} key at all. This keeps the overwhelmingly common case (a
  * plain item stack) as clean, backwards-compatible JSON, while dynamic products (e.g.
- * {@code forestry.apiculture.genetics.FireworkProduct}, the secret Patriotic bee's randomized firework) round-trip
+ * {@code forestry.apiculture.bees.genetics.FireworkProduct}, the secret Patriotic bee's randomized firework) round-trip
  * through their own type by declaring {@code "type"}.
  *
  * Modules register their own product types through {@link #register}.

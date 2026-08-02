@@ -47,9 +47,9 @@ import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.AllelePair;
 import forestry.api.core.genetics.alleles.IChromosome;
-import forestry.apiculture.BeeSpecies;
-import forestry.apiculture.genetics.BeeSpeciesDefinition;
-import forestry.apiculture.genetics.BeeSpeciesProjector;
+import forestry.apiculture.bees.BeeSpecies;
+import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
+import forestry.apiculture.bees.genetics.BeeSpeciesProjector;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**

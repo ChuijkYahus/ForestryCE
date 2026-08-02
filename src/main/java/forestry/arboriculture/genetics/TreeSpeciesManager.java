@@ -21,7 +21,7 @@ import forestry.core.engine.genetics.GeneticsReloadHandler;
  * Datapack loader for tree species: a {@link SimpleJsonResourceReloadListener} over the {@code tree_species} folder.
  * Decodes each JSON entry via {@link TreeSpeciesDefinition#codec()} (fail-soft: a bad file is logged and skipped),
  * stores the last-parsed map, and hands it to {@link ArboricultureReloadHandler#rebuildTreeSpecies} to swap into the live
- * tree species type. Mirrors {@code forestry.apiculture.genetics.BeeSpeciesManager}.
+ * tree species type. Mirrors {@code forestry.apiculture.bees.genetics.BeeSpeciesManager}.
  * <p>
  * Singleton, registered once as a server reload listener (see {@code ModuleCore#registerReloadListeners}); the
  * client never registers it as a reload listener (it has no datapack access), but reuses the same instance as a

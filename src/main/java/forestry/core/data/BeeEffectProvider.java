@@ -23,13 +23,13 @@ import com.mojang.serialization.JsonOps;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.core.TemperatureType;
-import forestry.apiculture.genetics.ApicultureReloadHandler;
-import forestry.apiculture.genetics.effects.AgingBeeEffect;
-import forestry.apiculture.genetics.effects.DamageBeeEffect;
-import forestry.apiculture.genetics.effects.PotionBeeEffect;
-import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
-import forestry.apiculture.genetics.effects.ThrottleSettings;
-import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.effects.AgingBeeEffect;
+import forestry.apiculture.bees.genetics.effects.DamageBeeEffect;
+import forestry.apiculture.bees.genetics.effects.PotionBeeEffect;
+import forestry.apiculture.bees.genetics.effects.ResurrectionBeeEffect;
+import forestry.apiculture.bees.genetics.effects.ThrottleSettings;
+import forestry.apiculture.bees.genetics.effects.TransformBlockBeeEffect;
 import forestry.core.platform.damage.CoreDamageTypes;
 
 /**

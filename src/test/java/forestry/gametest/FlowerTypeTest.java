@@ -10,11 +10,11 @@ import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryFlowerTypes;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.apiculture.PhotosynthesisFlowerType;
-import forestry.apiculture.TagFlowerType;
-import forestry.apiculture.WaterTagFlowerType;
-import forestry.apiculture.genetics.ApicultureReloadHandler;
-import forestry.apiculture.genetics.FlowerTypeManager;
+import forestry.apiculture.bees.PhotosynthesisFlowerType;
+import forestry.apiculture.bees.TagFlowerType;
+import forestry.apiculture.bees.WaterTagFlowerType;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.FlowerTypeManager;
 import forestry.core.platform.util.SpeciesUtil;
 
 @GameTestHolder(ForestryConstants.MOD_ID)

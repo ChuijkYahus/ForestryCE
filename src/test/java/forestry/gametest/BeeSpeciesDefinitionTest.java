@@ -26,7 +26,7 @@ import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
-import forestry.apiculture.genetics.BeeSpeciesDefinition;
+import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
 
 /**
  * Behavioral oracle for {@link BeeSpeciesDefinition}: proves that a definition with a data-chromosome genome

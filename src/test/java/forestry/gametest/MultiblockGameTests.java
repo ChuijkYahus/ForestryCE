@@ -3,7 +3,7 @@ package forestry.gametest;
 import forestry.api.ForestryConstants;
 import forestry.api.core.multiblock.IMultiblockController;
 import forestry.api.core.multiblock.IMultiblockInventoryProbe;
-import forestry.apiculture.blocks.BlockAlveary;
+import forestry.apiculture.alveary.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;

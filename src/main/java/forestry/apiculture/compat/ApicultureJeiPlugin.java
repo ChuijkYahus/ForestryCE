@@ -10,7 +10,7 @@ import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.items.ItemCreativeHiveFrame;
+import forestry.apiculture.apiary.ItemCreativeHiveFrame;
 import forestry.core.platform.util.JeiUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import mezz.jei.api.IModPlugin;

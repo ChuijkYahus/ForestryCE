@@ -12,9 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import forestry.api.apiculture.IFlowerType;
-import forestry.apiculture.genetics.ApicultureReloadHandler;
-import forestry.apiculture.genetics.FlowerTypeManager;
-import forestry.apiculture.genetics.FlowerTypeTypes;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.FlowerTypeManager;
+import forestry.apiculture.bees.genetics.FlowerTypeTypes;
 import forestry.apiculture.network.ApiculturePacketIds;
 
 /**

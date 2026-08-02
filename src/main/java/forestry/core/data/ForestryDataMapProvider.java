@@ -15,7 +15,7 @@ import net.neoforged.neoforge.registries.datamaps.builtin.FurnaceFuel;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.items.ItemPollenCluster;
+import forestry.apiculture.bees.ItemPollenCluster;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;

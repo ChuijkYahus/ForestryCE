@@ -15,18 +15,18 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.apiculture.BeeSpecies;
-import forestry.apiculture.genetics.ApicultureReloadHandler;
-import forestry.apiculture.genetics.BeeSpeciesDefinition;
-import forestry.apiculture.genetics.BeeSpeciesManager;
-import forestry.apiculture.genetics.BeeSpeciesProjector;
+import forestry.apiculture.bees.BeeSpecies;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
+import forestry.apiculture.bees.genetics.BeeSpeciesManager;
+import forestry.apiculture.bees.genetics.BeeSpeciesProjector;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for the data-driven bee species type's fail-soft/empty-tolerant behavior, now that species come
- * exclusively from datapack JSON (see {@link forestry.apiculture.genetics.BeeSpeciesType#handleSpeciesRegistration}
+ * exclusively from datapack JSON (see {@link forestry.apiculture.bees.genetics.BeeSpeciesType#handleSpeciesRegistration}
  * returning an empty map at setup): a datapack can legitimately reference an unknown jubilance, or the live species
  * map can legitimately be empty for a moment (before the first reload runs), and neither must crash.
  * <p>

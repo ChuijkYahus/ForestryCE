@@ -2,10 +2,10 @@ package forestry.core.data.models;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
-import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockBeeHive;
-import forestry.apiculture.blocks.BlockHiveType;
-import forestry.apiculture.blocks.BlockTypeApiculture;
+import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.hives.BlockBeeHive;
+import forestry.apiculture.hives.BlockHiveType;
+import forestry.apiculture.apiary.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.blocks.ForestryLeafType;

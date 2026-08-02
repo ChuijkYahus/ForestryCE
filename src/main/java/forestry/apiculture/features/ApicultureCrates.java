@@ -1,8 +1,8 @@
 package forestry.apiculture.features;
 
-import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.EnumPollenCluster;
-import forestry.apiculture.items.EnumPropolis;
+import forestry.apiculture.bees.EnumHoneyComb;
+import forestry.apiculture.bees.EnumPollenCluster;
+import forestry.apiculture.bees.EnumPropolis;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.platform.registration.FeatureItemGroup;
 import forestry.core.platform.registration.FeatureProvider;

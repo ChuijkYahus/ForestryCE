@@ -15,7 +15,7 @@ import forestry.api.core.genetics.ILifeStage;
 import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.alleles.IChromosome;
-import forestry.apiculture.TagFlowerType;
+import forestry.apiculture.bees.TagFlowerType;
 import forestry.core.platform.client.ForestryColors;
 import forestry.core.platform.util.TranslationKeys;
 import forestry.core.platform.config.ForestryConfig;

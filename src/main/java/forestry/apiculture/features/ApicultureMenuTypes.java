@@ -1,7 +1,11 @@
 package forestry.apiculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.gui.*;
+import forestry.apiculture.alveary.ContainerAlveary;
+import forestry.apiculture.alveary.ContainerAlvearyHygroregulator;
+import forestry.apiculture.alveary.ContainerAlvearySieve;
+import forestry.apiculture.alveary.ContainerAlvearySwarmer;
+import forestry.apiculture.bees.ContainerBeeHousing;
 import forestry.core.platform.registration.FeatureMenuType;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;

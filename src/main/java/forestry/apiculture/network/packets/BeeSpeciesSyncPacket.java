@@ -11,9 +11,9 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import forestry.apiculture.genetics.ApicultureReloadHandler;
-import forestry.apiculture.genetics.BeeSpeciesDefinition;
-import forestry.apiculture.genetics.BeeSpeciesManager;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
+import forestry.apiculture.bees.genetics.BeeSpeciesManager;
 import forestry.apiculture.network.ApiculturePacketIds;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 

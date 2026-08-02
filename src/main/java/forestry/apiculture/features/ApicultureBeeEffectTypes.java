@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import forestry.api.ForestryRegistries;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.genetics.effects.*;
+import forestry.apiculture.bees.genetics.effects.*;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;
 import forestry.core.platform.registration.ModFeatureRegistry;

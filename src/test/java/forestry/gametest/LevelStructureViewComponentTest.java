@@ -12,7 +12,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.apiculture.blocks.BlockAlveary;
+import forestry.apiculture.alveary.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.core.platform.multiblock.LevelStructureView;
 import forestry.farming.blocks.EnumFarmBlockType;

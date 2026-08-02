@@ -17,11 +17,11 @@ import com.mojang.serialization.JsonOps;
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryFlowerTypes;
 import forestry.api.apiculture.IFlowerType;
-import forestry.apiculture.PhotosynthesisFlowerType;
-import forestry.apiculture.TagFlowerType;
-import forestry.apiculture.WaterTagFlowerType;
-import forestry.apiculture.genetics.ApicultureReloadHandler;
-import forestry.apiculture.genetics.FlowerTypeTypes;
+import forestry.apiculture.bees.PhotosynthesisFlowerType;
+import forestry.apiculture.bees.TagFlowerType;
+import forestry.apiculture.bees.WaterTagFlowerType;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.FlowerTypeTypes;
 
 /**
  * Generates {@code data/forestry/flower_type/*.json} for the 15 built-in flower types. This provider is the single

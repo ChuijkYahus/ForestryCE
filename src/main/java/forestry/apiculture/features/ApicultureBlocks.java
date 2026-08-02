@@ -1,9 +1,13 @@
 package forestry.apiculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.blocks.*;
-import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.ItemBlockHoneyComb;
+import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.hives.BlockBeeHive;
+import forestry.apiculture.hives.BlockHiveType;
+import forestry.apiculture.bees.BlockHoneyComb;
+import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.apiculture.bees.EnumHoneyComb;
+import forestry.apiculture.bees.ItemBlockHoneyComb;
 import forestry.core.platform.block.BlockBase;
 import forestry.core.platform.item.ItemBlockForestry;
 import forestry.core.platform.registration.FeatureBlockGroup;

@@ -10,7 +10,7 @@ import forestry.api.core.TemperatureType;
 import forestry.api.core.ToleranceType;
 import forestry.api.core.genetics.ClimateHelper;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.blocks.BlockHiveType;
+import forestry.apiculture.hives.BlockHiveType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
