@@ -1,5 +1,6 @@
 package forestry.plugin;
 
+import forestry.arboriculture.plugin.DefaultWoods;
 import forestry.farming.plugin.DefaultFarms;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.*;

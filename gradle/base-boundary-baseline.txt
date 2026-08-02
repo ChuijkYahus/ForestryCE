@@ -37,4 +37,3 @@ plugin/client/DefaultForestryClientRegistration.java
 plugin/DefaultBeeSpecies.java
 plugin/DefaultForestryPlugin.java
 plugin/DefaultTreeSpecies.java
-plugin/DefaultWoods.java

@@ -1,4 +1,4 @@
-package forestry.plugin;
+package forestry.arboriculture.plugin;
 
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.arboriculture.ForestryWoodType;
@@ -7,8 +7,8 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
-class DefaultWoods {
-	static void register(IArboricultureRegistration arboriculture) {
+public class DefaultWoods {
+	public static void register(IArboricultureRegistration arboriculture) {
 		for (ForestryWoodType woodType : ForestryWoodType.VALUES) {
 			arboriculture.registerRefractoryWaxable(ArboricultureBlocks.LOGS.get(woodType).block(), ArboricultureBlocks.LOGS_FIREPROOF.get(woodType).block());
 			arboriculture.registerRefractoryWaxable(ArboricultureBlocks.STRIPPED_LOGS.get(woodType).block(), ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF.get(woodType).block());
