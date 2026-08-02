@@ -390,9 +390,11 @@ Everything that makes the split real lands before a single package moves. Phases
                                        patternTypeId, per-module lifecycle
 5   DONE 2026-08-01                    bucket G: five plugins, still one jar,
                                        still one service file
-5a  PluginManager extension point      bucket I: apiimpl stops constructing
-                                       content classes
-6   no-op managers + isLoaded()
+5a  DONE 2026-08-01                    bucket I: registration chains go home,
+                                       ClientHelper by ServiceLoader.
+                                       32 -> 21, PluginManager deferred to 6
+6   no-op managers + isLoaded()        also PluginManager's four manager
+                                       constructions, carried over from 5a
     ---- gate: the base artifact references no split-jar types ----
 7   package moves                      api renames, core/{platform,engine,
                                        content}, feature dirs. Twelve ordered
@@ -494,6 +496,50 @@ in one commit; the id sort then restores bee, tree, butterfly exactly.
 `PluginManager` no longer names a plugin class to sort it first. It partitions on an explicit set of
 base plugin ids - deliberately not on the `forestry` namespace, which `forestry:kubejs` also uses and
 which would have run KubeJS's user script events before lepidopterology registered its species type.
+
+Phase 5a landed 2026-08-01. Bucket I is closed except for one file; `checkBaseBoundary` is at 21 of
+the original 68, and 20 of those 21 are bucket A.
+
+The spec called this the hardest remaining work and warned that "check whether it is really a
+misfiled type" would not apply. That was half right. Twenty-two leaks across twelve files resolved
+into four kinds, and only two were the factory inversion the spec predicted. Eight of the twelve
+were a registration and the builder it constructs, both belonging to one module, and every
+registration was already constructed by its own module or by a baselined datagen provider - so the
+chains went home without any new extension point. `ForestryApiImpl` was the same defect phase 4
+found in `setBeeManager`: three setters typed to the impl while the fields and getters used the
+interfaces.
+
+`LepidopterologyRegistration`, `FarmingRegistration` and `WindfallFarmableBuilder` were clean and
+had to move anyway - each is constructed only by a class that was moving, so leaving them behind
+would have converted a cleared leak into a new one. That is the phase 4 `BeeClientManager` trap,
+this time designed around rather than discovered.
+
+The same-package effect ran in both directions this phase. The moved files had used
+`SpeciesRegistration`, `SpeciesBuilder`, `Registrar` and `ModifiableRegistrar` as unimported
+neighbours; all four are genuinely generic and stay in `apiimpl`, so the movers needed imports
+added.
+
+Two decisions could not be made by test. `SpeciesTypeBuilder`'s default research materials named a
+bee comb, and it is the generic builder for all three species types - deleting it would have
+silently changed tree and butterfly research values, and research materials are runtime-only, absent
+from datagen and from every GameTest. It resolves `forestry:honey_comb` from the registry instead,
+guarded on `!= Items.AIR` because `BuiltInRegistries.ITEM` is defaulted and seeding AIR would make an
+empty hand count as research material. `ClientHelper` needed a mechanism rather than a move:
+`ForestryClientApiImpl` holds it in a field initialiser, and it cannot become a settable field
+because `ForestryLeafSprites` - in api - resolves the helper from a static initialiser and builds
+twenty sprites immediately. `ServiceLoader` fits because api already resolves `IForestryApi` and
+`IForestryClientApi` that way, and because the two lookups nest: the helper resolves inside
+`IForestryClientApi.INSTANCE`'s own class init, so the ordering is structural rather than a matter
+of lifecycle timing.
+
+`PluginManager` did not clear and is carried to phase 6. The plan scoped it at two constructions;
+it has four. Two of those the plan itself created - moving `FarmingRegistration` into farming turned
+an implicit same-package reference into an import, and moving `TreeClientManager` into arboriculture
+turned a clean import into a leak. All four are base assembling a content module's manager, which is
+exactly what phase 6's no-op managers address, so inverting one of them alone would have left the
+file baselined and established a fourth pattern for a problem phase 6 solves with one. There is a
+`todo` on the file recording this and naming the inversion used elsewhere: hand `LOADED_PLUGINS` to
+a module-side object, the way `handleSpeciesRegistration` already does.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
