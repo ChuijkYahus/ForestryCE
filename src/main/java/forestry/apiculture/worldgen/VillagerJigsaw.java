@@ -1,4 +1,4 @@
-package forestry.core.worldgen;
+package forestry.apiculture.worldgen;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;

@@ -7,7 +7,7 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.apiculture.ApiaristAI;
 import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.villagers.ApicultureVillagers;
-import forestry.core.worldgen.VillagerJigsaw;
+import forestry.apiculture.worldgen.VillagerJigsaw;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;

@@ -1,4 +1,4 @@
-package forestry.core.worldgen;
+package forestry.apiculture.worldgen;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Either;

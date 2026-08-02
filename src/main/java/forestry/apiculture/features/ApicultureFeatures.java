@@ -3,7 +3,7 @@ package forestry.apiculture.features;
 import forestry.api.ForestryConstants;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.hives.HiveDecorator;
-import forestry.core.worldgen.ApiaristPoolElement;
+import forestry.apiculture.worldgen.ApiaristPoolElement;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
