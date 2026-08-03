@@ -2,12 +2,15 @@ package forestry.agriculture.farmlogic.crops;
 
 import forestry.core.platform.util.BlockUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.CommonHooks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CropChorusFlower extends Crop {
@@ -24,16 +27,28 @@ public class CropChorusFlower extends Crop {
 
 	@Override
 	protected List<ItemStack> harvestBlock(Level level, BlockPos pos) {
-		NonNullList<ItemStack> harvested = NonNullList.create();
-		harvested.add(new ItemStack(Blocks.CHORUS_FLOWER));
-		//TODO: Fix dropping
-		//float chance = ForgeEventFactory.fireBlockHarvesting(harvested, level, pos, BLOCK_STATE, 0, 1.0F, false, null);
-		float chance = 1.0F;
-		harvested.removeIf(next -> level.random.nextFloat() > chance);
+		if (level instanceof ServerLevel serverLevel) {
+			CommonHooks.handleBlockDrops(
+				serverLevel,
+				pos,
+				BLOCK_STATE,
+				level.getBlockEntity(pos),
+				new ArrayList<>(List.of(new ItemEntity(
+					level,
+					// We could use pos.getCenter(), but let's avoid importing Vec3 for this.
+					pos.getX() + 0.5D,
+					pos.getY() + 0.5D,
+					pos.getZ() + 0.5D,
+					new ItemStack(Blocks.CHORUS_FLOWER)
+				))),
+				null,
+				ItemStack.EMPTY
+			);
+		}
 
 		BlockUtil.sendDestroyEffects(level, pos, BLOCK_STATE);
 		level.removeBlock(pos, false);
 
-		return harvested;
+		return List.of();
 	}
 }

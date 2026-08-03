@@ -33,7 +33,9 @@ public class CropDestroy extends Crop {
 
 	@Override
 	protected boolean isCrop(Level world, BlockPos pos) {
-		return world.getBlockState(pos) == this.blockState;
+		// Neighbour updates can change directional block-state properties after the
+		// crop was queued. It is still the same crop as long as the block matches.
+		return world.getBlockState(pos).is(this.blockState.getBlock());
 	}
 
 	@Override

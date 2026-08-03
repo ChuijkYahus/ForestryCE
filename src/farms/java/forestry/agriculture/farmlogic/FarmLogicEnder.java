@@ -78,7 +78,9 @@ public class FarmLogicEnder extends FarmLogicHomogeneous {
 				canHarvest &= harvestBlock(world, pos.relative(facing), facing.getOpposite(), plants, flowers);
 			}
 			if (canHarvest) {
-				plants.addFirst(new CropDestroy(world, Blocks.CHORUS_PLANT.defaultBlockState(), pos, null));
+				// Keep the stem's current state for effects and drop handling.
+				// Chorus plant connection properties differ from the default state.
+				plants.addFirst(new CropDestroy(world, blockState, pos, null));
 			}
 			return canHarvest;
 		}
