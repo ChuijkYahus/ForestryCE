@@ -77,14 +77,6 @@ public interface IApicultureRegistration {
 	 */
 	void modifyHive(ResourceLocation id, Consumer<IHiveBuilder> action);
 
-	/**
-	 * Register a flower type, a category of blocks that a bee can work with.
-	 *
-	 * @param id   The unique ID for this flower type.
-	 * @param type The flower type to register.
-	 */
-	void registerFlowerType(ResourceLocation id, IFlowerType type);
-
 	void registerBeeEffect(ResourceLocation id, IBeeEffect effect);
 
 	void registerBeeJubilance(ResourceLocation id, IBeeJubilance jubilance);

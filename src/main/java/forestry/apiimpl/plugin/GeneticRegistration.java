@@ -2,6 +2,7 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import forestry.api.apiculture.IFlowerType;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.ITaxon;
 import forestry.api.core.genetics.TaxonomicRank;
@@ -31,6 +32,17 @@ public final class GeneticRegistration implements IGeneticRegistration {
 	private final ModifiableRegistrar<ResourceLocation, ISpeciesTypeBuilder, SpeciesTypeBuilder> speciesTypes = new ModifiableRegistrar<>(ISpeciesTypeBuilder.class);
 	// Filter rule types used by IFilterRegistry
 	private final ArrayList<IFilterRuleType> ruleTypes = new ArrayList<>();
+	// Flower types. Shared by bees and butterflies, so genetics owns them rather than apiculture
+	private final Registrar<ResourceLocation, IFlowerType, IFlowerType> flowerTypes = new Registrar<>(IFlowerType.class);
+
+	@Override
+	public void registerFlowerType(ResourceLocation id, IFlowerType type) {
+		this.flowerTypes.create(id, type);
+	}
+
+	public ImmutableMap<ResourceLocation, IFlowerType> getFlowerTypes() {
+		return this.flowerTypes.build();
+	}
 
 	public GeneticRegistration() {
 		// Base Forestry no longer registers any default taxa here: its whole taxonomy (domains through genera, including

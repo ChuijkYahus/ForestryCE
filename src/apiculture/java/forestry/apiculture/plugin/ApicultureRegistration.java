@@ -30,7 +30,6 @@ import java.util.function.Consumer;
 
 public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuilder, IBeeSpecies, BeeSpeciesBuilder> implements IApicultureRegistration {
 	private final ModifiableRegistrar<ResourceLocation, IHiveBuilder, HiveBuilder> hives = new ModifiableRegistrar<>(IHiveBuilder.class);
-	private final Registrar<ResourceLocation, IFlowerType, IFlowerType> flowerTypes = new Registrar<>(IFlowerType.class);
 	private final Registrar<ResourceLocation, IBeeEffect, IBeeEffect> beeEffects = new Registrar<>(IBeeEffect.class);
 	private final Registrar<ResourceLocation, IBeeJubilance, IBeeJubilance> jubilances = new Registrar<>(IBeeJubilance.class);
 	private final Registrar<ResourceLocation, IActivityType, IActivityType> activityTypes = new Registrar<>(IActivityType.class);
@@ -57,15 +56,6 @@ public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuild
 	@Override
 	public void addVillageBee(ResourceLocation speciesId, boolean rare, Map<IChromosome<?>, Allele<?>> alleles) {
 		(rare ? this.rareVillageHives : this.commonVillageHives).add(new VillageHive(speciesId, alleles));
-	}
-
-	@Override
-	public void registerFlowerType(ResourceLocation id, IFlowerType type) {
-		this.flowerTypes.create(id, type);
-	}
-
-	public ImmutableMap<ResourceLocation, IFlowerType> getFlowerTypes() {
-		return this.flowerTypes.build();
 	}
 
 	@Override

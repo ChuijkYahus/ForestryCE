@@ -10,6 +10,7 @@ import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IPacketRegistry;
+import forestry.core.engine.genetics.FlowerTypeManager;
 import forestry.core.engine.genetics.TaxonManager;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.platform.block.TileStreamUpdateTracker;
@@ -184,6 +185,10 @@ public class ModuleCore extends BlankForestryModule {
 		// before any module's species loader: a species' genus is resolved to a taxon as it is projected, so taxa
 		// must exist first.
 		event.addListener(TaxonManager.INSTANCE);
+		// Flower types are shared by bees and butterflies, so base loads them. They must be in place
+		// before any pollinating species is projected, which is why this sits with the taxa rather
+		// than in apiculture's listener
+		event.addListener(FlowerTypeManager.INSTANCE);
 
 		// Modules load in dependency order (see ForestryModuleManager), which is also the order their data
 		// depends on: core's taxa, then apiculture's flower types/effects/species, then arboriculture's
@@ -217,7 +222,11 @@ public class ModuleCore extends BlankForestryModule {
 	 */
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
 		TaxonSyncPacket taxonPacket = new TaxonSyncPacket(TaxonManager.INSTANCE.getDefinitions());
-		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(taxonPacket, player));
+		FlowerTypeSyncPacket flowerTypePacket = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
+		event.getRelevantPlayers().forEach(player -> {
+			NetworkUtil.sendToPlayer(taxonPacket, player);
+			NetworkUtil.sendToPlayer(flowerTypePacket, player);
+		});
 
 		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
 			module.syncDatapack(event);
@@ -270,6 +279,7 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket::encode, RecipeCachePacket::decode, RecipeCachePacket::handle);
 		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax::encode, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
 		registry.clientbound(PacketIdClient.TAXON_SYNC, TaxonSyncPacket::encode, TaxonSyncPacket::decode, TaxonSyncPacket::handle);
+		registry.clientbound(PacketIdClient.FLOWER_TYPE_SYNC, FlowerTypeSyncPacket::encode, FlowerTypeSyncPacket::decode, FlowerTypeSyncPacket::handle);
 	}
 
 	@Override

@@ -84,8 +84,12 @@ public class BeeChromosomes {
 	public static final IChromosome<Boolean> TOLERATES_RAIN = ChromosomeFactory.booleanChromosome(forestry("tolerates_rain"));
 	/**
 	 * The type of flowers this bee needs to work. Also includes flowers that a bee can plant.
+	 *
+	 * <p>Resolved through the base flower type manager rather than through the bee species type.
+	 * ButterflyChromosomes.FLOWER_TYPE is this same chromosome, so a butterfly must be able to
+	 * resolve it with no apiculture jar installed.
 	 */
-	public static final IChromosome<ResourceLocation> FLOWER_TYPE = ChromosomeFactory.referenceChromosome(forestry("flower_type"), id -> BEE_TYPE.get().getFlowerType(id), IFlowerType::isDominant);
+	public static final IChromosome<ResourceLocation> FLOWER_TYPE = ChromosomeFactory.referenceChromosome(forestry("flower_type"), id -> IForestryApi.INSTANCE.getFlowerTypeManager().getFlowerType(id), IFlowerType::isDominant);
 	/**
 	 * Determines the effect of a bee species. Its range is determined by {@link #TERRITORY}.
 	 */

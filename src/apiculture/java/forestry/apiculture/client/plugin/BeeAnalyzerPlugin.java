@@ -1,6 +1,7 @@
 package forestry.apiculture.client.plugin;
 
 import com.google.common.collect.Lists;
+import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -15,7 +16,7 @@ import forestry.api.core.genetics.ILifeStage;
 import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.alleles.IChromosome;
-import forestry.apiculture.bees.TagFlowerType;
+import forestry.core.engine.genetics.flowers.TagFlowerType;
 import forestry.core.platform.client.ForestryColors;
 import forestry.core.platform.util.TranslationKeys;
 import forestry.core.platform.config.ForestryConfig;
@@ -53,7 +54,7 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 	}
 
 	private static <V> Component addFlowerTypeTooltip(IAnalyzerGraphics<?, ?> graphics, IChromosome<V> chromosome, V value, InteractableTextOptions options, Component text) {
-		if (value instanceof ResourceLocation id && SpeciesUtil.BEE_TYPE.get().getFlowerTypeSafe(id) instanceof TagFlowerType type) {
+		if (value instanceof ResourceLocation id && IForestryApi.INSTANCE.getFlowerTypeManager().getFlowerTypeSafe(id) instanceof TagFlowerType type) {
 			options.setOnHover((x, y) -> {
 				ArrayList<Component> lines = Lists.newArrayList(Component.literal("Accepts the following:"), Component.literal("#" + type.acceptableFlowers().location()));
 				ArrayList<TextOptions> lineOptions = Lists.newArrayList(null, new TextOptions().setColor(ForestryColors.LIGHT_GRAY));

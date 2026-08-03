@@ -2,10 +2,8 @@ package forestry.apiculture;
 
 import forestry.apiculture.bees.genetics.BeeEffectManager;
 import forestry.apiculture.bees.genetics.BeeSpeciesManager;
-import forestry.apiculture.bees.genetics.FlowerTypeManager;
 import forestry.apiculture.network.packets.BeeEffectSyncPacket;
 import forestry.apiculture.network.packets.BeeSpeciesSyncPacket;
-import forestry.apiculture.network.packets.FlowerTypeSyncPacket;
 import forestry.core.platform.util.NetworkUtil;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
@@ -155,7 +153,6 @@ public class ModuleApiculture extends BlankForestryModule {
 		// datapack map into the live bee species type. The FLOWER_TYPE chromosome resolves ids lazily
 		// via BeeSpeciesType#getFlowerType, so strict ordering against BeeSpeciesManager isn't required
 		// today, but this keeps the "referenced data before dependent data" convention.
-		event.addListener(FlowerTypeManager.INSTANCE);
 
 		// Load bee effects from the "bee_effect" folder. Registered before BeeSpeciesManager: species
 		// projection resolves each genome's bee_effect reference via getBeeEffect, so effects must exist
@@ -175,11 +172,9 @@ public class ModuleApiculture extends BlankForestryModule {
 	 */
 	@Override
 	public void syncDatapack(OnDatapackSyncEvent event) {
-		FlowerTypeSyncPacket flowerTypePacket = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
 		BeeEffectSyncPacket beeEffectPacket = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getEffects());
 		BeeSpeciesSyncPacket beePacket = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
 		event.getRelevantPlayers().forEach(player -> {
-			NetworkUtil.sendToPlayer(flowerTypePacket, player);
 			NetworkUtil.sendToPlayer(beeEffectPacket, player);
 			NetworkUtil.sendToPlayer(beePacket, player);
 		});
@@ -209,7 +204,6 @@ public class ModuleApiculture extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.clientbound(ApiculturePacketIds.FLOWER_TYPE_SYNC, FlowerTypeSyncPacket::encode, FlowerTypeSyncPacket::decode, FlowerTypeSyncPacket::handle);
 		registry.clientbound(ApiculturePacketIds.BEE_EFFECT_SYNC, BeeEffectSyncPacket::encode, BeeEffectSyncPacket::decode, BeeEffectSyncPacket::handle);
 		registry.clientbound(ApiculturePacketIds.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
 		registry.clientbound(ApiculturePacketIds.BEE_LOGIC_ACTIVE, PacketBeeLogicActive::encode, PacketBeeLogicActive::decode, PacketBeeLogicActive::handle);

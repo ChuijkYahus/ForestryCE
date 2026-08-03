@@ -1,4 +1,4 @@
-package forestry.apiculture.bees;
+package forestry.core.engine.genetics.flowers;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.Blocks;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.apiculture.bees.TagFlowerType;
+import forestry.core.engine.genetics.flowers.TagFlowerType;
 
 public class WaterTagFlowerType extends TagFlowerType {
 	public static final MapCodec<WaterTagFlowerType> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(

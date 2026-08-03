@@ -53,7 +53,7 @@ import forestry.apiculture.bees.genetics.effects.SculkSpreadBeeEffect;
 import forestry.apiculture.bees.genetics.effects.SnowingBeeEffect;
 import forestry.apiculture.hives.HiveDefinition;
 import forestry.apiculture.bees.EnumHoneyComb;
-import forestry.apiculture.bees.genetics.FlowerTypeTypes;
+import forestry.core.engine.genetics.FlowerTypeTypes;
 import forestry.apiculture.bees.genetics.ApicultureProductTypes;
 
 /**

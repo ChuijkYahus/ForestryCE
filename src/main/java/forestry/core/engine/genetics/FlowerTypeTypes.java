@@ -1,4 +1,4 @@
-package forestry.apiculture.bees.genetics;
+package forestry.core.engine.genetics;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,9 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.FlowerTypeType;
 import forestry.api.apiculture.IFlowerType;
-import forestry.apiculture.bees.PhotosynthesisFlowerType;
-import forestry.apiculture.bees.TagFlowerType;
-import forestry.apiculture.bees.WaterTagFlowerType;
+import forestry.core.engine.genetics.flowers.PhotosynthesisFlowerType;
+import forestry.core.engine.genetics.flowers.TagFlowerType;
+import forestry.core.engine.genetics.flowers.WaterTagFlowerType;
 
 /**
  * Code registry of flower-type serializers ({@link FlowerTypeType}). The three built-ins are registered by

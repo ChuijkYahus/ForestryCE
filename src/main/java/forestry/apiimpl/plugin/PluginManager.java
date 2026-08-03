@@ -157,6 +157,13 @@ public class PluginManager {
 			plugin.registerGenetics(registration);
 		}
 
+		// Flower types are shared by bees and butterflies, so base installs them rather than the
+		// apiculture plugin. Registering the built-in types here means a butterfly can resolve its
+		// flower chromosome with no apiculture jar present
+		forestry.core.engine.genetics.FlowerTypeTypes.registerBuiltins();
+		((forestry.core.engine.genetics.ForestryFlowerTypeManager) IForestryApi.INSTANCE.getFlowerTypeManager())
+				.setCodeFlowerTypes(registration.getFlowerTypes());
+
 		ImmutableMap<ResourceLocation, ISpeciesType<?, ?>> speciesTypes = registration.buildSpeciesTypes();
 		ImmutableMap<String, ITaxon> taxa = registration.buildTaxa();
 

@@ -6,7 +6,13 @@ import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ITaxonBuilder;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+
+import forestry.core.platform.compat.kubejs.apiculture.KubeFlowerType;
 
 public class GeneticsEventJS implements KubeEvent {
 	private final IGeneticRegistration wrapped;
@@ -25,6 +31,12 @@ public class GeneticsEventJS implements KubeEvent {
 	 * @throws UnsupportedOperationException If the parent taxon is a GENUS.
 	 * @see forestry.api.core.genetics.ForestryTaxa For built-in taxon names.
 	 */
+	// Flower types moved from the apiculture event in phase 9b: they are shared by bees and
+	// butterflies, so an addon must be able to register one without apiculture installed
+	public void registerFlowerType(ResourceLocation id, BiPredicate<Level, BlockPos> isAcceptableFlower, KubeFlowerType.PlantRandomFlowerFunction plantRandomFlower, boolean dominant) {
+		this.wrapped.registerFlowerType(id, new KubeFlowerType(isAcceptableFlower, plantRandomFlower, dominant));
+	}
+
 	public void defineTaxon(String parent, String name) {
 		this.wrapped.defineTaxon(parent, name);
 	}

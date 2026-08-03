@@ -1,4 +1,4 @@
-package forestry.apiculture.bees;
+package forestry.core.engine.genetics.flowers;
 
 import java.util.HashSet;
 import java.util.List;

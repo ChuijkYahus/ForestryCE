@@ -1,4 +1,4 @@
-package forestry.apiculture.bees;
+package forestry.core.engine.genetics.flowers;
 
 import forestry.api.apiculture.FlowerTypeType;
 import forestry.api.apiculture.IFlowerType;

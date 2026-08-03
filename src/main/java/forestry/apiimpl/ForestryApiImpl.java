@@ -7,7 +7,9 @@ import forestry.api.core.circuits.ICircuitManager;
 import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
 import forestry.api.agriculture.IFarmingManager;
+import forestry.api.core.genetics.IFlowerTypeManager;
 import forestry.api.core.genetics.IGeneticManager;
+import forestry.core.engine.genetics.ForestryFlowerTypeManager;
 import forestry.api.core.genetics.filter.IFilterManager;
 import forestry.api.core.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
@@ -32,6 +34,9 @@ public class ForestryApiImpl implements IForestryApi {
 	private ITreeManager treeManager = FakeTreeManager.INSTANCE;
 	@Nullable
 	private IGeneticManager geneticManager;
+	// Flower types are shared by bees and butterflies, so base always owns a real one. Unlike the
+	// three module-backed managers this is never a no-op: there is no jar whose absence removes it
+	private final ForestryFlowerTypeManager flowerTypeManager = new ForestryFlowerTypeManager();
 	@Nullable
 	private IErrorManager errorManager;
 	@Nullable
@@ -82,6 +87,11 @@ public class ForestryApiImpl implements IForestryApi {
 			throw new IllegalStateException("IFilterManager not initialized yet. Wait until after item registration has finished");
 		}
 		return manager;
+	}
+
+	@Override
+	public IFlowerTypeManager getFlowerTypeManager() {
+		return this.flowerTypeManager;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package forestry.core.platform.network;
 
+import forestry.core.platform.network.packets.FlowerTypeSyncPacket;
 import forestry.core.platform.network.packets.TaxonSyncPacket;
 import forestry.core.platform.network.packets.PacketActiveUpdate;
 import forestry.core.platform.network.packets.PacketErrorUpdate;
@@ -47,6 +48,9 @@ public class PacketIdClient {
 	public static final CustomPacketPayload.Type<PacketActiveUpdate> TILE_FORESTRY_ACTIVE = type("tile_forestry_active");
 	// Genetics
 	public static final CustomPacketPayload.Type<TaxonSyncPacket> TAXON_SYNC = type("taxon_sync");
+	// Flower types are shared by bees and butterflies, so base owns the sync. The path is unchanged
+	// from when this lived in ApiculturePacketIds, so the wire id is the same
+	public static final CustomPacketPayload.Type<FlowerTypeSyncPacket> FLOWER_TYPE_SYNC = type("flower_type_sync");
 	// Mail
 	// Sorting
 	public static final CustomPacketPayload.Type<PacketGuiFilterUpdate> GUI_UPDATE_FILTER = type("gui_update_filter");

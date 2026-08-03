@@ -17,11 +17,11 @@ import com.mojang.serialization.JsonOps;
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryFlowerTypes;
 import forestry.api.apiculture.IFlowerType;
-import forestry.apiculture.bees.PhotosynthesisFlowerType;
-import forestry.apiculture.bees.TagFlowerType;
-import forestry.apiculture.bees.WaterTagFlowerType;
-import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
-import forestry.apiculture.bees.genetics.FlowerTypeTypes;
+import forestry.core.engine.genetics.flowers.PhotosynthesisFlowerType;
+import forestry.core.engine.genetics.flowers.TagFlowerType;
+import forestry.core.engine.genetics.flowers.WaterTagFlowerType;
+import forestry.core.engine.genetics.FlowerTypeManager;
+import forestry.core.engine.genetics.FlowerTypeTypes;
 
 /**
  * Generates {@code data/forestry/flower_type/*.json} for the 15 built-in flower types. This provider is the single
@@ -83,7 +83,7 @@ public class FlowerTypeProvider implements DataProvider {
 		FlowerTypeTypes.registerBuiltins();
 		FlowerTypeProvider collector = new FlowerTypeProvider();
 		collector.addFlowerTypes();
-		ApicultureReloadHandler.rebuildFlowerTypes(collector.pending);
+		FlowerTypeManager.rebuild(collector.pending);
 	}
 
 	@Override

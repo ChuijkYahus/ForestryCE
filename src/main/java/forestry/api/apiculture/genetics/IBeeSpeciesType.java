@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.apiculture.IBeeJubilance;
-import forestry.api.apiculture.IFlowerType;
 import forestry.api.core.genetics.ISpeciesType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -20,16 +19,7 @@ public interface IBeeSpeciesType extends ISpeciesType<IBeeSpecies, IBee> {
 	@Override
 	IApiaristTracker getBreedingTracker(LevelAccessor level, @Nullable GameProfile profile);
 
-	/**
-	 * @return The flower type registered with the given ID. Backs the {@code flower_type} reference chromosome.
-	 */
-	IFlowerType getFlowerType(ResourceLocation id);
 
-	/**
-	 * @return The flower type registered with the given ID, or {@code null} if none is registered (graceful fallback variant).
-	 */
-	@Nullable
-	IFlowerType getFlowerTypeSafe(ResourceLocation id);
 
 	/**
 	 * @return The bee effect registered with the given ID. Backs the {@code bee_effect} reference chromosome.

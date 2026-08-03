@@ -1,4 +1,4 @@
-package forestry.apiculture.bees.genetics;
+package forestry.core.engine.genetics;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,13 +15,13 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import forestry.Forestry;
+import forestry.api.IForestryApi;
 import forestry.api.apiculture.IFlowerType;
-import forestry.core.engine.genetics.GeneticsReloadHandler;
 
 /**
  * Datapack loader for flower types: a {@link SimpleJsonResourceReloadListener} over the {@code flower_type} folder.
  * Decodes each entry via {@link FlowerTypeTypes#CODEC} (fail-soft), stores the last-parsed map, and hands it to
- * {@link ApicultureReloadHandler#rebuildFlowerTypes} which installs code-base union datapack into the bee species type.
+ * {@link #rebuild} which installs the code base overlaid by the datapack into the core flower type manager.
  * Server-only reload listener; the client reuses the instance as a data holder for {@code FlowerTypeSyncPacket}.
  */
 public class FlowerTypeManager extends SimpleJsonResourceReloadListener {
@@ -43,6 +43,16 @@ public class FlowerTypeManager extends SimpleJsonResourceReloadListener {
 		this.definitions = definitions;
 	}
 
+	/**
+	 * Installs the effective flower types into the live core manager: the code-registered base
+	 * overlaid by the given datapack-loaded or sync-delivered definitions, datapack winning on id.
+	 *
+	 * @param dataDefinitions The datapack-loaded flower types, keyed by id
+	 */
+	public static void rebuild(Map<ResourceLocation, IFlowerType> dataDefinitions) {
+		((ForestryFlowerTypeManager) IForestryApi.INSTANCE.getFlowerTypeManager()).rebuild(dataDefinitions);
+	}
+
 	@Override
 	protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profiler) {
 		FlowerTypeTypes.registerBuiltins();
@@ -57,6 +67,6 @@ public class FlowerTypeManager extends SimpleJsonResourceReloadListener {
 		}
 
 		this.definitions = Map.copyOf(parsed);
-		ApicultureReloadHandler.rebuildFlowerTypes(this.definitions);
+		rebuild(this.definitions);
 	}
 }

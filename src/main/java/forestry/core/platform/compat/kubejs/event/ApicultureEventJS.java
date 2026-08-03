@@ -78,10 +78,6 @@ public class ApicultureEventJS implements KubeEvent {
 		this.wrapped.modifyHive(id, action);
 	}
 
-	public void registerFlowerType(ResourceLocation id, BiPredicate<Level, BlockPos> isAcceptableFlower, KubeFlowerType.PlantRandomFlowerFunction plantRandomFlower, boolean dominant) {
-		this.wrapped.registerFlowerType(id, new KubeFlowerType(isAcceptableFlower, plantRandomFlower, dominant));
-	}
-
 	public void registerBeeEffect(ResourceLocation id, UnaryOperator<IEffectData> validateStorage, boolean combinable,
 								  Function3<IGenome, IEffectData, IBeeHousing, IEffectData> doEffect,
 								  Function3<IGenome, IEffectData, IBeeHousing, IEffectData> doClientEffect,

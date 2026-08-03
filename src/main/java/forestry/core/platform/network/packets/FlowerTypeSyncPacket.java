@@ -1,4 +1,4 @@
-package forestry.apiculture.network.packets;
+package forestry.core.platform.network.packets;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,10 +12,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import forestry.api.apiculture.IFlowerType;
-import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
-import forestry.apiculture.bees.genetics.FlowerTypeManager;
-import forestry.apiculture.bees.genetics.FlowerTypeTypes;
-import forestry.apiculture.network.ApiculturePacketIds;
+import forestry.core.engine.genetics.FlowerTypeManager;
+import forestry.core.engine.genetics.FlowerTypeTypes;
+import forestry.api.IForestryApi;
+import forestry.core.platform.network.PacketIdClient;
 
 /**
  * Server -&gt; client sync of the loaded flower-type definitions, sent on player login/reload (before
@@ -28,7 +28,7 @@ public record FlowerTypeSyncPacket(Map<ResourceLocation, IFlowerType> definition
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return ApiculturePacketIds.FLOWER_TYPE_SYNC;
+		return PacketIdClient.FLOWER_TYPE_SYNC;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, FlowerTypeSyncPacket msg) {
@@ -45,6 +45,6 @@ public record FlowerTypeSyncPacket(Map<ResourceLocation, IFlowerType> definition
 			return;
 		}
 		FlowerTypeManager.INSTANCE.setDefinitions(msg.definitions);
-		ApicultureReloadHandler.rebuildFlowerTypes(msg.definitions);
+		FlowerTypeManager.rebuild(msg.definitions);
 	}
 }

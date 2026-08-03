@@ -1,5 +1,6 @@
 package forestry.api.plugin;
 
+import forestry.api.apiculture.IFlowerType;
 import forestry.api.core.genetics.filter.IFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 
@@ -20,6 +21,17 @@ public interface IGeneticRegistration {
 	 * @see forestry.api.core.genetics.ForestryTaxa For built-in taxon names.
 	 */
 	void defineTaxon(String parent, String name);
+
+	/**
+	 * Register a flower type, a category of blocks that a pollinating species can work with. Bees and
+	 * butterflies both carry a flower type chromosome, so this is registered through genetics rather
+	 * than through apiculture.
+	 *
+	 * @param id   The unique ID for this flower type.
+	 * @param type The flower type to register.
+	 * @since 2.10.0
+	 */
+	void registerFlowerType(ResourceLocation id, IFlowerType type);
 
 	/**
 	 * Defines a new taxon or retrieves an existing taxon, allows for adding subtaxa and species.

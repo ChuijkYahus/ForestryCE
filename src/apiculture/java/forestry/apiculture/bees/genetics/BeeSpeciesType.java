@@ -7,7 +7,6 @@ import forestry.api.IForestryApi;
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.apiculture.IBeeJubilance;
-import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeEffect;
@@ -36,8 +35,6 @@ import java.util.List;
 
 public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IBeeSpeciesType {
 	// Reference-value registries backing the flower_type, bee_effect, activity, and jubilance chromosomes.
-	private ImmutableMap<ResourceLocation, IFlowerType> flowerTypes = ImmutableMap.of();
-	private ImmutableMap<ResourceLocation, IFlowerType> codeFlowerTypes = ImmutableMap.of();
 	private ImmutableMap<ResourceLocation, IBeeEffect> beeEffects = ImmutableMap.of();
 	private ImmutableMap<ResourceLocation, IBeeEffect> codeEffects = ImmutableMap.of();
 	@Nullable
@@ -47,25 +44,6 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 
 	public BeeSpeciesType(IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		super(ForestrySpeciesTypes.BEE, karyotype, builder);
-	}
-
-	@Override
-	public IFlowerType getFlowerType(ResourceLocation id) {
-		return requireValue(this.flowerTypes, id, "flower type");
-	}
-
-	@Nullable
-	@Override
-	public IFlowerType getFlowerTypeSafe(ResourceLocation id) {
-		return valueSafe(this.flowerTypes, id);
-	}
-
-	public void setFlowerTypes(ImmutableMap<ResourceLocation, IFlowerType> flowerTypes) {
-		this.flowerTypes = flowerTypes;
-	}
-
-	public ImmutableMap<ResourceLocation, IFlowerType> getCodeFlowerTypes() {
-		return this.codeFlowerTypes;
 	}
 
 	@Override
@@ -193,8 +171,6 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		// store the reference-value registries backing the flower_type, bee_effect, and activity chromosomes
 		this.codeEffects = registration.getBeeEffects();
 		this.beeEffects = this.codeEffects; // bootstrap: code base alone until the first datapack load
-		this.codeFlowerTypes = registration.getFlowerTypes();
-		this.flowerTypes = this.codeFlowerTypes; // bootstrap: code base alone until the first datapack load
 		this.activityTypes = registration.getActivityTypes();
 		this.jubilances = registration.getJubilances();
 

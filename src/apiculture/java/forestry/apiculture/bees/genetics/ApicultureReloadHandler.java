@@ -49,17 +49,6 @@ public final class ApicultureReloadHandler {
 		Forestry.LOGGER.info("Loaded {} bee species", allSpecies.size());
 	}
 
-	/**
-	 * Installs the effective flower-type map into the live bee species type: the code-registered base
-	 * (KubeJS/addons) overlaid by the datapack-loaded (or sync-delivered) definitions, datapack winning on id.
-	 */
-	public static void rebuildFlowerTypes(Map<ResourceLocation, IFlowerType> dataDefinitions) {
-		FlowerTypeTypes.registerBuiltins(); // idempotent safety net
-		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
-		Map<ResourceLocation, IFlowerType> effective = new LinkedHashMap<>(((BeeSpeciesType) type).getCodeFlowerTypes());
-		effective.putAll(dataDefinitions);
-		((BeeSpeciesType) type).setFlowerTypes(ImmutableMap.copyOf(effective));
-	}
 
 	/**
 	 * Installs the effective bee-effect map into the live bee species type: the code-registered base overlaid by the

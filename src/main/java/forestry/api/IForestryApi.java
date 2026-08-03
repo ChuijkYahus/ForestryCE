@@ -6,6 +6,7 @@ import forestry.api.core.circuits.ICircuitManager;
 import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
 import forestry.api.agriculture.IFarmingManager;
+import forestry.api.core.genetics.IFlowerTypeManager;
 import forestry.api.core.genetics.IGeneticManager;
 import forestry.api.core.genetics.filter.IFilterManager;
 import forestry.api.core.genetics.pollen.IPollenManager;
@@ -46,6 +47,12 @@ public interface IForestryApi {
 	 * @see forestry.api.plugin.IForestryPlugin#registerGenetics
 	 */
 	IGeneticManager getGeneticManager();
+
+	/**
+	 * @return The flower type manager, used to look up the flower types pollinating species search for
+	 * @since 2.10.0
+	 */
+	IFlowerTypeManager getFlowerTypeManager();
 
 	/**
 	 * @see IGeneticRegistration#registerFilterRuleType
