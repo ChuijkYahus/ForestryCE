@@ -149,10 +149,8 @@ public class ModuleApiculture extends BlankForestryModule {
 	 */
 	@Override
 	public void registerReloadListeners(AddReloadListenerEvent event) {
-		// Load flower types from the "flower_type" datapack folder and install the code-base union
-		// datapack map into the live bee species type. The FLOWER_TYPE chromosome resolves ids lazily
-		// via BeeSpeciesType#getFlowerType, so strict ordering against BeeSpeciesManager isn't required
-		// today, but this keeps the "referenced data before dependent data" convention.
+		// Flower types load in ModuleCore, not here: butterflies carry the same FLOWER_TYPE
+		// chromosome, so base owns them.
 
 		// Load bee effects from the "bee_effect" folder. Registered before BeeSpeciesManager: species
 		// projection resolves each genome's bee_effect reference via getBeeEffect, so effects must exist

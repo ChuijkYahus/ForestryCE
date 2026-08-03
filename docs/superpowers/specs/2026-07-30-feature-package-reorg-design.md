@@ -2,7 +2,7 @@
 
 Date: 2026-07-30, amended 2026-07-31 after adversarial review
 Branch: `1.21.1-restructure`
-Status: phases 1-9a complete (2026-08-02); phase 9b next
+Status: phases 1-9a complete; 9b in progress (2026-08-02)
 
 ## Problem
 
@@ -339,10 +339,35 @@ datagen's compile classpath and the dev runs' game layer but never `main`'s comp
 `exclude 'forestry/core/data/**'` hack is deleted. See the phase-8 paragraph under Sequencing for the
 three MDG failure modes found while prototyping this.
 
-The **`--output` question above is still open** and is now phase 9's. One data run writes one output
-directory; six jars need six. Neither the chained-`--existing` approach nor a post-hoc split has been
-tried, and phase 8 did not need to - with one source set there is still exactly one data run. This is
-the part to prototype early in phase 9, before the source-set split makes it urgent.
+The **`--output` question**, measured 2026-08-02 in phase 9b and answered on evidence rather than
+preference. Of 10,206 generated files (excluding `.cache`), **9,477 - 92.9% - are addressable by
+registry id**: models, blockstates, recipes, loot tables and advancements are all named after the
+block or item they describe, and every feature already registers under a module id through
+`ModFeatureRegistry`. So the owning jar of nine files in ten is known *in code* and does not have to
+be guessed or hand-maintained.
+
+The remaining **729 are enumerable rather than derivable**, and mostly resolve by folder:
+
+| Folder | Files | Owner |
+| --- | --- | --- |
+| `data/forestry/tags` + `data/{c,minecraft,forge,curios}/tags` | 348 | by tag contents; the only genuinely hard group |
+| `data/forestry/taxon` | 160 | core - datagen-owned since phase 7b |
+| `data/forestry/{bee,tree,butterfly}_species` | 154 | apiculture / arboriculture / lepidopterology, by folder |
+| `data/forestry/loot_modifiers` + `data/neoforge/loot_modifiers` | 17 | needs redesign, not partition |
+| `data/forestry/flower_type` | 15 | core, as of phase 9b |
+| `data/forestry/bee_effect` | 14 | apiculture |
+| `data/forestry/worldgen`, `damage_type`, `curios`, `data_maps`, atlases, lang | 21 | case by case; atlases and lang merge at runtime |
+
+**Decision: one data run, post-hoc split.** `runData` keeps writing to `src/generated/resources`, and
+a Gradle task partitions that tree into per-jar resource directories using an ownership manifest that
+datagen itself emits. Six data runs would require partitioning the *providers* first -
+`ForestryRecipeProvider` alone emits recipes for every jar - which is far more work for the same
+result, and would lose the byte-identical `runData` diff that has been the strongest oracle in this
+project since phase 1. A downstream split keeps that oracle intact.
+
+**The ownership manifest is the design, not an implementation detail.** It must be generated from the
+same registry the features were created from, never hand-written; a hand-maintained mapping would rot
+silently and no oracle would catch it.
 
 ## Gating work
 
@@ -457,10 +482,13 @@ Everything that makes the split real lands before a single package moves. Phases
                                        edges, still one jar and one mod id. The
                                        compiler now enforces D1; the two
                                        stand-in gates are deleted
-9b  six jars                           mods.toml x6, service file split,
-                                       resource partition, per-jar datagen and
-                                       the --output question, lang merge x6,
-                                       loot modifier redesign, publishing
+9b  six jars                           IN PROGRESS. Flower types relocated to
+                                       core and the --output question answered
+                                       (2026-08-02). Remaining: mods.toml x6,
+                                       service file split, the resource
+                                       partition itself, lang merge x6, loot
+                                       modifier redesign, boot configs,
+                                       publishing
 10  publish six artifacts
 ```
 
@@ -834,6 +862,35 @@ butterflies read; `core.engine.genetics` is the natural home, and this is ordina
 relocation work. It also raises the question of whether any *other* karyotype default crosses a jar
 boundary - nothing has ever audited that, and a `ResourceLocation`-valued default is precisely the
 shape that hides from every gate this project has.
+
+Phase 9b is in progress. Two of its eight tasks have landed.
+
+**Flower types are now a base concept.** The finding recorded under phase 9a is fixed at the root
+rather than worked around. `IFlowerTypeManager` is a new api interface reached through
+`IForestryApi.getFlowerTypeManager()`; `FlowerTypeTypes`, `FlowerTypeManager` and the three
+`IFlowerType` implementations moved from `apiculture.bees` to `core.engine.genetics`;
+`registerFlowerType` moved from `IApicultureRegistration` to `IGeneticRegistration`, because an addon
+must be able to register a flower type with no apiculture jar installed; the datapack reload listener
+and the login sync moved from `ModuleApiculture` to `ModuleCore`; and `BeeChromosomes.FLOWER_TYPE` -
+which *is* `ButterflyChromosomes.FLOWER_TYPE` - now resolves through the base manager rather than
+through `BEE_TYPE.get()`. `IBeeSpeciesType.getFlowerType` and `getFlowerTypeSafe` are gone.
+
+The sync packet moved with the map, since a packet carrying the flower types has to be registered by
+whichever jar owns them. Its wire id is deliberately unchanged: it moved from `ApiculturePacketIds` to
+`PacketIdClient` but kept the path `flower_type_sync`, so `forestry:flower_type_sync` still identifies
+the same payload.
+
+This is an api break - two methods removed from `IBeeSpeciesType`, one moved between registration
+interfaces - which the "one breaking wave" decision already accounts for. Datagen stayed
+byte-identical, and the GameTest suite went from 108 to 109: the new one resolves every built-in
+flower type through the base manager without touching the bee species type, which is the assertion
+that would have failed before this change.
+
+**The `--output` question is answered**; see the Build structure section for the measurement and the
+decision. In short: 92.9% of generated files are addressable by registry id, the remaining 729 are
+enumerable by folder, and the chosen strategy is one data run plus a post-hoc split driven by an
+ownership manifest that datagen emits - which preserves the byte-identical `runData` diff that six
+data runs would have destroyed.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
