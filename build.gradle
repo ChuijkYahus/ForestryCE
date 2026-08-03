@@ -70,6 +70,176 @@ contentModules.each { m ->
 	sourceSets.datagen.runtimeClasspath += sourceSets[m].output
 }
 
+// ---- Per-jar resource ownership (phase 9b) ----
+//
+// Which jar ships which resource. Two checked-in files drive this and both are generated:
+//
+//   src/generated/ownership.json        registry id -> jar. Written by datagen from the live feature
+//                                       registries, so it cannot drift from what the code registers.
+//   src/generated/resource-owners.json  resource path -> jar. Written by generateResourceOwners from
+//                                       the file above plus the rules below.
+//
+// Materialising the second one rather than recomputing it per build makes the partition reviewable:
+// a file changing jars shows up as a diff instead of as silent behaviour.
+//
+// Unmatched files fall to core. That is the safe direction - core is always installed, so an
+// unmatched resource still reaches the player - but it is reported, not silent.
+var ownershipFile = project.file('src/generated/ownership.json')
+var resourceOwnersFile = project.file('src/generated/resource-owners.json')
+var resourceRoots = [project.file('src/generated/resources'), project.file('src/main/resources')]
+
+// Folders whose contents belong to one jar regardless of file name
+var folderOwners = [
+		'data/forestry/bee_species/'         : 'apiculture',
+		'data/forestry/bee_effect/'          : 'apiculture',
+		'data/forestry/recipe/bee_mutation/' : 'apiculture',
+		'data/forestry/tree_species/'        : 'arboriculture',
+		'data/forestry/recipe/tree_mutation/': 'arboriculture',
+		'data/forestry/butterfly_species/'   : 'lepidopterology',
+]
+
+tasks.register('generateResourceOwners') {
+	group = 'build'
+	description = 'Materialises the resource path to jar mapping the six jar tasks ship from'
+
+	outputs.upToDateWhen { false }
+
+	doLast {
+		if (!ownershipFile.exists()) {
+			throw new GradleException("${ownershipFile} is missing. Run ./gradlew runData first.")
+		}
+		var idOwners = new JsonSlurper().parse(ownershipFile) as Map<String, String>
+
+		// Longest-prefix match on the file name. Generated variants are named after their parent -
+		// birch_door_open, spruce_fence_side - so walking the name back by underscore finds the owner
+		// without enumerating every suffix Minecraft's model generators emit
+		var ownerOfName = { String base ->
+			var parts = base.split('_')
+			for (int n = parts.length; n > 0; n--) {
+				var owner = idOwners['forestry:' + parts[0..<n].join('_')]
+				if (owner != null) {
+					return owner
+				}
+			}
+			return null
+		}
+
+		var owners = new TreeMap<String, String>()
+		var pending = new ArrayList<List<String>>()
+
+		resourceRoots.each { File root ->
+			if (!root.exists()) {
+				return
+			}
+			root.eachFileRecurse(groovy.io.FileType.FILES) { File file ->
+				var rel = root.toPath().relativize(file.toPath()).toString()
+				if (rel.startsWith('.cache/')) {
+					return
+				}
+				var folder = folderOwners.find { rel.startsWith(it.key) }
+				if (folder != null) {
+					owners[rel] = folder.value
+					return
+				}
+				if (rel.endsWith('.json')) {
+					var base = rel.substring(rel.lastIndexOf('/') + 1, rel.length() - 5)
+					var owner = ownerOfName(base)
+					if (owner != null) {
+						owners[rel] = owner
+						return
+					}
+				}
+				pending.add([root.path, rel])
+			}
+		}
+
+		// A tag whose forestry entries all belong to one jar belongs to that jar. This matters for
+		// correctness rather than tidiness: a tag shipped in core that lists an item from an absent
+		// jar fails datapack load, which is the exact failure the drop_honey tag had before phase 4
+		var mixedTags = new ArrayList<String>()
+		var stillPending = new ArrayList<List<String>>()
+		pending.each { entry ->
+			var rel = entry[1]
+			if (!rel.contains('/tags/') || !rel.endsWith('.json')) {
+				stillPending.add(entry)
+				return
+			}
+			var parsed
+			try {
+				parsed = new JsonSlurper().parse(new File(entry[0], rel))
+			} catch (ignored) {
+				stillPending.add(entry)
+				return
+			}
+			var tagOwners = new HashSet<String>()
+			(parsed['values'] ?: []).each { value ->
+				var id = value instanceof String ? value : value['id']
+				if (id instanceof String && id.startsWith('forestry:')) {
+					var owner = ownerOfName(id.substring('forestry:'.length()))
+					if (owner != null) {
+						tagOwners.add(owner)
+					}
+				}
+			}
+			var content = tagOwners - 'core'
+			if (content.size() == 1) {
+				owners[rel] = content.first()
+			} else {
+				if (content.size() > 1) {
+					mixedTags.add(rel)
+				}
+				stillPending.add(entry)
+			}
+		}
+
+		// A texture belongs to whichever jar ships the models that reference it
+		var textureOwners = new HashMap<String, Set<String>>()
+		owners.each { rel, owner ->
+			if (!rel.startsWith('assets/forestry/models') || !rel.endsWith('.json')) {
+				return
+			}
+			var file = resourceRoots.collect { new File(it, rel) }.find { it.exists() }
+			if (file == null) {
+				return
+			}
+			var parsed
+			try {
+				parsed = new JsonSlurper().parse(file)
+			} catch (ignored) {
+				return
+			}
+			(parsed['textures'] ?: [:]).each { key, value ->
+				if (value instanceof String && value.startsWith('forestry:')) {
+					textureOwners.computeIfAbsent(value.substring('forestry:'.length()), { new HashSet<String>() }).add(owner)
+				}
+			}
+		}
+
+		var fellBack = 0
+		stillPending.each { entry ->
+			var rel = entry[1]
+			if (rel.startsWith('assets/forestry/textures/') && rel.endsWith('.png')) {
+				var key = rel.substring('assets/forestry/textures/'.length(), rel.length() - 4)
+				var candidates = textureOwners[key]
+				if (candidates != null && candidates.size() == 1) {
+					owners[rel] = candidates.first()
+					return
+				}
+			}
+			owners[rel] = 'core'
+			fellBack++
+		}
+
+		resourceOwnersFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(owners)) + '\n'
+
+		var counts = new TreeMap<String, Integer>()
+		owners.values().each { counts.merge(it, 1, Integer::sum) }
+		logger.lifecycle("generateResourceOwners: " + counts.collect { "${it.key}=${it.value}" }.join(', '))
+		logger.lifecycle("  ${fellBack} file(s) fell back to core; ${mixedTags.size()} tag(s) span jars")
+		mixedTags.each { logger.lifecycle("  spans jars, needs splitting: ${it}") }
+	}
+}
+
 configurations {
 	// ModKit, isolated so it can reach exactly two places and no others: datagen's compile classpath,
 	// and the dev runs' runtime classpath. It must go on main's *runtime* classpath rather than an
@@ -119,6 +289,10 @@ neoForge {
 
 		data {
 			data()
+			// The data run's working directory is run/, so the ownership manifest needs an absolute
+			// destination. It lives beside src/generated/resources rather than inside it, so that it
+			// never ships, and it is checked in because the jar tasks read it without running the game
+			systemProperty 'forestry.ownershipManifest', file('src/generated/ownership.json').absolutePath
 			programArguments.addAll('--mod', 'forestry', '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
 		}
 

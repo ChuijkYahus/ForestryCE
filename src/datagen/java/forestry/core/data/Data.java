@@ -26,6 +26,9 @@ public class Data {
 	public static void gatherData(GatherDataEvent event) {
 		preDataGen();
 
+		// The build reads this to decide which jar ships which resource
+		OwnershipManifest.write();
+
 		DataGenerator generator = event.getGenerator();
 		PackOutput output = generator.getPackOutput();
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
