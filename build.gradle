@@ -241,6 +241,54 @@ tasks.register('generateResourceOwners') {
 			}
 		}
 
+		// A recipe belongs to whoever owns what it produces. Machine recipes are nested by machine and
+		// named after the variant - recipe/fabricator/fireproof/planks/palm.json - so the file name
+		// says nothing about the owner, but the result does. Without this those recipes ship in core
+		// and a core-only install logs a parse error per recipe for an item it does not have
+		var afterResults = new ArrayList<List<String>>()
+		stillPending.each { entry ->
+			var rel = entry[1]
+			if (rel.startsWith('data/forestry/recipe/') && rel.endsWith('.json')) {
+				var parsed
+				try {
+					parsed = new JsonSlurper().parse(new File(entry[0], rel))
+				} catch (ignored) {
+					parsed = null
+				}
+				// Machine recipes nest the vanilla shape under their own: fabricator puts it under
+				// "recipe", so the result is not always at the top level
+				var findResult
+				findResult = { node ->
+					if (!(node instanceof Map)) {
+						return null
+					}
+					var direct = node['result']
+					if (direct != null) {
+						return direct instanceof Map ? (direct['id'] ?: direct['item']) : direct
+					}
+					for (child in node.values()) {
+						var found = findResult(child)
+						if (found != null) {
+							return found
+						}
+					}
+					return null
+				}
+				var resultId = findResult(parsed)
+				// Exact, never longest-prefix: a result is a real registry id, and prefix matching
+				// would resolve papaya_fireproof_wood to the core fruit forestry:papaya
+				if (resultId instanceof String) {
+					var owner = idOwners[resultId]
+					if (owner != null) {
+						owners[rel] = owner
+						return
+					}
+				}
+			}
+			afterResults.add(entry)
+		}
+		stillPending = afterResults
+
 		// Longest-prefix, now that tags have had their say. Generated model variants are named after
 		// their parent - birch_door_open, spruce_fence_side - so walking the name back by underscore
 		// finds the owner without enumerating every suffix Minecraft's model generators emit
@@ -352,9 +400,6 @@ neoForge {
 		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
 		forestry {
 			sourceSet sourceSets.main
-			// GameTest suite lives in src/test (forestry.gametest). It is part of the core mod so the
-			// gameTestServer run loads it, but stays out of every published jar.
-			sourceSet sourceSets.test
 			// Datagen lives in src/datagen (forestry.core.data). Part of the mod so the data run's
 			// GatherDataEvent subscriber is discovered, and out of the jars for the same reason as test.
 			sourceSet sourceSets.datagen
@@ -362,6 +407,11 @@ neoForge {
 		contentModules.each { m ->
 			create("forestry_${m}") { sourceSet sourceSets[m] }
 		}
+		// The GameTest suite spans every jar, so it is its own mod id rather than part of core. That
+		// is what lets the partial-install boot configurations leave it out: NeoForge's gametest
+		// scanner resolves every @GameTest method descriptor at registration, and a test naming an
+		// apiculture type crashes a core-only boot outright - the D3 safety condition, exactly
+		create('forestry_gametest') { sourceSet sourceSets.test }
 	}
 
 	runs {
@@ -725,6 +775,21 @@ var contentModMetadata = contentModules.collectEntries { m ->
 		into "build/generated/sources/modMetadata${m.capitalize()}"
 	}]
 }
+
+var gametestModMetadata = tasks.register('generateModMetadataGametest', ProcessResources) {
+	var replaceProperties = ['version': project.version, 'fmlVersionRange': fmlVersionRange]
+	inputs.properties replaceProperties
+	expand replaceProperties
+	from 'src/test/templates'
+	into 'build/generated/sources/modMetadataGametest'
+}
+sourceSets.test.resources.srcDir gametestModMetadata
+// AlleleTranslationKeyTest reads en_us.json off its own classloader, and since the suite became its
+// own mod id it no longer shares one with core. Give the gametest mod the merged lang directly; it
+// is dev-only and never published, so the duplicate costs nothing
+sourceSets.test.resources.srcDir 'build/generated/sources/mergedAssets'
+tasks.named('processTestResources') { dependsOn(generateEnUsLang) }
+neoForge.ideSyncTask gametestModMetadata
 
 contentModules.each { m ->
 	sourceSets[m].resources.srcDir contentModMetadata[m]

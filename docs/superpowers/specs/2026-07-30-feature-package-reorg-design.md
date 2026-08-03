@@ -2,7 +2,7 @@
 
 Date: 2026-07-30, amended 2026-07-31 after adversarial review
 Branch: `1.21.1-restructure`
-Status: phases 1-9a complete; 9b in progress (2026-08-02)
+Status: phases 1-9a complete; 9b partial (2026-08-02)
 
 ## Problem
 
@@ -482,13 +482,12 @@ Everything that makes the split real lands before a single package moves. Phases
                                        edges, still one jar and one mod id. The
                                        compiler now enforces D1; the two
                                        stand-in gates are deleted
-9b  six jars                           IN PROGRESS. Flower types relocated to
-                                       core and the --output question answered
-                                       (2026-08-02). Remaining: mods.toml x6,
-                                       service file split, the resource
-                                       partition itself, lang merge x6, loot
-                                       modifier redesign, boot configs,
-                                       publishing
+9b  six jars                           IN PROGRESS 2026-08-02. Six mod ids and
+                                       six jars build; resources partition from
+                                       a generated ownership map; core+arbo+lepi
+                                       boots clean. Remaining: core-only still
+                                       logs 65 recipe + 28 tag errors, see the
+                                       phase-9b notes; publishing
 10  publish six artifacts
 ```
 
@@ -891,6 +890,61 @@ decision. In short: 92.9% of generated files are addressable by registry id, the
 enumerable by folder, and the chosen strategy is one data run plus a post-hoc split driven by an
 ownership manifest that datagen emits - which preserves the byte-identical `runData` diff that six
 data runs would have destroyed.
+
+### Phase 9b, as far as it got on 2026-08-02
+
+Six mod ids (`forestry`, `forestry_{apiculture,arboriculture,lepidopterology,agriculture,mail}`, plus
+a dev-only `forestry_gametest`) and six jars. Core is 4,164 files with **zero** content classes; each
+content jar carries only its own package tree, its own `neoforge.mods.toml` and its own plugin service
+file. The full install is unchanged: byte-identical datagen, 109 GameTests, all gates green.
+
+**The partition is generated, not written.** `src/generated/ownership.json` maps 1,890 registry ids to
+jars and is written by datagen from the live feature registries. `generateResourceOwners` turns that
+into `src/generated/resource-owners.json`, a checked-in path-to-jar map for all 12,165 resource files,
+so a file changing jars shows up as a diff rather than as silent behaviour. Rules, in order: explicit
+folder rules, exact file-name match, loot sub-table by module name, worldgen by feature name, tag by
+the jar its entries belong to, **recipe by the jar that owns its result**, longest-prefix on the file
+name, texture by the models that reference it, then core.
+
+Two of those orderings are load-bearing and were found the hard way. Longest-prefix must come *last*,
+because it is greedy: `forestry:chestnut` is a **core fruit**, so `chestnut_logs.json` resolved to core
+and stranded arboriculture's log tag there, breaking 68 tags. And the recipe rule must match the
+result **exactly** for the same reason - `papaya_fireproof_wood` prefix-matches the papaya fruit.
+
+**The partition happens in `processResources`, not only in the jar tasks.** Filtering at packaging time
+alone would have left the boot configurations testing an unsplit install, which is the one thing they
+exist to catch.
+
+Three real defects that only a partial-install boot could find:
+
+- **`AgricultureForestryPlugin` registered the `MACHINE_UPGRADE` circuit layout** while core registered
+  the circuits against it. A core-only boot crashed outright. The layout moved to core.
+- **One biome modifier named all four placed features.** A placed feature from an absent jar is an
+  unbound registry value and fails world load before any runtime guard can help. `ForestryBiomeModifier`
+  now takes all four as `Optional`, and each jar ships a modifier naming only what it owns.
+- **The GameTest suite crashed partial installs.** NeoForge's gametest scanner resolves every
+  `@GameTest` method descriptor at registration, so a test naming an apiculture type killed a core-only
+  boot - the D3 safety condition, exactly. The suite is now its own mod id, which is what lets the boot
+  configurations leave it out.
+
+`runLepidopterologyNoBeesServer` **boots clean**: `Done (0.921s)`, 35 butterfly species, zero projection
+failures. That is the configuration the flower-type work exists for, and it is now proven rather than
+argued.
+
+**What is not done.** `runCoreOnlyServer` still logs 65 recipe and 28 tag errors and does not reach
+`Done`. Both have the same shape - core ships data naming content ids - and both are understood:
+
+- The ownership manifest only covers `ModFeatureRegistry` features. The fireproof wood variants are
+  registered through `WoodAccess` instead, so ids like `forestry:papaya_fireproof_wood` are absent
+  from it and their recipes fall to core. **Fix: have `OwnershipManifest` also walk `WoodAccess`.**
+- 28 tag errors across 11 tags, all core tags with *required* entries from content jars
+  (`minecraft:logs`, `mineable/axe`, `forestry:scoop`, ...). Aggregate tags are the hard case: their
+  entries are `#`-prefixed references to other tags, which the tag rule deliberately does not follow.
+  **Fix: emit cross-jar tag entries with `addOptional`** - ModKit's `DirectTagAppender` has it - so a
+  missing entry is skipped rather than failing the tag.
+
+Neither affects the full install, and neither is a design problem; both are enumerated work.
+Publishing the six artifacts is also still to do.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
