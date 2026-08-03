@@ -55,7 +55,7 @@ public class ForestryBackpackTagProvider {
 			Tags.Items.CROPS,
 			Tags.Items.SEEDS,
 			ItemTags.FLOWERS,
-			ItemTags.SAPLINGS
+			ForestryTags.Items.GRASSES
 		);
 		tags.tag(ForestryTags.Items.FORESTER_ALLOW).add(
 			Items.STICK,
@@ -64,7 +64,6 @@ public class ForestryBackpackTagProvider {
 			Items.CACTUS,
 			Items.RED_MUSHROOM,
 			Items.BROWN_MUSHROOM,
-			Items.SHORT_GRASS, //TODO tag
 			Items.PUMPKIN,
 			Items.MELON,
 			Items.GOLDEN_APPLE,
@@ -85,7 +84,8 @@ public class ForestryBackpackTagProvider {
 			Tags.Items.GUNPOWDERS,
 			Tags.Items.LEATHERS,
 			Tags.Items.SLIMEBALLS,
-			Tags.Items.STRINGS
+			Tags.Items.STRINGS,
+			ItemTags.WOOL
 		);
 		tags.tag(ForestryTags.Items.HUNTER_ALLOW).add(
 			Items.BLAZE_POWDER,
@@ -111,14 +111,13 @@ public class ForestryBackpackTagProvider {
 			Items.RABBIT_HIDE,
 			Items.SPIDER_EYE,
 			Items.FERMENTED_SPIDER_EYE,
-			Items.BONE_MEAL, // TODO correct item?
+			Items.INK_SAC,
 			Items.HAY_BLOCK,
-			Items.WHITE_WOOL, // TODO tag
 			Items.ENDER_EYE,
 			Items.MAGMA_CREAM,
-			Items.GLISTERING_MELON_SLICE, // TODO right item?
-			Items.COD, // TODO tag
-			Items.COOKED_COD, // TODO tag
+			Items.GLISTERING_MELON_SLICE,
+			Items.COOKED_COD,
+			Items.COOKED_SALMON,
 			Items.LEAD,
 			Items.FISHING_ROD,
 			Items.NAME_TAG,
@@ -137,7 +136,6 @@ public class ForestryBackpackTagProvider {
 			Tags.Items.SANDSTONE_BLOCKS,
 			ItemTags.PLANKS,
 			ItemTags.WOODEN_STAIRS,
-			ItemTags.WOODEN_SLABS,
 			ItemTags.WOODEN_FENCES,
 			ItemTags.WOODEN_TRAPDOORS,
 			Tags.Items.GLASS_BLOCKS_COLORLESS,
@@ -163,7 +161,6 @@ public class ForestryBackpackTagProvider {
 			Items.PACKED_ICE,
 			Items.NETHER_BRICKS,
 			Items.NETHER_BRICK_FENCE,
-			Items.CRAFTING_TABLE,
 			Items.FURNACE,
 			Items.LEVER,
 			Items.DISPENSER,
