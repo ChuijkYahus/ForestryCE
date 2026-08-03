@@ -15,15 +15,16 @@ import forestry.agriculture.multifarm.circuits.CircuitFarmLogic;
 
 /**
  * Base Forestry's farming registrations. Split out of {@code forestry.core.plugin.DefaultForestryPlugin}
- * so the base artifact does not register farm content. The machine-upgrade circuits stay with core;
- * circuits key by string id, so splitting registerCircuits across two plugins changes nothing.
+ * so the base artifact does not register farm content. The machine-upgrade layout and its circuits
+ * both stay with core - registering the layout here crashed a core-only install, because core
+ * registers circuits against it. Circuits key by string id, so splitting registerCircuits across
+ * two plugins changes nothing.
  */
 public class AgricultureForestryPlugin implements IForestryPlugin {
 	@Override
 	public void registerCircuits(ICircuitRegistration circuits) {
 		circuits.registerLayout(ForestryCircuitLayouts.MANAGED_FARM, ForestryCircuitSocketTypes.FARM);
 		circuits.registerLayout(ForestryCircuitLayouts.MANUAL_FARM, ForestryCircuitSocketTypes.FARM);
-		circuits.registerLayout(ForestryCircuitLayouts.MACHINE_UPGRADE, ForestryCircuitSocketTypes.MACHINE);
 
 		// Managed Farms
 		registerFarmCircuit(circuits, EnumElectronTube.COPPER, ForestryFarmTypes.ARBOREAL, false);

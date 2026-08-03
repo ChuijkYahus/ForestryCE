@@ -89,6 +89,34 @@ var resourceOwnersFile = project.file('src/generated/resource-owners.json')
 var resourceRoots = [project.file('src/generated/resources'), project.file('src/main/resources')]
 
 // Folders whose contents belong to one jar regardless of file name
+// Loot sub-tables are named after the module that contributes them:
+// data/forestry/loot_table/chests/<chest>/<module>.json. They resolve by file name today only
+// because a feature happens to share the name 'apiculture'; naming this explicitly means a feature
+// rename cannot silently move an apiculture loot table into the core jar, where it would reference
+// items a core-only install does not have and fail the datapack load
+var lootModuleJars = [
+		'apiculture'     : 'apiculture',
+		'arboriculture'  : 'arboriculture',
+		'lepidopterology': 'lepidopterology',
+		'farming'        : 'agriculture',
+		'cultivation'    : 'agriculture',
+		'mail'           : 'mail',
+		'factory'        : 'core',
+		'storage'        : 'core',
+		'energy'         : 'core',
+		'sorting'        : 'core',
+		'worktable'      : 'core',
+		'core'           : 'core',
+]
+
+// Worldgen features are named after what they generate, not after a registered feature, so they do
+// not resolve through the ownership map. A configured/placed feature shipped by the wrong jar is an
+// unbound registry value and fails world load, so these are named explicitly
+var worldgenOwners = [
+		'hive': 'apiculture',
+		'tree': 'arboriculture',
+]
+
 var folderOwners = [
 		'data/forestry/bee_species/'         : 'apiculture',
 		'data/forestry/bee_effect/'          : 'apiculture',
@@ -136,16 +164,35 @@ tasks.register('generateResourceOwners') {
 				if (rel.startsWith('.cache/')) {
 					return
 				}
+				if (rel.startsWith('data/forestry/worldgen/') && rel.endsWith('.json')) {
+					var feature = rel.substring(rel.lastIndexOf('/') + 1, rel.length() - 5)
+					var worldgenJar = worldgenOwners[feature]
+					if (worldgenJar != null) {
+						owners[rel] = worldgenJar
+						return
+					}
+				}
+				if (rel.startsWith('data/forestry/loot_table/chests/') && rel.endsWith('.json')) {
+					var module = rel.substring(rel.lastIndexOf('/') + 1, rel.length() - 5)
+					var lootJar = lootModuleJars[module]
+					if (lootJar != null) {
+						owners[rel] = lootJar
+						return
+					}
+				}
 				var folder = folderOwners.find { rel.startsWith(it.key) }
 				if (folder != null) {
 					owners[rel] = folder.value
 					return
 				}
 				if (rel.endsWith('.json')) {
+					// Exact name first. Longest-prefix runs later, after the tag rule, because it is
+					// greedy enough to be wrong on its own: forestry:chestnut is a core fruit, so
+					// chestnut_logs would resolve to core and strand arboriculture's log tag there
 					var base = rel.substring(rel.lastIndexOf('/') + 1, rel.length() - 5)
-					var owner = ownerOfName(base)
-					if (owner != null) {
-						owners[rel] = owner
+					var exact = idOwners['forestry:' + base]
+					if (exact != null) {
+						owners[rel] = exact
 						return
 					}
 				}
@@ -157,7 +204,7 @@ tasks.register('generateResourceOwners') {
 		// correctness rather than tidiness: a tag shipped in core that lists an item from an absent
 		// jar fails datapack load, which is the exact failure the drop_honey tag had before phase 4
 		var mixedTags = new ArrayList<String>()
-		var stillPending = new ArrayList<List<String>>()
+		def stillPending = new ArrayList<List<String>>()
 		pending.each { entry ->
 			var rel = entry[1]
 			if (!rel.contains('/tags/') || !rel.endsWith('.json')) {
@@ -174,6 +221,8 @@ tasks.register('generateResourceOwners') {
 			var tagOwners = new HashSet<String>()
 			(parsed['values'] ?: []).each { value ->
 				var id = value instanceof String ? value : value['id']
+				// A leading # is a reference to another tag rather than to a block or item. Those are
+				// deliberately not followed: see the known-open note in the reorg spec
 				if (id instanceof String && id.startsWith('forestry:')) {
 					var owner = ownerOfName(id.substring('forestry:'.length()))
 					if (owner != null) {
@@ -191,6 +240,24 @@ tasks.register('generateResourceOwners') {
 				stillPending.add(entry)
 			}
 		}
+
+		// Longest-prefix, now that tags have had their say. Generated model variants are named after
+		// their parent - birch_door_open, spruce_fence_side - so walking the name back by underscore
+		// finds the owner without enumerating every suffix Minecraft's model generators emit
+		var afterPrefix = new ArrayList<List<String>>()
+		stillPending.each { entry ->
+			var rel = entry[1]
+			if (rel.endsWith('.json')) {
+				var base = rel.substring(rel.lastIndexOf('/') + 1, rel.length() - 5)
+				var owner = ownerOfName(base)
+				if (owner != null) {
+					owners[rel] = owner
+					return
+				}
+			}
+			afterPrefix.add(entry)
+		}
+		stillPending = afterPrefix
 
 		// A texture belongs to whichever jar ships the models that reference it
 		var textureOwners = new HashMap<String, Set<String>>()
@@ -240,6 +307,18 @@ tasks.register('generateResourceOwners') {
 	}
 }
 
+// Every jar ships only the resources the ownership map assigns to it. Unmapped paths - the mod
+// metadata, the access transformer, pack.mcmeta, the logo - fall to core, which is always installed.
+var resourceOwnerOf = { String path ->
+	if (!resourceOwnersFile.exists()) {
+		return 'core'
+	}
+	return (project.ext.has('resourceOwnerMap')
+			? project.ext.resourceOwnerMap
+			: (project.ext.resourceOwnerMap = new JsonSlurper().parse(resourceOwnersFile) as Map<String, String>))
+			.getOrDefault(path, 'core')
+}
+
 configurations {
 	// ModKit, isolated so it can reach exactly two places and no others: datagen's compile classpath,
 	// and the dev runs' runtime classpath. It must go on main's *runtime* classpath rather than an
@@ -264,6 +343,25 @@ neoForge {
 	parchment {
 		mappingsVersion = project.mappingsVersion
 		minecraftVersion = project.minecraftVersion
+	}
+
+	mods {
+		// Six mod ids, one per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
+		// is what makes a content jar optional: leave it out and its plugin is simply not on the
+		// service path. Registering forestry: names from a mod whose id is forestry_apiculture is
+		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
+		forestry {
+			sourceSet sourceSets.main
+			// GameTest suite lives in src/test (forestry.gametest). It is part of the core mod so the
+			// gameTestServer run loads it, but stays out of every published jar.
+			sourceSet sourceSets.test
+			// Datagen lives in src/datagen (forestry.core.data). Part of the mod so the data run's
+			// GatherDataEvent subscriber is discovered, and out of the jars for the same reason as test.
+			sourceSet sourceSets.datagen
+		}
+		contentModules.each { m ->
+			create("forestry_${m}") { sourceSet sourceSets[m] }
+		}
 	}
 
 	runs {
@@ -296,6 +394,26 @@ neoForge {
 			programArguments.addAll('--mod', 'forestry', '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
 		}
 
+		// Boot configurations for D4: a pack may install base plus any subset of the content jars.
+		// These are the only end-to-end proof that the split delivers what it promised, so each one
+		// is a real server boot with a real datapack load rather than a classpath assertion.
+		coreOnlyServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-core'))
+			programArgument '--nogui'
+			loadedMods = [mods.forestry]
+		}
+
+		// Butterflies without bees. This is the configuration the phase 9b flower type work exists
+		// for: ButterflyChromosomes.FLOWER_TYPE is BeeChromosomes.FLOWER_TYPE, so before that change
+		// every butterfly failed to project here
+		lepidopterologyNoBeesServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-lepi'))
+			programArgument '--nogui'
+			loadedMods = [mods.forestry, mods.forestry_arboriculture, mods.forestry_lepidopterology]
+		}
+
 		// Multiblock inventory-conservation GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the
 		// enabled-namespaces property is what makes NeoForge execute the @GameTestHolder("forestry") classes, so the
 		// tests are completely inert in normal client/server play.
@@ -309,25 +427,6 @@ neoForge {
 			// Same for CreativeTabBaselineTest, which guards creative tab membership across the
 			// phase 2 and phase 7 tab moves. Nothing else sees tab contents.
 			systemProperty 'forestry.creativeTabBaseline', providers.gradleProperty('forestry.creativeTabBaseline').getOrElse('')
-		}
-	}
-
-	mods {
-		// Six mod ids, one per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
-		// is what makes a content jar optional: leave it out and its plugin is simply not on the
-		// service path. Registering forestry: names from a mod whose id is forestry_apiculture is
-		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
-		forestry {
-			sourceSet sourceSets.main
-			// GameTest suite lives in src/test (forestry.gametest). It is part of the core mod so the
-			// gameTestServer run loads it, but stays out of every published jar.
-			sourceSet sourceSets.test
-			// Datagen lives in src/datagen (forestry.core.data). Part of the mod so the data run's
-			// GatherDataEvent subscriber is discovered, and out of the jars for the same reason as test.
-			sourceSet sourceSets.datagen
-		}
-		contentModules.each { m ->
-			create("forestry_${m}") { sourceSet sourceSets[m] }
 		}
 	}
 
@@ -402,7 +501,10 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 	// src/main/java in 9a; a single-root check reports all four as missing
 	var javaDirs = [project.file('src/main/java'), project.file('src/datagen/java')] +
 			contentModules.collect { project.file("src/${it}/java") }
-	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')]
+	// Every resource root, including the five per-jar ones. The plugin service files moved there in
+	// phase 9b, and a single-root scan silently stopped checking four of them
+	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')] +
+			contentModules.collect { project.file("src/${it}/resources") }
 
 	inputs.files(javaDirs)
 	outputs.upToDateWhen { false }
@@ -627,6 +729,15 @@ var contentModMetadata = contentModules.collectEntries { m ->
 contentModules.each { m ->
 	sourceSets[m].resources.srcDir contentModMetadata[m]
 	neoForge.ideSyncTask contentModMetadata[m]
+
+	tasks.named("process${m.capitalize()}Resources", ProcessResources) {
+		dependsOn(generateEnUsLang)
+		[project.file('src/main/resources'), project.file('src/generated/resources')].each { root ->
+			from(root) {
+				include { it.directory || resourceOwnerOf(it.relativePath.pathString) == m }
+			}
+		}
+	}
 }
 
 // Helper function to extract JSON entries while preserving duplicate keys
@@ -717,8 +828,12 @@ var generateEnUsLang = tasks.register('generateEnUsLang', DefaultTask) {
 	}
 }
 
+// The partition has to happen here, not only in the jar tasks. Dev runs and the boot configurations
+// read build/resources/<sourceSet>, so filtering only at packaging time would mean the boot configs
+// silently test an unsplit install - which is the one thing they exist to catch.
 tasks.named('processResources', ProcessResources) {
 	dependsOn(generateEnUsLang)
+	exclude { it.directory ? false : resourceOwnerOf(it.relativePath.pathString) != 'core' }
 
 	exclude 'assets/forestry/lang/check_translations.py'
 
@@ -740,23 +855,7 @@ sourceSets.main {
 
 neoForge.ideSyncTask generateModMetadata
 
-// Every jar ships only the resources the ownership map assigns to it. Unmapped paths - the mod
-// metadata, the access transformer, pack.mcmeta, the logo - fall to core, which is always installed.
-var resourceOwnerOf = { String path ->
-	if (!resourceOwnersFile.exists()) {
-		return 'core'
-	}
-	return (project.ext.has('resourceOwnerMap')
-			? project.ext.resourceOwnerMap
-			: (project.ext.resourceOwnerMap = new JsonSlurper().parse(resourceOwnersFile) as Map<String, String>))
-			.getOrDefault(path, 'core')
-}
-
 jar {
-	// The java plugin already puts sourceSets.main.output in this jar, so this filters rather than
-	// adds. Class files are not in the ownership map and default to core, which is correct: main's
-	// classes are the core jar
-	exclude { it.directory ? false : resourceOwnerOf(it.relativePath.pathString) != 'core' }
 
 	manifest {
 		attributes([
@@ -777,12 +876,8 @@ var contentJars = contentModules.collectEntries { m ->
 		description = "Assembles the forestry_${m} jar"
 		archiveBaseName.set("forestry_${m}-${minecraftVersion}")
 
-		// the module's own classes, its mods.toml and its service file
+		// the module's classes plus its already-partitioned resources
 		from sourceSets[m].output
-		// plus its share of the shared resource trees
-		from(sourceSets.main.output.resourcesDir) {
-			include { it.directory || resourceOwnerOf(it.relativePath.pathString) == m }
-		}
 
 		manifest {
 			attributes([

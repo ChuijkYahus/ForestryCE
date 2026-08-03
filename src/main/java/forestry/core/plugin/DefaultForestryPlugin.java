@@ -3,6 +3,7 @@ package forestry.core.plugin;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.*;
 import forestry.api.core.circuits.ForestryCircuitLayouts;
+import forestry.api.core.circuits.ForestryCircuitSocketTypes;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
 import forestry.api.plugin.*;
@@ -40,6 +41,10 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 
 	@Override
 	public void registerCircuits(ICircuitRegistration circuits) {
+		// Core owns this layout because core registers the circuits below against it. It used to be
+		// registered by the agriculture plugin, which crashed a core-only install outright
+		circuits.registerLayout(ForestryCircuitLayouts.MACHINE_UPGRADE, ForestryCircuitSocketTypes.MACHINE);
+
 		// Layouts
 		// Factory
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.EMERALD, 1), new CircuitMachineUpgrade("machine.speed.boost.1", 0.125f, 0.05f, 1.0f));
