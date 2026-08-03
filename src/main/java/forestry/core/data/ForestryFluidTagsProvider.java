@@ -9,5 +9,6 @@ import thedarkcolour.modkit.data.MKTagsProvider;
 public class ForestryFluidTagsProvider {
 	public static void addTags(MKTagsProvider<Fluid> tags, HolderLookup.Provider lookup) {
 		tags.tag(ForestryTags.Fluids.HONEY).add(ForestryFluids.HONEY.getFluid(), ForestryFluids.HONEY.getFlowing());
+		tags.tag(ForestryTags.Fluids.EXPERIENCE).add(ForestryFluids.EXPERIENCE.getFluid(), ForestryFluids.EXPERIENCE.getFlowing());
 	}
 }

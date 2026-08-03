@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-02T22:54:43.2460539	Recipes
+// 1.20.1	2026-08-03T19:25:26.2914282	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -943,7 +943,6 @@ e6747047f6ae638614a3423f181a2f2acb65d2ea data/forestry/advancements/recipes/misc
 faf68b22db5548ded442a94d357f17dfdef097c7 data/forestry/advancements/recipes/misc/engine_combustion.json
 e39afa7988f313152da81dcb0801ec07111b5066 data/forestry/advancements/recipes/misc/engine_peat.json
 9cfd781d45bef3e0e3c36cfdf74efedc1595ae8c data/forestry/advancements/recipes/misc/engine_solar.json
-d31b3b09018cce65774b6240e098d8a93e21d91b data/forestry/advancements/recipes/misc/experience_bucket_to_bottles.json
 b325a3fa2ff653e4f47c4a71b0b8b5e1d2e4cecd data/forestry/advancements/recipes/misc/fabricator.json
 eda7e2ebb2400c9a7175ea08360751b05928dc37 data/forestry/advancements/recipes/misc/farm_control_brick.json
 483152f6f531b007d1922328e6972f3ce6acef43 data/forestry/advancements/recipes/misc/farm_control_brick_chiseled.json
@@ -2051,7 +2050,6 @@ fd7b5fcc01286d07296c5242979c495aeb1cf4ed data/forestry/recipes/engine_clockwork.
 53610cc59735107bd5636265d51266b354f21eb2 data/forestry/recipes/engine_combustion.json
 7345c007d4125ac17dcd07cc908de9587883523f data/forestry/recipes/engine_peat.json
 71917d71e110b00c15b4714f7e582dfc2112004f data/forestry/recipes/engine_solar.json
-94000b54ca1768ad7cbd9df326755115d944ff1a data/forestry/recipes/experience_bucket_to_bottles.json
 b8e35ea64317a0f4019dc5abf53e0dc69fb42e0c data/forestry/recipes/fabricator.json
 eaaf019535c2c47fc6d35b42b627b6e4420e194c data/forestry/recipes/fabricator/electron_tubes/amber.json
 4f0b61db2509241fa32d8feb666a27d7297414e3 data/forestry/recipes/fabricator/electron_tubes/apatite.json
