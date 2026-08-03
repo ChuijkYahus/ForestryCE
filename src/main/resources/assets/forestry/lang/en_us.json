@@ -2658,6 +2658,8 @@
   "advancements.forestry.use_rainmaker.description": "Use an Iodine Capsule or Dissipation Charge on a Rainmaker to start or stop the rain!",
   "advancements.forestry.break_bronze_tool.title": "I Didn't Hear No Bell!",
   "advancements.forestry.break_bronze_tool.description": "Wear down a Survivalist's Tool to breaking point",
+  "advancements.forestry.get_solar_panel.title": "Walkin' on the Sun",
+  "advancements.forestry.get_solar_panel.description": "Craft a Solar Panel",
   "entity.minecraft.villager.forestry.beekeeper": "Beekeeper",
   "entity.minecraft.villager.forestry.arborist": "Arborist",
   "entity.forestry.chest_boat": "Boat with Chest",

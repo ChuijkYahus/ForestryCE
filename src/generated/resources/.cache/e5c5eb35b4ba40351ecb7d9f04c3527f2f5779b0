@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-18T18:05:26.6816229	Advancements
+// 1.20.1	2026-08-03T18:15:17.8901253	Advancements
 950107b53f82f7138a67dd435735bdab0abe32a0 data/forestry/advancements/break_ash_block.json
 fe572f6e277ee4f4a27c9255e3439106c14ef580 data/forestry/advancements/break_bronze_tool.json
 9acbadc963d21ee834ba7e2a420cd376d2818e4b data/forestry/advancements/complete_bee_research.json
@@ -24,7 +24,7 @@ d90fc7326d11113927426f270a1778b748ce4268 data/forestry/advancements/get_biomass.
 9d64b2ebc3bfeddc8ffb3d5ff58b0f374bf169e6 data/forestry/advancements/get_carpenter.json
 686a12eab25820874da6d4895cd1a5dcfacc0191 data/forestry/advancements/get_centrifuge.json
 4d328a3309c467fd849664d000e376e141a13fc0 data/forestry/advancements/get_chestnut_sapling.json
-29324165cf22fe7ecd698d50edd8164b78196996 data/forestry/advancements/get_engine.json
+fa5f3459e5b0187221fe525a25bfe9264a1f199d data/forestry/advancements/get_engine.json
 625bba6b86d187bfb2ecf300e8427562006d3666 data/forestry/advancements/get_escritoire.json
 82af914f17ae17702241d2e5f419df5b909c5921 data/forestry/advancements/get_fabricator.json
 9f7aeff1b25f1a393501310ef01ba1b22ae5416d data/forestry/advancements/get_fertiliser.json
@@ -45,6 +45,7 @@ a9f88151105997c4512744a57cf44bd09be9f047 data/forestry/advancements/get_proven_s
 b9eeb098463a2db714e6edb80a8afe6b1b756195 data/forestry/advancements/get_relic_drone.json
 c4ba6c601549e7a3ad1464f8957fabe887c66b4a data/forestry/advancements/get_scoop.json
 df3fb1f606cf23b77e9842f45752118a886725d9 data/forestry/advancements/get_smoker.json
+f08f968621ad3de434b2afe17dd81ce3f553e569 data/forestry/advancements/get_solar_panel.json
 f10d895fa73e362ab55b41abd35850f9a7d9a2b9 data/forestry/advancements/get_spectacles.json
 a51861fe53d2709d914309ee2afe5c3482ee7e3d data/forestry/advancements/get_squeezer.json
 19d59fbfac490659d2fec6618c38fb6f8b4e50af data/forestry/advancements/get_steadfast_drone.json

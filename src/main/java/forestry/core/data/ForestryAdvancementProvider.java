@@ -541,7 +541,9 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 				InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
 					EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).get(),
 					EnergyBlocks.ENGINES.get(EngineBlockType.PEAT).get(),
-					EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS).get()
+					EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS).get(),
+					EnergyBlocks.ENGINES.get(EngineBlockType.COMBUSTION).get(),
+					EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR).get()
 				).build()),
 				root,
 				writer);
@@ -554,6 +556,15 @@ public class ForestryAdvancementProvider extends ForgeAdvancementProvider {
 					new ImpossibleTrigger.TriggerInstance(), //Could use EntityHurtPlayerInstance but I haven't the patience for that
 					get_engine,
 					writer, FrameType.TASK, true, true, true);
+
+				//Walkin' on the Sun
+				//A reference to the song of the same name.
+				Advancement get_solar_panel = makeSimpleAdvancement(
+				"get_solar_panel",
+					EnergyBlocks.SOLAR_PANEL.stack(),
+					InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(EnergyBlocks.SOLAR_PANEL.get()).build()),
+					get_engine,
+					writer);
 
 
 				//Next Level Crafting

@@ -8,7 +8,9 @@
             "items": [
               "forestry:engine_clockwork",
               "forestry:engine_peat",
-              "forestry:engine_biogas"
+              "forestry:engine_biogas",
+              "forestry:engine_combustion",
+              "forestry:engine_solar"
             ]
           }
         ]
