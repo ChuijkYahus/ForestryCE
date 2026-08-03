@@ -80,6 +80,7 @@ public class ApicultureJeiPlugin implements IModPlugin {
 
 		JeiUtil.addDescription(registry, ApicultureItems.SCOOP);
 		JeiUtil.addDescription(registry, ApicultureItems.SCOOP_PROVEN);
+		JeiUtil.addDescription(registry, ApicultureItems.EXPERIENCE_DROP);
 
 		for (MutationsRecipeCategory category : mutationsCategories) {
 			registry.addRecipes(category.getRecipeType(), category.speciesType.getMutations().getAllMutations().stream().map(MutationRecipe::new).toList());

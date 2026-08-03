@@ -2514,6 +2514,7 @@
   "for.jei.description.bottler": "Used to empty and fill containers with fluids.",
   "for.jei.description.mulch": "Can be used as an alternative to bone meal.",
   "for.jei.description.compost": "Can be used as an alternative to bone meal.",
+  "for.jei.description.experience_drop": "Can be put in the Squeezer and turned into Liquid Experience. You can then put a Glass Bottle in the Squeezer's fluid container slot to recieve a Bottle o' Enchanting.",
   "for.jei.description.bituminous_peat": "Peat that has been mixed with other compounds to aid it in drying out, causing it burn much slower than normal peat, lasting over twice as long.",
   "_comment": "###################",
   "_comment": "JEI Recipes",
