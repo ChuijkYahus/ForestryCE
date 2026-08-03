@@ -105,7 +105,6 @@ public class ForestryBackpackTagProvider {
 			Items.FERMENTED_SPIDER_EYE,
 			Items.FISHING_ROD,
 			Items.GHAST_TEAR,
-			Items.GLISTERING_MELON_SLICE,
 			Items.GOLD_NUGGET,
 			Items.GOLDEN_HORSE_ARMOR,
 			Items.HAY_BLOCK,
