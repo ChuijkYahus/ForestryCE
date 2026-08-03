@@ -1,0 +1,39 @@
+modLoader = "javafml"
+loaderVersion = "{fmlVersionRange}"
+issueTrackerURL = "https://github.com/thedarkcolour/ForestryCE/issues"
+
+license = "GNU Lesser Public License v3"
+
+[[mods]]
+modId = "forestry_lepidopterology"
+version = "${version}"
+displayName = "Forestry: Lepidopterology"
+displayURL = "https://github.com/thedarkcolour/ForestryCE"
+logoFile = "forestry-ce-logo-banner.png"
+authors = "thedarkcolour, SirSengir, mezz, Nedelosk"
+description = '''
+Butterflies, cocoons and the lepidopterist chain.
+'''
+
+[[dependencies.forestry_lepidopterology]]
+modId = "neoforge"
+type = "REQUIRED"
+versionRange = "${forgeVersionRange}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.forestry_lepidopterology]]
+modId = "forestry"
+type = "REQUIRED"
+versionRange = "[${version},]"
+ordering = "AFTER"
+side = "BOTH"
+
+# Butterflies pollinate leaves, so the lepidopterology jar needs the arboriculture jar.
+# This is the only cross-content edge D1 allows, and the only one the code has.
+[[dependencies.forestry_lepidopterology]]
+modId = "forestry_arboriculture"
+type = "REQUIRED"
+versionRange = "[${version},]"
+ordering = "AFTER"
+side = "BOTH"

@@ -313,17 +313,21 @@ neoForge {
 	}
 
 	mods {
+		// Six mod ids, one per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
+		// is what makes a content jar optional: leave it out and its plugin is simply not on the
+		// service path. Registering forestry: names from a mod whose id is forestry_apiculture is
+		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
 		forestry {
 			sourceSet sourceSets.main
-			// GameTest suite lives in src/test (forestry.gametest). It is part of the forestry mod so the
-			// gameTestServer run loads it, but stays out of the published jar (jar/apiJar use main only).
+			// GameTest suite lives in src/test (forestry.gametest). It is part of the core mod so the
+			// gameTestServer run loads it, but stays out of every published jar.
 			sourceSet sourceSets.test
 			// Datagen lives in src/datagen (forestry.core.data). Part of the mod so the data run's
-			// GatherDataEvent subscriber is discovered, and out of the jar for the same reason as test.
+			// GatherDataEvent subscriber is discovered, and out of the jars for the same reason as test.
 			sourceSet sourceSets.datagen
-			// The five content source sets. Still one mod id in 9a: module discovery is annotation-scan
-			// based over the mod's paths, so all six are scanned exactly as one source set was.
-			contentModules.each { sourceSet sourceSets[it] }
+		}
+		contentModules.each { m ->
+			create("forestry_${m}") { sourceSet sourceSets[m] }
 		}
 	}
 
@@ -604,6 +608,27 @@ var generateModMetadata = tasks.register('generateModMetadata', ProcessResources
 	into 'build/generated/sources/modMetadata'
 }
 
+// One neoforge.mods.toml per content jar, expanded from the same properties as core's
+var contentModMetadata = contentModules.collectEntries { m ->
+	[(m): tasks.register("generateModMetadata${m.capitalize()}", ProcessResources) {
+		var replaceProperties = [
+				'version'          : project.version,
+				'forgeVersionRange': forgeVersionRange,
+				'fmlVersionRange'  : fmlVersionRange,
+		]
+		inputs.properties replaceProperties
+		expand replaceProperties
+
+		from "src/${m}/templates"
+		into "build/generated/sources/modMetadata${m.capitalize()}"
+	}]
+}
+
+contentModules.each { m ->
+	sourceSets[m].resources.srcDir contentModMetadata[m]
+	neoForge.ideSyncTask contentModMetadata[m]
+}
+
 // Helper function to extract JSON entries while preserving duplicate keys
 static def extractJsonEntries(File jsonFile) {
 	def entries = []
@@ -715,15 +740,23 @@ sourceSets.main {
 
 neoForge.ideSyncTask generateModMetadata
 
+// Every jar ships only the resources the ownership map assigns to it. Unmapped paths - the mod
+// metadata, the access transformer, pack.mcmeta, the logo - fall to core, which is always installed.
+var resourceOwnerOf = { String path ->
+	if (!resourceOwnersFile.exists()) {
+		return 'core'
+	}
+	return (project.ext.has('resourceOwnerMap')
+			? project.ext.resourceOwnerMap
+			: (project.ext.resourceOwnerMap = new JsonSlurper().parse(resourceOwnersFile) as Map<String, String>))
+			.getOrDefault(path, 'core')
+}
+
 jar {
-	from sourceSets.main.output.classesDirs
-	from sourceSets.main.output.resourcesDir
-	// 9a keeps one artifact: the five content source sets compile separately but ship together, so
-	// the jar's contents are unchanged. 9b gives each its own jar task and mod id.
-	// Take the whole SourceSetOutput rather than its classesDirs and resourcesDir separately - only
-	// the former carries the builtBy wiring, and without it Gradle fails the build on an undeclared
-	// dependency from jar to processAgricultureResources
-	contentModules.each { from sourceSets[it].output }
+	// The java plugin already puts sourceSets.main.output in this jar, so this filters rather than
+	// adds. Class files are not in the ownership map and default to core, which is correct: main's
+	// classes are the core jar
+	exclude { it.directory ? false : resourceOwnerOf(it.relativePath.pathString) != 'core' }
 
 	manifest {
 		attributes([
@@ -736,6 +769,37 @@ jar {
 				'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
 		])
 	}
+}
+
+var contentJars = contentModules.collectEntries { m ->
+	[(m): tasks.register("${m}Jar", Jar) {
+		group = 'build'
+		description = "Assembles the forestry_${m} jar"
+		archiveBaseName.set("forestry_${m}-${minecraftVersion}")
+
+		// the module's own classes, its mods.toml and its service file
+		from sourceSets[m].output
+		// plus its share of the shared resource trees
+		from(sourceSets.main.output.resourcesDir) {
+			include { it.directory || resourceOwnerOf(it.relativePath.pathString) == m }
+		}
+
+		manifest {
+			attributes([
+					'Specification-Title'     : "Forestry: ${m.capitalize()}",
+					'Specification-Vendor'    : 'SirSengir',
+					'Specification-Version'   : "${project.version}",
+					'Implementation-Title'    : "forestry_${m}",
+					'Implementation-Version'  : "${project.version}",
+					'Implementation-Vendor'   : 'SirSengir',
+					'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+			])
+		}
+	}]
+}
+
+tasks.named('assemble') {
+	contentModules.each { dependsOn contentJars[it] }
 }
 
 tasks.withType(JavaCompile).configureEach {
