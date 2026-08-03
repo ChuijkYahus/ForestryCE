@@ -170,10 +170,10 @@ public class ForestryConfig {
 				.defineInRange("escritoire_bounty_multiplier", 1f, 0.0f, 1000f);
 			this.solarRF = builder
 				.comment("How much miliRF/t does a solar panel generate")
-				.defineInRange("solar_rf_multiplier", 2500, 1, 10000);
+				.defineInRange("solar_rf_multiplier", 6000, 1, 10000);
 			this.twilightSolarRF = builder
 				.comment("How much miliRF/t does a solar panel generate in the Twilight Forest")
-				.defineInRange("twilight_solar_rf", 1250, 1, 10000);
+				.defineInRange("twilight_solar_rf", 2500, 1, 10000);
 		}
 	}
 

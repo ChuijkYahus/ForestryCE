@@ -11,6 +11,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.Locale;
+
 public class SolarEngineScreen extends EngineScreen<SolarEngineMenu, SolarEngineBlockEntity>{
 	public SolarEngineScreen(SolarEngineMenu menu, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/solar_engine.png", menu, inv, title, menu.getTile());
@@ -27,10 +29,16 @@ public class SolarEngineScreen extends EngineScreen<SolarEngineMenu, SolarEngine
 		// "+ChatFormatting.DARK_RED+"Current Output: "+(isRedstoneActivated()?currentOutput:0)+"/"+activePanels*ForestryConfig.SERVER.solarRF.get()/1000+"RF/t"),true);
 
 		Component d1 = Component.translatable("for.gui.engine.tin.active_panel_count", this.engine.getActivePanelCount());
-		graphics.drawString(this.font, d1, this.leftPos + 44, this.topPos + 37, ColourProperties.INSTANCE.get("gui.screen"), false);
+		graphics.drawString(this.font, d1, this.leftPos + 44, this.topPos + 22, ColourProperties.INSTANCE.get("gui.screen"), false);
 
 		Component d2 = Component.translatable("for.gui.engine.tin.total_panel_count", this.engine.getPanelCount());
-		graphics.drawString(this.font, d2, this.leftPos + 44, this.topPos + 47, ColourProperties.INSTANCE.get("gui.screen"), false);
+		graphics.drawString(this.font, d2, this.leftPos + 44, this.topPos + 32, ColourProperties.INSTANCE.get("gui.screen"), false);
+
+		String mult = String.format(Locale.ROOT, "%.2f", SolarEngineBlockEntity.calculateMult(this.engine.getActivePanelCount(), this.engine))+'%';
+		Component d3 = Component.translatable("for.gui.engine.tin.multiplier");
+		graphics.drawString(this.font, d3, this.leftPos + 44, this.topPos + 52, ColourProperties.INSTANCE.get("gui.screen"), false);
+		graphics.drawString(this.font, Component.literal(ChatFormatting.GREEN+mult), this.leftPos + 44, this.topPos + 62, ColourProperties.INSTANCE.get("gui.screen"), false);
+
 
 		float total = (float) this.engine.getActivePanelCount() /this.engine.getPanelCount();
 
