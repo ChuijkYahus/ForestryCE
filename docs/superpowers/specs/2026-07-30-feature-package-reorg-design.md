@@ -2,7 +2,7 @@
 
 Date: 2026-07-30, amended 2026-07-31 after adversarial review
 Branch: `1.21.1-restructure`
-Status: phases 1-9a complete; 9b partial (2026-08-02)
+Status: phases 1-9b complete (2026-08-03); publishing the six artifacts is the remaining work
 
 ## Problem
 
@@ -120,19 +120,19 @@ vanilla-sourced recipe, which would have been a balance change visible to every 
 including those who never split the jars. The tool is inert rather than broken, in the same
 spirit as D7's no-op managers, but with no in-game signposting of why.
 
-### Cross-jar recipes: no general policy yet
+### Cross-jar recipes: settled in phase 9b, and not by conditions
 
-The one known instance dissolved by relocation rather than by conditions, so no
-`neoforge:conditions` strategy is committed. No systematic audit of cross-jar recipes has been
-run. That audit belongs to phase 9, when the resource partition makes each recipe's owning jar
-explicit; if it turns up further instances, a conditions-and-alternates policy is the expected
-answer.
+The audit ran in phase 9b, once the reference closure made each file's real dependencies explicit.
+It found **one** recipe naming two content jars, and the answer is a tag rather than
+`neoforge:conditions`: an absent *item* is an unknown registry key and fails the recipe to parse, an
+absent *tag* resolves empty. So a cross-jar ingredient becomes a tag both jars contribute to, the
+recipe ships in base, and it crafts with whichever jars are installed instead of vanishing when one is
+missing. See the phase 9b section.
 
-**Cross-jar loot modifiers likewise.** `data/forestry/loot_modifiers/chests/abandoned_mineshaft.json`
-is a single file whose `extensions` list spans `["apiculture", "factory", "storage"]`.
-These must be redesigned into per-module modifiers, not merely partitioned. Mitigating:
-the chest sub-tables are already per-module (`chests/<chest>/<module>.json`) and
-`global_loot_modifiers.json` merges across packs.
+**Cross-jar loot modifiers needed no redesign.** `ConditionLootModifier` already resolves each
+sub-table at run time and skips the absent ones, so `abandoned_mineshaft.json` degrades on its own and
+is pinned to base. `global_loot_modifiers.json` is the file that actually spans, and it is entry-split
+rather than assigned.
 
 ## Target package tree
 
@@ -931,20 +931,109 @@ Three real defects that only a partial-install boot could find:
 failures. That is the configuration the flower-type work exists for, and it is now proven rather than
 argued.
 
-**What is not done.** `runCoreOnlyServer` still logs 65 recipe and 28 tag errors and does not reach
-`Done`. Both have the same shape - core ships data naming content ids - and both are understood:
+### Phase 9b, completed 2026-08-03
 
-- The ownership manifest only covers `ModFeatureRegistry` features. The fireproof wood variants are
-  registered through `WoodAccess` instead, so ids like `forestry:papaya_fireproof_wood` are absent
-  from it and their recipes fall to core. **Fix: have `OwnershipManifest` also walk `WoodAccess`.**
-- 28 tag errors across 11 tags, all core tags with *required* entries from content jars
-  (`minecraft:logs`, `mineable/axe`, `forestry:scoop`, ...). Aggregate tags are the hard case: their
-  entries are `#`-prefixed references to other tags, which the tag rule deliberately does not follow.
-  **Fix: emit cross-jar tag entries with `addOptional`** - ModKit's `DirectTagAppender` has it - so a
-  missing entry is skipped rather than failing the tag.
+The 2026-08-02 pass left `runCoreOnlyServer` failing, and re-running it against that day's final
+commit showed the state was worse than recorded: not 65 recipe and 28 tag errors, but a **hard crash**.
+`data/forestry/recipe/butterfly_mutation/bombyx_mori_1.json` shipped in core because `folderOwners`
+listed `bee_mutation` and `tree_mutation` and not `butterfly_mutation`. Reading it resolves the
+karyotype through `GeneticManager.getSpeciesType`, which throws `IllegalStateException` - and
+`RecipeManager.apply` catches `JsonParseException`, not that. One misfiled file killed the server.
 
-Neither affects the full install, and neither is a design problem; both are enumerated work.
-Publishing the six artifacts is also still to do.
+**The rule was answering the wrong question.** Every rule in the cascade - folder, exact name, loot
+module, worldgen, tag entries, recipe result, longest prefix, texture - answers *what is this file
+about*. Correctness turns on a different question: *what can this file see*. A fabricator recipe whose
+result is a core item and whose ingredient is an arboriculture log is **about** core and **belongs to**
+arboriculture. Each rule picked one signal and ignored the rest, which is why each looked right in
+isolation and was wrong in aggregate.
+
+So the closure became the primary rule and the cascade demoted to a proposal:
+
+> A jar may ship a file only if every forestry id the file names is present wherever that jar is.
+> The cascade proposes an owner; the closure promotes it to the least derived jar that satisfies
+> that, and **fails the build** when no jar does.
+
+Least derived, because core reaches the most installs. The build failing is the point: a file naming
+content no single jar can see is not a mapping problem and no assignment fixes it.
+
+Measured effect: **109 files promoted**, and the build stopped on the one file that genuinely spanned
+two content jars. A static cross-reference oracle written independently agreed on all of them.
+
+**Three things the closure needed that did not exist.**
+
+- *The manifest was missing most of the game.* It walked `getFeatures()`, which covers blocks, items,
+  tiles and menus - 1,890 ids. Point-of-interest types take a `DeferredRegister` straight off the
+  module and never become features, and `recipeType()` was **the only factory in `FeatureRegistry`
+  that never called `register()`**, so recipe types were absent from `getFeatures` entirely. The
+  manifest now walks every `DeferredRegister` each module owns: **5,361 ids**. That subsumes the
+  `WoodAccess` fix predicted above - those ids arrive for free, because they were always registered
+  through a module-scoped deferred register.
+- *Bare ids are not unique across registries.* `forestry:refractory_wax` is a core **item** and an
+  apiculture **particle**; `forestry:escritoire` is a core **block** and an apiculture **poi**. The
+  manifest now writes a registry-qualified key beside each bare one, resolves an ambiguous bare key to
+  the jar that constrains least, and logs the pair. Without this, every fireproof-wood recipe was told
+  it needed apiculture.
+- *Species and taxa carry no registry id at all.* Species type ids come from the species folder rules;
+  a genus is claimed by the species definitions naming it; and the ranks above propagate upward from
+  their children, stopping where children disagree. **13 taxa remain in core** - `animalia`,
+  `arthropoda`, `insecta` and the kingdom-level ranks - which is correct, since no one jar can hold a
+  rank spanning bees and butterflies, and an unreferenced taxon is inert.
+
+**Some files cannot be owned by any jar, and must not be.** A tag, a NeoForge data map and
+`global_loot_modifiers.json` are entry-keyed collections that the game assembles from every pack
+supplying one. Their unit of ownership is the entry, not the file, so `partitionSharedResources` gives
+each jar a variant holding only its own entries. This replaces the `addOptional` fix predicted above,
+and is better than it: entries ship **with their jar** rather than being silently dropped from core.
+Ten files split, and the sharpest is `global_loot_modifiers.json` - it names the arboriculture grafter,
+so promoting it would have left a core-only install with **no loot modifier list at all**.
+
+en_us splits the same way: a generated key carries its registry id, so it partitions on the manifest,
+and gui strings, errors and allele names stay in core.
+
+**Cross-jar recipes now have the policy the spec deferred**, and it is not `neoforge:conditions`. The
+genetic filter is a core machine whose recipe named `forestry:caterpillar` and `forestry:propolis`
+directly. The fix is a tag both jars contribute to (`forestry:genetic_samples`): an absent *item* is an
+unknown registry key and fails the recipe, an absent *tag* resolves empty. So the recipe ships in core
+and crafts with whichever jars are installed, rather than vanishing when one is missing. The general
+rule the closure encodes: **a `"tag"` reference places no ownership constraint; everything else does.**
+
+The cross-jar loot modifier needed no redesign after all. `ConditionLootModifier` already resolves each
+sub-table at run time and skips the absent ones, so a chest modifier degrades on its own; the file is
+pinned to core by folder rule. What *was* broken is that `nether_bridge.json` longest-prefix-matched
+the agriculture feature `forestry:nether`, so a core-plus-apiculture install silently lost its nether
+fortress bee loot.
+
+**Defence in depth:** `MutationRecipe.Serializer` now reports a missing species type as a
+`JsonParseException`, so a misfiled mutation recipe is logged and skipped instead of taking the server
+down. That is what the crash above deserved to be.
+
+**One defect no boot configuration could have caught.** An `exclude` at the top of a Gradle `Copy` task
+applies to every source the task has, and a split file's owner is `split` rather than `core`, so base's
+`processResources` excluded base's own partitioned share. The base jar shipped **no `en_us` and no
+`global_loot_modifiers.json`**. Every boot still reached `Done` and logged nothing, because a missing
+loot modifier list is not an error - it just stops injecting loot - and a missing lang file falls back
+to rendering raw keys, which a headless server never renders. The content jars were unaffected, since
+their filter is scoped inside `from(root) { }` rather than at the top of the task.
+
+What found it was inspecting the built artifacts rather than the runtime: per-jar counts of files,
+lang keys, loot modifier entries and tag entries, checked against what `partitionSharedResources`
+reported writing. **A boot proves what loads; only the artifact proves what shipped.** Both are needed,
+and the artifact check is the cheaper of the two. `checkJarPartition` now does it on every `check`:
+no jar may carry another's classes, and every variant the partition wrote must reach the jar it was
+written for.
+
+**A trap when rerunning the boot configurations.** A server run never stops on its own, so the forked
+JVM outlives the gradle task that started it and keeps holding its port. The next configuration then
+fails to bind and stops *before loading a single datapack* - which in the log looks exactly like a
+clean install, zero recipe errors and zero tag errors, and no `Done`. Each configuration now binds its
+own port (25566 through 25569), so a survivor can only ever block a rerun of itself. Read the `Done`
+line, not the absence of errors.
+
+**All five boot configurations reach `Done` with zero recipe errors and zero tag errors**, and the six
+jars carry the partition the map describes: base 3,701 files with 2,250 lang keys and the 15 chest loot
+modifiers, arboriculture 9,252 with 1,249 lang keys and the grafter, and **zero foreign classes in any
+of the six**. That is the first end-to-end evidence that D4 delivers what it promised. Publishing the
+six artifacts is still to do.
 
 Phase 7 is the reorganization originally asked for, and it is the cheapest phase, but see
 the oracle blind spots below before treating it as purely mechanical. The difficulty lives
@@ -1021,8 +1110,16 @@ own plan, written when that phase starts, so earlier phases can inform later one
   D2's layers are inside one source set. A third kind of boundary has **no** gate and cannot
   easily have one - a cross-jar reference carried as data rather than as a type. See the
   butterfly flower-type finding under phase 9a.
-- **Boot configurations.** Base alone, base + apiculture, and all six. Only runnable from
-  phase 9.
+  **That third boundary got its gate on 2026-08-03.** The reference closure in
+  `generateResourceOwners` reads every forestry id each resource names, resolves it against the
+  ownership manifest, and fails the build when no jar can see them all. It is the data-level
+  counterpart to what the compiler does for types, and it is what turned the whole class of
+  cross-jar data defect from a runtime crash into a build failure.
+- **Boot configurations.** Done 2026-08-03. All five run and all five reach `Done` with zero recipe
+  errors and zero tag errors: `runCoreOnlyServer` (0.8s), `runApicultureServer` (3.4s),
+  `runLepidopterologyNoBeesServer`, `runAllJarsServer`. Base-plus-arboriculture-plus-lepidopterology
+  and base-plus-lepidopterology-without-apiculture are the same configuration, since lepidopterology
+  declares a REQUIRED dependency on arboriculture.
 
 ## Risks
 
@@ -1060,7 +1157,13 @@ churn phase-9 datagen diffs and any order-sensitive display.
   Splitting entries per jar versus keeping the book and the REQUIRED patchouli dependency
   in base is undecided.
 - **Locale split tooling.** The 10 non-English locale files are hand-authored monoliths
-  with no generated counterpart to derive per-jar key ownership from.
+  with no generated counterpart to derive per-jar key ownership from, and they ship whole in base. A
+  player with only base installed therefore carries translations for content they do not have, which
+  is harmless: an unused key is never looked up. `en_us` does split, because its generated half names
+  registry ids.
+- **The 13 taxa that stay in base.** `animalia`, `arthropoda`, `insecta` and the ranks above them span
+  bees and butterflies, so no one jar can hold them. They are inert where unreferenced, but nothing
+  yet decides whether a rank should be entry-split the way a tag is.
 
 ## Review history
 

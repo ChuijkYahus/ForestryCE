@@ -8,6 +8,7 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
+import com.google.gson.JsonParseException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -170,7 +171,15 @@ public class MutationRecipe implements IForestryRecipe {
 		}
 
 		private static IKaryotype karyotype(ResourceLocation speciesTypeId) {
-			return IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(speciesTypeId).getKaryotype();
+			// The mutation recipe types are registered by base, but a species type only exists when the
+			// jar that defines it is installed. Reporting that as a parse failure lets RecipeManager log
+			// the recipe and carry on; the manager's own lookup throws IllegalStateException, which
+			// RecipeManager does not catch and which takes the server down with it
+			ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(speciesTypeId);
+			if (speciesType == null) {
+				throw new JsonParseException("No species type is registered with id " + speciesTypeId + ", so its mutations cannot be read");
+			}
+			return speciesType.getKaryotype();
 		}
 
 		private static MapCodec<MutationRecipe> buildCodec(ResourceLocation speciesTypeId) {

@@ -5,10 +5,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import forestry.Forestry;
 import forestry.api.ForestryConstants;
@@ -52,11 +57,17 @@ public class OwnershipManifest {
 	}
 
 	/**
-	 * Walks every feature registry and writes the manifest.
+	 * Walks every registry each module owns and writes the manifest.
+	 *
+	 * <p>Two keys are written per entry. The bare id is what the path rules match on, and a key
+	 * qualified by registry - {@code point_of_interest_type/forestry:escritoire} - is what resolves the
+	 * cases the bare id cannot. Ex. the core escritoire block and the apiculture escritoire point of
+	 * interest share a name and do not share a jar, so a bare id alone would answer one of them wrong.
 	 */
 	public static void write() {
 		TreeMap<String, String> owners = new TreeMap<>();
 		ArrayList<String> unmapped = new ArrayList<>();
+		TreeMap<String, String> ambiguous = new TreeMap<>();
 
 		for (ModFeatureRegistry modRegistry : ModFeatureRegistry.getRegistries().values()) {
 			for (Map.Entry<ResourceLocation, FeatureRegistry> entry : modRegistry.getModules().entrySet()) {
@@ -65,8 +76,28 @@ public class OwnershipManifest {
 					unmapped.add(entry.getKey().toString());
 					continue;
 				}
-				for (IModFeature feature : entry.getValue().getFeatures()) {
-					owners.put(ForestryConstants.forestry(feature.getName()).toString(), jar);
+				// Features are only part of what a module registers. Point of interest types take a
+				// deferred register straight off the module, so walking the features alone left them
+				// unowned - and an unowned id places no constraint on which jar may ship the file
+				// naming it, which is how a core-only install ended up with an arboriculture poi tag
+				for (Map.Entry<ResourceKey, DeferredRegister> registryEntry : entry.getValue().getRegistries().entrySet()) {
+					String registry = registryEntry.getKey().location().getPath();
+					for (DeferredHolder<?, ?> holder : (Collection<DeferredHolder<?, ?>>) registryEntry.getValue().getEntries()) {
+						String id = holder.getId().toString();
+						owners.put(registry + '/' + id, jar);
+
+						String previous = owners.get(id);
+						if (previous != null && !previous.equals(jar)) {
+							// The bare key is the fallback for a reference whose registry is not known,
+							// so it has to be the answer that constrains least. Ex. refractory_wax is a
+							// core item and an apiculture particle; reading the bare key as apiculture
+							// would say every recipe using the item needs the apiculture jar
+							ambiguous.put(id, previous + " and " + jar);
+							owners.put(id, "core".equals(previous) || "core".equals(jar) ? "core" : previous);
+						} else {
+							owners.put(id, jar);
+						}
+					}
 				}
 			}
 		}
@@ -75,6 +106,9 @@ public class OwnershipManifest {
 			// A new module with no jar assignment would silently drop every resource it owns
 			throw new IllegalStateException("Module(s) with no jar in OwnershipManifest: " + unmapped);
 		}
+		// The bare id of an ambiguous pair answers one of its registries wrong, whichever way it lands.
+		// Only the qualified key is trustworthy there, so say so rather than let it look settled
+		ambiguous.forEach((id, jars) -> Forestry.LOGGER.warn("Ownership manifest: {} is registered by {}; only its registry-qualified keys are exact", id, jars));
 
 		StringBuilder json = new StringBuilder("{\n");
 		int i = 0;

@@ -1,6 +1,7 @@
 package forestry.core.data;
 
 import forestry.api.ForestryTags;
+import forestry.apiculture.bees.EnumPropolis;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.wood.VanillaWoodType;
@@ -9,6 +10,7 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
+import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.mail.features.MailItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -109,6 +111,8 @@ public class ForestryItemTagsProvider {
 		tags.copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
 		tags.tag(ForestryTags.Items.STAMPS).add(MailItems.STAMPS.itemArray());
+
+		tags.tag(ForestryTags.Items.GENETIC_SAMPLES).add(LepidopterologyItems.CATERPILLAR_GE.item(), ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL).item());
 
 		tags.tag(ForestryTags.Items.FORESTRY_FRUITS).add(CoreItems.FRUITS.itemArray());
 		tags.tag(ForestryTags.Items.FRUITS).addTag(ForestryTags.Items.FORESTRY_FRUITS);

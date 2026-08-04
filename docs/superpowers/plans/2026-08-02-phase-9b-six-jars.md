@@ -297,6 +297,16 @@ git commit -m "build: decide the per-jar resource strategy"
 
 ### Task 3: Partition the resources
 
+**Done, and re-planned twice.** Strategy B was chosen, and the ownership manifest is the design.
+
+The first pass built a cascade of rules answering "what is this file about" - folder, exact name,
+recipe result, longest prefix, texture-by-model. Every rule was locally plausible and the aggregate
+was wrong, because the question that decides correctness is "what can this file see". The second pass
+made that the primary rule: the cascade proposes an owner, a reference closure promotes it to the
+least derived jar that can see every forestry id the file names, and the build fails when no jar can.
+109 files moved. See the phase 9b section of the reorg spec for the three things the closure needed
+that did not exist, and for the entry-split that covers the files no jar can own.
+
 Blocked on Task 2's decision. The shape of this task depends on it, so it is deliberately not
 written in detail here - writing it now would be inventing steps for a strategy that has not been
 chosen. **Re-plan this task once Task 2 lands.**
@@ -352,8 +362,13 @@ This is the artifact-level restatement of the gate that phases 2 through 8 maint
 
 ### Task 5: Lang
 
-`generateEnUsLang` merges the hand-written `en_us.json` over the generated one, manual winning. It
-becomes a task per jar over that jar's two lang files.
+**Done.** `generateEnUsLang` still produces one merged file; `partitionSharedResources` then splits it
+by key. A generated key carries its registry id (`block.forestry.<id>`), so it partitions on the same
+ownership manifest as everything else; gui strings, errors, death messages and allele names name
+nothing owned and stay in core. Lang merges across packs exactly like a tag, so the jars reassemble it.
+
+`AlleleTranslationKeyTest` read the *first* `en_us.json` on the classpath, which stops being
+well-defined once several jars ship one. It now unions every copy, which is what the client does.
 
 The 10 non-English locales are hand-authored monoliths with no generated counterpart and no per-key
 ownership metadata. Per the spec's Deferred section, splitting them needs tooling that does not exist.
@@ -365,16 +380,23 @@ to the key and an unused one is simply never looked up.
 
 ### Task 6: The cross-jar loot modifier
 
-`data/forestry/loot_modifiers/chests/abandoned_mineshaft.json` has an `extensions` list spanning
-`["apiculture", "factory", "storage"]`. Two of those are now core (`factory` -> `core.content.machines`,
-`storage` -> `core.content.backpacks`), so the real cross-jar span is core plus apiculture.
+**Done, and the premise was wrong.** `abandoned_mineshaft.json` needs no redesign: `ConditionLootModifier`
+already resolves each `extensions` sub-table through the loot table registry at run time and skips the
+ones that come back `LootTable.EMPTY`, so a chest modifier naming apiculture degrades on its own in a
+core-only install. It is pinned to core by folder rule and ships there whatever it names. The
+enumerated datagen diff for this task is therefore **empty**.
 
-This needs **redesign, not partition**: one file cannot be owned by two jars. Split into per-module
-modifiers and let `global_loot_modifiers.json` merge them, which it already does across packs. The
-chest sub-tables are already per-module (`chests/<chest>/<module>.json`), so the pattern exists.
+Splitting it into per-module modifiers would also have been *unsafe*. `ConditionLootModifier` guards
+re-entrancy with a per-instance `operates` flag, because resolving a sub-table re-enters the modifier
+chain with the original queried table id still set. Three modifiers on one chest table means three
+separate flags, so each would fire inside the others' sub-table resolution and duplicate the loot.
 
-**Enumerated datagen diff:** this task changes generated loot modifier files. Enumerate exactly which,
-and confirm by inspection that the merged effect is unchanged.
+What actually spans jars here is `global_loot_modifiers.json`, which names the arboriculture grafter
+alongside core's fifteen chest modifiers. It is entry-split: core gets 15 entries, arboriculture 1.
+
+And one real defect: `nether_bridge.json` longest-prefix-matched the agriculture feature
+`forestry:nether`, so it shipped in the agriculture jar despite injecting only apiculture loot - a core
+plus apiculture install silently lost its nether fortress bee loot.
 
 ---
 

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.*;
 
 public class FeatureRegistry implements IFeatureRegistry {
@@ -160,7 +161,9 @@ public class FeatureRegistry implements IFeatureRegistry {
 	}
 
 	public <R extends Recipe<?>> FeatureRecipeType<R> recipeType(String name, Supplier<RecipeSerializer<? extends R>> serializer) {
-		return new FeatureRecipeType<>(this, this.moduleId, name, serializer);
+		// Every other factory here registers what it builds. This one did not, so recipe types were
+		// absent from getFeatures and from anything derived from it
+		return register(new FeatureRecipeType<>(this, this.moduleId, name, serializer));
 	}
 
 	public void addRegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener) {
@@ -205,6 +208,17 @@ public class FeatureRegistry implements IFeatureRegistry {
 
 	public Collection<IModFeature> getFeatures() {
 		return this.features;
+	}
+
+	/**
+	 * Used to get every deferred register this module owns, keyed by registry. Features are only part
+	 * of what a module registers - point of interest types go through {@link #getRegistry} directly -
+	 * so this is the complete list of what the module puts into the game.
+	 *
+	 * @return The deferred registers, keyed by registry
+	 */
+	public Map<ResourceKey, DeferredRegister> getRegistries() {
+		return this.registries;
 	}
 
 	public Collection<IModFeature> getFeatures(ResourceKey<? extends Registry<?>> type) {

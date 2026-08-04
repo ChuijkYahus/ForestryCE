@@ -111,6 +111,10 @@ public class ForestryTags {
 
 		public static final TagKey<Item> SCOOPS = itemTag("scoops");
 
+		// A sample carrying a genome. Bees and butterflies each contribute their own, so the genetic
+		// filter can name this instead of naming an item out of a jar that may not be installed
+		public static final TagKey<Item> GENETIC_SAMPLES = itemTag("genetic_samples");
+
 		public static final TagKey<Item> FORESTRY_FRUITS = itemTag("forestry_fruits");
 		public static final TagKey<Item> FRUITS = commonTag("fruits");
 		public static final TagKey<Item> CHERRY = commonTag("fruits/cherry");

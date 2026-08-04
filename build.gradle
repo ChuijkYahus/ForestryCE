@@ -88,6 +88,12 @@ var ownershipFile = project.file('src/generated/ownership.json')
 var resourceOwnersFile = project.file('src/generated/resource-owners.json')
 var resourceRoots = [project.file('src/generated/resources'), project.file('src/main/resources')]
 
+// Files the game merges across packs rather than resolving from one. Their unit of ownership is the
+// entry, not the file, so they are split by partitionSharedResources instead of assigned to a jar.
+var entryKeyed = { String path ->
+	return path.contains('/tags/') || path.startsWith('data/neoforge/data_maps/') || path.startsWith('data/neoforge/loot_modifiers/')
+}
+
 // Folders whose contents belong to one jar regardless of file name
 // Loot sub-tables are named after the module that contributes them:
 // data/forestry/loot_table/chests/<chest>/<module>.json. They resolve by file name today only
@@ -118,12 +124,22 @@ var worldgenOwners = [
 ]
 
 var folderOwners = [
-		'data/forestry/bee_species/'         : 'apiculture',
-		'data/forestry/bee_effect/'          : 'apiculture',
-		'data/forestry/recipe/bee_mutation/' : 'apiculture',
-		'data/forestry/tree_species/'        : 'arboriculture',
-		'data/forestry/recipe/tree_mutation/': 'arboriculture',
-		'data/forestry/butterfly_species/'   : 'lepidopterology',
+		'data/forestry/bee_species/'              : 'apiculture',
+		'data/forestry/bee_effect/'               : 'apiculture',
+		'data/forestry/recipe/bee_mutation/'      : 'apiculture',
+		'data/forestry/tree_species/'             : 'arboriculture',
+		'data/forestry/recipe/tree_mutation/'     : 'arboriculture',
+		'data/forestry/butterfly_species/'        : 'lepidopterology',
+		// A chest loot modifier hooks a vanilla table and names its contributing modules as plain
+		// strings, resolving each sub-table at run time and skipping the ones that are absent. So it
+		// belongs to base whatever it names. Without this, nether_bridge.json resolves by longest
+		// prefix to the agriculture feature 'forestry:nether' and a core plus apiculture install
+		// silently loses its nether fortress bee loot
+		'data/forestry/loot_modifiers/chests/'    : 'core',
+		// A mutation recipe's karyotype resolves through the genetic manager, which throws rather than
+		// returning null for an unregistered species type. RecipeManager does not catch that, so one
+		// butterfly mutation left in core takes the whole server down
+		'data/forestry/recipe/butterfly_mutation/': 'lepidopterology',
 ]
 
 tasks.register('generateResourceOwners') {
@@ -345,13 +361,213 @@ tasks.register('generateResourceOwners') {
 			fellBack++
 		}
 
+		// ---- Reference closure ----
+		//
+		// Every rule above answers "what is this file about". Correctness turns on a different
+		// question: "what can this file see". A fabricator recipe whose result is a core item but
+		// whose ingredient is an arboriculture log is about core and belongs to arboriculture. Each
+		// rule picks one signal and ignores the rest, so each is locally plausible and globally wrong.
+		//
+		// A jar may ship a file only if every forestry id the file names is present wherever that jar
+		// is. Promote each file to the least derived jar that satisfies that - least derived because
+		// core reaches the most installs - and report the ones no jar can satisfy.
+		var visibility = [
+				'core'           : ['core'] as Set,
+				'apiculture'     : ['core', 'apiculture'] as Set,
+				'arboriculture'  : ['core', 'arboriculture'] as Set,
+				'agriculture'    : ['core', 'agriculture'] as Set,
+				'mail'           : ['core', 'mail'] as Set,
+				// lepidopterology declares a required dependency on arboriculture, so a butterfly is
+				// allowed to name a tree
+				'lepidopterology': ['core', 'arboriculture', 'lepidopterology'] as Set,
+		]
+
+		// Species ids are not features, so the ownership manifest does not carry them. Their definition
+		// files are partitioned by folder already and the file name is the id
+		var speciesOwners = new HashMap<String, String>()
+		owners.each { rel, owner ->
+			var m = rel =~ '^data/forestry/(?:bee|tree|butterfly)_species/(.+)\\.json$'
+			if (m.matches()) {
+				speciesOwners['forestry:' + m[0][1]] = owner
+			}
+		}
+		// The species *type* ids too, so that a taxon - which names its type and nothing else that is
+		// owned - lands in the jar that defines the type. The folder rules above already say which jar
+		// that is, so this reads it back rather than repeating it
+		folderOwners.each { folder, jar ->
+			var m = folder =~ '^data/forestry/(\\w+_species)/$'
+			if (m.matches()) {
+				speciesOwners['forestry:' + m[0][1]] = jar
+			}
+		}
+
+		// A "#forestry:x" entry resolves to whichever jar ships the file defining tag x. The registry
+		// folder is the one the referencing file sits in, so the path is constructible
+		var tagFileOwner = { String registryFolder, String path ->
+			return owners['data/forestry/tags/' + registryFolder + '/' + path + '.json']
+		}
+
+		// Inside a tag the folder names the registry, which settles the ids that two registries share.
+		// Ex. forestry:escritoire is a core block and an apiculture point of interest, so the bare id
+		// answers one of them wrong; the qualified key answers both. The registry is some prefix of the
+		// folder - 'block' of 'block/mineable', but all of 'worldgen/biome' - so every prefix is tried
+		var qualifiedOwner = { String registryFolder, String id ->
+			if (registryFolder == null) {
+				return null
+			}
+			var parts = registryFolder.split('/')
+			for (int n = 1; n <= parts.length; n++) {
+				var owner = idOwners[parts[0..<n].join('/') + '/' + id]
+				if (owner != null) {
+					return owner
+				}
+			}
+			return null
+		}
+
+		// The json key in front of a reference decides whether it is load bearing. An absent item is an
+		// unknown registry key and fails the file that names it; an absent *tag* just resolves empty,
+		// which is how a recipe degrades gracefully when a jar is missing. So "tag" references place no
+		// constraint on ownership and everything else does. Ingredient alternatives and tag values are
+		// bare array elements with no key in front, and those are load bearing
+		var refPattern = ~/(?:"(\w+)"\s*:\s*)?"(#?)forestry:([a-z0-9_.\/-]+)"/
+		var promotions = new TreeMap<String, String>()
+		var unsatisfiable = new TreeMap<String, Set<String>>()
+		var split = new TreeSet<String>()
+
+		owners.each { rel, owner ->
+			if (!rel.endsWith('.json')) {
+				return
+			}
+			// The Patchouli book is one document that names every module's content. Splitting it is an
+			// open question the reorg spec defers, so it is exempt and ships whole in core
+			if (rel.startsWith('assets/forestry/patchouli_books/')) {
+				return
+			}
+			var file = resourceRoots.collect { new File(it, rel) }.find { it.exists() }
+			if (file == null) {
+				return
+			}
+			var registryFolder = (rel =~ '^data/[^/]+/tags/(.+)/[^/]+\\.json$').with { it.find() ? it.group(1) : null }
+			var needed = new TreeSet<String>()
+			file.text.findAll(refPattern) { match, key, hash, path ->
+				if (key == 'tag') {
+					return
+				}
+				var found = null
+				if (hash) {
+					if (registryFolder != null) {
+						found = tagFileOwner(registryFolder, path)
+					}
+				} else {
+					found = qualifiedOwner(registryFolder, 'forestry:' + path) ?: idOwners['forestry:' + path] ?: speciesOwners['forestry:' + path]
+				}
+				if (found != null && found != 'core') {
+					needed.add(found)
+				}
+			}
+			if (needed.isEmpty() || visibility[owner].containsAll(needed)) {
+				return
+			}
+			// A tag, a data map and the global loot modifier list are entry-keyed collections that the
+			// game merges across packs, so promoting one is never right: moving the whole file to the
+			// jar that owns one entry strands every other entry. The global loot modifier list is the
+			// sharpest case - it names the arboriculture grafter, and promoting it to arboriculture
+			// would leave a core-only install with no loot modifier list at all. Split those instead:
+			// each jar ships a variant holding only its own entries and the game reassembles them
+			if (entryKeyed(rel)) {
+				split.add(rel)
+				return
+			}
+			var capable = visibility.findAll { it.value.containsAll(needed) }
+			if (capable.isEmpty()) {
+				unsatisfiable[rel] = needed
+			} else {
+				promotions[rel] = capable.min { it.value.size() }.key
+			}
+		}
+		promotions.each { rel, jar -> owners[rel] = jar }
+		split.each { rel -> owners[rel] = 'split' }
+
+		// Only the taxa naming a species type are placed by the closure above, and those are the genera
+		// at the bottom of the tree. Everything above them is a plain taxonomy node that names its
+		// parent and nothing owned, so ownership propagates upward: a family belongs to its childrens'
+		// jar. A rank whose children disagree - the class above both bees and butterflies - is left in
+		// core, which is right, because no one jar can hold it and an unreferenced taxon is inert.
+		// Repeated to a fixpoint since each pass resolves one rank
+		// A genus at the bottom of the tree names no species type, so the closure cannot place it. What
+		// places it is the species definitions that name it as their genus, and those are partitioned
+		// by folder already
+		var genusClaims = new HashMap<String, Set<String>>()
+		owners.each { rel, owner ->
+			if (!(rel =~ '^data/forestry/(?:bee|tree|butterfly)_species/')) {
+				return
+			}
+			var file = resourceRoots.collect { new File(it, rel) }.find { it.exists() }
+			if (file == null) {
+				return
+			}
+			var genus = new JsonSlurper().parse(file)['genus']
+			if (genus instanceof String) {
+				genusClaims.computeIfAbsent('data/forestry/taxon/' + genus + '.json', { new HashSet<String>() }).add(owner)
+			}
+		}
+		genusClaims.each { rel, jars ->
+			if (jars.size() == 1 && owners[rel] == 'core') {
+				owners[rel] = jars.first()
+			}
+		}
+
+		var taxonChildren = new HashMap<String, List<String>>()
+		owners.keySet().findAll { it.startsWith('data/forestry/taxon/') }.each { rel ->
+			var file = resourceRoots.collect { new File(it, rel) }.find { it.exists() }
+			if (file == null) {
+				return
+			}
+			var parent = new JsonSlurper().parse(file)['parent']
+			if (parent instanceof String) {
+				taxonChildren.computeIfAbsent('data/forestry/taxon/' + parent + '.json', { new ArrayList<String>() }).add(rel)
+			}
+		}
+		var taxonMoves = 0
+		for (int pass = 0; pass < 16; pass++) {
+			var moved = 0
+			taxonChildren.each { parent, children ->
+				if (owners[parent] != 'core') {
+					return
+				}
+				var jars = children.collect { owners[it] } as Set
+				// An unresolved child could still land anywhere, so waiting for it is what keeps a
+				// parent out of a jar that one of its other children cannot see
+				if (jars.size() == 1 && !jars.contains('core')) {
+					owners[parent] = jars.first()
+					moved++
+				}
+			}
+			taxonMoves += moved
+			if (moved == 0) {
+				break
+			}
+		}
+
 		resourceOwnersFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(owners)) + '\n'
 
 		var counts = new TreeMap<String, Integer>()
 		owners.values().each { counts.merge(it, 1, Integer::sum) }
 		logger.lifecycle("generateResourceOwners: " + counts.collect { "${it.key}=${it.value}" }.join(', '))
-		logger.lifecycle("  ${fellBack} file(s) fell back to core; ${mixedTags.size()} tag(s) span jars")
-		mixedTags.each { logger.lifecycle("  spans jars, needs splitting: ${it}") }
+		logger.lifecycle("  ${fellBack} file(s) fell back to core; ${promotions.size()} promoted by reference; ${taxonMoves} taxa followed a parent; ${split.size()} split by entry")
+		promotions.groupBy { it.value }.sort().each { jar, files ->
+			logger.lifecycle("  promoted to ${jar}: ${files.size()} file(s)")
+		}
+		split.each { logger.lifecycle("  split by entry: ${it}") }
+
+		// A file naming content that no single jar can see is not a mapping problem, so there is no
+		// assignment that fixes it. It needs a load condition or an entry split, and it is worth
+		// failing the build over: shipping it anywhere means a parse error in some install
+		if (!unsatisfiable.isEmpty()) {
+			var detail = unsatisfiable.collect { rel, needed -> "  ${rel} names ${needed.join(' + ')}" }.join('\n')
+			throw new GradleException("File(s) name content no single jar can see:\n${detail}")
+		}
 	}
 }
 
@@ -365,6 +581,153 @@ var resourceOwnerOf = { String path ->
 			? project.ext.resourceOwnerMap
 			: (project.ext.resourceOwnerMap = new JsonSlurper().parse(resourceOwnersFile) as Map<String, String>))
 			.getOrDefault(path, 'core')
+}
+
+// Resolves a forestry id to its jar exactly the way generateResourceOwners does - exact match first,
+// then walking the name back by underscore. Shared so the map and the split cannot disagree.
+var idOwnerOf = { String id ->
+	if (!id.startsWith('forestry:')) {
+		return null
+	}
+	var idOwners = project.ext.has('idOwnerMap')
+			? project.ext.idOwnerMap
+			: (project.ext.idOwnerMap = (ownershipFile.exists() ? new JsonSlurper().parse(ownershipFile) : [:]) as Map<String, String>)
+	var parts = id.substring('forestry:'.length()).split('_')
+	for (int n = parts.length; n > 0; n--) {
+		var owner = idOwners['forestry:' + parts[0..<n].join('_')]
+		if (owner != null) {
+			return owner
+		}
+	}
+	return null
+}
+
+// The same id qualified by the registry that holds it. Two registries can share a bare id without
+// sharing a jar, and only the qualified key answers both of them right.
+var qualifiedIdOwnerOf = { String registryFolder, String id ->
+	if (registryFolder == null || !id.startsWith('forestry:')) {
+		return null
+	}
+	var idOwners = project.ext.has('idOwnerMap')
+			? project.ext.idOwnerMap
+			: (project.ext.idOwnerMap = (ownershipFile.exists() ? new JsonSlurper().parse(ownershipFile) : [:]) as Map<String, String>)
+	var parts = registryFolder.split('/')
+	for (int n = 1; n <= parts.length; n++) {
+		var owner = idOwners[parts[0..<n].join('/') + '/' + id]
+		if (owner != null) {
+			return owner
+		}
+	}
+	return null
+}
+
+var partitionDir = project.layout.buildDirectory.dir('generated/sources/resourcePartition')
+
+// Tags, neoforge data maps and the global loot modifier list are assembled by the game from every
+// pack that supplies one, so their unit of ownership is the entry rather than the file. Assigning one
+// to a jar strands every entry belonging to the others - which is what put an arboriculture log tag
+// reference in a core-only install and failed the datapack load. Each jar gets a variant holding only
+// its own entries, and the game puts them back together.
+var partitionSharedResources = tasks.register('partitionSharedResources') {
+	group = 'build'
+	description = 'Writes the per-jar variants of the resources the game merges across packs'
+
+	// The merged lang is an input as well as a dependency, so that re-merging re-splits
+	inputs.files(generateEnUsLang)
+	inputs.file(resourceOwnersFile)
+	inputs.file(ownershipFile)
+	inputs.files(resourceRoots)
+	outputs.dir(partitionDir)
+
+	doLast {
+		var fileOwners = new JsonSlurper().parse(resourceOwnersFile) as Map<String, String>
+		var outDir = partitionDir.get().asFile
+		outDir.deleteDir()
+
+		// A tag entry may name another tag, and that reference belongs to whichever jar defines the
+		// tag it names. The registry folder is the one the referencing file sits in, so the path of
+		// the defining file is constructible rather than guessed
+		var ownerOfEntry = { String rel, String id ->
+			if (id.startsWith('#')) {
+				var folder = (rel =~ '^data/[^/]+/tags/(.+)/[^/]+\\.json$').with { it.find() ? it.group(1) : null }
+				if (folder != null && id.startsWith('#forestry:')) {
+					var owner = fileOwners['data/forestry/tags/' + folder + '/' + id.substring('#forestry:'.length()) + '.json']
+					if (owner != null && owner != 'split') {
+						return owner
+					}
+				}
+				return 'core'
+			}
+			if (rel.startsWith('data/neoforge/loot_modifiers/') && id.startsWith('forestry:')) {
+				// The list names loot modifiers, so an entry belongs wherever its modifier ships
+				return fileOwners['data/forestry/loot_modifiers/' + id.substring('forestry:'.length()) + '.json'] ?: 'core'
+			}
+			// A tag's folder names the registry, which settles the ids two registries share
+			var folder = (rel =~ '^data/[^/]+/tags/(.+)/[^/]+\\.json$').with { it.find() ? it.group(1) : null }
+			return qualifiedIdOwnerOf(folder, id) ?: idOwnerOf(id) ?: 'core'
+		}
+
+		var written = new TreeMap<String, List<String>>()
+		fileOwners.findAll { it.value == 'split' }.each { rel, ignored ->
+			var file = resourceRoots.collect { new File(it, rel) }.find { it.exists() }
+			if (file == null) {
+				throw new GradleException("${rel} is marked split but no source file exists")
+			}
+			var parsed = new JsonSlurper().parse(file)
+			// "values" covers tags and data maps; the global loot modifier list calls it "entries"
+			var key = parsed.containsKey('entries') ? 'entries' : 'values'
+			var entries = parsed[key]
+			var perJar = new TreeMap<String, Object>()
+
+			if (entries instanceof Map) {
+				entries.each { id, value ->
+					perJar.computeIfAbsent(ownerOfEntry(rel, id as String), { new LinkedHashMap<>() })[id] = value
+				}
+			} else {
+				(entries ?: []).each { value ->
+					var id = value instanceof String ? value : value['id']
+					perJar.computeIfAbsent(ownerOfEntry(rel, id as String), { new ArrayList<>() }).add(value)
+				}
+			}
+
+			perJar.each { jar, jarEntries ->
+				var copy = new LinkedHashMap(parsed)
+				copy[key] = jarEntries
+				var target = new File(new File(outDir, jar), rel)
+				target.parentFile.mkdirs()
+				target.text = JsonOutput.prettyPrint(JsonOutput.toJson(copy)) + '\n'
+				written.computeIfAbsent(rel, { new ArrayList<String>() }).add("${jar}:${jarEntries.size()}")
+			}
+		}
+
+		// en_us is a flat map of key to string, and the game merges lang across packs the same way it
+		// merges tags. A key generated for a registered thing carries its id - block.forestry.<id> - so
+		// it partitions on the same manifest; everything else (gui strings, errors, death messages,
+		// allele names) names nothing owned and stays in core. The other ten locales are hand-authored
+		// monoliths with no per-key metadata and ship whole in core, per the spec's Deferred section
+		var langRegistries = ['block': 'block', 'item': 'item', 'entity': 'entity_type', 'fluid_type': 'fluid_type', 'menu': 'menu']
+		var mergedLang = project.file('build/generated/sources/mergedAssets/assets/forestry/lang/en_us.json')
+		if (mergedLang.exists()) {
+			var perJar = new TreeMap<String, Map<String, Object>>()
+			new JsonSlurper().parse(mergedLang).each { key, value ->
+				var jar = 'core'
+				var parts = key.split('\\.')
+				if (parts.length >= 3 && parts[1] == 'forestry' && langRegistries.containsKey(parts[0])) {
+					var id = 'forestry:' + parts[2..-1].join('.')
+					jar = qualifiedIdOwnerOf(langRegistries[parts[0]], id) ?: idOwnerOf(id) ?: 'core'
+				}
+				perJar.computeIfAbsent(jar, { new LinkedHashMap<String, Object>() })[key] = value
+			}
+			perJar.each { jar, keys ->
+				var target = new File(new File(outDir, jar), 'assets/forestry/lang/en_us.json')
+				target.parentFile.mkdirs()
+				target.text = JsonOutput.prettyPrint(JsonOutput.toJson(keys)) + '\n'
+			}
+			logger.lifecycle("  split assets/forestry/lang/en_us.json -> " + perJar.collect { "${it.key}:${it.value.size()}" }.join(', '))
+		}
+
+		written.each { rel, parts -> logger.lifecycle("  split ${rel} -> ${parts.join(', ')}") }
+	}
 }
 
 configurations {
@@ -447,11 +810,26 @@ neoForge {
 		// Boot configurations for D4: a pack may install base plus any subset of the content jars.
 		// These are the only end-to-end proof that the split delivers what it promised, so each one
 		// is a real server boot with a real datapack load rather than a classpath assertion.
+		//
+		// Each takes its own port. A server run does not stop on its own, so killing the gradle task
+		// leaves the forked JVM holding the default port, and the next configuration then fails to bind
+		// and stops before loading a single datapack - which reads in the log exactly like the split
+		// being broken. Distinct ports mean a survivor can only ever block a rerun of itself.
 		coreOnlyServer {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-core'))
-			programArgument '--nogui'
+			programArguments.addAll('--nogui', '--port', '25566')
 			loadedMods = [mods.forestry]
+		}
+
+		// Bees without trees. Apiculture is the largest content jar and the one core shares the most
+		// with, so this is where a resource that resolved to core by name rather than by reference
+		// shows up
+		apicultureServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-api'))
+			programArguments.addAll('--nogui', '--port', '25567')
+			loadedMods = [mods.forestry, mods.forestry_apiculture]
 		}
 
 		// Butterflies without bees. This is the configuration the phase 9b flower type work exists
@@ -460,8 +838,17 @@ neoForge {
 		lepidopterologyNoBeesServer {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-lepi'))
-			programArgument '--nogui'
+			programArguments.addAll('--nogui', '--port', '25568')
 			loadedMods = [mods.forestry, mods.forestry_arboriculture, mods.forestry_lepidopterology]
+		}
+
+		// All six. The `server` run above loads whatever is on the dev classpath; this one names the six
+		// published jars, so it is the configuration a player actually installs
+		allJarsServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-all'))
+			programArguments.addAll('--nogui', '--port', '25569')
+			loadedMods = [mods.forestry, mods.forestry_apiculture, mods.forestry_arboriculture, mods.forestry_lepidopterology, mods.forestry_agriculture, mods.forestry_mail]
 		}
 
 		// Multiblock inventory-conservation GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the
@@ -802,6 +1189,10 @@ contentModules.each { m ->
 				include { it.directory || resourceOwnerOf(it.relativePath.pathString) == m }
 			}
 		}
+		// Entry-split files are owned by no jar, so the include above drops them everywhere. This is
+		// where each jar picks up its own variant
+		dependsOn(partitionSharedResources)
+		from(partitionDir.map { it.dir(m) })
 	}
 }
 
@@ -898,16 +1289,27 @@ var generateEnUsLang = tasks.register('generateEnUsLang', DefaultTask) {
 // silently test an unsplit install - which is the one thing they exist to catch.
 tasks.named('processResources', ProcessResources) {
 	dependsOn(generateEnUsLang)
-	exclude { it.directory ? false : resourceOwnerOf(it.relativePath.pathString) != 'core' }
+
+	// Core's share of the files the game merges across packs, already reduced to core's own entries
+	dependsOn(partitionSharedResources)
+	from(partitionDir.map { it.dir('core') })
+
+	// An exclude at the top of a Copy task applies to *every* source it has, the partition directory
+	// included, and a split file's owner is 'split' rather than 'core'. So the filter has to let the
+	// partitioned copies through by where they came from: without this core shipped no en_us and no
+	// global_loot_modifiers.json, which no boot configuration can catch, because a missing loot
+	// modifier list logs nothing and simply stops injecting loot
+	var partitionRoot = partitionDir.get().asFile.absolutePath
+	exclude { details ->
+		if (details.directory || details.file.absolutePath.startsWith(partitionRoot)) {
+			return false
+		}
+		var path = details.relativePath.pathString
+		// en_us comes from the partition; both unsplit copies, hand-written and merged, are dropped
+		return resourceOwnerOf(path) != 'core' || path == 'assets/forestry/lang/en_us.json'
+	}
 
 	exclude 'assets/forestry/lang/check_translations.py'
-
-	filesMatching('assets/forestry/lang/en_us.json') { fileCopyDetails ->
-		def file = fileCopyDetails.file
-		if (!file.absolutePath.contains('mergedAssets')) {
-			fileCopyDetails.exclude()
-		}
-	}
 }
 
 sourceSets.main {
@@ -956,6 +1358,76 @@ var contentJars = contentModules.collectEntries { m ->
 			])
 		}
 	}]
+}
+
+// A boot configuration proves what loads. It cannot prove what shipped: base once went out with no
+// en_us and no global_loot_modifiers.json and every boot still reached Done, because a missing loot
+// modifier list is not an error and a headless server never renders a lang key. This reads the built
+// jars instead, and it is the cheaper of the two checks.
+var checkJarPartition = tasks.register('checkJarPartition') {
+	group = 'verification'
+	description = 'Fails if a jar carries another jar\'s classes or is missing its share of a split file'
+
+	dependsOn tasks.named('jar')
+	contentModules.each { dependsOn contentJars[it] }
+	dependsOn(partitionSharedResources)
+	outputs.upToDateWhen { false }
+
+	doLast {
+		var problems = new ArrayList<String>()
+		var jarFiles = ['core': tasks.named('jar').get().archiveFile.get().asFile]
+		contentModules.each { m -> jarFiles[m] = contentJars[m].get().archiveFile.get().asFile }
+
+		var entriesOf = { File jar ->
+			var names = new HashSet<String>()
+			new java.util.zip.ZipFile(jar).withCloseable { zip ->
+				zip.entries().each { names.add(it.name) }
+			}
+			return names
+		}
+		var entries = jarFiles.collectEntries { jar, file -> [(jar): entriesOf(file)] }
+
+		// No jar may carry another's package tree. The compiler enforces this for the source sets;
+		// this is the same statement about the artifact
+		contentModules.each { m ->
+			var foreign = entries[m].findAll { it.endsWith('.class') && !it.startsWith("forestry/${m}/") }
+			if (!foreign.isEmpty()) {
+				problems.add("forestry_${m} carries ${foreign.size()} class(es) it does not own, first: ${foreign.first()}")
+			}
+		}
+		var contentInCore = entries['core'].findAll { name ->
+			name.endsWith('.class') && contentModules.any { name.startsWith("forestry/${it}/") }
+		}
+		if (!contentInCore.isEmpty()) {
+			problems.add("the base jar carries ${contentInCore.size()} content class(es), first: ${contentInCore.first()}")
+		}
+
+		// Every variant the partition wrote has to reach the jar it was written for
+		var outDir = partitionDir.get().asFile
+		var written = 0
+		jarFiles.keySet().each { jar ->
+			var jarDir = new File(outDir, jar)
+			if (!jarDir.exists()) {
+				return
+			}
+			jarDir.eachFileRecurse(groovy.io.FileType.FILES) { File file ->
+				written++
+				var rel = jarDir.toPath().relativize(file.toPath()).toString()
+				if (!entries[jar].contains(rel)) {
+					problems.add("${jar} is missing its share of ${rel}")
+				}
+			}
+		}
+
+		if (!problems.isEmpty()) {
+			throw new GradleException("Jar partition is wrong:\n  " + problems.join('\n  '))
+		}
+		logger.lifecycle("checkJarPartition: 6 jars, no foreign classes, ${written} split variant(s) all present")
+	}
+}
+
+tasks.named('check') {
+	dependsOn checkJarPartition
 }
 
 tasks.named('assemble') {

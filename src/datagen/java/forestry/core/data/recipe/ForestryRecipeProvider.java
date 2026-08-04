@@ -1115,8 +1115,11 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerSortingRecipes(MKRecipeProvider recipes) {
+		// Named as a tag rather than as the two items, because the filter is a core machine and those
+		// items live in apiculture and lepidopterology. An absent item fails the recipe to parse; an
+		// absent tag just resolves empty, so this crafts with whichever jars are installed
 		Ingredient ing = CompoundIngredient.of(
-			Ingredient.of(LepidopterologyItems.CATERPILLAR_GE, ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)),
+			Ingredient.of(ForestryTags.Items.GENETIC_SAMPLES),
 			Ingredient.of(ForestryTags.Items.FORESTRY_FRUITS)
 		);
 
