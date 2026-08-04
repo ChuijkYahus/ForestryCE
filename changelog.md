@@ -1,3 +1,6 @@
+## Forestry 2.10.3
+- Genetic filter now actually moves items around
+
 ## Forestry 2.10.2
 - Fix bugs in French translation, thanks to Horusbk (#313)
 - Add new Russian translations for New Growth Update, thanks to deaddiesel (#302)
