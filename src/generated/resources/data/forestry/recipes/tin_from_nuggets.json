@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "forestry:nugget_tin"
+    },
+    {
+      "item": "forestry:nugget_tin"
+    },
+    {
+      "item": "forestry:nugget_tin"
+    },
+    {
+      "item": "forestry:nugget_tin"
+    },
+    {
+      "item": "forestry:nugget_tin"
+    },
+    {
+      "item": "forestry:nugget_tin"
+    },
+    {
+      "item": "forestry:nugget_tin"
+    },
+    {
+      "item": "forestry:nugget_tin"
+    },
+    {
+      "item": "forestry:nugget_tin"
+    }
+  ],
+  "result": {
+    "item": "forestry:ingot_tin"
+  }
+}

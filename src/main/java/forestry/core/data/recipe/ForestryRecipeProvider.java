@@ -645,6 +645,12 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE), CoreItems.APATITE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.INGOT_BRONZE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN), CoreItems.INGOT_TIN);
+		recipes.shapelessCrafting("tin_from_nuggets",RecipeCategory.MISC, CoreItems.INGOT_TIN, 1,
+			CoreItems.NUGGET_TIN, CoreItems.NUGGET_TIN, CoreItems.NUGGET_TIN,
+			CoreItems.NUGGET_TIN, CoreItems.NUGGET_TIN, CoreItems.NUGGET_TIN,
+			CoreItems.NUGGET_TIN, CoreItems.NUGGET_TIN, CoreItems.NUGGET_TIN);
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.NUGGET_TIN, 9, CoreItems.INGOT_TIN);
+
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER), recipe -> {
 			recipe.define('#', CoreItems.AMBER);
 			recipe.pattern("##");
@@ -1651,6 +1657,16 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern(" I ");
 			recipe.pattern("QDQ");
 		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.SOLAR_PANELS, recipe -> {
+			recipe.define('P', Items.GLASS_PANE);
+			recipe.define('S', CoreItems.SOLAR_CELL);
+			recipe.define('Q', ForestryTags.Items.INGOTS_TIN);
+			recipe.define('D', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.COPPER));
+			recipe.pattern("PPP");
+			recipe.pattern("SSS");
+			recipe.pattern("QDQ");
+		});
 	}
 
 	private static void registerCarpenter(Consumer<FinishedRecipe> consumer) {
@@ -2364,7 +2380,6 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE)))
 			.product(1.0f, CoreItems.BEESWAX.stack())
 			.product(0.9f, ApicultureItems.HONEYDEW.stack())
-			.product(0.5f, CoreItems.AMBER.stack())
 			.build(consumer, id("centrifuge", "vintage_comb"));
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -3017,6 +3032,38 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 				.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_BRONZE), 4)
 				.setProcessingTime(40)
 				.build(consumer, id("smelter", "bronze_from_raw_materials"));
+
+			TagKey<Item> coke = ItemTags.create(new ResourceLocation("forge", "coal_coke"));
+			ConditionalRecipe.builder()
+				.addCondition(new TagEmptyCondition(coke.location()))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+						.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 1)
+						.addIngredient(Ingredient.of(Items.COAL), 1)
+						.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 1)
+						.setProcessingTime(1200)
+						.build(id("smelter", "silicon_from_coal")))
+				.build(consumer, id("smelter", "silicon_from_coal"));
+
+			ConditionalRecipe.builder()
+				.addCondition(new NotCondition(new TagEmptyCondition(coke.location())))
+				.addRecipe(
+					new SmelterRecipeBuilder()
+						.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 1)
+						.addIngredient(Ingredient.of(coke), 1)
+						.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 1)
+						.setProcessingTime(1200)
+						.build(id("smelter", "silicon_from_coke")))
+				.build(consumer, id("smelter", "silicon_from_coke"));
+
+			new SmelterRecipeBuilder()
+				.addIngredient(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 3)
+				.addIngredient(Ingredient.of(Tags.Items.GEMS_LAPIS), 4)
+				.addIngredient(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHORESCENT_JELLY)),2)
+				.addIngredient(Ingredient.of(ForestryTags.Items.NUGGETS_TIN),3)
+				.setOutput(Ingredient.of(CoreItems.SOLAR_CELL), 3)
+				.setProcessingTime(80)
+				.build(consumer, id("smelter", "solar_cell"));
 
 
 			//This is the fun part where I have to try and remember a whole bunch of modded alloys uhhhhhhhh

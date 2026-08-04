@@ -5,14 +5,12 @@ import forestry.core.config.ForestryConfig;
 import forestry.energy.blocks.SolarPanelBlock;
 import forestry.energy.features.EnergyBlocks;
 import forestry.energy.features.EnergyTiles;
-import net.minecraft.ChatFormatting;
+import forestry.energy.menu.SolarEngineMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,14 +22,15 @@ import java.util.HashSet;
 
 public class SolarEngineTileEntity extends EngineBlockEntity{
 
-	private int activePanels;
+	public int activePanels;
 	private int miliBuffer;
+	public int arraySize, darkening;
 	private final HashSet<BlockPos> array;
 
 	public static final Direction[] HORIZONTAL_DIRECTOINS=new Direction[]{Direction.NORTH,Direction.EAST,Direction.SOUTH,Direction.WEST};
 
 	public SolarEngineTileEntity(BlockPos pos, BlockState state){
-		super(EnergyTiles.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 2000);
+		super(EnergyTiles.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 10000);
 
 		array=new HashSet<>();
 	}
@@ -146,8 +145,8 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 				miliBuffer=miliBuffer%1000;
 				energyStorage.generateEnergy(currentOutput);
 			}else{
-				if(level.getSkyDarken()<=7){
-					miliBuffer=(activePanels * ForestryConfig.SERVER.solarRF.get())>>level.getSkyDarken();
+				if(level.getSkyDarken()<7){
+					miliBuffer+=(activePanels * ForestryConfig.SERVER.solarRF.get())>>level.getSkyDarken();
 					currentOutput=miliBuffer/1000;
 					miliBuffer=miliBuffer%1000;
 					energyStorage.generateEnergy(currentOutput);
@@ -163,13 +162,8 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 	}
 
 	@Override
-	public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-		return null;
-	}
-
-	@Override
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		player.displayClientMessage(Component.literal(ChatFormatting.GREEN+"Solar Array Status: "+activePanels+"/"+array.size()+ChatFormatting.WHITE+" | "+ChatFormatting.DARK_RED+"Current Output: "+(isRedstoneActivated()?currentOutput:0)+"/"+activePanels*ForestryConfig.SERVER.solarRF.get()/1000+"RF/t"),true);
+	public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+		return new SolarEngineMenu(i, inventory, this);
 	}
 
 	@Override
@@ -196,5 +190,23 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 			i--;
 
 		}
+	}
+
+	@Override
+	public void writeGuiData(FriendlyByteBuf data) {
+		super.writeData(data);
+		data.writeInt(activePanels);
+		data.writeInt(array.size());
+		data.writeInt(level.getSkyDarken());
+		data.writeInt(currentOutput);
+	}
+
+	@Override
+	public void readGuiData(FriendlyByteBuf data) {
+		super.readData(data);
+		activePanels=data.readInt();
+		arraySize=data.readInt();
+		darkening=data.readInt();
+		currentOutput=data.readInt();
 	}
 }

@@ -635,6 +635,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.KLEPTOPLASTIC, GENUS_KLEPTOPLASTIC, SPECIES_KLEPTOPLASTIC, false, new Color(0xffc987))
 			.setBody(new Color(0x64E986))
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.30F)
+			.addSpecialty(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHORESCENT_JELLY), 0.05F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGER);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_NORMAL);
@@ -648,6 +649,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.PHOTOSYNTHETIC, GENUS_KLEPTOPLASTIC, SPECIES_PHOTOSYNTHETIC, true, new Color(0xB6C9FF))
 			.setBody(new Color(0x64E986))
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.40F)
+			.addSpecialty(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHORESCENT_JELLY), 0.15F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGER);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_FAST);
@@ -662,6 +664,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.AUTOTROPHIC, GENUS_KLEPTOPLASTIC, SPECIES_AUTOTROPHIC, false, new Color(0xFFF5EC))
 			.setBody(new Color(0x64E986))
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.30F)
+			.addSpecialty(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHORESCENT_JELLY), 0.20F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGEST);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_FASTER);
@@ -895,6 +898,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.PRIMEVAL, GENUS_RELIC, SPECIES_PRIMEVAL, true, new Color(0x653F33))
 			.setTemperature(TemperatureType.WARM)
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.VINTAGE), 0.30F)
+			.addSpecialty(CoreItems.AMBER.stack(), 0.15F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);

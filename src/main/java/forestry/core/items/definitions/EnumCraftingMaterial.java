@@ -12,6 +12,7 @@ public enum EnumCraftingMaterial implements IItemSubtype {
 	WOVEN_SILK,
 	ICE_SHARD,
 	PHOSPHOR,
+	PHOSPHORESCENT_JELLY,
 	IMPREGNATED_STICK,
 	SCENTED_PANELING;
 

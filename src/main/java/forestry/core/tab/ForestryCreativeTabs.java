@@ -167,6 +167,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.INGOT_TIN);
 		items.accept(CoreItems.INGOT_BRONZE);
+		items.accept(CoreItems.INGOT_SILICON);
 		// Block forms
 		items.accept(CoreBlocks.RAW_TIN_BLOCK);
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);
@@ -201,6 +202,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_BRONZE);
 		items.accept(CoreItems.GEAR_IRON);
+		items.accept(CoreItems.NUGGET_TIN);
+		items.accept(CoreItems.SOLAR_CELL);
 		items.accept(CoreItems.SOLDERING_IRON);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(CoreItems.ASH);

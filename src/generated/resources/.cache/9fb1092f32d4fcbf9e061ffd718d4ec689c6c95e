@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-24T00:11:29.230492381	Recipes
+// 1.20.1	2026-08-04T00:09:44.933077079	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1096,6 +1096,7 @@ d14a0bce57462676979f21cdbc31173652f49cf8 data/forestry/advancements/recipes/misc
 3842b0954df5127fdff38ef8e51a0ee5337d9035 data/forestry/advancements/recipes/misc/maple_hanging_sign.json
 eb720f75fa7d3549d06efaa5970fe9fb89d3a783 data/forestry/advancements/recipes/misc/maple_sign.json
 acd1d4c4f397d933cff0ddcd71009193636c0c7f data/forestry/advancements/recipes/misc/moistener.json
+421e3f74305186e0124eefaa43039b36dddb58dd data/forestry/advancements/recipes/misc/nugget_tin.json
 34065151333707fbe88e1b227b6bebbe09d40b5b data/forestry/advancements/recipes/misc/olive_boat.json
 12f275f0ea8066163ea9a84bc86003669107adc7 data/forestry/advancements/recipes/misc/olive_chest_boat.json
 7be8d9477df4c471abd731ddc1c4b1a1405cd2e4 data/forestry/advancements/recipes/misc/olive_hanging_sign.json
@@ -1153,6 +1154,7 @@ c1fcf83aceda05414b4b4d2fabea6cb9fb35cd01 data/forestry/advancements/recipes/misc
 5c7746746aca65d7f3ff224f24327977cbfa1cb4 data/forestry/advancements/recipes/misc/sequoia_sign.json
 0dfebfe2b4c3c08944b20c6d4e001516da64aba9 data/forestry/advancements/recipes/misc/slime_from_propolis.json
 babf5b4fad2af33c905295c74372b125bdc32897 data/forestry/advancements/recipes/misc/smelter.json
+83a55d7e9e8084b897da2cb8296743112976c980 data/forestry/advancements/recipes/misc/solar_panel.json
 78e32579873e5e79b628bdbea0df491bd76ddafe data/forestry/advancements/recipes/misc/squeezer.json
 32feea216eacc2aa296aabf031f25c032b84d3c5 data/forestry/advancements/recipes/misc/stamp_100n.json
 f0f8fca14ccfb3d5616aa7daba643a816a65d024 data/forestry/advancements/recipes/misc/stamp_10n.json
@@ -1168,6 +1170,7 @@ ebd29408d952358e6e1c603788ddc05ca798a10b data/forestry/advancements/recipes/misc
 20942dfe06f28d3b29d019f251ebc3636603ef7c data/forestry/advancements/recipes/misc/teak_chest_boat.json
 3125d41817478730d01920d099748b2b410758bd data/forestry/advancements/recipes/misc/teak_hanging_sign.json
 8417be86e4c665896c6eea32e6d79182b2cc07ac data/forestry/advancements/recipes/misc/teak_sign.json
+be894c5b373719041661f8065c42c809d0b26164 data/forestry/advancements/recipes/misc/tin_from_nuggets.json
 a9e00759c5781bddbcc9865e989ed29a48dbc743 data/forestry/advancements/recipes/misc/torch_from_wax.json
 7599e4e0a0891ceb576b72d164f65c2edba5cce3 data/forestry/advancements/recipes/misc/trade_station.json
 af3c6a072d8de507e7c833fd99e1cef8d00e89e9 data/forestry/advancements/recipes/misc/tree_chest.json
@@ -1824,7 +1827,7 @@ b8ef95d2d012aa5bf6c0feb3daf907a5d6aed5c5 data/forestry/recipes/centrifuge/silky_
 4aec683e1075cc65d8a6426cfee12f8afd94ff31 data/forestry/recipes/centrifuge/silky_propolis.json
 3cb84e265e31c57e4a6865bf2ba90e28ef317b67 data/forestry/recipes/centrifuge/simmering_comb.json
 d1fdecaf5e2deeeae7d4af8ad515d1dcc323f1ef data/forestry/recipes/centrifuge/stringy_comb.json
-a369929ea2b78d59b7d0359cb778b7223c84f6ae data/forestry/recipes/centrifuge/vintage_comb.json
+a5c5e5b080289393e6a45758072c45256757cc97 data/forestry/recipes/centrifuge/vintage_comb.json
 f26a594d83f5c98a6647d465900f68b71fbb4203 data/forestry/recipes/centrifuge/wheaten_comb.json
 3b812faa0618ea8370303f85e9ed530f4a01a6f8 data/forestry/recipes/charcoal.json
 7165bd1f7745eba39a6438a75614785e4f5888e9 data/forestry/recipes/charcoal_from_block.json
@@ -2861,6 +2864,7 @@ f4b9b7ccfba88f107e64b932354db4ca978acc82 data/forestry/recipes/moistener/mossy_c
 63aaea26f5c3e26e619b14e707aafd8edc667cbc data/forestry/recipes/moistener/mycelium.json
 00de5b3b3395a5708f417fc732582c36b87cb149 data/forestry/recipes/moistener/podzol.json
 ac06a9feb89f6abf72aa0d14692376464321ebf1 data/forestry/recipes/naturalist_helmet.json
+8c7540eb2cd5c4208177cdad04ce6c6d1cccb172 data/forestry/recipes/nugget_tin.json
 7de0ec126b33b14d4346197b1e0e932363dc0646 data/forestry/recipes/oak_door.json
 937e2639039a09a6fdb54741797b59efc6453ff7 data/forestry/recipes/oak_fireproof_fence.json
 75cc3979f420591fec4d342625516b84e0352e46 data/forestry/recipes/oak_fireproof_fence_gate.json
@@ -3187,7 +3191,11 @@ c734dfc9e2525919f51561d9954753cc8ca59a58 data/forestry/recipes/smelter/constanta
 ca4e7d60a7e03393f51185f1711eb21cb58f699d data/forestry/recipes/smelter/electrum_from_raw_materials.json
 d55d88408cf13b8038d305a4b90d32056606202b data/forestry/recipes/smelter/invar_from_ingots.json
 2db3b3d5de964894a9f36d31ff432fa23b41b82b data/forestry/recipes/smelter/invar_from_raw_materials.json
+5ba341f1ece529b0bfc6a5b0a1a771b86a0a6667 data/forestry/recipes/smelter/silicon_from_coal.json
+3ff450c73ac178489001e0bfeb0a978df6897a24 data/forestry/recipes/smelter/silicon_from_coke.json
+e492c8f148f5254d9058c8c5a4317e988f7120d4 data/forestry/recipes/smelter/solar_cell.json
 c86d150fc1b07832263841a9b659fafe67b1e2f7 data/forestry/recipes/smoker.json
+71efd0889bbee91cd87473b3c7b2b9702934ab86 data/forestry/recipes/solar_panel.json
 21966eb9020b5d42d568e2bbe227f61ee1b631f7 data/forestry/recipes/spruce_door.json
 9fa066a8b1fd59e0edec2ce354b4189eb61e0e95 data/forestry/recipes/spruce_fireproof_fence.json
 32db438bb6e5e93372bd6747fe20cba269079000 data/forestry/recipes/spruce_fireproof_fence_gate.json
@@ -3257,6 +3265,7 @@ b9a19821de5b16ad63bf1c3764d9e08bb6cf59ed data/forestry/recipes/teak_pressure_pla
 d1829b14312672abd590ca7a5f6a73318df2091e data/forestry/recipes/teak_stripped_wood.json
 9dbd1761b34550a46398e2400380cfaaed6bf1a5 data/forestry/recipes/teak_trapdoor.json
 51af8c7bfd113bc7ca0e3941828f91294790fbc8 data/forestry/recipes/teak_wood.json
+7d005897f0d5bc980b272f7f8ea19116ad264ff2 data/forestry/recipes/tin_from_nuggets.json
 ec88dd63401b58d4b6bdf27afcee2c3f55e063e0 data/forestry/recipes/torch_from_wax.json
 053ffabc3e2a3e10e96c734f9f308af31f53b57c data/forestry/recipes/trade_station.json
 ef6678334f954268dec42f7fef2c08b9c3d1e493 data/forestry/recipes/tree_chest.json

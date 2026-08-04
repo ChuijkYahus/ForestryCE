@@ -292,7 +292,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		nbt.putFloat("burnTime",burnTime);
         this.tankManager.write(nbt);
 	}
-
+	//TODO:Check If WriteGuiData should be used instead
 	/* NETWORK */
 	@Override
 	public void writeData(FriendlyByteBuf data) {

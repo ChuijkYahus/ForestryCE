@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-23T23:58:26.188283613	Block States: forestry
+// 1.20.1	2026-07-25T15:24:11.206171973	Block States: forestry
 efb6cd9088f34afc855db97087b928d69c02ae5f assets/forestry/blockstates/apatite_ore.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_managed.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_manual.json
@@ -134,6 +134,7 @@ fa0cb84e309c9f85c58e25dafc232315bdc6eb07 assets/forestry/blockstates/farm_valve_
 fba8b6ed32f3f0b09b25046a01de7b0702a629d4 assets/forestry/blockstates/fluid_juice.json
 bf52e2a4e3b7ae2d18e1ecdf2dc1ef91aa791d17 assets/forestry/blockstates/fluid_seed_oil.json
 08cdc3fd95de7dea288d86e064b090e9c994bd66 assets/forestry/blockstates/fluid_short_mead.json
+a2b4c13b243f4e56b17010a40ec59e8ad1543231 assets/forestry/blockstates/fluid_silicon.json
 13f42b8f0e9404f3e894806fa97924918153a8c0 assets/forestry/blockstates/fluid_wax.json
 5f5b468ad740c5fe51fa5219d198a23785de6072 assets/forestry/blockstates/honeystone.json
 ecaf93e73f94bc0ca65f62aef3f2f897eb9dd497 assets/forestry/blockstates/honeystone_brick_slab.json
@@ -663,6 +664,7 @@ d54818450ea45d1dc07b3e9f3a76c0fcce70e430 assets/forestry/models/block/fluid_ice.
 640d97c39afeec7315783550706979bc9f6a9206 assets/forestry/models/block/fluid_juice.json
 935c5db23097ef2872b06905ad755a0e8b06f7f9 assets/forestry/models/block/fluid_seed_oil.json
 274b3b2de92962286e9dac899e02f1d7e111f3d2 assets/forestry/models/block/fluid_short_mead.json
+d0f10dbdef0bcb588c0b1cc4487902e94575270f assets/forestry/models/block/fluid_silicon.json
 84e87afb695eff58921fc4af98b88527156aba20 assets/forestry/models/block/fluid_wax.json
 bf666804614efc94247255d863995d14b9614b22 assets/forestry/models/block/honeystone.json
 fcc947f981bc765200172bdabd611b65728b8463 assets/forestry/models/block/honeystone_brick_slab.json
@@ -990,6 +992,7 @@ f7e72e23045e465cd0410f67c7767b5a79cceb5d assets/forestry/models/item/honeystone_
 7918e95132a4b13d3ed4bcbe962b76b2ed99da23 assets/forestry/models/item/honeystone_stairs.json
 2876a2838116d6478a5c39ff2e366fa2dc7ebf6f assets/forestry/models/item/honeystone_wall.json
 8d7b0b34838928b0e2b44fcaec3aaff83502a191 assets/forestry/models/item/ingot_bronze.json
+9a0c6809a4b92c07182c8a3dd60288a3c10be2e0 assets/forestry/models/item/ingot_silicon.json
 f85e715e1f2d154994612574e3cc1cfe0ac69d4f assets/forestry/models/item/ingot_tin.json
 7e138048c93cca4a16bcfcdb133724a82aac206b assets/forestry/models/item/metal_plating_black.json
 49bfef301ae38bbbf989c4fea14e5093bad99651 assets/forestry/models/item/metal_plating_blue.json
@@ -1013,6 +1016,7 @@ c5477fe81eca83ae7b5ebb8de9ced6c170f503cd assets/forestry/models/item/metal_plati
 b3f4aca57499ebcdc3b97affaca80926386901c0 assets/forestry/models/item/metal_plating_tin.json
 f87e48be1c4f0b9c59838f304acc518a9e649292 assets/forestry/models/item/metal_plating_white.json
 7175fb406291063454671edd71a431af3bb6dcd1 assets/forestry/models/item/metal_plating_yellow.json
+c6775cfdd73f483437f1d9aa54e797e1a26e95db assets/forestry/models/item/nugget_tin.json
 f653fa48f3f9b97063d07ce5f8a66df7336c09a6 assets/forestry/models/item/polished_honeystone.json
 ccaf1eb54f185221fbe8f4c8aea043fcd761f877 assets/forestry/models/item/polished_honeystone_slab.json
 b40717dfece9aa62db7bb77af0c601574973133b assets/forestry/models/item/polished_honeystone_stairs.json
@@ -1039,6 +1043,7 @@ fe214b6a0e84ca7e59d836495c58c45406d0580d assets/forestry/models/item/refractory_
 9a74d641acad9d1fd626e2c43ce631c175f98df8 assets/forestry/models/item/refractory_waxstone_slab.json
 97f1f431fa42df0a5a012ccf457f2381bf7ee201 assets/forestry/models/item/refractory_waxstone_stairs.json
 c85d5d245c2971dc5d6e5b7c4d4bbc94856822ff assets/forestry/models/item/refractory_waxstone_wall.json
+554e598ec6e8bc40da2040eaf2bedc4ab44a11a3 assets/forestry/models/item/solar_cell.json
 82f0d5fea18ae93d41cff73acc603d4f9cf213ef assets/forestry/models/item/tin_ore.json
 cc3a9bc402eda7ecb8e8110f6b07b0ccdb3e3784 assets/forestry/models/item/tree_acacia_decorative_leaves.json
 cc3a9bc402eda7ecb8e8110f6b07b0ccdb3e3784 assets/forestry/models/item/tree_acacia_default_leaves.json

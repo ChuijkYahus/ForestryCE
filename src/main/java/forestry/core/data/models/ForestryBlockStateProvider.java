@@ -38,6 +38,7 @@ import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.checkerframework.checker.units.qual.C;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -95,11 +96,15 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		generic2d(CoreItems.RAW_TIN);
 		generic2d(CoreItems.INGOT_TIN);
+		generic2d(CoreItems.INGOT_SILICON);
 		generic2d(CoreItems.GEAR_TIN);
 		generic2d(CoreItems.INGOT_BRONZE);
 		generic2d(CoreItems.GEAR_BRONZE);
 		generic2d(CoreItems.GEAR_COPPER);
 		generic2d(CoreItems.GEAR_IRON);
+
+		generic2d(CoreItems.NUGGET_TIN);
+		generic2d(CoreItems.SOLAR_CELL);
 
 		machineBlock(BlockTypeFactoryPlain.BOTTLER, TankLayout.RESOURCE);
 		machineBlock(BlockTypeFactoryPlain.CARPENTER, TankLayout.RESOURCE);

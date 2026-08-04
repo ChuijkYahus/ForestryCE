@@ -98,12 +98,13 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.GEARS_TIN).add(CoreItems.GEAR_TIN.item());
 		tags.tag(ForestryTags.Items.GEARS_IRON).add(CoreItems.GEAR_IRON.item());
 		tags.tag(ForestryTags.Items.GEARS_COPPER).add(CoreItems.GEAR_COPPER.item());
-		tags.tag(ForestryTags.Items.GEARS_IRON).add(CoreItems.GEAR_IRON.item());
 		tags.tag(ForestryTags.Items.GEARS_STONE);
 
-		tags.tag(Tags.Items.INGOTS).addTags(ForestryTags.Items.INGOTS_BRONZE, ForestryTags.Items.INGOTS_TIN);
+		tags.tag(Tags.Items.INGOTS).addTags(ForestryTags.Items.INGOTS_BRONZE, ForestryTags.Items.INGOTS_TIN, ForestryTags.Items.INGOTS_SILICON);
 		tags.tag(ForestryTags.Items.INGOTS_BRONZE).add(CoreItems.INGOT_BRONZE.item());
 		tags.tag(ForestryTags.Items.INGOTS_TIN).add(CoreItems.INGOT_TIN.item());
+		tags.tag(ForestryTags.Items.INGOTS_SILICON).add(CoreItems.INGOT_SILICON.item());
+		tags.tag(ForestryTags.Items.NUGGETS_TIN).add(CoreItems.NUGGET_TIN.item());
 
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());
 		tags.tag(ForestryTags.Items.GEMS_APATITE).add(CoreItems.APATITE.item());

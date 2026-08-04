@@ -1,0 +1,41 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:tag_empty",
+            "tag": "forge:coal_coke"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "forestry:smelter",
+        "inputs": [
+          {
+            "count": 1,
+            "ingredient": {
+              "tag": "forge:gems/quartz"
+            }
+          },
+          {
+            "count": 1,
+            "ingredient": {
+              "tag": "forge:coal_coke"
+            }
+          }
+        ],
+        "output": {
+          "count": 1,
+          "ingredient": {
+            "tag": "forge:ingots/silicon"
+          }
+        },
+        "processingTime": 1200,
+        "temperature": 0
+      }
+    }
+  ]
+}
