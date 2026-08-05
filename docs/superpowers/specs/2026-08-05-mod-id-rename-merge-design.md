@@ -2,7 +2,7 @@
 
 Date: 2026-08-05
 Branch: `1.21.1-restructure`
-Status: designed, not yet implemented
+Status: implemented 2026-08-05
 Supersedes the jar layout of `2026-07-30-feature-package-reorg-design.md` (six jars, underscored ids)
 Succeeded by planned work replacing the ownership machinery with per-jar generated resource
 directories. See "Successor work" below; the ownership edits in this document are deliberately
@@ -269,6 +269,34 @@ parent validation starts failing on legitimate references.
 different jars. Providers can emit per-jar variants directly, since a tag provider knows each
 entry's owner and the game merges tags across packs, but that is authoring work rather than a
 consequence of the directory move. The same applies to `en_us.json`.
+
+### Defects the implementation found in the closure, for the successor to inherit
+
+Implementing this document surfaced three. The first was live and was fixed here; the other two are
+latent and were deliberately left, because the block is frozen and neither has a failing case today.
+
+**Fixed.** The closure short-circuited on `visibility[owner].containsAll(needed)`, and `needed` drops
+`core` on the reasoning that every derived jar sees core. That is right for promotion and wrong for
+an entry-keyed file. `genetic_samples` names a core propolis and a butterfly caterpillar; the
+butterfly jar sees both, so the file shipped there whole and a core-only install held propolis with
+no tag naming it. Entry-keyed files now split as soon as their entries span jars, counting core as a
+jar. Before the merge the same file needed both apiculture and lepidopterology, no jar saw both, and
+it split correctly - so the merge is what exposed this, exactly as the Risks section predicted.
+
+**Latent, and the sharper of the two.** `global_loot_modifiers.json` entries are loot-modifier ids
+that resolve through nothing in the closure. `partitionSharedResources` has a dedicated rule for
+them; the closure has no counterpart. It is correct today only because `folderOwners` puts every
+chest modifier in core. Give one chest modifier to a content jar and the list silently ships whole in
+core, which is the precise failure the block's own comment says it exists to prevent.
+
+**Latent.** The closure and `ownerOfEntry` disagree on a `#forestry:` reference they cannot resolve:
+`ownerOfEntry` falls back to core, the closure drops it from both sets. A tag whose entries are one
+mail-owned tag and one itself-split tag would ship whole in mail and strand the second. Nothing
+references the three split tags from inside another tag today.
+
+Per-jar datagen output removes the first two by construction, since a provider knows each entry's
+owner and never has to resolve an id out of a file. The third stops mattering once nothing derives
+ownership from file contents at all.
 
 ### Why this order
 
