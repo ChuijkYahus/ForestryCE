@@ -4,6 +4,9 @@ Date: 2026-08-05
 Branch: `1.21.1-restructure`
 Status: designed, not yet implemented
 Supersedes the jar layout of `2026-07-30-feature-package-reorg-design.md` (six jars, underscored ids)
+Succeeded by planned work replacing the ownership machinery with per-jar generated resource
+directories. See "Successor work" below; the ownership edits in this document are deliberately
+minimal because of it.
 
 ## Problem
 
@@ -202,6 +205,76 @@ order is therefore fixed:
 Running step 3 before step 2 builds the resource map from stale ownership. That does not
 fail at generation time. It fails later as a mis-partitioned jar, which is expensive to
 trace back to its cause.
+
+## Successor work: per-jar generated resource directories
+
+The ownership machinery is provisional. It is being replaced, and this document touches it as
+lightly as it can because of that. Nothing here should be read as an endorsement of it.
+
+### Why it is going
+
+`resource-owners.json` holds 12,165 entries. After the merge, 11,488 of them say `core`:
+
+| jar | files | share |
+| --- | --- | --- |
+| core | 11,488 | 94.4% |
+| farms | 465 | 3.8% |
+| butterflies | 107 | 0.9% |
+| mail | 96 | 0.8% |
+| split | 10 | 0.1% |
+
+More important than the ratio is where the answer comes from. `generateResourceOwners` *infers*
+ownership that datagen already *knows*. It reconstructs which jar owns
+`farm_crops_managed.json` by longest-prefix-matching the file name against registry ids, then
+scans references and promotes files that name ids a jar cannot see. Inside a provider, the live
+`IModFeature` is in hand and the registering module is exact.
+
+Every ownership bug on record came from the inference layer rather than from the information being
+unavailable: `nether_bridge.json` colliding under longest-prefix with a feature named
+`forestry:nether`, the `drop_honey` tag, the arboriculture point-of-interest tag reaching a
+core-only install. Those are failure modes of guessing.
+
+### Shape of the replacement
+
+Datagen writes to one root per jar - `src/generated/resources`, `src/generated/resources_farms`,
+`src/generated/resources_butterflies`, `src/generated/resources_mail` - and each source set picks
+up its own. Every provider already takes a `PackOutput` in its constructor and `PackOutput` wraps a
+root `Path`, so the plumbing is a constructor argument.
+
+Deleted: `resource-owners.json`, `generateResourceOwners`, `partitionSharedResources`,
+`resourceOwnerOf`, `qualifiedIdOwnerOf`, the promotion pass, and the per-jar
+`from(...) include {...}` filters. Roughly 500 lines of Groovy become four `srcDir` lines.
+
+Kept: `ownership.json` and the reference-closure check, in reduced form. A directory says what a
+file is *about*; closure says what a file can *see*, and those diverge - the lesson of commit
+`89f82bf5a`. A core recipe naming a farms item is invisible to a directory scheme and breaks a
+core-only install. So the check survives as a validator rather than an assignment engine: walk the
+four roots, resolve every `forestry:` id against `ownership.json`, fail if a file names something
+its own root cannot see. It fails loudly instead of silently promoting.
+
+### Known difficulties, for the successor spec to solve
+
+**Most non-core files come from mixed providers.** Per-directory output is not one `PackOutput` per
+provider. Of farms' 435 generated files, roughly 70 blockstates, 69 item models, 66 block models,
+76 advancements, 69 loot tables and 80 recipes all come from providers that write for every jar.
+Those need per-entry routing: several `PackOutput`s per provider, selected per block or item.
+Butterflies is the easy case - `ButterflySpeciesProvider`, `TaxonProvider` and `MutationProvider`
+are already single-purpose - but butterflies is only 107 of the 668 non-core files.
+
+**`ExistingFileHelper` needs every root.** The data run passes `--existing src/main/resources`, and
+the helper validates model parents against it. With four resource roots it needs all four, or model
+parent validation starts failing on legitimate references.
+
+**The 10 split files.** A directory scheme does not by itself split a file whose entries belong to
+different jars. Providers can emit per-jar variants directly, since a tag provider knows each
+entry's owner and the game merges tags across packs, but that is authoring work rather than a
+consequence of the directory move. The same applies to `en_us.json`.
+
+### Why this order
+
+The merge deletes 94% of the surface first. Doing the directory work after it means routing 668
+files' worth of provider output rather than 12,166 - and 8,767 of those are arboriculture files
+that become plain `core` in this document anyway.
 
 ## Out of scope
 
