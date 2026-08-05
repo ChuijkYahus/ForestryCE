@@ -32,10 +32,11 @@ java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 //
 // 9a still produces one jar and one mod id. Splitting the artifacts is 9b.
 //
-// datagen is the seventh, from phase 8. The providers are the only thing in the repo that touches
-// ModKit, a dev-only dependency: with them in main, every datagen lambda put a ModKit type into a
-// method descriptor that FML's boot-time annotation scanner then tried to resolve from the shipped
-// jar. Keeping them out of main removes the cause rather than filtering the symptom out of the jar.
+// datagen is a source set but not a jar, from phase 8. The providers are the only thing in the repo
+// that touches ModKit, a dev-only dependency: with them in main, every datagen lambda put a ModKit
+// type into a method descriptor that FML's boot-time annotation scanner then tried to resolve from
+// the shipped jar. Keeping them out of main removes the cause rather than filtering the symptom out
+// of the jar.
 var contentModules = ['arboriculture', 'lepidopterology', 'agriculture', 'mail']
 
 sourceSets {
@@ -935,7 +936,7 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 	description = 'Fails if a resource file names a forestry class that does not exist'
 
 	// Every source root. The service file names one plugin class per content jar, and those left
-	// src/main/java in 9a; a single-root check reports all four as missing
+	// src/main/java in 9a; a single-root check reports every one of them as missing
 	var javaDirs = [project.file('src/main/java'), project.file('src/datagen/java')] +
 			contentModules.collect { project.file("src/${it}/java") }
 	// Every resource root, including the per-jar ones. The plugin service files moved there in
