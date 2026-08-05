@@ -21,9 +21,9 @@ base.archivesName = "forestry-$minecraftVersion"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 
-// The six jars of D1, as six source sets. sourceSets.main IS the core jar: Gradle's jar task,
+// The jars of D1, one source set each. sourceSets.main IS the core jar: Gradle's jar task,
 // processResources, components.java and the access transformers all attach to main by convention,
-// and core is the artifact those conventions should describe. The other five sit at src/<name>/java.
+// and core is the artifact those conventions should describe. The rest sit at src/<name>/java.
 //
 // This is the point at which the dependency graph stops being a convention checked by a gradle task
 // and becomes a compile error. checkBaseBoundary and checkBaseBytecode were standing in for the
@@ -60,7 +60,7 @@ contentModules.each { m ->
 }
 sourceSets.lepidopterology.runtimeClasspath += sourceSets.arboriculture.output
 
-// Datagen and the GameTests both read every jar, so they get all six
+// Datagen and the GameTests both read every jar, so they get them all
 sourceSets.datagen.compileClasspath += sourceSets.main.output
 sourceSets.datagen.runtimeClasspath += sourceSets.main.output
 contentModules.each { m ->
@@ -131,8 +131,8 @@ var folderOwners = [
 		// A chest loot modifier hooks a vanilla table and names its contributing modules as plain
 		// strings, resolving each sub-table at run time and skipping the ones that are absent. So it
 		// belongs to base whatever it names. Without this, nether_bridge.json resolves by longest
-		// prefix to the agriculture feature 'forestry:nether' and a core plus apiculture install
-		// silently loses its nether fortress bee loot
+		// prefix to the agriculture feature 'forestry:nether' and any install lacking the agriculture
+		// jar silently loses its nether fortress bee loot
 		'data/forestry/loot_modifiers/chests/'    : 'core',
 		// A mutation recipe's karyotype resolves through the genetic manager, which throws rather than
 		// returning null for an unregistered species type. RecipeManager does not catch that, so one
@@ -142,7 +142,7 @@ var folderOwners = [
 
 tasks.register('generateResourceOwners') {
 	group = 'build'
-	description = 'Materialises the resource path to jar mapping the six jar tasks ship from'
+	description = 'Materialises the resource path to jar mapping the jar tasks ship from'
 
 	outputs.upToDateWhen { false }
 
@@ -767,7 +767,7 @@ neoForge {
 	}
 
 	mods {
-		// Six mod ids, one per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
+		// One mod id per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
 		// is what makes a content jar optional: leave it out and its plugin is simply not on the
 		// service path. Registering forestry: names from a mod whose id is forestry_agriculture is
 		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
@@ -938,8 +938,8 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 	// src/main/java in 9a; a single-root check reports all four as missing
 	var javaDirs = [project.file('src/main/java'), project.file('src/datagen/java')] +
 			contentModules.collect { project.file("src/${it}/java") }
-	// Every resource root, including the five per-jar ones. The plugin service files moved there in
-	// phase 9b, and a single-root scan silently stopped checking four of them
+	// Every resource root, including the per-jar ones. The plugin service files moved there in
+	// phase 9b, and a single-root scan silently stopped checking the content ones
 	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')] +
 			contentModules.collect { project.file("src/${it}/resources") }
 
@@ -1436,7 +1436,7 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 		if (!problems.isEmpty()) {
 			throw new GradleException("Jar partition is wrong:\n  " + problems.join('\n  '))
 		}
-		logger.lifecycle("checkJarPartition: 6 jars, no foreign classes, ${written} split variant(s) all present")
+		logger.lifecycle("checkJarPartition: ${jarFiles.size()} jars, no foreign classes, ${written} split variant(s) all present")
 	}
 }
 
