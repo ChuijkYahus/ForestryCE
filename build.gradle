@@ -40,7 +40,7 @@ java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 var contentModules = ['butterflies', 'farms', 'mail']
 
 // Source set name to Java package name. The two diverge because the jars were renamed and the
-// packages were not, and build.gradle assumed they were the same string in four places
+// packages were not, and both halves of checkJarPartition assumed they were the same string
 var contentPackages = [butterflies: 'lepidopterology', farms: 'agriculture', mail: 'mail']
 
 // A wrong entry here disables rather than fails the base-jar leak check in checkJarPartition: it
