@@ -48,9 +48,9 @@ public class OwnershipManifest {
 			Map.entry("curios", "core"),
 			Map.entry("apiculture", "core"),
 			Map.entry("arboriculture", "core"),
-			Map.entry("lepidopterology", "lepidopterology"),
-			Map.entry("farming", "agriculture"),
-			Map.entry("cultivation", "agriculture"),
+			Map.entry("lepidopterology", "butterflies"),
+			Map.entry("farming", "farms"),
+			Map.entry("cultivation", "farms"),
 			Map.entry("mail", "mail"));
 
 	private OwnershipManifest() {

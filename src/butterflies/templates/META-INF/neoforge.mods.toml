@@ -5,24 +5,24 @@ issueTrackerURL = "https://github.com/thedarkcolour/ForestryCE/issues"
 license = "GNU Lesser Public License v3"
 
 [[mods]]
-modId = "forestry_agriculture"
+modId = "forestry_butterflies"
 version = "${version}"
-displayName = "Forestry: Agriculture"
+displayName = "Forestry: Lepidopterology"
 displayURL = "https://github.com/thedarkcolour/ForestryCE"
 logoFile = "forestry-ce-logo-banner.png"
 authors = "thedarkcolour, SirSengir, mezz, Nedelosk"
 description = '''
-Multifarms, planters and the farming logic.
+Butterflies, cocoons and the lepidopterist chain.
 '''
 
-[[dependencies.forestry_agriculture]]
+[[dependencies.forestry_butterflies]]
 modId = "neoforge"
 type = "REQUIRED"
 versionRange = "${forgeVersionRange}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.forestry_agriculture]]
+[[dependencies.forestry_butterflies]]
 modId = "forestry"
 type = "REQUIRED"
 versionRange = "[${version},]"

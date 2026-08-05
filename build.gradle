@@ -37,20 +37,34 @@ java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 // type into a method descriptor that FML's boot-time annotation scanner then tried to resolve from
 // the shipped jar. Keeping them out of main removes the cause rather than filtering the symptom out
 // of the jar.
-var contentModules = ['lepidopterology', 'agriculture', 'mail']
+var contentModules = ['butterflies', 'farms', 'mail']
+
+// Source set name to Java package name. The two diverge because the jars were renamed and the
+// packages were not, and build.gradle assumed they were the same string in four places
+var contentPackages = [butterflies: 'lepidopterology', farms: 'agriculture', mail: 'mail']
+
+// A wrong entry here disables rather than fails the base-jar leak check in checkJarPartition: it
+// scans for a package that does not exist, finds nothing and reports a clean jar. Assert the
+// packages are real at configuration time, where the failure is still loud
+contentModules.each { m ->
+	var pkg = contentPackages[m]
+	if (pkg == null || !project.file("src/${m}/java/forestry/${pkg}").isDirectory()) {
+		throw new GradleException("contentPackages[${m}] must name a directory under src/${m}/java/forestry, got: ${pkg}")
+	}
+}
 
 sourceSets {
-	lepidopterology
-	agriculture
+	butterflies
+	farms
 	mail
 	datagen
 }
 
 // Everything requires core, and nothing else. Arboriculture moving into core dissolved the only
 // cross-content edge the split ever had - three TreeUtil imports for butterfly pollination
-sourceSets.agriculture.compileClasspath += sourceSets.main.output
+sourceSets.butterflies.compileClasspath += sourceSets.main.output
+sourceSets.farms.compileClasspath += sourceSets.main.output
 sourceSets.mail.compileClasspath += sourceSets.main.output
-sourceSets.lepidopterology.compileClasspath += sourceSets.main.output
 
 contentModules.each { m ->
 	sourceSets[m].runtimeClasspath += sourceSets.main.output
@@ -99,9 +113,9 @@ var entryKeyed = { String path ->
 var lootModuleJars = [
 		'apiculture'     : 'core',
 		'arboriculture'  : 'core',
-		'lepidopterology': 'lepidopterology',
-		'farming'        : 'agriculture',
-		'cultivation'    : 'agriculture',
+		'lepidopterology': 'butterflies',
+		'farming'        : 'farms',
+		'cultivation'    : 'farms',
 		'mail'           : 'mail',
 		'factory'        : 'core',
 		'storage'        : 'core',
@@ -125,17 +139,17 @@ var folderOwners = [
 		'data/forestry/recipe/bee_mutation/'      : 'core',
 		'data/forestry/tree_species/'             : 'core',
 		'data/forestry/recipe/tree_mutation/'     : 'core',
-		'data/forestry/butterfly_species/'        : 'lepidopterology',
+		'data/forestry/butterfly_species/'        : 'butterflies',
 		// A chest loot modifier hooks a vanilla table and names its contributing modules as plain
 		// strings, resolving each sub-table at run time and skipping the ones that are absent. So it
 		// belongs to base whatever it names. Without this, nether_bridge.json resolves by longest
-		// prefix to the agriculture feature 'forestry:nether' and any install lacking the agriculture
-		// jar silently loses its nether fortress bee loot
+		// prefix to the farms feature 'forestry:nether' and any install lacking the farms jar
+		// silently loses its nether fortress bee loot
 		'data/forestry/loot_modifiers/chests/'    : 'core',
 		// A mutation recipe's karyotype resolves through the genetic manager, which throws rather than
 		// returning null for an unregistered species type. RecipeManager does not catch that, so one
 		// butterfly mutation left in core takes the whole server down
-		'data/forestry/recipe/butterfly_mutation/': 'lepidopterology',
+		'data/forestry/recipe/butterfly_mutation/': 'butterflies',
 ]
 
 tasks.register('generateResourceOwners') {
@@ -368,10 +382,10 @@ tasks.register('generateResourceOwners') {
 		// is. Promote each file to the least derived jar that satisfies that - least derived because
 		// core reaches the most installs - and report the ones no jar can satisfy.
 		var visibility = [
-				'core'           : ['core'] as Set,
-				'agriculture'    : ['core', 'agriculture'] as Set,
-				'mail'           : ['core', 'mail'] as Set,
-				'lepidopterology': ['core', 'lepidopterology'] as Set,
+				'core'       : ['core'] as Set,
+				'butterflies': ['core', 'butterflies'] as Set,
+				'farms'      : ['core', 'farms'] as Set,
+				'mail'       : ['core', 'mail'] as Set,
 		]
 
 		// Species ids are not features, so the ownership manifest does not carry them. Their definition
@@ -780,7 +794,7 @@ neoForge {
 	mods {
 		// One mod id per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
 		// is what makes a content jar optional: leave it out and its plugin is simply not on the
-		// service path. Registering forestry: names from a mod whose id is forestry_agriculture is
+		// service path. Registering forestry: names from a mod whose id is forestry_farms is
 		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
 		forestry {
 			sourceSet sourceSets.main
@@ -793,8 +807,8 @@ neoForge {
 		}
 		// The GameTest suite spans every jar, so it is its own mod id rather than part of core. That
 		// is what lets the partial-install boot configurations leave it out: NeoForge's gametest
-		// scanner resolves every @GameTest method descriptor at registration, and a test naming an
-		// agriculture type crashes a core-only boot outright - the D3 safety condition, exactly
+		// scanner resolves every @GameTest method descriptor at registration, and a test naming a
+		// farms type crashes a core-only boot outright - the D3 safety condition, exactly
 		create('forestry_gametest') { sourceSet sourceSets.test }
 	}
 
@@ -845,11 +859,11 @@ neoForge {
 
 		// Butterflies alone. Bees and trees are core now, so this proves only what it should: that the
 		// butterfly jar needs nothing but base
-		lepidopterologyServer {
+		butterfliesServer {
 			server()
-			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-lepi'))
-			programArguments.addAll('--nogui', '--port', '25568')
-			loadedMods = [mods.forestry, mods.forestry_lepidopterology]
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-butterflies'))
+			programArguments.addAll('--nogui', '--port', '25567')
+			loadedMods = [mods.forestry, mods.forestry_butterflies]
 		}
 
 		// Every jar. The `server` run above loads whatever is on the dev classpath; this one names the
@@ -858,7 +872,7 @@ neoForge {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-all'))
 			programArguments.addAll('--nogui', '--port', '25569')
-			loadedMods = [mods.forestry, mods.forestry_lepidopterology, mods.forestry_agriculture, mods.forestry_mail]
+			loadedMods = [mods.forestry, mods.forestry_butterflies, mods.forestry_farms, mods.forestry_mail]
 		}
 
 		// Multiblock inventory-conservation GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the
@@ -1400,13 +1414,13 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 		// No jar may carry another's package tree. The compiler enforces this for the source sets;
 		// this is the same statement about the artifact
 		contentModules.each { m ->
-			var foreign = entries[m].findAll { it.endsWith('.class') && !it.startsWith("forestry/${m}/") }
+			var foreign = entries[m].findAll { it.endsWith('.class') && !it.startsWith("forestry/${contentPackages[m]}/") }
 			if (!foreign.isEmpty()) {
 				problems.add("forestry_${m} carries ${foreign.size()} class(es) it does not own, first: ${foreign.first()}")
 			}
 		}
 		var contentInCore = entries['core'].findAll { name ->
-			name.endsWith('.class') && contentModules.any { name.startsWith("forestry/${it}/") }
+			name.endsWith('.class') && contentModules.any { name.startsWith("forestry/${contentPackages[it]}/") }
 		}
 		if (!contentInCore.isEmpty()) {
 			problems.add("the base jar carries ${contentInCore.size()} content class(es), first: ${contentInCore.first()}")
