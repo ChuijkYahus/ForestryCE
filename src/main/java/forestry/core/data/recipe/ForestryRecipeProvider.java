@@ -3038,9 +3038,9 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 				.addCondition(new TagEmptyCondition(coke.location()))
 				.addRecipe(
 					new SmelterRecipeBuilder()
-						.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 1)
-						.addIngredient(Ingredient.of(Items.COAL), 1)
-						.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 1)
+						.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 3)
+						.addIngredient(Ingredient.of(Items.COAL), 2)
+						.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 3)
 						.setProcessingTime(1200)
 						.build(id("smelter", "silicon_from_coal")))
 				.build(consumer, id("smelter", "silicon_from_coal"));
@@ -3049,9 +3049,9 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 				.addCondition(new NotCondition(new TagEmptyCondition(coke.location())))
 				.addRecipe(
 					new SmelterRecipeBuilder()
-						.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 1)
+						.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 3)
 						.addIngredient(Ingredient.of(coke), 1)
-						.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 1)
+						.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 3)
 						.setProcessingTime(1200)
 						.build(id("smelter", "silicon_from_coke")))
 				.build(consumer, id("smelter", "silicon_from_coke"));

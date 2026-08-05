@@ -15,7 +15,7 @@
         "type": "forestry:smelter",
         "inputs": [
           {
-            "count": 1,
+            "count": 3,
             "ingredient": {
               "tag": "forge:gems/quartz"
             }
@@ -28,7 +28,7 @@
           }
         ],
         "output": {
-          "count": 1,
+          "count": 3,
           "ingredient": {
             "tag": "forge:ingots/silicon"
           }
