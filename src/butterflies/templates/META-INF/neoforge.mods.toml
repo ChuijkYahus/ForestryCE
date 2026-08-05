@@ -5,9 +5,9 @@ issueTrackerURL = "https://github.com/thedarkcolour/ForestryCE/issues"
 license = "GNU Lesser Public License v3"
 
 [[mods]]
-modId = "forestry_butterflies"
+modId = "forestrybutterflies"
 version = "${version}"
-displayName = "Forestry: Lepidopterology"
+displayName = "Forestry: Butterflies"
 displayURL = "https://github.com/thedarkcolour/ForestryCE"
 logoFile = "forestry-ce-logo-banner.png"
 authors = "thedarkcolour, SirSengir, mezz, Nedelosk"
@@ -15,14 +15,14 @@ description = '''
 Butterflies, cocoons and the lepidopterist chain.
 '''
 
-[[dependencies.forestry_butterflies]]
+[[dependencies.forestrybutterflies]]
 modId = "neoforge"
 type = "REQUIRED"
 versionRange = "${forgeVersionRange}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.forestry_butterflies]]
+[[dependencies.forestrybutterflies]]
 modId = "forestry"
 type = "REQUIRED"
 versionRange = "[${version},]"

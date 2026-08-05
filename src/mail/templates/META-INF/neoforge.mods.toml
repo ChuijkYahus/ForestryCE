@@ -5,7 +5,7 @@ issueTrackerURL = "https://github.com/thedarkcolour/ForestryCE/issues"
 license = "GNU Lesser Public License v3"
 
 [[mods]]
-modId = "forestry_mail"
+modId = "forestrymail"
 version = "${version}"
 displayName = "Forestry: Mail"
 displayURL = "https://github.com/thedarkcolour/ForestryCE"
@@ -15,14 +15,14 @@ description = '''
 Letters, the post office and trade stations.
 '''
 
-[[dependencies.forestry_mail]]
+[[dependencies.forestrymail]]
 modId = "neoforge"
 type = "REQUIRED"
 versionRange = "${forgeVersionRange}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.forestry_mail]]
+[[dependencies.forestrymail]]
 modId = "forestry"
 type = "REQUIRED"
 versionRange = "[${version},]"

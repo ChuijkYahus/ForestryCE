@@ -794,7 +794,7 @@ neoForge {
 	mods {
 		// One mod id per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
 		// is what makes a content jar optional: leave it out and its plugin is simply not on the
-		// service path. Registering forestry: names from a mod whose id is forestry_farms is
+		// service path. Registering forestry: names from a mod whose id is forestryfarms is
 		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
 		forestry {
 			sourceSet sourceSets.main
@@ -803,13 +803,13 @@ neoForge {
 			sourceSet sourceSets.datagen
 		}
 		contentModules.each { m ->
-			create("forestry_${m}") { sourceSet sourceSets[m] }
+			create("forestry${m}") { sourceSet sourceSets[m] }
 		}
 		// The GameTest suite spans every jar, so it is its own mod id rather than part of core. That
 		// is what lets the partial-install boot configurations leave it out: NeoForge's gametest
 		// scanner resolves every @GameTest method descriptor at registration, and a test naming a
 		// farms type crashes a core-only boot outright - the D3 safety condition, exactly
-		create('forestry_gametest') { sourceSet sourceSets.test }
+		create('forestrygametest') { sourceSet sourceSets.test }
 	}
 
 	runs {
@@ -863,7 +863,7 @@ neoForge {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-butterflies'))
 			programArguments.addAll('--nogui', '--port', '25567')
-			loadedMods = [mods.forestry, mods.forestry_butterflies]
+			loadedMods = [mods.forestry, mods.forestrybutterflies]
 		}
 
 		// Every jar. The `server` run above loads whatever is on the dev classpath; this one names the
@@ -872,7 +872,7 @@ neoForge {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-all'))
 			programArguments.addAll('--nogui', '--port', '25569')
-			loadedMods = [mods.forestry, mods.forestry_butterflies, mods.forestry_farms, mods.forestry_mail]
+			loadedMods = [mods.forestry, mods.forestrybutterflies, mods.forestryfarms, mods.forestrymail]
 		}
 
 		// Multiblock inventory-conservation GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the
@@ -1364,8 +1364,8 @@ jar {
 var contentJars = contentModules.collectEntries { m ->
 	[(m): tasks.register("${m}Jar", Jar) {
 		group = 'build'
-		description = "Assembles the forestry_${m} jar"
-		archiveBaseName.set("forestry_${m}-${minecraftVersion}")
+		description = "Assembles the forestry${m} jar"
+		archiveBaseName.set("forestry${m}-${minecraftVersion}")
 
 		// the module's classes plus its already-partitioned resources
 		from sourceSets[m].output
@@ -1375,7 +1375,7 @@ var contentJars = contentModules.collectEntries { m ->
 					'Specification-Title'     : "Forestry: ${m.capitalize()}",
 					'Specification-Vendor'    : 'SirSengir',
 					'Specification-Version'   : "${project.version}",
-					'Implementation-Title'    : "forestry_${m}",
+					'Implementation-Title'    : "forestry${m}",
 					'Implementation-Version'  : "${project.version}",
 					'Implementation-Vendor'   : 'SirSengir',
 					'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -1416,7 +1416,7 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 		contentModules.each { m ->
 			var foreign = entries[m].findAll { it.endsWith('.class') && !it.startsWith("forestry/${contentPackages[m]}/") }
 			if (!foreign.isEmpty()) {
-				problems.add("forestry_${m} carries ${foreign.size()} class(es) it does not own, first: ${foreign.first()}")
+				problems.add("forestry${m} carries ${foreign.size()} class(es) it does not own, first: ${foreign.first()}")
 			}
 		}
 		var contentInCore = entries['core'].findAll { name ->
