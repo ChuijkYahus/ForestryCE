@@ -36,10 +36,9 @@ java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 // ModKit, a dev-only dependency: with them in main, every datagen lambda put a ModKit type into a
 // method descriptor that FML's boot-time annotation scanner then tried to resolve from the shipped
 // jar. Keeping them out of main removes the cause rather than filtering the symptom out of the jar.
-var contentModules = ['apiculture', 'arboriculture', 'lepidopterology', 'agriculture', 'mail']
+var contentModules = ['arboriculture', 'lepidopterology', 'agriculture', 'mail']
 
 sourceSets {
-	apiculture
 	arboriculture
 	lepidopterology
 	agriculture
@@ -49,7 +48,6 @@ sourceSets {
 
 // Everything requires core. lepidopterology also requires arboriculture - the only cross-content
 // edge D1 allows, and the only one the code has: three TreeUtil imports for butterfly pollination
-sourceSets.apiculture.compileClasspath += sourceSets.main.output
 sourceSets.arboriculture.compileClasspath += sourceSets.main.output
 sourceSets.agriculture.compileClasspath += sourceSets.main.output
 sourceSets.mail.compileClasspath += sourceSets.main.output
@@ -101,7 +99,7 @@ var entryKeyed = { String path ->
 // rename cannot silently move an apiculture loot table into the core jar, where it would reference
 // items a core-only install does not have and fail the datapack load
 var lootModuleJars = [
-		'apiculture'     : 'apiculture',
+		'apiculture'     : 'core',
 		'arboriculture'  : 'arboriculture',
 		'lepidopterology': 'lepidopterology',
 		'farming'        : 'agriculture',
@@ -119,14 +117,14 @@ var lootModuleJars = [
 // not resolve through the ownership map. A configured/placed feature shipped by the wrong jar is an
 // unbound registry value and fails world load, so these are named explicitly
 var worldgenOwners = [
-		'hive': 'apiculture',
+		'hive': 'core',
 		'tree': 'arboriculture',
 ]
 
 var folderOwners = [
-		'data/forestry/bee_species/'              : 'apiculture',
-		'data/forestry/bee_effect/'               : 'apiculture',
-		'data/forestry/recipe/bee_mutation/'      : 'apiculture',
+		'data/forestry/bee_species/'              : 'core',
+		'data/forestry/bee_effect/'               : 'core',
+		'data/forestry/recipe/bee_mutation/'      : 'core',
 		'data/forestry/tree_species/'             : 'arboriculture',
 		'data/forestry/recipe/tree_mutation/'     : 'arboriculture',
 		'data/forestry/butterfly_species/'        : 'lepidopterology',
@@ -373,7 +371,6 @@ tasks.register('generateResourceOwners') {
 		// core reaches the most installs - and report the ones no jar can satisfy.
 		var visibility = [
 				'core'           : ['core'] as Set,
-				'apiculture'     : ['core', 'apiculture'] as Set,
 				'arboriculture'  : ['core', 'arboriculture'] as Set,
 				'agriculture'    : ['core', 'agriculture'] as Set,
 				'mail'           : ['core', 'mail'] as Set,
@@ -772,7 +769,7 @@ neoForge {
 	mods {
 		// Six mod ids, one per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
 		// is what makes a content jar optional: leave it out and its plugin is simply not on the
-		// service path. Registering forestry: names from a mod whose id is forestry_apiculture is
+		// service path. Registering forestry: names from a mod whose id is forestry_agriculture is
 		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
 		forestry {
 			sourceSet sourceSets.main
@@ -786,7 +783,7 @@ neoForge {
 		// The GameTest suite spans every jar, so it is its own mod id rather than part of core. That
 		// is what lets the partial-install boot configurations leave it out: NeoForge's gametest
 		// scanner resolves every @GameTest method descriptor at registration, and a test naming an
-		// apiculture type crashes a core-only boot outright - the D3 safety condition, exactly
+		// agriculture type crashes a core-only boot outright - the D3 safety condition, exactly
 		create('forestry_gametest') { sourceSet sourceSets.test }
 	}
 
@@ -835,16 +832,6 @@ neoForge {
 			loadedMods = [mods.forestry]
 		}
 
-		// Bees without trees. Apiculture is the largest content jar and the one core shares the most
-		// with, so this is where a resource that resolved to core by name rather than by reference
-		// shows up
-		apicultureServer {
-			server()
-			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-api'))
-			programArguments.addAll('--nogui', '--port', '25567')
-			loadedMods = [mods.forestry, mods.forestry_apiculture]
-		}
-
 		// Butterflies without bees. This is the configuration the phase 9b flower type work exists
 		// for: ButterflyChromosomes.FLOWER_TYPE is BeeChromosomes.FLOWER_TYPE, so before that change
 		// every butterfly failed to project here
@@ -855,13 +842,13 @@ neoForge {
 			loadedMods = [mods.forestry, mods.forestry_arboriculture, mods.forestry_lepidopterology]
 		}
 
-		// All six. The `server` run above loads whatever is on the dev classpath; this one names the six
+		// All five. The `server` run above loads whatever is on the dev classpath; this one names the five
 		// published jars, so it is the configuration a player actually installs
 		allJarsServer {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-all'))
 			programArguments.addAll('--nogui', '--port', '25569')
-			loadedMods = [mods.forestry, mods.forestry_apiculture, mods.forestry_arboriculture, mods.forestry_lepidopterology, mods.forestry_agriculture, mods.forestry_mail]
+			loadedMods = [mods.forestry, mods.forestry_arboriculture, mods.forestry_lepidopterology, mods.forestry_agriculture, mods.forestry_mail]
 		}
 
 		// Multiblock inventory-conservation GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the
@@ -880,8 +867,8 @@ neoForge {
 		}
 	}
 
-	// src/test, src/datagen and the five content roots have no Minecraft/NeoForge on their classpath by
-	// default — moddev only wires that into source sets it's told about. Without this they won't compile.
+	// src/test, src/datagen and the four content roots have no Minecraft/NeoForge on their classpath by
+	// default. Moddev only wires that into source sets it's told about. Without this they won't compile.
 	addModdingDependenciesTo sourceSets.test
 	addModdingDependenciesTo sourceSets.datagen
 	contentModules.each { addModdingDependenciesTo sourceSets[it] }
