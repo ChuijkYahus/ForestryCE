@@ -68,6 +68,11 @@ public class EscritoireGame implements INbtWritable, INbtReadable, IStreamable {
             this.status = Status.values()[statusOrdinal];
 		}
 
+		if (this.status == Status.PLAYING && this.gameBoard.isEmpty()) {
+			this.status = Status.EMPTY;
+			this.bountyLevel = BOUNTY_MAX;
+		}
+
         this.lastUpdate = System.currentTimeMillis();
 	}
 

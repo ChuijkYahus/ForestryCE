@@ -1,6 +1,7 @@
 ## Forestry 2.10.3
 - Genetic filter now actually moves items around
 - Vintage Comb Block is no longer missing an in-world model
+- Escritoire Game state now persists across world reloads
 
 ## Forestry 2.10.2
 - Fix bugs in French translation, thanks to Horusbk (#313)

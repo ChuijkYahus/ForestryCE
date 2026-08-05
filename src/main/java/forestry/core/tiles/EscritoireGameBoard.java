@@ -24,6 +24,9 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	private static final int TOKEN_COUNT_MAX = 22;
 	private static final int TOKEN_COUNT_MIN = 6;
 
+	public static final String NBT_TOKEN_COUNT = "TokenCount";
+	public static final String NBT_GAME_TOKENS = "GameTokens";
+
 	private final List<EscritoireGameToken> gameTokens = new ArrayList<>(TOKEN_COUNT_MAX);
 	private int tokenCount;
 
@@ -31,20 +34,46 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	}
 
 	public EscritoireGameBoard(CompoundTag nbt) {
-		this.tokenCount = nbt.getInt("TokenCount");
+		if (!nbt.contains(NBT_GAME_TOKENS, Tag.TAG_LIST)) {
+			return;
+		}
 
-		if (this.tokenCount > 0) {
-			EscritoireGameToken[] tokens = new EscritoireGameToken[this.tokenCount];
-			ListTag nbttaglist = nbt.getList("GameTokens", Tag.TAG_LIST);
+		ListTag list = nbt.getList(NBT_GAME_TOKENS, Tag.TAG_COMPOUND);
+		int size = Math.min(list.size(), TOKEN_COUNT_MAX);
 
-			for (int j = 0; j < nbttaglist.size(); ++j) {
-				CompoundTag CompoundNBT2 = nbttaglist.getCompound(j);
-				int index = CompoundNBT2.getByte("Slot");
-				tokens[index] = new EscritoireGameToken(CompoundNBT2);
+		if (size == 0) {
+			return;
+		}
+
+		EscritoireGameToken[] tokens = new EscritoireGameToken[size];
+		boolean complete = true;
+
+		for (int j = 0; j < size; ++j) {
+			CompoundTag tokenNbt = list.getCompound(j);
+			int index = tokenNbt.getByte("Slot");
+			if (index < 0 || index >= size || tokens[index] != null) {
+				index = j;
 			}
 
-			Collections.addAll(this.gameTokens, tokens);
+			EscritoireGameToken token = new EscritoireGameToken(tokenNbt);
+			complete &= token.hasSpecies();
+			tokens[index] = token;
 		}
+
+		for (EscritoireGameToken token : tokens) {
+			complete &= token != null;
+		}
+
+		if (!complete) {
+			return;
+		}
+
+		Collections.addAll(this.gameTokens, tokens);
+		this.tokenCount = this.gameTokens.size();
+	}
+
+	public boolean isEmpty() {
+		return this.gameTokens.isEmpty();
 	}
 
 	public boolean initialize(ItemStack specimen) {
@@ -181,7 +210,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	@Override
 	public CompoundTag write(CompoundTag compoundNBT) {
 		if (this.tokenCount > 0) {
-			compoundNBT.putInt("TokenCount", this.tokenCount);
+			compoundNBT.putInt(NBT_TOKEN_COUNT, this.tokenCount);
 			ListTag nbttaglist = new ListTag();
 
 			for (int i = 0; i < this.tokenCount; i++) {
@@ -196,9 +225,9 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 				nbttaglist.add(compoundNBT2);
 			}
 
-			compoundNBT.put("GameTokens", nbttaglist);
+			compoundNBT.put(NBT_GAME_TOKENS, nbttaglist);
 		} else {
-			compoundNBT.putInt("TokenCount", 0);
+			compoundNBT.putInt(NBT_TOKEN_COUNT, 0);
 		}
 		return compoundNBT;
 	}
