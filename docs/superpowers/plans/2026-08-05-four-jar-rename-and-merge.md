@@ -348,7 +348,10 @@ In `allJarsServer`:
 			loadedMods = [mods.forestry, mods.forestry_lepidopterology, mods.forestry_agriculture, mods.forestry_mail]
 ```
 
-Its leading comment says "All six". Change to "All four".
+Its leading comment said "All six" when this plan was written. **Superseded:** Task 1's fix pass
+recast every hardcoded jar count in `build.gradle` to be count-free, because 6 -> 5 -> 4 goes stale
+twice more. That comment now reads "Every jar". Leave it. Do not reintroduce a number here, or
+anywhere else, except `checkJarPartition`'s log line, which computes `${jarFiles.size()}`.
 
 - [ ] **Step 8: Verify every source set still compiles**
 
@@ -678,11 +681,8 @@ The foreign-class scan becomes:
 		}
 ```
 
-The completion message hardcodes `6 jars`. Make it count:
-
-```groovy
-		logger.lifecycle("checkJarPartition: ${jarFiles.size()} jars, no foreign classes, ${written} split variant(s) all present")
-```
+**Already done in Task 1's fix pass** - the completion message no longer hardcodes a count, it
+reads `${jarFiles.size()}`. Nothing to change here; verify it still does.
 
 - [ ] **Step 10: Verify the guard rejects a wrong package**
 
@@ -755,14 +755,9 @@ and:
 		create('forestrygametest') { sourceSet sourceSets.test }
 ```
 
-Update the block's leading comment, which still says "Six mod ids" and names an underscored id:
-
-```groovy
-		// Four mod ids, one per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
-		// is what makes a content jar optional: leave it out and its plugin is simply not on the
-		// service path. Registering forestry: names from a mod whose id is forestryfarms is
-		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
-```
+The block's leading comment was recast count-free in Task 1's fix pass, so it no longer says "Six
+mod ids". It does still name an underscored id as its example. Update only that example, to
+`forestryfarms`, and leave the rest of the comment alone. Do not reintroduce a count.
 
 - [ ] **Step 2: Rename the ids in the boot configurations**
 
@@ -989,7 +984,18 @@ Expected: `BUILD SUCCESSFUL` and `checkJarPartition: 4 jars, no foreign classes,
 
 `checkResourceFqcn` derives its source and resource roots from `contentModules`, so it needs no edit - but it is the only check that reads the Patchouli templates and `kubejs.plugins.txt`, which name Java classes by fully qualified name. Those classes did not change package in this work, so a failure here means a file was lost in a move.
 
-- [ ] **Step 3: Boot all five configurations**
+- [ ] **Step 3: Boot all five configurations, each on a fresh world**
+
+First delete every boot world directory:
+
+```bash
+rm -rf run/boot-core run/boot-butterflies run/boot-farms run/boot-mail run/boot-all
+```
+
+This is required, not tidiness. A boot world's `level.dat` records the mods that created it, so a
+directory left over from an earlier layout makes NeoForge log `forestry_apiculture (version
+3.0.0-alpha1 -> MISSING)` and load against remembered registry data. The run then tests an upgrade
+path rather than the clean install it is supposed to prove.
 
 Run each in turn, waiting for the `Done (Ns)! For help, type "help"` line before stopping it with Ctrl-C:
 

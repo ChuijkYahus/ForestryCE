@@ -442,6 +442,10 @@ tasks.register('generateResourceOwners') {
 			}
 			var registryFolder = (rel =~ '^data/[^/]+/tags/(.+)/[^/]+\\.json$').with { it.find() ? it.group(1) : null }
 			var needed = new TreeSet<String>()
+			// Same references, core included. `needed` drops core because a derived jar always sees it,
+			// but deciding whether an entry-keyed file spans jars has to count core as a jar like any
+			// other
+			var namedJars = new TreeSet<String>()
 			file.text.findAll(refPattern) { match, key, hash, path ->
 				if (key == 'tag') {
 					return
@@ -454,9 +458,21 @@ tasks.register('generateResourceOwners') {
 				} else {
 					found = qualifiedOwner(registryFolder, 'forestry:' + path) ?: idOwners['forestry:' + path] ?: speciesOwners['forestry:' + path]
 				}
-				if (found != null && found != 'core') {
-					needed.add(found)
+				if (found != null) {
+					namedJars.add(found)
+					if (found != 'core') {
+						needed.add(found)
+					}
 				}
+			}
+			// An entry-keyed collection splits as soon as its entries span jars at all, even when one
+			// jar can see every entry. That jar shipping the file whole strands every entry the others
+			// own. Ex. genetic_samples names a core propolis and a butterfly caterpillar: the butterfly
+			// jar sees both, so the closure below is satisfied and would leave the file there, and a
+			// core-only install then has no genetic_samples tag and a propolis that is not in it
+			if (entryKeyed(rel) && namedJars.size() > 1) {
+				split.add(rel)
+				return
 			}
 			if (needed.isEmpty() || visibility[owner].containsAll(needed)) {
 				return
