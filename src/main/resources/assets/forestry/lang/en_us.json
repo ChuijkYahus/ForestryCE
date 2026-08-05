@@ -85,6 +85,8 @@
   "circuit.layout.forestry.machine.upgrade.usage": "Socketed Machines",
   "circuit.layout.forestry.engine.upgrade": "Engine Upgrade",
   "circuit.layout.forestry.engine.upgrade.usage": "Socketed Engines",
+  "circuit.layout.forestry.solar_engine.upgrade": "Solar Engines",
+  "circuit.layout.forestry.solar_engine.upgrade.usage": "Socketed Solar Engines",
   "allele.forestry.flower_type.flower_type_cacti": "Cacti",
   "allele.forestry.flower_type.flower_type_cave": "Cave",
   "allele.forestry.flower_type.flower_type_photosynthesis": "Photosynth.",

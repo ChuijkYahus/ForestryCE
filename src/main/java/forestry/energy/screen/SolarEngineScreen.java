@@ -18,7 +18,7 @@ public class SolarEngineScreen extends EngineScreen<SolarEngineMenu, SolarEngine
 	public SolarEngineScreen(SolarEngineMenu menu, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/solar_engine.png", menu, inv, title, menu.getTile());
 
-		this.widgetManager.add(new SocketWidget(this.widgetManager, 13,49, menu.getTile(), 0));
+		this.widgetManager.add(new SocketWidget(this.widgetManager, 14,50, menu.getTile(), 0));
 		this.imageWidth = 196;
 	}
 

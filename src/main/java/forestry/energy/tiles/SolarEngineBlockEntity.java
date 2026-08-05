@@ -8,6 +8,7 @@ import forestry.api.core.ForestryError;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.circuits.IEngineUpgradeable;
 import forestry.core.circuits.ISocketable;
+import forestry.core.circuits.ISolarEngineUpgradeable;
 import forestry.core.config.Constants;
 import forestry.core.config.ForestryConfig;
 import forestry.core.inventory.InventoryAdapter;
@@ -37,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
-public class SolarEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ISocketable, IEngineUpgradeable {
+public class SolarEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ISocketable, ISolarEngineUpgradeable {
 
 	private int activePanels;
 	private int miliBuffer;
@@ -345,7 +346,7 @@ public class SolarEngineBlockEntity extends EngineBlockEntity implements Worldly
 
 	@Override
 	public ResourceLocation getSocketType() {
-		return ForestryCircuitSocketTypes.ENGINE;
+		return ForestryCircuitSocketTypes.SOLAR_ENGINE;
 	}
 
 	//WORKS CLIENTSIDE ONLY
