@@ -213,15 +213,15 @@ lightly as it can because of that. Nothing here should be read as an endorsement
 
 ### Why it is going
 
-`resource-owners.json` holds 12,165 entries. After the merge, 11,488 of them say `core`:
+`resource-owners.json` holds 12,168 entries. After the merge, 11,497 of them say `core`:
 
 | jar | files | share |
 | --- | --- | --- |
-| core | 11,488 | 94.4% |
+| core | 11,497 | 94.5% |
 | farms | 465 | 3.8% |
 | butterflies | 107 | 0.9% |
 | mail | 96 | 0.8% |
-| split | 10 | 0.1% |
+| split | 3 | 0.0% |
 
 More important than the ratio is where the answer comes from. `generateResourceOwners` *infers*
 ownership that datagen already *knows*. It reconstructs which jar owns
@@ -265,10 +265,12 @@ are already single-purpose - but butterflies is only 107 of the 668 non-core fil
 the helper validates model parents against it. With four resource roots it needs all four, or model
 parent validation starts failing on legitimate references.
 
-**The 10 split files.** A directory scheme does not by itself split a file whose entries belong to
-different jars. Providers can emit per-jar variants directly, since a tag provider knows each
-entry's owner and the game merges tags across packs, but that is authoring work rather than a
-consequence of the directory move. The same applies to `en_us.json`.
+**The 3 split files.** A directory scheme does not by itself split a file whose entries belong to
+different jars. The merge collapsed seven previously-split files into core, and the set is now
+exactly `data/forestry/tags/item/genetic_samples.json`, `data/minecraft/tags/block/mineable/pickaxe.json`
+and `data/neoforge/data_maps/item/compostables.json`. Providers can emit per-jar variants directly,
+since a tag provider knows each entry's owner and the game merges tags across packs, but that is
+authoring work rather than a consequence of the directory move. The same applies to `en_us.json`.
 
 ### Defects the implementation found in the closure, for the successor to inherit
 

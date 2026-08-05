@@ -882,8 +882,9 @@ neoForge {
 			loadedMods = [mods.forestry, mods.forestrymail]
 		}
 
-		// Every jar. The `server` run above loads whatever is on the dev classpath; this one names the
-		// published jars, so it is the configuration a player actually installs
+		// Every jar. All boot configurations run from build/resources and build/classes, never a built
+		// jar, and loadedMods names mod ids rather than artifacts. What this one proves is narrower than
+		// its name suggests: every mod id loading together, nothing about the published artifacts
 		allJarsServer {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-all'))
@@ -1471,6 +1472,23 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 					problems.add("${jar} is missing its share of ${rel}")
 				}
 			}
+		}
+
+		// core excludes anything not owned by core, and each content module includes only what its
+		// own name owns, so an owner outside the known jars ships in none of them. Every check above
+		// stays green while that happens, so the manifest itself needs checking too
+		var fileOwners = new JsonSlurper().parse(resourceOwnersFile) as Map<String, String>
+		var knownOwners = jarFiles.keySet() + 'split'
+		fileOwners.findAll { !(it.value in knownOwners) }
+				.groupBy { it.value }
+				.each { owner, files ->
+					problems.add("resource-owners.json has ${files.size()} file(s) claiming unknown owner '${owner}', first: ${files.keySet().first()}")
+				}
+
+		// A partition directory for a jar that no longer exists is invisible to the loop above, since
+		// it only visits jarFiles.keySet()
+		outDir.listFiles()?.findAll { it.isDirectory() && !jarFiles.containsKey(it.name) }?.each { dir ->
+			problems.add("the partition directory has a '${dir.name}' folder, but no jar of that name exists")
 		}
 
 		if (!problems.isEmpty()) {
