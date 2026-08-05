@@ -866,12 +866,28 @@ neoForge {
 			loadedMods = [mods.forestry, mods.forestrybutterflies]
 		}
 
+		// Farms and mail had no boot of their own under the six-jar layout, and folderOwners names no
+		// data folder for either. These two are where an ownership bug is most likely to still be
+		farmsServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-farms'))
+			programArguments.addAll('--nogui', '--port', '25568')
+			loadedMods = [mods.forestry, mods.forestryfarms]
+		}
+
+		mailServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-mail'))
+			programArguments.addAll('--nogui', '--port', '25569')
+			loadedMods = [mods.forestry, mods.forestrymail]
+		}
+
 		// Every jar. The `server` run above loads whatever is on the dev classpath; this one names the
 		// published jars, so it is the configuration a player actually installs
 		allJarsServer {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-all'))
-			programArguments.addAll('--nogui', '--port', '25569')
+			programArguments.addAll('--nogui', '--port', '25570')
 			loadedMods = [mods.forestry, mods.forestrybutterflies, mods.forestryfarms, mods.forestrymail]
 		}
 
