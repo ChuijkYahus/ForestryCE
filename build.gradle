@@ -843,7 +843,7 @@ neoForge {
 			loadedMods = [mods.forestry, mods.forestry_arboriculture, mods.forestry_lepidopterology]
 		}
 
-		// All five. The `server` run above loads whatever is on the dev classpath; this one names the five
+		// Every jar. The `server` run above loads whatever is on the dev classpath; this one names the
 		// published jars, so it is the configuration a player actually installs
 		allJarsServer {
 			server()
@@ -868,7 +868,7 @@ neoForge {
 		}
 	}
 
-	// src/test, src/datagen and the four content roots have no Minecraft/NeoForge on their classpath by
+	// src/test, src/datagen and the content roots have no Minecraft/NeoForge on their classpath by
 	// default. Moddev only wires that into source sets it's told about. Without this they won't compile.
 	addModdingDependenciesTo sourceSets.test
 	addModdingDependenciesTo sourceSets.datagen
