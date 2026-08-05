@@ -37,29 +37,26 @@ java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 // type into a method descriptor that FML's boot-time annotation scanner then tried to resolve from
 // the shipped jar. Keeping them out of main removes the cause rather than filtering the symptom out
 // of the jar.
-var contentModules = ['arboriculture', 'lepidopterology', 'agriculture', 'mail']
+var contentModules = ['lepidopterology', 'agriculture', 'mail']
 
 sourceSets {
-	arboriculture
 	lepidopterology
 	agriculture
 	mail
 	datagen
 }
 
-// Everything requires core. lepidopterology also requires arboriculture - the only cross-content
-// edge D1 allows, and the only one the code has: three TreeUtil imports for butterfly pollination
-sourceSets.arboriculture.compileClasspath += sourceSets.main.output
+// Everything requires core, and nothing else. Arboriculture moving into core dissolved the only
+// cross-content edge the split ever had - three TreeUtil imports for butterfly pollination
 sourceSets.agriculture.compileClasspath += sourceSets.main.output
 sourceSets.mail.compileClasspath += sourceSets.main.output
-sourceSets.lepidopterology.compileClasspath += sourceSets.main.output + sourceSets.arboriculture.output
+sourceSets.lepidopterology.compileClasspath += sourceSets.main.output
 
 contentModules.each { m ->
 	sourceSets[m].runtimeClasspath += sourceSets.main.output
 	configurations["${m}Implementation"].extendsFrom configurations.implementation
 	configurations["${m}CompileOnly"].extendsFrom configurations.compileOnly
 }
-sourceSets.lepidopterology.runtimeClasspath += sourceSets.arboriculture.output
 
 // Datagen and the GameTests both read every jar, so they get them all
 sourceSets.datagen.compileClasspath += sourceSets.main.output
@@ -101,7 +98,7 @@ var entryKeyed = { String path ->
 // items a core-only install does not have and fail the datapack load
 var lootModuleJars = [
 		'apiculture'     : 'core',
-		'arboriculture'  : 'arboriculture',
+		'arboriculture'  : 'core',
 		'lepidopterology': 'lepidopterology',
 		'farming'        : 'agriculture',
 		'cultivation'    : 'agriculture',
@@ -119,15 +116,15 @@ var lootModuleJars = [
 // unbound registry value and fails world load, so these are named explicitly
 var worldgenOwners = [
 		'hive': 'core',
-		'tree': 'arboriculture',
+		'tree': 'core',
 ]
 
 var folderOwners = [
 		'data/forestry/bee_species/'              : 'core',
 		'data/forestry/bee_effect/'               : 'core',
 		'data/forestry/recipe/bee_mutation/'      : 'core',
-		'data/forestry/tree_species/'             : 'arboriculture',
-		'data/forestry/recipe/tree_mutation/'     : 'arboriculture',
+		'data/forestry/tree_species/'             : 'core',
+		'data/forestry/recipe/tree_mutation/'     : 'core',
 		'data/forestry/butterfly_species/'        : 'lepidopterology',
 		// A chest loot modifier hooks a vanilla table and names its contributing modules as plain
 		// strings, resolving each sub-table at run time and skipping the ones that are absent. So it
@@ -372,12 +369,9 @@ tasks.register('generateResourceOwners') {
 		// core reaches the most installs - and report the ones no jar can satisfy.
 		var visibility = [
 				'core'           : ['core'] as Set,
-				'arboriculture'  : ['core', 'arboriculture'] as Set,
 				'agriculture'    : ['core', 'agriculture'] as Set,
 				'mail'           : ['core', 'mail'] as Set,
-				// lepidopterology declares a required dependency on arboriculture, so a butterfly is
-				// allowed to name a tree
-				'lepidopterology': ['core', 'arboriculture', 'lepidopterology'] as Set,
+				'lepidopterology': ['core', 'lepidopterology'] as Set,
 		]
 
 		// Species ids are not features, so the ownership manifest does not carry them. Their definition
@@ -833,14 +827,13 @@ neoForge {
 			loadedMods = [mods.forestry]
 		}
 
-		// Butterflies without bees. This is the configuration the phase 9b flower type work exists
-		// for: ButterflyChromosomes.FLOWER_TYPE is BeeChromosomes.FLOWER_TYPE, so before that change
-		// every butterfly failed to project here
-		lepidopterologyNoBeesServer {
+		// Butterflies alone. Bees and trees are core now, so this proves only what it should: that the
+		// butterfly jar needs nothing but base
+		lepidopterologyServer {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-lepi'))
 			programArguments.addAll('--nogui', '--port', '25568')
-			loadedMods = [mods.forestry, mods.forestry_arboriculture, mods.forestry_lepidopterology]
+			loadedMods = [mods.forestry, mods.forestry_lepidopterology]
 		}
 
 		// Every jar. The `server` run above loads whatever is on the dev classpath; this one names the
@@ -849,7 +842,7 @@ neoForge {
 			server()
 			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-all'))
 			programArguments.addAll('--nogui', '--port', '25569')
-			loadedMods = [mods.forestry, mods.forestry_arboriculture, mods.forestry_lepidopterology, mods.forestry_agriculture, mods.forestry_mail]
+			loadedMods = [mods.forestry, mods.forestry_lepidopterology, mods.forestry_agriculture, mods.forestry_mail]
 		}
 
 		// Multiblock inventory-conservation GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the

@@ -28,12 +28,3 @@ type = "REQUIRED"
 versionRange = "[${version},]"
 ordering = "AFTER"
 side = "BOTH"
-
-# Butterflies pollinate leaves, so the lepidopterology jar needs the arboriculture jar.
-# This is the only cross-content edge D1 allows, and the only one the code has.
-[[dependencies.forestry_lepidopterology]]
-modId = "forestry_arboriculture"
-type = "REQUIRED"
-versionRange = "[${version},]"
-ordering = "AFTER"
-side = "BOTH"
