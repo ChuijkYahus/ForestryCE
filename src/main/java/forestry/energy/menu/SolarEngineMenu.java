@@ -1,6 +1,7 @@
 package forestry.energy.menu;
 
 import forestry.core.gui.ContainerSocketed;
+import forestry.core.gui.ContainerTile;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotOutput;
 import forestry.core.network.packets.PacketGuiStream;
@@ -18,7 +19,8 @@ public class SolarEngineMenu extends ContainerSocketed<SolarEngineBlockEntity> {
 	}
 
 	public SolarEngineMenu(int id, Inventory player, SolarEngineBlockEntity tile) {
-		super(id, EnergyMenus.ENGINE_SOLAR.menuType(), player, tile, 8, 80);
+		super(id, EnergyMenus.ENGINE_SOLAR.menuType(), player, tile, 18, 80);
+
 	}
 
 	@Override

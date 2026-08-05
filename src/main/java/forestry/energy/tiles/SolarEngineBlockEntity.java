@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ForestryCircuitSocketTypes;
 import forestry.api.circuits.ICircuitBoard;
+import forestry.api.core.ForestryError;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.circuits.IEngineUpgradeable;
 import forestry.core.circuits.ISocketable;
@@ -46,6 +47,7 @@ public class SolarEngineBlockEntity extends EngineBlockEntity implements Worldly
 	//used for clientside only
 	private int activeCount = 0;
 	private int totalCount = 0;
+	private int cacheSkyDarkness = 0;
 
 	public static final Direction[] HORIZONTAL_DIRECTOINS=new Direction[]{Direction.NORTH,Direction.EAST,Direction.SOUTH,Direction.WEST};
 
@@ -58,6 +60,10 @@ public class SolarEngineBlockEntity extends EngineBlockEntity implements Worldly
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		super.serverTick(level, pos, state);
+
+		this.getErrorLogic().setCondition(this.array.isEmpty(), ForestryError.NO_SOLAR_PANELS);
+		this.getErrorLogic().setCondition(this.level.getSkyDarken() > 7, ForestryError.NO_SUNLIGHT);
+
 		if (!updateOnInterval(20)) {
 			return;
 		}
@@ -211,8 +217,10 @@ public class SolarEngineBlockEntity extends EngineBlockEntity implements Worldly
 
 			}
 		}
-		if (output <= 0 || realOutput <= 0) return 0;
-		return ((double)realOutput /output)*100;
+		if (output <= 0 || realOutput <= 0) {
+			return 0;
+		}
+		return ((double)realOutput / output);
 
 	}
 
@@ -275,6 +283,7 @@ public class SolarEngineBlockEntity extends EngineBlockEntity implements Worldly
 		this.sockets.writeData(data);
 		data.writeInt(this.activePanels);
 		data.writeInt(this.array.size());
+		data.writeInt(this.getLevel().getSkyDarken());
 	}
 
 	@Override
@@ -283,6 +292,7 @@ public class SolarEngineBlockEntity extends EngineBlockEntity implements Worldly
 		this.sockets.readData(data);
 		this.activeCount = data.readInt();
 		this.totalCount = data.readInt();
+		this.cacheSkyDarkness = data.readInt();
 
 	}
 
@@ -345,5 +355,9 @@ public class SolarEngineBlockEntity extends EngineBlockEntity implements Worldly
 	//WORKS CLIENTSIDE ONLY
 	public int getPanelCount() {
 		return this.totalCount;
+	}
+	//WORKS CLIENTSIDE ONLY
+	public int getCacheSkyDarkness() {
+		return this.cacheSkyDarkness;
 	}
 }

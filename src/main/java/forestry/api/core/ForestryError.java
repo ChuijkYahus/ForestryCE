@@ -51,6 +51,8 @@ public enum ForestryError implements IError {
 	NO_HEAT("no_heat"), // (Biogas engine) Refill the heating tank.
 	NO_COOLANT("no_coolant"), // (Combustion Engine) Refill the coolant tank.
 	NO_ENERGY_NET("no_energy_net"), // Your world is barren of any electricity. (Install IndustrialCraft\u00b2.)
+	NO_SOLAR_PANELS("no_solar_panels"),
+	NO_SUNLIGHT("no_sunlight"),
 
 	// Trade Station
 	NO_STAMPS("no_stamps"), // The trade station requires more stamps to pay postage.
