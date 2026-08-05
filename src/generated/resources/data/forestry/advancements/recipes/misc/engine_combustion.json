@@ -5,13 +5,7 @@
       "conditions": {
         "items": [
           {
-<<<<<<<< HEAD:src/generated/resources/data/forestry/advancements/recipes/misc/engine_combustion.json
             "tag": "forge:ingots/iron"
-========
-            "items": [
-              "forestry:beeswax"
-            ]
->>>>>>>> pr-345-head:src/generated/resources/data/forestry/advancements/recipes/building_blocks/wax_bricks_ash.json
           }
         ]
       },
@@ -19,11 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-<<<<<<<< HEAD:src/generated/resources/data/forestry/advancements/recipes/misc/engine_combustion.json
         "recipe": "forestry:engine_combustion"
-========
-        "recipe": "forestry:wax_bricks_ash"
->>>>>>>> pr-345-head:src/generated/resources/data/forestry/advancements/recipes/building_blocks/wax_bricks_ash.json
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -36,11 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-<<<<<<<< HEAD:src/generated/resources/data/forestry/advancements/recipes/misc/engine_combustion.json
       "forestry:engine_combustion"
-========
-      "forestry:wax_bricks_ash"
->>>>>>>> pr-345-head:src/generated/resources/data/forestry/advancements/recipes/building_blocks/wax_bricks_ash.json
     ]
   },
   "sends_telemetry_event": true
