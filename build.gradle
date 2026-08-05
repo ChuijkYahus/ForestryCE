@@ -550,12 +550,25 @@ tasks.register('generateResourceOwners') {
 			}
 		}
 
+		// A .mcmeta is not a file in its own right, it is metadata on the one whose name it extends, and
+		// the game reads it from the pack that supplied that file. Shipped from anywhere else it is
+		// ignored, so it follows its file rather than being placed. Last, because every rule above can
+		// still move the file it annotates
+		var followed = 0
+		owners.keySet().findAll { it.endsWith('.mcmeta') }.each { rel ->
+			var owner = owners[rel.substring(0, rel.length() - '.mcmeta'.length())]
+			if (owner != null && owner != owners[rel]) {
+				owners[rel] = owner
+				followed++
+			}
+		}
+
 		resourceOwnersFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(owners)) + '\n'
 
 		var counts = new TreeMap<String, Integer>()
 		owners.values().each { counts.merge(it, 1, Integer::sum) }
 		logger.lifecycle("generateResourceOwners: " + counts.collect { "${it.key}=${it.value}" }.join(', '))
-		logger.lifecycle("  ${fellBack} file(s) fell back to core; ${promotions.size()} promoted by reference; ${taxonMoves} taxa followed a parent; ${split.size()} split by entry")
+		logger.lifecycle("  ${fellBack} file(s) fell back to core; ${promotions.size()} promoted by reference; ${taxonMoves} taxa followed a parent; ${followed} .mcmeta followed its file; ${split.size()} split by entry")
 		promotions.groupBy { it.value }.sort().each { jar, files ->
 			logger.lifecycle("  promoted to ${jar}: ${files.size()} file(s)")
 		}
@@ -1400,6 +1413,20 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 		}
 		if (!contentInCore.isEmpty()) {
 			problems.add("the base jar carries ${contentInCore.size()} content class(es), first: ${contentInCore.first()}")
+		}
+
+		// The game reads a .mcmeta from the pack that supplied the file it annotates, so one that ships
+		// in another jar is silently ignored. An animated texture then renders as the whole frame strip
+		var jarOf = new HashMap<String, String>()
+		entries.each { jar, names -> names.each { jarOf[it] = jar } }
+		entries.each { jar, names ->
+			names.findAll { it.endsWith('.mcmeta') }.each { name ->
+				var principal = name.substring(0, name.length() - '.mcmeta'.length())
+				var owner = jarOf[principal]
+				if (owner != null && owner != jar) {
+					problems.add("${jar} ships ${name} but ${principal} ships in ${owner}")
+				}
+			}
 		}
 
 		// Every variant the partition wrote has to reach the jar it was written for
