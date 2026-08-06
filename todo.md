@@ -1,4 +1,4 @@
-Phase 9b is done. Six mod ids, six jars, a generated resource partition, and all five boot
+Phase 9b is done. Four mod ids, four jars, a generated resource partition, and all five boot
 configurations reaching Done with zero recipe errors and zero tag errors.
 
 The 2026-08-02 note said the full install was green and left core-only "still logs 65 recipe and 28 tag
@@ -32,8 +32,10 @@ Three things the closure needed that did not exist:
 
 Some files cannot be owned by any jar. Tags, data maps and global_loot_modifiers.json are assembled by
 the game from every pack supplying one, so each jar gets a variant holding only its own entries. Ten
-files split; en_us splits the same way. global_loot_modifiers.json is the sharp one - it names the
-arboriculture grafter, so promoting it would have left core with no loot modifier list at all.
+files split then, by post-hoc inference over what the closure had already assigned; that mechanism is
+gone now, and each jar's providers write their own variant straight into that jar's root, en_us
+included. global_loot_modifiers.json is the sharp one - it names the arboriculture grafter, so giving
+it a single owner would have left core with no loot modifier list at all.
 
 Cross-jar recipes have a policy now, and it is not neoforge:conditions. An absent item is an unknown
 registry key and fails the recipe; an absent tag resolves empty. So the genetic filter's caterpillar
@@ -52,8 +54,10 @@ and a split file's owner is 'split', not 'core' - so core's processResources exc
 partitioned share, and the core jar shipped no en_us and no global_loot_modifiers.json. Every boot
 still reached Done and logged nothing: a missing loot modifier list is not an error, it just stops
 injecting loot, and a headless server never renders a lang key. Inspecting the built jars found it.
-A boot proves what loads; only the artifact proves what shipped. checkJarPartition now does that check
-on every `check`.
+A boot proves what loads; only the artifact proves what shipped. checkJarPartition checked that split
+ownership on every `check` at the time; the ownership machinery it read is gone now, and the guard
+that replaced it is narrower, every jar must ship en_us and core's copy must differ from the
+hand-written file, with no equivalent yet for global_loot_modifiers.json.
 
 Two harness traps worth knowing before rerunning the boots. A server run never stops on its own, so
 the forked JVM outlives the gradle task and keeps its port; the next configuration then fails to bind
@@ -61,4 +65,4 @@ and stops before loading any datapack, which reads as zero recipe errors and zer
 Done. Each config now takes its own port, 25566 to 25569. Read the Done line, not the absence of
 errors.
 
-Still to do: publish the six artifacts.
+Still to do: publish the artifacts.

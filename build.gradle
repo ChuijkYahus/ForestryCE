@@ -627,7 +627,7 @@ tasks.named('processResources', ProcessResources) {
 	// core's generated one, and the merge of the two. Only the merge belongs in the jar, and an
 	// exclude at the top of a Copy task applies to every source it has, so the two originals are told
 	// apart from the merge by where they came from
-	var mergedRoot = project.file('build/generated/sources/mergedAssets').absolutePath
+	var mergedRoot = project.file('build/generated/sources/mergedAssets').absolutePath + File.separator
 	exclude { details ->
 		return !details.directory
 				&& details.relativePath.pathString == 'assets/forestry/lang/en_us.json'
@@ -703,7 +703,7 @@ var contentJars = contentModules.collectEntries { m ->
 // jars instead, and it is the cheaper of the two checks.
 var checkJarPartition = tasks.register('checkJarPartition') {
 	group = 'verification'
-	description = 'Fails if a jar carries another jar\'s classes, references ModKit or strands a .mcmeta'
+	description = 'Fails if a jar carries another jar\'s classes, references ModKit, strands a .mcmeta or ships without en_us'
 
 	dependsOn tasks.named('jar')
 	contentModules.each { dependsOn contentJars[it] }
@@ -713,6 +713,9 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 		var problems = new ArrayList<String>()
 		var jarFiles = ['core': tasks.named('jar').get().archiveFile.get().asFile]
 		contentModules.each { m -> jarFiles[m] = contentJars[m].get().archiveFile.get().asFile }
+
+		var langPath = 'assets/forestry/lang/en_us.json'
+		var langBytes = new HashMap<String, byte[]>()
 
 		// A source set boundary used to keep ModKit off the production compile classpath. The datagen
 		// providers live in the production source sets now, so the artifact is what has to prove it.
@@ -728,6 +731,8 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 						if (text.contains('thedarkcolour/modkit') || text.contains('thedarkcolour.modkit')) {
 							problems.add("${jarName} jar: ${entry.name} references ModKit")
 						}
+					} else if (entry.name == langPath) {
+						langBytes[jarName] = zip.getInputStream(entry).bytes
 					}
 				}
 			}
@@ -763,10 +768,25 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 			}
 		}
 
+		// A boot config cannot prove this: it never renders a lang key, so a headless server reaches
+		// Done whether en_us shipped or not. Core once shipped none, because the merge that produces
+		// its copy silently no-sourced and the exclude then dropped every remaining candidate; see the
+		// note above processResources. A core copy identical to the hand-written file is the same
+		// failure under another name, the merge did not run and the generated half never got in
+		var handWritten = project.file('src/main/resources/assets/forestry/lang/en_us.json').bytes
+		jarFiles.each { jarName, file ->
+			var bytes = langBytes[jarName]
+			if (bytes == null) {
+				problems.add("${jarName} jar: missing ${langPath}")
+			} else if (jarName == 'core' && java.util.Arrays.equals(bytes, handWritten)) {
+				problems.add("core jar: ${langPath} is byte-identical to the hand-written file, the merge did not run")
+			}
+		}
+
 		if (!problems.isEmpty()) {
 			throw new GradleException("Jar partition is wrong:\n  " + problems.join('\n  '))
 		}
-		logger.lifecycle("checkJarPartition: ${jarFiles.size()} jars, no foreign classes, no ModKit, every .mcmeta with its file")
+		logger.lifecycle("checkJarPartition: ${jarFiles.size()} jars, no foreign classes, no ModKit, every .mcmeta with its file, every jar ships en_us")
 	}
 }
 

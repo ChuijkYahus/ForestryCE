@@ -7,8 +7,8 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 /**
- * The generated resource root of each jar. The data run's output folder is the parent of all four,
- * so every root is derived from the run rather than assumed relative to a working directory.
+ * The generated resource root of each jar. The data run's output folder is the parent of every root,
+ * so each one is derived from the run rather than assumed relative to a working directory.
  */
 public final class DataRoots {
 	public static final String CORE = "resources";
