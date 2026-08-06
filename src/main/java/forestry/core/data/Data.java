@@ -2,7 +2,6 @@ package forestry.core.data;
 
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
-import forestry.api.modules.ForestryModuleIds;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.data.models.ForestryItemModelProvider;
@@ -21,6 +20,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import thedarkcolour.modkit.data.DataHelper;
 
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -31,16 +32,23 @@ public class Data {
 	public static void gatherData(GatherDataEvent event) {
 		preDataGen();
 
+		// Content jars attach here through ServiceLoader rather than by naming a provider class directly,
+		// so core need not import a content jar's types. Each provider compiles from the source set of the
+		// jar it generates for, so the compile classpath enforces what this indirection only asks of it.
+		// Sorted so the run is deterministic. Loaded first because core's own scope is the negation of
+		// what these declare; their gather calls still come last, at the bottom of this method
+		List<IForestryDataProvider> contentProviders = ServiceLoader.load(IForestryDataProvider.class).stream()
+				.map(ServiceLoader.Provider::get)
+				.sorted(Comparator.comparing(provider -> provider.getClass().getName()))
+				.toList();
+
 		DataGenerator generator = event.getGenerator();
 		PackOutput output = DataRoots.of(event, DataRoots.CORE);
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		// Core takes everything the content jars do not, which is the safe direction: an id registered
-		// outside a feature module still gets its name, and it gets it in the jar that is always installed
-		Set<ResourceLocation> contentOwned = JarModules.ownedIds(Set.of(
-				ForestryModuleIds.FARMING,
-				ForestryModuleIds.CULTIVATION,
-				ForestryModuleIds.MAIL,
-				ForestryModuleIds.LEPIDOPTEROLOGY));
+		// outside a feature module still gets its name, and it gets it in the jar that is always installed.
+		// The same set scopes core's names and core's loot, so the two cannot come to disagree
+		Set<ResourceLocation> contentOwned = JarModules.ownedIds(contentModules(contentProviders));
 		DataHelper dataHelper = new DataHelper.Builder(ForestryConstants.MOD_ID, event)
 				.packOutput(output)
 				.entryFilter(id -> !contentOwned.contains(id))
@@ -66,7 +74,7 @@ public class Data {
 		dataHelper.createItemModels(false, false, false, ForestryItemModels::addModels);
 
 		generator.addProvider(event.includeServer(), new ForestryAdvancementProvider(output, lookup, existingFileHelper));
-		generator.addProvider(event.includeServer(), new ForestryLootTableProvider(output, lookup));
+		generator.addProvider(event.includeServer(), new ForestryLootTableProvider(output, lookup, contentOwned));
 		generator.addProvider(event.includeServer(), new ForestryLootModifierProvider(output, lookup));
 		generator.addProvider(event.includeClient(), new ForestryBlockStateProvider(output, existingFileHelper));
 		generator.addProvider(event.includeClient(), new ForestryWoodModelProvider(output, existingFileHelper));
@@ -82,14 +90,26 @@ public class Data {
 		generator.addProvider(event.includeServer(), new ForestryDataMapProvider(output, lookup));
 		generator.addProvider(event.includeClient(), new ForestryCuriosProvider(output, existingFileHelper, lookup));
 
-		// Content jars attach here through ServiceLoader rather than by naming a provider class directly,
-		// so core need not import a content jar's types. Each provider compiles from the source set of the
-		// jar it generates for, so the compile classpath enforces what this loop only asks of it. Sorted
-		// so the run is deterministic
-		ServiceLoader.load(IForestryDataProvider.class).stream()
-				.map(ServiceLoader.Provider::get)
-				.sorted(Comparator.comparing(provider -> provider.getClass().getName()))
-				.forEachOrdered(provider -> provider.gather(event));
+		// Last, so a content provider can read whatever core's providers seeded
+		contentProviders.forEach(provider -> provider.gather(event));
+	}
+
+	/**
+	 * @param contentProviders The content jars' entry points, in the order they were loaded
+	 * @return Every module those jars ship
+	 */
+	private static Set<ResourceLocation> contentModules(List<IForestryDataProvider> contentProviders) {
+		Set<ResourceLocation> union = new HashSet<>();
+		for (IForestryDataProvider provider : contentProviders) {
+			for (ResourceLocation moduleId : provider.moduleIds()) {
+				// Two jars claiming one module would write the same lang keys and the same loot tables
+				// into both, and load order would decide which the game reads
+				if (!union.add(moduleId)) {
+					throw new IllegalStateException("Module " + moduleId + " is claimed by more than one content jar");
+				}
+			}
+		}
+		return union;
 	}
 
 	// Hack fix to make API work in data generation environment

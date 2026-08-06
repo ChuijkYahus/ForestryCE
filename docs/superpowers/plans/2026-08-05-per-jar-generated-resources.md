@@ -37,7 +37,6 @@
 | `../ModKit/src/main/java/thedarkcolour/modkit/data/MKEnglishProvider.java` | entry filter on the autogen loop | 1 |
 | `../ModKit/src/main/java/thedarkcolour/modkit/data/MKItemModelProvider.java` | entry filter on the autogen loop | 1 |
 | `build.gradle` | roots, source sets, jar excludes, deletion of the machinery | 2, 4, 8, 9 |
-| `.gitignore` | `.cache` location | 4 |
 | `src/datagen/java/forestry/core/data/DataRoots.java` | derives a per-jar `PackOutput` from the run's output folder | 4 |
 | `src/datagen/java/forestry/core/data/IForestryDataProvider.java` | SPI content jars attach through | 4 |
 | `src/datagen/java/forestry/core/data/JarModules.java` | module id set to owned registry id set | 4, 9 |
@@ -541,7 +540,6 @@ EOF
 - Create: `src/datagen/java/forestry/core/data/JarModules.java`
 - Modify: `src/datagen/java/forestry/core/data/Data.java`
 - Modify: `build.gradle` (the `data` run block, the three new `srcDir`s)
-- Modify: `.gitignore`
 
 **Interfaces:**
 - Consumes: `DataHelper.Builder` from Task 1.
@@ -1424,14 +1422,10 @@ Update its class javadoc: the output folder is the parent of all four roots agai
 explaining why core's root was the output folder no longer applies. Delete that paragraph.
 
 `.cache` moves from `src/generated/resources/.cache` to `src/generated/.cache`, which the existing
-ignore pattern `**/src/generated/**/.cache/` does not match. In `.gitignore`, replace it with:
+ignore pattern `**/src/generated/**/.cache/` still matches. Confirm with
+`git check-ignore -v src/generated/.cache/`. `.gitignore` needs no change.
 
-```
-**/src/generated/.cache/
-**/src/generated/**/.cache/
-```
-
-Then remove the old cache so the first run does not read a cache rooted at the wrong folder:
+Remove the old cache so the first run does not read a cache rooted at the wrong folder:
 
 ```bash
 rm -rf src/generated/resources/.cache
@@ -1566,4 +1560,4 @@ EOF
 
 **Spec coverage.** Section 1 of the spec is Task 8. Section 2 is Task 8's step 6. Section 3 is Task 8's steps 4 and 5. Section 4 is Task 1. Section 5 is Tasks 4 and 9. Section 6 is Tasks 5, 6 and 7. Section 7 is Tasks 5, 6, 7 and 9. Section 8 is Task 4. Section 9 is Task 9. The 97 hand-written files are Task 3. The relocation gate is Task 2.
 
-**One deviation from the spec worth stating.** The spec's section 1 describes four `@EventBusSubscriber` entry points. This plan uses one subscriber in core plus a `ServiceLoader` SPI. The reason is that a second `@EventBusSubscriber(modid = ...)` in a content source set would either be rejected by `AutomaticEventSubscriber` (which requires the annotation's `modid` to equal the mod being injected) or force `--mod` to name all four, giving four `DataGenerator`s sharing one `.cache` directory and one output folder. One generator, one `HashCache` and one `ExistingFileHelper` is both safer and closer to the existing `IForestryPlugin` pattern. Core still never names a content type, so section 2's guarantee is unaffected.
+**One deviation from the spec as first written, worth stating.** Section 1 described four `@EventBusSubscriber` entry points; it now describes what this plan built, which is one subscriber in core plus a `ServiceLoader` SPI. The reason is that a second `@EventBusSubscriber(modid = ...)` in a content source set would either be rejected by `AutomaticEventSubscriber` (which requires the annotation's `modid` to equal the mod being injected) or force `--mod` to name all four, giving four `DataGenerator`s sharing one `.cache` directory and one output folder. One generator, one `HashCache` and one `ExistingFileHelper` is both safer and closer to the existing `IForestryPlugin` pattern. Core still never names a content type, so section 2's guarantee is unaffected.

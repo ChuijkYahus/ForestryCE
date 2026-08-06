@@ -62,7 +62,7 @@ hand-written file, with no equivalent yet for global_loot_modifiers.json.
 Two harness traps worth knowing before rerunning the boots. A server run never stops on its own, so
 the forked JVM outlives the gradle task and keeps its port; the next configuration then fails to bind
 and stops before loading any datapack, which reads as zero recipe errors and zero tag errors and no
-Done. Each config now takes its own port, 25566 to 25569. Read the Done line, not the absence of
+Done. Each config now takes its own port, 25566 to 25570. Read the Done line, not the absence of
 errors.
 
 Still to do: publish the artifacts.

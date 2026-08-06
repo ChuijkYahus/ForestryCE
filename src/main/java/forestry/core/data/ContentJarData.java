@@ -29,9 +29,19 @@ public abstract class ContentJarData implements IForestryDataProvider {
 	 * @param moduleIds The modules this jar ships, which decide the ids it names
 	 */
 	protected ContentJarData(String jar, String root, Set<ResourceLocation> moduleIds) {
+		// A jar that claims nothing generates nothing and hands every one of its ids back to core,
+		// which is never what was meant
+		if (moduleIds.isEmpty()) {
+			throw new IllegalArgumentException("Content jar " + jar + " declares no modules");
+		}
 		this.jar = jar;
 		this.root = root;
 		this.moduleIds = moduleIds;
+	}
+
+	@Override
+	public final Set<ResourceLocation> moduleIds() {
+		return this.moduleIds;
 	}
 
 	@Override

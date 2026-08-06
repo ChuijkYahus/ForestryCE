@@ -1,7 +1,6 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
-import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.leaves.BlockDecorativeLeaves;
 import forestry.arboriculture.leaves.BlockDefaultLeaves;
 import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
@@ -50,20 +49,21 @@ import java.util.function.Function;
  * Data generator class that generates the block drop loot tables for forestry blocks.
  */
 public class ForestryBlockLootTables extends BlockLootSubProvider {
-	// The pass below covers every forestry block, including the ones a content jar registers. Those get their loot
-	// from that jar's own provider, so they are skipped rather than written into core's root as well
-	private static final Set<ResourceLocation> CONTENT_JAR_IDS = JarModules.ownedIds(Set.of(ForestryModuleIds.LEPIDOPTEROLOGY, ForestryModuleIds.MAIL, ForestryModuleIds.FARMING, ForestryModuleIds.CULTIVATION));
-
 	private final LinkedHashSet<Block> added = new LinkedHashSet<>();
+	// The pass below covers every forestry block, including the ones a content jar registers. Those get their loot
+	// from that jar's own provider, so they are skipped rather than written into core's root as well. Handed in by
+	// Data from the modules the content jars declare, the same set that scopes core's names
+	private final Set<ResourceLocation> contentOwned;
 
-	protected ForestryBlockLootTables(HolderLookup.Provider registries) {
+	protected ForestryBlockLootTables(HolderLookup.Provider registries, Set<ResourceLocation> contentOwned) {
 		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, registries);
+		this.contentOwned = contentOwned;
 	}
 
 	@Override
 	protected void generate() {
 		MKUtils.forModRegistry(Registries.BLOCK, ForestryConstants.MOD_ID, (id, block) -> {
-			if (!CONTENT_JAR_IDS.contains(id) && block.getLootTable() != BuiltInLootTables.EMPTY) {
+			if (!this.contentOwned.contains(id) && block.getLootTable() != BuiltInLootTables.EMPTY) {
 				dropSelf(block);
 			}
 		});

@@ -38,11 +38,11 @@ up with the files its jar owns:
 | root | source set | files after |
 | --- | --- | --- |
 | `src/generated/resources` | `main` | 9,633 plus core's share of the entry-keyed files |
-| `src/generated/resources_farms` | `farms` | 435 |
-| `src/generated/resources_butterflies` | `butterflies` | 74 |
-| `src/generated/resources_mail` | `mail` | 62 |
+| `src/generated/resources_farms` | `farms` | 428 |
+| `src/generated/resources_butterflies` | `butterflies` | 82 |
+| `src/generated/resources_mail` | `mail` | 64 |
 
-Core's path does not change, so 9,633 files stay put and the diff is the 571 that move, plus the
+Core's path does not change, so 9,633 files stay put and the diff is the 574 that move, plus the
 three entry-keyed files that gain a second copy. The other 1,864 core-owned files are hand-written
 under `src/main/resources` and never move either.
 
@@ -64,9 +64,17 @@ jar's own source set, in a `data` subpackage of the jar's root package.
 | `mail` | `forestry.mail.data` | `MailData` |
 | `butterflies` | `forestry.lepidopterology.data` | `LepidopterologyData` |
 
-Four `@EventBusSubscriber(modid = ForestryConstants.MOD_ID)` entry points, one per jar. Core's
-cannot register a farms provider without naming a farms type, so the entry points cannot be
-merged. That is the mechanism, not a cost.
+Four entry points, one per jar. Core's cannot register a farms provider without naming a farms
+type, so the entry points cannot be merged. That is the mechanism, not a cost.
+
+Only core's carries `@EventBusSubscriber(modid = ForestryConstants.MOD_ID)`. The other three are
+plain classes that core loads through a `ServiceLoader` SPI, `IForestryDataProvider`, listed in
+each source set's own `META-INF/services`. A second `@EventBusSubscriber` naming another mod's id
+is not injected, because `AutomaticEventSubscriber` requires the annotation's `modid` to equal the
+mod being injected; naming all four through `--mod` instead would give each its own
+`DataGenerator`, and the four would share one `.cache` and one output folder. One generator, one
+`HashCache` and one `ExistingFileHelper` is safer, and the SPI is the pattern `IForestryPlugin`
+already uses. Core still never names a content type, so section 2's guarantee is unaffected.
 
 ### 2. The compile classpath enforces the reference closure
 
@@ -209,9 +217,11 @@ what must move. Known sites:
 - `ForestryItemModelProvider` imports `LepidopterologyItems`
 - `ForestryBlockLootTables` imports `LepidopterologyBlocks`
 - `ForestryRecipeProvider` holds `registerFarmingRecipes`, `registerCultivationRecipes`,
-  `registerMailRecipes`, `registerLepidopterologyRecipes` whole, plus slices of
-  `registerCarpenter` (3 farms, 8 mail), `registerFabricator` (1 farms) and `registerFermenter`
-  (3 farms)
+  `registerMailRecipes`, `registerLepidopterologyRecipes` whole, plus a slice of
+  `registerCarpenter` (8 mail). The `registerCarpenter`, `registerFabricator` and `registerFermenter`
+  recipes this line once assigned to farms are the core files section 2a lists: the name walk
+  claimed them, and every one of them names core ids only. They stay in core, and
+  `AgricultureRecipeProvider` carries no machine recipes at all.
 
 What each content entry point ends up owning:
 
@@ -255,10 +265,8 @@ only. The other ten locales remain whole in core.
 `HashCache` spans all of them and stale-file purging still works across a file changing jars. Each
 entry point builds its own `PackOutput` explicitly; none uses `event.getGenerator().getPackOutput()`.
 
-Two consequences:
+One consequence:
 
-- `.gitignore` currently reads `**/src/generated/**/.cache/`, which does not match
-  `src/generated/.cache/`. It needs updating.
 - `.cache` leaves `src/generated/resources`, which is a `srcDir`. Gradle's `Copy` includes hidden
   directories, so the cache files currently reach `build/resources/main` and the jar. Moving the
   root fixes that as a side effect.

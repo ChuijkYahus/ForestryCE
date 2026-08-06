@@ -1,5 +1,9 @@
 package forestry.core.data;
 
+import java.util.Set;
+
+import net.minecraft.resources.ResourceLocation;
+
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 /**
@@ -20,4 +24,13 @@ public interface IForestryDataProvider {
 	 * @param event The gather event to register providers with
 	 */
 	void gather(GatherDataEvent event);
+
+	/**
+	 * Read before core registers anything, because core generates for every module these do not claim.
+	 * Declaring a module here is the whole of what makes a jar own it, so there is no second list to
+	 * keep in step.
+	 *
+	 * @return The modules this jar ships
+	 */
+	Set<ResourceLocation> moduleIds();
 }

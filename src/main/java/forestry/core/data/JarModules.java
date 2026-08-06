@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -29,6 +30,7 @@ public final class JarModules {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static Set<ResourceLocation> ownedIds(Set<ResourceLocation> moduleIds) {
 		Set<ResourceLocation> ids = new HashSet<>();
+		Set<ResourceLocation> registered = new HashSet<>();
 		for (ModFeatureRegistry modRegistry : ModFeatureRegistry.getRegistries().values()) {
 			for (Map.Entry<ResourceLocation, FeatureRegistry> module : modRegistry.getModules().entrySet()) {
 				if (!moduleIds.contains(module.getKey())) {
@@ -37,14 +39,18 @@ public final class JarModules {
 				for (Map.Entry<ResourceKey, DeferredRegister> registry : module.getValue().getRegistries().entrySet()) {
 					for (DeferredHolder<?, ?> holder : (Collection<DeferredHolder<?, ?>>) registry.getValue().getEntries()) {
 						ids.add(holder.getId());
+						registered.add(module.getKey());
 					}
 				}
 			}
 		}
 		// A module named here that registered nothing is a typo or a rename, and it would silently scope
-		// a jar's generation to less than it owns
-		if (ids.isEmpty()) {
-			throw new IllegalStateException("No registered ids for modules: " + moduleIds);
+		// a jar's generation to less than it owns. Checked one module at a time, since the others in the
+		// same set would cover for it
+		if (!registered.containsAll(moduleIds)) {
+			Set<ResourceLocation> silent = new TreeSet<>(moduleIds);
+			silent.removeAll(registered);
+			throw new IllegalStateException("No registered ids for modules: " + silent);
 		}
 		return ids;
 	}
