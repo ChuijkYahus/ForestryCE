@@ -325,7 +325,8 @@ find . -type f -not -path './.cache/*' -print0 | sort -z | xargs -0 sha256sum > 
 wc -l < "$SCRATCH/generated-baseline.sha256"
 ```
 
-Expected: `9633`.
+Expected: `10207`. That is every file in the root: the 9,633 core owns, the 571 the content jars
+own, and the 3 the game merges across packs.
 
 - [ ] **Step 2: Create the empty allowlist**
 

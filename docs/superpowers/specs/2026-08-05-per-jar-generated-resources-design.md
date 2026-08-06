@@ -32,15 +32,19 @@ places correctly with no mechanism at all.
 Datagen writes to one root per jar. Each source set picks up its own with a plain `srcDir`. No
 build step reads a resource file to decide where it belongs.
 
-| root | source set | generated files today |
+`src/generated/resources` holds 10,207 files today. They divide as follows, and each root below ends
+up with the files its jar owns:
+
+| root | source set | files after |
 | --- | --- | --- |
-| `src/generated/resources` | `main` | 9,633 |
+| `src/generated/resources` | `main` | 9,633 plus core's share of the entry-keyed files |
 | `src/generated/resources_farms` | `farms` | 435 |
 | `src/generated/resources_butterflies` | `butterflies` | 74 |
 | `src/generated/resources_mail` | `mail` | 62 |
 
-Core's path does not change, so 9,633 files stay put and the diff is the 571 that move. The other
-1,864 core-owned files are hand-written under `src/main/resources` and never move either.
+Core's path does not change, so 9,633 files stay put and the diff is the 571 that move, plus the
+three entry-keyed files that gain a second copy. The other 1,864 core-owned files are hand-written
+under `src/main/resources` and never move either.
 
 The 97 hand-written non-core files move out of `src/main/resources` into `src/farms/resources`,
 `src/mail/resources` and `src/butterflies/resources` by `git mv`. They are textures, Patchouli
