@@ -11984,7 +11984,7 @@
     "data/minecraft/tags/item/wooden_stairs.json": "core",
     "data/minecraft/tags/painting_variant/placeable.json": "core",
     "data/minecraft/tags/point_of_interest_type/acquirable_job_site.json": "core",
-    "data/neoforge/data_maps/item/compostables.json": "split",
+    "data/neoforge/data_maps/item/compostables.json": "core",
     "data/neoforge/data_maps/item/furnace_fuels.json": "core",
     "data/neoforge/loot_modifiers/global_loot_modifiers.json": "core",
     "forestry-ce-logo-banner.png": "core",

@@ -55,6 +55,7 @@ public class LepidopterologyData implements IForestryDataProvider {
 		registrar.addProvider(generator, event.includeServer(), new ButterflySpeciesProvider(output, lookup));
 		registrar.addProvider(generator, event.includeServer(), new ButterflyMutationProvider(output, lookup));
 		registrar.addProvider(generator, event.includeServer(), new LepidopterologyLootTableProvider(output, lookup));
+		registrar.addProvider(generator, event.includeServer(), new LepidopterologyDataMapProvider(output, lookup));
 		registrar.addProvider(generator, event.includeClient(), new LepidopterologyItemModelProvider(output, existingFileHelper));
 	}
 }

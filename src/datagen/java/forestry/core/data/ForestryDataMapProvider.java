@@ -22,7 +22,6 @@ import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
-import forestry.lepidopterology.features.LepidopterologyItems;
 
 /**
  * Generates the NeoForge built-in data maps for Forestry items:
@@ -65,7 +64,7 @@ public class ForestryDataMapProvider extends DataMapProvider {
 		for (BlockItem leaves : ArboricultureBlocks.LEAVES_DECORATIVE.getItems()) {
 			compostable(composts, leaves, 0.3f);
 		}
-		compostable(composts, LepidopterologyItems.COCOON_GE.item(), 0.3f);
+		// The cocoon entry is added by the butterflies jar, which merges into this data map from its own file
 	}
 
 	private void gatherFurnaceFuels() {
