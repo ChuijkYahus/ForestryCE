@@ -1505,6 +1505,30 @@ PY
 
 Expected: no `missing` and no `overlap` lines. A shared bare id registered in two registries owned by different jars is the one acceptable overlap; if any appears, confirm the two values are identical and note it in the commit message.
 
+- [ ] **Step 7b: Confirm the ten mis-shipped core files now ship in core**
+
+The map's longest-prefix name walk assigns ten core files to farms, because the cultivation module registers block entity types named `forestry:ender`, `forestry:gourd`, `forestry:mushroom` and `forestry:nether`. None of the ten names a farms-owned id. Until the map is deleted they ship in `forestryfarms` and nowhere else, so a core-only install has no fermenter mushroom recipes and no `flowers/gourd` or `flowers/nether` bee flower tags. Deleting the map is what fixes it, and this is the check that proves it did.
+
+```bash
+for f in \
+  data/forestry/recipe/fermenter/mushroom.json \
+  data/forestry/recipe/fermenter/mushroom_honey.json \
+  data/forestry/recipe/fermenter/mushroom_juice.json \
+  data/forestry/recipe/carpenter/crates/unpack/minecraft/nether_bricks.json \
+  data/forestry/recipe/carpenter/crates/unpack/minecraft/nether_wart.json \
+  data/forestry/recipe/carpenter/ender_pearl.json \
+  data/forestry/recipe/fabricator/electron_tubes/ender.json \
+  data/forestry/tags/block/flowers/gourd.json \
+  data/forestry/tags/block/flowers/nether.json \
+  data/forestry/tags/block/hive_grounds/nether_extra_replaceable.json ; do
+  c=$(unzip -l build/libs/forestry-1.21.1-*.jar | grep -c "$f")
+  fm=$(unzip -l build/libs/forestryfarms-1.21.1-*.jar | grep -c "$f")
+  echo "$f core=$c farms=$fm"
+done
+```
+
+Expected: `core=1 farms=0` on every line. Before this task every line reads `core=0 farms=1`.
+
 - [ ] **Step 8: Confirm the jars are still correctly partitioned**
 
 ```bash
