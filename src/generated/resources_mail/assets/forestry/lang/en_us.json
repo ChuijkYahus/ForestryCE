@@ -1,0 +1,14 @@
+{
+  "block.forestry.mailbox": "Mailbox",
+  "block.forestry.stamp_collector": "Stamp Collector",
+  "block.forestry.trade_station": "Trade Station",
+  "item.forestry.catalog": "Catalog",
+  "item.forestry.letter": "Letter",
+  "item.forestry.stamp_100n": "Stamp (100n)",
+  "item.forestry.stamp_10n": "Stamp (10n)",
+  "item.forestry.stamp_1n": "Stamp (1n)",
+  "item.forestry.stamp_20n": "Stamp (20n)",
+  "item.forestry.stamp_2n": "Stamp (2n)",
+  "item.forestry.stamp_50n": "Stamp (50n)",
+  "item.forestry.stamp_5n": "Stamp (5n)"
+}

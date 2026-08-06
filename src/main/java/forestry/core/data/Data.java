@@ -2,6 +2,7 @@ package forestry.core.data;
 
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
+import forestry.api.modules.ForestryModuleIds;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.data.models.ForestryItemModelProvider;
@@ -12,6 +13,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -20,6 +22,7 @@ import thedarkcolour.modkit.data.DataHelper;
 
 import java.util.Comparator;
 import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = ForestryConstants.MOD_ID)
@@ -28,13 +31,20 @@ public class Data {
 	public static void gatherData(GatherDataEvent event) {
 		preDataGen();
 
-		// The build reads this to decide which jar ships which resource
-		OwnershipManifest.write();
-
 		DataGenerator generator = event.getGenerator();
 		PackOutput output = DataRoots.of(event, DataRoots.CORE);
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-		DataHelper dataHelper = new DataHelper.Builder(ForestryConstants.MOD_ID, event).packOutput(output).build();
+		// Core takes everything the content jars do not, which is the safe direction: an id registered
+		// outside a feature module still gets its name, and it gets it in the jar that is always installed
+		Set<ResourceLocation> contentOwned = JarModules.ownedIds(Set.of(
+				ForestryModuleIds.FARMING,
+				ForestryModuleIds.CULTIVATION,
+				ForestryModuleIds.MAIL,
+				ForestryModuleIds.LEPIDOPTEROLOGY));
+		DataHelper dataHelper = new DataHelper.Builder(ForestryConstants.MOD_ID, event)
+				.packOutput(output)
+				.entryFilter(id -> !contentOwned.contains(id))
+				.build();
 		CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
 		dataHelper.createEnglish(true, ForestryEnglishProvider::addTranslations);

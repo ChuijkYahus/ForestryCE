@@ -1,7 +1,10 @@
 package forestry.lepidopterology.data;
 
+import java.util.Set;
+
 import net.minecraft.core.registries.Registries;
 
+import forestry.api.modules.ForestryModuleIds;
 import forestry.core.data.ContentJarData;
 import forestry.core.data.DataRoots;
 import forestry.core.data.JarLootTableProvider;
@@ -13,7 +16,7 @@ import forestry.core.data.JarScope;
  */
 public class LepidopterologyData extends ContentJarData {
 	public LepidopterologyData() {
-		super("butterflies", DataRoots.BUTTERFLIES);
+		super("butterflies", DataRoots.BUTTERFLIES, Set.of(ForestryModuleIds.LEPIDOPTEROLOGY));
 	}
 
 	@Override
