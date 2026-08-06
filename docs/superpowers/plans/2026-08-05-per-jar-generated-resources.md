@@ -564,8 +564,14 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 /**
- * The generated resource root of each jar. The data run's output folder is the parent of all four, so
- * every root is derived from it rather than assumed relative to a working directory.
+ * The generated resource root of each jar. Core's root is the data run's output folder and the other
+ * three are its siblings, so every root is derived from the run rather than assumed relative to a
+ * working directory.
+ *
+ * <p>Core's root stays the output folder because {@code HashCache} deletes every file under that
+ * folder which no provider wrote. The ownership manifests sit beside it and would not survive a run
+ * from the parent. They are deleted in the last task of this work, and the output folder moves up to
+ * the parent then.
  */
 public final class DataRoots {
 	public static final String CORE = "resources";
@@ -582,7 +588,7 @@ public final class DataRoots {
 	 * @return The pack output every provider belonging to that jar writes to
 	 */
 	public static PackOutput of(GatherDataEvent event, String directory) {
-		Path root = event.getGenerator().getPackOutput().getOutputFolder();
+		Path root = event.getGenerator().getPackOutput().getOutputFolder().getParent();
 		return new PackOutput(root.resolve(directory));
 	}
 }
@@ -700,20 +706,24 @@ At the very end of `gatherData`, after the last `generator.addProvider(...)` lin
 
 Add the imports `java.util.Comparator` and `java.util.ServiceLoader`.
 
-- [ ] **Step 5: Move the run's output folder up one level**
+- [ ] **Step 5: Teach the run about the content resource roots**
 
 In `build.gradle`, in the `data { }` run block, replace the `programArguments.addAll(...)` line with:
 
 ```groovy
 			programArguments.addAll('--mod', 'forestry', '--all',
-					'--output', file('src/generated/').absolutePath,
+					'--output', file('src/generated/resources/').absolutePath,
 					'--existing', file('src/main/resources/').absolutePath,
 					'--existing', file('src/farms/resources/').absolutePath,
 					'--existing', file('src/mail/resources/').absolutePath,
 					'--existing', file('src/butterflies/resources/').absolutePath)
 ```
 
-The output folder is now the parent of the four roots, so `DataGenerator`'s `HashCache` spans all of them and a file changing jars is still purged from its old home. The three added `--existing` roots are where the hand-written models moved in Task 3.
+`--output` does not move. `HashCache.purgeStaleAndWrite` walks the whole output folder and deletes every file no provider wrote this run (`HashCache.java:121-135`), so pointing it at `src/generated` would delete `ownership.json` and `resource-owners.json` on every run. Task 9 deletes both files and moves `--output` up to `src/generated` there, once nothing but the four roots is left under it.
+
+The cost until then is that stale purging covers core's root only. A file that stops being generated into a content root lingers rather than being removed. `check_relocation.sh` reports exactly that as an `ADDED` file, so it is covered for the length of this work.
+
+The three added `--existing` roots are where the hand-written models moved in Task 3.
 
 - [ ] **Step 6: Add the three new source directories**
 
@@ -723,36 +733,31 @@ In `build.gradle`, in the `contentModules.each { m -> ... }` block that already 
 	sourceSets[m].resources.srcDir "src/generated/resources_${m}"
 ```
 
-- [ ] **Step 7: Fix the cache ignore rule**
+- [ ] **Step 7: Regenerate and verify**
 
-`.cache` now lands at `src/generated/.cache`, which the existing pattern does not match. In `.gitignore`, replace `**/src/generated/**/.cache/` with:
-
-```
-**/src/generated/.cache/
-**/src/generated/**/.cache/
-```
-
-- [ ] **Step 8: Remove the stale cache and regenerate**
+`.cache` stays at `src/generated/resources/.cache`, which `.gitignore` already covers. Nothing to change here.
 
 ```bash
 cd /home/thedarkcolour/IdeaProjects/ForestryCE
-rm -rf src/generated/resources/.cache
 ./gradlew runData
 ls src/generated/
 bash "$SCRATCH/check_relocation.sh"
 ```
 
-Expected: `src/generated/` lists `.cache`, `ownership.json`, `resource-owners.json` and `resources`, and the check prints `OK`. The three new roots do not exist yet because nothing writes to them.
+Expected: `src/generated/` lists `ownership.json`, `resource-owners.json` and `resources`, and the check prints `OK`. The three new roots do not exist yet because nothing writes to them.
 
-- [ ] **Step 9: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
 git add -A
 git commit -m "$(cat <<'EOF'
 data: per-jar output roots and the provider SPI
 
-The data run's output folder becomes the parent of the four generated roots, so
-one HashCache spans them and a file changing jars is purged from its old home.
+Core's generated root is still the data run's output folder and the other three
+are its siblings, because HashCache deletes every file under the output folder
+that no provider wrote, and the two ownership manifests sit beside it. The
+output folder moves up once they are gone.
+
 Content jars attach through a ServiceLoader SPI rather than being named by core.
 Nothing writes to the new roots yet.
 
@@ -1387,6 +1392,51 @@ git rm src/main/java/forestry/core/data/OwnershipManifest.java
 ```
 
 Remove the `OwnershipManifest.write();` call and its comment from `Data.gatherData`, and the import.
+
+- [ ] **Step 4b: Move the output folder up, now that nothing else lives under it**
+
+Task 4 left `--output` at `src/generated/resources` because `HashCache.purgeStaleAndWrite` deletes
+every file under the output folder that no provider wrote, and the two manifests sat beside it. They
+are gone as of the previous step, so `src/generated` now holds nothing but the four roots and the
+output folder can move up. That is what makes stale purging span all four: a file that stops being
+generated into a content root is deleted rather than left behind.
+
+In `build.gradle`, in the `data { }` run block:
+
+```groovy
+					'--output', file('src/generated/').absolutePath,
+```
+
+`DataRoots.of` resolves against `getOutputFolder().getParent()`, so it must lose the `.getParent()`
+call in the same commit:
+
+```java
+	public static PackOutput of(GatherDataEvent event, String directory) {
+		Path root = event.getGenerator().getPackOutput().getOutputFolder();
+		return new PackOutput(root.resolve(directory));
+	}
+```
+
+Update its class javadoc: the output folder is the parent of all four roots again, and the paragraph
+explaining why core's root was the output folder no longer applies. Delete that paragraph.
+
+`.cache` moves from `src/generated/resources/.cache` to `src/generated/.cache`, which the existing
+ignore pattern `**/src/generated/**/.cache/` does not match. In `.gitignore`, replace it with:
+
+```
+**/src/generated/.cache/
+**/src/generated/**/.cache/
+```
+
+Then remove the old cache so the first run does not read a cache rooted at the wrong folder:
+
+```bash
+rm -rf src/generated/resources/.cache
+```
+
+Confirm after the `runData` in Step 6 that `git status --short` shows no untracked `.cache` path and
+that `ls src/generated/` lists exactly `.cache`, `resources`, `resources_butterflies`,
+`resources_farms` and `resources_mail`.
 
 - [ ] **Step 5: Restore the JitPack dependency**
 
