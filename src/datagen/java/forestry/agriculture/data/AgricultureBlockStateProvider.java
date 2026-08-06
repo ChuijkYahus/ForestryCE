@@ -19,6 +19,8 @@ import forestry.api.ForestryConstants;
 import forestry.core.data.models.ForestryBlockStateProvider;
 
 import static forestry.core.data.models.ForestryBlockStateProvider.file;
+import static forestry.core.data.models.ForestryBlockStateProvider.mcBlock;
+import static forestry.core.data.models.ForestryBlockStateProvider.modBlock;
 import static forestry.core.data.models.ForestryBlockStateProvider.path;
 
 /**
@@ -44,7 +46,7 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 		}
 
 		for (BlockTypePlanter planter : BlockTypePlanter.values()) {
-			ModelFile model = models().getExistingFile(modLoc("block/" + planter.getSerializedName()));
+			ModelFile model = models().getExistingFile(modBlock(this, planter.getSerializedName()));
 			Block managed = CultivationBlocks.MANAGED_PLANTER.get(planter).block();
 			Block manual = CultivationBlocks.MANUAL_PLANTER.get(planter).block();
 
@@ -59,7 +61,7 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 	private void singleFarm(FarmBlock block) {
 		EnumFarmMaterial material = block.getFarmMaterial();
 		Block base = material.getBase();
-		ResourceLocation texture = modLoc("block/farm/" + block.getType().getSerializedName());
+		ResourceLocation texture = modBlock(this, "farm/" + block.getType().getSerializedName());
 
 		ForestryBlockStateProvider.singleModelBlock(this, block, farmPillar(path(block), base, texture, texture));
 	}
@@ -71,9 +73,9 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 		// todo need to use reverse texture
 		getVariantBuilder(block)
 			.partialState().with(FarmBlock.BAND, false)
-			.modelForState().modelFile(farmPillar(path(block), base, modLoc("block/farm/top"), modLoc("block/farm/plain"))).addModel()
+			.modelForState().modelFile(farmPillar(path(block), base, modBlock(this, "farm/top"), modBlock(this, "farm/plain"))).addModel()
 			.partialState().with(FarmBlock.BAND, true)
-			.modelForState().modelFile(farmPillar(path(block) + "_band", base, modLoc("block/farm/top"), modLoc("block/farm/band"))).addModel();
+			.modelForState().modelFile(farmPillar(path(block) + "_band", base, modBlock(this, "farm/top"), modBlock(this, "farm/band"))).addModel();
 	}
 
 	private ModelFile farmPillar(String path, Block base, ResourceLocation top, ResourceLocation side) {
@@ -84,7 +86,7 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 				.parent(baseModel)
 				.renderType("solid"))
 			.child("overlay", models().nested()
-				.parent(file(mcLoc("block/cube_column")))
+				.parent(file(mcBlock(this, "cube_column")))
 				.texture("end", top)
 				.texture("side", side)
 				// should we use cutout_mipped?
@@ -97,6 +99,6 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 
 	// Every planter type shares one hand-authored block model, and its item renders that model
 	private void planterItem(Block block, BlockTypePlanter planter) {
-		itemModels().withExistingParent(path(block), modLoc("block/" + planter.getSerializedName()));
+		itemModels().withExistingParent(path(block), modBlock(this, planter.getSerializedName()));
 	}
 }
