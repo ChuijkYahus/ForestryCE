@@ -840,7 +840,7 @@ neoForge {
 			// never ships, and it is checked in because the jar tasks read it without running the game
 			systemProperty 'forestry.ownershipManifest', file('src/generated/ownership.json').absolutePath
 			programArguments.addAll('--mod', 'forestry', '--all',
-					'--output', file('src/generated/').absolutePath,
+					'--output', file('src/generated/resources/').absolutePath,
 					'--existing', file('src/main/resources/').absolutePath,
 					'--existing', file('src/farms/resources/').absolutePath,
 					'--existing', file('src/mail/resources/').absolutePath,

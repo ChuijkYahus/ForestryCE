@@ -7,8 +7,14 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 /**
- * The generated resource root of each jar. The data run's output folder is the parent of all four, so
- * every root is derived from it rather than assumed relative to a working directory.
+ * The generated resource root of each jar. Core's root is the data run's output folder and the other
+ * three are its siblings, so every root is derived from the run rather than assumed relative to a
+ * working directory.
+ *
+ * <p>Core's root stays the output folder because {@code HashCache} deletes every file under that
+ * folder which no provider wrote. The ownership manifests sit beside it and would not survive a run
+ * from the parent. They are deleted in the last task of this work, and the output folder moves up to
+ * the parent then.
  */
 public final class DataRoots {
 	public static final String CORE = "resources";
@@ -25,7 +31,7 @@ public final class DataRoots {
 	 * @return The pack output every provider belonging to that jar writes to
 	 */
 	public static PackOutput of(GatherDataEvent event, String directory) {
-		Path root = event.getGenerator().getPackOutput().getOutputFolder();
+		Path root = event.getGenerator().getPackOutput().getOutputFolder().getParent();
 		return new PackOutput(root.resolve(directory));
 	}
 }
