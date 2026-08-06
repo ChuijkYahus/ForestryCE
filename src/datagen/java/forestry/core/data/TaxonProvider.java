@@ -1,8 +1,10 @@
 package forestry.core.data;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -34,6 +36,10 @@ import forestry.core.data.taxonomy.ForestryTaxonomy;
  * and {@link FlowerTypeProvider}.
  */
 public class TaxonProvider implements DataProvider {
+	// Every definition seeded into the live taxonomy so far, core's first. Held across calls because the taxa are
+	// re-applied as a whole, see seedLiveTaxa
+	private static final List<TaxonDefinition> SEEDED = new ArrayList<>();
+
 	private final PackOutput.PathProvider path;
 	private final Map<ResourceLocation, TaxonDefinition> pending = new LinkedHashMap<>();
 
@@ -43,7 +49,7 @@ public class TaxonProvider implements DataProvider {
 
 	// Collector used by seedLiveTaxaForDatagen: gathers the built-ins via addTaxa() without needing a PackOutput to
 	// write to (it never runs the provider). Never call this to write JSON - path is null.
-	private TaxonProvider() {
+	protected TaxonProvider() {
 		this.path = null;
 	}
 
@@ -61,7 +67,7 @@ public class TaxonProvider implements DataProvider {
 	// Converts a live taxon into its serializable definition. Reference-chromosome defaults are stored by id only
 	// (their dominance is intrinsic to the referenced value and re-resolved at projection time), so they serialize
 	// without a dominance flag; data-chromosome defaults keep their inline allele (dominance included).
-	private static TaxonDefinition toDefinition(ITaxon taxon) {
+	protected static TaxonDefinition toDefinition(ITaxon taxon) {
 		String parent = taxon.parent() == null ? null : taxon.parent().name();
 		Map<IChromosome<?>, ITaxon.TaxonAllele> defaults = taxon.alleles();
 		if (defaults.isEmpty()) {
@@ -104,9 +110,25 @@ public class TaxonProvider implements DataProvider {
 	 * providers seed their live species.
 	 */
 	public static void seedLiveTaxaForDatagen() {
-		TaxonProvider collector = new TaxonProvider();
+		SEEDED.clear();
+		seedLiveTaxa(new TaxonProvider());
+	}
+
+	/**
+	 * Seeds the taxa a collector defines on top of the taxa already seeded, then applies the whole accumulated set.
+	 * A content jar's provider seeds its own subtree through here, after core has seeded the shared ancestors.
+	 * <p>
+	 * {@code GeneticManager#applyDatapackTaxa} rebuilds the live taxonomy from the code-registered base on every
+	 * call rather than adding to what is already live, so a subtree applied on its own would throw away every taxon
+	 * core seeded. Applying the accumulated list is idempotent, so re-applying it is correct rather than merely
+	 * tolerable.
+	 *
+	 * @param collector The provider whose {@link #addTaxa()} builds the taxa to seed
+	 */
+	protected static void seedLiveTaxa(TaxonProvider collector) {
 		collector.addTaxa();
-		GeneticsReloadHandler.rebuildTaxa(collector.pending.values());
+		SEEDED.addAll(collector.pending.values());
+		GeneticsReloadHandler.rebuildTaxa(SEEDED);
 	}
 
 	@Override

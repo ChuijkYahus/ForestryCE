@@ -68,7 +68,6 @@ public class Data {
 		generator.addProvider(event.includeServer(), new BeeEffectProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new BeeSpeciesProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new TreeSpeciesProvider(output, lookup));
-		generator.addProvider(event.includeServer(), new ButterflySpeciesProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new MutationProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new ForestryDataMapProvider(output, lookup));
 		generator.addProvider(event.includeClient(), new ForestryCuriosProvider(output, existingFileHelper, lookup));
@@ -118,9 +117,5 @@ public class Data {
 		// Tree species come from datapack JSON at real server start; datagen never fires that reload, so seed the
 		// live tree type from the same DefaultTreeSpecies source any stack-baking provider/loot needs.
 		TreeSpeciesProvider.seedLiveSpeciesForDatagen();
-
-		// Butterfly species come from datapack JSON at real server start; datagen never fires that reload, so seed
-		// the live butterfly type from the same DefaultButterflySpecies source any stack-baking provider/loot needs.
-		ButterflySpeciesProvider.seedLiveSpeciesForDatagen();
 	}
 }

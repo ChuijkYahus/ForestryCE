@@ -8,7 +8,9 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
  * content jar's types and the compile classpath keeps enforcing what each jar can see.
  *
  * <p>Implementations are listed in
- * {@code META-INF/services/forestry.core.data.IForestryDataProvider} in their own jar.
+ * {@code META-INF/services/forestry.core.data.IForestryDataProvider}, in the source set the
+ * implementation is compiled from. A jar naming a class it does not carry puts that class's package in
+ * two modules and the module layer refuses to build.
  */
 public interface IForestryDataProvider {
 	/**

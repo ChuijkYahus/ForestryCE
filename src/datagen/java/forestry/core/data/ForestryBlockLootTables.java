@@ -1,6 +1,7 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
+import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.leaves.BlockDecorativeLeaves;
 import forestry.arboriculture.leaves.BlockDefaultLeaves;
 import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
@@ -14,12 +15,12 @@ import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.loot.OrganismFunction;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.features.LepidopterologyBlocks;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureBlockGroup;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Items;
@@ -49,6 +50,10 @@ import java.util.function.Function;
  * Data generator class that generates the block drop loot tables for forestry blocks.
  */
 public class ForestryBlockLootTables extends BlockLootSubProvider {
+	// The pass below covers every forestry block, including the ones a content jar registers. Those get their loot
+	// from that jar's own provider, so they are skipped rather than written into core's root as well
+	private static final Set<ResourceLocation> CONTENT_JAR_IDS = JarModules.ownedIds(Set.of(ForestryModuleIds.LEPIDOPTEROLOGY));
+
 	private final LinkedHashSet<Block> added = new LinkedHashSet<>();
 
 	protected ForestryBlockLootTables(HolderLookup.Provider registries) {
@@ -58,7 +63,7 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 	@Override
 	protected void generate() {
 		MKUtils.forModRegistry(Registries.BLOCK, ForestryConstants.MOD_ID, (id, block) -> {
-			if (block.getLootTable() != BuiltInLootTables.EMPTY) {
+			if (!CONTENT_JAR_IDS.contains(id) && block.getLootTable() != BuiltInLootTables.EMPTY) {
 				dropSelf(block);
 			}
 		});
@@ -93,8 +98,6 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		registerEmptyTables(ArboricultureBlocks.PODS); // Handled by internal logic
 		registerEmptyTables(ArboricultureBlocks.SAPLING_GE); // Handled by internal logic
 		registerEmptyTables(ArboricultureBlocks.LEAVES);  // Handled by internal logic
-		registerEmptyTables(LepidopterologyBlocks.COCOON);
-		registerEmptyTables(LepidopterologyBlocks.COCOON_SOLID);
 
 		registerLootTable(CoreBlocks.APATITE_ORE, this::createApatiteOreDrops);
 		registerLootTable(CoreBlocks.DEEPSLATE_APATITE_ORE, this::createApatiteOreDrops);

@@ -1,4 +1,4 @@
-package forestry.core.data.taxonomy;
+package forestry.lepidopterology.data;
 
 import forestry.api.core.genetics.ForestryTaxa;
 import forestry.api.plugin.IGeneticRegistration;

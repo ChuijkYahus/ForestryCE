@@ -51,8 +51,6 @@ import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
 import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
 import forestry.agriculture.features.FarmingBlocks;
-import forestry.lepidopterology.features.LepidopterologyItems;
-import forestry.lepidopterology.recipe.ButterflyMatingRecipe;
 import forestry.mail.blocks.BlockTypeMail;
 import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
@@ -130,7 +128,6 @@ public class ForestryRecipeProvider {
 		registerFactoryRecipes(recipes);
 		registerFarmingRecipes(recipes);
 		registerFluidsRecipes(output);
-		registerLepidopterologyRecipes(recipes);
 		registerMailRecipes(recipes);
 		registerSortingRecipes(recipes);
 		registerWorktableRecipes(recipes);
@@ -838,7 +835,6 @@ public class ForestryRecipeProvider {
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, CoreItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
-		recipes.shapelessCrafting("foresters_manual_butterfly", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, LepidopterologyItems.BUTTERFLY_GE);
 	}
 
 	private static void bogRecipe(MKRecipeProvider recipes, int amount, ItemStack container, String name) {
@@ -1048,18 +1044,6 @@ public class ForestryRecipeProvider {
 				Items.MILK_BUCKET
 			).save(output, ForestryConstants.forestry("cake_" + containerType.getSerializedName()));
 		}
-	}
-
-	private static void registerLepidopterologyRecipes(MKRecipeProvider recipes) {
-		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST), recipe -> {
-			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
-			recipe.define('X', LepidopterologyItems.BUTTERFLY_GE);
-			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
-			recipe.pattern(" # ");
-			recipe.pattern("XYX");
-			recipe.pattern("XXX");
-		});
-		recipes.special("butterfly_mating", category -> new ButterflyMatingRecipe(category));
 	}
 
 	private static void registerMailRecipes(MKRecipeProvider recipes) {

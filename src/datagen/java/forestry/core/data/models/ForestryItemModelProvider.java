@@ -11,7 +11,6 @@ import forestry.core.platform.util.ModUtil;
 import forestry.agriculture.planter.blocks.BlockPlanter;
 import forestry.agriculture.planter.blocks.BlockTypePlanter;
 import forestry.agriculture.features.CultivationBlocks;
-import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.platform.registration.ModFeatureRegistry;
@@ -42,13 +41,6 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		withExistingParent(LepidopterologyItems.CATERPILLAR_GE.getName(), mcLoc("item/generated"))
-			.texture("layer0", ForestryConstants.forestry("item/caterpillar.body2"))
-			.texture("layer1", ForestryConstants.forestry("item/caterpillar.body"));
-		withExistingParent(LepidopterologyItems.SERUM_GE.getName(), mcLoc("item/generated"))
-			.texture("layer0", ForestryConstants.forestry("item/liquids/jar.bottle"))
-			.texture("layer1", ForestryConstants.forestry("item/liquids/jar.contents"));
-
 		for (FeatureItem<ItemCrated> featureCrated : CrateItems.getCrates()) {
 			Item containedItem = featureCrated.get().getContained().getItem();
 			String id = featureCrated.getName();

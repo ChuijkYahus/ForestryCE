@@ -1,4 +1,4 @@
-package forestry.core.data;
+package forestry.lepidopterology.data;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.api.plugin.ILepidopterologyRegistration;
+import forestry.core.data.RecordingGenomeBuilder;
 import forestry.lepidopterology.plugin.LepidopterologyRegistration;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
@@ -32,7 +33,7 @@ import forestry.lepidopterology.plugin.DefaultButterflySpecies;
  * builders the code-registration path uses, so the generated definitions are a faithful parallel artifact of the
  * code-built species (proven by {@code ButterflySpeciesEquivalenceTest}).
  * <p>
- * Like {@link BeeSpeciesProvider} (and unlike {@link TreeSpeciesProvider}), butterflies set some reference
+ * Like {@code BeeSpeciesProvider} (and unlike {@code TreeSpeciesProvider}), butterflies set some reference
  * chromosomes (cocoon, effect, flower type) via the id-based {@code IGenomeBuilder#set(IChromosome, ResourceLocation)}
  * overload, so {@link RecordingGenomeBuilder} already records them as {@code Allele.reference(id)}. Unlike bees,
  * none of the built-in butterflies register a cocoon/effect *instance* directly on the builder (only bee jubilance
@@ -103,10 +104,11 @@ public class ButterflySpeciesProvider implements DataProvider {
 
 	/**
 	 * Populates the live butterfly species type directly from {@link #buildDefinitions()}, bypassing the datapack
-	 * JSON round trip. Only for use by the standalone data generator ({@code Data#preDataGen}): a data-generator
-	 * invocation never fires the {@code AddReloadListenerEvent}/datapack-reload cycle that loads species at real
-	 * server start. Species built here come from the identical {@code DefaultButterflySpecies} source the generated
-	 * JSON itself is derived from, so this does not reintroduce a second, divergent species source.
+	 * JSON round trip. Only for use by the standalone data generator ({@link LepidopterologyData#gather}): a
+	 * data-generator invocation never fires the {@code AddReloadListenerEvent}/datapack-reload cycle that loads
+	 * species at real server start. Species built here come from the identical {@code DefaultButterflySpecies}
+	 * source the generated JSON itself is derived from, so this does not reintroduce a second, divergent species
+	 * source.
 	 */
 	public static void seedLiveSpeciesForDatagen() {
 		LepidopterologyReloadHandler.rebuildButterflySpecies(buildDefinitions());

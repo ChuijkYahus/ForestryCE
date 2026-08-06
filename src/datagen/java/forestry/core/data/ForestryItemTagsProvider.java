@@ -10,7 +10,6 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
-import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.mail.features.MailItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -112,7 +111,8 @@ public class ForestryItemTagsProvider {
 
 		tags.tag(ForestryTags.Items.STAMPS).add(MailItems.STAMPS.itemArray());
 
-		tags.tag(ForestryTags.Items.GENETIC_SAMPLES).add(LepidopterologyItems.CATERPILLAR_GE.item(), ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL).item());
+		// The caterpillar entry is added by the butterflies jar, which merges into this tag from its own file
+		tags.tag(ForestryTags.Items.GENETIC_SAMPLES).add(ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL).item());
 
 		tags.tag(ForestryTags.Items.FORESTRY_FRUITS).add(CoreItems.FRUITS.itemArray());
 		tags.tag(ForestryTags.Items.FRUITS).addTag(ForestryTags.Items.FORESTRY_FRUITS);

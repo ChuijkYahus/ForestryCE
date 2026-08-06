@@ -7,7 +7,6 @@ import forestry.api.core.genetics.ITaxon;
 import forestry.api.plugin.ITaxonBuilder;
 import forestry.apiimpl.plugin.GeneticRegistration;
 import forestry.core.data.taxonomy.BeeTaxonomy;
-import forestry.core.data.taxonomy.ButterflyTaxonomy;
 import forestry.core.data.taxonomy.TreeTaxonomy;
 
 /**
@@ -15,7 +14,7 @@ import forestry.core.data.taxonomy.TreeTaxonomy;
  * genus's default chromosomes). It is consumed <em>only</em> by the data generator ({@code TaxonProvider}), which
  * serializes it to {@code data/forestry/taxon/*.json}; at runtime the taxonomy is loaded from that generated JSON and
  * merged in by {@code TaxonManager}, not built from here. Kept in the plugin package next to the per-kingdom taxonomy
- * definitions ({@link BeeTaxonomy}, {@link TreeTaxonomy}, {@link ButterflyTaxonomy}) it stitches together.
+ * definitions ({@link BeeTaxonomy}, {@link TreeTaxonomy}) it stitches together.
  */
 public final class ForestryTaxonomy {
 	private ForestryTaxonomy() {
@@ -30,15 +29,17 @@ public final class ForestryTaxonomy {
 		defineSpine(genetics);
 		BeeTaxonomy.defineTaxa(genetics);
 		TreeTaxonomy.defineTaxa(genetics);
-		ButterflyTaxonomy.defineTaxa(genetics);
 		return genetics.buildTaxa();
 	}
 
 	// Domains, kingdoms and the arthropod -> insect spine shared by bees and butterflies (seven-kingdom model, Ruggiero
 	// et al. 2015). Trees hang their vascular-plants phylum under plantae; bees and butterflies hang their orders under
 	// insecta.
+	//
+	// The butterflies jar builds this too, to hang the lepidoptera order off, and subtracts it again so the shared
+	// ancestors ship from core alone
 	@SuppressWarnings("CodeBlock2Expr")
-	private static void defineSpine(GeneticRegistration genetics) {
+	public static void defineSpine(GeneticRegistration genetics) {
 		ITaxonBuilder prokaryota = genetics.defineDomain(ForestryTaxa.DOMAIN_PROKARYOTA);
 		prokaryota.defineSubTaxon(ForestryTaxa.KINGDOM_ARCHAEA);
 		prokaryota.defineSubTaxon(ForestryTaxa.KINGDOM_BACTERIA);
