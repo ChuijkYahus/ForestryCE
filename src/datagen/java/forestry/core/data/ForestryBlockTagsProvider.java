@@ -13,7 +13,6 @@ import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
 import forestry.agriculture.multifarm.blocks.FarmBlock;
 import forestry.agriculture.features.FarmingBlocks;
-import forestry.mail.features.MailBlocks;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureBlockGroup;
 import forestry.core.content.worktable.features.WorktableBlocks;
@@ -57,7 +56,7 @@ public final class ForestryBlockTagsProvider {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
 		}
 
-		for (Block block : union(CoreBlocks.RESOURCE_STORAGE, FactoryBlocks.PLAIN, FactoryBlocks.TESR, MailBlocks.BASE)) {
+		for (Block block : union(CoreBlocks.RESOURCE_STORAGE, FactoryBlocks.PLAIN, FactoryBlocks.TESR)) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
 		}
 

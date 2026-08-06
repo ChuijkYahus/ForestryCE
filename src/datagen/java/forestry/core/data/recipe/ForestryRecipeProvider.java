@@ -51,12 +51,6 @@ import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
 import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
 import forestry.agriculture.features.FarmingBlocks;
-import forestry.mail.blocks.BlockTypeMail;
-import forestry.mail.features.MailBlocks;
-import forestry.mail.features.MailItems;
-import forestry.mail.letters.EnumStampDefinition;
-import forestry.mail.letters.LetterItem;
-import forestry.mail.letters.ItemStamp;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.content.sorting.features.SortingBlocks;
 import forestry.core.content.backpacks.features.BackpackItems;
@@ -128,7 +122,6 @@ public class ForestryRecipeProvider {
 		registerFactoryRecipes(recipes);
 		registerFarmingRecipes(recipes);
 		registerFluidsRecipes(output);
-		registerMailRecipes(recipes);
 		registerSortingRecipes(recipes);
 		registerWorktableRecipes(recipes);
 		registerEnergyRecipes(recipes);
@@ -1046,58 +1039,6 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void registerMailRecipes(MKRecipeProvider recipes) {
-		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.CATALOGUE, 1, Items.BOOK, ForestryTags.Items.STAMPS);
-		Ingredient sealant = CompoundIngredient.of(Ingredient.of(ForestryTags.Items.PROPOLIS), Ingredient.of(Tags.Items.SLIMEBALLS));
-		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH), 1, Items.PAPER, sealant);
-
-		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.MAILBOX).block(), recipe -> {
-			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
-			recipe.define('X', Tags.Items.CHESTS_WOODEN);
-			recipe.define('Y', CoreItems.STURDY_CASING);
-			recipe.pattern(" # ");
-			recipe.pattern("#Y#");
-			recipe.pattern("XXX");
-		});
-
-		Item[] emptiedLetter = MailItems.LETTERS.getRowFeatures(LetterItem.Size.EMPTY).stream()
-			.map(FeatureItem::item)
-			.toArray(Item[]::new);
-		recipes.shapedCrafting("paper_from_letters", RecipeCategory.MISC, Items.PAPER, recipe -> {
-			recipe.define('#', Ingredient.of(emptiedLetter));
-			recipe.pattern(" # ");
-			recipe.pattern(" # ");
-			recipe.pattern(" # ");
-		});
-
-		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.TRADE_STATION).block(), recipe -> {
-			recipe.define('#', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.BRONZE));
-			recipe.define('X', Tags.Items.CHESTS_WOODEN);
-			recipe.define('Y', CoreItems.STURDY_CASING);
-			recipe.define('Z', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.IRON));
-			recipe.define('W', DataComponentIngredient.of(true, ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.REFINED, null, new ICircuit[]{})));
-			recipe.pattern("Z#Z");
-			recipe.pattern("#Y#");
-			recipe.pattern("XWX");
-		});
-
-		Ingredient glue = CompoundIngredient.of(
-			Ingredient.of(ForestryTags.Items.DROP_HONEY),
-			Ingredient.of(Items.SLIME_BALL)
-		);
-
-		for (EnumStampDefinition stampDefinition : EnumStampDefinition.VALUES) {
-			recipes.shapedCrafting(RecipeCategory.MISC, MailItems.STAMPS.get(stampDefinition), 9, recipe -> {
-				recipe.define('X', stampDefinition.getCraftingIngredient());
-				recipe.define('#', Items.PAPER);
-				recipe.define('Z', glue);
-				recipe.pattern("XXX");
-				recipe.pattern("###");
-				recipe.pattern("ZZZ");
-			});
-		}
-	}
-
 	private static void registerSortingRecipes(MKRecipeProvider recipes) {
 		// Named as a tag rather than as the two items, because the filter is a core machine and those
 		// items live in apiculture and lepidopterology. An absent item fails the recipe to parse; an
@@ -1404,20 +1345,6 @@ public class ForestryRecipeProvider {
 				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 			.build(consumer, id("carpenter", "carton"));
 
-		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
-			FeatureItem<ItemStamp> item = MailItems.STAMPS.get(stamp);
-
-			new CarpenterRecipeBuilder()
-				.setLiquid(ForestryFluids.SEED_OIL.getFluid(300))
-				.setBox(Ingredient.EMPTY)
-				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, item, 9)
-					.pattern("###")
-					.pattern("PPP")
-					.define('#', stamp.getCraftingIngredient())
-					.define('P', Items.PAPER))
-				.build(consumer, id("carpenter", item.getName()));
-		}
-
 		ItemStack basic = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.BASIC, null, new ICircuit[]{});
 		ItemStack enhanced = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.ENHANCED, null, new ICircuit[]{});
 		ItemStack refined = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.REFINED, null, new ICircuit[]{});
@@ -1576,16 +1503,6 @@ public class ForestryRecipeProvider {
 		for (EnumHoneyComb comb : EnumHoneyComb.VALUES) {
 			crate(consumer, ApicultureCrates.CRATED_BEE_COMBS.get(comb).get(), Ingredient.of(ApicultureItems.BEE_COMBS.get(comb)));
 		}
-
-		new CarpenterRecipeBuilder()
-			.setPackagingTime(10)
-			.setLiquid(new FluidStack(Fluids.WATER, 250))
-			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH).item())
-				.pattern("###")
-				.pattern("###")
-				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
-			.build(consumer, id("carpenter", "letter_pulp"));
 
 		wovenBackpack(consumer, "miner", BackpackItems.MINER_BACKPACK, BackpackItems.MINER_BACKPACK_T_2);
 		wovenBackpack(consumer, "digger", BackpackItems.DIGGER_BACKPACK, BackpackItems.DIGGER_BACKPACK_T_2);

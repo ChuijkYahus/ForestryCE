@@ -52,7 +52,7 @@ import java.util.function.Function;
 public class ForestryBlockLootTables extends BlockLootSubProvider {
 	// The pass below covers every forestry block, including the ones a content jar registers. Those get their loot
 	// from that jar's own provider, so they are skipped rather than written into core's root as well
-	private static final Set<ResourceLocation> CONTENT_JAR_IDS = JarModules.ownedIds(Set.of(ForestryModuleIds.LEPIDOPTEROLOGY));
+	private static final Set<ResourceLocation> CONTENT_JAR_IDS = JarModules.ownedIds(Set.of(ForestryModuleIds.LEPIDOPTEROLOGY, ForestryModuleIds.MAIL));
 
 	private final LinkedHashSet<Block> added = new LinkedHashSet<>();
 
