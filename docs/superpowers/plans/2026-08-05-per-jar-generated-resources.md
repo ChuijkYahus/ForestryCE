@@ -349,26 +349,37 @@ cd /home/thedarkcolour/IdeaProjects/ForestryCE
 : > "$SCRATCH/current.sha256"
 for root in src/generated/resources src/generated/resources_farms src/generated/resources_mail src/generated/resources_butterflies; do
 	[ -d "$root" ] || continue
-	(cd "$root" && find . -type f -not -path './.cache/*' -print0 | sort -z | xargs -0 sha256sum) >> "$SCRATCH/current.sha256"
+	# -r so a root that exists but holds no files yet contributes nothing. Without it xargs still
+	# runs sha256sum once with no argument, it reads stdin, and the run gains a phantom entry named -
+	if ! (cd "$root" && find . -type f -not -path './.cache/*' -print0 | sort -z | xargs -0 -r sha256sum) >> "$SCRATCH/current.sha256"; then
+		echo "failed to hash ${root}"
+		exit 2
+	fi
 done
 
 python3 - "$SCRATCH/generated-baseline.sha256" "$SCRATCH/current.sha256" "$SCRATCH/relocation-allowlist.txt" <<'PY'
 import sys, collections
 
+# find prints ./a/b, so every key carries a leading ./ that an allowlist entry copied out of a
+# report will not. Both sides are stripped rather than one
+def norm(name):
+	return name[2:] if name.startswith('./') else name
+
 def load(path):
 	table = collections.defaultdict(list)
 	for line in open(path):
 		digest, name = line.rstrip('\n').split('  ', 1)
-		table[name].append(digest)
+		table[norm(name)].append(digest)
 	return table
 
 base, cur = load(sys.argv[1]), load(sys.argv[2])
-allow = {l.strip() for l in open(sys.argv[3]) if l.strip() and not l.startswith('#')}
-norm = lambda f: f[2:] if f.startswith('./') else f
+allow = {norm(l.strip()) for l in open(sys.argv[3]) if l.strip() and not l.startswith('#')}
 
-missing = [f for f in base if f not in cur and norm(f) not in allow]
-added = [f for f in cur if f not in base and norm(f) not in allow]
-changed = [f for f in base if f in cur and sorted(base[f]) != sorted(cur[f]) and norm(f) not in allow]
+missing = [f for f in base if f not in cur and f not in allow]
+added = [f for f in cur if f not in base and f not in allow]
+changed = [f for f in base if f in cur and sorted(base[f]) != sorted(cur[f]) and f not in allow]
+# Not allowlisted, unlike the three above. One jar's file reaching two roots is a defect whatever
+# the file is, and an entry-keyed file split across roots holds different entries in each
 duplicated = [f for f, digests in cur.items() if len(digests) > 1]
 
 bad = False
