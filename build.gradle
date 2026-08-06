@@ -405,7 +405,6 @@ tasks.named('check') {
 }
 
 repositories {
-	mavenLocal()
 	maven {
 		name = 'jei'
 		url = 'https://maven.blamejared.com/'
@@ -472,8 +471,7 @@ dependencies {
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
 	// ModKit DEV ONLY - the data providers and nothing else. What keeps it out of a shipped jar is
 	// the datagen exclude on every jar task plus checkJarPartition; see the configurations block
-	// todo pin the JitPack sha again once the DataHelper.Builder commit is pushed
-	modkit 'thedarkcolour.modkit:ModKit:1.0'
+	modkit 'com.github.thedarkcolour:ModKit:c2e10b8'
 
 	// GameTests exercise every jar, and two of them build their expected species maps from the data
 	// providers that now live in those jars
@@ -719,8 +717,8 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 
 		// A source set boundary used to keep ModKit off the production compile classpath. The datagen
 		// providers live in the production source sets now, so the artifact is what has to prove it.
-		// The literal below shadows the 'thedarkcolour.modkit:ModKit:1.0' coordinate declared in the
-		// modkit dependency above; if that group ever changes, update this too, or the check stops firing
+		// The literal below is ModKit's java package, not its maven coordinate, so re-pinning the sha
+		// leaves it correct. A package rename is what would silently stop the check firing
 		var entries = jarFiles.collectEntries { jarName, file ->
 			var names = new HashSet<String>()
 			new java.util.zip.ZipFile(file).withCloseable { zip ->
