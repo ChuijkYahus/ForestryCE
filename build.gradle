@@ -758,7 +758,7 @@ var partitionSharedResources = tasks.register('partitionSharedResources') {
 }
 
 configurations {
-	// ModKit, dev only. It reaches the four production compile classpaths because the data providers
+	// ModKit, dev only. It reaches the production compile classpaths because the data providers
 	// now live beside the code they generate for, and every jar task excludes those packages. What
 	// keeps it out of a shipped jar is checkJarPartition, which reads the built artifact.
 	//
@@ -1358,12 +1358,17 @@ sourceSets.main {
 
 neoForge.ideSyncTask generateModMetadata
 
+// Datagen providers reference ModKit, which is not shipped. FML's annotation scanner resolves method
+// signatures at boot via getDeclaredMethods0, and a lambda method reference in an @EventBusSubscriber
+// class carries ModKit types in its synthetic descriptor. See c540144fc. Shared so every jar task
+// applies the same rule; a jar task that forgets to call this would ship ModKit
+var excludeDatagen = { Jar task ->
+	task.exclude 'forestry/**/data/**'
+	task.exclude 'META-INF/services/forestry.core.data.IForestryDataProvider'
+}
+
 jar {
-	// Datagen providers reference ModKit, which is not shipped. FML's annotation scanner resolves
-	// method signatures at boot via getDeclaredMethods0, and a lambda method reference in an
-	// @EventBusSubscriber class carries ModKit types in its synthetic descriptor. See c540144fc
-	exclude 'forestry/**/data/**'
-	exclude 'META-INF/services/forestry.core.data.IForestryDataProvider'
+	excludeDatagen(delegate)
 
 	manifest {
 		attributes([
@@ -1387,11 +1392,7 @@ var contentJars = contentModules.collectEntries { m ->
 		// the module's classes plus its already-partitioned resources
 		from sourceSets[m].output
 
-		// Datagen providers reference ModKit, which is not shipped. FML's annotation scanner resolves
-		// method signatures at boot via getDeclaredMethods0, and a lambda method reference in an
-		// @EventBusSubscriber class carries ModKit types in its synthetic descriptor. See c540144fc
-		exclude 'forestry/**/data/**'
-		exclude 'META-INF/services/forestry.core.data.IForestryDataProvider'
+		excludeDatagen(delegate)
 
 		manifest {
 			attributes([
@@ -1426,28 +1427,24 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 		contentModules.each { m -> jarFiles[m] = contentJars[m].get().archiveFile.get().asFile }
 
 		// A source set boundary used to keep ModKit off the production compile classpath. The datagen
-		// providers live in the production source sets now, so the artifact is what has to prove it
-		jarFiles.each { jarName, file ->
+		// providers live in the production source sets now, so the artifact is what has to prove it.
+		// The literal below shadows the 'thedarkcolour.modkit:ModKit:1.0' coordinate declared in the
+		// modkit dependency above; if that group ever changes, update this too, or the check stops firing
+		var entries = jarFiles.collectEntries { jarName, file ->
+			var names = new HashSet<String>()
 			new java.util.zip.ZipFile(file).withCloseable { zip ->
 				zip.entries().each { entry ->
+					names.add(entry.name)
 					if (entry.name.endsWith('.class')) {
 						var text = new String(zip.getInputStream(entry).bytes, 'ISO-8859-1')
-						if (text.contains('thedarkcolour/modkit')) {
+						if (text.contains('thedarkcolour/modkit') || text.contains('thedarkcolour.modkit')) {
 							problems.add("${jarName} jar: ${entry.name} references ModKit")
 						}
 					}
 				}
 			}
+			return [(jarName): names]
 		}
-
-		var entriesOf = { File jar ->
-			var names = new HashSet<String>()
-			new java.util.zip.ZipFile(jar).withCloseable { zip ->
-				zip.entries().each { names.add(it.name) }
-			}
-			return names
-		}
-		var entries = jarFiles.collectEntries { jar, file -> [(jar): entriesOf(file)] }
 
 		// No jar may carry another's package tree. The compiler enforces this for the source sets;
 		// this is the same statement about the artifact

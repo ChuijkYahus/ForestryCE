@@ -6,7 +6,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
  * How a content jar attaches its own data providers to core's gather event. Core loads these through
  * {@link java.util.ServiceLoader}, the same way {@code IForestryPlugin} is loaded, so core never names a
  * content jar's types directly. Each jar's datagen package lives in that jar's own source set, so the
- * compile classpath enforces what this indirection only asks of.
+ * compile classpath enforces what this indirection only asks of it.
  *
  * <p>Implementations are listed in
  * {@code META-INF/services/forestry.core.data.IForestryDataProvider}, in the source set the
