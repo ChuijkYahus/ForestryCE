@@ -32,11 +32,12 @@ java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 //
 // 9a still produces one jar and one mod id. Splitting the artifacts is 9b.
 //
-// datagen is a source set but not a jar, from phase 8. The providers are the only thing in the repo
-// that touches ModKit, a dev-only dependency: with them in main, every datagen lambda put a ModKit
-// type into a method descriptor that FML's boot-time annotation scanner then tried to resolve from
-// the shipped jar. Keeping them out of main removes the cause rather than filtering the symptom out
-// of the jar.
+// Datagen has no source set of its own. Each jar's providers live beside the content they generate
+// for, so a farms provider physically cannot name a butterflies type. The providers are the only
+// thing in the repo that touches ModKit, a dev-only dependency, and every jar task excludes their
+// packages: a datagen lambda puts a ModKit type into a synthetic method descriptor that FML's
+// boot-time annotation scanner would then try to resolve from the shipped jar. What proves the
+// exclude held is checkJarPartition, which reads the built artifact.
 var contentModules = ['butterflies', 'farms', 'mail']
 
 // Source set name to Java package name. The two diverge because the jars were renamed and the
@@ -57,7 +58,6 @@ sourceSets {
 	butterflies
 	farms
 	mail
-	datagen
 }
 
 // Everything requires core, and nothing else. Arboriculture moving into core dissolved the only
@@ -70,14 +70,6 @@ contentModules.each { m ->
 	sourceSets[m].runtimeClasspath += sourceSets.main.output
 	configurations["${m}Implementation"].extendsFrom configurations.implementation
 	configurations["${m}CompileOnly"].extendsFrom configurations.compileOnly
-}
-
-// Datagen and the GameTests both read every jar, so they get them all
-sourceSets.datagen.compileClasspath += sourceSets.main.output
-sourceSets.datagen.runtimeClasspath += sourceSets.main.output
-contentModules.each { m ->
-	sourceSets.datagen.compileClasspath += sourceSets[m].output
-	sourceSets.datagen.runtimeClasspath += sourceSets[m].output
 }
 
 // ---- Per-jar resource ownership (phase 9b) ----
@@ -766,17 +758,16 @@ var partitionSharedResources = tasks.register('partitionSharedResources') {
 }
 
 configurations {
-	// ModKit, isolated so it can reach exactly two places and no others: datagen's compile classpath,
-	// and the dev runs' runtime classpath. It must go on main's *runtime* classpath rather than an
-	// MDG additionalRuntimeClasspath, because the latter loads outside the game layer and ModKit
-	// extends net.minecraft.data.tags.TagsProvider. runtimeOnly keeps it off main's compile
-	// classpath, which is the whole point, and the published POM strips dependencies anyway
+	// ModKit, dev only. It reaches the four production compile classpaths because the data providers
+	// now live beside the code they generate for, and every jar task excludes those packages. What
+	// keeps it out of a shipped jar is checkJarPartition, which reads the built artifact.
+	//
+	// It must go on the *runtime* classpath rather than an MDG additionalRuntimeClasspath, because
+	// the latter loads outside the game layer and ModKit extends net.minecraft.data.tags.TagsProvider.
+	// compileOnly keeps it out of the published POM, which strips dependencies anyway
 	modkit
 	runtimeOnly.extendsFrom modkit
-	datagenCompileOnly.extendsFrom modkit
-	// Curios, KubeJS and the rest of the optional-mod surface
-	datagenImplementation.extendsFrom implementation
-	datagenCompileOnly.extendsFrom compileOnly
+	compileOnly.extendsFrom modkit
 }
 
 neoForge {
@@ -798,9 +789,6 @@ neoForge {
 		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
 		forestry {
 			sourceSet sourceSets.main
-			// Datagen lives in src/datagen (forestry.core.data). Part of the mod so the data run's
-			// GatherDataEvent subscriber is discovered, and out of the jars for the same reason as test.
-			sourceSet sourceSets.datagen
 		}
 		contentModules.each { m ->
 			create("forestry${m}") { sourceSet sourceSets[m] }
@@ -817,7 +805,7 @@ neoForge {
 			logLevel = org.slf4j.event.Level.DEBUG
 			jvmArgument '-XX:+AllowEnhancedClassRedefinition'
 			jvmArgument '-XX:+IgnoreUnrecognizedVMOptions'
-			// Every dev run loads sourceSets.datagen as part of the forestry mod, and FML's
+			// Every dev run loads forestry.core.data as part of the forestry mod, and FML's
 			// AutomaticEventSubscriber resolves Data's method signatures at construction, so ModKit
 			// has to be on the runtime classpath of all of them - not just runData. See the modkit
 			// configuration above; it rides in on main's runtimeClasspath
@@ -913,10 +901,9 @@ neoForge {
 		}
 	}
 
-	// src/test, src/datagen and the content roots have no Minecraft/NeoForge on their classpath by
-	// default. Moddev only wires that into source sets it's told about. Without this they won't compile.
+	// src/test and the content roots have no Minecraft/NeoForge on their classpath by default.
+	// Moddev only wires that into source sets it's told about. Without this they won't compile.
 	addModdingDependenciesTo sourceSets.test
-	addModdingDependenciesTo sourceSets.datagen
 	contentModules.each { addModdingDependenciesTo sourceSets[it] }
 }
 
@@ -982,13 +969,12 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 
 	// Every source root. The service file names one plugin class per content jar, and those left
 	// src/main/java in 9a; a single-root check reports every one of them as missing
-	var javaDirs = [project.file('src/main/java'), project.file('src/datagen/java')] +
+	var javaDirs = [project.file('src/main/java')] +
 			contentModules.collect { project.file("src/${it}/java") }
-	// Every resource root, including the per-jar ones and src/datagen. The plugin service files live
-	// in the per-jar roots; the IForestryDataProvider service file that names each jar's datagen entry
-	// point lives in src/datagen/resources. Missing either leaves the file most likely to name a moved
-	// class unchecked
-	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources'), project.file('src/datagen/resources')] +
+	// Every resource root, the per-jar ones included. Each content root holds two service files, one
+	// naming its plugin and one naming its datagen entry point, and both name a class that left
+	// src/main/java. Missing a root leaves the files most likely to name a moved class unchecked
+	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')] +
 			contentModules.collect { project.file("src/${it}/resources") }
 
 	inputs.files(javaDirs)
@@ -1171,14 +1157,13 @@ dependencies {
 	// PATCHOULI REQUIRED
 	compileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE:api"
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
-	// ModKit DEV ONLY - datagen and nothing else. Keeping it off main's classpath is the point of
-	// the datagen source set; see the sourceSets block above
+	// ModKit DEV ONLY - the data providers and nothing else. What keeps it out of a shipped jar is
+	// the datagen exclude on every jar task plus checkJarPartition; see the configurations block
 	// todo pin the JitPack sha again once the DataHelper.Builder commit is pushed
 	modkit 'thedarkcolour.modkit:ModKit:1.0'
 
-	// two GameTests build their expected species maps from the datagen providers
-	testImplementation sourceSets.datagen.output
-	// GameTests exercise every jar
+	// GameTests exercise every jar, and two of them build their expected species maps from the data
+	// providers that now live in those jars
 	contentModules.each { testImplementation sourceSets[it].output }
 }
 
@@ -1374,6 +1359,11 @@ sourceSets.main {
 neoForge.ideSyncTask generateModMetadata
 
 jar {
+	// Datagen providers reference ModKit, which is not shipped. FML's annotation scanner resolves
+	// method signatures at boot via getDeclaredMethods0, and a lambda method reference in an
+	// @EventBusSubscriber class carries ModKit types in its synthetic descriptor. See c540144fc
+	exclude 'forestry/**/data/**'
+	exclude 'META-INF/services/forestry.core.data.IForestryDataProvider'
 
 	manifest {
 		attributes([
@@ -1396,6 +1386,12 @@ var contentJars = contentModules.collectEntries { m ->
 
 		// the module's classes plus its already-partitioned resources
 		from sourceSets[m].output
+
+		// Datagen providers reference ModKit, which is not shipped. FML's annotation scanner resolves
+		// method signatures at boot via getDeclaredMethods0, and a lambda method reference in an
+		// @EventBusSubscriber class carries ModKit types in its synthetic descriptor. See c540144fc
+		exclude 'forestry/**/data/**'
+		exclude 'META-INF/services/forestry.core.data.IForestryDataProvider'
 
 		manifest {
 			attributes([
@@ -1428,6 +1424,21 @@ var checkJarPartition = tasks.register('checkJarPartition') {
 		var problems = new ArrayList<String>()
 		var jarFiles = ['core': tasks.named('jar').get().archiveFile.get().asFile]
 		contentModules.each { m -> jarFiles[m] = contentJars[m].get().archiveFile.get().asFile }
+
+		// A source set boundary used to keep ModKit off the production compile classpath. The datagen
+		// providers live in the production source sets now, so the artifact is what has to prove it
+		jarFiles.each { jarName, file ->
+			new java.util.zip.ZipFile(file).withCloseable { zip ->
+				zip.entries().each { entry ->
+					if (entry.name.endsWith('.class')) {
+						var text = new String(zip.getInputStream(entry).bytes, 'ISO-8859-1')
+						if (text.contains('thedarkcolour/modkit')) {
+							problems.add("${jarName} jar: ${entry.name} references ModKit")
+						}
+					}
+				}
+			}
+		}
 
 		var entriesOf = { File jar ->
 			var names = new HashSet<String>()
