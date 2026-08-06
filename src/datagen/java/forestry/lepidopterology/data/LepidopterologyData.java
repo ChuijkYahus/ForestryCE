@@ -4,7 +4,8 @@ import net.minecraft.core.registries.Registries;
 
 import forestry.core.data.ContentJarData;
 import forestry.core.data.DataRoots;
-import forestry.core.data.JarData;
+import forestry.core.data.JarLootTableProvider;
+import forestry.core.data.JarScope;
 
 /**
  * Registers every provider that writes into the butterflies jar. Loaded by core through
@@ -16,7 +17,7 @@ public class LepidopterologyData extends ContentJarData {
 	}
 
 	@Override
-	protected void addProviders(JarData jar) {
+	protected void addProviders(JarScope jar) {
 		// Butterfly taxa must be live before any butterfly species is built, because a species resolves
 		// its genus through the taxonomy
 		ButterflyTaxonProvider.seedLiveTaxaForDatagen();
@@ -28,7 +29,7 @@ public class LepidopterologyData extends ContentJarData {
 		jar.addServer(new ButterflyTaxonProvider(jar.output()));
 		jar.addServer(new ButterflySpeciesProvider(jar.output(), jar.lookup()));
 		jar.addServer(new ButterflyMutationProvider(jar.output(), jar.lookup()));
-		jar.addServer(new LepidopterologyLootTableProvider(jar.output(), jar.lookup()));
+		jar.addServer(new JarLootTableProvider(jar.output(), jar.lookup(), LepidopterologyBlockLootTables::new));
 		jar.addServer(new LepidopterologyDataMapProvider(jar.output(), jar.lookup()));
 		jar.addClient(new LepidopterologyItemModelProvider(jar.output(), jar.existingFileHelper()));
 	}

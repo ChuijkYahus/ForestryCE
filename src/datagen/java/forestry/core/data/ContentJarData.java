@@ -40,7 +40,7 @@ public abstract class ContentJarData implements IForestryDataProvider {
 			.addProvider(registrar)
 			.build();
 
-		addProviders(new JarData(event, output, helper, registrar));
+		addProviders(new JarScope(event, output, helper, registrar));
 	}
 
 	/**
@@ -48,5 +48,5 @@ public abstract class ContentJarData implements IForestryDataProvider {
 	 *
 	 * @param jar The pieces this jar's providers are registered from
 	 */
-	protected abstract void addProviders(JarData jar);
+	protected abstract void addProviders(JarScope jar);
 }

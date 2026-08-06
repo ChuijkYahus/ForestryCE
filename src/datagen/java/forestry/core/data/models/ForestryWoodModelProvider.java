@@ -180,7 +180,7 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			// Sign
 			BlockForestryStandingSign sign = ArboricultureBlocks.SIGN.get(woodType).block();
 			BlockForestryWallSign wallSign = ArboricultureBlocks.WALL_SIGN.get(woodType).block();
-			ModelFile signModel = particleOnly(models(), path(sign), blockTexture(planks));
+			ModelFile signModel = particleOnly(this, path(sign), blockTexture(planks));
 			singleModelBlock(this, sign, signModel);
 			singleModelBlock(this, wallSign, signModel);
 			generic2d(sign);
@@ -188,7 +188,7 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			// Hanging Sign
 			BlockForestryHangingSign hangingSign = ArboricultureBlocks.HANGING_SIGN.get(woodType).block();
 			BlockForestryWallHangingSign hangingWallSign = ArboricultureBlocks.WALL_HANGING_SIGN.get(woodType).block();
-			ModelFile hangingSignModel = particleOnly(models(), path(hangingSign), blockTexture(planks));
+			ModelFile hangingSignModel = particleOnly(this, path(hangingSign), blockTexture(planks));
 			singleModelBlock(this, hangingSign, hangingSignModel);
 			singleModelBlock(this, hangingWallSign, hangingSignModel);
 			generic2d(hangingSign);

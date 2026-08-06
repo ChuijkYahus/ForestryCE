@@ -4,7 +4,8 @@ import net.minecraft.core.registries.Registries;
 
 import forestry.core.data.ContentJarData;
 import forestry.core.data.DataRoots;
-import forestry.core.data.JarData;
+import forestry.core.data.JarLootTableProvider;
+import forestry.core.data.JarScope;
 
 /**
  * Registers every provider that writes into the mail jar. Loaded by core through
@@ -16,13 +17,13 @@ public class MailData extends ContentJarData {
 	}
 
 	@Override
-	protected void addProviders(JarData jar) {
+	protected void addProviders(JarScope jar) {
 		jar.helper().createTags(Registries.BLOCK, MailBlockTagsProvider::addTags);
 		jar.helper().createTags(Registries.ITEM, MailItemTagsProvider::addTags);
 		jar.helper().createRecipes(MailRecipeProvider::addRecipes);
 		jar.helper().createItemModels(false, false, false, MailItemModels::addModels);
 
-		jar.addServer(new MailLootTableProvider(jar.output(), jar.lookup()));
+		jar.addServer(new JarLootTableProvider(jar.output(), jar.lookup(), MailBlockLootTables::new));
 		jar.addClient(new MailBlockStateProvider(jar.output(), jar.existingFileHelper()));
 	}
 }

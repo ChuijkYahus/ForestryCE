@@ -15,7 +15,6 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 import thedarkcolour.modkit.data.MKRecipeProvider;
 
-import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
 import forestry.api.core.circuits.ICircuit;
 import forestry.core.content.resources.EnumCraftingMaterial;
@@ -32,6 +31,8 @@ import forestry.mail.features.MailItems;
 import forestry.mail.letters.EnumStampDefinition;
 import forestry.mail.letters.ItemStamp;
 import forestry.mail.letters.LetterItem;
+
+import static forestry.core.data.recipe.RecipeIds.id;
 
 /**
  * Generates the crafting and carpenter recipes for the mail jar.
@@ -104,7 +105,7 @@ public class MailRecipeProvider {
 					.pattern("PPP")
 					.define('#', stamp.getCraftingIngredient())
 					.define('P', Items.PAPER))
-				.build(output, ForestryConstants.forestry("carpenter/" + item.getName()));
+				.build(output, id("carpenter", item.getName()));
 		}
 
 		new CarpenterRecipeBuilder()
@@ -115,6 +116,6 @@ public class MailRecipeProvider {
 				.pattern("###")
 				.pattern("###")
 				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
-			.build(output, ForestryConstants.forestry("carpenter/letter_pulp"));
+			.build(output, id("carpenter", "letter_pulp"));
 	}
 }

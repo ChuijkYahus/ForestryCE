@@ -89,6 +89,7 @@ import thedarkcolour.modkit.data.MKRecipeProvider;
 
 import java.util.List;
 
+import static forestry.core.data.recipe.RecipeIds.id;
 import static thedarkcolour.modkit.data.MKRecipeProvider.ingredient;
 import static thedarkcolour.modkit.data.MKRecipeProvider.path;
 
@@ -2210,9 +2211,5 @@ public class ForestryRecipeProvider {
 			.setInput(biomass)
 			.setOutput(ethanol)
 			.build(consumer, id("still", "ethanol"));
-	}
-
-	private static ResourceLocation id(String... path) {
-		return ResourceLocation.fromNamespaceAndPath("forestry", String.join("/", path));
 	}
 }
