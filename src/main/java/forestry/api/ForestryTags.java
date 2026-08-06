@@ -194,6 +194,7 @@ public class ForestryTags {
 		public static final TagKey<Item> SCOOPS = itemTag("scoops");
 
 		public static final TagKey<Item> FORESTRY_FRUITS = itemTag("forestry_fruits");
+		public static final TagKey<Item> GRASSES = commonTag("grasses");
 		public static final TagKey<Item> FRUITS = commonTag("fruits");
 		public static final TagKey<Item> CHERRY = commonTag("fruits/cherry");
 		public static final TagKey<Item> WALNUT = commonTag("fruits/walnut");

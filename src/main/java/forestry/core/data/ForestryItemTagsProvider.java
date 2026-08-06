@@ -81,6 +81,7 @@ public class ForestryItemTagsProvider {
 		tags.copy(BlockTags.DIRT, ItemTags.DIRT);
 
 		// Add item-specific tags
+		tags.tag(ForestryTags.Items.GRASSES).add(Items.FERN, Items.LARGE_FERN, Items.SHORT_GRASS, Items.TALL_GRASS);
 		tags.tag(ForestryTags.Items.GEARS).addTags(ForestryTags.Items.GEARS_BRONZE, ForestryTags.Items.GEARS_COPPER, ForestryTags.Items.GEARS_TIN);
 		tags.tag(ForestryTags.Items.GEARS_BRONZE).add(CoreItems.GEAR_BRONZE.item());
 		tags.tag(ForestryTags.Items.GEARS_TIN).add(CoreItems.GEAR_TIN.item());
