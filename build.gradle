@@ -1099,6 +1099,7 @@ tasks.named('check') {
 }
 
 repositories {
+	mavenLocal()
 	maven {
 		name = 'jei'
 		url = 'https://maven.blamejared.com/'
@@ -1165,7 +1166,8 @@ dependencies {
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
 	// ModKit DEV ONLY - datagen and nothing else. Keeping it off main's classpath is the point of
 	// the datagen source set; see the sourceSets block above
-	modkit 'com.github.thedarkcolour:ModKit:51b8760'
+	// todo pin the JitPack sha again once the DataHelper.Builder commit is pushed
+	modkit 'thedarkcolour.modkit:ModKit:1.0'
 
 	// two GameTests build their expected species maps from the datagen providers
 	testImplementation sourceSets.datagen.output
