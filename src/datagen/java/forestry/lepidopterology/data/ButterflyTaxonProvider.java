@@ -9,8 +9,8 @@ import forestry.core.data.TaxonProvider;
 import forestry.core.data.taxonomy.ForestryTaxonomy;
 
 /**
- * Generates the lepidoptera subtree of {@code data/forestry/taxon}. Everything above the order - the
- * domains, kingdoms and the arthropod to insect spine - is shared with bees and ships in core, so the
+ * Generates the lepidoptera subtree of {@code data/forestry/taxon}. Everything above the order (the
+ * domains, kingdoms and the arthropod to insect spine) is shared with bees and ships in core, so the
  * spine is built here only to hang the order off and is then subtracted rather than written again.
  */
 public class ButterflyTaxonProvider extends TaxonProvider {

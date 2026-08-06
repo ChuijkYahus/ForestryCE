@@ -72,8 +72,10 @@ public class Data {
 		generator.addProvider(event.includeServer(), new ForestryDataMapProvider(output, lookup));
 		generator.addProvider(event.includeClient(), new ForestryCuriosProvider(output, existingFileHelper, lookup));
 
-		// Content jars attach here. Loaded rather than named, so core's compile classpath still cannot
-		// see a content jar's types. Sorted so the run is deterministic
+		// Content jars attach here through ServiceLoader rather than by naming a provider class directly,
+		// so core need not import a content jar's types. Every provider still compiles from the shared
+		// src/datagen source set today; once each jar's datagen moves into that jar's own source set, the
+		// compile classpath enforces what this loop only asks of it now. Sorted so the run is deterministic
 		ServiceLoader.load(IForestryDataProvider.class).stream()
 				.map(ServiceLoader.Provider::get)
 				.sorted(Comparator.comparing(provider -> provider.getClass().getName()))

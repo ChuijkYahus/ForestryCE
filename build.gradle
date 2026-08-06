@@ -984,9 +984,11 @@ var checkResourceFqcn = tasks.register('checkResourceFqcn') {
 	// src/main/java in 9a; a single-root check reports every one of them as missing
 	var javaDirs = [project.file('src/main/java'), project.file('src/datagen/java')] +
 			contentModules.collect { project.file("src/${it}/java") }
-	// Every resource root, including the per-jar ones. The plugin service files moved there in
-	// phase 9b, and a single-root scan silently stopped checking the content ones
-	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')] +
+	// Every resource root, including the per-jar ones and src/datagen. The plugin service files live
+	// in the per-jar roots; the IForestryDataProvider service file that names each jar's datagen entry
+	// point lives in src/datagen/resources. Missing either leaves the file most likely to name a moved
+	// class unchecked
+	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources'), project.file('src/datagen/resources')] +
 			contentModules.collect { project.file("src/${it}/resources") }
 
 	inputs.files(javaDirs)

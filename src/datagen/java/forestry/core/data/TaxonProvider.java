@@ -126,6 +126,15 @@ public class TaxonProvider implements DataProvider {
 	 * @param collector The provider whose {@link #addTaxa()} builds the taxa to seed
 	 */
 	protected static void seedLiveTaxa(TaxonProvider collector) {
+		// A subclass seeds a subtree onto core's ancestors, so an empty accumulator here means core's
+		// seedLiveTaxaForDatagen() has not run yet. Failing loudly beats 34 silent "parent taxon was
+		// never registered" warnings followed by every content species failing its fail-soft build
+		if (collector.getClass() != TaxonProvider.class && SEEDED.isEmpty()) {
+			throw new IllegalStateException(
+				"TaxonProvider.seedLiveTaxaForDatagen() must run before " + collector.getClass().getSimpleName()
+				+ " seeds its taxa; the shared ancestors are not live yet");
+		}
+
 		collector.addTaxa();
 		SEEDED.addAll(collector.pending.values());
 		GeneticsReloadHandler.rebuildTaxa(SEEDED);
