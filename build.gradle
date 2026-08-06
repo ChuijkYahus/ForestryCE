@@ -839,7 +839,12 @@ neoForge {
 			// destination. It lives beside src/generated/resources rather than inside it, so that it
 			// never ships, and it is checked in because the jar tasks read it without running the game
 			systemProperty 'forestry.ownershipManifest', file('src/generated/ownership.json').absolutePath
-			programArguments.addAll('--mod', 'forestry', '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
+			programArguments.addAll('--mod', 'forestry', '--all',
+					'--output', file('src/generated/').absolutePath,
+					'--existing', file('src/main/resources/').absolutePath,
+					'--existing', file('src/farms/resources/').absolutePath,
+					'--existing', file('src/mail/resources/').absolutePath,
+					'--existing', file('src/butterflies/resources/').absolutePath)
 		}
 
 		// Boot configurations for D4: a pack may install base plus any subset of the content jars.
@@ -1222,6 +1227,7 @@ tasks.named('processTestResources') { dependsOn(generateEnUsLang) }
 neoForge.ideSyncTask gametestModMetadata
 
 contentModules.each { m ->
+	sourceSets[m].resources.srcDir "src/generated/resources_${m}"
 	sourceSets[m].resources.srcDir contentModMetadata[m]
 	neoForge.ideSyncTask contentModMetadata[m]
 

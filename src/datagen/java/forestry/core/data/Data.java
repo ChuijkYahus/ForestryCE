@@ -18,6 +18,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import thedarkcolour.modkit.data.DataHelper;
 
+import java.util.Comparator;
+import java.util.ServiceLoader;
 import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = ForestryConstants.MOD_ID)
@@ -30,9 +32,9 @@ public class Data {
 		OwnershipManifest.write();
 
 		DataGenerator generator = event.getGenerator();
-		PackOutput output = generator.getPackOutput();
+		PackOutput output = DataRoots.of(event, DataRoots.CORE);
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-		DataHelper dataHelper = new DataHelper(ForestryConstants.MOD_ID, event);
+		DataHelper dataHelper = new DataHelper.Builder(ForestryConstants.MOD_ID, event).packOutput(output).build();
 		CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
 		dataHelper.createEnglish(true, ForestryEnglishProvider::addTranslations);
@@ -70,6 +72,13 @@ public class Data {
 		generator.addProvider(event.includeServer(), new MutationProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new ForestryDataMapProvider(output, lookup));
 		generator.addProvider(event.includeClient(), new ForestryCuriosProvider(output, existingFileHelper, lookup));
+
+		// Content jars attach here. Loaded rather than named, so core's compile classpath still cannot
+		// see a content jar's types. Sorted so the run is deterministic
+		ServiceLoader.load(IForestryDataProvider.class).stream()
+				.map(ServiceLoader.Provider::get)
+				.sorted(Comparator.comparing(provider -> provider.getClass().getName()))
+				.forEachOrdered(provider -> provider.gather(event));
 	}
 
 	// Hack fix to make API work in data generation environment
