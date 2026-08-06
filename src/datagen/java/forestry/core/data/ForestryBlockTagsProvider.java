@@ -10,9 +10,6 @@ import forestry.core.content.resources.EnumResourceType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.machines.features.FactoryBlocks;
-import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
-import forestry.agriculture.multifarm.blocks.FarmBlock;
-import forestry.agriculture.features.FarmingBlocks;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureBlockGroup;
 import forestry.core.content.worktable.features.WorktableBlocks;
@@ -32,12 +29,6 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.MINEABLE_SCOOP).add(ApicultureBlocks.BEEHIVE.blockArray());
 		tags.tag(ForestryTags.Blocks.MINEABLE_GRAFTER).addTag(BlockTags.LEAVES);
 
-		for (EnumFarmMaterial material : EnumFarmMaterial.values()) {
-			tags.tag(ForestryTags.Blocks.VALID_FARM_BASE).add(material.getBase());
-		}
-		tags.tag(ForestryTags.Blocks.VALID_FARM_BASE).add(Blocks.SMOOTH_STONE);
-
-
 		tags.tag(BlockTags.MINEABLE_WITH_AXE)
 			.add(CoreBlocks.NATURALIST_CHEST.blockArray())
 			.add(CharcoalBlocks.LOG_PILE.block())
@@ -51,10 +42,6 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.RAW_TIN_BLOCK.block())
 			.add(CharcoalBlocks.CHARCOAL.block())
 			.add(EnergyBlocks.ENGINES.blockArray());
-
-		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
-			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
-		}
 
 		for (Block block : union(CoreBlocks.RESOURCE_STORAGE, FactoryBlocks.PLAIN, FactoryBlocks.TESR)) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);

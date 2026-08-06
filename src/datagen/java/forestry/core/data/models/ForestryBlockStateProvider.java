@@ -18,12 +18,6 @@ import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.util.ModUtil;
-import forestry.agriculture.planter.blocks.BlockTypePlanter;
-import forestry.agriculture.features.CultivationBlocks;
-import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
-import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
-import forestry.agriculture.multifarm.blocks.FarmBlock;
-import forestry.agriculture.features.FarmingBlocks;
 import forestry.core.content.worktable.features.WorktableBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +29,6 @@ import net.minecraft.core.Direction;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
@@ -45,23 +38,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		// Farm blocks
-		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
-			if (block.getType() == EnumFarmBlockType.PLAIN) {
-				plainFarm(block);
-			} else {
-				singleFarm(block);
-			}
-
-			generic3d(block);
-		}
-
-		for (BlockTypePlanter farmType : BlockTypePlanter.values()) {
-			ModelFile file = models().getExistingFile(modBlock(farmType.getSerializedName()));
-			horizontalForestryBlock(this, CultivationBlocks.MANAGED_PLANTER.get(farmType).block(), file);
-			horizontalForestryBlock(this, CultivationBlocks.MANUAL_PLANTER.get(farmType).block(), file);
-		}
-
 		// Resources
 		simpleBlock(CoreBlocks.BOG_EARTH.block());
 		simpleBlock(CoreBlocks.HUMUS.block());
@@ -193,6 +169,12 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		return states.models().getBuilder(path).texture("particle", particleTexture);
 	}
 
+	// Makes a 3d cube of a block for item model
+	public static void generic3d(BlockStateProvider states, Block block) {
+		String path = path(block);
+		states.itemModels().withExistingParent(path, states.modLoc("block/" + path));
+	}
+
 	/**
 	 * BlockStateProvider#horizontalBlock keys off vanilla's BlockStateProperties.HORIZONTAL_FACING,
 	 * which Forestry's BlockBase doesn't carry. Its FACING is a custom EnumProperty&lt;Direction&gt;
@@ -208,45 +190,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				.rotationY(yRot)
 				.build();
 		});
-	}
-
-	private void singleFarm(FarmBlock block) {
-		EnumFarmMaterial material = block.getFarmMaterial();
-		Block base = material.getBase();
-		ResourceLocation texture = modLoc("block/farm/" + block.getType().getSerializedName());
-
-		singleModelBlock(this, block, farmPillar(path(block), base, texture, texture));
-	}
-
-	private void plainFarm(FarmBlock block) {
-		EnumFarmMaterial material = block.getFarmMaterial();
-		Block base = material.getBase();
-
-		// todo need to use reverse texture
-		getVariantBuilder(block)
-			.partialState().with(FarmBlock.BAND, false)
-			.modelForState().modelFile(farmPillar(path(block), base, modLoc("block/farm/top"), modLoc("block/farm/plain"))).addModel()
-			.partialState().with(FarmBlock.BAND, true)
-			.modelForState().modelFile(farmPillar(path(block) + "_band", base, modLoc("block/farm/top"), modLoc("block/farm/band"))).addModel();
-	}
-
-	private ModelFile farmPillar(String path, Block base, ResourceLocation top, ResourceLocation side) {
-		ModelFile baseModel = file(blockTexture(base));
-
-		return models().getBuilder(path).customLoader(CompositeModelBuilder::begin)
-			.child("base", models().nested()
-				.parent(baseModel)
-				.renderType("solid"))
-			.child("overlay", models().nested()
-				.parent(mcFile("cube_column"))
-				.texture("end", top)
-				.texture("side", side)
-				// should we use cutout_mipped?
-				.renderType("cutout"))
-			.itemRenderOrder("base", "overlay")
-			.end()
-			// reuse the particle
-			.parent(baseModel);
 	}
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {
@@ -276,10 +219,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	}
 
 	// Everything below this line is boilerplate code adapted from https://github.com/thedarkcolour/ModKit
-	// Makes a 3d cube of a block for item model
 	public void generic3d(Block block) {
-		String path = path(block);
-		itemModels().withExistingParent(path, modLoc("block/" + path));
+		generic3d(this, block);
 	}
 
 	public static String path(Block block) {

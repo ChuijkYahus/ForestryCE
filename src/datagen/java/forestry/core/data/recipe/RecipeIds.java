@@ -13,7 +13,7 @@ public final class RecipeIds {
 	}
 
 	/**
-	 * Ex. {@code id("carpenter", "impregnated_casing")} -&gt; {@code "forestry:carpenter/impregnated_casing"}
+	 * Ex. {@code id("carpenter", "impregnated_casing")} -> {@code "forestry:carpenter/impregnated_casing"}
 	 *
 	 * @param path The path segments, joined by a slash
 	 * @return The forestry id the recipe is written under

@@ -1,5 +1,6 @@
 # The entry points listed here are compiled from src/datagen, which loads as part of the forestry mod.
 # Listing them from a content jar instead would put that jar's datagen package in two modules and the
 # module layer would refuse to build. This file follows the classes when they move.
+forestry.agriculture.data.AgricultureData
 forestry.lepidopterology.data.LepidopterologyData
 forestry.mail.data.MailData
