@@ -104,7 +104,7 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 			ItemStack heldItem = player.getItemInHand(hand);
 			ItemStack otherHand = player.getItemInHand(hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
 			if (heldItem.isEmpty() && otherHand.isEmpty()) {
-				if (leaves.hasFruit() && leaves.getRipeness() >= 0.9F) {
+				if (leaves.hasFruit() && leaves.getRipeness() >= 1.0F) {
 					BlockUtil.sendDestroyEffects(level, pos, state);
 					for (ItemStack fruit : leaves.pickFruit(ItemStack.EMPTY)) {
 						ItemHandlerHelper.giveItemToPlayer(player, fruit);

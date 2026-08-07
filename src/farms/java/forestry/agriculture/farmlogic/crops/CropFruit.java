@@ -18,7 +18,7 @@ public class CropFruit extends Crop {
 	@Override
 	protected boolean isCrop(Level world, BlockPos pos) {
 		IFruitBearer bearer = TileUtil.getTile(world, pos, IFruitBearer.class);
-		return bearer != null && bearer.hasFruit() && bearer.getRipeness() >= 0.9f;
+		return bearer != null && bearer.hasFruit() && bearer.getRipeness() >= 1.0f;
 	}
 
 	@Override
