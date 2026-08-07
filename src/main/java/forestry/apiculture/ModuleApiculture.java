@@ -115,7 +115,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	}
 
 	private static void modifySnifferLoot(LootTableLoadEvent event) {
-		if (event.getName().equals(BuiltInLootTables.SNIFFER_DIGGING)) {
+		if (event.getKey().equals(BuiltInLootTables.SNIFFER_DIGGING)) {
 			LootPool main = event.getTable().getPool("main");
 
 			if (main != null) {
