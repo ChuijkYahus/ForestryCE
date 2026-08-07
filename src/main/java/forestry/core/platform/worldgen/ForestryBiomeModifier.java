@@ -20,10 +20,9 @@ import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 
 // Pass in the feature holders from the codec.
 //
-// Every field is optional because each jar ships its own modifier naming only the features it owns:
-// core the ores, apiculture the hive, arboriculture the tree. A single file naming all four cannot
-// work once the jars are optional - a placed feature from an absent jar is an unbound registry value
-// and fails world load outright, before any of the guards below get a chance to run.
+// Every field is optional so a pack can name a subset. Base still ships one file naming all four:
+// hives, trees and ores are all base content, so no jar's absence can leave a field pointing at an
+// unbound placed feature. Splitting them would rename forestry:forestry, which packs disable by id
 public record ForestryBiomeModifier(Optional<Holder<PlacedFeature>> hive, Optional<Holder<PlacedFeature>> tree,
 									Optional<Holder<PlacedFeature>> apatiteOre,
 									Optional<Holder<PlacedFeature>> tinOre) implements BiomeModifier {
