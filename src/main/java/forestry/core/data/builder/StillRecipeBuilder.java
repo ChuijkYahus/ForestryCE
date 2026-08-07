@@ -1,6 +1,6 @@
 package forestry.core.data.builder;
 
-import forestry.factory.recipes.StillRecipe;
+import forestry.core.content.machines.recipes.StillRecipe;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.fluids.FluidStack;

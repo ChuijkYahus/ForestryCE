@@ -1,21 +1,25 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
-import forestry.arboriculture.blocks.*;
+import forestry.arboriculture.leaves.BlockDecorativeLeaves;
+import forestry.arboriculture.leaves.BlockDefaultLeaves;
+import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
+import forestry.arboriculture.wood.BlockForestryDoor;
+import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.arboriculture.loot.CountBlockFunction;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.loot.OrganismFunction;
-import forestry.core.utils.SpeciesUtil;
-import forestry.lepidopterology.features.LepidopterologyBlocks;
-import forestry.modules.features.FeatureBlock;
-import forestry.modules.features.FeatureBlockGroup;
+import forestry.core.platform.loot.OrganismFunction;
+import forestry.core.platform.util.SpeciesUtil;
+import forestry.core.platform.registration.FeatureBlock;
+import forestry.core.platform.registration.FeatureBlockGroup;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Items;
@@ -46,15 +50,20 @@ import java.util.function.Function;
  */
 public class ForestryBlockLootTables extends BlockLootSubProvider {
 	private final LinkedHashSet<Block> added = new LinkedHashSet<>();
+	// The pass below covers every forestry block, including the ones a content jar registers. Those get their loot
+	// from that jar's own provider, so they are skipped rather than written into core's root as well. Handed in by
+	// Data from the modules the content jars declare, the same set that scopes core's names
+	private final Set<ResourceLocation> contentOwned;
 
-	protected ForestryBlockLootTables(HolderLookup.Provider registries) {
+	protected ForestryBlockLootTables(HolderLookup.Provider registries, Set<ResourceLocation> contentOwned) {
 		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, registries);
+		this.contentOwned = contentOwned;
 	}
 
 	@Override
 	protected void generate() {
 		MKUtils.forModRegistry(Registries.BLOCK, ForestryConstants.MOD_ID, (id, block) -> {
-			if (block.getLootTable() != BuiltInLootTables.EMPTY) {
+			if (!this.contentOwned.contains(id) && block.getLootTable() != BuiltInLootTables.EMPTY) {
 				dropSelf(block);
 			}
 		});
@@ -89,8 +98,6 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		registerEmptyTables(ArboricultureBlocks.PODS); // Handled by internal logic
 		registerEmptyTables(ArboricultureBlocks.SAPLING_GE); // Handled by internal logic
 		registerEmptyTables(ArboricultureBlocks.LEAVES);  // Handled by internal logic
-		registerEmptyTables(LepidopterologyBlocks.COCOON);
-		registerEmptyTables(LepidopterologyBlocks.COCOON_SOLID);
 
 		registerLootTable(CoreBlocks.APATITE_ORE, this::createApatiteOreDrops);
 		registerLootTable(CoreBlocks.DEEPSLATE_APATITE_ORE, this::createApatiteOreDrops);

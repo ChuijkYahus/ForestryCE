@@ -1,15 +1,15 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.circuits.ContainerSolderingIron;
-import forestry.core.gui.PortableAnalyzerMenu;
-import forestry.core.gui.ContainerAnalyzer;
-import forestry.core.gui.ContainerEscritoire;
-import forestry.core.gui.ContainerNaturalistInventory;
-import forestry.modules.features.FeatureMenuType;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.engine.circuits.ContainerSolderingIron;
+import forestry.core.content.analyzer.PortableAnalyzerMenu;
+import forestry.core.content.analyzer.ContainerAnalyzer;
+import forestry.core.content.escritoire.ContainerEscritoire;
+import forestry.core.platform.gui.ContainerNaturalistInventory;
+import forestry.core.platform.registration.FeatureMenuType;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 
 @FeatureProvider
 public class CoreMenuTypes {

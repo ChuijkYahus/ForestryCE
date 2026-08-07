@@ -16,11 +16,11 @@ import net.minecraft.resources.RegistryOps;
 import forestry.api.ForestryConstants;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.ForestryTaxa;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
+import forestry.api.core.genetics.ForestryTaxa;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)

@@ -2,13 +2,14 @@ package forestry.api;
 
 import forestry.api.apiculture.hives.IHiveManager;
 import forestry.api.arboriculture.ITreeManager;
-import forestry.api.circuits.ICircuitManager;
-import forestry.api.climate.IClimateManager;
+import forestry.api.core.circuits.ICircuitManager;
+import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
-import forestry.api.farming.IFarmingManager;
-import forestry.api.genetics.IGeneticManager;
-import forestry.api.genetics.filter.IFilterManager;
-import forestry.api.genetics.pollen.IPollenManager;
+import forestry.api.agriculture.IFarmingManager;
+import forestry.api.core.genetics.IFlowerTypeManager;
+import forestry.api.core.genetics.IGeneticManager;
+import forestry.api.core.genetics.filter.IFilterManager;
+import forestry.api.core.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
 import forestry.api.plugin.IGeneticRegistration;
 
@@ -46,6 +47,12 @@ public interface IForestryApi {
 	 * @see forestry.api.plugin.IForestryPlugin#registerGenetics
 	 */
 	IGeneticManager getGeneticManager();
+
+	/**
+	 * @return The flower type manager, used to look up the flower types pollinating species search for
+	 * @since 2.10.0
+	 */
+	IFlowerTypeManager getFlowerTypeManager();
 
 	/**
 	 * @see IGeneticRegistration#registerFilterRuleType

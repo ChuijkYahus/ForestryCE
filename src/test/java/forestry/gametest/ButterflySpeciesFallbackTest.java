@@ -13,8 +13,8 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.lepidopterology.ForestryButterflyEffects;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.ForestryCocoons;
@@ -22,11 +22,12 @@ import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
-import forestry.core.data.ButterflySpeciesProvider;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.data.ButterflySpeciesProvider;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
+import forestry.core.platform.util.SpeciesUtil;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 
 /**
  * Behavioral oracle for {@link ButterflyChromosomes#SPECIES}'s fail-soft resolver: a saved individual can reference a
@@ -88,7 +89,7 @@ public class ButterflySpeciesFallbackTest {
 
 	/**
 	 * A def map missing a built-in species (as if a datapack had deleted its JSON file) must be skipped by
-	 * {@link GeneticsReloadHandler#rebuildButterflySpecies} without crashing, must not disturb the other built-ins,
+	 * {@link LepidopterologyReloadHandler#rebuildButterflySpecies} without crashing, must not disturb the other built-ins,
 	 * and reading the now-removed id back through the fail-soft {@link ButterflyChromosomes#SPECIES} resolver must
 	 * return the default species rather than throw (the exact scenario a saved/synced stack referencing that id hits
 	 * post-removal).
@@ -122,7 +123,7 @@ public class ButterflySpeciesFallbackTest {
 		}
 
 		try {
-			GeneticsReloadHandler.rebuildButterflySpecies(defs);
+			LepidopterologyReloadHandler.rebuildButterflySpecies(defs);
 
 			if (type.getSpeciesSafe(removedId) != null) {
 				helper.fail("Expected the removed butterfly species to be absent from the live map");

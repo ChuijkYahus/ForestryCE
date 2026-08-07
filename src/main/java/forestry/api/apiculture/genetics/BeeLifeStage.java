@@ -1,24 +1,35 @@
 package forestry.api.apiculture.genetics;
 
-import forestry.api.genetics.ILifeStage;
-import forestry.apiculture.features.ApicultureItems;
+import forestry.api.ForestryConstants;
+import forestry.api.core.genetics.ILifeStage;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.ItemLike;
 
 import java.util.Locale;
 
 public enum BeeLifeStage implements ILifeStage {
-	DRONE(ApicultureItems.BEE_DRONE),
-	PRINCESS(ApicultureItems.BEE_PRINCESS),
-	QUEEN(ApicultureItems.BEE_QUEEN),
-	LARVAE(ApicultureItems.BEE_LARVAE);
+	DRONE(ForestryConstants.forestry("drone_bee")),
+	PRINCESS(ForestryConstants.forestry("princess_bee")),
+	QUEEN(ForestryConstants.forestry("queen_bee")),
+	LARVAE(ForestryConstants.forestry("larvae_bee"));
 
 	private final String name;
-	private final ItemLike itemForm;
+	// resolved on demand, not held: apiculture registers these items and builds them from
+	// these same constants, so holding the item would be a class-init cycle
+	private final ResourceLocation itemId;
 
-	BeeLifeStage(ItemLike supplier) {
+	BeeLifeStage(ResourceLocation itemId) {
 		this.name = name().toLowerCase(Locale.ENGLISH);
-		this.itemForm = supplier;
+		this.itemId = itemId;
+	}
+
+	/**
+	 * @return The registry id of this life stage's item form. Apiculture registers the item
+	 * under this id, so the two cannot drift
+	 */
+	public ResourceLocation itemId() {
+		return this.itemId;
 	}
 
 	@Override
@@ -28,6 +39,6 @@ public enum BeeLifeStage implements ILifeStage {
 
 	@Override
 	public Item getItemForm() {
-		return this.itemForm.asItem();
+		return BuiltInRegistries.ITEM.get(this.itemId);
 	}
 }

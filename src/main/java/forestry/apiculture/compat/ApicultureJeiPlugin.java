@@ -1,16 +1,18 @@
 package forestry.apiculture.compat;
 
+import forestry.core.features.CoreItems;
+
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 import forestry.api.core.IProductProducer;
 import forestry.api.core.ISpecialtyProducer;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.items.ItemCreativeHiveFrame;
-import forestry.core.utils.JeiUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.apiculture.apiary.ItemCreativeHiveFrame;
+import forestry.core.platform.util.JeiUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -91,7 +93,7 @@ public class ApicultureJeiPlugin implements IModPlugin {
 			ApicultureItems.APIARIST_LEGS
 		);
 
-		JeiUtil.addDescription(registry, ApicultureItems.SCOOP);
+		JeiUtil.addDescription(registry, CoreItems.SCOOP);
 
 		for (MutationsRecipeCategory category : mutationsCategories) {
 			registry.addRecipes(category.getRecipeType(), category.speciesType.getMutations().getAllMutations().stream().map(MutationDisplay::new).toList());

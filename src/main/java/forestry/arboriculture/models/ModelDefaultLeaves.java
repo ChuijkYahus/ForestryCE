@@ -4,12 +4,13 @@ import com.google.common.base.Preconditions;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
-import forestry.arboriculture.blocks.BlockAbstractLeaves;
-import forestry.arboriculture.blocks.BlockDefaultLeaves;
-import forestry.core.models.ModelBlockCached;
-import forestry.core.models.baker.ModelBaker;
-import forestry.core.utils.ResourceUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.arboriculture.leaves.BlockAbstractLeaves;
+import forestry.arboriculture.leaves.BlockDefaultLeaves;
+import forestry.core.platform.models.ModelBlockCached;
+import forestry.core.platform.models.ModelTransforms;
+import forestry.core.platform.models.baker.ModelBaker;
+import forestry.core.platform.util.ResourceUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -115,6 +116,6 @@ public class ModelDefaultLeaves extends ModelBlockCached<BlockDefaultLeaves, Mod
 
 	@Override
 	public ItemTransforms getTransforms() {
-		return ModelLeaves.TRANSFORMS;
+		return ModelTransforms.BLOCK;
 	}
 }

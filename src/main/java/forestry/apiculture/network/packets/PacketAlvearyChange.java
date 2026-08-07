@@ -1,7 +1,8 @@
 package forestry.apiculture.network.packets;
 
-import forestry.core.multiblock.MultiblockValidation;
-import forestry.core.network.PacketIdClient;
+import forestry.apiculture.network.ApiculturePacketIds;
+
+import forestry.core.platform.multiblock.MultiblockValidation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -10,7 +11,7 @@ import net.minecraft.world.entity.player.Player;
 public record PacketAlvearyChange(BlockPos pos) implements CustomPacketPayload {
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return PacketIdClient.ALVEARY_CONTROLLER_CHANGE;
+		return ApiculturePacketIds.ALVEARY_CONTROLLER_CHANGE;
 	}
 
 	public static void encode(RegistryFriendlyByteBuf buffer, PacketAlvearyChange msg) {

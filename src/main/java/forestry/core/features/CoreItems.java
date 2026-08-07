@@ -1,16 +1,21 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.items.ItemBeesWax;
-import forestry.apiculture.items.ItemRefractoryWax;
-import forestry.core.circuits.EnumCircuitBoardType;
-import forestry.core.circuits.ItemCircuitBoard;
-import forestry.core.genetics.ItemResearchNote;
-import forestry.core.items.*;
-import forestry.core.items.definitions.EnumCraftingMaterial;
-import forestry.core.items.definitions.EnumElectronTube;
-import forestry.core.items.definitions.ToolTier;
-import forestry.modules.features.*;
+import forestry.core.content.resources.ItemBeesWax;
+import forestry.core.content.tools.ItemScoop;
+import forestry.core.content.resources.ItemRefractoryWax;
+import forestry.core.engine.circuits.EnumCircuitBoardType;
+import forestry.core.engine.circuits.ItemCircuitBoard;
+import forestry.core.engine.genetics.ItemResearchNote;
+import forestry.core.platform.item.ItemFruit;
+import forestry.core.platform.item.*;
+import forestry.core.content.tools.*;
+import forestry.core.content.analyzer.*;
+import forestry.core.content.resources.*;
+import forestry.core.content.resources.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumElectronTube;
+import forestry.core.content.tools.ToolTier;
+import forestry.core.platform.registration.*;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoeItem;
@@ -114,6 +119,11 @@ public class CoreItems {
 	/* Misc */
 	public static final FeatureItemGroup<ItemCraftingMaterial, EnumCraftingMaterial> CRAFTING_MATERIALS = REGISTRY.itemGroup(ItemCraftingMaterial::new, EnumCraftingMaterial.values()).create();
 	public static final FeatureItemGroup<ItemFruit, ItemFruit.EnumFruit> FRUITS = REGISTRY.itemGroup(ItemFruit::new, ItemFruit.EnumFruit.values()).identifier(type -> type == ItemFruit.EnumFruit.DATES ? "date" : type.getSerializedName()).create();
+	// moved out of apiculture: the scoop catches butterflies as well as bees, and the honey
+	// drops are the Portable Analyzer's fuel, so all three are base concerns
+	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(ItemScoop::new, "scoop");
+	public static final FeatureItem<Item> HONEY_DROP = REGISTRY.item("honey_drop");
+	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
 	public static final FeatureItem<ItemBeesWax> BEESWAX = REGISTRY.item(ItemBeesWax::new, "beeswax");
 	public static final FeatureItem<ItemRefractoryWax> REFRACTORY_WAX = REGISTRY.item(ItemRefractoryWax::new, "refractory_wax");
 }

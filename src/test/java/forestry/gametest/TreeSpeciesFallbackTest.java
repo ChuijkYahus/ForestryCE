@@ -15,13 +15,14 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
 import forestry.core.data.TreeSpeciesProvider;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for {@link TreeChromosomes#SPECIES}'s fail-soft resolver: a saved individual can reference a
@@ -49,9 +50,9 @@ public class TreeSpeciesFallbackTest {
 	}
 
 	/**
-	 * A definition referencing a species id with no code-side {@link forestry.arboriculture.genetics.TreeBlockBindings}
+	 * A definition referencing a species id with no code-side {@link forestry.arboriculture.trees.genetics.TreeBlockBindings}
 	 * (no {@code ArboricultureRegistration} builder was ever registered for it - a "phantom" datapack-only species)
-	 * must be skipped by {@link GeneticsReloadHandler#rebuildTreeSpecies} without crashing, and must not disturb the
+	 * must be skipped by {@link ArboricultureReloadHandler#rebuildTreeSpecies} without crashing, and must not disturb the
 	 * real built-in species alongside it.
 	 * <p>
 	 * Mutates and restores the live {@code TREE_TYPE} species map exactly like {@code TreeSpeciesReloadTest}'s tests
@@ -74,7 +75,7 @@ public class TreeSpeciesFallbackTest {
 		defs.put(phantomId, TestSpeciesDefinitions.tree("Quercus", "phantom").build());
 
 		try {
-			GeneticsReloadHandler.rebuildTreeSpecies(defs);
+			ArboricultureReloadHandler.rebuildTreeSpecies(defs);
 
 			if (type.getSpeciesSafe(phantomId) != null) {
 				helper.fail("Expected the binding-less phantom species to be skipped");

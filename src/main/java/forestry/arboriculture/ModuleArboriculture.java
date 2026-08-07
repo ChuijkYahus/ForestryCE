@@ -1,5 +1,16 @@
 package forestry.arboriculture;
 
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import forestry.arboriculture.loot.GrafterLootModifier;
+import forestry.api.ForestryConstants;
+import forestry.arboriculture.trees.genetics.TreeSpeciesManager;
+import forestry.arboriculture.network.TreeSpeciesSyncPacket;
+import forestry.core.platform.util.NetworkUtil;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import forestry.arboriculture.network.ArboriculturePacketIds;
+
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
@@ -10,10 +21,9 @@ import forestry.arboriculture.commands.CommandTree;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
-import forestry.arboriculture.items.ForestryBoatDispenserBehavior;
+import forestry.arboriculture.wood.ForestryBoatDispenserBehavior;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.arboriculture.villagers.ArboricultureVillagers;
-import forestry.core.network.PacketIdClient;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +41,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import forestry.arboriculture.tab.ArboricultureCreativeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -38,16 +49,53 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import com.mojang.datafixers.util.Pair;
+import forestry.api.client.IForestryClientApi;
+import forestry.api.client.arboriculture.ILeafSprite;
+import forestry.api.client.arboriculture.ILeafTint;
+import forestry.api.client.plugin.IClientRegistration;
+import forestry.apiimpl.client.ForestryClientApiImpl;
+import forestry.apiimpl.client.plugin.ClientRegistration;
+import forestry.arboriculture.client.TreeClientManager;
+import java.util.HashMap;
+import java.util.Map;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.trees.TreeUtil;
 
 @ForestryModule
 public class ModuleArboriculture extends BlankForestryModule {
+	// whether a tree can pollinate itself; read by TreeUtil.canPollinate
+	public static boolean doSelfPollination = false;
+
 	@Override
 	public ResourceLocation getId() {
 		return ForestryModuleIds.ARBORICULTURE;
 	}
 
+	// declared so the load order that carries the reload ordering is stated rather than incidental
+	@Override
+	public List<ResourceLocation> getModuleDependencies() {
+		return List.of(ForestryModuleIds.CORE);
+	}
+
+	@Override
+	public void registerReloadListeners(AddReloadListenerEvent event) {
+		// Load tree species from the "tree_species" datapack folder and rebuild the live species map from
+		// them. Core registers the mutation rebuild after every module, and mutations must resolve
+		// species that already exist in the live map.
+		event.addListener(TreeSpeciesManager.INSTANCE);
+	}
+
+	@Override
+	public void syncDatapack(OnDatapackSyncEvent event) {
+		TreeSpeciesSyncPacket treePacket = new TreeSpeciesSyncPacket(TreeSpeciesManager.INSTANCE.getDefinitions());
+		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(treePacket, player));
+	}
+
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ModuleArboriculture::registerGlobalLootModifiers);
+		modBus.addListener(ArboricultureCreativeTab::addToForestryTab);
 		NeoForge.EVENT_BUS.addListener(ArboricultureVillagers::villagerTrades);
 
 		modBus.addListener(ModuleArboriculture::registerCapabilities);
@@ -104,11 +152,50 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
-		registry.clientbound(PacketIdClient.RIPENING_UPDATE, PacketRipeningUpdate::encode, PacketRipeningUpdate::decode, PacketRipeningUpdate::handle);
+		registry.clientbound(ArboriculturePacketIds.TREE_SPECIES_SYNC, TreeSpeciesSyncPacket::encode, TreeSpeciesSyncPacket::decode, TreeSpeciesSyncPacket::handle);
+		registry.clientbound(ArboriculturePacketIds.RIPENING_UPDATE, PacketRipeningUpdate::encode, PacketRipeningUpdate::decode, PacketRipeningUpdate::handle);
 	}
 
 	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
 		registrar.accept(new ArboricultureClientHandler());
+	}
+
+	// same registry name generated loot modifier JSON already references
+	private static void registerGlobalLootModifiers(RegisterEvent event) {
+		event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper ->
+			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC));
+	}
+
+	@Override
+	public void installClientManagers(IClientRegistration registration) {
+		ClientRegistration impl = (ClientRegistration) registration;
+
+		// id-keyed: resolving a species happens at render time by id, so the (datapack-driven) species list is not
+		// needed to build the sprite/model maps below.
+		HashMap<ResourceLocation, ILeafSprite> spritesById = impl.getLeafSprites();
+		HashMap<ResourceLocation, ILeafTint> tintsById = impl.getTints();
+		HashMap<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> modelsById = impl.getSaplingModels();
+
+		// The escritoire-color tint fallback (for the ~40 built-in species that register no explicit client tint) is
+		// applied lazily at render time in TreeClientManager#getTint from the species object itself, so no species-list
+		// iteration is needed here and datapack-added species get the same fallback reloadably.
+
+		// For any species id that has a leaf sprite but no explicit sapling model, synthesize the default-path pair
+		// (removing the "tree_" prefix), exactly as the old per-species loop did.
+		Map<ResourceLocation, Pair<ResourceLocation, ResourceLocation>> models = new HashMap<>(modelsById);
+		for (ResourceLocation id : spritesById.keySet()) {
+			models.computeIfAbsent(id, sid -> {
+				String path = sid.getPath().replace("tree_", "");
+				return Pair.of(
+					ResourceLocation.fromNamespaceAndPath(sid.getNamespace(), "block/" + path + "_sapling"),
+					ResourceLocation.fromNamespaceAndPath(sid.getNamespace(), "item/" + path + "_sapling")
+				);
+			});
+		}
+
+		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setTreeManager(new TreeClientManager(
+			new HashMap<>(spritesById), new HashMap<>(tintsById), models
+		));
 	}
 }

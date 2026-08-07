@@ -6,11 +6,11 @@ import net.minecraft.commands.Commands;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.core.commands.CommandSaveStats;
-import forestry.core.commands.GiveSpeciesCommand;
-import forestry.core.commands.IStatsSaveHelper;
-import forestry.core.commands.ModifyGenomeCommand;
-import forestry.core.utils.SpeciesUtil;
+import forestry.core.platform.commands.CommandSaveStats;
+import forestry.core.platform.commands.GiveSpeciesCommand;
+import forestry.core.platform.commands.IStatsSaveHelper;
+import forestry.core.platform.commands.ModifyGenomeCommand;
+import forestry.core.platform.util.SpeciesUtil;
 
 public class CommandTree {
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {

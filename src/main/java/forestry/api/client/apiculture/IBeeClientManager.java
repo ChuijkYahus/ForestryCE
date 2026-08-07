@@ -1,12 +1,17 @@
 package forestry.api.client.apiculture;
 
-import forestry.api.genetics.ILifeStage;
+import forestry.api.apiculture.IBeeHousing;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.ILifeStage;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
- * Tracks client-only data for bee species.
+ * Tracks client-only concerns for bee species: model locations, and the ambient particles bees emit
+ * while working.
  */
 public interface IBeeClientManager {
 	/**
@@ -40,4 +45,13 @@ public interface IBeeClientManager {
 	 * @return All distinct model locations for the given life stage. (Ex. all drone models)
 	 */
 	Collection<ResourceLocation> getAllModelLocations(ILifeStage stage);
+
+	/**
+	 * Spawns the ambient particles for a bee working in a hive or apiary. Client-side only.
+	 *
+	 * @param housing         The hive or apiary the bee resides in
+	 * @param genome          The genome of the working bee
+	 * @param flowerPositions The flower positions the bee is servicing
+	 */
+	void addBeeHiveParticles(IBeeHousing housing, IGenome genome, List<BlockPos> flowerPositions);
 }

@@ -2,7 +2,10 @@ package forestry.gametest;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -16,12 +19,12 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.IForestryApi;
 import forestry.api.ForestryConstants;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.IChromosome;
 
 /**
  * Guard for the allele display-name regression: after the allele-foundation refactor, {@code ChromosomeFactory}
@@ -72,17 +75,28 @@ public class AlleleTranslationKeyTest {
 		}
 	}
 
+	/**
+	 * Reads every en_us.json on the classpath and unions their keys, which is what the client does with
+	 * the lang files it finds across packs. Since phase 9b each jar carries the keys naming its own
+	 * content, so reading only the first one found would test whichever jar happened to sort first.
+	 */
 	private static Set<String> loadLangKeys(GameTestHelper helper) {
-		try (InputStream in = AlleleTranslationKeyTest.class.getResourceAsStream("/assets/forestry/lang/en_us.json")) {
-			if (in == null) {
-				helper.fail("Could not find assets/forestry/lang/en_us.json on the classpath");
-				return Set.of();
+		HashSet<String> keys = new HashSet<>();
+		try {
+			Enumeration<URL> sources = AlleleTranslationKeyTest.class.getClassLoader().getResources("assets/forestry/lang/en_us.json");
+			while (sources.hasMoreElements()) {
+				try (InputStream in = sources.nextElement().openStream()) {
+					JsonObject json = GsonHelper.parse(new InputStreamReader(in, StandardCharsets.UTF_8));
+					keys.addAll(json.keySet());
+				}
 			}
-			JsonObject json = GsonHelper.parse(new InputStreamReader(in, StandardCharsets.UTF_8));
-			return json.keySet();
 		} catch (Exception e) {
 			helper.fail("Failed to read en_us.json: " + e);
 			return Set.of();
 		}
+		if (keys.isEmpty()) {
+			helper.fail("Could not find assets/forestry/lang/en_us.json on the classpath");
+		}
+		return keys;
 	}
 }

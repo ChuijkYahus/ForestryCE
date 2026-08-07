@@ -2,17 +2,18 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import forestry.api.genetics.ISpeciesType;
-import forestry.api.genetics.ITaxon;
-import forestry.api.genetics.TaxonomicRank;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.apiculture.IFlowerType;
+import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.core.genetics.ITaxon;
+import forestry.api.core.genetics.TaxonomicRank;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import forestry.api.plugin.IGeneticRegistration;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ISpeciesTypeFactory;
 import forestry.api.plugin.ITaxonBuilder;
-import forestry.core.genetics.Taxon;
+import forestry.core.engine.genetics.Taxon;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
@@ -31,6 +32,17 @@ public final class GeneticRegistration implements IGeneticRegistration {
 	private final ModifiableRegistrar<ResourceLocation, ISpeciesTypeBuilder, SpeciesTypeBuilder> speciesTypes = new ModifiableRegistrar<>(ISpeciesTypeBuilder.class);
 	// Filter rule types used by IFilterRegistry
 	private final ArrayList<IFilterRuleType> ruleTypes = new ArrayList<>();
+	// Flower types. Shared by bees and butterflies, so genetics owns them rather than apiculture
+	private final Registrar<ResourceLocation, IFlowerType, IFlowerType> flowerTypes = new Registrar<>(IFlowerType.class);
+
+	@Override
+	public void registerFlowerType(ResourceLocation id, IFlowerType type) {
+		this.flowerTypes.create(id, type);
+	}
+
+	public ImmutableMap<ResourceLocation, IFlowerType> getFlowerTypes() {
+		return this.flowerTypes.build();
+	}
 
 	public GeneticRegistration() {
 		// Base Forestry no longer registers any default taxa here: its whole taxonomy (domains through genera, including

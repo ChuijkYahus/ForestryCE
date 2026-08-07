@@ -22,13 +22,13 @@ import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IBeeSpeciesBuilder;
-import forestry.apiculture.genetics.BeeSpeciesDefinition;
-import forestry.apiculture.genetics.DefaultBeeJubilance;
-import forestry.apiculture.genetics.HermitBeeJubilance;
-import forestry.apiimpl.plugin.ApicultureRegistration;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.utils.SpeciesUtil;
-import forestry.plugin.DefaultBeeSpecies;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
+import forestry.apiculture.bees.genetics.DefaultBeeJubilance;
+import forestry.apiculture.bees.genetics.HermitBeeJubilance;
+import forestry.apiculture.plugin.ApicultureRegistration;
+import forestry.core.platform.util.SpeciesUtil;
+import forestry.apiculture.plugin.DefaultBeeSpecies;
 
 /**
  * Generates {@code data/forestry/bee_species/*.json} for every built-in bee, read directly from the
@@ -121,7 +121,7 @@ public class BeeSpeciesProvider implements DataProvider {
 	 * generated JSON itself is derived from, so this does not reintroduce a second, divergent species source.
 	 */
 	public static void seedLiveSpeciesForDatagen() {
-		GeneticsReloadHandler.rebuildSpecies(buildDefinitions());
+		ApicultureReloadHandler.rebuildSpecies(buildDefinitions());
 	}
 
 	private static BeeSpeciesDefinition buildDefinition(Map<IBeeJubilance, ResourceLocation> jubilanceIds, IBeeSpeciesBuilder builder) {

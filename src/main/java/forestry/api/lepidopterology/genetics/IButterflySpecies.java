@@ -8,7 +8,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import forestry.api.core.IClimateSensitive;
 import forestry.api.core.IProduct;
-import forestry.api.genetics.ISpecies;
+import forestry.api.core.genetics.ISpecies;
 
 public interface IButterflySpecies extends ISpecies<IButterfly>, IClimateSensitive {
 	@Override

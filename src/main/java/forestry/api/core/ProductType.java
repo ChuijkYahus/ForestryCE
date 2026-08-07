@@ -6,7 +6,7 @@ import net.minecraft.network.codec.StreamCodec;
 
 /**
  * The serializer for a kind of {@link IProduct}, used to (de)serialize it via the dispatch codec built in
- * {@code forestry.core.genetics.ProductTypes}. Mirrors {@link forestry.api.genetics.MutationConditionType}.
+ * {@code forestry.core.engine.genetics.ProductTypes}. Mirrors {@link forestry.api.core.genetics.MutationConditionType}.
  * <p>
  * A {@link MapCodec} is required (rather than a plain {@link com.mojang.serialization.Codec}) so the product's
  * fields serialize inline alongside the optional {@code "type"} key instead of nesting under it.

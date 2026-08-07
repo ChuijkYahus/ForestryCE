@@ -2,9 +2,8 @@ package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.api.arboriculture.genetics.IFruit;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.core.worldgen.FeatureHelper;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;

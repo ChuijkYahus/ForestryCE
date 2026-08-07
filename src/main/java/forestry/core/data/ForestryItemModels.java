@@ -3,16 +3,14 @@ package forestry.core.data;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
-import forestry.core.items.ItemFruit;
-import forestry.core.items.definitions.EnumCraftingMaterial;
-import forestry.core.utils.SpeciesUtil;
-import forestry.mail.features.MailItems;
-import forestry.mail.items.LetterItem;
-import forestry.modules.features.FeatureItem;
-import forestry.storage.features.CrateItems;
+import forestry.core.platform.item.ItemFruit;
+import forestry.core.content.resources.EnumCraftingMaterial;
+import forestry.core.platform.util.SpeciesUtil;
+import forestry.core.platform.registration.FeatureItem;
+import forestry.core.content.backpacks.features.CrateItems;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import thedarkcolour.modkit.data.MKItemModelProvider;
@@ -34,7 +32,6 @@ public class ForestryItemModels {
 		models.generic2d(ApicultureItems.SMOKER);
 		models.generic2d(CoreItems.BEESWAX);
 		models.generic2d(CoreItems.BITUMINOUS_PEAT);
-		models.generic2d(MailItems.CATALOGUE);
 		models.generic2d(CoreItems.COMPOST);
 		models.generic2d(CrateItems.CRATE);
 		models.generic2d(CoreItems.DECAYING_WHEAT);
@@ -55,7 +52,7 @@ public class ForestryItemModels {
 		models.generic2d(ArboricultureItems.PROVEN_GRAFTER);
 		models.generic2d(CoreItems.REFRACTORY_WAX);
 		models.generic2d(ApicultureItems.ROYAL_JELLY);
-		models.generic2d(ApicultureItems.SCOOP);
+		models.generic2d(CoreItems.SCOOP);
 		models.generic2d(CoreItems.SOLDERING_IRON);
 		models.generic2d(CoreItems.SPECTACLES);
 		models.generic2d(CoreItems.STURDY_CASING);
@@ -85,19 +82,6 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.IMPREGNATED_STICK));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SCENTED_PANELING));
 
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.BIG, LetterItem.State.EMPTIED));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.BIG, LetterItem.State.FRESH));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.BIG, LetterItem.State.OPENED));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.BIG, LetterItem.State.STAMPED));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.EMPTIED));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.OPENED));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.STAMPED));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.SMALL, LetterItem.State.EMPTIED));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.SMALL, LetterItem.State.FRESH));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.SMALL, LetterItem.State.OPENED));
-		models.generic2d(MailItems.LETTERS.get(LetterItem.Size.SMALL, LetterItem.State.STAMPED));
-
 		// Used by FilledCrateModel.Loader#FILLED_CRATE_LOCATION
 		models.generic2d(models.modLoc("filled_crate"));
 
@@ -118,13 +102,10 @@ public class ForestryItemModels {
 		for (FeatureItem<?> pollen : ApicultureItems.POLLEN_CLUSTER.getFeatures()) {
 			layered(models, pollen, "item/pollen.0", "item/pollen.1");
 		}
-		for (FeatureItem<?> stamp : MailItems.STAMPS.getFeatures()) {
-			layered(models, stamp, "item/stamps.0", "item/stamps.1");
-		}
 		layered(models, ArboricultureItems.TREE_POLLEN, "item/pollen.0", "item/pollen.1");
 
-		models.generic2d(ApicultureItems.HONEY_DROP);
-		models.generic2d(ApicultureItems.HONEYDEW);
+		models.generic2d(CoreItems.HONEY_DROP);
+		models.generic2d(CoreItems.HONEYDEW);
 		models.generic2d(ApicultureItems.EXPERIENCE_DROP);
 		models.generic2d(ApicultureItems.HONEY_POT);
 		models.generic2d(ApicultureItems.HONEYED_SLICE);

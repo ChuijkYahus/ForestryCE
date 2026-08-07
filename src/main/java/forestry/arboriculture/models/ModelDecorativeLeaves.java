@@ -5,13 +5,14 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.blocks.BlockAbstractLeaves;
-import forestry.arboriculture.blocks.BlockDecorativeLeaves;
-import forestry.core.models.ModelBlockCached;
-import forestry.core.models.baker.ModelBaker;
-import forestry.core.utils.ResourceUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.leaves.BlockAbstractLeaves;
+import forestry.arboriculture.leaves.BlockDecorativeLeaves;
+import forestry.core.platform.models.ModelBlockCached;
+import forestry.core.platform.models.ModelTransforms;
+import forestry.core.platform.models.baker.ModelBaker;
+import forestry.core.platform.util.ResourceUtil;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -93,6 +94,6 @@ public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, 
 
 	@Override
 	public ItemTransforms getTransforms() {
-		return ModelLeaves.TRANSFORMS;
+		return ModelTransforms.BLOCK;
 	}
 }

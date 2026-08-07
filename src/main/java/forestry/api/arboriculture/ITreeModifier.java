@@ -1,6 +1,6 @@
 package forestry.api.arboriculture;
 
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 
 // used to be used by TreekeepingMode
 public interface ITreeModifier {

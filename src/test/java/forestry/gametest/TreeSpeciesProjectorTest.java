@@ -10,13 +10,13 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.TreeSpecies;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.arboriculture.genetics.TreeSpeciesProjector;
-import forestry.core.utils.SpeciesUtil;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.trees.TreeSpecies;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.TreeSpeciesProjector;
+import forestry.core.platform.util.SpeciesUtil;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)

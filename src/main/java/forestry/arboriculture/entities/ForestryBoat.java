@@ -1,6 +1,6 @@
 package forestry.arboriculture.entities;
 
-import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;

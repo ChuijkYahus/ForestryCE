@@ -71,7 +71,7 @@ public enum HumidityType {
 
 	/**
 	 * @return The humidity type corresponding to a biome's downfall value.
-	 * @see forestry.api.climate.IClimateManager#getHumidity if you know the biome.
+	 * @see forestry.api.core.climate.IClimateManager#getHumidity if you know the biome.
 	 */
 	public static HumidityType getFromValue(float downfall) {
 		if (downfall > 0.85f) {

@@ -2,9 +2,9 @@ package forestry.api.apiculture;
 
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.IMutation;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
 import net.minecraft.core.Vec3i;
 
 import javax.annotation.Nullable;

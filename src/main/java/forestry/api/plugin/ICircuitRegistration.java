@@ -1,13 +1,13 @@
 package forestry.api.plugin;
 
-import forestry.api.circuits.ICircuit;
+import forestry.api.core.circuits.ICircuit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
  * Handles registration of all circuits-related data in Forestry.
  * Circuit socket types are not required to be registered, but should be kept as constants in a
- * separate class like in {@link forestry.api.circuits.ForestryCircuitSocketTypes}.
+ * separate class like in {@link forestry.api.core.circuits.ForestryCircuitSocketTypes}.
  */
 public interface ICircuitRegistration {
 	/**
@@ -24,8 +24,8 @@ public interface ICircuitRegistration {
 	 *
 	 * @param layoutId   The ID of the circuit layout.
 	 * @param socketType The socket type of the layout, which determines which machines will accept this layout.
-	 * @see forestry.api.circuits.ForestryCircuitSocketTypes
-	 * @see forestry.api.circuits.ForestryCircuitLayouts
+	 * @see forestry.api.core.circuits.ForestryCircuitSocketTypes
+	 * @see forestry.api.core.circuits.ForestryCircuitLayouts
 	 */
 	void registerLayout(String layoutId, ResourceLocation socketType);
 }

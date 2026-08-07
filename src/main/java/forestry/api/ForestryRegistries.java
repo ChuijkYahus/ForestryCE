@@ -3,8 +3,8 @@ package forestry.api;
 import com.mojang.serialization.MapCodec;
 
 import forestry.api.apiculture.genetics.IBeeEffect;
-import forestry.api.circuits.ICircuit;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.circuits.ICircuit;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.mail.IPostalCarrier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;

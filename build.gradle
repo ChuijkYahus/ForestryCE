@@ -21,6 +21,70 @@ base.archivesName = "forestry-$minecraftVersion"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.toolchain.vendor = JvmVendorSpec.JETBRAINS
 
+// The jars of D1, one source set each. sourceSets.main IS the core jar: Gradle's jar task,
+// processResources, components.java and the access transformers all attach to main by convention,
+// and core is the artifact those conventions should describe. The rest sit at src/<name>/java.
+//
+// This is the point at which the dependency graph stops being a convention checked by a gradle task
+// and becomes a compile error. checkBaseBoundary and checkBaseBytecode were standing in for the
+// compiler since phase 2; from here the compiler does it, and it sees descriptors, generics and
+// inline fully-qualified references that an import scan never could.
+//
+// 9a still produces one jar and one mod id. Splitting the artifacts is 9b.
+//
+// Datagen has no source set of its own. Each jar's providers live beside the content they generate
+// for, so a farms provider physically cannot name a butterflies type. The providers are the only
+// thing in the repo that touches ModKit, a dev-only dependency, and every jar task excludes their
+// packages: a datagen lambda puts a ModKit type into a synthetic method descriptor that FML's
+// boot-time annotation scanner would then try to resolve from the shipped jar. What proves the
+// exclude held is checkJarPartition, which reads the built artifact.
+var contentModules = ['butterflies', 'farms', 'mail']
+
+// Source set name to Java package name. The two diverge because the jars were renamed and the
+// packages were not, and both halves of checkJarPartition assumed they were the same string
+var contentPackages = [butterflies: 'lepidopterology', farms: 'agriculture', mail: 'mail']
+
+// A wrong entry here disables rather than fails the base-jar leak check in checkJarPartition: it
+// scans for a package that does not exist, finds nothing and reports a clean jar. Assert the
+// packages are real at configuration time, where the failure is still loud
+contentModules.each { m ->
+	var pkg = contentPackages[m]
+	if (pkg == null || !project.file("src/${m}/java/forestry/${pkg}").isDirectory()) {
+		throw new GradleException("contentPackages[${m}] must name a directory under src/${m}/java/forestry, got: ${pkg}")
+	}
+}
+
+sourceSets {
+	butterflies
+	farms
+	mail
+}
+
+// Everything requires core, and nothing else. Arboriculture moving into core dissolved the only
+// cross-content edge the split ever had - three TreeUtil imports for butterfly pollination
+sourceSets.butterflies.compileClasspath += sourceSets.main.output
+sourceSets.farms.compileClasspath += sourceSets.main.output
+sourceSets.mail.compileClasspath += sourceSets.main.output
+
+contentModules.each { m ->
+	sourceSets[m].runtimeClasspath += sourceSets.main.output
+	configurations["${m}Implementation"].extendsFrom configurations.implementation
+	configurations["${m}CompileOnly"].extendsFrom configurations.compileOnly
+}
+
+configurations {
+	// ModKit, dev only. It reaches the production compile classpaths because the data providers
+	// now live beside the code they generate for, and every jar task excludes those packages. What
+	// keeps it out of a shipped jar is checkJarPartition, which reads the built artifact.
+	//
+	// It must go on the *runtime* classpath rather than an MDG additionalRuntimeClasspath, because
+	// the latter loads outside the game layer and ModKit extends net.minecraft.data.tags.TagsProvider.
+	// compileOnly keeps it out of the published POM, which strips dependencies anyway
+	modkit
+	runtimeOnly.extendsFrom modkit
+	compileOnly.extendsFrom modkit
+}
+
 neoForge {
 	version = "$forgeVersion"
 
@@ -33,11 +97,33 @@ neoForge {
 		minecraftVersion = project.minecraftVersion
 	}
 
+	mods {
+		// One mod id per jar. A jar loads as a mod only if it carries neoforge.mods.toml, so this
+		// is what makes a content jar optional: leave it out and its plugin is simply not on the
+		// service path. Registering forestry: names from a mod whose id is forestryfarms is
+		// unrestricted - NeoForge 21.1.230 has no alternative-prefix check.
+		forestry {
+			sourceSet sourceSets.main
+		}
+		contentModules.each { m ->
+			create("forestry${m}") { sourceSet sourceSets[m] }
+		}
+		// The GameTest suite spans every jar, so it is its own mod id rather than part of core. That
+		// is what lets the partial-install boot configurations leave it out: NeoForge's gametest
+		// scanner resolves every @GameTest method descriptor at registration, and a test naming a
+		// farms type crashes a core-only boot outright - the D3 safety condition, exactly
+		create('forestrygametest') { sourceSet sourceSets.test }
+	}
+
 	runs {
 		configureEach {
 			logLevel = org.slf4j.event.Level.DEBUG
 			jvmArgument '-XX:+AllowEnhancedClassRedefinition'
 			jvmArgument '-XX:+IgnoreUnrecognizedVMOptions'
+			// Every dev run loads forestry.core.data as part of the forestry mod, and FML's
+			// AutomaticEventSubscriber resolves Data's method signatures at construction, so ModKit
+			// has to be on the runtime classpath of all of them - not just runData. See the modkit
+			// configuration above; it rides in on main's runtimeClasspath
 		}
 
 		client {
@@ -52,7 +138,64 @@ neoForge {
 
 		data {
 			data()
-			programArguments.addAll('--mod', 'forestry', '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
+			// The output folder is the parent of every jar's generated root, which is what lets
+			// HashCache purge a file that stopped being generated into any of them
+			programArguments.addAll('--mod', 'forestry', '--all',
+					'--output', file('src/generated/').absolutePath,
+					'--existing', file('src/main/resources/').absolutePath,
+					'--existing', file('src/farms/resources/').absolutePath,
+					'--existing', file('src/mail/resources/').absolutePath,
+					'--existing', file('src/butterflies/resources/').absolutePath)
+		}
+
+		// Boot configurations for D4: a pack may install base plus any subset of the content jars.
+		// These are the only end-to-end proof that the split delivers what it promised, so each one
+		// is a real server boot with a real datapack load rather than a classpath assertion.
+		//
+		// Each takes its own port. A server run does not stop on its own, so killing the gradle task
+		// leaves the forked JVM holding the default port, and the next configuration then fails to bind
+		// and stops before loading a single datapack - which reads in the log exactly like the split
+		// being broken. Distinct ports mean a survivor can only ever block a rerun of itself.
+		coreOnlyServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-core'))
+			programArguments.addAll('--nogui', '--port', '25566')
+			loadedMods = [mods.forestry]
+		}
+
+		// Butterflies alone. Bees and trees are core now, so this proves only what it should: that the
+		// butterfly jar needs nothing but base
+		butterfliesServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-butterflies'))
+			programArguments.addAll('--nogui', '--port', '25567')
+			loadedMods = [mods.forestry, mods.forestrybutterflies]
+		}
+
+		// Farms and mail had no boot of their own under the six-jar layout. These two are where a
+		// partition bug is most likely to still be
+		farmsServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-farms'))
+			programArguments.addAll('--nogui', '--port', '25568')
+			loadedMods = [mods.forestry, mods.forestryfarms]
+		}
+
+		mailServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-mail'))
+			programArguments.addAll('--nogui', '--port', '25569')
+			loadedMods = [mods.forestry, mods.forestrymail]
+		}
+
+		// Every jar. All boot configurations run from build/resources and build/classes, never a built
+		// jar, and loadedMods names mod ids rather than artifacts. What this one proves is narrower than
+		// its name suggests: every mod id loading together, nothing about the published artifacts
+		allJarsServer {
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-all'))
+			programArguments.addAll('--nogui', '--port', '25570')
+			loadedMods = [mods.forestry, mods.forestrybutterflies, mods.forestryfarms, mods.forestrymail]
 		}
 
 		// Multiblock inventory-conservation GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the
@@ -65,27 +208,200 @@ neoForge {
 			// Forwards `-Pforestry.genomeBaseline=generate` to the forked gametest JVM so GenomeBaselineTest
 			// can (re)generate its golden-master snapshot. Empty/absent => assert mode.
 			systemProperty 'forestry.genomeBaseline', providers.gradleProperty('forestry.genomeBaseline').getOrElse('')
+			// Same for CreativeTabBaselineTest, which guards creative tab membership across the
+			// phase 2 and phase 7 tab moves. Nothing else sees tab contents.
+			systemProperty 'forestry.creativeTabBaseline', providers.gradleProperty('forestry.creativeTabBaseline').getOrElse('')
 		}
 	}
 
-	mods {
-		forestry {
-			sourceSet sourceSets.main
-			// GameTest suite lives in src/test (forestry.gametest). It is part of the forestry mod so the
-			// gameTestServer run loads it, but stays out of the published jar (jar/apiJar use main only).
-			sourceSet sourceSets.test
-		}
-	}
-
-	// src/test has no Minecraft/NeoForge on its classpath by default — moddev only wires that into source sets
-	// it's told about. Without this the gametest sources won't compile.
+	// src/test and the content roots have no Minecraft/NeoForge on their classpath by default.
+	// Moddev only wires that into source sets it's told about. Without this they won't compile.
 	addModdingDependenciesTo sourceSets.test
+	contentModules.each { addModdingDependenciesTo sourceSets[it] }
 }
 
 // The test source set holds GameTests (run via runGameTestServer), not JUnit tests, so the standard `test` task
 // discovers nothing. Gradle 9 fails the build on no-discovered-tests by default; opt out so `./gradlew build` is green.
 tasks.named('test', Test) {
 	failOnNoDiscoveredTests = false
+}
+
+// Phase 1 of the feature reorg: nothing under forestry.api may import a forestry package
+// outside forestry.api. Import-based on purpose. A constant-pool scan misses types that
+// appear only in a method descriptor or an erased generic (IHiveManager's
+// ImmutableList<VillageHive>), and a plain text scan trips over javadoc that names impl
+// classes as {@code ...} prose. The descriptor-aware gate arrives with ArchUnit in phase 9.
+var checkApiBoundary = tasks.register('checkApiBoundary') {
+	group = 'verification'
+	description = 'Fails if forestry.api imports any forestry package outside forestry.api'
+
+	var apiDir = project.file('src/main/java/forestry/api')
+	inputs.dir(apiDir)
+	outputs.upToDateWhen { false }
+
+	doLast {
+		var offenders = new TreeMap<String, List<String>>()
+
+		apiDir.eachFileRecurse(groovy.io.FileType.FILES) { file ->
+			if (!file.name.endsWith('.java')) {
+				return
+			}
+			var relative = apiDir.toPath().relativize(file.toPath()).toString()
+			file.eachLine('UTF-8') { line, number ->
+				if (line ==~ /^import (static )?forestry\.(?!api\.).*/) {
+					offenders.computeIfAbsent(relative, { [] }).add("line ${number}: ${line.trim()}")
+				}
+			}
+		}
+
+		if (!offenders.isEmpty()) {
+			var total = offenders.values().sum { it.size() }
+			var report = offenders.collect { name, lines ->
+				"  ${name}\n" + lines.collect { "      ${it}" }.join('\n')
+			}.join('\n')
+			throw new GradleException(
+					"forestry.api must not import outside forestry.api.\n" +
+					"${offenders.size()} file(s), ${total} import(s):\n${report}")
+		}
+
+		logger.lifecycle('checkApiBoundary: forestry.api is clean')
+	}
+}
+
+tasks.named('check') {
+	dependsOn checkApiBoundary
+}
+
+// The spec's Verification section asks for this and phase 7b is what makes it necessary: the
+// Patchouli book templates, kubejs.plugins.txt and META-INF/services all name Java classes by
+// fully qualified name, in hand-authored files that neither the datagen diff nor the GameTests
+// can see. A move that forgets one of them fails silently at runtime.
+var checkResourceFqcn = tasks.register('checkResourceFqcn') {
+	group = 'verification'
+	description = 'Fails if a resource file names a forestry class that does not exist'
+
+	// Every source root. The service file names one plugin class per content jar, and those left
+	// src/main/java in 9a; a single-root check reports every one of them as missing
+	var javaDirs = [project.file('src/main/java')] +
+			contentModules.collect { project.file("src/${it}/java") }
+	// Every resource root, the per-jar ones included. Each content root holds two service files, one
+	// naming its plugin and one naming its datagen entry point, and both name a class that left
+	// src/main/java. Missing a root leaves the files most likely to name a moved class unchecked
+	var resourceDirs = [project.file('src/main/resources'), project.file('src/generated/resources')] +
+			contentModules.collect { project.file("src/${it}/resources") }
+
+	inputs.files(javaDirs)
+	outputs.upToDateWhen { false }
+
+	doLast {
+		// A dotted run starting at "forestry"; the class is the first segment that starts with an
+		// uppercase letter, so lang keys such as "block.forestry.mailbox" never match
+		var token = ~/forestry(?:\.[A-Za-z_$][A-Za-z0-9_$]*)+/
+		var missing = new TreeSet<String>()
+		var seen = new TreeSet<String>()
+
+		var check = { String fqcn, String where ->
+			var parts = fqcn.split('\\.')
+			var end = -1
+			for (int i = 1; i < parts.length; i++) {
+				if (Character.isUpperCase(parts[i].charAt(0) as char)) {
+					end = i
+					break
+				}
+			}
+			if (end < 0) {
+				return
+			}
+			var name = parts[0..end].join('.')
+			seen.add(name)
+			var relative = name.replace('.', '/') + '.java'
+			if (javaDirs.every { !new File(it, relative).exists() }) {
+				missing.add("${name} (${where})")
+			}
+		}
+
+		resourceDirs.each { dir ->
+			if (!dir.exists()) {
+				return
+			}
+			dir.eachFileRecurse(groovy.io.FileType.FILES) { File file ->
+				// service files name the service in the file name itself
+				if (file.parentFile.name == 'services') {
+					check(file.name, file.name)
+				}
+				if (file.length() > 4_000_000) {
+					return
+				}
+				var text
+				try {
+					text = file.getText('UTF-8')
+				} catch (ignored) {
+					return
+				}
+				var m = token.matcher(text)
+				while (m.find()) {
+					check(m.group(), dir.toPath().relativize(file.toPath()).toString())
+				}
+			}
+		}
+
+		if (!missing.isEmpty()) {
+			throw new GradleException(
+					"Resource file(s) name a forestry class that does not exist:\n  "
+					+ missing.join('\n  ')
+					+ "\nA package move must update hand-authored JSON, service files and kubejs.plugins.txt.")
+		}
+		logger.lifecycle("checkResourceFqcn: ${seen.size()} resource-borne class name(s) all resolve")
+	}
+}
+
+tasks.named('check') {
+	dependsOn checkResourceFqcn
+}
+
+// D2 gives core one internal edge to enforce: platform and engine sit below content and must not
+// import it. Measured at the start of phase 9a: engine obeys this at 0 files, platform does not, at
+// 26 files. No phase has ever gated it. The engine half is gated here; the platform half is printed
+// every build so it stays visible rather than becoming folklore. Severing those 26 is its own piece
+// of work - it is content relocation, not packaging, and nothing about the jar split depends on it.
+var checkCoreLayers = tasks.register('checkCoreLayers') {
+	group = 'verification'
+	description = 'Fails if forestry.core.engine imports forestry.core.content'
+
+	var coreDir = project.file('src/main/java/forestry/core')
+
+	inputs.dir(coreDir)
+	outputs.upToDateWhen { false }
+
+	doLast {
+		var pattern = ~/^import (static )?forestry\.core\.content\..*/
+		var offendersIn = { String layer ->
+			var dir = new File(coreDir, layer)
+			var hits = new TreeSet<String>()
+			if (dir.exists()) {
+				dir.eachFileRecurse(groovy.io.FileType.FILES) { File file ->
+					if (file.name.endsWith('.java') && file.readLines('UTF-8').any { it ==~ pattern }) {
+						hits.add(coreDir.toPath().relativize(file.toPath()).toString())
+					}
+				}
+			}
+			return hits
+		}
+
+		var engine = offendersIn('engine')
+		if (!engine.isEmpty()) {
+			throw new GradleException(
+					"forestry.core.engine must not import forestry.core.content:\n  "
+					+ engine.join('\n  ')
+					+ "\nThe engine layer sits below content. Invert the reference through an api interface.")
+		}
+		logger.lifecycle("checkCoreLayers: engine is clean; platform has ${offendersIn('platform').size()} "
+				+ "file(s) importing content (known, ungated - see D2 in the reorg spec)")
+	}
+}
+
+tasks.named('check') {
+	dependsOn checkCoreLayers
 }
 
 repositories {
@@ -153,8 +469,13 @@ dependencies {
 	// PATCHOULI REQUIRED
 	compileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE:api"
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
-	// ModKit DEV ONLY
-	implementation 'com.github.thedarkcolour:ModKit:51b8760'
+	// ModKit DEV ONLY - the data providers and nothing else. What keeps it out of a shipped jar is
+	// the datagen exclude on every jar task plus checkJarPartition; see the configurations block
+	modkit 'com.github.thedarkcolour:ModKit:c2e10b8'
+
+	// GameTests exercise every jar, and two of them build their expected species maps from the data
+	// providers that now live in those jars
+	contentModules.each { testImplementation sourceSets[it].output }
 }
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
@@ -170,6 +491,43 @@ var generateModMetadata = tasks.register('generateModMetadata', ProcessResources
 
 	from 'src/main/templates'
 	into 'build/generated/sources/modMetadata'
+}
+
+// One neoforge.mods.toml per content jar, expanded from the same properties as core's
+var contentModMetadata = contentModules.collectEntries { m ->
+	[(m): tasks.register("generateModMetadata${m.capitalize()}", ProcessResources) {
+		var replaceProperties = [
+				'version'          : project.version,
+				'forgeVersionRange': forgeVersionRange,
+				'fmlVersionRange'  : fmlVersionRange,
+		]
+		inputs.properties replaceProperties
+		expand replaceProperties
+
+		from "src/${m}/templates"
+		into "build/generated/sources/modMetadata${m.capitalize()}"
+	}]
+}
+
+var gametestModMetadata = tasks.register('generateModMetadataGametest', ProcessResources) {
+	var replaceProperties = ['version': project.version, 'fmlVersionRange': fmlVersionRange]
+	inputs.properties replaceProperties
+	expand replaceProperties
+	from 'src/test/templates'
+	into 'build/generated/sources/modMetadataGametest'
+}
+sourceSets.test.resources.srcDir gametestModMetadata
+// AlleleTranslationKeyTest reads en_us.json off its own classloader, and since the suite became its
+// own mod id it no longer shares one with core. Give the gametest mod the merged lang directly; it
+// is dev-only and never published, so the duplicate costs nothing
+sourceSets.test.resources.srcDir 'build/generated/sources/mergedAssets'
+tasks.named('processTestResources') { dependsOn(generateEnUsLang) }
+neoForge.ideSyncTask gametestModMetadata
+
+contentModules.each { m ->
+	sourceSets[m].resources.srcDir "src/generated/resources_${m}"
+	sourceSets[m].resources.srcDir contentModMetadata[m]
+	neoForge.ideSyncTask contentModMetadata[m]
 }
 
 // Helper function to extract JSON entries while preserving duplicate keys
@@ -263,14 +621,18 @@ var generateEnUsLang = tasks.register('generateEnUsLang', DefaultTask) {
 tasks.named('processResources', ProcessResources) {
 	dependsOn(generateEnUsLang)
 
-	exclude 'assets/forestry/lang/check_translations.py'
-
-	filesMatching('assets/forestry/lang/en_us.json') { fileCopyDetails ->
-		def file = fileCopyDetails.file
-		if (!file.absolutePath.contains('mergedAssets')) {
-			fileCopyDetails.exclude()
-		}
+	// Three of core's source roots hold an assets/forestry/lang/en_us.json: the hand-written one,
+	// core's generated one, and the merge of the two. Only the merge belongs in the jar, and an
+	// exclude at the top of a Copy task applies to every source it has, so the two originals are told
+	// apart from the merge by where they came from
+	var mergedRoot = project.file('build/generated/sources/mergedAssets').absolutePath + File.separator
+	exclude { details ->
+		return !details.directory
+				&& details.relativePath.pathString == 'assets/forestry/lang/en_us.json'
+				&& !details.file.absolutePath.startsWith(mergedRoot)
 	}
+
+	exclude 'assets/forestry/lang/check_translations.py'
 }
 
 sourceSets.main {
@@ -283,18 +645,17 @@ sourceSets.main {
 
 neoForge.ideSyncTask generateModMetadata
 
-jar {
-	from sourceSets.main.output.classesDirs
-	from sourceSets.main.output.resourcesDir
+// Datagen providers reference ModKit, which is not shipped. FML's annotation scanner resolves method
+// signatures at boot via getDeclaredMethods0, and a lambda method reference in an @EventBusSubscriber
+// class carries ModKit types in its synthetic descriptor. See c540144fc. Shared so every jar task
+// applies the same rule; a jar task that forgets to call this would ship ModKit
+var excludeDatagen = { Jar task ->
+	task.exclude 'forestry/**/data/**'
+	task.exclude 'META-INF/services/forestry.core.data.IForestryDataProvider'
+}
 
-	// Datagen providers reference ModKit types (com.github.thedarkcolour:ModKit) that
-	// aren't shipped to end users. FML's annotation scanner resolves method signatures
-	// at boot via getDeclaredMethods0; the lambda method-reference synthetics in
-	// forestry.core.data.Data carry MKTagsProvider parameters, which crashes the JVM
-	// link step in production with NoClassDefFoundError. Strip the datagen package
-	// from the production jar — runData uses build/classes directly, not the jar, so
-	// datagen still works in dev. Nothing outside this package references it.
-	exclude 'forestry/core/data/**'
+jar {
+	excludeDatagen(delegate)
 
 	manifest {
 		attributes([
@@ -307,6 +668,139 @@ jar {
 				'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
 		])
 	}
+}
+
+var contentJars = contentModules.collectEntries { m ->
+	[(m): tasks.register("${m}Jar", Jar) {
+		group = 'build'
+		description = "Assembles the forestry${m} jar"
+		archiveBaseName.set("forestry${m}-${minecraftVersion}")
+
+		// the module's classes plus the resources of its own source set, which is the whole partition
+		from sourceSets[m].output
+
+		excludeDatagen(delegate)
+
+		manifest {
+			attributes([
+					'Specification-Title'     : "Forestry: ${m.capitalize()}",
+					'Specification-Vendor'    : 'SirSengir',
+					'Specification-Version'   : "${project.version}",
+					'Implementation-Title'    : "forestry${m}",
+					'Implementation-Version'  : "${project.version}",
+					'Implementation-Vendor'   : 'SirSengir',
+					'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+			])
+		}
+	}]
+}
+
+// A boot configuration proves what loads. It cannot prove what shipped: base once went out with no
+// en_us and no global_loot_modifiers.json and every boot still reached Done, because a missing loot
+// modifier list is not an error and a headless server never renders a lang key. This reads the built
+// jars instead, and it is the cheaper of the two checks.
+var checkJarPartition = tasks.register('checkJarPartition') {
+	group = 'verification'
+	description = 'Fails if a jar carries another jar\'s classes, references ModKit, strands a .mcmeta or misplaces en_us'
+
+	dependsOn tasks.named('jar')
+	contentModules.each { dependsOn contentJars[it] }
+	outputs.upToDateWhen { false }
+
+	doLast {
+		var problems = new ArrayList<String>()
+		var jarFiles = ['core': tasks.named('jar').get().archiveFile.get().asFile]
+		contentModules.each { m -> jarFiles[m] = contentJars[m].get().archiveFile.get().asFile }
+
+		var langPath = 'assets/forestry/lang/en_us.json'
+		var langBytes = new HashMap<String, byte[]>()
+
+		// A source set boundary used to keep ModKit off the production compile classpath. The datagen
+		// providers live in the production source sets now, so the artifact is what has to prove it.
+		// The literal below is ModKit's java package, not its maven coordinate, so re-pinning the sha
+		// leaves it correct. A package rename is what would silently stop the check firing
+		var entries = jarFiles.collectEntries { jarName, file ->
+			var names = new HashSet<String>()
+			new java.util.zip.ZipFile(file).withCloseable { zip ->
+				zip.entries().each { entry ->
+					names.add(entry.name)
+					if (entry.name.endsWith('.class')) {
+						var text = new String(zip.getInputStream(entry).bytes, 'ISO-8859-1')
+						if (text.contains('thedarkcolour/modkit') || text.contains('thedarkcolour.modkit')) {
+							problems.add("${jarName} jar: ${entry.name} references ModKit")
+						}
+					} else if (entry.name == langPath) {
+						langBytes[jarName] = zip.getInputStream(entry).bytes
+					}
+				}
+			}
+			return [(jarName): names]
+		}
+
+		// No jar may carry another's package tree. The compiler enforces this for the source sets;
+		// this is the same statement about the artifact
+		contentModules.each { m ->
+			var foreign = entries[m].findAll { it.endsWith('.class') && !it.startsWith("forestry/${contentPackages[m]}/") }
+			if (!foreign.isEmpty()) {
+				problems.add("forestry${m} carries ${foreign.size()} class(es) it does not own, first: ${foreign.first()}")
+			}
+		}
+		var contentInCore = entries['core'].findAll { name ->
+			name.endsWith('.class') && contentModules.any { name.startsWith("forestry/${contentPackages[it]}/") }
+		}
+		if (!contentInCore.isEmpty()) {
+			problems.add("the base jar carries ${contentInCore.size()} content class(es), first: ${contentInCore.first()}")
+		}
+
+		// The game reads a .mcmeta from the pack that supplied the file it annotates, so one that ships
+		// in another jar is silently ignored. An animated texture then renders as the whole frame strip
+		var jarOf = new HashMap<String, String>()
+		entries.each { jar, names -> names.each { jarOf[it] = jar } }
+		entries.each { jar, names ->
+			names.findAll { it.endsWith('.mcmeta') }.each { name ->
+				var principal = name.substring(0, name.length() - '.mcmeta'.length())
+				var owner = jarOf[principal]
+				if (owner != null && owner != jar) {
+					problems.add("${jar} ships ${name} but ${principal} ships in ${owner}")
+				}
+			}
+		}
+
+		// English is not partitioned: base holds every key, content ids included, the same as the ten
+		// hand-written locales beside it. So base must ship en_us and a content jar must not, and a
+		// content jar that starts shipping one again has quietly split the file a translator reads.
+		//
+		// A boot config cannot prove either half: it never renders a lang key, so a headless server
+		// reaches Done whether en_us shipped or not. Core once shipped none, because the merge that
+		// produces its copy silently no-sourced and the exclude then dropped every remaining candidate;
+		// see the note above processResources. A core copy identical to the hand-written file is the
+		// same failure under another name, the merge did not run and the generated half never got in
+		var handWritten = project.file('src/main/resources/assets/forestry/lang/en_us.json').bytes
+		var coreLang = langBytes['core']
+		if (coreLang == null) {
+			problems.add("core jar: missing ${langPath}")
+		} else if (java.util.Arrays.equals(coreLang, handWritten)) {
+			problems.add("core jar: ${langPath} is byte-identical to the hand-written file, the merge did not run")
+		}
+		contentModules.each { m ->
+			if (langBytes[m] != null) {
+				problems.add("forestry${m} ships ${langPath}; English belongs in the base jar alone")
+			}
+		}
+
+		if (!problems.isEmpty()) {
+			throw new GradleException("Jar partition is wrong:\n  " + problems.join('\n  '))
+		}
+		logger.lifecycle("checkJarPartition: ${jarFiles.size()} jars, no foreign classes, no ModKit, every .mcmeta with its file, en_us in the base jar alone")
+	}
+}
+
+tasks.named('check') {
+	dependsOn checkJarPartition
+}
+
+tasks.named('assemble') {
+	contentModules.each { dependsOn contentJars[it] }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -340,6 +834,12 @@ tasks.register('javadocJar', Jar) {
 tasks.register('sourcesJar', Jar) {
 	archiveClassifier.set('sources')
 	from sourceSets.main.allJava
+
+	// The data providers moved into main when datagen lost its own source set, so allJava carries
+	// them now. This jar has no classes and cannot reproduce the boot failure the binary excludes
+	// prevent, but a provider names ModKit, which is on no classpath a consumer of this jar has, so
+	// it is source that cannot compile where it lands. Same rule as the binary jars
+	excludeDatagen(delegate)
 }
 
 tasks.register('apiJar', Jar) {

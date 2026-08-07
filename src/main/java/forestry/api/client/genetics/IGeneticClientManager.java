@@ -2,9 +2,9 @@ package forestry.api.client.genetics;
 
 import javax.annotation.Nullable;
 
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.core.genetics.IIndividual;
+import forestry.api.core.genetics.ISpecies;
+import forestry.api.core.genetics.ISpeciesType;
 
 public interface IGeneticClientManager {
 	/**

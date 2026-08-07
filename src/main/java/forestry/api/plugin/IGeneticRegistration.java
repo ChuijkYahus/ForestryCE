@@ -1,6 +1,7 @@
 package forestry.api.plugin;
 
-import forestry.api.genetics.filter.IFilterRuleType;
+import forestry.api.apiculture.IFlowerType;
+import forestry.api.core.genetics.filter.IFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
@@ -14,21 +15,32 @@ public interface IGeneticRegistration {
 	 * When defining a new tree of taxa, it is better to use {@link #defineTaxon(String, String, Consumer)}
 	 * instead of making repeated calls to this method.
 	 *
-	 * @param parent The name of the parent taxon. Cannot be a {@link forestry.api.genetics.TaxonomicRank#GENUS}.
+	 * @param parent The name of the parent taxon. Cannot be a {@link forestry.api.core.genetics.TaxonomicRank#GENUS}.
 	 * @param name   The name of the taxon. Must be unique.
 	 * @throws UnsupportedOperationException If the parent taxon is a GENUS.
-	 * @see forestry.api.genetics.ForestryTaxa For built-in taxon names.
+	 * @see forestry.api.core.genetics.ForestryTaxa For built-in taxon names.
 	 */
 	void defineTaxon(String parent, String name);
 
 	/**
+	 * Register a flower type, a category of blocks that a pollinating species can work with. Bees and
+	 * butterflies both carry a flower type chromosome, so this is registered through genetics rather
+	 * than through apiculture.
+	 *
+	 * @param id   The unique ID for this flower type.
+	 * @param type The flower type to register.
+	 * @since 2.10.0
+	 */
+	void registerFlowerType(ResourceLocation id, IFlowerType type);
+
+	/**
 	 * Defines a new taxon or retrieves an existing taxon, allows for adding subtaxa and species.
 	 *
-	 * @param parent The name of the parent taxon. Cannot be a {@link forestry.api.genetics.TaxonomicRank#GENUS}.
+	 * @param parent The name of the parent taxon. Cannot be a {@link forestry.api.core.genetics.TaxonomicRank#GENUS}.
 	 * @param name   The name of the taxon. Must be unique for all taxa in the same rank.
 	 * @param action A consumer that adds additional information to the taxon after it is defined.
 	 * @throws UnsupportedOperationException If the parent taxon is a GENUS.
-	 * @see forestry.api.genetics.ForestryTaxa For builtin taxon names.
+	 * @see forestry.api.core.genetics.ForestryTaxa For builtin taxon names.
 	 */
 	void defineTaxon(String parent, String name, Consumer<ITaxonBuilder> action);
 

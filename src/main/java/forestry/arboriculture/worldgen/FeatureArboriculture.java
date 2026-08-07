@@ -1,10 +1,10 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
-import forestry.api.genetics.IGenome;
-import forestry.arboriculture.blocks.BlockSapling;
-import forestry.core.utils.VecUtil;
-import forestry.core.worldgen.FeatureBase;
+import forestry.api.core.genetics.IGenome;
+import forestry.arboriculture.sapling.BlockSapling;
+import forestry.core.platform.util.VecUtil;
+import forestry.core.platform.worldgen.FeatureBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;

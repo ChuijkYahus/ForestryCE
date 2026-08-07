@@ -1,15 +1,19 @@
 package forestry.apiculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.blocks.*;
-import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.ItemBlockHoneyComb;
-import forestry.core.blocks.BlockBase;
-import forestry.core.items.ItemBlockForestry;
-import forestry.modules.features.FeatureBlockGroup;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.FeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.hives.BlockBeeHive;
+import forestry.apiculture.hives.BlockHiveType;
+import forestry.apiculture.bees.BlockHoneyComb;
+import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.apiculture.bees.EnumHoneyComb;
+import forestry.apiculture.bees.ItemBlockHoneyComb;
+import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.item.ItemBlockForestry;
+import forestry.core.platform.registration.FeatureBlockGroup;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.FeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 

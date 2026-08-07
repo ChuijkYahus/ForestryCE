@@ -25,14 +25,14 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.ForestryTaxa;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.apiculture.BeeSpecies;
-import forestry.apiculture.genetics.BeeSpeciesDefinition;
-import forestry.apiculture.genetics.BeeSpeciesProjector;
-import forestry.core.utils.SpeciesUtil;
+import forestry.api.core.genetics.ForestryTaxa;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
+import forestry.apiculture.bees.BeeSpecies;
+import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
+import forestry.apiculture.bees.genetics.BeeSpeciesProjector;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for {@link BeeSpeciesProjector}: proves a hand-built {@link BeeSpeciesDefinition} (modeled on
@@ -111,7 +111,7 @@ public class BeeSpeciesProjectorTest {
 
 	/**
 	 * Minimal {@link IBeeHousing} test double: only {@link #temperature()}/{@link #humidity()} are exercised by
-	 * {@link forestry.apiculture.genetics.DefaultBeeJubilance}, so every other member throws.
+	 * {@link forestry.apiculture.bees.genetics.DefaultBeeJubilance}, so every other member throws.
 	 */
 	private static final class TestBeeHousing implements IBeeHousing {
 		private final TemperatureType temperature;

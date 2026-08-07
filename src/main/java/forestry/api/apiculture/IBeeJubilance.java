@@ -1,7 +1,7 @@
 package forestry.api.apiculture;
 
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 
 /**
  * Determines whether a bee species is jubilant in a certain environment.

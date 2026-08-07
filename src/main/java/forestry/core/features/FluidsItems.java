@@ -1,12 +1,12 @@
 package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.items.ItemFluidContainerForestry;
-import forestry.core.items.definitions.EnumContainerType;
-import forestry.modules.features.FeatureItemGroup;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.platform.item.ItemFluidContainerForestry;
+import forestry.core.platform.item.EnumContainerType;
+import forestry.core.platform.registration.FeatureItemGroup;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 
 @FeatureProvider
 public class FluidsItems {

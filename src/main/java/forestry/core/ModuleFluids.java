@@ -3,7 +3,7 @@ package forestry.core;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.features.FluidsItems;
-import forestry.core.items.ItemFluidContainerForestry;
+import forestry.core.platform.item.ItemFluidContainerForestry;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;

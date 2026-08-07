@@ -1,8 +1,11 @@
 package forestry.api.modules;
 
 import forestry.api.client.IClientModuleHandler;
+import forestry.api.client.plugin.IClientRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -57,6 +60,42 @@ public interface IForestryModule {
 	}
 
 	default void registerPackets(IPacketRegistry registry) {
+	}
+
+	/**
+	 * Called when the server gathers its datapack reload listeners. Modules add their own data loaders
+	 * here. Called in module load order, so a module's data may depend on data loaded by any module it
+	 * names in {@link #getModuleDependencies}.
+	 *
+	 * @param event The reload listener registration event
+	 */
+	default void registerReloadListeners(AddReloadListenerEvent event) {
+	}
+
+	/**
+	 * Called when datapack contents are synced to a player on login or reload. Modules send their own
+	 * definitions here. Called in module load order, matching the order the reload listeners ran in.
+	 *
+	 * @param event The datapack sync event
+	 */
+	default void syncDatapack(OnDatapackSyncEvent event) {
+	}
+
+	/**
+	 * Called after item registration, in module load order. Modules build their manager from the
+	 * plugin data and install it here. Farming is the only manager whose module ships in an optional
+	 * jar, so it is the only one base leaves a no-op in place of.
+	 */
+	default void installManagers() {
+	}
+
+	/**
+	 * Called during client plugin registration, after every plugin has registered. Modules build
+	 * their client manager from the assembled registration and install it here.
+	 *
+	 * @param registration The completed client registration
+	 */
+	default void installClientManagers(IClientRegistration registration) {
 	}
 
 	/**

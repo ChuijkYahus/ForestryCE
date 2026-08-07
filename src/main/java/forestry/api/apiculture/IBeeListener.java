@@ -1,6 +1,6 @@
 package forestry.api.apiculture;
 
-import forestry.api.genetics.pollen.IPollen;
+import forestry.api.core.genetics.pollen.IPollen;
 
 public interface IBeeListener {
 	/**

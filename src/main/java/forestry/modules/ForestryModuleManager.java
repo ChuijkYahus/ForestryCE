@@ -4,8 +4,8 @@ import forestry.Forestry;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IModuleManager;
-import forestry.core.network.PacketRegistry;
-import forestry.core.utils.ModUtil;
+import forestry.core.platform.network.PacketRegistry;
+import forestry.core.platform.util.ModUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -146,6 +146,15 @@ public class ForestryModuleManager implements IModuleManager {
 				modModules.add(module);
 			}
 		});
+
+		// Discovery order comes from FML's annotation scan, which follows the mod's classpath entries.
+		// Phase 9a split those from one directory into six, which reordered the modules and with them
+		// the reload listeners ModuleCore dispatches: butterflies began projecting before apiculture
+		// had registered the flower types their karyotype defaults to. Sort so that load order depends
+		// on the module ids and nothing else. Core modules still come first
+		modules.values().forEach(modModules -> modModules.sort(
+				Comparator.comparing((IForestryModule module) -> !module.isCore())
+						.thenComparing(module -> module.getId().toString())));
 
 		return modules;
 	}

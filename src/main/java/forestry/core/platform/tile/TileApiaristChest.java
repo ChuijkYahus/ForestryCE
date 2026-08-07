@@ -1,0 +1,13 @@
+package forestry.core.platform.tile;
+
+import forestry.core.features.CoreTiles;
+import forestry.core.platform.util.SpeciesUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import forestry.core.platform.tile.TileNaturalistChest;
+
+public class TileApiaristChest extends TileNaturalistChest {
+	public TileApiaristChest(BlockPos pos, BlockState state) {
+		super(CoreTiles.APIARIST_CHEST.tileType(), pos, state, SpeciesUtil.BEE_TYPE.get());
+	}
+}

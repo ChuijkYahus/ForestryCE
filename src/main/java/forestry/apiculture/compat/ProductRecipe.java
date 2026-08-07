@@ -3,9 +3,9 @@ package forestry.apiculture.compat;
 import forestry.api.core.IProduct;
 import forestry.api.core.IProductProducer;
 import forestry.api.core.ISpecialtyProducer;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpecies;
-import forestry.core.utils.ItemStackUtil;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpecies;
+import forestry.core.platform.util.ItemStackUtil;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;
 import net.minecraft.world.item.ItemStack;
 

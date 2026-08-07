@@ -2,21 +2,17 @@ package forestry.core.data;
 
 import forestry.api.ForestryTags;
 import forestry.apiculture.features.ApicultureBlocks;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.blocks.EnumResourceType;
+import forestry.core.content.resources.EnumResourceType;
 import forestry.core.features.CoreBlocks;
-import forestry.energy.features.EnergyBlocks;
-import forestry.factory.features.FactoryBlocks;
-import forestry.farming.blocks.EnumFarmMaterial;
-import forestry.farming.blocks.FarmBlock;
-import forestry.farming.features.FarmingBlocks;
-import forestry.mail.features.MailBlocks;
-import forestry.modules.features.FeatureBlock;
-import forestry.modules.features.FeatureBlockGroup;
-import forestry.worktable.features.WorktableBlocks;
+import forestry.core.content.energy.features.EnergyBlocks;
+import forestry.core.content.machines.features.FactoryBlocks;
+import forestry.core.platform.registration.FeatureBlock;
+import forestry.core.platform.registration.FeatureBlockGroup;
+import forestry.core.content.worktable.features.WorktableBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
@@ -33,12 +29,6 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.MINEABLE_SCOOP).add(ApicultureBlocks.BEEHIVE.blockArray());
 		tags.tag(ForestryTags.Blocks.MINEABLE_GRAFTER).addTag(BlockTags.LEAVES);
 
-		for (EnumFarmMaterial material : EnumFarmMaterial.values()) {
-			tags.tag(ForestryTags.Blocks.VALID_FARM_BASE).add(material.getBase());
-		}
-		tags.tag(ForestryTags.Blocks.VALID_FARM_BASE).add(Blocks.SMOOTH_STONE);
-
-
 		tags.tag(BlockTags.MINEABLE_WITH_AXE)
 			.add(CoreBlocks.NATURALIST_CHEST.blockArray())
 			.add(CharcoalBlocks.LOG_PILE.block())
@@ -53,11 +43,7 @@ public final class ForestryBlockTagsProvider {
 			.add(CharcoalBlocks.CHARCOAL.block())
 			.add(EnergyBlocks.ENGINES.blockArray());
 
-		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
-			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
-		}
-
-		for (Block block : union(CoreBlocks.RESOURCE_STORAGE, FactoryBlocks.PLAIN, FactoryBlocks.TESR, MailBlocks.BASE)) {
+		for (Block block : union(CoreBlocks.RESOURCE_STORAGE, FactoryBlocks.PLAIN, FactoryBlocks.TESR)) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
 		}
 
@@ -152,6 +138,7 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(BlockTags.WALL_HANGING_SIGNS).add(ArboricultureBlocks.WALL_HANGING_SIGN.blockArray());
 
 		tags.tag(BlockTags.SAPLINGS).add(ArboricultureBlocks.SAPLING_GE.block());
+		tags.tag(ForestryTags.Blocks.TREE_SAPLINGS).add(ArboricultureBlocks.SAPLING_GE.block());
 		tags.tag(BlockTags.LEAVES).add(ArboricultureBlocks.LEAVES.block()).add(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray()).add(ArboricultureBlocks.LEAVES_DEFAULT.blockArray()).add(ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
 
 		tags.tag(Tags.Blocks.ORES).addTags(ForestryTags.Blocks.ORES_TIN, ForestryTags.Blocks.ORES_APATITE);

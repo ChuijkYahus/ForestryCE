@@ -22,13 +22,12 @@ import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.core.data.builder.MutationRecipeBuilder;
-import forestry.core.genetics.mutations.MutationRecipe;
+import forestry.core.engine.genetics.mutations.MutationRecipe;
 
 import static forestry.api.apiculture.ForestryBeeSpecies.*;
 import static forestry.api.arboriculture.ForestryTreeSpecies.*;
-import static forestry.api.lepidopterology.ForestryButterflySpecies.*;
 
 /**
  * Generates the built-in mutations as {@code forestry:{bee,tree,butterfly}_mutation} recipe JSON. These faithfully
@@ -55,7 +54,6 @@ public class MutationProvider implements DataProvider {
 	protected void addMutations() {
 		bees();
 		trees();
-		butterflies();
 	}
 
 	@Override
@@ -255,9 +253,5 @@ public class MutationProvider implements DataProvider {
 		tree(PADAUK, WENGE, BAOBAB, 0.05f).temperature(TemperatureType.WARM, TemperatureType.HOT).humidity(HumidityType.ARID);
 		tree(COCOBOLO, SOUR_CHERRY, DATE, 0.05f).temperature(TemperatureType.WARM, TemperatureType.HOT).humidity(HumidityType.ARID);
 		tree(WENGE, SOUR_CHERRY, OLIVE, 0.05f).temperature(TemperatureType.WARM, TemperatureType.HOT).humidity(HumidityType.ARID);
-	}
-
-	private void butterflies() {
-		butterfly(LATTICED_HEATH, BRIMSTONE, BOMBYX_MORI, 0.07f);
 	}
 }

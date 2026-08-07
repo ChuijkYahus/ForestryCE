@@ -88,7 +88,7 @@ public enum TemperatureType implements StringRepresentable {
 
 	/**
 	 * @return The temperature type corresponding to a biome's base temperature value.
-	 * @see forestry.api.climate.IClimateManager#getTemperature if you know the biome.
+	 * @see forestry.api.core.climate.IClimateManager#getTemperature if you know the biome.
 	 */
 	public static TemperatureType getFromValue(float baseTemperature) {
 		if (baseTemperature > 1.00f) {

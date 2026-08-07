@@ -1,6 +1,6 @@
 package forestry.api.lepidopterology.genetics;
 
-import forestry.api.genetics.IIndividualLiving;
+import forestry.api.core.genetics.IIndividualLiving;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.IEntityButterfly;

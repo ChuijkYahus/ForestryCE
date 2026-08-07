@@ -1,0 +1,22 @@
+package forestry.apiculture.alveary;
+
+import forestry.apiculture.alveary.multiblock.TileAlvearySieve;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.GuiForestryTitled;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import forestry.apiculture.alveary.ContainerAlvearySieve;
+
+public class GuiAlvearySieve extends GuiForestryTitled<ContainerAlvearySieve> {
+	private final TileAlvearySieve tile;
+
+	public GuiAlvearySieve(ContainerAlvearySieve container, Inventory inventory, Component title) {
+		super(Constants.TEXTURE_PATH_GUI + "/sieve.png", container, inventory, title);
+		this.tile = container.getTile();
+	}
+
+	@Override
+	protected void addLedgers() {
+		addErrorLedger(this.tile);
+	}
+}

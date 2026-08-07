@@ -2,43 +2,33 @@ package forestry.core.data.models;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
-import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockBeeHive;
-import forestry.apiculture.blocks.BlockHiveType;
-import forestry.apiculture.blocks.BlockTypeApiculture;
+import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.hives.BlockBeeHive;
+import forestry.apiculture.hives.BlockHiveType;
+import forestry.apiculture.apiary.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.blocks.ForestryLeafType;
+import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.blocks.EnumResourceType;
+import forestry.core.content.resources.EnumResourceType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.fluids.ForestryFluids;
-import forestry.energy.features.EnergyBlocks;
-import forestry.factory.blocks.BlockTypeFactoryPlain;
-import forestry.factory.features.FactoryBlocks;
-import forestry.core.utils.ModUtil;
-import forestry.cultivation.blocks.BlockTypePlanter;
-import forestry.cultivation.features.CultivationBlocks;
-import forestry.farming.blocks.EnumFarmBlockType;
-import forestry.farming.blocks.EnumFarmMaterial;
-import forestry.farming.blocks.FarmBlock;
-import forestry.farming.features.FarmingBlocks;
-import forestry.mail.blocks.BlockTypeMail;
-import forestry.mail.features.MailBlocks;
-import forestry.worktable.features.WorktableBlocks;
+import forestry.core.platform.fluids.ForestryFluids;
+import forestry.core.content.energy.features.EnergyBlocks;
+import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.features.FactoryBlocks;
+import forestry.core.platform.util.ModUtil;
+import forestry.core.content.worktable.features.WorktableBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import forestry.core.blocks.BlockBase;
+import forestry.core.platform.block.BlockBase;
 import net.minecraft.core.Direction;
-import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
@@ -48,23 +38,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		// Farm blocks
-		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
-			if (block.getType() == EnumFarmBlockType.PLAIN) {
-				plainFarm(block);
-			} else {
-				singleFarm(block);
-			}
-
-			generic3d(block);
-		}
-
-		for (BlockTypePlanter farmType : BlockTypePlanter.values()) {
-			ModelFile file = models().getExistingFile(modBlock(farmType.getSerializedName()));
-			horizontalForestryBlock(CultivationBlocks.MANAGED_PLANTER.get(farmType).block(), file);
-			horizontalForestryBlock(CultivationBlocks.MANUAL_PLANTER.get(farmType).block(), file);
-		}
-
 		// Resources
 		simpleBlock(CoreBlocks.BOG_EARTH.block());
 		simpleBlock(CoreBlocks.HUMUS.block());
@@ -90,7 +63,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
 		for (ForestryFluids fluid : ForestryFluids.values()) {
 			Block block = fluid.getFeature().fluidBlock().block();
-			ModelFile blockModel = particleOnly(models(), path(block), fluid.getFeature().properties().resources[0]);
+			ModelFile blockModel = particleOnly(this, path(block), fluid.getFeature().properties().resources[0]);
 			singleModelBlock(this, block, blockModel);
 		}
 
@@ -110,15 +83,15 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			generic3d(defaultFruitBlock, defaultBlock);
 			generic3d(decorativeBlock, defaultBlock);
 		}
-		singleModelBlock(this, ArboricultureBlocks.LEAVES.block(), particleOnly(models(), ArboricultureBlocks.LEAVES.getName(), blockTexture(Blocks.OAK_LEAVES)));
+		singleModelBlock(this, ArboricultureBlocks.LEAVES.block(), particleOnly(this, ArboricultureBlocks.LEAVES.getName(), blockTexture(Blocks.OAK_LEAVES)));
 
 		for (BlockHiveType type : BlockHiveType.values()) {
 			BlockBeeHive feature = ApicultureBlocks.BEEHIVE.get(type).block();
 			String path = path(feature);
 
-			ResourceLocation side = modBlock("beehives/" + type.getSerializedName() + ".side");
-			ResourceLocation top = modBlock("beehives/" + type.getSerializedName() + ".top");
-			ResourceLocation bottom = modBlock("beehives/" + type.getSerializedName() + ".bottom");
+			ResourceLocation side = modBlock(this, "beehives/" + type.getSerializedName() + ".side");
+			ResourceLocation top = modBlock(this, "beehives/" + type.getSerializedName() + ".top");
+			ResourceLocation bottom = modBlock(this, "beehives/" + type.getSerializedName() + ".bottom");
 
 			singleModelBlock(this, feature, models().cubeBottomTop(path, side, bottom, top));
 			generic3d(feature);
@@ -138,7 +111,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		existingModelBlock(CoreBlocks.PEAT.block());
 
 		// Comb blocks all share the block_bee_combs model.
-		ModelFile combModel = models().getExistingFile(modBlock("block_bee_combs"));
+		ModelFile combModel = models().getExistingFile(modBlock(this, "block_bee_combs"));
 		for (Block block : ApicultureBlocks.BEE_COMB.blockArray()) singleModelBlock(this, block, combModel);
 
 		// Resource storage blocks use block/storage/<type>.
@@ -154,28 +127,29 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		// Horizontal-facing machines migrated from hand-authored blockstates + models. Each is a
 		// block/cube with per-face textures <prefix>.<n>, rotated by BlockBase.FACING. Item models
 		// stay hand-authored (custom display transforms), so no generic3d here.
-		horizontalMachine(ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).block(), "apiary", 0, 1, 2, 4, 4, 4, 4);
-		horizontalMachine(ApicultureBlocks.BASE.get(BlockTypeApiculture.BEE_HOUSE).block(), "beehouse", 0, 1, 2, 4, 4, 4, 4);
-		horizontalMachine(MailBlocks.BASE.get(BlockTypeMail.MAILBOX).block(), "mailbox", 0, 1, 2, 2, 2, 2, 2);
-		horizontalMachine(MailBlocks.BASE.get(BlockTypeMail.STAMP_COLLETOR).block(), "philatelist", 0, 1, 3, 2, 2, 2, 2);
-		horizontalMachine(MailBlocks.BASE.get(BlockTypeMail.TRADE_STATION).block(), "tradestation", 0, 1, 3, 2, 4, 4, 4);
-		horizontalMachine(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), "thermionic_fabricator", 0, 1, 3, 2, 4, 4, 4);
-		horizontalMachine(WorktableBlocks.WORKTABLE.block(), "worktable", 0, 1, 3, 2, 4, 4, 4);
+		horizontalMachine(this, ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).block(), "apiary", 0, 1, 2, 4, 4, 4, 4);
+		horizontalMachine(this, ApicultureBlocks.BASE.get(BlockTypeApiculture.BEE_HOUSE).block(), "beehouse", 0, 1, 2, 4, 4, 4, 4);
+		horizontalMachine(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), "thermionic_fabricator", 0, 1, 3, 2, 4, 4, 4);
+		horizontalMachine(this, WorktableBlocks.WORKTABLE.block(), "worktable", 0, 1, 3, 2, 4, 4, 4);
 	}
 
 	// Builds a block/cube model whose faces map to textures block/<prefix>.<n>, then emits a
 	// horizontal-facing blockstate for it. Face suffixes are given in JSON order:
 	// down, up, north, south, east, west, particle.
-	private void horizontalMachine(Block block, String prefix, int down, int up, int north, int south, int east, int west, int particle) {
-		ModelFile model = models().withExistingParent(path(block), mcBlock("cube"))
-			.texture("particle", modBlock(prefix + "." + particle))
-			.texture("down", modBlock(prefix + "." + down))
-			.texture("up", modBlock(prefix + "." + up))
-			.texture("north", modBlock(prefix + "." + north))
-			.texture("east", modBlock(prefix + "." + east))
-			.texture("south", modBlock(prefix + "." + south))
-			.texture("west", modBlock(prefix + "." + west));
-		horizontalForestryBlock(block, model);
+	// Static and taking the provider, because a content jar's blocks are generated by that jar's own
+	// provider rather than by this one. Every static below does the same and takes BlockStateProvider,
+	// so a content jar's provider can call any of them through the one handle it already holds, without
+	// checking which sibling wants a narrower type
+	public static void horizontalMachine(BlockStateProvider states, Block block, String prefix, int down, int up, int north, int south, int east, int west, int particle) {
+		ModelFile model = states.models().withExistingParent(path(block), states.mcLoc("block/cube"))
+			.texture("particle", states.modLoc("block/" + prefix + "." + particle))
+			.texture("down", states.modLoc("block/" + prefix + "." + down))
+			.texture("up", states.modLoc("block/" + prefix + "." + up))
+			.texture("north", states.modLoc("block/" + prefix + "." + north))
+			.texture("east", states.modLoc("block/" + prefix + "." + east))
+			.texture("south", states.modLoc("block/" + prefix + "." + south))
+			.texture("west", states.modLoc("block/" + prefix + "." + west));
+		horizontalForestryBlock(states, block, model);
 	}
 
 	// Emits a single "" variant pointing at an existing hand-authored model named after the block.
@@ -185,25 +159,31 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 	// Emits a single "" variant pointing at the existing hand-authored model at block/<modelPath>.
 	private void existingModelBlock(Block block, String modelPath) {
-		singleModelBlock(this, block, models().getExistingFile(modBlock(modelPath)));
+		singleModelBlock(this, block, models().getExistingFile(modBlock(this, modelPath)));
 	}
 
-	public static void singleModelBlock(ForestryBlockStateProvider states, Block defaultBlock, ModelFile file) {
+	public static void singleModelBlock(BlockStateProvider states, Block defaultBlock, ModelFile file) {
 		states.getVariantBuilder(defaultBlock).partialState().modelForState().modelFile(file).addModel();
 	}
 
-	public static ModelFile particleOnly(BlockModelProvider models, String path, ResourceLocation particleTexture) {
-		return models.getBuilder(path).texture("particle", particleTexture);
+	public static ModelFile particleOnly(BlockStateProvider states, String path, ResourceLocation particleTexture) {
+		return states.models().getBuilder(path).texture("particle", particleTexture);
+	}
+
+	// Makes a 3d cube of a block for item model
+	public static void generic3d(BlockStateProvider states, Block block) {
+		String path = path(block);
+		states.itemModels().withExistingParent(path, states.modLoc("block/" + path));
 	}
 
 	/**
 	 * BlockStateProvider#horizontalBlock keys off vanilla's BlockStateProperties.HORIZONTAL_FACING,
-	 * which Forestry's BlockBase doesn't carry — its FACING is a custom EnumProperty<Direction>
+	 * which Forestry's BlockBase doesn't carry. Its FACING is a custom EnumProperty&lt;Direction&gt;
 	 * (different identity, same name). Build the variant manually using BlockBase.FACING so the
 	 * lookup succeeds.
 	 */
-	private void horizontalForestryBlock(Block block, ModelFile model) {
-		getVariantBuilder(block).forAllStates(state -> {
+	public static void horizontalForestryBlock(BlockStateProvider states, Block block, ModelFile model) {
+		states.getVariantBuilder(block).forAllStates(state -> {
 			Direction facing = state.getValue(BlockBase.FACING);
 			int yRot = ((int) facing.toYRot() + 180) % 360;
 			return ConfiguredModel.builder()
@@ -211,45 +191,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				.rotationY(yRot)
 				.build();
 		});
-	}
-
-	private void singleFarm(FarmBlock block) {
-		EnumFarmMaterial material = block.getFarmMaterial();
-		Block base = material.getBase();
-		ResourceLocation texture = modLoc("block/farm/" + block.getType().getSerializedName());
-
-		singleModelBlock(this, block, farmPillar(path(block), base, texture, texture));
-	}
-
-	private void plainFarm(FarmBlock block) {
-		EnumFarmMaterial material = block.getFarmMaterial();
-		Block base = material.getBase();
-
-		// todo need to use reverse texture
-		getVariantBuilder(block)
-			.partialState().with(FarmBlock.BAND, false)
-			.modelForState().modelFile(farmPillar(path(block), base, modLoc("block/farm/top"), modLoc("block/farm/plain"))).addModel()
-			.partialState().with(FarmBlock.BAND, true)
-			.modelForState().modelFile(farmPillar(path(block) + "_band", base, modLoc("block/farm/top"), modLoc("block/farm/band"))).addModel();
-	}
-
-	private ModelFile farmPillar(String path, Block base, ResourceLocation top, ResourceLocation side) {
-		ModelFile baseModel = file(blockTexture(base));
-
-		return models().getBuilder(path).customLoader(CompositeModelBuilder::begin)
-			.child("base", models().nested()
-				.parent(baseModel)
-				.renderType("solid"))
-			.child("overlay", models().nested()
-				.parent(mcFile("cube_column"))
-				.texture("end", top)
-				.texture("side", side)
-				// should we use cutout_mipped?
-				.renderType("cutout"))
-			.itemRenderOrder("base", "overlay")
-			.end()
-			// reuse the particle
-			.parent(baseModel);
 	}
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {
@@ -275,14 +216,12 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	}
 
 	protected ModelFile existingMcBlock(String path) {
-		return models().getExistingFile(mcBlock(path));
+		return models().getExistingFile(mcBlock(this, path));
 	}
 
 	// Everything below this line is boilerplate code adapted from https://github.com/thedarkcolour/ModKit
-	// Makes a 3d cube of a block for item model
 	public void generic3d(Block block) {
-		String path = path(block);
-		itemModels().withExistingParent(path, modLoc("block/" + path));
+		generic3d(this, block);
 	}
 
 	public static String path(Block block) {
@@ -293,20 +232,12 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		return new ModelFile.UncheckedModelFile(resourceLoc);
 	}
 
-	public ModelFile.UncheckedModelFile modFile(String path) {
-		return file(this.modBlock(path));
+	public static ResourceLocation modBlock(BlockStateProvider states, String name) {
+		return states.modLoc("block/" + name);
 	}
 
-	public ModelFile.UncheckedModelFile mcFile(String path) {
-		return file(this.mcBlock(path));
-	}
-
-	public ResourceLocation modBlock(String name) {
-		return this.modLoc("block/" + name);
-	}
-
-	public ResourceLocation mcBlock(String name) {
-		return this.mcLoc("block/" + name);
+	public static ResourceLocation mcBlock(BlockStateProvider states, String name) {
+		return states.mcLoc("block/" + name);
 	}
 
 	public void generic2d(ItemLike item) {

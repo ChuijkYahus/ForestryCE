@@ -1,9 +1,9 @@
 package forestry.apiculture.compat;
 
-import forestry.api.genetics.*;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.core.utils.JeiUtil;
-import forestry.core.utils.ModUtil;
+import forestry.api.core.genetics.*;
+import forestry.api.core.genetics.capability.IIndividualHandlerItem;
+import forestry.core.platform.util.JeiUtil;
+import forestry.core.platform.util.ModUtil;
 import mezz.jei.api.gui.builder.IIngredientAcceptor;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;

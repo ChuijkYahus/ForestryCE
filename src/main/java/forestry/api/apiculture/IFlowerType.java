@@ -1,6 +1,6 @@
 package forestry.api.apiculture;
 
-import forestry.api.genetics.IIndividual;
+import forestry.api.core.genetics.IIndividual;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

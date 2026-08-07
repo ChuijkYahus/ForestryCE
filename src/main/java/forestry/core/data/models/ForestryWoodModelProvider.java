@@ -1,10 +1,22 @@
 package forestry.core.data.models;
 
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
-import forestry.arboriculture.blocks.*;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.VanillaWoodType;
+import forestry.arboriculture.wood.BlockForestryButton;
+import forestry.arboriculture.wood.BlockForestryDoor;
+import forestry.arboriculture.wood.BlockForestryFence;
+import forestry.arboriculture.wood.BlockForestryFenceGate;
+import forestry.arboriculture.wood.BlockForestryHangingSign;
+import forestry.arboriculture.wood.BlockForestryLog;
+import forestry.arboriculture.wood.BlockForestryPressurePlate;
+import forestry.arboriculture.wood.BlockForestrySlab;
+import forestry.arboriculture.wood.BlockForestryStairs;
+import forestry.arboriculture.wood.BlockForestryStandingSign;
+import forestry.arboriculture.wood.BlockForestryTrapdoor;
+import forestry.arboriculture.wood.BlockForestryWallHangingSign;
+import forestry.arboriculture.wood.BlockForestryWallSign;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.modules.features.FeatureBlockGroup;
+import forestry.core.platform.registration.FeatureBlockGroup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -168,7 +180,7 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			// Sign
 			BlockForestryStandingSign sign = ArboricultureBlocks.SIGN.get(woodType).block();
 			BlockForestryWallSign wallSign = ArboricultureBlocks.WALL_SIGN.get(woodType).block();
-			ModelFile signModel = particleOnly(models(), path(sign), blockTexture(planks));
+			ModelFile signModel = particleOnly(this, path(sign), blockTexture(planks));
 			singleModelBlock(this, sign, signModel);
 			singleModelBlock(this, wallSign, signModel);
 			generic2d(sign);
@@ -176,7 +188,7 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			// Hanging Sign
 			BlockForestryHangingSign hangingSign = ArboricultureBlocks.HANGING_SIGN.get(woodType).block();
 			BlockForestryWallHangingSign hangingWallSign = ArboricultureBlocks.WALL_HANGING_SIGN.get(woodType).block();
-			ModelFile hangingSignModel = particleOnly(models(), path(hangingSign), blockTexture(planks));
+			ModelFile hangingSignModel = particleOnly(this, path(hangingSign), blockTexture(planks));
 			singleModelBlock(this, hangingSign, hangingSignModel);
 			singleModelBlock(this, hangingWallSign, hangingSignModel);
 			generic2d(hangingSign);

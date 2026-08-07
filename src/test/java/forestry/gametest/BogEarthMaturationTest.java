@@ -12,7 +12,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.core.blocks.BlockBogEarth;
+import forestry.core.content.soil.BlockBogEarth;
 import forestry.core.features.CoreBlocks;
 
 /**

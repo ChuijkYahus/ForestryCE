@@ -1,7 +1,7 @@
 package forestry.arboriculture.client;
 
 import com.mojang.datafixers.util.Pair;
-import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.entities.ForestryBoat;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;

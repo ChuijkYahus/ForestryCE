@@ -1,15 +1,15 @@
 package forestry.core.data;
 
 import forestry.api.ForestryTags;
+import forestry.apiculture.bees.EnumPropolis;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
-import forestry.core.items.ItemFruit;
-import forestry.core.items.definitions.EnumCraftingMaterial;
-import forestry.mail.features.MailItems;
+import forestry.core.platform.item.ItemFruit;
+import forestry.core.content.resources.EnumCraftingMaterial;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -104,11 +104,12 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.BEE_COMBS).add(ApicultureItems.BEE_COMBS.itemArray());
 		tags.tag(ForestryTags.Items.VILLAGE_COMBS).add(ApicultureItems.BEE_COMBS.itemArray());
 		tags.tag(ForestryTags.Items.PROPOLIS).add(ApicultureItems.PROPOLIS.itemArray());
-		tags.tag(ForestryTags.Items.DROP_HONEY).add(ApicultureItems.HONEY_DROP, ApicultureItems.HONEYDEW);
+		tags.tag(ForestryTags.Items.DROP_HONEY).add(CoreItems.HONEY_DROP, CoreItems.HONEYDEW);
 
 		tags.copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
-		tags.tag(ForestryTags.Items.STAMPS).add(MailItems.STAMPS.itemArray());
+		// The caterpillar entry is added by the butterflies jar, which merges into this tag from its own file
+		tags.tag(ForestryTags.Items.GENETIC_SAMPLES).add(ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL).item());
 
 		tags.tag(ForestryTags.Items.FORESTRY_FRUITS).add(CoreItems.FRUITS.itemArray());
 		tags.tag(ForestryTags.Items.FRUITS).addTag(ForestryTags.Items.FORESTRY_FRUITS);
@@ -134,7 +135,7 @@ public class ForestryItemTagsProvider {
 			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "workbench"))
 			.add(Items.CRAFTING_TABLE);
 
-		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());
+		tags.tag(ForestryTags.Items.SCOOPS).add(CoreItems.SCOOP.item());
 
 		tags.tag(ForestryTags.Items.BEES).add(ApicultureItems.BEE_DRONE.get(), ApicultureItems.BEE_PRINCESS.get(), ApicultureItems.BEE_QUEEN.get(), ApicultureItems.BEE_LARVAE.get());
 		tags.tag(ItemTags.BOATS).add(ArboricultureItems.BOAT.itemArray());

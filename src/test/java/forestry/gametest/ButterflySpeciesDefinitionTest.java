@@ -22,12 +22,12 @@ import forestry.api.ForestryConstants;
 import forestry.api.core.HumidityType;
 import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.ForestryTaxa;
-import forestry.api.genetics.alleles.Allele;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.ForestryTaxa;
+import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.lepidopterology.ForestryButterflyEffects;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
 
 /**
  * Behavioral oracle for {@link ButterflySpeciesDefinition}: proves that a definition with a data-chromosome genome

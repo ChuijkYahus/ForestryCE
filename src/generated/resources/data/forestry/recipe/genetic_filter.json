@@ -10,15 +10,7 @@
     },
     "F": [
       {
-        "type": "neoforge:compound",
-        "children": [
-          {
-            "item": "forestry:caterpillar"
-          },
-          {
-            "item": "forestry:propolis"
-          }
-        ]
+        "tag": "forestry:genetic_samples"
       },
       {
         "tag": "forestry:forestry_fruits"

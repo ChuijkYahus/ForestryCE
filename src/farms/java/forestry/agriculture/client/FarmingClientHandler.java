@@ -1,0 +1,18 @@
+package forestry.agriculture.client;
+
+import forestry.api.client.IClientModuleHandler;
+import forestry.agriculture.features.FarmingMenuTypes;
+import forestry.agriculture.multifarm.gui.GuiFarm;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+
+public class FarmingClientHandler implements IClientModuleHandler {
+	@Override
+	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(FarmingClientHandler::registerMenuScreens);
+	}
+
+	private static void registerMenuScreens(RegisterMenuScreensEvent event) {
+		event.register(FarmingMenuTypes.FARM.menuType(), GuiFarm::new);
+	}
+}

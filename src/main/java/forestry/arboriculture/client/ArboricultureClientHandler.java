@@ -1,14 +1,16 @@
 package forestry.arboriculture.client;
 
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import forestry.arboriculture.features.ArboricultureItems;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.blocks.BlockDecorativeLeaves;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.leaves.BlockDecorativeLeaves;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureTiles;
 import forestry.arboriculture.models.*;
-import forestry.core.models.ClientManager;
+import forestry.core.platform.models.ClientManager;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -26,6 +28,8 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 public class ArboricultureClientHandler implements IClientModuleHandler {
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ArboricultureClientHandler::registerBlockColors);
+		modBus.addListener(ArboricultureClientHandler::registerItemColors);
 		modBus.addListener(ArboricultureClientHandler::registerModelLoaders);
 		modBus.addListener(ArboricultureClientHandler::onClientSetup);
 		modBus.addListener(ArboricultureClientHandler::registerEntityRenderers);
@@ -80,4 +84,21 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 			// manually here causes a duplicate-key crash at boot.
 		}
 	}
+
+	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES.block());
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES_DEFAULT.blockArray());
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray());
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
+	}
+
+	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureBlocks.LEAVES.block());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureBlocks.LEAVES_DEFAULT.blockArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureItems.TREE_SAPLING.item());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureItems.TREE_POLLEN.item());
+	}
+
 }

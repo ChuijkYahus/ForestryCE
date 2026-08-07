@@ -10,31 +10,26 @@ import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IPacketRegistry;
-import forestry.apiculture.genetics.BeeSpeciesManager;
-import forestry.apiculture.genetics.BeeEffectManager;
-import forestry.apiculture.genetics.FlowerTypeManager;
-import forestry.apiculture.genetics.TaxonManager;
+import forestry.core.engine.genetics.FlowerTypeManager;
+import forestry.core.engine.genetics.TaxonManager;
 import forestry.apiimpl.plugin.PluginManager;
-import forestry.arboriculture.genetics.TreeSpeciesManager;
-import forestry.arboriculture.loot.GrafterLootModifier;
-import forestry.core.blocks.TileStreamUpdateTracker;
-import forestry.core.client.CoreClientHandler;
-import forestry.core.climate.ForestryClimateManager;
-import forestry.core.commands.DiagnosticsCommand;
-import forestry.core.commands.DumpCommand;
+import forestry.core.platform.block.TileStreamUpdateTracker;
+import forestry.core.platform.client.CoreClientHandler;
+import forestry.core.engine.climate.ForestryClimateManager;
+import forestry.core.platform.commands.DiagnosticsCommand;
+import forestry.core.platform.commands.DumpCommand;
 import forestry.core.features.CoreItems;
 import forestry.core.features.CoreTiles;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.items.ItemPipette;
-import forestry.core.items.ItemSpectacles;
-import forestry.core.loot.ConditionLootModifier;
-import forestry.core.network.PacketIdClient;
-import forestry.core.network.PacketIdServer;
-import forestry.core.network.packets.*;
-import forestry.core.owner.GameProfileDataSerializer;
-import forestry.core.recipes.RecipeManagers;
-import forestry.core.utils.NetworkUtil;
-import forestry.lepidopterology.genetics.ButterflySpeciesManager;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.content.tools.ItemPipette;
+import forestry.core.content.tools.ItemSpectacles;
+import forestry.core.platform.loot.ConditionLootModifier;
+import forestry.core.platform.network.PacketIdClient;
+import forestry.core.platform.network.PacketIdServer;
+import forestry.core.platform.network.packets.*;
+import forestry.core.platform.owner.GameProfileDataSerializer;
+import forestry.core.platform.recipes.RecipeManagers;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.modules.BlankForestryModule;
 import forestry.modules.ForestryModuleManager;
 import forestry.modules.ModuleUtil;
@@ -62,6 +57,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
+import forestry.core.platform.PickupHandlerCore;
 
 @ForestryModule
 public class ModuleCore extends BlankForestryModule {
@@ -90,7 +86,7 @@ public class ModuleCore extends BlankForestryModule {
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onLevelTick);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onTagsUpdated);
-		NeoForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::onAddReloadListeners);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onDatapackSync);
 	}
@@ -145,13 +141,18 @@ public class ModuleCore extends BlankForestryModule {
 	private static void registerGlobalLootModifiers(RegisterEvent event) {
 		event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
 			helper.register(ForestryConstants.forestry("condition_modifier"), ConditionLootModifier.CODEC);
-			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC);
 		});
 	}
 
 	private static void postItemRegistry() {
 		PluginManager.registerGenetics();
-		PluginManager.registerFarming();
+
+		// Modules load in dependency order (see ForestryModuleManager). A module that supplies one of
+		// the api managers installs it here, over the no-op base put there at construction.
+		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
+			module.installManagers();
+		}
+
 		PluginManager.registerPollen();
 	}
 
@@ -172,7 +173,7 @@ public class ModuleCore extends BlankForestryModule {
 		}
 	}
 
-	private static void registerReloadListeners(AddReloadListenerEvent event) {
+	private static void onAddReloadListeners(AddReloadListenerEvent event) {
 		event.addListener((prepBarrier, resourceManager, prepProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
 			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(() -> {
 				RecipeManagers.invalidateCaches();
@@ -180,39 +181,25 @@ public class ModuleCore extends BlankForestryModule {
 			});
 		});
 
-		// Load flower types from the "flower_type" datapack folder and install the code-base union datapack map
-		// into the live bee species type. The FLOWER_TYPE chromosome resolves ids lazily via
-		// BeeSpeciesType#getFlowerType, so strict ordering against BeeSpeciesManager isn't required today, but this
-		// is registered immediately before it to keep the "referenced data before dependent data" convention used
-		// by the other reload listeners below.
-		event.addListener(forestry.apiculture.genetics.FlowerTypeManager.INSTANCE);
-
-		// Load bee effects from the "bee_effect" folder and install the code-base union datapack map into the live bee
-		// species type. Registered before BeeSpeciesManager: species projection resolves each genome's bee_effect
-		// reference via getBeeEffect, so effects must exist first.
-		event.addListener(BeeEffectManager.INSTANCE);
-
 		// Load datapack taxa from the "taxon" folder and merge them onto the code-registered taxonomy. Registered
-		// before BeeSpeciesManager: a species' genus is resolved to a taxon as it is projected, so taxa must exist first.
+		// before any module's species loader: a species' genus is resolved to a taxon as it is projected, so taxa
+		// must exist first.
 		event.addListener(TaxonManager.INSTANCE);
+		// Flower types are shared by bees and butterflies, so base loads them. They must be in place
+		// before any pollinating species is projected, which is why this sits with the taxa rather
+		// than in apiculture's listener
+		event.addListener(FlowerTypeManager.INSTANCE);
 
-		// Load bee species from the "bee_species" datapack folder and rebuild the live species map from them.
-		// SimpleJsonResourceReloadListener#apply already runs on the game executor (see
-		// SimplePreparableReloadListener#reload: prepare() -> prepBarrier.wait() -> apply() via thenAcceptAsync(...,
-		// gameExecutor)), so no extra marshalling onto gameExecutor is needed here. Registered before the mutation
-		// listener below: apply order follows registration order, and mutations must resolve species that already
-		// exist in the live map.
-		event.addListener(BeeSpeciesManager.INSTANCE);
-
-		// Load tree species from the "tree_species" datapack folder and rebuild the live species map from them.
-		// Registered right after BeeSpeciesManager and, like it, before the mutation listener below: apply order
-		// follows registration order, and mutations must resolve species that already exist in the live map.
-		event.addListener(TreeSpeciesManager.INSTANCE);
-
-		// Load butterfly species from the "butterfly_species" datapack folder and rebuild the live species map from
-		// them. Registered right after TreeSpeciesManager and, like it, before the mutation listener below: apply
-		// order follows registration order, and mutations must resolve species that already exist in the live map.
-		event.addListener(ButterflySpeciesManager.INSTANCE);
+		// Modules load in dependency order (see ForestryModuleManager), which is also the order their data
+		// depends on: core's taxa, then apiculture's flower types/effects/species, then arboriculture's
+		// trees, then lepidopterology's butterflies. Apply order follows registration order.
+		// todo check whether an event with explicit ordering phases would be better than leaning on module
+		//  dependency order here. It works, but the coupling is implicit: a module that needs another
+		//  module's data loaded first has to express that as a load-order dependency even when it has no
+		//  other reason to depend on it.
+		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
+			module.registerReloadListeners(event);
+		}
 
 		// Rebuild each species type's mutation index from the (re)loaded mutation recipes. Mod reload listeners run
 		// after vanilla ones (and the reload barrier applies listeners in order), so by the apply phase the vanilla
@@ -224,30 +211,26 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	/**
-	 * Sends the loaded flower-type, bee, tree, and butterfly species definitions to the client on login/reload,
-	 * before tags and recipes sync (per {@code OnDatapackSyncEvent}'s contract). The client has no datapack access,
-	 * so these packets are its only source for {@code FlowerTypeManager}'s/{@code BeeSpeciesManager}'s/
-	 * {@code TreeSpeciesManager}'s/{@code ButterflySpeciesManager}'s definitions; {@code FlowerTypeSyncPacket} is
-	 * sent first since bee genome dominance resolution reads {@code IFlowerType}. {@code FlowerTypeSyncPacket}'s/
-	 * {@code BeeSpeciesSyncPacket}'s/{@code TreeSpeciesSyncPacket}'s/{@code ButterflySpeciesSyncPacket}'s
-	 * {@code handle} rebuild the client-side flower-type/species (and, in order, mutation) index from them.
+	 * Sends core's taxa to the client on login/reload, then lets each module send its own definitions, before tags
+	 * and recipes sync (per {@code OnDatapackSyncEvent}'s contract). The client has no datapack access, so these
+	 * packets are its only source for the reloadable genetics data, and each species packet's {@code handle}
+	 * rebuilds the client-side species (and, in order, mutation) index from them.
+	 * <p>
+	 * Taxa go first because species projection resolves each species' genus against them. The modules then run in
+	 * load order, which is the order their data depends on - the same guarantee {@link #onAddReloadListeners}
+	 * rests on.
 	 */
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
-		FlowerTypeSyncPacket flowerTypePacket = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
-		BeeEffectSyncPacket beeEffectPacket = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getEffects());
 		TaxonSyncPacket taxonPacket = new TaxonSyncPacket(TaxonManager.INSTANCE.getDefinitions());
-		BeeSpeciesSyncPacket beePacket = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
-		TreeSpeciesSyncPacket treePacket = new TreeSpeciesSyncPacket(TreeSpeciesManager.INSTANCE.getDefinitions());
-		ButterflySpeciesSyncPacket butterflyPacket = new ButterflySpeciesSyncPacket(ButterflySpeciesManager.INSTANCE.getDefinitions());
+		FlowerTypeSyncPacket flowerTypePacket = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
 		event.getRelevantPlayers().forEach(player -> {
-			// Flower types, effects and taxa must arrive before species (projection resolves those references).
-			NetworkUtil.sendToPlayer(flowerTypePacket, player);
-			NetworkUtil.sendToPlayer(beeEffectPacket, player);
 			NetworkUtil.sendToPlayer(taxonPacket, player);
-			NetworkUtil.sendToPlayer(beePacket, player);
-			NetworkUtil.sendToPlayer(treePacket, player);
-			NetworkUtil.sendToPlayer(butterflyPacket, player);
+			NetworkUtil.sendToPlayer(flowerTypePacket, player);
 		});
+
+		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
+			module.syncDatapack(event);
+		}
 	}
 
 	private static void registerCommands(RegisterCommandsEvent event) {
@@ -255,7 +238,7 @@ public class ModuleCore extends BlankForestryModule {
 
 		forestryCommand.then(DiagnosticsCommand.register());
 		forestryCommand.then(DumpCommand.register());
-		forestryCommand.then(forestry.core.commands.MultiblockDebugCommand.register());
+		forestryCommand.then(forestry.core.platform.commands.MultiblockDebugCommand.register());
 
 		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getModulesForMod(ForestryConstants.MOD_ID)) {
 			if (module instanceof BlankForestryModule forestryModule) {
@@ -295,12 +278,8 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.TANK_LEVEL_UPDATE, PacketTankLevelUpdate::encode, PacketTankLevelUpdate::decode, PacketTankLevelUpdate::handle);
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket::encode, RecipeCachePacket::decode, RecipeCachePacket::handle);
 		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax::encode, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
-		registry.clientbound(PacketIdClient.FLOWER_TYPE_SYNC, FlowerTypeSyncPacket::encode, FlowerTypeSyncPacket::decode, FlowerTypeSyncPacket::handle);
-		registry.clientbound(PacketIdClient.BEE_EFFECT_SYNC, BeeEffectSyncPacket::encode, BeeEffectSyncPacket::decode, BeeEffectSyncPacket::handle);
 		registry.clientbound(PacketIdClient.TAXON_SYNC, TaxonSyncPacket::encode, TaxonSyncPacket::decode, TaxonSyncPacket::handle);
-		registry.clientbound(PacketIdClient.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
-		registry.clientbound(PacketIdClient.TREE_SPECIES_SYNC, TreeSpeciesSyncPacket::encode, TreeSpeciesSyncPacket::decode, TreeSpeciesSyncPacket::handle);
-		registry.clientbound(PacketIdClient.BUTTERFLY_SPECIES_SYNC, ButterflySpeciesSyncPacket::encode, ButterflySpeciesSyncPacket::decode, ButterflySpeciesSyncPacket::handle);
+		registry.clientbound(PacketIdClient.FLOWER_TYPE_SYNC, FlowerTypeSyncPacket::encode, FlowerTypeSyncPacket::decode, FlowerTypeSyncPacket::handle);
 	}
 
 	@Override

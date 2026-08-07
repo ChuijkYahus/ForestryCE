@@ -35,23 +35,24 @@ import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.genetics.BeeEffectManager;
-import forestry.apiculture.genetics.effects.AgingBeeEffect;
-import forestry.apiculture.genetics.effects.DamageBeeEffect;
-import forestry.apiculture.genetics.effects.PotionBeeEffect;
-import forestry.apiculture.genetics.effects.ResurrectionBeeEffect;
-import forestry.apiculture.genetics.effects.ThrottleSettings;
-import forestry.apiculture.genetics.effects.TransformBlockBeeEffect;
-import forestry.core.damage.CoreDamageTypes;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.utils.SpeciesUtil;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
+import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
+import forestry.apiculture.bees.genetics.BeeEffectManager;
+import forestry.apiculture.bees.genetics.effects.AgingBeeEffect;
+import forestry.apiculture.bees.genetics.effects.DamageBeeEffect;
+import forestry.apiculture.bees.genetics.effects.PotionBeeEffect;
+import forestry.apiculture.bees.genetics.effects.ResurrectionBeeEffect;
+import forestry.apiculture.bees.genetics.effects.ThrottleSettings;
+import forestry.apiculture.bees.genetics.effects.TransformBlockBeeEffect;
+import forestry.core.platform.damage.CoreDamageTypes;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for the data-driven bee effect system ported onto the upstream foundation (migration Module 2).
  * Proves the three invariants of the port: the 5 parameterized effect primitives are registered as serializer types;
  * {@link IBeeEffect#CODEC} round-trips a datapack effect definition through both JSON and the network stream codec used
- * by {@code BeeEffectSyncPacket}; and {@code GeneticsReloadHandler.rebuildBeeEffects} merges datapack effects onto the
+ * by {@code BeeEffectSyncPacket}; and {@code ApicultureReloadHandler.rebuildBeeEffects} merges datapack effects onto the
  * code-registered builtins reloadably (datapack entries resolve, builtins survive, and an empty reload keeps builtins).
  */
 @GameTestHolder(ForestryConstants.MOD_ID)
@@ -190,7 +191,7 @@ public class BeeEffectSystemTest {
 				false)),
 			1, 0.34f, Optional.empty());
 		try {
-			GeneticsReloadHandler.rebuildBeeEffects(Map.of(testId, testEffect));
+			ApicultureReloadHandler.rebuildBeeEffects(Map.of(testId, testEffect));
 
 			if (!(beeType.getBeeEffect(testId) instanceof TransformBlockBeeEffect)) {
 				helper.fail("datapack effect " + testId + " did not resolve after rebuildBeeEffects");
@@ -203,13 +204,13 @@ public class BeeEffectSystemTest {
 			}
 
 			// Empty reload: builtins remain (self-resetting when a datapack is removed).
-			GeneticsReloadHandler.rebuildBeeEffects(Map.of());
+			ApicultureReloadHandler.rebuildBeeEffects(Map.of());
 			if (beeType.getBeeEffect(ForestryBeeEffects.NONE) == null) {
 				helper.fail("builtin bee effect NONE was dropped after an empty reload");
 				return;
 			}
 		} finally {
-			GeneticsReloadHandler.rebuildBeeEffects(original);
+			ApicultureReloadHandler.rebuildBeeEffects(original);
 		}
 
 		helper.succeed();

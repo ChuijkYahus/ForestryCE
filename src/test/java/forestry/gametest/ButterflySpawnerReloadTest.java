@@ -12,22 +12,23 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
-import forestry.lepidopterology.ButterflySpawner;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
+import forestry.core.platform.util.SpeciesUtil;
+import forestry.lepidopterology.butterflies.ButterflySpawner;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 
 /**
  * Locks the Stage-5 §6 invariant: {@code ButterflySpawner} is registered on the tree species type's leaf tick
  * handlers exactly once, at setup ({@code ButterflySpeciesType.onSpeciesRegistered}, called once by
  * {@code PluginManager}), and stays at exactly one across a butterfly species reload - because reloads go through
- * {@code SpeciesType.setSpecies} directly (via {@code GeneticsReloadHandler.rebuildButterflySpecies}), which does not
+ * {@code SpeciesType.setSpecies} directly (via {@code LepidopterologyReloadHandler.rebuildButterflySpecies}), which does not
  * call {@code onSpeciesRegistered}.
  * <p>
  * Note: {@code ButterflySpeciesProvider.buildDefinitions()} (Task 8) doesn't exist yet, so the reload is driven by a
@@ -67,7 +68,7 @@ public class ButterflySpawnerReloadTest {
 
 		try {
 			// simulate a butterfly species reload via the real reload path (not the raw setSpecies swap)
-			GeneticsReloadHandler.rebuildButterflySpecies(defs);
+			LepidopterologyReloadHandler.rebuildButterflySpecies(defs);
 
 			long after = treeType.getLeafTickHandlers().stream()
 				.filter(h -> h instanceof ButterflySpawner)

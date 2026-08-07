@@ -1,22 +1,17 @@
 package forestry.core.data.models;
 
-import com.google.common.collect.Iterables;
 import forestry.api.ForestryConstants;
 import forestry.api.modules.ForestryModuleIds;
+import forestry.apiculture.features.ApicultureCrates;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.data.builder.FilledCrateModelBuilder;
-import forestry.core.fluids.ForestryFluids;
-import forestry.core.utils.ModUtil;
-import forestry.cultivation.blocks.BlockPlanter;
-import forestry.cultivation.blocks.BlockTypePlanter;
-import forestry.cultivation.features.CultivationBlocks;
-import forestry.lepidopterology.features.LepidopterologyItems;
-import forestry.modules.features.FeatureBlock;
-import forestry.modules.features.FeatureItem;
-import forestry.modules.features.ModFeatureRegistry;
-import forestry.storage.features.CrateItems;
-import forestry.storage.items.BackpackItem;
-import forestry.storage.items.ItemCrated;
+import forestry.core.platform.fluids.ForestryFluids;
+import forestry.core.platform.util.ModUtil;
+import forestry.core.platform.registration.FeatureItem;
+import forestry.core.platform.registration.ModFeatureRegistry;
+import forestry.core.content.backpacks.features.CrateItems;
+import forestry.core.content.backpacks.items.BackpackItem;
+import forestry.core.content.backpacks.items.ItemCrated;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -24,13 +19,10 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
-
-import java.util.Map;
 
 import static forestry.core.data.models.ForestryBlockStateProvider.file;
 
@@ -41,13 +33,6 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		withExistingParent(LepidopterologyItems.CATERPILLAR_GE.getName(), mcLoc("item/generated"))
-			.texture("layer0", ForestryConstants.forestry("item/caterpillar.body2"))
-			.texture("layer1", ForestryConstants.forestry("item/caterpillar.body"));
-		withExistingParent(LepidopterologyItems.SERUM_GE.getName(), mcLoc("item/generated"))
-			.texture("layer0", ForestryConstants.forestry("item/liquids/jar.bottle"))
-			.texture("layer1", ForestryConstants.forestry("item/liquids/jar.contents"));
-
 		for (FeatureItem<ItemCrated> featureCrated : CrateItems.getCrates()) {
 			Item containedItem = featureCrated.get().getContained().getItem();
 			String id = featureCrated.getName();
@@ -78,12 +63,7 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 		filledCrateModel(CrateItems.CRATED_CACTUS.getName(), mcLoc("block/cactus_side"));
 		filledCrateModel(CrateItems.CRATED_MYCELIUM.getName(), mcLoc("block/mycelium_side"));
 		filledCrateModel(CrateItems.CRATED_GRASS_BLOCK.getName(), mcLoc("block/grass_block_top"));
-		filledCrateModel(CrateItems.CRATED_PROPOLIS.getName(), modLoc("item/propolis.0"));
-
-		for (Map.Entry<BlockTypePlanter, FeatureBlock<BlockPlanter, BlockItem>> cell : Iterables.concat(CultivationBlocks.MANAGED_PLANTER.getFeatureByType().entrySet(), CultivationBlocks.MANUAL_PLANTER.getFeatureByType().entrySet())) {
-			Block block = cell.getValue().block();
-			withExistingParent(ForestryBlockStateProvider.path(block), ForestryConstants.forestry("block/" + cell.getKey().getSerializedName()));
-		}
+		filledCrateModel(ApicultureCrates.CRATED_PROPOLIS.getName(), modLoc("item/propolis.0"));
 
 		// Buckets
 		for (ForestryFluids fluid : ForestryFluids.values()) {

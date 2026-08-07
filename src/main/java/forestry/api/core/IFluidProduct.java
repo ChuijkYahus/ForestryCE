@@ -37,7 +37,7 @@ public interface IFluidProduct {
 
 	/**
 	 * The type of this product, used to (de)serialize it via the dispatch codec in
-	 * {@code forestry.core.FluidProductTypes}. Plain {@link FluidProduct} instances return {@link FluidProduct#TYPE},
+	 * {@code forestry.core.platform.fluids.FluidProductTypes}. Plain {@link FluidProduct} instances return {@link FluidProduct#TYPE},
 	 * which the dispatch codec treats as the default: it serializes without a {@code "type"} key.
 	 *
 	 * @return The type of this product.

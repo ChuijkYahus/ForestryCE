@@ -1,16 +1,16 @@
 package forestry.apiculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockTypeApiculture;
-import forestry.apiculture.multiblock.*;
-import forestry.apiculture.tiles.TileApiary;
-import forestry.apiculture.tiles.TileBeeHouse;
-import forestry.apiculture.tiles.TileHive;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.FeatureTileType;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.apiculture.alveary.multiblock.*;
+import forestry.apiculture.apiary.TileApiary;
+import forestry.apiculture.beehouse.TileBeeHouse;
+import forestry.apiculture.hives.TileHive;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.FeatureTileType;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 
 @SuppressWarnings("Convert2MethodRef")
 @FeatureProvider

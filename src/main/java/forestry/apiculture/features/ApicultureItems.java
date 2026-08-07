@@ -2,10 +2,21 @@ package forestry.apiculture.features;
 
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.items.*;
-import forestry.core.items.ItemForestry;
-import forestry.core.items.ItemForestryFood;
-import forestry.modules.features.*;
+import forestry.apiculture.bees.EnumHoneyComb;
+import forestry.apiculture.bees.EnumPollenCluster;
+import forestry.apiculture.bees.EnumPropolis;
+import forestry.apiculture.bees.ItemAmbrosia;
+import forestry.apiculture.apiarist.ItemArmorApiarist;
+import forestry.apiculture.bees.ItemBeeGE;
+import forestry.apiculture.apiary.ItemCreativeHiveFrame;
+import forestry.apiculture.apiary.ItemHiveFrame;
+import forestry.apiculture.bees.ItemHoneyComb;
+import forestry.apiculture.bees.ItemPollenCluster;
+import forestry.apiculture.bees.ItemPropolis;
+import forestry.apiculture.apiarist.ItemSmoker;
+import forestry.core.platform.item.ItemForestry;
+import forestry.core.platform.item.ItemForestryFood;
+import forestry.core.platform.registration.*;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 
@@ -14,10 +25,12 @@ public class ApicultureItems {
 	// / BEES
 	public static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.APICULTURE);
 
-	public static final FeatureItem<ItemBeeGE> BEE_QUEEN = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.QUEEN), "queen_bee");
-	public static final FeatureItem<ItemBeeGE> BEE_DRONE = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.DRONE), "drone_bee");
-	public static final FeatureItem<ItemBeeGE> BEE_PRINCESS = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.PRINCESS), "princess_bee");
-	public static final FeatureItem<ItemBeeGE> BEE_LARVAE = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.LARVAE), "larvae_bee");
+	// registry names come from the life stage so the two cannot drift; BeeLifeStage resolves
+	// its item form back out of the registry by the same id
+	public static final FeatureItem<ItemBeeGE> BEE_QUEEN = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.QUEEN), BeeLifeStage.QUEEN.itemId().getPath());
+	public static final FeatureItem<ItemBeeGE> BEE_DRONE = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.DRONE), BeeLifeStage.DRONE.itemId().getPath());
+	public static final FeatureItem<ItemBeeGE> BEE_PRINCESS = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.PRINCESS), BeeLifeStage.PRINCESS.itemId().getPath());
+	public static final FeatureItem<ItemBeeGE> BEE_LARVAE = REGISTRY.item(() -> new ItemBeeGE(BeeLifeStage.LARVAE), BeeLifeStage.LARVAE.itemId().getPath());
 
 	// / COMB FRAMES
 	public static final FeatureItem<ItemHiveFrame> FRAME_UNTREATED = REGISTRY.item(() -> new ItemHiveFrame(80, 0.9f), "untreated_frame");
@@ -26,8 +39,6 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemCreativeHiveFrame> FRAME_CREATIVE = REGISTRY.item(ItemCreativeHiveFrame::new, "creative_frame");
 
 	// BEE RESOURCES
-	public static final FeatureItem<Item> HONEY_DROP = REGISTRY.item("honey_drop");
-	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
 	public static final FeatureItem<Item> EXPERIENCE_DROP = REGISTRY.item("experience_drop");
 	public static final FeatureItemGroup<ItemPropolis, EnumPropolis> PROPOLIS = REGISTRY.itemGroup(ItemPropolis::new, EnumPropolis.values()).identifier(type -> type == EnumPropolis.NORMAL ? "propolis" : type.getSerializedName() + "_propolis").create();
 
@@ -48,7 +59,6 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemArmorApiarist> APIARIST_BOOTS = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.BOOTS), "apiarists_shoes");
 
 	// TOOLS
-	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(ItemScoop::new, "scoop");
 	public static final FeatureItem<ItemSmoker> SMOKER = REGISTRY.item(ItemSmoker::new, "bee_smoker");
 
 	// MISC

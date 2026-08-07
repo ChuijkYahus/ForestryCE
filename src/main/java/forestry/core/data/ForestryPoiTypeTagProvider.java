@@ -1,6 +1,6 @@
 package forestry.core.data;
 
-import forestry.apiculture.villagers.ApicultureVillagers;
+import forestry.apiculture.apiarist.villagers.ApicultureVillagers;
 import forestry.arboriculture.villagers.ArboricultureVillagers;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.PoiTypeTags;

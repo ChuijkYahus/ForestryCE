@@ -1,6 +1,6 @@
 package forestry.core.data.builder;
 
-import forestry.factory.recipes.MoistenerRecipe;
+import forestry.core.content.machines.recipes.MoistenerRecipe;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

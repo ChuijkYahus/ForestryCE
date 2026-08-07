@@ -4,13 +4,13 @@ import javax.annotation.Nullable;
 
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.genetics.ForestrySpeciesTypes;
+import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.genetics.mutations.MutationRecipe;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.FeatureRecipeType;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.core.engine.genetics.mutations.MutationRecipe;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.FeatureRecipeType;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 
 @FeatureProvider
 public class GeneticsRecipeTypes {

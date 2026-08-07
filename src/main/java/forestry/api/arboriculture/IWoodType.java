@@ -3,7 +3,7 @@ package forestry.api.arboriculture;
 import com.mojang.authlib.GameProfile;
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
-import forestry.api.genetics.IGenome;
+import forestry.api.core.genetics.IGenome;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

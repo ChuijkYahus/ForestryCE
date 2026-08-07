@@ -15,7 +15,7 @@ import com.mojang.serialization.JsonOps;
 import forestry.api.ForestryConstants;
 import forestry.api.core.FluidProduct;
 import forestry.api.core.IFluidProduct;
-import forestry.core.FluidProductTypes;
+import forestry.core.platform.fluids.FluidProductTypes;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)

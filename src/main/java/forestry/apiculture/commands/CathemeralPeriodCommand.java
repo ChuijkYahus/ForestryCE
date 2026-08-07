@@ -1,7 +1,7 @@
 package forestry.apiculture.commands;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
-import forestry.apiculture.CathemeralActivityType;
+import forestry.apiculture.bees.CathemeralActivityType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;

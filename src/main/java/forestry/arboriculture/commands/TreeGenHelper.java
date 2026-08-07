@@ -1,9 +1,9 @@
 package forestry.arboriculture.commands;
 
 import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.genetics.IGenome;
-import forestry.core.utils.BlockUtil;
-import forestry.core.worldgen.FeatureBase;
+import forestry.api.core.genetics.IGenome;
+import forestry.core.platform.util.BlockUtil;
+import forestry.core.platform.worldgen.FeatureBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.util.RandomSource;

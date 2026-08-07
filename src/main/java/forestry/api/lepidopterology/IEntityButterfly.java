@@ -1,6 +1,6 @@
 package forestry.api.lepidopterology;
 
-import forestry.api.genetics.pollen.IPollen;
+import forestry.api.core.genetics.pollen.IPollen;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import net.minecraft.world.entity.PathfinderMob;
 

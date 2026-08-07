@@ -1,5 +1,6 @@
 package forestry.core.data;
 
+import forestry.arboriculture.plugin.DefaultTreeSpecies;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,11 +20,10 @@ import net.minecraft.resources.ResourceLocation;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
-import forestry.apiimpl.plugin.ArboricultureRegistration;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.utils.SpeciesUtil;
-import forestry.plugin.DefaultTreeSpecies;
+import forestry.arboriculture.plugin.ArboricultureRegistration;
+import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Generates {@code data/forestry/tree_species/*.json} for every built-in tree, read directly from the
@@ -107,7 +107,7 @@ public class TreeSpeciesProvider implements DataProvider {
 	 * {@code DefaultTreeSpecies} source the generated JSON is derived from.
 	 */
 	public static void seedLiveSpeciesForDatagen() {
-		GeneticsReloadHandler.rebuildTreeSpecies(buildDefinitions());
+		ArboricultureReloadHandler.rebuildTreeSpecies(buildDefinitions());
 	}
 
 	private static TreeSpeciesDefinition buildDefinition(ITreeSpeciesBuilder builder) {

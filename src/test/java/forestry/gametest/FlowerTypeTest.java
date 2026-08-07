@@ -7,14 +7,14 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
+import forestry.api.IForestryApi;
 import forestry.api.apiculture.ForestryFlowerTypes;
 import forestry.api.apiculture.IFlowerType;
-import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.apiculture.PhotosynthesisFlowerType;
-import forestry.apiculture.TagFlowerType;
-import forestry.apiculture.WaterTagFlowerType;
-import forestry.apiculture.genetics.FlowerTypeManager;
-import forestry.core.utils.SpeciesUtil;
+import forestry.api.core.genetics.IFlowerTypeManager;
+import forestry.core.engine.genetics.flowers.PhotosynthesisFlowerType;
+import forestry.core.engine.genetics.flowers.TagFlowerType;
+import forestry.core.engine.genetics.flowers.WaterTagFlowerType;
+import forestry.core.engine.genetics.FlowerTypeManager;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
@@ -27,9 +27,22 @@ public class FlowerTypeTest {
 		ForestryFlowerTypes.SEA, ForestryFlowerTypes.CORAL, ForestryFlowerTypes.SCULK,
 	};
 
+	// Butterflies carry the same flower type chromosome bees do, so resolving one must not route
+	// through the bee species type. Before phase 9b it did, which meant lepidopterology installed
+	// without apiculture could not project a single butterfly
+	@GameTest(template = "empty")
+	public static void flowerTypesResolveWithoutBeeSpeciesType(GameTestHelper helper) {
+		for (ResourceLocation id : ALL) {
+			if (IForestryApi.INSTANCE.getFlowerTypeManager().getFlowerType(id) == null) {
+				helper.fail("Flower type did not resolve from the core manager: " + id);
+			}
+		}
+		helper.succeed();
+	}
+
 	@GameTest(template = "empty")
 	public static void allBuiltinsResolve(GameTestHelper helper) {
-		IBeeSpeciesType bees = SpeciesUtil.BEE_TYPE.get();
+		IFlowerTypeManager bees = IForestryApi.INSTANCE.getFlowerTypeManager();
 		for (ResourceLocation id : ALL) {
 			IFlowerType type = bees.getFlowerTypeSafe(id);
 			if (type == null) {
@@ -85,7 +98,7 @@ public class FlowerTypeTest {
 
 	@GameTest(template = "empty")
 	public static void datapackOverrideWinsAndUnionSwaps(GameTestHelper helper) {
-		IBeeSpeciesType bees = SpeciesUtil.BEE_TYPE.get();
+		IFlowerTypeManager bees = IForestryApi.INSTANCE.getFlowerTypeManager();
 		ResourceLocation probe = ForestryConstants.forestry("gametest_probe_flower");
 		// A synthetic datapack map that overlays the code base.
 		java.util.Map<ResourceLocation, IFlowerType> data = new java.util.HashMap<>();
@@ -94,7 +107,7 @@ public class FlowerTypeTest {
 		// This mutation of the shared live flower-type map is safe only because mutate -> assert -> restore all run
 		// synchronously in this method body with no tick yield between them, so no concurrent test observes the
 		// transient state. Do not insert an await/runAtTickTime between the rebuild above and the finally restore.
-		forestry.core.genetics.GeneticsReloadHandler.rebuildFlowerTypes(data);
+		FlowerTypeManager.rebuild(data);
 		try {
 			if (!(bees.getFlowerTypeSafe(probe) instanceof PhotosynthesisFlowerType)) {
 				helper.fail("datapack-only flower type should resolve after rebuild");
@@ -106,7 +119,7 @@ public class FlowerTypeTest {
 			}
 		} finally {
 			// Restore the real datapack-loaded map so later tests/gameplay are unaffected.
-			forestry.core.genetics.GeneticsReloadHandler.rebuildFlowerTypes(FlowerTypeManager.INSTANCE.getDefinitions());
+			FlowerTypeManager.rebuild(FlowerTypeManager.INSTANCE.getDefinitions());
 		}
 		helper.succeed();
 	}

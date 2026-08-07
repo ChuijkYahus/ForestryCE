@@ -12,12 +12,12 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.apiculture.blocks.BlockAlveary;
+import forestry.apiculture.alveary.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
-import forestry.core.multiblock.LevelStructureView;
-import forestry.farming.blocks.EnumFarmBlockType;
-import forestry.farming.blocks.EnumFarmMaterial;
-import forestry.farming.features.FarmingBlocks;
+import forestry.core.platform.multiblock.LevelStructureView;
+import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
+import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
+import forestry.agriculture.features.FarmingBlocks;
 
 /**
  * Covers component recognition in {@link LevelStructureView}. A member that fills no reserved role

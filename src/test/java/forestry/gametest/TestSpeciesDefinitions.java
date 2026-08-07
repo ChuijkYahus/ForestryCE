@@ -11,11 +11,11 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
-import forestry.api.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
-import forestry.apiculture.genetics.BeeSpeciesDefinition;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
+import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
 
 /**
  * Fluent, default-seeded builders for the three species definitions, used by the reload / projector /

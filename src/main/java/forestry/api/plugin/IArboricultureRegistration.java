@@ -16,7 +16,7 @@ public interface IArboricultureRegistration {
 	 * Register a new tree species.
 	 *
 	 * @param id              The unique ID of this species. The path must start with "tree_".
-	 * @param genus           The genus of this species. See {@link forestry.api.genetics.ForestryTaxa} for examples.
+	 * @param genus           The genus of this species. See {@link forestry.api.core.genetics.ForestryTaxa} for examples.
 	 * @param species         The species name of this species, used for scientific naming.
 	 * @param dominant        Whether the allele for this species is dominant or recessive.
 	 * @param escritoireColor The primary color of this tree species. Used for pollen colors and tree leaf tinting.

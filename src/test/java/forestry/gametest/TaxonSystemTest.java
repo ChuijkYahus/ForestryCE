@@ -14,15 +14,15 @@ import forestry.api.IForestryApi;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.ForestryFlowerTypes;
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.genetics.ForestryTaxa;
-import forestry.api.genetics.IGeneticManager;
-import forestry.api.genetics.ITaxon;
-import forestry.api.genetics.TaxonomicRank;
-import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.genetics.TaxonManager;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.TaxonDefinition;
-import forestry.core.utils.SpeciesUtil;
+import forestry.api.core.genetics.ForestryTaxa;
+import forestry.api.core.genetics.IGeneticManager;
+import forestry.api.core.genetics.ITaxon;
+import forestry.api.core.genetics.TaxonomicRank;
+import forestry.api.core.genetics.alleles.BeeChromosomes;
+import forestry.core.engine.genetics.TaxonManager;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.TaxonDefinition;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Behavioral oracle for the (now fully data-driven) taxonomy. Proves that base Forestry's whole taxonomy is loaded from

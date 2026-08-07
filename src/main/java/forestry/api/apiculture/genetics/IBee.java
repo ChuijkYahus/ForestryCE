@@ -2,10 +2,10 @@ package forestry.api.apiculture.genetics;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.IError;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IIndividualLiving;
-import forestry.api.genetics.pollen.IPollen;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.IIndividualLiving;
+import forestry.api.core.genetics.pollen.IPollen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;

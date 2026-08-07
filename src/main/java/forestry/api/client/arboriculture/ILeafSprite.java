@@ -7,6 +7,25 @@ import net.minecraft.resources.ResourceLocation;
  */
 public interface ILeafSprite {
 	/**
+	 * The sprite used when no leaf sprite is registered for a species.
+	 *
+	 * @since 2.10.0
+	 */
+	ILeafSprite MISSING = new ILeafSprite() {
+		private static final ResourceLocation LOCATION = ResourceLocation.withDefaultNamespace("missingno");
+
+		@Override
+		public ResourceLocation get(boolean pollinated, boolean fancy) {
+			return LOCATION;
+		}
+
+		@Override
+		public ResourceLocation getParticle() {
+			return LOCATION;
+		}
+	};
+
+	/**
 	 * Returns the location of the leaf texture sprite to use for rendering.
 	 *
 	 * @param pollinated Whether the leaves are pollinated.

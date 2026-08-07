@@ -1,17 +1,20 @@
 package forestry.apiimpl.plugin;
 
+import forestry.core.features.CoreItems;
+
 import com.google.common.base.Preconditions;
-import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.ISpeciesType;
+import forestry.api.ForestryConstants;
+import forestry.api.core.genetics.ILifeStage;
+import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.plugin.IKaryotypeBuilder;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ISpeciesTypeFactory;
-import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.items.EnumHoneyComb;
-import forestry.core.genetics.Karyotype;
+import forestry.core.engine.genetics.Karyotype;
 import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -34,11 +37,15 @@ public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 		this.typeFactory = typeFactory;
 		this.stages = new LinkedHashSet<>();
 
-		// The default research materials across all species in Forestry
+		// The default research materials across all species in Forestry. The comb is resolved by id
+		// rather than named: it belongs to apiculture, and the escritoire has to work without it
 		this.researchMaterials = map -> {
-			map.put(ApicultureItems.HONEY_DROP.item(), 0.5f);
-			map.put(ApicultureItems.HONEYDEW.item(), 0.7f);
-			map.put(ApicultureItems.BEE_COMBS.item(EnumHoneyComb.HONEY), 0.4f);
+			map.put(CoreItems.HONEY_DROP.item(), 0.5f);
+			map.put(CoreItems.HONEYDEW.item(), 0.7f);
+			Item honeyComb = BuiltInRegistries.ITEM.get(ForestryConstants.forestry("honey_comb"));
+			if (honeyComb != Items.AIR) {
+				map.put(honeyComb, 0.4f);
+			}
 		};
 	}
 

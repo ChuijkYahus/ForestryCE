@@ -2,19 +2,21 @@ package forestry.arboriculture.features;
 
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.items.ItemForestryBoat;
-import forestry.arboriculture.items.TreeItem;
-import forestry.arboriculture.items.GrafterItem;
-import forestry.core.items.ItemForestry;
-import forestry.modules.features.*;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.ItemForestryBoat;
+import forestry.arboriculture.trees.TreeItem;
+import forestry.arboriculture.trees.GrafterItem;
+import forestry.core.platform.item.ItemForestry;
+import forestry.core.platform.registration.*;
 
 @FeatureProvider
 public class ArboricultureItems {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.ARBORICULTURE);
 
-	public static final FeatureItem<TreeItem> TREE_SAPLING = REGISTRY.item(() -> new TreeItem(TreeLifeStage.SAPLING), "tree_sapling");
-	public static final FeatureItem<TreeItem> TREE_POLLEN = REGISTRY.item(() -> new TreeItem(TreeLifeStage.POLLEN), "tree_pollen");
+	// registry names come from the life stage so the two cannot drift; TreeLifeStage resolves
+	// its item form back out of the registry by the same id
+	public static final FeatureItem<TreeItem> TREE_SAPLING = REGISTRY.item(() -> new TreeItem(TreeLifeStage.SAPLING), TreeLifeStage.SAPLING.itemId().getPath());
+	public static final FeatureItem<TreeItem> TREE_POLLEN = REGISTRY.item(() -> new TreeItem(TreeLifeStage.POLLEN), TreeLifeStage.POLLEN.itemId().getPath());
 	public static final FeatureItem<GrafterItem> GRAFTER = REGISTRY.item(() -> new GrafterItem(9), "grafter");
 	public static final FeatureItem<GrafterItem> PROVEN_GRAFTER = REGISTRY.item(() -> new GrafterItem(149), "proven_grafter");
 	// If you want to implement boats in your addon, look at ItemForestryBoat, ForestryBoat, ForestryChestBoat, and ForestryBoatRenderer

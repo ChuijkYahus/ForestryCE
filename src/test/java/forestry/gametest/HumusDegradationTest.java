@@ -12,7 +12,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.core.blocks.BlockHumus;
+import forestry.core.content.soil.BlockHumus;
 import forestry.core.features.CoreBlocks;
 
 /**

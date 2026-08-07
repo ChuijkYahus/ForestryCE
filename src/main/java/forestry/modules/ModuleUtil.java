@@ -1,7 +1,7 @@
 package forestry.modules;
 
 import forestry.Forestry;
-import forestry.modules.features.FeatureProvider;
+import forestry.core.platform.registration.FeatureProvider;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;

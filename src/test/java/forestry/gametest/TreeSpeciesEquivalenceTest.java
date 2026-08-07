@@ -2,6 +2,7 @@ package forestry.gametest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
@@ -17,19 +18,20 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.AllelePair;
-import forestry.api.genetics.alleles.IChromosome;
-import forestry.arboriculture.TreeSpecies;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.arboriculture.genetics.TreeSpeciesProjector;
-import forestry.core.utils.SpeciesUtil;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.AllelePair;
+import forestry.api.core.genetics.alleles.IChromosome;
+import forestry.arboriculture.trees.TreeSpecies;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.TreeSpeciesProjector;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * The pivotal "no behavior change" proof for Stage 4's tree species datagen: for every built-in tree species,
@@ -60,7 +62,7 @@ public class TreeSpeciesEquivalenceTest {
 		for (ITreeSpecies expected : type.getAllSpecies()) {
 			ResourceLocation id = expected.id();
 
-			JsonElement json = readGeneratedJson(id);
+			JsonElement json = readGeneratedJson(helper, id);
 			if (json == null) {
 				helper.fail("Missing generated tree species JSON for " + id + " (run runData?)");
 				return;
@@ -164,12 +166,17 @@ public class TreeSpeciesEquivalenceTest {
 	}
 
 	@Nullable
-	private static JsonElement readGeneratedJson(ResourceLocation id) {
-		String resourcePath = "/data/" + id.getNamespace() + "/tree_species/" + id.getPath() + ".json";
-		try (InputStream in = TreeSpeciesEquivalenceTest.class.getResourceAsStream(resourcePath)) {
-			if (in == null) {
-				return null;
-			}
+	private static JsonElement readGeneratedJson(GameTestHelper helper, ResourceLocation id) {
+		// Read through the server's ResourceManager rather than the classloader. Since phase 9b each
+		// jar is its own mod with its own classloader, so getResourceAsStream from a core class cannot
+		// see a species JSON that ships in the apiculture jar. Datapacks merge across mods, which is
+		// how the game loads these, so this reads them the same way the game does.
+		ResourceLocation path = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "tree_species/" + id.getPath() + ".json");
+		Optional<Resource> resource = helper.getLevel().getServer().getResourceManager().getResource(path);
+		if (resource.isEmpty()) {
+			return null;
+		}
+		try (InputStream in = resource.get().open()) {
 			return JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);

@@ -1,7 +1,6 @@
 package forestry.api.mail;
 
-import forestry.core.inventory.IInventoryAdapter;
-import forestry.mail.IWatchable;
+import forestry.api.core.IInventoryAdapter;
 import net.minecraft.world.Container;
 
 import javax.annotation.Nullable;

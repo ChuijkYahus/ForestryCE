@@ -14,13 +14,14 @@ import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.genetics.TreeSpeciesDefinition;
-import forestry.arboriculture.genetics.TreeSpeciesManager;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
+import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
+import forestry.arboriculture.trees.genetics.TreeSpeciesManager;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Note: {@code TreeSpeciesProvider.buildDefinitions()} (Task 8) doesn't exist yet, so {@code rebuildRepopulatesSpecies}
@@ -54,7 +55,7 @@ public class TreeSpeciesReloadTest {
 		Map<ResourceLocation, TreeSpeciesDefinition> defs = Map.of(ForestryTreeSpecies.OAK, def);
 
 		try {
-			GeneticsReloadHandler.rebuildTreeSpecies(defs);
+			ArboricultureReloadHandler.rebuildTreeSpecies(defs);
 
 			if (type.getSpeciesSafe(ForestryTreeSpecies.OAK) == null) {
 				helper.fail("Expected rebuildTreeSpecies to repopulate oak from the projected definitions map");
@@ -96,7 +97,7 @@ public class TreeSpeciesReloadTest {
 		);
 
 		try {
-			GeneticsReloadHandler.rebuildTreeSpecies(definitions);
+			ArboricultureReloadHandler.rebuildTreeSpecies(definitions);
 
 			if (type.getAllSpeciesIds().size() != 50) {
 				helper.fail("Expected rebuildTreeSpecies(manager definitions) to reproduce the full 50-species built-in set, got " + type.getAllSpeciesIds().size());

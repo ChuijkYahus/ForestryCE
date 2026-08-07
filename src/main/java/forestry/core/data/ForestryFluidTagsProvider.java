@@ -1,7 +1,7 @@
 package forestry.core.data;
 
 import forestry.api.ForestryTags;
-import forestry.core.fluids.ForestryFluids;
+import forestry.core.platform.fluids.ForestryFluids;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.material.Fluid;
 import thedarkcolour.modkit.data.MKTagsProvider;

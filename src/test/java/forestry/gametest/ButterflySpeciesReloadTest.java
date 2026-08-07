@@ -11,16 +11,17 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
-import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.core.genetics.alleles.ButterflyChromosomes;
+import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
-import forestry.core.genetics.GeneticsReloadHandler;
-import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
-import forestry.lepidopterology.genetics.ButterflySpeciesDefinition;
-import forestry.lepidopterology.genetics.ButterflySpeciesManager;
+import forestry.core.engine.genetics.GeneticsReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
+import forestry.core.platform.util.SpeciesUtil;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesManager;
+import forestry.lepidopterology.butterflies.genetics.LepidopterologyReloadHandler;
 
 /**
  * Note: {@code rebuildRepopulates} builds a single definition inline from the live Monarch species (mirroring
@@ -52,7 +53,7 @@ public class ButterflySpeciesReloadTest {
 		Map<ResourceLocation, ButterflySpeciesDefinition> defs = Map.of(ForestryButterflySpecies.MONARCH, def);
 
 		try {
-			GeneticsReloadHandler.rebuildButterflySpecies(defs);
+			LepidopterologyReloadHandler.rebuildButterflySpecies(defs);
 
 			if (type.getAllSpeciesIds().isEmpty()) {
 				helper.fail("Expected rebuildButterflySpecies to repopulate the species map from the projected definitions");
@@ -99,7 +100,7 @@ public class ButterflySpeciesReloadTest {
 		);
 
 		try {
-			GeneticsReloadHandler.rebuildButterflySpecies(definitions);
+			LepidopterologyReloadHandler.rebuildButterflySpecies(definitions);
 
 			if (type.getAllSpeciesIds().size() != 35) {
 				helper.fail("Expected rebuildButterflySpecies(manager definitions) to reproduce the full 35-species built-in set, got " + type.getAllSpeciesIds().size());

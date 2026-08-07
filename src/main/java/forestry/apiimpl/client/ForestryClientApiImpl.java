@@ -7,19 +7,24 @@ import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.client.genetics.IGeneticClientManager;
 import forestry.api.client.lepidopterology.IButterflyClientManager;
 import forestry.api.client.plugin.IClientHelper;
-import forestry.apiimpl.client.plugin.ClientHelper;
-import forestry.core.render.ForestryTextureManager;
+import forestry.arboriculture.client.plugin.ClientHelper;
+import forestry.core.platform.render.ForestryTextureManager;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 public class ForestryClientApiImpl implements IForestryClientApi {
+	// Constructed at field init rather than installed by a lifecycle hook, because ForestryLeafSprites
+	// resolves the helper from a static initializer and runs before any of them
 	private final IClientHelper helper = new ClientHelper();
 
 	@Nullable
 	private ITextureManager textureManager;
 	@Nullable
 	private IGeneticClientManager geneticManager;
+	// All three are built from base classes during client plugin registration, butterflies included:
+	// ButterflyClientManager keys textures by id and resolves an unregistered one by naming convention,
+	// so an absent butterflies jar leaves it empty rather than absent. See PluginManager.registerClient
 	@Nullable
 	private IBeeClientManager beeManager;
 	@Nullable
@@ -96,7 +101,7 @@ public class ForestryClientApiImpl implements IForestryClientApi {
 	}
 
 	@ApiStatus.Internal
-	public void setBeeManager(BeeClientManager beeManager) {
+	public void setBeeManager(IBeeClientManager beeManager) {
 		this.beeManager = beeManager;
 	}
 }

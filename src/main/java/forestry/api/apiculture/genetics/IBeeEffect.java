@@ -9,9 +9,9 @@ import com.mojang.serialization.MapCodec;
 import forestry.api.ForestryRegistries;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
-import forestry.api.genetics.IEffectData;
-import forestry.api.genetics.IGenome;
-import forestry.core.render.ParticleRender;
+import forestry.api.core.genetics.IEffectData;
+import forestry.api.core.genetics.IGenome;
+import forestry.api.client.IForestryClientApi;
 import net.minecraft.core.BlockPos;
 
 public interface IBeeEffect extends IEffect {
@@ -73,7 +73,7 @@ public interface IBeeEffect extends IEffect {
 		IBeekeepingLogic beekeepingLogic = housing.getBeekeepingLogic();
 		List<BlockPos> flowerPositions = beekeepingLogic.getFlowerPositions();
 
-		ParticleRender.addBeeHiveFX(housing, genome, flowerPositions);
+		IForestryClientApi.INSTANCE.getBeeManager().addBeeHiveParticles(housing, genome, flowerPositions);
 		return storedData;
 	}
 }

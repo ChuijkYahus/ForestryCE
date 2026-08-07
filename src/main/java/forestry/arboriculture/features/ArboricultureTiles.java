@@ -1,13 +1,13 @@
 package forestry.arboriculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.arboriculture.tiles.TileFruitPod;
-import forestry.arboriculture.tiles.TileLeaves;
-import forestry.arboriculture.tiles.TileSapling;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.FeatureTileType;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.arboriculture.fruit.TileFruitPod;
+import forestry.arboriculture.leaves.TileLeaves;
+import forestry.arboriculture.sapling.TileSapling;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.FeatureTileType;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 
 import java.util.stream.Stream;

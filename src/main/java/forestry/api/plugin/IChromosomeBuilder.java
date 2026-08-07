@@ -1,6 +1,6 @@
 package forestry.api.plugin;
 
-import forestry.api.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.Allele;
 
 /**
  * Interface for customizing a default chromosome in a karyotype.

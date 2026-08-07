@@ -3,29 +3,32 @@ package forestry.apiimpl;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.hives.IHiveManager;
 import forestry.api.arboriculture.ITreeManager;
-import forestry.api.circuits.ICircuitManager;
-import forestry.api.climate.IClimateManager;
+import forestry.api.core.circuits.ICircuitManager;
+import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
-import forestry.api.farming.IFarmingManager;
-import forestry.api.genetics.IGeneticManager;
-import forestry.api.genetics.filter.IFilterManager;
-import forestry.api.genetics.pollen.IPollenManager;
+import forestry.api.agriculture.IFarmingManager;
+import forestry.api.core.genetics.IFlowerTypeManager;
+import forestry.api.core.genetics.IGeneticManager;
+import forestry.core.engine.genetics.ForestryFlowerTypeManager;
+import forestry.api.core.genetics.filter.IFilterManager;
+import forestry.api.core.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
-import forestry.apiculture.hives.HiveManager;
-import forestry.arboriculture.TreeManager;
-import forestry.core.circuits.CircuitManager;
-import forestry.core.climate.ForestryClimateManager;
-import forestry.core.errors.ErrorManager;
-import forestry.farming.FarmingManager;
+import forestry.apiimpl.fake.FakeFarmingManager;
+import forestry.core.engine.circuits.CircuitManager;
+import forestry.core.engine.climate.ForestryClimateManager;
+import forestry.core.platform.errors.ErrorManager;
 import forestry.modules.ForestryModuleManager;
-import forestry.sorting.FilterManager;
+import forestry.core.content.sorting.FilterManager;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 public class ForestryApiImpl implements IForestryApi {
 	private final IModuleManager moduleManager = new ForestryModuleManager();
-	@Nullable
-	private IFarmingManager farmingManager;
+	// Farms is the one optional jar with a manager, so this starts at the no-op and ModuleFarming
+	// overwrites it. See IForestryModule.installManagers. Hives and trees are base content and are
+	// always installed, so they stay null until they are, and asking early is a bug rather than an
+	// empty world
+	private IFarmingManager farmingManager = FakeFarmingManager.INSTANCE;
 	private final IClimateManager biomeManager = new ForestryClimateManager();
 	@Nullable
 	private IHiveManager hiveManager;
@@ -33,6 +36,9 @@ public class ForestryApiImpl implements IForestryApi {
 	private ITreeManager treeManager;
 	@Nullable
 	private IGeneticManager geneticManager;
+	// Flower types are shared by bees and butterflies, so base always owns a real one, ready before
+	// anything can ask for it
+	private final ForestryFlowerTypeManager flowerTypeManager = new ForestryFlowerTypeManager();
 	@Nullable
 	private IErrorManager errorManager;
 	@Nullable
@@ -49,11 +55,7 @@ public class ForestryApiImpl implements IForestryApi {
 
 	@Override
 	public IFarmingManager getFarmingManager() {
-		IFarmingManager manager = this.farmingManager;
-		if (manager == null) {
-			throw new IllegalStateException("IFarmingManager not initialized yet");
-		}
-		return manager;
+		return this.farmingManager;
 	}
 
 	@Override
@@ -95,6 +97,11 @@ public class ForestryApiImpl implements IForestryApi {
 			throw new IllegalStateException("IFilterManager not initialized yet. Wait until after item registration has finished");
 		}
 		return manager;
+	}
+
+	@Override
+	public IFlowerTypeManager getFlowerTypeManager() {
+		return this.flowerTypeManager;
 	}
 
 	@Override
@@ -145,17 +152,17 @@ public class ForestryApiImpl implements IForestryApi {
 	}
 
 	@ApiStatus.Internal
-	public void setFarmingManager(FarmingManager farmingManager) {
+	public void setFarmingManager(IFarmingManager farmingManager) {
 		this.farmingManager = farmingManager;
 	}
 
 	@ApiStatus.Internal
-	public void setHiveManager(HiveManager hiveManager) {
+	public void setHiveManager(IHiveManager hiveManager) {
 		this.hiveManager = hiveManager;
 	}
 
 	@ApiStatus.Internal
-	public void setTreeManager(TreeManager treeManager) {
+	public void setTreeManager(ITreeManager treeManager) {
 		this.treeManager = treeManager;
 	}
 

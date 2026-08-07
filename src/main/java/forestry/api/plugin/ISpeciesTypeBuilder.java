@@ -1,6 +1,6 @@
 package forestry.api.plugin;
 
-import forestry.api.genetics.ILifeStage;
+import forestry.api.core.genetics.ILifeStage;
 import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.ApiStatus;

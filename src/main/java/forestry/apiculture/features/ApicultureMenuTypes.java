@@ -1,11 +1,15 @@
 package forestry.apiculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.gui.*;
-import forestry.modules.features.FeatureMenuType;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.apiculture.alveary.ContainerAlveary;
+import forestry.apiculture.alveary.ContainerAlvearyHygroregulator;
+import forestry.apiculture.alveary.ContainerAlvearySieve;
+import forestry.apiculture.alveary.ContainerAlvearySwarmer;
+import forestry.apiculture.bees.ContainerBeeHousing;
+import forestry.core.platform.registration.FeatureMenuType;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 
 @FeatureProvider
 public class ApicultureMenuTypes {

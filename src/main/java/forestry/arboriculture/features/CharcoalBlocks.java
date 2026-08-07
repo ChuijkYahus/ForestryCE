@@ -1,15 +1,15 @@
 package forestry.arboriculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.arboriculture.blocks.BlockAsh;
-import forestry.arboriculture.blocks.BlockCharcoal;
-import forestry.arboriculture.blocks.DecorativeLogPileBlock;
-import forestry.arboriculture.blocks.LogPileBlock;
-import forestry.core.items.ItemBlockForestry;
-import forestry.modules.features.FeatureBlock;
-import forestry.modules.features.FeatureProvider;
-import forestry.modules.features.IFeatureRegistry;
-import forestry.modules.features.ModFeatureRegistry;
+import forestry.arboriculture.charcoal.BlockAsh;
+import forestry.arboriculture.charcoal.BlockCharcoal;
+import forestry.arboriculture.charcoal.DecorativeLogPileBlock;
+import forestry.arboriculture.charcoal.LogPileBlock;
+import forestry.core.platform.item.ItemBlockForestry;
+import forestry.core.platform.registration.FeatureBlock;
+import forestry.core.platform.registration.FeatureProvider;
+import forestry.core.platform.registration.IFeatureRegistry;
+import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockBehaviour;

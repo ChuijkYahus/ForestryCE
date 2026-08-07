@@ -9,61 +9,49 @@ import forestry.api.arboriculture.ITreeManager;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.circuits.ICircuit;
-import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockTypeApiculture;
-import forestry.apiculture.blocks.NaturalistChestBlockType;
+import forestry.api.core.circuits.ICircuit;
+import forestry.apiculture.features.ApicultureCrates;
+import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.core.platform.block.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.EnumPollenCluster;
-import forestry.apiculture.items.EnumPropolis;
-import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.VanillaWoodType;
-import forestry.arboriculture.WoodAccess;
+import forestry.apiculture.bees.EnumHoneyComb;
+import forestry.apiculture.bees.EnumPollenCluster;
+import forestry.apiculture.bees.EnumPropolis;
+import forestry.arboriculture.wood.ForestryWoodType;
+import forestry.arboriculture.wood.VanillaWoodType;
+import forestry.arboriculture.wood.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.blocks.BlockTypeCoreTesr;
-import forestry.core.blocks.EnumResourceType;
-import forestry.core.circuits.EnumCircuitBoardType;
-import forestry.core.circuits.ItemCircuitBoard;
-import forestry.core.config.Constants;
-import forestry.core.config.Preference;
+import forestry.core.platform.block.BlockTypeCoreTesr;
+import forestry.core.content.resources.EnumResourceType;
+import forestry.core.engine.circuits.EnumCircuitBoardType;
+import forestry.core.engine.circuits.ItemCircuitBoard;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.config.Preference;
 import forestry.core.data.builder.*;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
-import forestry.core.fluids.ForestryFluids;
-import forestry.core.items.definitions.EnumContainerType;
-import forestry.core.items.definitions.EnumCraftingMaterial;
-import forestry.core.items.definitions.EnumElectronTube;
-import forestry.core.utils.ModUtil;
-import forestry.core.utils.SpeciesUtil;
-import forestry.cultivation.blocks.BlockTypePlanter;
-import forestry.cultivation.features.CultivationBlocks;
-import forestry.energy.blocks.EngineBlockType;
-import forestry.energy.features.EnergyBlocks;
-import forestry.factory.blocks.BlockTypeFactoryPlain;
-import forestry.factory.blocks.BlockTypeFactoryTesr;
-import forestry.factory.features.FactoryBlocks;
-import forestry.farming.blocks.EnumFarmBlockType;
-import forestry.farming.blocks.EnumFarmMaterial;
-import forestry.farming.features.FarmingBlocks;
-import forestry.lepidopterology.features.LepidopterologyItems;
-import forestry.lepidopterology.recipe.ButterflyMatingRecipe;
-import forestry.mail.blocks.BlockTypeMail;
-import forestry.mail.features.MailBlocks;
-import forestry.mail.features.MailItems;
-import forestry.mail.items.EnumStampDefinition;
-import forestry.mail.items.LetterItem;
-import forestry.mail.items.ItemStamp;
-import forestry.modules.features.FeatureItem;
-import forestry.sorting.features.SortingBlocks;
-import forestry.storage.features.BackpackItems;
-import forestry.storage.features.CrateItems;
-import forestry.storage.items.ItemCrated;
-import forestry.worktable.features.WorktableBlocks;
+import forestry.core.platform.fluids.ForestryFluids;
+import forestry.core.platform.item.EnumContainerType;
+import forestry.core.content.resources.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumElectronTube;
+import forestry.core.platform.util.ModUtil;
+import forestry.core.platform.util.SpeciesUtil;
+import forestry.core.content.energy.blocks.EngineBlockType;
+import forestry.core.content.energy.features.EnergyBlocks;
+import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
+import forestry.core.content.machines.features.FactoryBlocks;
+import forestry.core.platform.registration.FeatureItem;
+import forestry.core.content.sorting.features.SortingBlocks;
+import forestry.core.content.backpacks.features.BackpackItems;
+import forestry.core.content.backpacks.features.CrateItems;
+import forestry.core.content.backpacks.items.ItemCrated;
+import forestry.core.content.worktable.features.WorktableBlocks;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.Util;
 import net.minecraft.core.NonNullList;
@@ -96,6 +84,7 @@ import thedarkcolour.modkit.data.MKRecipeProvider;
 
 import java.util.List;
 
+import static forestry.core.data.recipe.RecipeIds.id;
 import static thedarkcolour.modkit.data.MKRecipeProvider.ingredient;
 import static thedarkcolour.modkit.data.MKRecipeProvider.path;
 
@@ -125,12 +114,8 @@ public class ForestryRecipeProvider {
 		registerBackpackRecipes(recipes);
 		registerCharcoalRecipes(recipes);
 		registerCoreRecipes(recipes);
-		registerCultivationRecipes(recipes);
 		registerFactoryRecipes(recipes);
-		registerFarmingRecipes(recipes);
 		registerFluidsRecipes(output);
-		registerLepidopterologyRecipes(recipes);
-		registerMailRecipes(recipes);
 		registerSortingRecipes(recipes);
 		registerWorktableRecipes(recipes);
 		registerEnergyRecipes(recipes);
@@ -320,7 +305,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("# #");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.TOOLS, ApicultureItems.SCOOP, recipe -> {
+		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SCOOP, recipe -> {
 			recipe.define('#', Tags.Items.RODS_WOODEN);
 			recipe.define('X', ItemTags.WOOL);
 			recipe.pattern("#X#");
@@ -347,8 +332,8 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting("glistering_melon_slice", RecipeCategory.MISC, Items.GLISTERING_MELON_SLICE, recipe -> {
-			recipe.define('#', ApicultureItems.HONEY_DROP);
-			recipe.define('X', ApicultureItems.HONEYDEW);
+			recipe.define('#', CoreItems.HONEY_DROP);
+			recipe.define('X', CoreItems.HONEYDEW);
 			recipe.define('Y', Items.MELON_SLICE);
 			recipe.pattern("#X#");
 			recipe.pattern("#Y#");
@@ -481,10 +466,10 @@ public class ForestryRecipeProvider {
 
 	private static void registerFoodRecipes(MKRecipeProvider recipes) {
 		ItemLike waxCapsule = FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE);
-		ItemLike honeyDrop = ApicultureItems.HONEY_DROP;
+		ItemLike honeyDrop = CoreItems.HONEY_DROP;
 
 		recipes.shapedCrafting(RecipeCategory.FOOD, ApicultureItems.AMBROSIA, recipe -> {
-			recipe.define('#', ApicultureItems.HONEYDEW);
+			recipe.define('#', CoreItems.HONEYDEW);
 			recipe.define('X', ApicultureItems.ROYAL_JELLY);
 			recipe.define('Y', waxCapsule);
 			recipe.pattern("#Y#");
@@ -814,7 +799,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting("honey_drop_block", RecipeCategory.MISC, Items.HONEY_BLOCK, 1, recipe -> {
-			recipe.define('V', ApicultureItems.HONEY_DROP);
+			recipe.define('V', CoreItems.HONEY_DROP);
 			recipe.pattern("VVV");
 			recipe.pattern("V V");
 			recipe.pattern("VVV");
@@ -835,9 +820,8 @@ public class ForestryRecipeProvider {
 		});
 
 		// Books
-		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
+		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, CoreItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
-		recipes.shapelessCrafting("foresters_manual_butterfly", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, LepidopterologyItems.BUTTERFLY_GE);
 	}
 
 	private static void bogRecipe(MKRecipeProvider recipes, int amount, ItemStack container, String name) {
@@ -862,37 +846,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern("#X#");
 			recipe.pattern(" # ");
 		});
-	}
-
-	private static EnumElectronTube getElectronTube(BlockTypePlanter planter) {
-		return switch (planter) {
-			case ARBORETUM -> EnumElectronTube.GOLD;
-			case FARM_CROPS -> EnumElectronTube.BRONZE;
-			case PEAT_POG -> EnumElectronTube.OBSIDIAN;
-			case FARM_MUSHROOM -> EnumElectronTube.APATITE;
-			case FARM_GOURD -> EnumElectronTube.LAPIS;
-			case FARM_NETHER -> EnumElectronTube.BLAZE;
-			case FARM_ENDER -> EnumElectronTube.ENDER;
-		};
-	}
-
-	private static void registerCultivationRecipes(MKRecipeProvider recipes) {
-		for (BlockTypePlanter planter : BlockTypePlanter.VALUES) {
-			Block managed = CultivationBlocks.MANAGED_PLANTER.get(planter).block();
-			Block manual = CultivationBlocks.MANUAL_PLANTER.get(planter).block();
-
-			recipes.shapedCrafting(RecipeCategory.MISC, managed, recipe -> {
-				recipe.define('G', Tags.Items.GLASS_BLOCKS_COLORLESS);
-				recipe.define('T', CoreItems.ELECTRON_TUBES.get(getElectronTube(planter)));
-				recipe.define('C', CoreItems.FLEXIBLE_CASING);
-				recipe.define('B', CoreItems.CIRCUITBOARDS.get(EnumCircuitBoardType.BASIC));
-				recipe.pattern("GTG");
-				recipe.pattern("TCT");
-				recipe.pattern("GBG");
-			});
-			recipes.shapelessCrafting(RecipeCategory.MISC, manual, 1, managed);
-			recipes.shapelessCrafting(path(managed) + "_from_manual", RecipeCategory.MISC, managed, 1, manual);
-		}
 	}
 
 	private static void registerFactoryRecipes(MKRecipeProvider recipes) {
@@ -988,47 +941,6 @@ public class ForestryRecipeProvider {
 		});
 	}
 
-	private static void registerFarmingRecipes(MKRecipeProvider recipes) {
-		for (EnumFarmMaterial material : EnumFarmMaterial.values()) {
-			Item base = material.getBase().asItem();
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.PLAIN, material), recipe -> {
-				recipe.define('I', Tags.Items.INGOTS_COPPER);
-				recipe.define('#', base);
-				recipe.define('C', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.TIN));
-				recipe.define('W', ItemTags.WOODEN_SLABS);
-				recipe.pattern("I#I");
-				recipe.pattern("WCW");
-			});
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.GEARBOX, material), recipe -> {
-				recipe.define('T', ForestryTags.Items.GEARS_TIN);
-				recipe.define('#', base);
-				recipe.pattern(" # ");
-				recipe.pattern("TTT");
-			});
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.HATCH, material), recipe -> {
-				recipe.define('T', ForestryTags.Items.GEARS_TIN);
-				recipe.define('#', base);
-				recipe.define('D', ItemTags.WOODEN_TRAPDOORS);
-				recipe.pattern(" # ");
-				recipe.pattern("TDT");
-			});
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.VALVE, material), recipe -> {
-				recipe.define('T', ForestryTags.Items.GEARS_TIN);
-				recipe.define('#', base);
-				recipe.define('X', Tags.Items.GLASS_BLOCKS_COLORLESS);
-				recipe.pattern(" # ");
-				recipe.pattern("XTX");
-			});
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.CONTROL, material), recipe -> {
-				recipe.define('T', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.GOLD));
-				recipe.define('#', base);
-				recipe.define('X', Tags.Items.DUSTS_REDSTONE);
-				recipe.pattern(" # ");
-				recipe.pattern("XTX");
-			});
-		}
-	}
-
 	private static void registerFluidsRecipes(RecipeOutput output) {
 		// Bypass MKRecipeProvider's shapedCrafting wrapper here: its
 		// attemptAutoCriterion calls Ingredient#getValues, which throws on
@@ -1049,73 +961,12 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void registerLepidopterologyRecipes(MKRecipeProvider recipes) {
-		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST), recipe -> {
-			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
-			recipe.define('X', LepidopterologyItems.BUTTERFLY_GE);
-			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
-			recipe.pattern(" # ");
-			recipe.pattern("XYX");
-			recipe.pattern("XXX");
-		});
-		recipes.special("butterfly_mating", category -> new ButterflyMatingRecipe(category));
-	}
-
-	private static void registerMailRecipes(MKRecipeProvider recipes) {
-		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.CATALOGUE, 1, Items.BOOK, ForestryTags.Items.STAMPS);
-		Ingredient sealant = CompoundIngredient.of(Ingredient.of(ForestryTags.Items.PROPOLIS), Ingredient.of(Tags.Items.SLIMEBALLS));
-		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH), 1, Items.PAPER, sealant);
-
-		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.MAILBOX).block(), recipe -> {
-			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
-			recipe.define('X', Tags.Items.CHESTS_WOODEN);
-			recipe.define('Y', CoreItems.STURDY_CASING);
-			recipe.pattern(" # ");
-			recipe.pattern("#Y#");
-			recipe.pattern("XXX");
-		});
-
-		Item[] emptiedLetter = MailItems.LETTERS.getRowFeatures(LetterItem.Size.EMPTY).stream()
-			.map(FeatureItem::item)
-			.toArray(Item[]::new);
-		recipes.shapedCrafting("paper_from_letters", RecipeCategory.MISC, Items.PAPER, recipe -> {
-			recipe.define('#', Ingredient.of(emptiedLetter));
-			recipe.pattern(" # ");
-			recipe.pattern(" # ");
-			recipe.pattern(" # ");
-		});
-
-		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.TRADE_STATION).block(), recipe -> {
-			recipe.define('#', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.BRONZE));
-			recipe.define('X', Tags.Items.CHESTS_WOODEN);
-			recipe.define('Y', CoreItems.STURDY_CASING);
-			recipe.define('Z', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.IRON));
-			recipe.define('W', DataComponentIngredient.of(true, ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.REFINED, null, new ICircuit[]{})));
-			recipe.pattern("Z#Z");
-			recipe.pattern("#Y#");
-			recipe.pattern("XWX");
-		});
-
-		Ingredient glue = CompoundIngredient.of(
-			Ingredient.of(ForestryTags.Items.DROP_HONEY),
-			Ingredient.of(Items.SLIME_BALL)
-		);
-
-		for (EnumStampDefinition stampDefinition : EnumStampDefinition.VALUES) {
-			recipes.shapedCrafting(RecipeCategory.MISC, MailItems.STAMPS.get(stampDefinition), 9, recipe -> {
-				recipe.define('X', stampDefinition.getCraftingIngredient());
-				recipe.define('#', Items.PAPER);
-				recipe.define('Z', glue);
-				recipe.pattern("XXX");
-				recipe.pattern("###");
-				recipe.pattern("ZZZ");
-			});
-		}
-	}
-
 	private static void registerSortingRecipes(MKRecipeProvider recipes) {
+		// Named as a tag rather than as the two items, because the filter is a core machine and those
+		// items live in apiculture and lepidopterology. An absent item fails the recipe to parse; an
+		// absent tag just resolves empty, so this crafts with whichever jars are installed
 		Ingredient ing = CompoundIngredient.of(
-			Ingredient.of(LepidopterologyItems.CATERPILLAR_GE, ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)),
+			Ingredient.of(ForestryTags.Items.GENETIC_SAMPLES),
 			Ingredient.of(ForestryTags.Items.FORESTRY_FRUITS)
 		);
 
@@ -1253,7 +1104,7 @@ public class ForestryRecipeProvider {
 				.define('#', ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL))
 				.define('X', Items.GUNPOWDER)
 				.define('Y', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
-				.define('Z', ApicultureItems.HONEY_DROP))
+				.define('Z', CoreItems.HONEY_DROP))
 			.build(consumer, id("carpenter", "iodine_charge"));
 		new CarpenterRecipeBuilder()
 			.setLiquid(new FluidStack(Fluids.WATER, 1000))
@@ -1265,7 +1116,7 @@ public class ForestryRecipeProvider {
 				.define('#', ApicultureItems.ROYAL_JELLY)
 				.define('X', Items.GUNPOWDER)
 				.define('Y', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
-				.define('Z', ApicultureItems.HONEYDEW))
+				.define('Z', CoreItems.HONEYDEW))
 			.build(consumer, id("carpenter", "dissipation_charge"));
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(100)
@@ -1416,20 +1267,6 @@ public class ForestryRecipeProvider {
 				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 			.build(consumer, id("carpenter", "carton"));
 
-		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
-			FeatureItem<ItemStamp> item = MailItems.STAMPS.get(stamp);
-
-			new CarpenterRecipeBuilder()
-				.setLiquid(ForestryFluids.SEED_OIL.getFluid(300))
-				.setBox(Ingredient.EMPTY)
-				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, item, 9)
-					.pattern("###")
-					.pattern("PPP")
-					.define('#', stamp.getCraftingIngredient())
-					.define('P', Items.PAPER))
-				.build(consumer, id("carpenter", item.getName()));
-		}
-
 		ItemStack basic = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.BASIC, null, new ICircuit[]{});
 		ItemStack enhanced = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.ENHANCED, null, new ICircuit[]{});
 		ItemStack refined = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.REFINED, null, new ICircuit[]{});
@@ -1579,25 +1416,15 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_BEESWAX.get(), Ingredient.of(CoreItems.BEESWAX));
 		crate(consumer, CrateItems.CRATED_REFRACTORY_WAX.get(), Ingredient.of(CoreItems.REFRACTORY_WAX));
 
-		crate(consumer, CrateItems.CRATED_POLLEN_CLUSTER_NORMAL.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL)));
-		crate(consumer, CrateItems.CRATED_POLLEN_CLUSTER_CRYSTALLINE.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.CRYSTALLINE)));
-		crate(consumer, CrateItems.CRATED_PROPOLIS.get(), Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)));
-		crate(consumer, CrateItems.CRATED_HONEYDEW.get(), Ingredient.of(ApicultureItems.HONEYDEW));
-		crate(consumer, CrateItems.CRATED_ROYAL_JELLY.get(), Ingredient.of(ApicultureItems.ROYAL_JELLY));
+		crate(consumer, ApicultureCrates.CRATED_POLLEN_CLUSTER_NORMAL.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL)));
+		crate(consumer, ApicultureCrates.CRATED_POLLEN_CLUSTER_CRYSTALLINE.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.CRYSTALLINE)));
+		crate(consumer, ApicultureCrates.CRATED_PROPOLIS.get(), Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)));
+		crate(consumer, CrateItems.CRATED_HONEYDEW.get(), Ingredient.of(CoreItems.HONEYDEW));
+		crate(consumer, ApicultureCrates.CRATED_ROYAL_JELLY.get(), Ingredient.of(ApicultureItems.ROYAL_JELLY));
 
 		for (EnumHoneyComb comb : EnumHoneyComb.VALUES) {
-			crate(consumer, CrateItems.CRATED_BEE_COMBS.get(comb).get(), Ingredient.of(ApicultureItems.BEE_COMBS.get(comb)));
+			crate(consumer, ApicultureCrates.CRATED_BEE_COMBS.get(comb).get(), Ingredient.of(ApicultureItems.BEE_COMBS.get(comb)));
 		}
-
-		new CarpenterRecipeBuilder()
-			.setPackagingTime(10)
-			.setLiquid(new FluidStack(Fluids.WATER, 250))
-			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH).item())
-				.pattern("###")
-				.pattern("###")
-				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
-			.build(consumer, id("carpenter", "letter_pulp"));
 
 		wovenBackpack(consumer, "miner", BackpackItems.MINER_BACKPACK, BackpackItems.MINER_BACKPACK_T_2);
 		wovenBackpack(consumer, "digger", BackpackItems.DIGGER_BACKPACK, BackpackItems.DIGGER_BACKPACK_T_2);
@@ -1645,7 +1472,7 @@ public class ForestryRecipeProvider {
 
 	private static void registerCentrifuge(RecipeOutput consumer) {
 
-		ItemStack honeyDrop = ApicultureItems.HONEY_DROP.stack();
+		ItemStack honeyDrop = CoreItems.HONEY_DROP.stack();
 
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -1674,7 +1501,7 @@ public class ForestryRecipeProvider {
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.DRIPPING)))
-			.product(1.0f, ApicultureItems.HONEYDEW.stack())
+			.product(1.0f, CoreItems.HONEYDEW.stack())
 			.product(0.4f, honeyDrop)
 			.build(consumer, id("centrifuge", "dripping_comb"));
 		new CentrifugeRecipeBuilder()
@@ -1732,7 +1559,7 @@ public class ForestryRecipeProvider {
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MELLOW)))
-			.product(0.6f, ApicultureItems.HONEYDEW.stack())
+			.product(0.6f, CoreItems.HONEYDEW.stack())
 			.product(0.2f, CoreItems.BEESWAX.stack())
 			.product(0.3f, new ItemStack(Items.QUARTZ))
 			.build(consumer, id("centrifuge", "mellow_comb"));
@@ -1740,7 +1567,7 @@ public class ForestryRecipeProvider {
 			.setProcessingTime(20)
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE)))
 			.product(1.0f, CoreItems.BEESWAX.stack())
-			.product(0.9f, ApicultureItems.HONEYDEW.stack())
+			.product(0.9f, CoreItems.HONEYDEW.stack())
 			.product(0.5f, CoreItems.AMBER.stack())
 			.build(consumer, id("centrifuge", "vintage_comb"));
 		new CentrifugeRecipeBuilder()
@@ -1995,7 +1822,7 @@ public class ForestryRecipeProvider {
 	private static void registerFermenter(RecipeOutput consumer) {
 		// Apiculture
 		new FermenterRecipeBuilder()
-			.setResource(Ingredient.of(ApicultureItems.HONEYDEW))
+			.setResource(Ingredient.of(CoreItems.HONEYDEW))
 			.setFermentationValue(500)
 			.setOutput(ForestryFluids.SHORT_MEAD.getFluid())
 			.setFluidResource(ForestryFluids.HONEY.getFluid(1))
@@ -2104,7 +1931,7 @@ public class ForestryRecipeProvider {
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
-			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEY_DROP)))
+			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEY_DROP)))
 			.setFluidOutput(honeyDropFluid)
 			.setRemnants(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
 			.setRemnantsChance(5 / 100f)
@@ -2125,7 +1952,7 @@ public class ForestryRecipeProvider {
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
-			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEYDEW)))
+			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEYDEW)))
 			.setFluidOutput(honeyDropFluid)
 			.build(consumer, id("squeezer", "honey_dew"));
 
@@ -2305,9 +2132,5 @@ public class ForestryRecipeProvider {
 			.setInput(biomass)
 			.setOutput(ethanol)
 			.build(consumer, id("still", "ethanol"));
-	}
-
-	private static ResourceLocation id(String... path) {
-		return ResourceLocation.fromNamespaceAndPath("forestry", String.join("/", path));
 	}
 }

@@ -16,12 +16,13 @@ import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
-import forestry.core.genetics.SpeciesType;
-import forestry.core.utils.SpeciesUtil;
+import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
+import forestry.core.engine.genetics.SpeciesType;
+import forestry.core.platform.util.SpeciesUtil;
 
 /**
  * Exercises {@code TreeSpeciesType}'s overridden {@code setSpecies} directly, without going through
- * {@code GeneticsReloadHandler.rebuildTreeSpecies}/{@code TreeSpeciesProvider} (Task 8, not yet implemented).
+ * {@code ArboricultureReloadHandler.rebuildTreeSpecies}/{@code TreeSpeciesProvider} (Task 8, not yet implemented).
  * <p>
  * Re-applies the CURRENT full live species map back through {@code setSpecies} (same objects, no identity churn),
  * so the live {@code TREE_TYPE} state is unchanged after this test runs and no restore is needed. This still

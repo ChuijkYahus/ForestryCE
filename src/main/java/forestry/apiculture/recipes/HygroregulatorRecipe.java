@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.api.recipes.IHygroregulatorRecipe;
-import forestry.factory.features.FactoryRecipeTypes;
+import forestry.api.core.machines.IHygroregulatorRecipe;
+import forestry.apiculture.features.ApicultureRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -78,12 +78,12 @@ public class HygroregulatorRecipe implements IHygroregulatorRecipe {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return FactoryRecipeTypes.HYGROREGULATOR.serializer();
+		return ApicultureRecipeTypes.HYGROREGULATOR.serializer();
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return FactoryRecipeTypes.HYGROREGULATOR.type();
+		return ApicultureRecipeTypes.HYGROREGULATOR.type();
 	}
 
 	public static class Serializer implements RecipeSerializer<HygroregulatorRecipe> {
