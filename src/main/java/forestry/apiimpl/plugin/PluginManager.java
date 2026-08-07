@@ -233,7 +233,7 @@ public class PluginManager {
 		}
 
 		// Each module builds its own client manager from the completed registration and installs it
-		// over the no-op. See IForestryModule.installClientManagers
+		// here. See IForestryModule.installClientManagers
 		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
 			module.installClientManagers(registration);
 		}

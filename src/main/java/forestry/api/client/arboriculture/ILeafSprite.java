@@ -7,8 +7,7 @@ import net.minecraft.resources.ResourceLocation;
  */
 public interface ILeafSprite {
 	/**
-	 * The sprite used when no leaf sprite is registered for a species, and by the no-op tree client
-	 * manager that base installs when the arboriculture module is absent.
+	 * The sprite used when no leaf sprite is registered for a species.
 	 *
 	 * @since 2.10.0
 	 */

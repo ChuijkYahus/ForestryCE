@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface IFarmingManager {
 	/**
-	 * Used to check whether the module that supplies this manager is installed. Base ships a no-op
-	 * implementation of every manager whose module can be absent, so this returns {@code false}
-	 * rather than the getter returning null or throwing.
+	 * Used to check whether the farms jar is installed. Base ships a no-op farming manager, so this
+	 * returns {@code false} rather than the getter returning null or throwing. Every other api manager
+	 * comes from base and is always real.
 	 *
 	 * @return Whether a real implementation is installed
 	 * @since 2.10.0

@@ -15,18 +15,6 @@ import java.util.List;
  */
 public interface IBeeClientManager {
 	/**
-	 * Used to check whether the module that supplies this manager is installed. Base ships a no-op
-	 * implementation of every manager whose module can be absent, so this returns {@code false}
-	 * rather than the getter returning null or throwing.
-	 *
-	 * @return Whether a real implementation is installed
-	 * @since 2.10.0
-	 */
-	default boolean isLoaded() {
-		return true;
-	}
-
-	/**
 	 * Retrieves the model location used to display a bee of the given species and life stage.
 	 * To add a custom model for your bee, use {@link forestry.api.client.plugin.IClientRegistration#setCustomBeeModel}.
 	 * If no custom model is set for the species, then the default model for the given life stage will be used instead, which is set by

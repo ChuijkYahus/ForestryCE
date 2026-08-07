@@ -83,8 +83,8 @@ public interface IForestryModule {
 
 	/**
 	 * Called after item registration, in module load order. Modules build their manager from the
-	 * plugin data and install it here. Base ships a no-op for every manager whose module can be
-	 * absent, so a module that does not implement this leaves the no-op in place.
+	 * plugin data and install it here. Farming is the only manager whose module ships in an optional
+	 * jar, so it is the only one base leaves a no-op in place of.
 	 */
 	default void installManagers() {
 	}

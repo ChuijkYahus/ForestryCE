@@ -9,8 +9,10 @@ import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 
 /**
- * Asserts that the managers installed in a full install report themselves loaded. The no-op
- * implementations report false; see NoOpManagerTest for the other side of the contract.
+ * Asserts that every api manager is installed by the time a world is running. Farming is the one that
+ * can legitimately be a no-op, so it is asked directly; see NoOpManagerTest for that side of the
+ * contract. Hives and trees come from base and are installed during species type registration, so the
+ * getter throwing here is the initialization-order failure the no-ops used to hide.
  */
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
@@ -21,12 +23,11 @@ public class ManagerLoadedTest {
 			helper.fail("IFarmingManager reports not loaded in a full install");
 			return;
 		}
-		if (!IForestryApi.INSTANCE.getHiveManager().isLoaded()) {
-			helper.fail("IHiveManager reports not loaded in a full install");
-			return;
-		}
-		if (!IForestryApi.INSTANCE.getTreeManager().isLoaded()) {
-			helper.fail("ITreeManager reports not loaded in a full install");
+		try {
+			IForestryApi.INSTANCE.getHiveManager();
+			IForestryApi.INSTANCE.getTreeManager();
+		} catch (IllegalStateException e) {
+			helper.fail("A base manager was never installed: " + e.getMessage());
 			return;
 		}
 		helper.succeed();

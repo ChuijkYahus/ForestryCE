@@ -14,8 +14,6 @@ import forestry.api.core.genetics.filter.IFilterManager;
 import forestry.api.core.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
 import forestry.apiimpl.fake.FakeFarmingManager;
-import forestry.apiimpl.fake.FakeHiveManager;
-import forestry.apiimpl.fake.FakeTreeManager;
 import forestry.core.engine.circuits.CircuitManager;
 import forestry.core.engine.climate.ForestryClimateManager;
 import forestry.core.platform.errors.ErrorManager;
@@ -26,16 +24,20 @@ import org.jetbrains.annotations.Nullable;
 
 public class ForestryApiImpl implements IForestryApi {
 	private final IModuleManager moduleManager = new ForestryModuleManager();
-	// The three managers whose module can be absent start at their no-op, and the owning module
-	// overwrites them. See IForestryModule.installManagers
+	// Farms is the one optional jar with a manager, so this starts at the no-op and ModuleFarming
+	// overwrites it. See IForestryModule.installManagers. Hives and trees are base content and are
+	// always installed, so they stay null until they are, and asking early is a bug rather than an
+	// empty world
 	private IFarmingManager farmingManager = FakeFarmingManager.INSTANCE;
 	private final IClimateManager biomeManager = new ForestryClimateManager();
-	private IHiveManager hiveManager = FakeHiveManager.INSTANCE;
-	private ITreeManager treeManager = FakeTreeManager.INSTANCE;
+	@Nullable
+	private IHiveManager hiveManager;
+	@Nullable
+	private ITreeManager treeManager;
 	@Nullable
 	private IGeneticManager geneticManager;
-	// Flower types are shared by bees and butterflies, so base always owns a real one. Unlike the
-	// three module-backed managers this is never a no-op: there is no jar whose absence removes it
+	// Flower types are shared by bees and butterflies, so base always owns a real one, ready before
+	// anything can ask for it
 	private final ForestryFlowerTypeManager flowerTypeManager = new ForestryFlowerTypeManager();
 	@Nullable
 	private IErrorManager errorManager;
@@ -72,12 +74,20 @@ public class ForestryApiImpl implements IForestryApi {
 
 	@Override
 	public IHiveManager getHiveManager() {
-		return this.hiveManager;
+		IHiveManager manager = this.hiveManager;
+		if (manager == null) {
+			throw new IllegalStateException("IHiveManager not initialized yet");
+		}
+		return manager;
 	}
 
 	@Override
 	public ITreeManager getTreeManager() {
-		return this.treeManager;
+		ITreeManager manager = this.treeManager;
+		if (manager == null) {
+			throw new IllegalStateException("ITreeManager not initialized yet");
+		}
+		return manager;
 	}
 
 	@Override
