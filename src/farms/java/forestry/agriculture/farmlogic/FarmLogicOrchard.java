@@ -123,7 +123,7 @@ public class FarmLogicOrchard extends FarmLogic {
 		IFruitBearer fruitBearer = TileUtil.getTile(world, position, IFruitBearer.class);
 
 		if (fruitBearer != null) {
-			if (fruitBearer.hasFruit() && fruitBearer.getRipeness() >= 0.9f) {
+			if (fruitBearer.hasFruit() && fruitBearer.getRipeness() >= 1.0f) {
 				return new CropFruit(world, position);
 			}
 		} else {
