@@ -27,17 +27,26 @@ public class ForestryEnglishProvider {
 		lang.add(CoreItems.BROKEN_SURVIVALISTS_SWORD.item(), "Broken Survivalist's Sword");
 		lang.add(CoreItems.BROKEN_SURVIVALISTS_HOE.item(), "Broken Survivalist's Hoe");
 
-		// Blocks that deliberately share one descriptionId across many registered variants (farm
-		// materials, pollinated vs default leaves). Auto-generation would otherwise pick a name from
-		// whichever variant it visits first, which is both wrong (e.g. "Farm Hatch Quartz Lines") and
-		// nondeterministic across datagen runs. Name them explicitly.
-		// The letter sizes and states share a descriptionId the same way, and mail names it in
-		// MailData, since mail is the jar that ships the items
+		// Blocks and items that deliberately share one descriptionId across many registered variants
+		// (farm materials, pollinated vs default leaves, letter sizes and states). Auto-generation
+		// would otherwise pick a name from whichever variant it visits first, which is both wrong
+		// (ex. "Farm Hatch Quartz Lines") and nondeterministic across datagen runs. Name them
+		// explicitly. Content-jar keys are named here too, because base writes every key
 		lang.add("block." + ForestryConstants.MOD_ID + ".farm_plain", "Farm Block");
 		lang.add("block." + ForestryConstants.MOD_ID + ".farm_gearbox", "Farm Gearbox");
 		lang.add("block." + ForestryConstants.MOD_ID + ".farm_hatch", "Farm Hatch");
 		lang.add("block." + ForestryConstants.MOD_ID + ".farm_valve", "Farm Valve");
 		lang.add("block." + ForestryConstants.MOD_ID + ".farm_control", "Farm Control");
 		lang.add("block." + ForestryConstants.MOD_ID + ".leaves", "Leaves");
+		lang.add("item." + ForestryConstants.MOD_ID + ".letter", "Letter");
+
+		// The denomination is part of the id, so a generated name reads "Stamp 1n"
+		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_1n", "Stamp (1n)");
+		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_2n", "Stamp (2n)");
+		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_5n", "Stamp (5n)");
+		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_10n", "Stamp (10n)");
+		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_20n", "Stamp (20n)");
+		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_50n", "Stamp (50n)");
+		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_100n", "Stamp (100n)");
 	}
 }

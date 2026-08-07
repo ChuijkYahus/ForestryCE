@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import thedarkcolour.modkit.data.DataHelper;
-import thedarkcolour.modkit.data.MKEnglishProvider;
 import thedarkcolour.modkit.data.ProviderRegistrar;
 
 import forestry.api.ForestryConstants;
@@ -53,8 +52,9 @@ public abstract class ContentJarData implements IForestryDataProvider {
 		// provider here goes in under the jar's name instead
 		ProviderRegistrar registrar = RenamedProvider.under(this.jar);
 
-		// A name is generated for an id this jar's modules registered and for nothing else, so the
-		// lang file lands in the jar shipping the thing it names
+		// An item model is generated for an id this jar's modules registered and for nothing else, so
+		// the model lands in the jar shipping the item it draws. English is not scoped this way; base
+		// writes every key, content ids included. See Data#gatherData
 		Set<ResourceLocation> owned = JarModules.ownedIds(this.moduleIds);
 		DataHelper helper = new DataHelper.Builder(ForestryConstants.MOD_ID, event)
 			.packOutput(output)
@@ -63,9 +63,6 @@ public abstract class ContentJarData implements IForestryDataProvider {
 			.build();
 
 		addProviders(new JarScope(event, output, helper, registrar));
-
-		// Last, so a provider a subclass adds can still seed whatever the names are read off
-		helper.createEnglish(true, this::addTranslations);
 	}
 
 	/**
@@ -74,13 +71,4 @@ public abstract class ContentJarData implements IForestryDataProvider {
 	 * @param jar The pieces this jar's providers are registered from
 	 */
 	protected abstract void addProviders(JarScope jar);
-
-	/**
-	 * Called when this jar's English is written, before any name is generated. A name added here wins,
-	 * since generation fills in only the keys that are still empty.
-	 *
-	 * @param english The provider this jar's {@code en_us} is written by
-	 */
-	protected void addTranslations(MKEnglishProvider english) {
-	}
 }

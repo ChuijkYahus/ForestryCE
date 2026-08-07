@@ -46,8 +46,8 @@ public class Data {
 		PackOutput output = DataRoots.of(event, DataRoots.CORE);
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		// Core takes everything the content jars do not, which is the safe direction: an id registered
-		// outside a feature module still gets its name, and it gets it in the jar that is always installed.
-		// The same set scopes core's names and core's loot, so the two cannot come to disagree
+		// outside a feature module still gets its item model, and it gets it in the jar that is always
+		// installed. The same set scopes core's models and core's loot, so the two cannot come to disagree
 		Set<ResourceLocation> contentOwned = JarModules.ownedIds(contentModules(contentProviders));
 		DataHelper dataHelper = new DataHelper.Builder(ForestryConstants.MOD_ID, event)
 				.packOutput(output)
@@ -55,7 +55,15 @@ public class Data {
 				.build();
 		CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
-		dataHelper.createEnglish(true, ForestryEnglishProvider::addTranslations);
+		// English is the one thing that is not partitioned. Every content jar requires base, so base
+		// can hold every key, which is where the ten hand-written locales beside it already are and
+		// where a translator can find all of them at once. Unfiltered, so it names content ids too.
+		// dataHelper stays scoped because its other job is item models, and a model does have to ship
+		// in the jar registering the item it belongs to
+		new DataHelper.Builder(ForestryConstants.MOD_ID, event)
+				.packOutput(output)
+				.build()
+				.createEnglish(true, ForestryEnglishProvider::addTranslations);
 		dataHelper.createTags(Registries.BLOCK, ForestryBlockTagsProvider::addTags);
 		dataHelper.createTags(Registries.ITEM, (tags, l) -> {
 			ForestryItemTagsProvider.addTags(tags);
