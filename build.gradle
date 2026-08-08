@@ -876,6 +876,22 @@ publishing {
 				artifact javadocJar
 				artifact apiJar
 			}
+
+			contentModules.each { m ->
+				create("maven${m.capitalize()}", MavenPublication) {
+					groupId = project.group
+					artifactId = "forestry${m}-${minecraftVersion}"
+					version = project.version
+					artifact contentJars[m]
+
+					pom.withXml {
+						var dependency = asNode().appendNode('dependencies').appendNode('dependency')
+						dependency.appendNode('groupId', project.group)
+						dependency.appendNode('artifactId', project.base.archivesName.get())
+						dependency.appendNode('version', project.version)
+					}
+				}
+			}
 		}
 	}
 
