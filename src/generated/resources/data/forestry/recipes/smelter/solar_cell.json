@@ -4,7 +4,7 @@
     {
       "count": 3,
       "ingredient": {
-        "tag": "forge:ingots/silicon"
+        "tag": "forge:silicon"
       }
     },
     {
@@ -16,7 +16,7 @@
     {
       "count": 2,
       "ingredient": {
-        "item": "forestry:phosphorescent_jelly"
+        "item": "forestry:effulgent_flakes"
       }
     },
     {

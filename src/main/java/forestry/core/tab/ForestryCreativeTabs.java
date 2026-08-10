@@ -22,12 +22,10 @@ import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.blocks.BlockBurnBarrel;
 import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.blocks.BlockTypeMetalPlating;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.features.CoreTiles;
 import forestry.core.features.FluidsItems;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.EnumContainerType;
@@ -167,7 +165,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.INGOT_TIN);
 		items.accept(CoreItems.INGOT_BRONZE);
-		items.accept(CoreItems.INGOT_SILICON);
+		items.accept(CoreItems.SILICON);
 		// Block forms
 		items.accept(CoreBlocks.RAW_TIN_BLOCK);
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);

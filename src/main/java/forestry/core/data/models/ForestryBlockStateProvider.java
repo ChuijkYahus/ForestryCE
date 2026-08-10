@@ -1,6 +1,5 @@
 package forestry.core.data.models;
 
-import forestry.Forestry;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
 import forestry.apiculture.blocks.BlockBeeHive;
@@ -12,33 +11,25 @@ import forestry.core.blocks.*;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.fluids.ForestryFluids;
-import forestry.core.tiles.TileForestry;
 import forestry.core.utils.ModUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
 import forestry.factory.blocks.BlockFactoryPlain;
-import forestry.factory.blocks.BlockFactoryTESR;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
-import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
-import forestry.factory.features.FactoryTiles;
 import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingBlocks;
-import forestry.modules.features.FeatureTileType;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.checkerframework.checker.units.qual.C;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -96,7 +87,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		generic2d(CoreItems.RAW_TIN);
 		generic2d(CoreItems.INGOT_TIN);
-		generic2d(CoreItems.INGOT_SILICON);
+		generic2d(CoreItems.SILICON);
 		generic2d(CoreItems.GEAR_TIN);
 		generic2d(CoreItems.INGOT_BRONZE);
 		generic2d(CoreItems.GEAR_BRONZE);

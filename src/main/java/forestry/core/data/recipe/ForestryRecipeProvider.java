@@ -65,7 +65,6 @@ import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import forestry.storage.items.ItemCrated;
 import forestry.worktable.features.WorktableBlocks;
-import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.Util;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.NonNullList;
@@ -73,7 +72,6 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -3040,7 +3038,7 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 					new SmelterRecipeBuilder()
 						.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 3)
 						.addIngredient(Ingredient.of(Items.COAL), 2)
-						.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 3)
+						.setOutput(Ingredient.of(ForestryTags.Items.SILICON), 3)
 						.setProcessingTime(1200)
 						.build(id("smelter", "silicon_from_coal")))
 				.build(consumer, id("smelter", "silicon_from_coal"));
@@ -3051,15 +3049,15 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 					new SmelterRecipeBuilder()
 						.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 3)
 						.addIngredient(Ingredient.of(coke), 1)
-						.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 3)
+						.setOutput(Ingredient.of(ForestryTags.Items.SILICON), 3)
 						.setProcessingTime(1200)
 						.build(id("smelter", "silicon_from_coke")))
 				.build(consumer, id("smelter", "silicon_from_coke"));
 
 			new SmelterRecipeBuilder()
-				.addIngredient(Ingredient.of(ForestryTags.Items.INGOTS_SILICON), 3)
+				.addIngredient(Ingredient.of(ForestryTags.Items.SILICON), 3)
 				.addIngredient(Ingredient.of(Tags.Items.GEMS_LAPIS), 4)
-				.addIngredient(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHORESCENT_JELLY)),2)
+				.addIngredient(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.EFFULGENT_FLAKES)),2)
 				.addIngredient(Ingredient.of(ForestryTags.Items.NUGGETS_TIN),3)
 				.setOutput(Ingredient.of(CoreItems.SOLAR_CELL), 3)
 				.setProcessingTime(80)

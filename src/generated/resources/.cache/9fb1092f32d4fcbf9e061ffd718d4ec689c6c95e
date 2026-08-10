@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-05T22:27:48.445158677	Recipes
+// 1.20.1	2026-08-10T20:56:36.47273007	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -3191,9 +3191,9 @@ c734dfc9e2525919f51561d9954753cc8ca59a58 data/forestry/recipes/smelter/constanta
 ca4e7d60a7e03393f51185f1711eb21cb58f699d data/forestry/recipes/smelter/electrum_from_raw_materials.json
 d55d88408cf13b8038d305a4b90d32056606202b data/forestry/recipes/smelter/invar_from_ingots.json
 2db3b3d5de964894a9f36d31ff432fa23b41b82b data/forestry/recipes/smelter/invar_from_raw_materials.json
-8d40a5c00079eb16bbff91819f6e5f104be978b6 data/forestry/recipes/smelter/silicon_from_coal.json
-b15d7a42fb825a314df0b334ae83d24d54fa3675 data/forestry/recipes/smelter/silicon_from_coke.json
-e492c8f148f5254d9058c8c5a4317e988f7120d4 data/forestry/recipes/smelter/solar_cell.json
+a702e91f32df05cc3b08966af9e7c96213177600 data/forestry/recipes/smelter/silicon_from_coal.json
+40531828409acb06f41818ace5079135ecf48594 data/forestry/recipes/smelter/silicon_from_coke.json
+bec32a1bf437c7d40bcaf9b18b6bfafd72d3af59 data/forestry/recipes/smelter/solar_cell.json
 c86d150fc1b07832263841a9b659fafe67b1e2f7 data/forestry/recipes/smoker.json
 71efd0889bbee91cd87473b3c7b2b9702934ab86 data/forestry/recipes/solar_panel.json
 21966eb9020b5d42d568e2bbe227f61ee1b631f7 data/forestry/recipes/spruce_door.json

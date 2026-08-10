@@ -43,7 +43,7 @@ public class CoreItems {
 	/* Ingots */
 	public static final FeatureItem<ItemForestry> INGOT_TIN = REGISTRY.item(ItemForestry::new, "ingot_tin");
 	public static final FeatureItem<ItemForestry> INGOT_BRONZE = REGISTRY.item(ItemForestry::new, "ingot_bronze");
-	public static final FeatureItem<ItemForestry> INGOT_SILICON = REGISTRY.item(ItemForestry::new, "ingot_silicon");
+	public static final FeatureItem<ItemForestry> SILICON = REGISTRY.item(ItemForestry::new, "ingot_silicon");
 
 	/* Tools */
 	public static final FeatureItem<ItemWrench> WRENCH = REGISTRY.item(ItemWrench::new, "wrench");

@@ -27,7 +27,7 @@
         "output": {
           "count": 3,
           "ingredient": {
-            "tag": "forge:ingots/silicon"
+            "tag": "forge:silicon"
           }
         },
         "processingTime": 1200,
