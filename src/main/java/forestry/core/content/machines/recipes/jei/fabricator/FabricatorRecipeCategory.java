@@ -33,13 +33,13 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricatorRecipe> {
-	private final static ResourceLocation guiTexture = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/fabricator.png");
+	private final static ResourceLocation guiTexture = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/thermionic_fabricator.png");
 	private final IDrawable icon;
 	@Nullable
 	private final ICraftingGridHelper craftingGridHelper;
 
 	public FabricatorRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper.createDrawable(guiTexture, 20, 16, 136, 54), "block.forestry.fabricator");
+		super(guiHelper.createDrawable(guiTexture, 20, 16, 136, 54), "block.forestry.thermionic_fabricator");
 
 		FeatureBlock<BlockFactoryPlain, BlockItem> fabricatorFeatureBlock = FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR);
 		ItemStack fabricator = new ItemStack(fabricatorFeatureBlock.block());
