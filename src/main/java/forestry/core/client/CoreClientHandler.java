@@ -33,6 +33,7 @@ import forestry.core.render.*;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;
 import forestry.core.utils.SpeciesUtil;
+import forestry.energy.features.EnergyBlocks;
 import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryBlocks;
 import forestry.factory.features.FactoryTiles;
@@ -100,6 +101,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 			CoreBlocks.BIG_CANDLES.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.BURN_BARREL.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PLYWOOD_SHEET.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(EnergyBlocks.SOLAR_PANEL.block(), RenderType.cutout());
 
 			for (ForestryFluids fluid : ForestryFluids.values()) {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFluid(), RenderType.translucent());

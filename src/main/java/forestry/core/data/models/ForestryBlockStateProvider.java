@@ -1,6 +1,5 @@
 package forestry.core.data.models;
 
-import forestry.Forestry;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
 import forestry.apiculture.blocks.BlockBeeHive;
@@ -12,29 +11,25 @@ import forestry.core.blocks.*;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.fluids.ForestryFluids;
-import forestry.core.tiles.TileForestry;
 import forestry.core.utils.ModUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
 import forestry.factory.blocks.BlockFactoryPlain;
-import forestry.factory.blocks.BlockFactoryTESR;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
-import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
-import forestry.factory.features.FactoryTiles;
 import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingBlocks;
-import forestry.modules.features.FeatureTileType;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.client.model.generators.BlockModelProvider;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -86,8 +81,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic3d(CoreBlocks.RAW_TIN_BLOCK.block());
 
 
-
-		for(BlockTypeMetalPlating type: BlockTypeMetalPlating.values()){
+		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
 			BlockMetalPlating block = CoreBlocks.METAL_PLATING.get(type).block();
 			simpleBlock(block);
 			generic3d(block);
@@ -95,11 +89,15 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		generic2d(CoreItems.RAW_TIN);
 		generic2d(CoreItems.INGOT_TIN);
+		generic2d(CoreItems.SILICON);
 		generic2d(CoreItems.GEAR_TIN);
 		generic2d(CoreItems.INGOT_BRONZE);
 		generic2d(CoreItems.GEAR_BRONZE);
 		generic2d(CoreItems.GEAR_COPPER);
 		generic2d(CoreItems.GEAR_IRON);
+
+		generic2d(CoreItems.NUGGET_TIN);
+		generic2d(CoreItems.SOLAR_CELL);
 
 		machineBlock(BlockTypeFactoryPlain.BOTTLER, TankLayout.RESOURCE);
 		machineBlock(BlockTypeFactoryPlain.CARPENTER, TankLayout.RESOURCE);
@@ -266,7 +264,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			modLoc("block/honeystone_bricks"));
 	}
 
-	public void stoneBlockSet(Block base, StairBlock stairs, SlabBlock slab, WallBlock wall, Block chiseled, ResourceLocation modelLocation){
+	public void stoneBlockSet(Block base, StairBlock stairs, SlabBlock slab, WallBlock wall, Block chiseled, ResourceLocation modelLocation) {
 		simpleBlock(base);
 		generic3d(base);
 
@@ -279,7 +277,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		wallBlock(wall, modelLocation);
 		wallBlockItem(wall, modelLocation);
 
-		if (chiseled != null){
+		if (chiseled != null) {
 			simpleBlock(chiseled);
 			generic3d(chiseled);
 		}
@@ -338,7 +336,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			.parent(baseModel);
 	}
 
-	public void machineBlock (
+	public void machineBlock(
 		BlockTypeFactoryPlain block,
 		TankLayout layout
 	) {
@@ -474,16 +472,16 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 	private int rotationFromFacing(Direction facing) {
 		return switch (facing) {
-            case SOUTH -> 180;
-			case WEST  -> 270;
-			case EAST  -> 90;
+			case SOUTH -> 180;
+			case WEST -> 270;
+			case EAST -> 90;
 			default -> 0;
 		};
 	}
 
-	private void jumboCandles(){
+	private void jumboCandles() {
 
-		for(BlockTypeJumboCandle type: BlockTypeJumboCandle.values()){
+		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
 
 			Block candle = CoreBlocks.JUMBO_CANDLES.get(type).block();
 			String modelName;
@@ -565,9 +563,9 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 	}
 
-	private void bigCandles(){
+	private void bigCandles() {
 
-		for(BlockTypeBigCandle type: BlockTypeBigCandle.values()){
+		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
 
 			Block candle = CoreBlocks.BIG_CANDLES.get(type).block();
 			String modelName;
@@ -606,7 +604,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		ModelFile oneLit = models()
 			.withExistingParent("block/candles/" + name + "_one_lit", mcLoc("block/template_candle"))
 			.texture("all", modLoc("block/candles/" + name + "_lit"))
-			.texture("particle", modLoc("block/candles/" + name + "_lit"));;
+			.texture("particle", modLoc("block/candles/" + name + "_lit"));
+		;
 
 		ModelFile two = models()
 			.withExistingParent("block/candles/" + name + "_two", mcLoc("block/template_two_candles"))

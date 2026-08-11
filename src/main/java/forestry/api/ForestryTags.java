@@ -8,7 +8,6 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
@@ -140,12 +139,13 @@ public class ForestryTags {
 
 		public static final TagKey<Item> GEMS_APATITE = forgeTag("gems/apatite");
 		public static final TagKey<Item> GEMS_AMBER = forgeTag("gems/amber");
-		public static final TagKey<Item> GEMS_SILICON = forgeTag("gems/silicon");
+		public static final TagKey<Item> SILICON = forgeTag("silicon");
 
 		public static final TagKey<Item> STORAGE_BLOCKS_APATITE = forgeTag("storage_blocks/apatite");
 		public static final TagKey<Item> STORAGE_BLOCKS_TIN = forgeTag("storage_blocks/tin");
 		public static final TagKey<Item> STORAGE_BLOCKS_BRONZE = forgeTag("storage_blocks/bronze");
 		public static final TagKey<Item> STORAGE_BLOCKS_AMBER = forgeTag("storage_blocks/amber");
+		public static final TagKey<Item> NUGGETS_TIN = forgeTag("nuggets/tin");
 		public static final TagKey<Item> STORAGE_BLOCKS_SILICON = forgeTag("storage_blocks/silicon");
 
 		public static final TagKey<Item> ORES_TIN = forgeTag("ores/tin");

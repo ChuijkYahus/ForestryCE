@@ -1,0 +1,37 @@
+{
+  "type": "forestry:smelter",
+  "inputs": [
+    {
+      "count": 3,
+      "ingredient": {
+        "tag": "forge:silicon"
+      }
+    },
+    {
+      "count": 4,
+      "ingredient": {
+        "tag": "forge:gems/lapis"
+      }
+    },
+    {
+      "count": 2,
+      "ingredient": {
+        "item": "forestry:phosphor"
+      }
+    },
+    {
+      "count": 3,
+      "ingredient": {
+        "tag": "forge:nuggets/tin"
+      }
+    }
+  ],
+  "output": {
+    "count": 3,
+    "ingredient": {
+      "item": "forestry:solar_cell"
+    }
+  },
+  "processingTime": 80,
+  "temperature": 0
+}

@@ -105,11 +105,12 @@ public class ForestryItemTagsProvider {
 		tags.tag(Tags.Items.INGOTS).addTags(ForestryTags.Items.INGOTS_BRONZE, ForestryTags.Items.INGOTS_TIN);
 		tags.tag(ForestryTags.Items.INGOTS_BRONZE).add(CoreItems.INGOT_BRONZE.item());
 		tags.tag(ForestryTags.Items.INGOTS_TIN).add(CoreItems.INGOT_TIN.item());
+		tags.tag(ForestryTags.Items.NUGGETS_TIN).add(CoreItems.NUGGET_TIN.item());
 
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());
 		tags.tag(ForestryTags.Items.GEMS_APATITE).add(CoreItems.APATITE.item());
 		tags.tag(ForestryTags.Items.GEMS_AMBER).add(CoreItems.AMBER.item());
-		tags.tag(ForestryTags.Items.GEMS_SILICON).add(CoreItems.SILICON.item());
+		tags.tag(ForestryTags.Items.SILICON).add(CoreItems.SILICON.item());
 		tags.tag(ForestryTags.Items.RAW_MATERIALS_TIN).add(CoreItems.RAW_TIN.item());
 
 		tags.copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);

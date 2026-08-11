@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "forestry:ingot_tin"
+              "forestry:nugget_tin"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:resource_storage_tin"
+        "recipe": "forestry:tin_from_nuggets"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:resource_storage_tin"
+      "forestry:tin_from_nuggets"
     ]
   },
   "sends_telemetry_event": true

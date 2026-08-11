@@ -16,7 +16,7 @@
         "item": "forestry:phosphor"
       },
       "^": {
-        "tag": "forge:gems/silicon"
+        "tag": "forge:silicon"
       }
     },
     "pattern": [

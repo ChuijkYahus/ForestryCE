@@ -5,14 +5,12 @@ import forestry.core.config.ForestryConfig;
 import forestry.energy.blocks.SolarPanelBlock;
 import forestry.energy.features.EnergyBlocks;
 import forestry.energy.features.EnergyTiles;
-import net.minecraft.ChatFormatting;
+import forestry.energy.menu.SolarEngineMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -22,18 +20,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
-public class SolarEngineTileEntity extends EngineBlockEntity{
+public class SolarEngineTileEntity extends EngineBlockEntity {
 
-	private int activePanels;
+	public int activePanels;
 	private int miliBuffer;
+	public int arraySize;
+	public int darkening;
 	private final HashSet<BlockPos> array;
 
-	public static final Direction[] HORIZONTAL_DIRECTOINS=new Direction[]{Direction.NORTH,Direction.EAST,Direction.SOUTH,Direction.WEST};
+	public static final Direction[] HORIZONTAL_DIRECTOINS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
-	public SolarEngineTileEntity(BlockPos pos, BlockState state){
-		super(EnergyTiles.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 2000);
+	public SolarEngineTileEntity(BlockPos pos, BlockState state) {
+		super(EnergyTiles.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 10000);
 
-		array=new HashSet<>();
+		array = new HashSet<>();
 	}
 
 	@Override
@@ -42,17 +42,17 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 		if (!updateOnInterval(20)) {
 			return;
 		}
-		if(array.isEmpty()){
+		if (array.isEmpty()) {
 			activePanels = 0;
 			attachPanel(array, pos.above(), level);
 			setChanged();
 		}
 	}
 
-	public void attachPanel(HashSet<BlockPos> array, BlockPos pos, Level level){
-		BlockState state=level.getBlockState(pos);
-		if(state.getBlock() == EnergyBlocks.SOLAR_PANEL.block() && !state.getValue(SolarPanelBlock.CONNECTED)){
-			if((worldPosition.getX()-pos.getX())*(worldPosition.getX()-pos.getX())<=256 && (worldPosition.getZ()-pos.getZ())*(worldPosition.getZ()-pos.getZ())<=256) {
+	public void attachPanel(HashSet<BlockPos> array, BlockPos pos, Level level) {
+		BlockState state = level.getBlockState(pos);
+		if (state.getBlock() == EnergyBlocks.SOLAR_PANEL.block() && !state.getValue(SolarPanelBlock.CONNECTED)) {
+			if ((worldPosition.getX() - pos.getX()) * (worldPosition.getX() - pos.getX()) <= 256 && (worldPosition.getZ() - pos.getZ()) * (worldPosition.getZ() - pos.getZ()) <= 256) {
 				array.add(pos);
 				if (state.getValue(SolarPanelBlock.IN_DAYLIGHT))
 					activePanels++;
@@ -65,12 +65,12 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 		}
 	}
 
-	public boolean clearPanels(BlockPos pos){
-		if(array.contains(pos)) {
-			array.forEach(blockpos->{
-				BlockState state=level.getBlockState(blockpos);
-				if(state.getBlock()==EnergyBlocks.SOLAR_PANEL.block())
-					level.setBlock(blockpos,state.setValue(SolarPanelBlock.CONNECTED,false),3);
+	public boolean clearPanels(BlockPos pos) {
+		if (array.contains(pos)) {
+			array.forEach(blockpos -> {
+				BlockState state = level.getBlockState(blockpos);
+				if (state.getBlock() == EnergyBlocks.SOLAR_PANEL.block())
+					level.setBlock(blockpos, state.setValue(SolarPanelBlock.CONNECTED, false), 3);
 			});
 			array.clear();
 			activePanels = 0;
@@ -80,17 +80,17 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 		return false;
 	}
 
-	public boolean attachNewPanel(BlockPos pos, Level level, BlockState state){
-		for(Direction dir:HORIZONTAL_DIRECTOINS){
-			if(array.contains(pos.relative(dir))){
+	public boolean attachNewPanel(BlockPos pos, Level level, BlockState state) {
+		for (Direction dir : HORIZONTAL_DIRECTOINS) {
+			if (array.contains(pos.relative(dir))) {
 				array.add(pos);
-				if(state.getValue(SolarPanelBlock.IN_DAYLIGHT))
+				if (state.getValue(SolarPanelBlock.IN_DAYLIGHT))
 					activePanels++;
-				level.setBlock(pos,state.setValue(SolarPanelBlock.CONNECTED,true),3);
-				attachPanel(array,pos.north(),level);
-				attachPanel(array,pos.east(),level);
-				attachPanel(array,pos.south(),level);
-				attachPanel(array,pos.west(),level);
+				level.setBlock(pos, state.setValue(SolarPanelBlock.CONNECTED, true), 3);
+				attachPanel(array, pos.north(), level);
+				attachPanel(array, pos.east(), level);
+				attachPanel(array, pos.south(), level);
+				attachPanel(array, pos.west(), level);
 				setChanged();
 				return true;
 			}
@@ -98,9 +98,9 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 		return false;
 	}
 
-	public boolean updatePanelExposure(BlockPos pos, boolean sun){
-		if(array.contains(pos)){
-			if(sun)
+	public boolean updatePanelExposure(BlockPos pos, boolean sun) {
+		if (array.contains(pos)) {
+			if (sun)
 				activePanels++;
 			else
 				activePanels--;
@@ -112,10 +112,10 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 
 	@Override
 	public void onDropContents(ServerLevel level) {
-		array.forEach(pos-> {
-			BlockState state=level.getBlockState(pos);
-			if(state.getBlock()==EnergyBlocks.SOLAR_PANEL.block())
-				level.setBlock(pos,state.setValue(SolarPanelBlock.CONNECTED,false),3);
+		array.forEach(pos -> {
+			BlockState state = level.getBlockState(pos);
+			if (state.getBlock() == EnergyBlocks.SOLAR_PANEL.block())
+				level.setBlock(pos, state.setValue(SolarPanelBlock.CONNECTED, false), 3);
 		});
 	}
 
@@ -126,33 +126,33 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 
 	@Override
 	protected void generateHeat() {
-		heat=0;
-		if(activePanels>=16)
-			heat=4000;
-		if(activePanels>=64)
-			heat=6000;
-		if(activePanels>=256)
-			heat=8000;
-		if(activePanels>=1024)
-			heat=9000;
+		heat = 0;
+		if (activePanels >= 16)
+			heat = 4000;
+		if (activePanels >= 64)
+			heat = 6000;
+		if (activePanels >= 256)
+			heat = 8000;
+		if (activePanels >= 1024)
+			heat = 9000;
 	}
 
 	@Override
 	protected void burn() {
-		if(isRedstoneActivated()){
-			if(level.dimension().location().toString().equals("twilightforest:twilight_forest")){
-				miliBuffer=activePanels * ForestryConfig.SERVER.twilightSolarRF.get();
-				currentOutput=miliBuffer/1000;
-				miliBuffer=miliBuffer%1000;
+		if (isRedstoneActivated()) {
+			if (level.dimension().location().toString().equals("twilightforest:twilight_forest")) {
+				miliBuffer = activePanels * ForestryConfig.SERVER.twilightSolarRF.get();
+				currentOutput = miliBuffer / 1000;
+				miliBuffer = miliBuffer % 1000;
 				energyStorage.generateEnergy(currentOutput);
-			}else{
-				if(level.getSkyDarken()<=7){
-					miliBuffer=(activePanels * ForestryConfig.SERVER.solarRF.get())>>level.getSkyDarken();
-					currentOutput=miliBuffer/1000;
-					miliBuffer=miliBuffer%1000;
+			} else {
+				if (level.getSkyDarken() < 7) {
+					miliBuffer += (activePanels * ForestryConfig.SERVER.solarRF.get()) >> level.getSkyDarken();
+					currentOutput = miliBuffer / 1000;
+					miliBuffer = miliBuffer % 1000;
 					energyStorage.generateEnergy(currentOutput);
-				}else
-					currentOutput=0;
+				} else
+					currentOutput = 0;
 			}
 		}
 	}
@@ -163,24 +163,19 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 	}
 
 	@Override
-	public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-		return null;
-	}
-
-	@Override
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		player.displayClientMessage(Component.literal(ChatFormatting.GREEN+"Solar Array Status: "+activePanels+"/"+array.size()+ChatFormatting.WHITE+" | "+ChatFormatting.DARK_RED+"Current Output: "+(isRedstoneActivated()?currentOutput:0)+"/"+activePanels*ForestryConfig.SERVER.solarRF.get()/1000+"RF/t"),true);
+	public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+		return new SolarEngineMenu(i, inventory, this);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
-		nbt.putInt("active",activePanels);
-		//it has to be this way, long array stalls the game
-		nbt.putInt("array_size",array.size());
-		int i=0;
-		for(BlockPos pos:array){
-			nbt.putLong("array_"+i,pos.asLong());
+		nbt.putInt("active", activePanels);
+		// it has to be this way, long array stalls the game
+		nbt.putInt("array_size", array.size());
+		int i = 0;
+		for (BlockPos pos : array) {
+			nbt.putLong("array_" + i, pos.asLong());
 			i++;
 		}
 	}
@@ -188,13 +183,31 @@ public class SolarEngineTileEntity extends EngineBlockEntity{
 	@Override
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
-		activePanels= nbt.getInt("active");
-		int i=nbt.getInt("array_size");
+		activePanels = nbt.getInt("active");
+		int i = nbt.getInt("array_size");
 		i--;
-		while(i>=0){
-			array.add(BlockPos.of(nbt.getLong("array_"+i)));
+		while (i >= 0) {
+			array.add(BlockPos.of(nbt.getLong("array_" + i)));
 			i--;
 
 		}
+	}
+
+	@Override
+	public void writeGuiData(FriendlyByteBuf data) {
+		super.writeData(data);
+		data.writeInt(activePanels);
+		data.writeInt(array.size());
+		data.writeInt(level.getSkyDarken());
+		data.writeInt(currentOutput);
+	}
+
+	@Override
+	public void readGuiData(FriendlyByteBuf data) {
+		super.readData(data);
+		activePanels = data.readInt();
+		arraySize = data.readInt();
+		darkening = data.readInt();
+		currentOutput = data.readInt();
 	}
 }
