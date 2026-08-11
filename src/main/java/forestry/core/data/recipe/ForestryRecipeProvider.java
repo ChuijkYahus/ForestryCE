@@ -865,6 +865,9 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			recipe.pattern("XX");
 			recipe.pattern("XX");
 		});
+		// Explicit ID: the default would be "ash", which collides with the peat->ash smelting recipe above
+		// and silently overwrote it in the generated output. Named after ingot_tin_from_resource_storage_tin.
+		recipes.shapelessCrafting("ash_from_ash_block", RecipeCategory.MISC, CoreItems.ASH, 4, CharcoalBlocks.ASH.item());
 
 		//ASH BRICKS
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.ASH_BRICKS, recipe -> {
@@ -2190,7 +2193,15 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 		crate(consumer, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONE));
 		crate(consumer, CrateItems.CRATED_DIRT.get(), Ingredient.of(Items.DIRT));
 		crate(consumer, CrateItems.CRATED_GRASS_BLOCK.get(), Ingredient.of(Items.GRASS_BLOCK));
-		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Tags.Items.STONE));
+		// Use Items.STONE rather than Tags.Items.STONE (= forge:stone) so this recipe doesn't
+		// shadow the per-stone-variant recipes below. The forge:stone tag includes diorite,
+		// granite, andesite and any modded stone variants — when the carpenter looks up a
+		// recipe for a given crafting-grid input, this recipe matches ANYTHING in the tag,
+		// masking the more specific crated_granite/diorite/andesite recipes whenever the BE
+		// finds it first in registry-iteration order. A per-item ingredient leaves the
+		// crated_stone recipe meaning "actual minecraft:stone" and the variant recipes
+		// meaning "actual minecraft:granite/diorite/andesite".
+		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Items.STONE));
 		crate(consumer, CrateItems.CRATED_GRANITE.get(), Ingredient.of(Items.GRANITE));
 		crate(consumer, CrateItems.CRATED_DIORITE.get(), Ingredient.of(Items.DIORITE));
 		crate(consumer, CrateItems.CRATED_ANDESITE.get(), Ingredient.of(Items.ANDESITE));

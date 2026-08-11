@@ -4,6 +4,7 @@
 - Escritoire Game state now persists across world reloads
 - Add new Forestry: CE logo
 - Add Sengir's Notes to the creative menu
+- Ash Block can now be converted back to Ash
 
 ## Forestry 2.10.2
 - Fix bugs in French translation, thanks to Horusbk (#313)
