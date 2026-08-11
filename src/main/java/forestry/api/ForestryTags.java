@@ -127,6 +127,15 @@ public class ForestryTags {
 		public static final TagKey<Item> INGOTS_BRONZE = forgeTag("ingots/bronze");
 		public static final TagKey<Item> INGOTS_TIN = forgeTag("ingots/tin");
 
+		// Modded metals used by the Smelter's optional alloy recipes
+		public static final TagKey<Item> INGOTS_NICKEL = forgeTag("ingots/nickel");
+		public static final TagKey<Item> INGOTS_ZINC = forgeTag("ingots/zinc");
+		public static final TagKey<Item> INGOTS_SILVER = forgeTag("ingots/silver");
+		public static final TagKey<Item> INGOTS_INVAR = forgeTag("ingots/invar");
+		public static final TagKey<Item> INGOTS_BRASS = forgeTag("ingots/brass");
+		public static final TagKey<Item> INGOTS_ELECTRUM = forgeTag("ingots/electrum");
+		public static final TagKey<Item> INGOTS_CONSTANTAN = forgeTag("ingots/constantan");
+
 		public static final TagKey<Item> GEARS = forgeTag("gears");
 		public static final TagKey<Item> GEARS_BRONZE = forgeTag("gears/bronze");
 		public static final TagKey<Item> GEARS_COPPER = forgeTag("gears/copper");
@@ -140,6 +149,7 @@ public class ForestryTags {
 		public static final TagKey<Item> GEMS_APATITE = forgeTag("gems/apatite");
 		public static final TagKey<Item> GEMS_AMBER = forgeTag("gems/amber");
 		public static final TagKey<Item> SILICON = forgeTag("silicon");
+		public static final TagKey<Item> COAL_COKE = forgeTag("coal_coke");
 
 		public static final TagKey<Item> STORAGE_BLOCKS_APATITE = forgeTag("storage_blocks/apatite");
 		public static final TagKey<Item> STORAGE_BLOCKS_TIN = forgeTag("storage_blocks/tin");
@@ -150,6 +160,9 @@ public class ForestryTags {
 
 		public static final TagKey<Item> ORES_TIN = forgeTag("ores/tin");
 		public static final TagKey<Item> RAW_MATERIALS_TIN = forgeTag("raw_materials/tin");
+		public static final TagKey<Item> RAW_MATERIALS_NICKEL = forgeTag("raw_materials/nickel");
+		public static final TagKey<Item> RAW_MATERIALS_ZINC = forgeTag("raw_materials/zinc");
+		public static final TagKey<Item> RAW_MATERIALS_SILVER = forgeTag("raw_materials/silver");
 		public static final TagKey<Item> ORES_APATITE = forgeTag("ores/apatite");
 
 		public static final TagKey<Item> STORAGE_BLOCKS_RAW_TIN = forgeTag("storage_blocks/raw_tin");

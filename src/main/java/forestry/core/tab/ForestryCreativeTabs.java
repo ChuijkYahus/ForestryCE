@@ -166,7 +166,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.INGOT_TIN);
 		items.accept(CoreItems.INGOT_BRONZE);
-		items.accept(CoreItems.NUGGET_TIN);
+		items.accept(CoreItems.TIN_NUGGET);
 		// Block forms
 		items.accept(CoreBlocks.RAW_TIN_BLOCK);
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);

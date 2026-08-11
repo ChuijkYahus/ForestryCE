@@ -77,7 +77,7 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> GEAR_COPPER = REGISTRY.item(ItemForestry::new, "gear_copper");
 	public static final FeatureItem<ItemForestry> GEAR_TIN = REGISTRY.item(ItemForestry::new, "gear_tin");
 	public static final FeatureItem<ItemForestry> GEAR_IRON = REGISTRY.item(ItemForestry::new, "gear_iron");
-	public static final FeatureItem<ItemForestry> NUGGET_TIN = REGISTRY.item(ItemForestry::new, "nugget_tin");
+	public static final FeatureItem<ItemForestry> TIN_NUGGET = REGISTRY.item(ItemForestry::new, "tin_nugget");
 	public static final FeatureItem<ItemForestry> SOLAR_CELL = REGISTRY.item(ItemForestry::new, "solar_cell");
 
 	/* Soldering */

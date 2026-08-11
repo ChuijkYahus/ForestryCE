@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:nugget_tin"
+        "recipe": "forestry:tin_nugget"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:nugget_tin"
+      "forestry:tin_nugget"
     ]
   },
   "sends_telemetry_event": true

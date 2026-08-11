@@ -96,7 +96,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic2d(CoreItems.GEAR_COPPER);
 		generic2d(CoreItems.GEAR_IRON);
 
-		generic2d(CoreItems.NUGGET_TIN);
+		generic2d(CoreItems.TIN_NUGGET);
 		generic2d(CoreItems.SOLAR_CELL);
 
 		machineBlock(BlockTypeFactoryPlain.BOTTLER, TankLayout.RESOURCE);
