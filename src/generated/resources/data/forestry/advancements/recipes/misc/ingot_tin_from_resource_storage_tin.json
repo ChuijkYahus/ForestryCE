@@ -31,5 +31,5 @@
       "forestry:ingot_tin_from_resource_storage_tin"
     ]
   },
-  "sends_telemetry_event": false
+  "sends_telemetry_event": true
 }
