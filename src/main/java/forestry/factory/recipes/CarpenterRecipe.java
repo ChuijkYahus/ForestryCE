@@ -28,6 +28,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 
 	public CarpenterRecipe(ResourceLocation id, int packagingTime, FluidStack liquid, Ingredient box, CraftingRecipe recipe, @Nullable ItemStack result) {
 		Preconditions.checkNotNull(id, "Recipe identifier cannot be null");
+		Preconditions.checkNotNull(liquid, "Recipe liquid cannot be null; use FluidStack.EMPTY for no fluid input");
 		Preconditions.checkNotNull(box);
 		Preconditions.checkNotNull(recipe);
 
