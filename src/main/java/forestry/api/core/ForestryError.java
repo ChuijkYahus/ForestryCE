@@ -33,7 +33,7 @@ public enum ForestryError implements IError {
 	NO_RECIPE("no_recipe"), // No matching recipe was found for the supplied resources.
 	NO_SPACE_INVENTORY("no_space"), // Empty this machine's inventory.
 	NO_SPACE_TANK("no_space_tank"), // Empty this machine's liquid tank.
-	NO_POWER("no_power"), // This machine requires RF energy from an engine to function.
+	NO_POWER("no_power"), // This machine requires FE energy from an engine to function.
 	NO_REDSTONE("no_redstone", "disabled"), // This machine requires a redstone signal to activate it.
 	DISABLED_BY_REDSTONE("disabled_redstone", "disabled"), // This machine is being disabled by a redstone signal.
 	NOT_DARK("not_dark", "not_gloomy"), // A lower light level is required for operation.

@@ -37,7 +37,7 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 	@Override
 	public void changeClimate(int tick, IClimateControlled climateControlled) {
 		if (this.workingTime < 20 && EnergyHelper.consumeEnergyToDoWork(this.energyStorage, TICKS_PER_CYCLE, FE_PER_OPERATION)) {
-			// one tick of work for every 10 RF
+			// one tick of work for every 10 FE
             this.workingTime += FE_PER_OPERATION / 10;
 		}
 

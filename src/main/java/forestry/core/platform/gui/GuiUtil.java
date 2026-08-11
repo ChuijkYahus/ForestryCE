@@ -73,7 +73,7 @@ public class GuiUtil {
 
 	public static String formatEnergyValue(int energy) {
 		NumberFormat format = NumberFormat.getIntegerInstance(Minecraft.getInstance().getLocale());
-		return format.format(energy) + " RF";
+		return format.format(energy) + " FE";
 	}
 
 	public static String formatRate(int rate) {
