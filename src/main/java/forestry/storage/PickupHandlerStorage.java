@@ -8,8 +8,21 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.UUID;
+
 public class PickupHandlerStorage {
 	public static boolean onItemPickup(Player player, ItemEntity entityitem) {
+		// ItemEntity.playerTouch fires EntityItemPickupEvent BEFORE it consults the item's target, so without
+		// this guard a backpack (or topOffPlayerInventory below) takes items reserved for a different player.
+		// Vanilla then declines to complete the pickup, but the items are already gone. The pickup-delay check
+		// is unreachable through that path — playerTouch returns first — but is kept so any other caller and
+		// any future event-ordering change stays on vanilla's rules.
+		// ItemEntity.target is private in 1.20.1 with only a setter, so it is opened by accesstransformer.cfg.
+		UUID target = entityitem.target;
+		if (entityitem.hasPickUpDelay() || (target != null && !target.equals(player.getUUID()))) {
+			return false;
+		}
+
 		ItemStack itemstack = entityitem.getItem();
 		if (itemstack.isEmpty()) {
 			return false;
