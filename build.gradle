@@ -50,13 +50,35 @@ legacyForge {
 			data()
 			programArguments.addAll('--mod', 'forestry', '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
 		}
+
+		// GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the enabled-namespaces property is what
+		// makes Forge execute the @GameTestHolder("forestry") classes, so the tests are completely inert in
+		// normal client/server play.
+		gameTestServer {
+			type = "gameTestServer"
+			gameDirectory.set(project.layout.projectDirectory.dir('run/gametest'))
+			systemProperty 'forge.enabledGameTestNamespaces', 'forestry'
+		}
 	}
 
 	mods {
 		forestry {
 			sourceSet sourceSets.main
+			// GameTest suite lives in src/test (forestry.gametest). It is part of the forestry mod so the
+			// gameTestServer run loads it, but stays out of the published jar (jar/apiJar use main only).
+			sourceSet sourceSets.test
 		}
 	}
+
+	// src/test has no Minecraft/Forge on its classpath by default — moddev only wires that into source sets
+	// it's told about. Without this the gametest sources won't compile.
+	addModdingDependenciesTo sourceSets.test
+}
+
+// The test source set holds GameTests (run via runGameTestServer), not JUnit tests, so the standard `test` task
+// discovers nothing. Gradle 9 fails the build on no-discovered-tests by default; opt out so `./gradlew build` is green.
+tasks.named('test', Test) {
+	failOnNoDiscoveredTests = false
 }
 
 repositories {
@@ -323,7 +345,7 @@ publishing {
 		publications {
 			mavenJava(MavenPublication) {
 				groupId = project.group
-				artifactId = project.base.archivesName
+				artifactId = project.base.archivesName.get()
 				version = project.version
 
 				// ForgeGradle will generate wild dependency definitions, see https://github.com/MinecraftForge/ForgeGradle/issues/584
