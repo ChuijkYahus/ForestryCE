@@ -348,9 +348,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" # ");
 			recipe.pattern(" Y ");
 		});
-
-		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
-
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
@@ -1955,6 +1952,12 @@ public class ForestryRecipeProvider {
 			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEYDEW)))
 			.setFluidOutput(honeyDropFluid)
 			.build(consumer, id("squeezer", "honey_dew"));
+
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.EXPERIENCE_DROP)))
+			.setFluidOutput(ForestryFluids.EXPERIENCE.getFluid(250))
+			.build(consumer, id("squeezer", "experience_drop"));
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)

@@ -181,6 +181,7 @@ public class ForestryTags {
 
 	public static class Fluids {
 		public static final TagKey<Fluid> HONEY = forgeTag("honey");
+		public static final TagKey<Fluid> EXPERIENCE = forgeTag("experience");
 
 		private static TagKey<Fluid> forgeTag(String name) {
 			return FluidTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
