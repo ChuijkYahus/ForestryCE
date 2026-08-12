@@ -79,6 +79,7 @@ public class ForestryCreativeTabs {
 		items.accept(WorktableBlocks.WORKTABLE);
 		// Engines
 		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
+		items.accept(EnergyBlocks.SOLAR_PANEL);
 		// Machines
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
 		// Circuit boards

@@ -98,6 +98,7 @@ forestry:agriculture forestry:quartz_pillar_farm_valve x1
 forestry:agriculture forestry:rainmaker x1
 forestry:agriculture forestry:raintank x1
 forestry:agriculture forestry:refined_circuit_board x1
+forestry:agriculture forestry:solar_engine x1
 forestry:agriculture forestry:soldering_iron x1
 forestry:agriculture forestry:squeezer x1
 forestry:agriculture forestry:still x1
@@ -1709,6 +1710,8 @@ forestry:forestry forestry:obsidian_electron_tube x1
 forestry:forestry forestry:peat x1
 forestry:forestry forestry:peat_engine x1
 forestry:forestry forestry:phosphor x1
+forestry:forestry forestry:phosphor_lantern x1
+forestry:forestry forestry:phosphor_torch x1
 forestry:forestry forestry:pickaxe_kit x1
 forestry:forestry forestry:pipette x1
 forestry:forestry forestry:portable_analyzer x1
@@ -1725,6 +1728,8 @@ forestry:forestry forestry:scented_paneling x1
 forestry:forestry forestry:scoop x1
 forestry:forestry forestry:shovel_kit x1
 forestry:forestry forestry:silk_wisp x1
+forestry:forestry forestry:solar_engine x1
+forestry:forestry forestry:solar_panel x1
 forestry:forestry forestry:soldering_iron x1
 forestry:forestry forestry:spectacles x1
 forestry:forestry forestry:squeezer x1
@@ -1738,9 +1743,11 @@ forestry:forestry forestry:survivalists_sword x1
 forestry:forestry forestry:sword_kit x1
 forestry:forestry forestry:thermionic_fabricator x1
 forestry:forestry forestry:tin_block x1
+forestry:forestry forestry:tin_chain x1
 forestry:forestry forestry:tin_electron_tube x1
 forestry:forestry forestry:tin_gear x1
 forestry:forestry forestry:tin_ingot x1
+forestry:forestry forestry:tin_nugget x1
 forestry:forestry forestry:tin_ore x1
 forestry:forestry forestry:wood_pulp x1
 forestry:forestry forestry:worktable x1
@@ -1780,13 +1787,14 @@ forestry:storage forestry:bottler x1
 forestry:storage forestry:bucket_biomass x1
 forestry:storage forestry:bucket_crushed_ice x1
 forestry:storage forestry:bucket_ethanol x1
+forestry:storage forestry:bucket_experience x1
 forestry:storage forestry:bucket_fruit_juice x1
 forestry:storage forestry:bucket_honey x1
 forestry:storage forestry:bucket_liquid_glass x1
 forestry:storage forestry:bucket_seed_oil x1
 forestry:storage forestry:bucket_short_mead x1
 forestry:storage forestry:builder_backpack x1
-forestry:storage forestry:can x12
+forestry:storage forestry:can x13
 forestry:storage forestry:carpenter x1
 forestry:storage forestry:carton x1
 forestry:storage forestry:crate x1
@@ -1883,10 +1891,10 @@ forestry:storage forestry:lepidopterists_chest x1
 forestry:storage forestry:miner_backpack x1
 forestry:storage forestry:pickaxe_kit x1
 forestry:storage forestry:pipette x1
-forestry:storage forestry:refractory_capsule x12
+forestry:storage forestry:refractory_capsule x13
 forestry:storage forestry:shovel_kit x1
 forestry:storage forestry:sword_kit x1
-forestry:storage forestry:wax_capsule x10
+forestry:storage forestry:wax_capsule x11
 forestry:storage forestry:woven_adventurer_backpack x1
 forestry:storage forestry:woven_builder_backpack x1
 forestry:storage forestry:woven_digger_backpack x1
