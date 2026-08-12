@@ -400,16 +400,83 @@ had never received. Branch: `port/engine-and-solar-additions`.
 - `PotionUtils` is gone; build potions with `PotionContents.createItemStack`, and compare them
   with `ItemStack.isSameItemSameComponents` since every potion is `Items.POTION`.
 
-### Not ported yet — the next blockers for this content
+### Silicon and Solar Cell round (2026-08-11)
 
-1. **Silicon.** 1.21.1 has no silicon at all: no item, no `EnumResourceType` storage block, no
-   `EnumElectronTube.SILICON`, no `c:silicon` tag, no smelter recipes. Everything below waits on
-   this.
-2. **Solar Cell**, which needs silicon. Without it the Solar Panel has no crafting recipe and is
-   creative-only.
-3. **Solar Panel advancement** (`get_solar_panel`) and the `get_engine` advancement's extra
-   engine entries.
-4. **Magmatic Drop** and the bee product shuffle (phosphor moving to the Photosynthetic and
-   Autotroph bees, magmatic drop out of the Simmering comb, the squeezer lava recipes).
-5. **Combustion Engine.** Out of scope for this round and older port debt, but note the solar
-   work sits next to it: 1.21.1 has only PEAT, BIOGAS, CLOCKWORK and now SOLAR.
+Silicon and the Solar Cell followed in a second pass, which also restored the Solar Engine's
+crafting recipe. The engine registered a block, loot table, blockstate, model and lang key but
+had no recipe at all, so it was uncraftable in survival.
+
+Deviations for this pass:
+
+- Ids are `silicon_block` and `silicon_electron_tube`, following this tree's naming rather than
+  1.20.1's `resource_storage_silicon` and `electron_tube_silicon`.
+- 1.21.1 rewrote electron tubes onto `ItemOverlay`, so every tube is a tint over the shared
+  `item/thermionic_tubes.0/.1` pair. Silicon therefore needs a color, not a texture. The two
+  colors are sampled from 1.20.1's `electron_tube_silicon.png`, avoiding a collision with
+  Apatite's `0x579CD9`. The old texture is left in place but is now unused.
+- Silicon joins the `c:storage_blocks` aggregate tag, which 1.20.1 leaves it out of.
+- The engine recipe uses `Tags.Items.GLASS_BLOCKS_COLORLESS`, matching the other three engines.
+
+**Silicon has no production recipe.** Its only route on 1.20.1 is the smelter, so the storage
+block round trip and both fabricator recipes only move it around. A `todo` in
+`ForestryRecipeProvider` marks the gap.
+
+## Content gap audit against 1.20.1 (2026-08-11)
+
+A full sweep of both trees. Ordered by size, largest first.
+
+### Large missing subsystems
+
+1. **Decorative building blocks.** The biggest gap by volume. `CoreBlocks` is 95 block
+   registrations on 1.20.1 and 14 here. Missing whole families: ash bricks, wax bricks,
+   refractory wax bricks, waxstone, refractory waxstone, honeystone (each with the full
+   stairs/slab/wall/chiseled set), 22 metal platings, 18 jumbo candles, 18 big candles, rainbow
+   and refractory candles, turf, plywood, cork, ashen wax and crispy honey blocks. Drags along
+   `BlockMetalPlating`, `BlockJumboCandle`, `BlockBigCandle`, `BlockSheet`, `CorkBlock`, their
+   tags, ~139 loot tables, ~200 recipes and `registerFurnaceRecipes`.
+2. **Smelter.** The only missing factory machine. Needs the block type, tile, menu, screen,
+   inventory, recipe type and serializer, `ISmelterRecipe`, `SmelterRecipeBuilder`, the JEI
+   category, `registerSmelter` and its 13 recipes, plus the `COAL_COKE` and modded alloy ingot
+   tags. Blocks silicon production and all cross-mod alloying.
+3. **The advancement tree.** `ForestryAdvancementProvider` here is a 53 line stub emitting only
+   `forestry:root`; 1.20.1's is 808 lines emitting 57. The whole `forestry/core/advancements`
+   package is absent, so there is no `SimpleCriterionTrigger` subclass anywhere in this tree.
+   This is a rewrite against `AdvancementHolder`/`AdvancementType`, not a port.
+4. **Combustion Engine**, and with it the entire engine circuit socket:
+   `CircuitEngineUpgrade`, `IEngineUpgradeable`, the `ENGINE_UPGRADE` layout, the `ENGINE`
+   socket type and the 5 engine upgrade circuits. Only orphaned lang keys and gamemode config
+   entries remain here.
+5. **Burn Barrel.** Block, burnable block, tile, menu, screen, inventory, registrations, the
+   blacklist tag, its recipe and its advancement.
+6. **Paintings.** 10 of 14 variants ported; `jazz`, `tools`, `there_is_not_a_man_here` and
+   `the_hunny_tree` are missing along with their textures.
+
+### Smaller gaps
+
+- **Wax fluid**, and with it `WAX_BLOCK`, `REFRACTORY_WAX_BLOCK`, `BlockWax` and `bucket_wax`.
+- **Brewer backpack** family: both tiers, the definition, the allow/reject tags, models and
+  recipes. The other 9 backpack types are complete.
+- `GEAR_IRON` and its tag, `SCOOP_PROVEN`, and the `ASH_BRICK`/`WAX_BRICK`/`REFRACTORY_WAX_BRICK`
+  intermediates that the missing brick families need.
+- **Magmatic Drop.** Possibly deliberate: it pairs with `EnumPropolis.VOLCANIC`, which 1.20.1
+  marks `todo remove in 1.21.1` and which is correctly gone here.
+
+### Registers but incomplete
+
+- `ash_block` is in no creative tab and has no recipe, though it has a lang key, loot table,
+  blockstate and model. 1.20.1 puts it in two tabs and gives it `ash_block` and
+  `ash_from_ash_block`. Same failure mode the Solar Panel had.
+- Silicon, as above.
+- `machine.speed.boost.1` uses `EnumElectronTube.EMERALD` here and `COPPER` on 1.20.1. May be
+  deliberate, since COPPER freed up when the engine circuits were dropped.
+- Charcoal and log pile burn times moved from `ItemProperties.burnTime` to the
+  `neoforge:furnace_fuels` data map. Values were not verified against 1.20.1.
+
+### Confirmed complete
+
+Every 1.20.1 top-level module has a home here. All machines except the smelter. Apiculture (69
+bee species, 30 effects, 17 combs, alveary, hives, frames, armour). Arboriculture (all wood
+types with full block sets, 50 tree species, charcoal). Lepidopterology. Farming and
+cultivation. Mail. Sorting, worktable. 66 crate types. All genetics data: 114 bee, 42 tree and
+1 butterfly mutations, taxonomy, karyotype. Village content. Commands, errors, particles,
+multiblock and network (rewritten, not dropped).
