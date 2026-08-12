@@ -274,7 +274,9 @@ public class CoreClientHandler implements IClientModuleHandler {
 			BackpackItems.ADVENTURER_BACKPACK.item(),
 			BackpackItems.ADVENTURER_BACKPACK_T_2.item(),
 			BackpackItems.BUILDER_BACKPACK.item(),
-			BackpackItems.BUILDER_BACKPACK_T_2.item()
+			BackpackItems.BUILDER_BACKPACK_T_2.item(),
+			BackpackItems.BREWER_BACKPACK.item(),
+			BackpackItems.BREWER_BACKPACK_T_2.item()
 		);
 
 		// Crates. The bee ones are registered by ApicultureClientHandler

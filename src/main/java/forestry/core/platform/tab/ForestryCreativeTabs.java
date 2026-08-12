@@ -173,6 +173,7 @@ public class ForestryCreativeTabs {
 		items.accept(BackpackItems.HUNTER_BACKPACK);
 		items.accept(BackpackItems.ADVENTURER_BACKPACK);
 		items.accept(BackpackItems.BUILDER_BACKPACK);
+		items.accept(BackpackItems.BREWER_BACKPACK);
 
 		// T2
 		items.accept(BackpackItems.MINER_BACKPACK_T_2);
@@ -181,6 +182,7 @@ public class ForestryCreativeTabs {
 		items.accept(BackpackItems.HUNTER_BACKPACK_T_2);
 		items.accept(BackpackItems.ADVENTURER_BACKPACK_T_2);
 		items.accept(BackpackItems.BUILDER_BACKPACK_T_2);
+		items.accept(BackpackItems.BREWER_BACKPACK_T_2);
 
 		// Packing machines
 		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.BOTTLER));

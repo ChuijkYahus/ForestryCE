@@ -173,6 +173,9 @@ public class ForestryTags {
 		public static final TagKey<Item> HUNTER_ALLOW = itemTag("backpack/allow/hunter");
 		public static final TagKey<Item> HUNTER_REJECT = itemTag("backpack/reject/hunter");
 
+		public static final TagKey<Item> BREWER_ALLOW = itemTag("backpack/allow/brewer");
+		public static final TagKey<Item> BREWER_REJECT = itemTag("backpack/reject/brewer");
+
 		public static final TagKey<Item> BEES = itemTag("bees");
 
 		// Fuel the burn barrel refuses, even though the furnace accepts it

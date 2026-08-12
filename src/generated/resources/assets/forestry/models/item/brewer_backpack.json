@@ -1,20 +1,20 @@
 {
-  "parent": "forestry:item/backpack/woven_neutral",
+  "parent": "forestry:item/backpack/normal_neutral",
   "overrides": [
     {
-      "model": "forestry:item/backpack/woven_locked",
+      "model": "forestry:item/backpack/normal_locked",
       "predicate": {
         "minecraft:mode": 1.0
       }
     },
     {
-      "model": "forestry:item/backpack/woven_receive",
+      "model": "forestry:item/backpack/normal_receive",
       "predicate": {
         "minecraft:mode": 2.0
       }
     },
     {
-      "model": "forestry:item/backpack/woven_resupply",
+      "model": "forestry:item/backpack/normal_resupply",
       "predicate": {
         "minecraft:mode": 3.0
       }

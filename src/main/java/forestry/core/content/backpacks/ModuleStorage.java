@@ -32,6 +32,7 @@ public class ModuleStorage extends BlankForestryModule {
 	public static final BackpackDefinition HUNTER = new BackpackDefinition(0x412215, ForestryColors.WHITE, new BackpackFilter(ForestryTags.Items.HUNTER_ALLOW, ForestryTags.Items.HUNTER_REJECT));
 	public static final BackpackDefinition ADVENTURER = new BackpackDefinition(0x7fb8c2, ForestryColors.WHITE, new BackpackFilter(ForestryTags.Items.ADVENTURER_ALLOW, ForestryTags.Items.ADVENTURER_REJECT));
 	public static final BackpackDefinition BUILDER = new BackpackDefinition(0xdd3a3a, ForestryColors.WHITE, new BackpackFilter(ForestryTags.Items.BUILDER_ALLOW, ForestryTags.Items.BUILDER_REJECT));
+	public static final BackpackDefinition BREWER = new BackpackDefinition(0xBD7CBD, ForestryColors.WHITE, new BackpackFilter(ForestryTags.Items.BREWER_ALLOW, ForestryTags.Items.BREWER_REJECT));
 
 	@Override
 	public ResourceLocation getId() {

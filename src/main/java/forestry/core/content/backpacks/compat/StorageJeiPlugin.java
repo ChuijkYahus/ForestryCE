@@ -41,6 +41,10 @@ public class StorageJeiPlugin implements IModPlugin {
 			BackpackItems.BUILDER_BACKPACK,
 			BackpackItems.BUILDER_BACKPACK_T_2
 		);
+		JeiUtil.addDescription(registration, "brewer_bag",
+			BackpackItems.BREWER_BACKPACK,
+			BackpackItems.BREWER_BACKPACK_T_2
+		);
 		JeiUtil.addDescription(registration, BackpackItems.APIARIST_BACKPACK);
 		JeiUtil.addDescription(registration, BackpackItems.LEPIDOPTERIST_BACKPACK);
 	}

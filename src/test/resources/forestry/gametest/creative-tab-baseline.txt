@@ -1804,6 +1804,7 @@ forestry:storage forestry:arborists_backpack x1
 forestry:storage forestry:arborists_chest x1
 forestry:storage forestry:axe_kit x1
 forestry:storage forestry:bottler x1
+forestry:storage forestry:brewer_backpack x1
 forestry:storage forestry:bucket_biomass x1
 forestry:storage forestry:bucket_crushed_ice x1
 forestry:storage forestry:bucket_ethanol x1
@@ -1917,6 +1918,7 @@ forestry:storage forestry:shovel_kit x1
 forestry:storage forestry:sword_kit x1
 forestry:storage forestry:wax_capsule x11
 forestry:storage forestry:woven_adventurer_backpack x1
+forestry:storage forestry:woven_brewer_backpack x1
 forestry:storage forestry:woven_builder_backpack x1
 forestry:storage forestry:woven_digger_backpack x1
 forestry:storage forestry:woven_forester_backpack x1
