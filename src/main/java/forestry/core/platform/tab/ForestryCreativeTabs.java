@@ -96,6 +96,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.APATITE);
 		items.accept(CoreItems.RAW_TIN);
 		items.accept(CoreItems.AMBER);
+		items.accept(CoreItems.SILICON);
 		// Processed ores
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.INGOT_TIN);
@@ -113,6 +114,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.HARDENED_CASING);
 		items.accept(CoreItems.IMPREGNATED_CASING);
 		items.accept(CoreItems.FLEXIBLE_CASING);
+		// Misc machine parts
+		items.accept(CoreItems.SOLAR_CELL);
 
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.CARTON);

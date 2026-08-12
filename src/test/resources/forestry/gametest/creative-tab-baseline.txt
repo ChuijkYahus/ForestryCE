@@ -98,6 +98,7 @@ forestry:agriculture forestry:quartz_pillar_farm_valve x1
 forestry:agriculture forestry:rainmaker x1
 forestry:agriculture forestry:raintank x1
 forestry:agriculture forestry:refined_circuit_board x1
+forestry:agriculture forestry:silicon_electron_tube x1
 forestry:agriculture forestry:solar_engine x1
 forestry:agriculture forestry:soldering_iron x1
 forestry:agriculture forestry:squeezer x1
@@ -1727,7 +1728,11 @@ forestry:forestry forestry:research_note x1
 forestry:forestry forestry:scented_paneling x1
 forestry:forestry forestry:scoop x1
 forestry:forestry forestry:shovel_kit x1
+forestry:forestry forestry:silicon x1
+forestry:forestry forestry:silicon_block x1
+forestry:forestry forestry:silicon_electron_tube x1
 forestry:forestry forestry:silk_wisp x1
+forestry:forestry forestry:solar_cell x1
 forestry:forestry forestry:solar_engine x1
 forestry:forestry forestry:solar_panel x1
 forestry:forestry forestry:soldering_iron x1

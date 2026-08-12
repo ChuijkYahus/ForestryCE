@@ -1,0 +1,31 @@
+{
+  "type": "forestry:fabricator",
+  "id": "forestry:fabricator/solar_cell",
+  "molten": {
+    "amount": 500,
+    "id": "forestry:liquid_glass"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "D": {
+        "tag": "c:ingots/tin"
+      },
+      "O": {
+        "item": "forestry:phosphor"
+      },
+      "^": {
+        "tag": "c:silicon"
+      }
+    },
+    "pattern": [
+      "DOD",
+      "^^^",
+      "DOD"
+    ],
+    "result": {
+      "count": 1,
+      "id": "forestry:solar_cell"
+    }
+  }
+}

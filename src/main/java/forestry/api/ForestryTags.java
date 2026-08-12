@@ -32,6 +32,7 @@ public class ForestryTags {
 		public static final TagKey<Block> STORAGE_BLOCKS_TIN = commonTag("storage_blocks/tin");
 		public static final TagKey<Block> STORAGE_BLOCKS_BRONZE = commonTag("storage_blocks/bronze");
 		public static final TagKey<Block> STORAGE_BLOCKS_AMBER = commonTag("storage_blocks/amber");
+		public static final TagKey<Block> STORAGE_BLOCKS_SILICON = commonTag("storage_blocks/silicon");
 
 		public static final TagKey<Block> ORES_TIN = commonTag("ores/tin");
 		public static final TagKey<Block> ORES_APATITE = commonTag("ores/apatite");
@@ -97,11 +98,13 @@ public class ForestryTags {
 
 		public static final TagKey<Item> GEMS_APATITE = commonTag("gems/apatite");
 		public static final TagKey<Item> GEMS_AMBER = commonTag("gems/amber");
+		public static final TagKey<Item> SILICON = commonTag("silicon");
 
 		public static final TagKey<Item> STORAGE_BLOCKS_APATITE = commonTag("storage_blocks/apatite");
 		public static final TagKey<Item> STORAGE_BLOCKS_TIN = commonTag("storage_blocks/tin");
 		public static final TagKey<Item> STORAGE_BLOCKS_BRONZE = commonTag("storage_blocks/bronze");
 		public static final TagKey<Item> STORAGE_BLOCKS_AMBER = commonTag("storage_blocks/amber");
+		public static final TagKey<Item> STORAGE_BLOCKS_SILICON = commonTag("storage_blocks/silicon");
 
 		public static final TagKey<Item> ORES_TIN = commonTag("ores/tin");
 		public static final TagKey<Item> RAW_MATERIALS_TIN = commonTag("raw_materials/tin");

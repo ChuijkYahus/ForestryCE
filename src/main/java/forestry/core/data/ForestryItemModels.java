@@ -53,6 +53,8 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.REFRACTORY_WAX);
 		models.generic2d(ApicultureItems.ROYAL_JELLY);
 		models.generic2d(CoreItems.SCOOP);
+		models.generic2d(CoreItems.SILICON);
+		models.generic2d(CoreItems.SOLAR_CELL);
 		models.generic2d(CoreItems.SOLDERING_IRON);
 		models.generic2d(CoreItems.SPECTACLES);
 		models.generic2d(CoreItems.STURDY_CASING);

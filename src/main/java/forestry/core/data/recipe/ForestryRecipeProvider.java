@@ -647,6 +647,15 @@ public class ForestryRecipeProvider {
 			recipe.pattern("##");
 			recipe.pattern("##");
 		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON), recipe -> {
+			recipe.define('#', CoreItems.SILICON);
+			recipe.pattern("##");
+			recipe.pattern("##");
+		});
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.SILICON, 4, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON));
+		// todo silicon itself still has no production recipe, so the two above only move it around.
+		//  1.20.1 smelted it from quartz plus coal or coal coke, and this tree has no smelter machine,
+		//  no SmelterRecipeBuilder and no coal coke tag.
 		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_PICKAXE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
@@ -1041,6 +1050,16 @@ public class ForestryRecipeProvider {
 			recipe.define('D', Items.PISTON);
 			recipe.pattern("PPP");
 			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.SOLAR_PANEL, recipe -> {
+			recipe.define('P', Tags.Items.GLASS_PANES);
+			recipe.define('C', CoreItems.SOLAR_CELL);
+			recipe.define('Q', ForestryTags.Items.INGOTS_TIN);
+			recipe.define('D', CoreItems.ELECTRON_TUBES.item(EnumElectronTube.COPPER));
+			recipe.pattern("PPP");
+			recipe.pattern("CCC");
 			recipe.pattern("QDQ");
 		});
 	}
@@ -1756,6 +1775,27 @@ public class ForestryRecipeProvider {
 				.define('#', Tags.Items.DUSTS_REDSTONE)
 				.define('X', ForestryTags.Items.GEMS_AMBER))
 			.build(consumer, id("fabricator", "electron_tubes", "amber"));
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(liquidGlass)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.SILICON), 4)
+				.pattern(" X ")
+				.pattern("#X#")
+				.pattern("XXX")
+				.define('#', Tags.Items.DUSTS_REDSTONE)
+				.define('X', ForestryTags.Items.SILICON))
+			.build(consumer, id("fabricator", "electron_tubes", "silicon"));
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(liquidGlass)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL)
+				.pattern("DOD")
+				.pattern("^^^")
+				.pattern("DOD")
+				.define('O', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR))
+				.define('^', ForestryTags.Items.SILICON)
+				.define('D', ForestryTags.Items.INGOTS_TIN))
+			.build(consumer, id("fabricator", "solar_cell"));
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(liquidGlass)

@@ -42,6 +42,7 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> APATITE = REGISTRY.item(ItemForestry::new, "apatite");
 	public static final FeatureItem<ItemForestry> RAW_TIN = REGISTRY.item(ItemForestry::new, "raw_tin");
 	public static final FeatureItem<ItemForestry> AMBER = REGISTRY.item(ItemForestry::new, "amber");
+	public static final FeatureItem<ItemForestry> SILICON = REGISTRY.item(ItemForestry::new, "silicon");
 
 	/* Research */
 	public static final FeatureItem<ItemResearchNote> RESEARCH_NOTE = REGISTRY.item(ItemResearchNote::new, "research_note");
@@ -90,6 +91,7 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> GEAR_BRONZE = REGISTRY.item(ItemForestry::new, "bronze_gear");
 	public static final FeatureItem<ItemForestry> GEAR_COPPER = REGISTRY.item(ItemForestry::new, "copper_gear");
 	public static final FeatureItem<ItemForestry> GEAR_TIN = REGISTRY.item(ItemForestry::new, "tin_gear");
+	public static final FeatureItem<ItemForestry> SOLAR_CELL = REGISTRY.item(ItemForestry::new, "solar_cell");
 
 	/* Soldering */
 	public static final FeatureItem<SolderingIronItem> SOLDERING_IRON = REGISTRY.item(SolderingIronItem::new, () -> new Item.Properties()
