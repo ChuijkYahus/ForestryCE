@@ -1,11 +1,14 @@
 package forestry.agriculture.farmlogic;
 
+import com.google.common.collect.ImmutableSet;
 import forestry.api.agriculture.ICrop;
 import forestry.api.agriculture.IFarmHousing;
 import forestry.api.agriculture.IFarmType;
 import forestry.api.agriculture.IFarmable;
+import forestry.agriculture.farmlogic.farmables.FarmableSapling;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -116,6 +119,16 @@ public class FarmLogicArboreal extends FarmLogicHomogeneous {
 		Collections.shuffle(getFarmables());
 		for (IFarmable candidate : getFarmables()) {
 			if (farmHousing.plantGermling(candidate, world, position, direction)) {
+				return true;
+			}
+		}
+
+		var germlings = farmHousing.getFarmInventory().getGermlingsInventory();
+		for (int i = 0; i < germlings.getContainerSize(); i++) {
+			ItemStack stack = germlings.getItem(i);
+			if (stack.is(ItemTags.SAPLINGS)
+				&& getFarmables().stream().noneMatch(farmable -> farmable.isGermling(stack))
+				&& farmHousing.plantGermling(new FarmableSapling(stack.getItem(), ImmutableSet.of()), world, position, direction)) {
 				return true;
 			}
 		}
