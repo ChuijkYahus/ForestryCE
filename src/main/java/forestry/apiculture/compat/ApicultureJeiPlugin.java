@@ -94,6 +94,7 @@ public class ApicultureJeiPlugin implements IModPlugin {
 		);
 
 		JeiUtil.addDescription(registry, CoreItems.SCOOP);
+		JeiUtil.addDescription(registry, CoreItems.PROVEN_SCOOP);
 		JeiUtil.addDescription(registry, ApicultureItems.EXPERIENCE_DROP);
 
 		for (MutationsRecipeCategory category : mutationsCategories) {

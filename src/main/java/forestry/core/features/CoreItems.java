@@ -91,6 +91,8 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> GEAR_BRONZE = REGISTRY.item(ItemForestry::new, "bronze_gear");
 	public static final FeatureItem<ItemForestry> GEAR_COPPER = REGISTRY.item(ItemForestry::new, "copper_gear");
 	public static final FeatureItem<ItemForestry> GEAR_TIN = REGISTRY.item(ItemForestry::new, "tin_gear");
+	// Deviation from 1.20.1: the id follows the target's <material>_gear naming, so "gear_iron" became "iron_gear"
+	public static final FeatureItem<ItemForestry> GEAR_IRON = REGISTRY.item(ItemForestry::new, "iron_gear");
 	public static final FeatureItem<ItemForestry> SOLAR_CELL = REGISTRY.item(ItemForestry::new, "solar_cell");
 
 	/* Soldering */
@@ -130,7 +132,9 @@ public class CoreItems {
 	public static final FeatureItemGroup<ItemFruit, ItemFruit.EnumFruit> FRUITS = REGISTRY.itemGroup(ItemFruit::new, ItemFruit.EnumFruit.values()).identifier(type -> type == ItemFruit.EnumFruit.DATES ? "date" : type.getSerializedName()).create();
 	// moved out of apiculture: the scoop catches butterflies as well as bees, and the honey
 	// drops are the Portable Analyzer's fuel, so all three are base concerns
-	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(ItemScoop::new, "scoop");
+	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(() -> new ItemScoop(10), "scoop");
+	// Deviation from 1.20.1: the id follows the target's proven_<tool> naming, so "scoop_proven" became "proven_scoop"
+	public static final FeatureItem<ItemScoop> PROVEN_SCOOP = REGISTRY.item(() -> new ItemScoop(160), "proven_scoop");
 	public static final FeatureItem<Item> HONEY_DROP = REGISTRY.item("honey_drop");
 	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
 	public static final FeatureItem<ItemBeesWax> BEESWAX = REGISTRY.item(ItemBeesWax::new, "beeswax");

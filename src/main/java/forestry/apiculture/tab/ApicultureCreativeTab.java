@@ -48,6 +48,7 @@ public class ApicultureCreativeTab {
 
 		// Gear
 		items.accept(CoreItems.SCOOP);
+		items.accept(CoreItems.PROVEN_SCOOP);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(ApicultureItems.APIARIST_HELMET);
 		items.accept(ApicultureItems.APIARIST_CHEST);

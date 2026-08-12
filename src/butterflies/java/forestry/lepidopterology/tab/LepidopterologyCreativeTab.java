@@ -39,6 +39,7 @@ public class LepidopterologyCreativeTab {
 
 		// Gear
 		items.accept(CoreItems.SCOOP);
+		items.accept(CoreItems.PROVEN_SCOOP);
 
 		// Specimens
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.BUTTERFLY);

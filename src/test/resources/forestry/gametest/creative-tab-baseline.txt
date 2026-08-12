@@ -172,6 +172,7 @@ forestry:apiculture forestry:powdery_comb_block x1
 forestry:apiculture forestry:princess_bee x69
 forestry:apiculture forestry:propolis x1
 forestry:apiculture forestry:proven_frame x1
+forestry:apiculture forestry:proven_scoop x1
 forestry:apiculture forestry:pulsating_propolis x1
 forestry:apiculture forestry:queen_bee x69
 forestry:apiculture forestry:royal_jelly x1
@@ -213,6 +214,7 @@ forestry:arboriculture forestry:analyzer x1
 forestry:arboriculture forestry:arborists_backpack x1
 forestry:arboriculture forestry:arborists_chest x1
 forestry:arboriculture forestry:ash x1
+forestry:arboriculture forestry:ash_block x1
 forestry:arboriculture forestry:balsa_boat x1
 forestry:arboriculture forestry:balsa_button x1
 forestry:arboriculture forestry:balsa_chest_boat x1
@@ -1661,6 +1663,7 @@ forestry:forestry forestry:apiarists_chest x1
 forestry:forestry forestry:arborists_backpack x1
 forestry:forestry forestry:arborists_chest x1
 forestry:forestry forestry:ash x1
+forestry:forestry forestry:ash_block x1
 forestry:forestry forestry:axe_kit x1
 forestry:forestry forestry:basic_circuit_board x1
 forestry:forestry forestry:bee_smoker x1
@@ -1703,6 +1706,7 @@ forestry:forestry forestry:impregnated_casing x1
 forestry:forestry forestry:impregnated_stick x1
 forestry:forestry forestry:intricate_circuit_board x1
 forestry:forestry forestry:iron_electron_tube x1
+forestry:forestry forestry:iron_gear x1
 forestry:forestry forestry:lapis_electron_tube x1
 forestry:forestry forestry:lepidopterists_backpack x1
 forestry:forestry forestry:lepidopterists_chest x1
@@ -1717,6 +1721,7 @@ forestry:forestry forestry:pickaxe_kit x1
 forestry:forestry forestry:pipette x1
 forestry:forestry forestry:portable_analyzer x1
 forestry:forestry forestry:proven_grafter x1
+forestry:forestry forestry:proven_scoop x1
 forestry:forestry forestry:pulsating_dust x1
 forestry:forestry forestry:pulsating_mesh x1
 forestry:forestry forestry:rainmaker x1
@@ -1769,6 +1774,7 @@ forestry:lepidopterology forestry:honeydew x1
 forestry:lepidopterology forestry:lepidopterists_backpack x1
 forestry:lepidopterology forestry:lepidopterists_chest x1
 forestry:lepidopterology forestry:portable_analyzer x1
+forestry:lepidopterology forestry:proven_scoop x1
 forestry:lepidopterology forestry:scoop x1
 forestry:mail forestry:catalog x1
 forestry:mail forestry:letter_empty_fresh x1

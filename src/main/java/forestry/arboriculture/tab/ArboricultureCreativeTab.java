@@ -56,6 +56,7 @@ public class ArboricultureCreativeTab {
 		// Blocks
 		items.accept(CharcoalBlocks.LOG_PILE);
 		items.accept(CharcoalBlocks.DECORATIVE_LOG_PILE);
+		items.accept(CharcoalBlocks.ASH);
 		items.accept(CoreItems.ASH);
 		WoodAccess access = WoodAccess.INSTANCE;
 		for (IWoodType type : access.getRegisteredWoodTypes()) {
@@ -110,6 +111,9 @@ public class ArboricultureCreativeTab {
 			event.accept(ArboricultureItems.PROVEN_GRAFTER);
 			event.accept(ArboricultureItems.AMBER_SAPLING_FOSSIL);
 			event.accept(CharcoalBlocks.CHARCOAL);
+			// Deviation from 1.20.1: that tree listed the ash block in its building blocks tab,
+			// which this tree does not have, so it appends to the base Forestry tab instead
+			event.accept(CharcoalBlocks.ASH);
 		}
 	}
 }

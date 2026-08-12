@@ -63,6 +63,7 @@ public class ForestryCreativeTabs {
 		addGeneticBasics(items);
 		items.accept(CoreItems.FORESTERS_MANUAL);
 		items.accept(CoreItems.SCOOP);
+		items.accept(CoreItems.PROVEN_SCOOP);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(SortingBlocks.FILTER);
 
@@ -108,6 +109,7 @@ public class ForestryCreativeTabs {
 		// Gears
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_TIN);
+		items.accept(CoreItems.GEAR_IRON);
 		items.accept(CoreItems.GEAR_BRONZE);
 		// Casings
 		items.accept(CoreItems.STURDY_CASING);
@@ -132,6 +134,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.GEAR_TIN);
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_BRONZE);
+		items.accept(CoreItems.GEAR_IRON);
 		items.accept(CoreItems.SOLDERING_IRON);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(CoreItems.ASH);

@@ -585,6 +585,15 @@ public class ForestryRecipeProvider {
 		recipes.shapelessCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.DECORATIVE_LOG_PILE.block(), 1, CharcoalBlocks.LOG_PILE.block());
 
 		recipes.shapelessCrafting("wood_pile_from_decorative", RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.LOG_PILE.block(), 1, CharcoalBlocks.DECORATIVE_LOG_PILE.block());
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.ASH.item(), recipe -> {
+			recipe.define('X', ForestryTags.Items.DUSTS_ASH);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		// Explicit ID: the default would be "ash", which collides with the peat->ash smelting recipe
+		// in registerCoreRecipes and silently overwrites it in the generated output
+		recipes.shapelessCrafting("ash_from_ash_block", RecipeCategory.MISC, CoreItems.ASH, 4, CharcoalBlocks.ASH.item());
 	}
 
 	private static void registerCoreRecipes(MKRecipeProvider recipes) {
@@ -695,6 +704,7 @@ public class ForestryRecipeProvider {
 		gear(recipes, CoreItems.GEAR_BRONZE, ForestryTags.Items.INGOTS_BRONZE);
 		gear(recipes, CoreItems.GEAR_TIN, ForestryTags.Items.INGOTS_TIN);
 		gear(recipes, CoreItems.GEAR_COPPER, Tags.Items.INGOTS_COPPER);
+		gear(recipes, CoreItems.GEAR_IRON, Tags.Items.INGOTS_IRON);
 
 		recipes.shapelessCrafting("ingot_bronze_alloying", RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 4, ForestryTags.Items.INGOTS_TIN, ObjectIntPair.of(Items.COPPER_INGOT, 3));
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.PICKAXE_KIT, 1, CoreItems.SURVIVALISTS_PICKAXE, CoreItems.CARTON);

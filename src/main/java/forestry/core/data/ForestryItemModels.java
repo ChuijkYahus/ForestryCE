@@ -50,6 +50,7 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.PORTABLE_ALYZER);
 		models.generic2d(ApicultureItems.FRAME_PROVEN);
 		models.generic2d(ArboricultureItems.PROVEN_GRAFTER);
+		models.generic2d(CoreItems.PROVEN_SCOOP);
 		models.generic2d(CoreItems.REFRACTORY_WAX);
 		models.generic2d(ApicultureItems.ROYAL_JELLY);
 		models.generic2d(CoreItems.SCOOP);

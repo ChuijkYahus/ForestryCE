@@ -83,9 +83,10 @@ public class ForestryItemTagsProvider {
 
 		// Add item-specific tags
 		tags.tag(ForestryTags.Items.GRASSES).add(Items.FERN, Items.LARGE_FERN, Items.SHORT_GRASS, Items.TALL_GRASS);
-		tags.tag(ForestryTags.Items.GEARS).addTags(ForestryTags.Items.GEARS_BRONZE, ForestryTags.Items.GEARS_COPPER, ForestryTags.Items.GEARS_TIN);
+		tags.tag(ForestryTags.Items.GEARS).addTags(ForestryTags.Items.GEARS_BRONZE, ForestryTags.Items.GEARS_COPPER, ForestryTags.Items.GEARS_TIN, ForestryTags.Items.GEARS_IRON);
 		tags.tag(ForestryTags.Items.GEARS_BRONZE).add(CoreItems.GEAR_BRONZE.item());
 		tags.tag(ForestryTags.Items.GEARS_TIN).add(CoreItems.GEAR_TIN.item());
+		tags.tag(ForestryTags.Items.GEARS_IRON).add(CoreItems.GEAR_IRON.item());
 		tags.tag(ForestryTags.Items.GEARS_COPPER).add(CoreItems.GEAR_COPPER.item());
 		tags.tag(ForestryTags.Items.GEARS_STONE);
 
@@ -140,6 +141,7 @@ public class ForestryItemTagsProvider {
 			.add(Items.CRAFTING_TABLE);
 
 		tags.tag(ForestryTags.Items.SCOOPS).add(CoreItems.SCOOP.item());
+		tags.tag(ForestryTags.Items.SCOOPS).add(CoreItems.PROVEN_SCOOP.item());
 
 		tags.tag(ForestryTags.Items.BEES).add(ApicultureItems.BEE_DRONE.get(), ApicultureItems.BEE_PRINCESS.get(), ApicultureItems.BEE_QUEEN.get(), ApicultureItems.BEE_LARVAE.get());
 		tags.tag(ItemTags.BOATS).add(ArboricultureItems.BOAT.itemArray());

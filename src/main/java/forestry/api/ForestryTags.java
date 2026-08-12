@@ -91,6 +91,7 @@ public class ForestryTags {
 		public static final TagKey<Item> GEARS_BRONZE = commonTag("gears/bronze");
 		public static final TagKey<Item> GEARS_COPPER = commonTag("gears/copper");
 		public static final TagKey<Item> GEARS_TIN = commonTag("gears/tin");
+		public static final TagKey<Item> GEARS_IRON = commonTag("gears/iron");
 		public static final TagKey<Item> GEARS_STONE = commonTag("gears/stone");
 
 		public static final TagKey<Item> DUSTS_ASH = commonTag("dusts/ash");
