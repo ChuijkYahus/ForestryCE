@@ -31,11 +31,14 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		// Core owns this layout because core registers the circuits below against it. It used to be
 		// registered by the agriculture plugin, which crashed a core-only install outright
 		circuits.registerLayout(ForestryCircuitLayouts.MACHINE_UPGRADE, ForestryCircuitSocketTypes.MACHINE);
+		circuits.registerLayout(ForestryCircuitLayouts.SOLAR_ENGINE_UPGRADE, ForestryCircuitSocketTypes.SOLAR_ENGINE);
 
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.EMERALD, 1), new CircuitMachineUpgrade("machine.speed.boost.1", 0.125f, 0.05f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.BLAZE, 1), new CircuitMachineUpgrade("machine.speed.boost.2", 0.250f, 0.10f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.GOLD, 1), new CircuitMachineUpgrade("machine.efficiency.1", 0, -0.10f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.AMBER, 1), new CircuitMachineUpgrade("machine.fortune.1", 0, 0.05f, 1.25f));
+
+		//Currently, there are no upgrades for Solar Engines... Maybe Steve hasn't discovered them yet?
 	}
 
 	@Override

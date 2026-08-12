@@ -17,6 +17,7 @@ import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.energy.tiles.BiogasEngineBlockEntity;
 import forestry.core.content.energy.tiles.ClockworkEngineBlockEntity;
 import forestry.core.content.energy.tiles.PeatEngineBlockEntity;
+import forestry.core.content.energy.tiles.SolarEngineTileEntity;
 import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.content.machines.tiles.*;
@@ -65,6 +66,7 @@ public class ForestryBewlr extends BlockEntityWithoutLevelRenderer {
 		addTile(tiles, EnergyBlocks.ENGINES.get(EngineBlockType.PEAT), PeatEngineBlockEntity::new);
 		addTile(tiles, EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS), BiogasEngineBlockEntity::new);
 		addTile(tiles, EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK), ClockworkEngineBlockEntity::new);
+		addTile(tiles, EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR), SolarEngineTileEntity::new);
 
 		this.tiles = tiles;
 	}
