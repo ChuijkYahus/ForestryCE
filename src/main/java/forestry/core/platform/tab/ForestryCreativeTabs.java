@@ -23,15 +23,19 @@ import forestry.core.content.worktable.features.WorktableBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+
+import javax.annotation.Nullable;
 
 @FeatureProvider
 public class ForestryCreativeTabs {
@@ -155,6 +159,22 @@ public class ForestryCreativeTabs {
 		// todo merge more items into crafting materials
 		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
 
+		// Decorative stone and brick blocks
+		// Deviation from 1.20.1: that tree listed these in addAllBuildingBlocks, which this tree does not have yet
+		addStoneFamily(items, CoreBlocks.ASH_BRICKS, CoreBlocks.CHISELED_ASH_BRICKS);
+		addStoneFamily(items, CoreBlocks.WAX_BRICKS, CoreBlocks.CHISELED_WAX_BRICKS);
+		addStoneFamily(items, CoreBlocks.REFRACTORY_WAX_BRICKS, CoreBlocks.CHISELED_REFRACTORY_WAX_BRICKS);
+		for (CoreBlocks.StoneSet set : CoreBlocks.STONE_SETS) {
+			addStoneFamily(items, set.stone(), set.chiseled());
+			addStoneFamily(items, set.cobbled(), null);
+			addStoneFamily(items, set.bricks(), null);
+			addStoneFamily(items, set.polished(), null);
+		}
+		// Left commented as on 1.20.1, where the smelting recipes that make these are commented out too.
+		// Deliberately unfinished there, so enabling only the tab entry would be worse than leaving both off
+		//items.accept(CoreBlocks.ASHEN_WAX_BLOCK);
+		//items.accept(CoreBlocks.CRISPY_HONEY_BLOCK);
+
 		// Escritoire output — research notes ship players hint about mutations. Worth
 		// surfacing in creative so they can be inspected without needing the workflow.
 		items.accept(CoreItems.RESEARCH_NOTE);
@@ -232,6 +252,21 @@ public class ForestryCreativeTabs {
 		// Filled crates
 		for (FeatureItem<ItemCrated> crate : CrateItems.getCrates()) {
 			items.accept(crate);
+		}
+	}
+
+	/**
+	 * Adds one decorative shape family to a tab, base block first and the chiseled block last.
+	 *
+	 * @param items    The tab's output
+	 * @param family   The family to list
+	 * @param chiseled The chiseled block to list after it, or null when the family has none
+	 */
+	private static void addStoneFamily(CreativeModeTab.Output items, CoreBlocks.StoneFamily family, @Nullable FeatureBlock<Block, BlockItem> chiseled) {
+		family.features().forEach(items::accept);
+
+		if (chiseled != null) {
+			items.accept(chiseled);
 		}
 	}
 

@@ -12,6 +12,8 @@ import forestry.core.platform.item.ItemBlockForestry;
 import forestry.core.platform.item.ItemBlockTesr;
 import forestry.core.platform.registration.*;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +21,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChainBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.MapColor;
 
@@ -61,4 +66,166 @@ public class CoreBlocks {
 	public static final FeatureBlock<BlockWaterloggableWallTorch, ItemBlockForestry<?>> PHOSPHOR_WALL_TORCH = REGISTRY.block(BlockWaterloggableWallTorch::new, () -> Properties.ofFullCopy(Blocks.SOUL_TORCH).lightLevel(state -> 13), null, "phosphor_wall_torch");
 
 	public static final FeatureBlockGroup<BlockTesr<NaturalistChestBlockType>, NaturalistChestBlockType> NATURALIST_CHEST = REGISTRY.blockGroup(type -> new BlockTesr<>(type, Properties.of().sound(SoundType.WOOD)), List.of(NaturalistChestBlockType.values())).item(ItemBlockTesr::new).create();
+
+	/* Decorative stone and brick block sets */
+	// Deviation from 1.20.1: that tree registered all 68 of these by hand and left a "//TODO: Helper method?"
+	// where the section starts. stoneFamily, chiseled and stoneSet below stand in for it
+
+	// Ash bricks
+	public static final StoneFamily ASH_BRICKS = stoneFamily("ash_bricks", MapColor.COLOR_LIGHT_GRAY, SoundType.MUD_BRICKS);
+	public static final FeatureBlock<Block, BlockItem> CHISELED_ASH_BRICKS = chiseled("ash_bricks", MapColor.COLOR_LIGHT_GRAY, SoundType.MUD_BRICKS);
+
+	// Wax bricks
+	public static final StoneFamily WAX_BRICKS = stoneFamily("wax_bricks", MapColor.COLOR_YELLOW, SoundType.MUD);
+	public static final FeatureBlock<Block, BlockItem> CHISELED_WAX_BRICKS = chiseled("wax_bricks", MapColor.COLOR_YELLOW, SoundType.MUD);
+
+	// Refractory wax bricks
+	public static final StoneFamily REFRACTORY_WAX_BRICKS = stoneFamily("refractory_wax_bricks", MapColor.COLOR_RED, SoundType.MUD);
+	// Deviation from 1.20.1: this one block carried MapColor.COLOR_YELLOW there while its four siblings
+	// carried COLOR_RED. Read as a copy-paste slip and given COLOR_RED
+	public static final FeatureBlock<Block, BlockItem> CHISELED_REFRACTORY_WAX_BRICKS = chiseled("refractory_wax_bricks", MapColor.COLOR_RED, SoundType.MUD);
+
+	// Waxstone, refractory waxstone and honeystone, seventeen blocks each
+	public static final StoneSet WAXSTONE = stoneSet("waxstone", MapColor.SAND, SoundType.CANDLE);
+	public static final StoneSet REFRACTORY_WAXSTONE = stoneSet("refractory_waxstone", MapColor.SAND, SoundType.CANDLE);
+	public static final StoneSet HONEYSTONE = stoneSet("honeystone", MapColor.COLOR_ORANGE, SoundType.CANDLE);
+
+	// Misc
+	public static final FeatureBlock<Block, BlockItem> ASHEN_WAX_BLOCK = REGISTRY.block(Block::new, mudBrickProperties(Blocks.MUD_BRICKS, MapColor.SAND, SoundType.MUD_BRICKS), ItemBlockForestry::new, "ashen_wax_block");
+	public static final FeatureBlock<Block, BlockItem> CRISPY_HONEY_BLOCK = REGISTRY.block(Block::new, mudBrickProperties(Blocks.MUD_BRICKS, MapColor.COLOR_BROWN, SoundType.MUD_BRICKS), ItemBlockForestry::new, "crispy_honey_block");
+
+	/**
+	 * Used to walk every decorative stone set at once. Datagen and the creative tab read this rather than
+	 * naming the three sets one at a time.
+	 */
+	public static final List<StoneSet> STONE_SETS = List.of(WAXSTONE, REFRACTORY_WAXSTONE, HONEYSTONE);
+
+	/**
+	 * Used to walk every decorative shape family at once, the three brick families and the twelve a stone
+	 * set contributes. Fifteen families, sixty blocks.
+	 */
+	public static final List<StoneFamily> DECORATIVE_FAMILIES = Stream.concat(
+		Stream.of(ASH_BRICKS, WAX_BRICKS, REFRACTORY_WAX_BRICKS),
+		STONE_SETS.stream().flatMap(set -> set.families().stream())
+	).toList();
+
+	/**
+	 * Used to walk every chiseled decorative block at once.
+	 */
+	public static final List<FeatureBlock<Block, BlockItem>> DECORATIVE_CHISELED = List.of(
+		CHISELED_ASH_BRICKS, CHISELED_WAX_BRICKS, CHISELED_REFRACTORY_WAX_BRICKS,
+		WAXSTONE.chiseled(), REFRACTORY_WAXSTONE.chiseled(), HONEYSTONE.chiseled()
+	);
+
+	/**
+	 * A base block and the three shapes cut from it. Every block in a family shares one texture, one map
+	 * color and one sound.
+	 *
+	 * @param base   The full block the family is named after
+	 * @param stairs The stairs cut from the base block
+	 * @param slab   The slab cut from the base block
+	 * @param wall   The wall cut from the base block
+	 */
+	public record StoneFamily(FeatureBlock<Block, BlockItem> base, FeatureBlock<StairBlock, BlockItem> stairs, FeatureBlock<SlabBlock, BlockItem> slab, FeatureBlock<WallBlock, BlockItem> wall) {
+		/**
+		 * @return Every feature the family registered, in creative tab order
+		 */
+		public List<FeatureBlock<? extends Block, BlockItem>> features() {
+			return List.of(this.base, this.stairs, this.slab, this.wall);
+		}
+
+		/**
+		 * @return Every block the family registered, in creative tab order
+		 */
+		public Block[] blocks() {
+			return new Block[]{this.base.block(), this.stairs.block(), this.slab.block(), this.wall.block()};
+		}
+	}
+
+	/**
+	 * A stone block and its three other surface finishes, one shape family each, plus the chiseled block the
+	 * four finishes share.
+	 *
+	 * @param stone    The plain stone family
+	 * @param cobbled  The cobbled family
+	 * @param bricks   The brick family
+	 * @param polished The polished family
+	 * @param chiseled The chiseled block, which has no shapes of its own
+	 */
+	public record StoneSet(StoneFamily stone, StoneFamily cobbled, StoneFamily bricks, StoneFamily polished, FeatureBlock<Block, BlockItem> chiseled) {
+		/**
+		 * @return Every family the set registered, in creative tab order
+		 */
+		public List<StoneFamily> families() {
+			return List.of(this.stone, this.cobbled, this.bricks, this.polished);
+		}
+	}
+
+	/**
+	 * Registers a base block and the stairs, slab and wall cut from it.
+	 *
+	 * @param id    The registry id of the base block, which the three shape ids derive from
+	 * @param color The map color every block in the family carries
+	 * @param sound The sound type every block in the family carries
+	 * @return The four registered blocks
+	 */
+	private static StoneFamily stoneFamily(String id, MapColor color, SoundType sound) {
+		// shapes cut from an "<x>_bricks" block are named "<x>_brick_<shape>", singular
+		String shape = id.endsWith("bricks") ? id.substring(0, id.length() - 1) : id;
+
+		return new StoneFamily(
+			REGISTRY.block(Block::new, mudBrickProperties(Blocks.MUD_BRICKS, color, sound), ItemBlockForestry::new, id),
+			// Deviation from 1.20.1: StairBlock took a Supplier<BlockState> there and takes the BlockState
+			// itself here, so the base state is read eagerly rather than on first use
+			REGISTRY.block(properties -> new StairBlock(Blocks.MUD_BRICKS.defaultBlockState(), properties), mudBrickProperties(Blocks.MUD_BRICK_STAIRS, color, sound), ItemBlockForestry::new, shape + "_stairs"),
+			REGISTRY.block(SlabBlock::new, mudBrickProperties(Blocks.MUD_BRICK_SLAB, color, sound), ItemBlockForestry::new, shape + "_slab"),
+			REGISTRY.block(WallBlock::new, mudBrickProperties(Blocks.MUD_BRICK_WALL, color, sound), ItemBlockForestry::new, shape + "_wall")
+		);
+	}
+
+	/**
+	 * Registers the chiseled block of a brick family or a stone set.
+	 *
+	 * @param id    The registry id of the family's base block, which the chiseled id derives from
+	 * @param color The map color the block carries
+	 * @param sound The sound type the block carries
+	 * @return The registered block
+	 */
+	private static FeatureBlock<Block, BlockItem> chiseled(String id, MapColor color, SoundType sound) {
+		return REGISTRY.block(Block::new, mudBrickProperties(Blocks.MUD_BRICKS, color, sound), ItemBlockForestry::new, "chiseled_" + id);
+	}
+
+	/**
+	 * Registers a stone block, its cobbled, brick and polished finishes with the stairs, slab and wall of
+	 * each, and the chiseled block the four finishes share.
+	 *
+	 * @param id    The registry id of the plain stone block, which the other sixteen ids derive from
+	 * @param color The map color every block in the set carries
+	 * @param sound The sound type every block in the set carries
+	 * @return The seventeen registered blocks
+	 */
+	private static StoneSet stoneSet(String id, MapColor color, SoundType sound) {
+		return new StoneSet(
+			stoneFamily(id, color, sound),
+			stoneFamily("cobbled_" + id, color, sound),
+			stoneFamily(id + "_bricks", color, sound),
+			stoneFamily("polished_" + id, color, sound),
+			chiseled(id, color, sound)
+		);
+	}
+
+	/**
+	 * Used to build the properties of one decorative block. Every one of them copies a vanilla mud brick
+	 * block and overrides only the map color and the sound.
+	 *
+	 * @param copyFrom The vanilla mud brick block of the matching shape
+	 * @param color    The map color the block carries
+	 * @param sound    The sound type the block carries
+	 * @return The properties supplier the registry calls once at registration
+	 */
+	private static Supplier<Properties> mudBrickProperties(Block copyFrom, MapColor color, SoundType sound) {
+		// The four vanilla mud brick blocks never call dropsLike, so ofFullCopy carries a null `drops` and
+		// cannot steal a vanilla loot table id the way it would for a block built with one
+		return () -> Properties.ofFullCopy(copyFrom).mapColor(color).sound(sound);
+	}
 }

@@ -154,6 +154,73 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				: (lit ? "burn_barrel_burning" : "burn_barrel_empty");
 			return ConfiguredModel.builder().modelFile(models().getExistingFile(modBlock(this, name))).build();
 		});
+
+		// Decorative stone and brick blocks
+		simpleBlock(CoreBlocks.ASHEN_WAX_BLOCK.block());
+		generic3d(CoreBlocks.ASHEN_WAX_BLOCK.block());
+		simpleBlock(CoreBlocks.CRISPY_HONEY_BLOCK.block());
+		generic3d(CoreBlocks.CRISPY_HONEY_BLOCK.block());
+
+		for (CoreBlocks.StoneFamily family : CoreBlocks.DECORATIVE_FAMILIES) {
+			stoneFamily(family);
+		}
+		// A chiseled brick block wears one texture on all six faces
+		chiseledCube(CoreBlocks.CHISELED_ASH_BRICKS.block());
+		chiseledCube(CoreBlocks.CHISELED_WAX_BRICKS.block());
+		chiseledCube(CoreBlocks.CHISELED_REFRACTORY_WAX_BRICKS.block());
+		// A chiseled stone block wears a separate top
+		for (CoreBlocks.StoneSet set : CoreBlocks.STONE_SETS) {
+			chiseledColumn(set.chiseled().block());
+		}
+	}
+
+	/**
+	 * Emits the blockstates, block models and item models of one decorative shape family. Every block in the
+	 * family samples block/&lt;base block id&gt;.
+	 */
+	private void stoneFamily(CoreBlocks.StoneFamily family) {
+		Block base = family.base().block();
+		ResourceLocation texture = modBlock(this, path(base));
+
+		simpleBlock(base);
+		generic3d(base);
+
+		stairsBlock(family.stairs().block(), texture);
+		generic3d(family.stairs().block());
+
+		// The double-slab variant reuses the base block's cube_all, which sits at the texture's own path
+		slabBlock(family.slab().block(), texture, texture);
+		generic3d(family.slab().block());
+
+		String wall = path(family.wall().block());
+		wallBlock(family.wall().block(), texture);
+		// wallBlock emits post and side models only, so the item needs an inventory model of its own
+		models().wallInventory(wall + "_inventory", texture);
+		itemModels().withExistingParent(wall, modBlock(this, wall + "_inventory"));
+	}
+
+	/**
+	 * Emits the blockstate, block model and item model of a chiseled brick block, which samples
+	 * block/&lt;id&gt; on all six faces.
+	 */
+	private void chiseledCube(Block block) {
+		simpleBlock(block);
+		generic3d(block);
+	}
+
+	/**
+	 * Emits the blockstate, block model and item model of a chiseled stone block, which samples
+	 * block/&lt;id&gt;_top on the top and bottom and block/&lt;id&gt;_side on the four sides.
+	 * <p>
+	 * Deviation from 1.20.1: these three models were hand-authored there, as an inline cube carrying the
+	 * display block vanilla's block/block parent already gives it. cube_bottom_top writes the same six faces.
+	 */
+	private void chiseledColumn(Block block) {
+		String name = path(block);
+		ResourceLocation top = modBlock(this, name + "_top");
+
+		singleModelBlock(this, block, models().cubeBottomTop(name, modBlock(this, name + "_side"), top, top));
+		generic3d(block);
 	}
 
 	// Builds a block/cube model whose faces map to textures block/<prefix>.<n>, then emits a

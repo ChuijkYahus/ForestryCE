@@ -64,6 +64,8 @@ public class ForestryItemTagsProvider {
 		tags.copy(BlockTags.WOODEN_SLABS, ItemTags.WOODEN_SLABS);
 		tags.copy(BlockTags.DOORS, ItemTags.DOORS);
 		tags.copy(BlockTags.WOODEN_DOORS, ItemTags.WOODEN_DOORS);
+		// The decorative stone and brick walls are the only forestry blocks in BlockTags.WALLS
+		tags.copy(BlockTags.WALLS, ItemTags.WALLS);
 
 		tags.tag(ItemTags.SAPLINGS).add(ArboricultureItems.TREE_SAPLING.get());
 		tags.copy(BlockTags.LEAVES, ItemTags.LEAVES);

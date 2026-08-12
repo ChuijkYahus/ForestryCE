@@ -15,6 +15,7 @@ import forestry.core.platform.registration.FeatureBlockGroup;
 import forestry.core.content.worktable.features.WorktableBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
@@ -48,6 +49,18 @@ public final class ForestryBlockTagsProvider {
 
 		// Deviation from 1.20.1: that tree hand-built the WALL_POST_OVERRIDE TagKey; 1.21.1 exposes it on BlockTags
 		tags.tag(BlockTags.WALL_POST_OVERRIDE).add(CoreBlocks.PHOSPHOR_TORCH.block());
+
+		// Decorative stone and brick blocks. 1.20.1 left ashen_wax_block and crispy_honey_block out of
+		// mineable/pickaxe, so they stay out here
+		for (CoreBlocks.StoneFamily family : CoreBlocks.DECORATIVE_FAMILIES) {
+			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(family.blocks());
+			tags.tag(BlockTags.STAIRS).add(family.stairs().block());
+			tags.tag(BlockTags.SLABS).add(family.slab().block());
+			tags.tag(BlockTags.WALLS).add(family.wall().block());
+		}
+		for (FeatureBlock<Block, BlockItem> chiseled : CoreBlocks.DECORATIVE_CHISELED) {
+			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(chiseled.block());
+		}
 
 		for (Block block : union(CoreBlocks.RESOURCE_STORAGE, FactoryBlocks.PLAIN, FactoryBlocks.TESR)) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);

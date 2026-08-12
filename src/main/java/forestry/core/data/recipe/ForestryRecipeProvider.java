@@ -59,6 +59,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -117,6 +118,7 @@ public class ForestryRecipeProvider {
 		registerBackpackRecipes(recipes);
 		registerCharcoalRecipes(recipes);
 		registerCoreRecipes(recipes);
+		registerDecorativeRecipes(output, recipes);
 		registerFactoryRecipes(recipes);
 		registerFluidsRecipes(output);
 		registerSortingRecipes(recipes);
@@ -905,6 +907,138 @@ public class ForestryRecipeProvider {
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, CoreItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
+	}
+
+	/**
+	 * Registers the crafting, smelting and stonecutting recipes of the decorative stone and brick blocks.
+	 */
+	private static void registerDecorativeRecipes(RecipeOutput output, MKRecipeProvider recipes) {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.ASH_BRICKS.base(), recipe -> {
+			recipe.define('X', CoreItems.ASH_BRICK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAX_BRICKS.base(), 4, recipe -> {
+			recipe.define('X', CoreItems.WAX_BRICK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.REFRACTORY_WAX_BRICKS.base(), 4, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX_BRICK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+
+		stoneFamily(output, recipes, CoreBlocks.ASH_BRICKS);
+		chiseledStone(output, recipes, CoreBlocks.CHISELED_ASH_BRICKS, CoreBlocks.ASH_BRICKS);
+		stoneFamily(output, recipes, CoreBlocks.WAX_BRICKS);
+		chiseledStone(output, recipes, CoreBlocks.CHISELED_WAX_BRICKS, CoreBlocks.WAX_BRICKS);
+		stoneFamily(output, recipes, CoreBlocks.REFRACTORY_WAX_BRICKS);
+		chiseledStone(output, recipes, CoreBlocks.CHISELED_REFRACTORY_WAX_BRICKS, CoreBlocks.REFRACTORY_WAX_BRICKS);
+
+		stoneSet(output, recipes, CoreBlocks.WAXSTONE, Ingredient.of(CoreItems.BEESWAX));
+		stoneSet(output, recipes, CoreBlocks.REFRACTORY_WAXSTONE, Ingredient.of(CoreItems.REFRACTORY_WAX));
+		stoneSet(output, recipes, CoreBlocks.HONEYSTONE, Ingredient.of(CoreItems.HONEY_DROP, CoreItems.HONEYDEW));
+	}
+
+	/**
+	 * Registers the recipes of one decorative stone set. The plain stone and the cobbled block are eight
+	 * vanilla stone or cobblestone soaked in one unit of the binder, the brick and polished finishes are cut
+	 * from those two, and the plain stone is also smelted back out of the cobbled block.
+	 *
+	 * @param output  The output the stonecutting recipes are written through
+	 * @param recipes The provider the crafting and smelting recipes are written through
+	 * @param set     The seventeen blocks to write recipes for
+	 * @param binder  The ingredient the vanilla stone is soaked in, one per eight
+	 */
+	private static void stoneSet(RecipeOutput output, MKRecipeProvider recipes, CoreBlocks.StoneSet set, Ingredient binder) {
+		ItemLike stone = set.stone().base();
+		ItemLike cobbled = set.cobbled().base();
+
+		// Explicit ID: the default would be the plain stone's own name, which the smelting recipe below
+		// already claims, and one would silently overwrite the other
+		recipes.shapedCrafting(path(stone) + "_crafting", RecipeCategory.BUILDING_BLOCKS, stone, 8, recipe -> {
+			recipe.define('X', binder);
+			recipe.define('#', Blocks.STONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, cobbled, 8, recipe -> {
+			recipe.define('X', binder);
+			recipe.define('#', Blocks.COBBLESTONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		recipes.smelting(cobbled, stone, 0.1f);
+
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, set.polished().base(), 4, Ingredient.of(cobbled));
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, set.bricks().base(), 4, Ingredient.of(stone));
+
+		for (CoreBlocks.StoneFamily family : set.families()) {
+			stoneFamily(output, recipes, family);
+		}
+		chiseledStone(output, recipes, set.chiseled(), set.stone());
+	}
+
+	/**
+	 * Registers the crafting and stonecutting recipes of one decorative shape family.
+	 * <p>
+	 * Deviation from 1.20.1: the cobbled families took the set's plain stone as the ingredient of all three
+	 * shapes there, not their own cobbled block. That gave, for example, cobbled_waxstone_stairs and
+	 * waxstone_stairs the same pattern over the same ingredient, so only one of the two could ever fire.
+	 * Each family is cut from its own base block here.
+	 *
+	 * @param output  The output the stonecutting recipes are written through
+	 * @param recipes The provider the crafting recipes are written through
+	 * @param family  The four blocks to write recipes for
+	 */
+	private static void stoneFamily(RecipeOutput output, MKRecipeProvider recipes, CoreBlocks.StoneFamily family) {
+		ItemLike base = family.base();
+		String name = path(base);
+
+		recipes.stairs(family.stairs(), base);
+		stonecutting(output, base, family.stairs(), 1, name + "_stairs_from_stonecutting");
+
+		recipes.slab(family.slab(), base);
+		stonecutting(output, base, family.slab(), 2, name + "_slabs_from_stonecutting");
+
+		recipes.grid3x2(RecipeCategory.BUILDING_BLOCKS, family.wall(), 6, Ingredient.of(base));
+		stonecutting(output, base, family.wall(), 1, name + "_walls_from_stonecutting");
+	}
+
+	/**
+	 * Registers the crafting and stonecutting recipes of one chiseled block, which is two slabs stacked or
+	 * one base block cut.
+	 *
+	 * @param output   The output the stonecutting recipe is written through
+	 * @param recipes  The provider the crafting recipe is written through
+	 * @param chiseled The block to write recipes for
+	 * @param family   The family the chiseled block belongs to
+	 */
+	private static void chiseledStone(RecipeOutput output, MKRecipeProvider recipes, ItemLike chiseled, CoreBlocks.StoneFamily family) {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, chiseled, recipe -> {
+			recipe.define('_', family.slab());
+			recipe.pattern("_");
+			recipe.pattern("_");
+		});
+		stonecutting(output, family.base(), chiseled, 1, path(chiseled) + "_from_stonecutting");
+	}
+
+	/**
+	 * Registers one stonecutting recipe.
+	 *
+	 * @param output The output the recipe is written through
+	 * @param input  The block fed to the stonecutter
+	 * @param result The block cut out of it
+	 * @param count  The number of results one input yields
+	 * @param name   The recipe id, carried over from 1.20.1 unchanged
+	 */
+	private static void stonecutting(RecipeOutput output, ItemLike input, ItemLike result, int count, String name) {
+		SingleItemRecipeBuilder builder = SingleItemRecipeBuilder.stonecutting(Ingredient.of(input), RecipeCategory.BUILDING_BLOCKS, result, count);
+		MKRecipeProvider.unlockedByHaving(builder, input);
+		builder.save(output, id(name));
 	}
 
 	private static void bogRecipe(MKRecipeProvider recipes, int amount, ItemStack container, String name) {

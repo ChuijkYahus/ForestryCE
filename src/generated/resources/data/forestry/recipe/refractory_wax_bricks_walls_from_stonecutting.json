@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "forestry:refractory_wax_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "forestry:refractory_wax_brick_wall"
+  }
+}
