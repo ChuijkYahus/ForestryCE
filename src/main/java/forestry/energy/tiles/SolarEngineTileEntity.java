@@ -1,7 +1,14 @@
 package forestry.energy.tiles;
 
+import forestry.api.IForestryApi;
+import forestry.api.circuits.ForestryCircuitSocketTypes;
+import forestry.api.circuits.ICircuitBoard;
+import forestry.api.core.ForestryError;
+import forestry.core.circuits.ISocketable;
+import forestry.core.circuits.ISolarEngineUpgradeable;
 import forestry.core.config.Constants;
 import forestry.core.config.ForestryConfig;
+import forestry.core.inventory.InventoryAdapter;
 import forestry.energy.blocks.SolarPanelBlock;
 import forestry.energy.features.EnergyBlocks;
 import forestry.energy.features.EnergyTiles;
@@ -10,41 +17,66 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
-public class SolarEngineTileEntity extends EngineBlockEntity {
-
-	public int activePanels;
-	private int miliBuffer;
-	public int arraySize;
-	public int darkening;
-	private final HashSet<BlockPos> array;
+public class SolarEngineTileEntity extends EngineBlockEntity implements WorldlyContainer, ISocketable, ISolarEngineUpgradeable {
+	/**
+	 * Sky darkening level past which panels stop generating entirely. Insolation halves for every
+	 * level below this, so a panel at this level is already down to 1/128th of its rated output.
+	 */
+	public static final int MAX_SKY_DARKEN = 7;
+	/**
+	 * Scales the array size bonus. Total bonus grows with the square of the array, so a single
+	 * large array is worth considerably more than the same panels split into several small ones.
+	 */
+	private static final double ARRAY_BONUS_FACTOR = 0.03;
 
 	public static final Direction[] HORIZONTAL_DIRECTOINS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+
+	public int activePanels;
+	private final HashSet<BlockPos> array;
+	private final InventoryAdapter sockets = new InventoryAdapter(1, "sockets");
+	/**
+	 * Fractional FE left over from the previous tick. Output is a decimal amount of FE/t but energy
+	 * can only be generated in whole units, so the remainder is carried instead of being discarded.
+	 */
+	private double energyBuffer;
+
+	// Client-side mirrors of the server state, synced through the GUI stream.
+	private int activeCount;
+	private int totalCount;
+	private int skyDarken;
 
 	public SolarEngineTileEntity(BlockPos pos, BlockState state) {
 		super(EnergyTiles.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 10000);
 
-		array = new HashSet<>();
+		this.array = new HashSet<>();
 	}
 
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		super.serverTick(level, pos, state);
+
+		this.getErrorLogic().setCondition(this.array.isEmpty(), ForestryError.NO_SOLAR_PANELS);
+		this.getErrorLogic().setCondition(!this.array.isEmpty() && insolation(level) <= 0.0, ForestryError.NO_SUNLIGHT);
+
 		if (!updateOnInterval(20)) {
 			return;
 		}
-		if (array.isEmpty()) {
+		if (this.array.isEmpty()) {
 			activePanels = 0;
-			attachPanel(array, pos.above(), level);
+			attachPanel(this.array, pos.above(), level);
 			setChanged();
 		}
 	}
@@ -139,22 +171,102 @@ public class SolarEngineTileEntity extends EngineBlockEntity {
 
 	@Override
 	protected void burn() {
-		if (isRedstoneActivated()) {
-			if (level.dimension().location().toString().equals("twilightforest:twilight_forest")) {
-				miliBuffer = activePanels * ForestryConfig.SERVER.twilightSolarRF.get();
-				currentOutput = miliBuffer / 1000;
-				miliBuffer = miliBuffer % 1000;
-				energyStorage.generateEnergy(currentOutput);
-			} else {
-				if (level.getSkyDarken() < 7) {
-					miliBuffer += (activePanels * ForestryConfig.SERVER.solarRF.get()) >> level.getSkyDarken();
-					currentOutput = miliBuffer / 1000;
-					miliBuffer = miliBuffer % 1000;
-					energyStorage.generateEnergy(currentOutput);
-				} else
-					currentOutput = 0;
-			}
+		if (!isRedstoneActivated()) {
+			currentOutput = 0;
+			return;
 		}
+		double output = calculateOutput(this.level, this.activePanels);
+		if (output <= 0.0) {
+			currentOutput = 0;
+			return;
+		}
+		this.energyBuffer += output;
+		currentOutput = (int) this.energyBuffer;
+		this.energyBuffer -= currentOutput;
+		energyStorage.generateEnergy(currentOutput);
+	}
+
+	private static boolean isTwilightForest(Level level) {
+		return level.dimension().location().toString().equals("twilightforest:twilight_forest");
+	}
+
+	/**
+	 * The fraction of a panel's rated output that reaches it under the current sky conditions.
+	 * Output halves for every level of sky darkening, and the Twilight Forest is treated as a
+	 * constant dim sky rather than a darkening one.
+	 *
+	 * @param level The level the engine is in
+	 * @return Insolation as a fraction between 0 and 1
+	 */
+	public static double insolation(Level level) {
+		return insolation(level, level.getSkyDarken());
+	}
+
+	/**
+	 * Same as {@link #insolation(Level)}, but for a sky darkening level supplied by the caller so
+	 * the GUI can show the value the server actually generated with.
+	 *
+	 * @param level     The level the engine is in
+	 * @param skyDarken The sky darkening level to evaluate
+	 * @return Insolation as a fraction between 0 and 1
+	 */
+	public static double insolation(Level level, int skyDarken) {
+		if (isTwilightForest(level)) {
+			return 1.0;
+		}
+		return skyDarken > MAX_SKY_DARKEN ? 0.0 : Math.pow(2.0, -skyDarken);
+	}
+
+	/**
+	 * The rated output of a single panel before any array size bonus or insolation is applied.
+	 *
+	 * @param level The level the engine is in
+	 * @return FE/t produced by one panel
+	 */
+	public static double panelOutput(Level level) {
+		return isTwilightForest(level) ? ForestryConfig.SERVER.twilightSolarFE.get() : ForestryConfig.SERVER.solarFE.get();
+	}
+
+	/**
+	 * Calculates the total bonus FE that should be generated by this engine based on the number of
+	 * active panels, before insolation is applied.
+	 *
+	 * @param panels The number of active and connected solar panels
+	 * @return Total bonus FE produced per tick
+	 */
+	public static double calcBonusOutput(int panels) {
+		return panels <= 0 ? 0.0 : ARRAY_BONUS_FACTOR * Math.pow(panels - 1, 2);
+	}
+
+	/**
+	 * The multiplier the array size bonus applies on top of the flat per-panel output. Insolation
+	 * scales the flat output and the bonus equally, so it cancels out and does not appear here.
+	 *
+	 * @param level  The level the engine is in
+	 * @param panels The number of active and connected solar panels
+	 * @return Multiplier of 1 or more, or 0 when there are no active panels
+	 */
+	public static double calculateMult(Level level, int panels) {
+		if (panels <= 0) {
+			return 0.0;
+		}
+		double base = panels * panelOutput(level);
+		return base <= 0.0 ? 0.0 : (base + calcBonusOutput(panels)) / base;
+	}
+
+	/**
+	 * The total energy this engine generates per tick, including the array size bonus and the
+	 * current insolation.
+	 *
+	 * @param level  The level the engine is in
+	 * @param panels The number of active and connected solar panels
+	 * @return FE produced per tick, as a decimal amount
+	 */
+	public static double calculateOutput(Level level, int panels) {
+		if (panels <= 0) {
+			return 0.0;
+		}
+		return (panels * panelOutput(level) + calcBonusOutput(panels)) * insolation(level);
 	}
 
 	@Override
@@ -163,13 +275,14 @@ public class SolarEngineTileEntity extends EngineBlockEntity {
 	}
 
 	@Override
-	public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-		return new SolarEngineMenu(i, inventory, this);
+	public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+		return new SolarEngineMenu(containerId, playerInventory, this);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
+		this.sockets.write(nbt);
 		nbt.putInt("active", activePanels);
 		// it has to be this way, long array stalls the game
 		nbt.putInt("array_size", array.size());
@@ -183,6 +296,7 @@ public class SolarEngineTileEntity extends EngineBlockEntity {
 	@Override
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
+		this.sockets.read(nbt);
 		activePanels = nbt.getInt("active");
 		int i = nbt.getInt("array_size");
 		i--;
@@ -195,19 +309,86 @@ public class SolarEngineTileEntity extends EngineBlockEntity {
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
-		super.writeData(data);
-		data.writeInt(activePanels);
-		data.writeInt(array.size());
-		data.writeInt(level.getSkyDarken());
-		data.writeInt(currentOutput);
+		super.writeGuiData(data);
+		this.sockets.writeData(data);
+		data.writeInt(this.activePanels);
+		data.writeInt(this.array.size());
+		data.writeInt(this.level.getSkyDarken());
 	}
 
 	@Override
 	public void readGuiData(FriendlyByteBuf data) {
-		super.readData(data);
-		activePanels = data.readInt();
-		arraySize = data.readInt();
-		darkening = data.readInt();
-		currentOutput = data.readInt();
+		super.readGuiData(data);
+		this.sockets.readData(data);
+		this.activeCount = data.readInt();
+		this.totalCount = data.readInt();
+		this.skyDarken = data.readInt();
+	}
+
+	@Override
+	public void applyEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
+
+	}
+
+	@Override
+	public void removeEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
+
+	}
+
+	@Override
+	public int getSocketCount() {
+		return this.sockets.getContainerSize();
+	}
+
+	@Override
+	public ItemStack getSocket(int slot) {
+		return this.sockets.getItem(slot);
+	}
+
+	@Override
+	public void setSocket(int slot, ItemStack stack) {
+		if (!stack.isEmpty() && !IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(stack)) {
+			return;
+		}
+
+		// Dispose correctly of old chipsets
+		if (!this.sockets.getItem(slot).isEmpty()) {
+			if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(this.sockets.getItem(slot))) {
+				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(this.sockets.getItem(slot));
+				if (chipset != null) {
+					chipset.onRemoval(this);
+				}
+			}
+		}
+
+		this.sockets.setItem(slot, stack);
+		if (stack.isEmpty()) {
+			return;
+		}
+
+		ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(stack);
+		if (chipset != null) {
+			chipset.onInsertion(this);
+		}
+	}
+
+	@Override
+	public ResourceLocation getSocketType() {
+		return ForestryCircuitSocketTypes.SOLAR_ENGINE;
+	}
+
+	// WORKS CLIENTSIDE ONLY
+	public int getActivePanelCount() {
+		return this.activeCount;
+	}
+
+	// WORKS CLIENTSIDE ONLY
+	public int getPanelCount() {
+		return this.totalCount;
+	}
+
+	// WORKS CLIENTSIDE ONLY
+	public int getSkyDarken() {
+		return this.skyDarken;
 	}
 }

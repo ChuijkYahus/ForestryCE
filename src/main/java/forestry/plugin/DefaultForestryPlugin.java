@@ -374,6 +374,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		circuits.registerLayout(ForestryCircuitLayouts.MANUAL_FARM, ForestryCircuitSocketTypes.FARM);
 		circuits.registerLayout(ForestryCircuitLayouts.MACHINE_UPGRADE, ForestryCircuitSocketTypes.MACHINE);
 		circuits.registerLayout(ForestryCircuitLayouts.ENGINE_UPGRADE, ForestryCircuitSocketTypes.ENGINE);
+		circuits.registerLayout(ForestryCircuitLayouts.SOLAR_ENGINE_UPGRADE, ForestryCircuitSocketTypes.SOLAR_ENGINE);
 
 		// Managed Farms
 		registerFarmCircuit(circuits, EnumElectronTube.COPPER, ForestryFarmTypes.ARBOREAL, false);
@@ -407,6 +408,9 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.LAPIS), new CircuitEngineUpgrade("engine.efficiency.1",0,0.1f,0));
 		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.DIAMOND), new CircuitEngineUpgrade("engine.efficiency.2",0,0.2f,0));
 		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.APATITE), new CircuitEngineUpgrade("engine.biogas.overclock",0,-0.2f,2));
+
+		//Currently, there are no upgrades for Solar Engines... Maybe Steve hasn't discovered them yet?
+
 	}
 
 	private static void registerFarmCircuit(ICircuitRegistration circuits, EnumElectronTube tube, ResourceLocation typeId, boolean manual) {

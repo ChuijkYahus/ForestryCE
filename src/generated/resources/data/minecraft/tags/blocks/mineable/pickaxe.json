@@ -12,6 +12,8 @@
     "forestry:engine_combustion",
     "forestry:engine_solar",
     "forestry:solar_panel",
+    "forestry:phosphor_lantern",
+    "forestry:tin_chain",
     "forestry:ash_bricks",
     "forestry:chiseled_ash_bricks",
     "forestry:ash_brick_wall",

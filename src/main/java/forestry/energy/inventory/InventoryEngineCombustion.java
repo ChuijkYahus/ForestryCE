@@ -1,8 +1,7 @@
 package forestry.energy.inventory;
 
 import forestry.core.inventory.InventoryAdapterTile;
-import forestry.energy.tiles.BiogasEngineBlockEntity;
-import forestry.energy.tiles.CombustionEngineTileEntity;
+import forestry.energy.tiles.CombustionEngineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -10,10 +9,10 @@ import net.minecraftforge.fluids.FluidUtil;
 
 import java.util.Optional;
 
-public class InventoryEngineCombustion extends InventoryAdapterTile<CombustionEngineTileEntity> {
+public class InventoryEngineCombustion extends InventoryAdapterTile<CombustionEngineBlockEntity> {
 	public static final short SLOT_CAN = 0;
 
-	public InventoryEngineCombustion(CombustionEngineTileEntity engineIron) {
+	public InventoryEngineCombustion(CombustionEngineBlockEntity engineIron) {
 		super(engineIron, 1, "Items");
 	}
 

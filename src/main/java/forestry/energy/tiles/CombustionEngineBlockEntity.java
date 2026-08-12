@@ -40,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static net.minecraftforge.fluids.FluidType.BUCKET_VOLUME;
 
-public class CombustionEngineTileEntity extends EngineBlockEntity implements WorldlyContainer, ILiquidTankTile, IEngineUpgradeable, ISocketable {
+public class CombustionEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ILiquidTankTile, IEngineUpgradeable, ISocketable {
 	private final StandardTank burnTank;
 	private final StandardTank waterTank;
 	private final FilteredTank fuelTank;
@@ -57,7 +57,7 @@ public class CombustionEngineTileEntity extends EngineBlockEntity implements Wor
 
 	private final LazyOptional<IFluidHandler> fluidCap;
 
-	public CombustionEngineTileEntity(BlockPos pos, BlockState state){
+	public CombustionEngineBlockEntity(BlockPos pos, BlockState state){
 		super(EnergyTiles.COMBUSTION_ENGINE.tileType(), pos, state, "engine_iron", Constants.ENGINE_COPPER_HEAT_MAX, 80000);
 
 		setInternalInventory(new InventoryEngineCombustion(this));

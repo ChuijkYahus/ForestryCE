@@ -1,0 +1,38 @@
+{
+  "parent": "forestry:get_engine",
+  "criteria": {
+    "forestry:get_solar_panel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "forestry:solar_panel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.forestry.get_solar_panel.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "forestry:solar_panel"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.forestry.get_solar_panel.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_solar_panel"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

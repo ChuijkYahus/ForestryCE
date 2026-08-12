@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:phosphor_torches"
+        "recipe": "forestry:phosphor_torch"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:phosphor_torches"
+      "forestry:phosphor_torch"
     ]
   },
   "sends_telemetry_event": true

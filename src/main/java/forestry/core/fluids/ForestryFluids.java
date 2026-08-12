@@ -74,6 +74,11 @@ public enum ForestryFluids {
 		.density(1420)
 		.viscosity(500)
 		.temperature(329)
+	),
+	EXPERIENCE(properties -> properties
+		.particleColor(ForestryColors.color(133, 211, 84))
+		.density(520)
+		.viscosity(5000)
 	);
 
 	private static final Map<ResourceLocation, ForestryFluids> tagToFluid = new HashMap<>();

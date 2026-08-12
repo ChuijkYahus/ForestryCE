@@ -513,6 +513,9 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.PLYWOOD_BLOCK);
 		items.accept(CoreBlocks.PLYWOOD_SHEET);
 		items.accept(CoreBlocks.CORK);
+		items.accept(CoreItems.PHOSPHOR_TORCH_ITEM);
+		items.accept(CoreBlocks.PHOSPHOR_LANTERN);
+		items.accept(CoreBlocks.TIN_CHAIN);
 
 		items.accept(CharcoalBlocks.ASH);
 		items.accept(CoreBlocks.ASH_BRICKS);

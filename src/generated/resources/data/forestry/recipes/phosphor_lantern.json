@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    ".": {
+      "tag": "forge:nuggets/tin"
+    },
+    "^": {
+      "item": "forestry:phosphor_torch"
+    }
+  },
+  "pattern": [
+    "...",
+    ".^.",
+    "..."
+  ],
+  "result": {
+    "item": "forestry:phosphor_lantern"
+  },
+  "show_notification": true
+}
