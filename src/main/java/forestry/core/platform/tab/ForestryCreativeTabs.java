@@ -98,6 +98,7 @@ public class ForestryCreativeTabs {
 		// Processed ores
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.INGOT_TIN);
+		items.accept(CoreItems.TIN_NUGGET);
 		items.accept(CoreItems.INGOT_BRONZE);
 		// Block forms
 		items.accept(CoreBlocks.RAW_TIN_BLOCK);
@@ -134,6 +135,11 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.BITUMINOUS_PEAT);
 		items.accept(CoreItems.BEESWAX);
 		items.accept(CoreItems.REFRACTORY_WAX);
+		// Lighting
+		// Deviation from 1.20.1: that tree listed these in addAllBuildingBlocks, which this tree does not have yet
+		items.accept(CoreItems.PHOSPHOR_TORCH_ITEM);
+		items.accept(CoreBlocks.PHOSPHOR_LANTERN);
+		items.accept(CoreBlocks.TIN_CHAIN);
 		// todo merge more items into crafting materials
 		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
 

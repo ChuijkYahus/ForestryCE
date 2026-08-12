@@ -83,6 +83,8 @@ public class ForestryTags {
 
 		public static final TagKey<Item> INGOTS_BRONZE = commonTag("ingots/bronze");
 		public static final TagKey<Item> INGOTS_TIN = commonTag("ingots/tin");
+		// Deviation from 1.20.1: item/block tags moved from the forge: namespace to c:, so this uses commonTag
+		public static final TagKey<Item> NUGGETS_TIN = commonTag("nuggets/tin");
 
 		public static final TagKey<Item> GEARS = commonTag("gears");
 		public static final TagKey<Item> GEARS_BRONZE = commonTag("gears/bronze");

@@ -16,8 +16,10 @@ import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.core.content.resources.EnumElectronTube;
 import forestry.core.content.tools.ToolTier;
 import forestry.core.platform.registration.*;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PickaxeItem;
@@ -53,6 +55,9 @@ public class CoreItems {
 	/* Ingots */
 	public static final FeatureItem<ItemForestry> INGOT_TIN = REGISTRY.item(ItemForestry::new, "tin_ingot");
 	public static final FeatureItem<ItemForestry> INGOT_BRONZE = REGISTRY.item(ItemForestry::new, "bronze_ingot");
+
+	/* Nuggets */
+	public static final FeatureItem<ItemForestry> TIN_NUGGET = REGISTRY.item(ItemForestry::new, "tin_nugget");
 
 	/* Tools */
 	public static final FeatureItem<ItemWrench> WRENCH = REGISTRY.item(ItemWrench::new, "wrench");
@@ -117,6 +122,8 @@ public class CoreItems {
 	public static final FeatureItem<ItemForestry> DISSIPATION_CHARGE = REGISTRY.item(ItemForestry::new, "dissipation_charge");
 
 	/* Misc */
+	// Deviation from 1.20.1: forestry.core.items.ItemProperties no longer exists, so this uses a plain Item.Properties.
+	public static final FeatureItem<Item> PHOSPHOR_TORCH_ITEM = REGISTRY.item(() -> new StandingAndWallBlockItem(CoreBlocks.PHOSPHOR_TORCH.block(), CoreBlocks.PHOSPHOR_WALL_TORCH.block(), new Item.Properties(), Direction.DOWN), "phosphor_torch");
 	public static final FeatureItemGroup<ItemCraftingMaterial, EnumCraftingMaterial> CRAFTING_MATERIALS = REGISTRY.itemGroup(ItemCraftingMaterial::new, EnumCraftingMaterial.values()).create();
 	public static final FeatureItemGroup<ItemFruit, ItemFruit.EnumFruit> FRUITS = REGISTRY.itemGroup(ItemFruit::new, ItemFruit.EnumFruit.values()).identifier(type -> type == ItemFruit.EnumFruit.DATES ? "date" : type.getSerializedName()).create();
 	// moved out of apiculture: the scoop catches butterflies as well as bees, and the honey

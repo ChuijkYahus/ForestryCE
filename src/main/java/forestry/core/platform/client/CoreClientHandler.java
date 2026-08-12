@@ -108,6 +108,10 @@ public class CoreClientHandler implements IClientModuleHandler {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFlowing(), RenderType.translucent());
 			}
 
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_WALL_TORCH.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_TORCH.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.TIN_CHAIN.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_LANTERN.block(), RenderType.cutout());
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());

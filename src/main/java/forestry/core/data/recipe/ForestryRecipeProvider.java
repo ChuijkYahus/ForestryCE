@@ -613,6 +613,35 @@ public class ForestryRecipeProvider {
 			recipe.pattern("###");
 		});
 		recipes.shapelessCrafting("ingot_tin_from_resource_storage_tin", RecipeCategory.MISC, CoreItems.INGOT_TIN.item(), 9, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN));
+		// Deviation from 1.20.1: that tree spelled the counted ingredient IntObjectPair.of(9, item);
+		// this tree's idiom for the same MKRecipeProvider feature is ObjectIntPair.of(item, 9)
+		recipes.shapelessCrafting("tin_from_nuggets", RecipeCategory.MISC, CoreItems.INGOT_TIN, 1, ObjectIntPair.of(CoreItems.TIN_NUGGET, 9));
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.TIN_NUGGET, 9, CoreItems.INGOT_TIN);
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TIN_CHAIN, recipe -> {
+			recipe.define('|', Ingredient.of(ForestryTags.Items.INGOTS_TIN));
+			recipe.define('.', Ingredient.of(ForestryTags.Items.NUGGETS_TIN));
+			recipe.pattern(".");
+			recipe.pattern("|");
+			recipe.pattern(".");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreItems.PHOSPHOR_TORCH_ITEM, 4, recipe -> {
+			recipe.define('.', CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.PHOSPHOR));
+			recipe.define('^', ItemTags.COALS);
+			recipe.define('|', Items.STICK);
+			recipe.pattern(".");
+			recipe.pattern("^");
+			recipe.pattern("|");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PHOSPHOR_LANTERN, recipe -> {
+			recipe.define('.', Ingredient.of(ForestryTags.Items.NUGGETS_TIN));
+			recipe.define('^', CoreItems.PHOSPHOR_TORCH_ITEM);
+			recipe.pattern("...");
+			recipe.pattern(".^.");
+			recipe.pattern("...");
+		});
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER), recipe -> {
 			recipe.define('#', CoreItems.AMBER);
 			recipe.pattern("##");
@@ -800,13 +829,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern("VVV");
 			recipe.pattern("V V");
 			recipe.pattern("VVV");
-		});
-
-		recipes.shapedCrafting("phosphor_torches", RecipeCategory.MISC, Items.TORCH, 6, recipe -> {
-			recipe.define('P', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
-			recipe.define('|', Tags.Items.RODS_WOODEN);
-			recipe.pattern(" P ");
-			recipe.pattern(" | ");
 		});
 
 		recipes.shapedCrafting("beeswax_candles", RecipeCategory.MISC, Items.CANDLE, 1, recipe -> {

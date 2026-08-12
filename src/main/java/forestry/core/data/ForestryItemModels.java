@@ -56,6 +56,7 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.SOLDERING_IRON);
 		models.generic2d(CoreItems.SPECTACLES);
 		models.generic2d(CoreItems.STURDY_CASING);
+		models.generic2d(CoreItems.TIN_NUGGET);
 		models.generic2d(ApicultureItems.FRAME_UNTREATED);
 
 		// what kind of fruit is this?

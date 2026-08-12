@@ -41,7 +41,12 @@ public final class ForestryBlockTagsProvider {
 			.add(CoreBlocks.DEEPSLATE_TIN_ORE.block())
 			.add(CoreBlocks.RAW_TIN_BLOCK.block())
 			.add(CharcoalBlocks.CHARCOAL.block())
-			.add(EnergyBlocks.ENGINES.blockArray());
+			.add(EnergyBlocks.ENGINES.blockArray())
+			.add(CoreBlocks.PHOSPHOR_LANTERN.block())
+			.add(CoreBlocks.TIN_CHAIN.block());
+
+		// Deviation from 1.20.1: that tree hand-built the WALL_POST_OVERRIDE TagKey; 1.21.1 exposes it on BlockTags
+		tags.tag(BlockTags.WALL_POST_OVERRIDE).add(CoreBlocks.PHOSPHOR_TORCH.block());
 
 		for (Block block : union(CoreBlocks.RESOURCE_STORAGE, FactoryBlocks.PLAIN, FactoryBlocks.TESR)) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
