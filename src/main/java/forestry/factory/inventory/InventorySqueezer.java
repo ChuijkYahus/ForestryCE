@@ -14,6 +14,8 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluids;
@@ -101,7 +103,7 @@ public class InventorySqueezer extends InventoryAdapterTile<TileSqueezer> {
 				fluidAmount = 200; //This is because of the recipe for Bottled Honey taking 2 honeydrops which equate to 100mb each. It's... odd.
 			}
 			else if (fluidStack.getFluid().isSame(Fluids.WATER)) {
-				result = new ItemStack(Items.HONEY_BOTTLE);
+				result = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER);
 				fluidAmount = 250;
 			}
 
