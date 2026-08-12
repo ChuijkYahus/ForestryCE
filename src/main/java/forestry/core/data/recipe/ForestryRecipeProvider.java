@@ -1053,6 +1053,17 @@ public class ForestryRecipeProvider {
 			recipe.pattern("QDQ");
 		});
 
+		// Deviation from 1.20.1: Tags.Items.GLASS is now GLASS_BLOCKS_COLORLESS, matching the other engines
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR), recipe -> {
+			recipe.define('P', ForestryTags.Items.INGOTS_TIN);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS_COLORLESS);
+			recipe.define('Q', ForestryTags.Items.GEARS_TIN);
+			recipe.define('D', Items.PISTON);
+			recipe.pattern("PPP");
+			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
+
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.SOLAR_PANEL, recipe -> {
 			recipe.define('P', Tags.Items.GLASS_PANES);
 			recipe.define('C', CoreItems.SOLAR_CELL);
