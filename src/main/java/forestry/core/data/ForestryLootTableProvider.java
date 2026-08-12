@@ -19,7 +19,8 @@ public class ForestryLootTableProvider extends LootTableProvider {
 	public ForestryLootTableProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, Set<ResourceLocation> contentOwned) {
 		super(output, Set.of(), List.of(
 			new SubProviderEntry(registries -> new ForestryBlockLootTables(registries, contentOwned), LootContextParamSets.BLOCK),
-			new SubProviderEntry(ForestryChestLootTables::new, LootContextParamSets.CHEST)
+			new SubProviderEntry(ForestryChestLootTables::new, LootContextParamSets.CHEST),
+			new SubProviderEntry(ForestryGiftLootTables::new, LootContextParamSets.GIFT)
 		), lookupProvider);
 	}
 }
