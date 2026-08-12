@@ -35,6 +35,7 @@ import forestry.core.content.machines.*;
 import forestry.core.platform.util.GeneticsUtil;
 import forestry.core.platform.util.RenderUtil;
 import forestry.core.platform.registration.FeatureFluid;
+import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.energy.features.EnergyTiles;
 import forestry.core.content.machines.features.FactoryTiles;
 import forestry.modules.ModuleUtil;
@@ -114,6 +115,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.TIN_CHAIN.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_LANTERN.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.BURN_BARREL.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(EnergyBlocks.SOLAR_PANEL.block(), RenderType.cutout());
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());
@@ -180,6 +182,8 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.registerBlockEntityRenderer(EnergyTiles.CLOCKWORK_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_clock_"));
 		event.registerBlockEntityRenderer(EnergyTiles.BIOGAS_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_bronze_"));
 		event.registerBlockEntityRenderer(EnergyTiles.PEAT_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_copper_"));
+		event.registerBlockEntityRenderer(EnergyTiles.COMBUSTION_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_iron_"));
+		event.registerBlockEntityRenderer(EnergyTiles.SOLAR_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_tin_"));
 		// Factory
 		event.registerBlockEntityRenderer(FactoryTiles.BOTTLER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/bottler_"));
 		event.registerBlockEntityRenderer(FactoryTiles.CARPENTER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/carpenter_"));

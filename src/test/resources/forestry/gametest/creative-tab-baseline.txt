@@ -31,6 +31,7 @@ forestry:agriculture forestry:chiseled_stone_brick_farm_hatch x1
 forestry:agriculture forestry:chiseled_stone_brick_farm_plain x1
 forestry:agriculture forestry:chiseled_stone_brick_farm_valve x1
 forestry:agriculture forestry:clockwork_engine x1
+forestry:agriculture forestry:combustion_engine x1
 forestry:agriculture forestry:compost x1
 forestry:agriculture forestry:copper_electron_tube x1
 forestry:agriculture forestry:cracked_stone_brick_farm_control x1
@@ -1685,6 +1686,7 @@ forestry:forestry forestry:carton x1
 forestry:forestry forestry:centrifuge x1
 forestry:forestry forestry:charcoal_block x1
 forestry:forestry forestry:clockwork_engine x1
+forestry:forestry forestry:combustion_engine x1
 forestry:forestry forestry:copper_electron_tube x1
 forestry:forestry forestry:copper_gear x1
 forestry:forestry forestry:deepslate_apatite_ore x1

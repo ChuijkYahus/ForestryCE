@@ -9,6 +9,7 @@ import forestry.api.core.IError;
 import forestry.api.plugin.*;
 import forestry.core.features.CoreItems;
 import forestry.core.content.resources.EnumElectronTube;
+import forestry.core.content.energy.circuits.CircuitEngineUpgrade;
 import forestry.core.content.machines.circuits.CircuitMachineUpgrade;
 import forestry.core.content.sorting.DefaultFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
@@ -31,12 +32,20 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		// Core owns this layout because core registers the circuits below against it. It used to be
 		// registered by the agriculture plugin, which crashed a core-only install outright
 		circuits.registerLayout(ForestryCircuitLayouts.MACHINE_UPGRADE, ForestryCircuitSocketTypes.MACHINE);
+		circuits.registerLayout(ForestryCircuitLayouts.ENGINE_UPGRADE, ForestryCircuitSocketTypes.ENGINE);
 		circuits.registerLayout(ForestryCircuitLayouts.SOLAR_ENGINE_UPGRADE, ForestryCircuitSocketTypes.SOLAR_ENGINE);
 
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.EMERALD, 1), new CircuitMachineUpgrade("machine.speed.boost.1", 0.125f, 0.05f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.BLAZE, 1), new CircuitMachineUpgrade("machine.speed.boost.2", 0.250f, 0.10f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.GOLD, 1), new CircuitMachineUpgrade("machine.efficiency.1", 0, -0.10f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.AMBER, 1), new CircuitMachineUpgrade("machine.fortune.1", 0, 0.05f, 1.25f));
+
+		// Energy
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.GOLD), new CircuitEngineUpgrade("engine.speed.boost", 1, -0.15f, 0));
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.COPPER), new CircuitEngineUpgrade("engine.speed.choke", -5, 0.3f, 1));
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.LAPIS), new CircuitEngineUpgrade("engine.efficiency.1", 0, 0.1f, 0));
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.DIAMOND), new CircuitEngineUpgrade("engine.efficiency.2", 0, 0.2f, 0));
+		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.APATITE), new CircuitEngineUpgrade("engine.biogas.overclock", 0, -0.2f, 2));
 
 		//Currently, there are no upgrades for Solar Engines... Maybe Steve hasn't discovered them yet?
 	}

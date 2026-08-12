@@ -11,6 +11,7 @@ public enum EngineBlockType implements IBlockType {
 	PEAT(createEngineProperties(EnergyTiles.PEAT_ENGINE, "peat")),
 	BIOGAS(createEngineProperties(EnergyTiles.BIOGAS_ENGINE, "biogas")),
 	CLOCKWORK(createEngineProperties(EnergyTiles.CLOCKWORK_ENGINE, "clockwork")),
+	COMBUSTION(createEngineProperties(EnergyTiles.COMBUSTION_ENGINE, "combustion")),
 	SOLAR(createEngineProperties(EnergyTiles.SOLAR_ENGINE, "solar"));
 
 	public static final EngineBlockType[] VALUES = values();

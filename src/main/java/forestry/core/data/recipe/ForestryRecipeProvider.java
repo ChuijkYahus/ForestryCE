@@ -1118,6 +1118,17 @@ public class ForestryRecipeProvider {
 		});
 
 		// Deviation from 1.20.1: Tags.Items.GLASS is now GLASS_BLOCKS_COLORLESS, matching the other engines
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.COMBUSTION), recipe -> {
+			recipe.define('P', Tags.Items.INGOTS_IRON);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS_COLORLESS);
+			recipe.define('Q', ForestryTags.Items.GEARS_IRON);
+			recipe.define('D', Items.PISTON);
+			recipe.pattern("PPP");
+			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
+
+		// Deviation from 1.20.1: Tags.Items.GLASS is now GLASS_BLOCKS_COLORLESS, matching the other engines
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR), recipe -> {
 			recipe.define('P', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('I', Tags.Items.GLASS_BLOCKS_COLORLESS);
