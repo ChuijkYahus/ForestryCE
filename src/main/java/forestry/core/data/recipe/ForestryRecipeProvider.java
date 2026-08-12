@@ -680,6 +680,12 @@ public class ForestryRecipeProvider {
 		recipes.shapelessCrafting("tin_from_nuggets", RecipeCategory.MISC, CoreItems.INGOT_TIN, 1, ObjectIntPair.of(CoreItems.TIN_NUGGET, 9));
 		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.TIN_NUGGET, 9, CoreItems.INGOT_TIN);
 
+		// Building blocks
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TURF, 3, recipe -> {
+			recipe.define('X', CoreBlocks.TURF_BLOCK);
+			recipe.pattern("XX");
+		});
+
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TIN_CHAIN, recipe -> {
 			recipe.define('|', Ingredient.of(ForestryTags.Items.INGOTS_TIN));
 			recipe.define('.', Ingredient.of(ForestryTags.Items.NUGGETS_TIN));
@@ -914,6 +920,11 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" | ");
 			recipe.pattern(" ^ ");
 		});
+
+		// Plywood. 1.20.1 also carried a commented-out sheet recipe, noting the carpenter was the better
+		// place for it. The carpenter has it, so the comment is dropped rather than carried over
+		recipes.grid3x3(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_BLOCK, Ingredient.of(CoreBlocks.PLYWOOD_SHEET));
+		recipes.shapelessCrafting("plywood_from_block", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 9, CoreBlocks.PLYWOOD_BLOCK);
 
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, CoreItems.HONEY_DROP);
@@ -1679,6 +1690,33 @@ public class ForestryRecipeProvider {
 				.define('#', CoreItems.BEESWAX)
 				.define('X', Items.STRING))
 			.build(consumer, id("carpenter", "candles"));
+
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(20)
+			.setLiquid(new FluidStack(Fluids.WATER, 100))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, CoreBlocks.TURF_BLOCK, 4)
+				.pattern("XX")
+				.pattern("XX")
+				.define('X', Blocks.GRASS_BLOCK))
+			.build(consumer, id("carpenter", "turf_blocks"));
+		new CarpenterRecipeBuilder()
+			.setLiquid(new FluidStack(Fluids.WATER, 100))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 24)
+				.pattern("___")
+				.pattern("^^^")
+				.define('_', ItemTags.WOODEN_SLABS)
+				.define('^', ForestryTags.Items.SAWDUST))
+			.build(consumer, id("carpenter", "plywood"));
+		new CarpenterRecipeBuilder()
+			.setLiquid(new FluidStack(Fluids.WATER, 200))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.CORK, 4)
+				.pattern("**")
+				.pattern("**")
+				.define('*', ForestryTags.Items.SAWDUST))
+			.build(consumer, id("carpenter", "cork"));
 
 		// Crates
 		new CarpenterRecipeBuilder()

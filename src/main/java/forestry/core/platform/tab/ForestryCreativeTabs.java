@@ -151,6 +151,13 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.REFRACTORY_WAX);
 		items.accept(CoreItems.WAX_BRICK);
 		items.accept(CoreItems.REFRACTORY_WAX_BRICK);
+		// Turf, plywood and cork
+		// Deviation from 1.20.1: that tree listed these in addAllBuildingBlocks, which this tree does not have yet
+		items.accept(CoreBlocks.TURF_BLOCK);
+		items.accept(CoreBlocks.TURF);
+		items.accept(CoreBlocks.PLYWOOD_BLOCK);
+		items.accept(CoreBlocks.PLYWOOD_SHEET);
+		items.accept(CoreBlocks.CORK);
 		// Lighting
 		// Deviation from 1.20.1: that tree listed these in addAllBuildingBlocks, which this tree does not have yet
 		items.accept(CoreItems.PHOSPHOR_TORCH_ITEM);

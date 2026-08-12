@@ -1730,6 +1730,7 @@ forestry:forestry forestry:cobbled_waxstone_wall x1
 forestry:forestry forestry:combustion_engine x1
 forestry:forestry forestry:copper_electron_tube x1
 forestry:forestry forestry:copper_gear x1
+forestry:forestry forestry:cork x1
 forestry:forestry forestry:deepslate_apatite_ore x1
 forestry:forestry forestry:deepslate_tin_ore x1
 forestry:forestry forestry:diamantine_electron_tube x1
@@ -1815,6 +1816,8 @@ forestry:forestry forestry:phosphor_lantern x1
 forestry:forestry forestry:phosphor_torch x1
 forestry:forestry forestry:pickaxe_kit x1
 forestry:forestry forestry:pipette x1
+forestry:forestry forestry:plywood x1
+forestry:forestry forestry:plywood_block x1
 forestry:forestry forestry:polished_honeystone x1
 forestry:forestry forestry:polished_honeystone_slab x1
 forestry:forestry forestry:polished_honeystone_stairs x1
@@ -1883,6 +1886,8 @@ forestry:forestry forestry:tin_gear x1
 forestry:forestry forestry:tin_ingot x1
 forestry:forestry forestry:tin_nugget x1
 forestry:forestry forestry:tin_ore x1
+forestry:forestry forestry:turf x1
+forestry:forestry forestry:turf_block x1
 forestry:forestry forestry:wax_brick x1
 forestry:forestry forestry:wax_brick_slab x1
 forestry:forestry forestry:wax_brick_stairs x1

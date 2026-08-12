@@ -6,10 +6,13 @@ import forestry.core.platform.block.*;
 import forestry.core.content.burnbarrel.BlockBurnBarrel;
 import forestry.core.content.decorative.BlockBigCandle;
 import forestry.core.content.decorative.BlockJumboCandle;
+import forestry.core.content.decorative.BlockPlywoodBlock;
+import forestry.core.content.decorative.BlockSheet;
 import forestry.core.content.decorative.BlockTypeBigCandle;
 import forestry.core.content.decorative.BlockTypeJumboCandle;
 import forestry.core.content.decorative.BlockTypeMetalPlating;
 import forestry.core.content.decorative.CandleRefractory;
+import forestry.core.content.decorative.CorkBlock;
 import forestry.core.content.soil.*;
 import forestry.core.content.lighting.BlockWaterloggableTorch;
 import forestry.core.content.lighting.BlockWaterloggableWallTorch;
@@ -25,6 +28,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CandleBlock;
+import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.ChainBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.LanternBlock;
@@ -57,6 +61,22 @@ public class CoreBlocks {
 	public static final FeatureBlock<Block, BlockItem> TIN_ORE = REGISTRY.block(Block::new, () -> Properties.ofFullCopy(Blocks.COPPER_ORE), ItemBlockForestry::new, "tin_ore");
 	public static final FeatureBlock<Block, BlockItem> DEEPSLATE_TIN_ORE = REGISTRY.block(Block::new, () -> Properties.ofFullCopy(TIN_ORE.block()).mapColor(MapColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE), ItemBlockForestry::new, "deepslate_tin_ore");
 	public static final FeatureBlock<Block, BlockItem> RAW_TIN_BLOCK = REGISTRY.block(Block::new, () -> Properties.ofFullCopy(Blocks.RAW_COPPER_BLOCK), ItemBlockForestry::new, "raw_tin_block");
+
+	/* Turf */
+	// Blocks.GRASS_BLOCK is safe to ofFullCopy, it sets no dropsLike, so the copy cannot steal a vanilla loot
+	// table id. It does carry randomTicks(), which 1.20.1 copied too. Spreading lives in GrassBlock rather than
+	// in the properties, and neither block below is one, so neither spreads and the tick reaches nothing
+	public static final FeatureBlock<Block, BlockItem> TURF_BLOCK = REGISTRY.block(Block::new, () -> Properties.ofFullCopy(Blocks.GRASS_BLOCK), ItemBlockForestry::new, "turf_block");
+	public static final FeatureBlock<CarpetBlock, BlockItem> TURF = REGISTRY.block(CarpetBlock::new, () -> Properties.ofFullCopy(Blocks.GRASS_BLOCK), ItemBlockForestry::new, "turf");
+
+	/* Plywood and cork */
+	// Deviation from 1.20.1: the sheet and the cork built their properties inside their constructors, and all
+	// three block items carried new ItemProperties().burnTime(n). The registry owns the properties here, and
+	// the burn times moved to the neoforge:furnace_fuels data map in ForestryDataMapProvider
+	// todo sheet blocks can only be wood
+	public static final FeatureBlock<BlockSheet, BlockItem> PLYWOOD_SHEET = REGISTRY.block(BlockSheet::new, () -> Properties.ofFullCopy(Blocks.OAK_PLANKS), ItemBlockForestry::new, "plywood");
+	public static final FeatureBlock<BlockPlywoodBlock, BlockItem> PLYWOOD_BLOCK = REGISTRY.block(BlockPlywoodBlock::new, () -> Properties.ofFullCopy(Blocks.OAK_PLANKS).ignitedByLava(), ItemBlockForestry::new, "plywood_block");
+	public static final FeatureBlock<CorkBlock, BlockItem> CORK = REGISTRY.block(CorkBlock::new, () -> Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(SoundType.CHERRY_WOOD).strength(2.0f, 3.0f).ignitedByLava(), ItemBlockForestry::new, "cork");
 
 	/* Lighting */
 	// Deviation from 1.20.1: block properties now come from the registry's Supplier<Properties> overload

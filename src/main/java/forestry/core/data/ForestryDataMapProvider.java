@@ -22,6 +22,7 @@ import forestry.apiculture.bees.ItemPollenCluster;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
@@ -31,8 +32,9 @@ import forestry.core.content.resources.EnumCraftingMaterial;
  * <ul>
  *     <li>{@code neoforge:compostables} - composter chances (replaces the old imperative
  *     {@code ComposterBlock.COMPOSTABLES} mutation)</li>
- *     <li>{@code neoforge:furnace_fuels} - burn times for peat, charcoal and log piles (replacing the
- *     old per-item {@code ItemProperties.burnTime}), so they work in vanilla furnaces, Create blaze burners, etc.</li>
+ *     <li>{@code neoforge:furnace_fuels} - burn times for peat, charcoal, the log piles, plywood and cork
+ *     (replacing the old per-item {@code ItemProperties.burnTime}), so they work in vanilla furnaces, Create
+ *     blaze burners, etc.</li>
  *     <li>{@code neoforge:raid_hero_gifts} - Hero of the Village gifts for Forestry professions.</li>
  * </ul>
  */
@@ -86,6 +88,9 @@ public class ForestryDataMapProvider extends DataMapProvider {
 		furnaceFuel(fuels, CoreItems.PEAT.item(), 2000);
 		furnaceFuel(fuels, CharcoalBlocks.LOG_PILE.item(), 1200);
 		furnaceFuel(fuels, CharcoalBlocks.DECORATIVE_LOG_PILE.item(), 1200);
+		furnaceFuel(fuels, CoreBlocks.PLYWOOD_BLOCK.item(), 300);
+		furnaceFuel(fuels, CoreBlocks.CORK.item(), 300);
+		furnaceFuel(fuels, CoreBlocks.PLYWOOD_SHEET.item(), 50);
 	}
 
 	private static void compostable(Builder<Compostable, Item> builder, ItemLike item, float chance) {

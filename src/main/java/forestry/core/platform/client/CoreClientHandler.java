@@ -49,6 +49,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
@@ -116,6 +117,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_LANTERN.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.BURN_BARREL.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(EnergyBlocks.SOLAR_PANEL.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PLYWOOD_SHEET.block(), RenderType.cutout());
 
 			CoreBlocks.JUMBO_CANDLES.getList().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
 			CoreBlocks.BIG_CANDLES.getList().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
@@ -253,6 +255,13 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+		// Turf wears the grass texture and tints it by biome, the same way vanilla tints its grass block.
+		// Deviation from 1.20.1: that tree named the two blocks inside ClientManager's shared block colour,
+		// which every other forestry block reaches through IColoredBlock. Neither turf block is one, so they
+		// get vanilla's own lambda here instead
+		event.register((state, level, pos, tintIndex) -> level != null && pos != null
+			? BiomeColors.getAverageGrassColor(level, pos)
+			: GrassColor.getDefaultColor(), CoreBlocks.TURF_BLOCK.block(), CoreBlocks.TURF.block());
 	}
 
 	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
@@ -285,6 +294,9 @@ public class CoreClientHandler implements IClientModuleHandler {
 			BackpackItems.BREWER_BACKPACK.item(),
 			BackpackItems.BREWER_BACKPACK_T_2.item()
 		);
+
+		// A turf item has no level to sample, so both show the default grass colour, the way vanilla's does
+		event.register((stack, tintIndex) -> GrassColor.getDefaultColor(), CoreBlocks.TURF_BLOCK.item(), CoreBlocks.TURF.item());
 
 		// Crates. The bee ones are registered by ApicultureClientHandler
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CrateItems.CRATED_GRASS_BLOCK.item());

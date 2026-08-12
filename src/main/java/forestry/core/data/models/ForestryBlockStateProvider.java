@@ -12,6 +12,7 @@ import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.content.burnbarrel.BlockBurnBarrel;
 import forestry.core.content.decorative.BlockJumboCandle;
+import forestry.core.content.decorative.BlockPlywoodBlock;
 import forestry.core.content.decorative.BlockTypeBigCandle;
 import forestry.core.content.decorative.BlockTypeJumboCandle;
 import forestry.core.content.decorative.BlockTypeMetalPlating;
@@ -159,6 +160,20 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				: (lit ? "burn_barrel_burning" : "burn_barrel_empty");
 			return ConfiguredModel.builder().modelFile(models().getExistingFile(modBlock(this, name))).build();
 		});
+
+		// Turf. Both keep their hand-authored 1.20.1 models, an inline cube tinted by the grass colour, which no
+		// vanilla parent writes. Deviation from 1.20.1: the two blockstates listed that one model four times,
+		// once per y rotation, and both models wear one texture on all six faces, so the rotation was never
+		// visible. One variant is written instead
+		existingModelBlock(CoreBlocks.TURF_BLOCK.block());
+		generic3d(CoreBlocks.TURF_BLOCK.block());
+		existingModelBlock(CoreBlocks.TURF.block());
+		generic3d(CoreBlocks.TURF.block());
+
+		// Plywood and cork
+		plywood();
+		simpleBlock(CoreBlocks.CORK.block());
+		generic3d(CoreBlocks.CORK.block());
 
 		// Decorative stone and brick blocks
 		simpleBlock(CoreBlocks.ASHEN_WAX_BLOCK.block());
@@ -310,6 +325,33 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		return models().withExistingParent("block/candles/" + name + "_" + count, mcBlock(this, parent))
 			.texture("all", texture)
 			.texture("particle", texture);
+	}
+
+	/**
+	 * Emits the blockstates, block models and item models of the plywood sheet and the plywood block. Both
+	 * sample block/plywood_top on the two end faces and block/plywood_side on the four others.
+	 * <p>
+	 * Deviation from 1.20.1: both blockstates were hand-authored there, and both are generated here. The sheet
+	 * keeps its hand-authored model, a one-pixel slab no vanilla parent writes. The plywood block's model was
+	 * hand-authored too, as an inline cube carrying the display block vanilla's block/block parent already
+	 * gives it. cube_column writes the same six faces.
+	 */
+	private void plywood() {
+		Block sheet = CoreBlocks.PLYWOOD_SHEET.block();
+		directionalBlock(sheet, models().getExistingFile(modBlock(this, path(sheet))));
+		generic3d(sheet);
+
+		BlockPlywoodBlock block = CoreBlocks.PLYWOOD_BLOCK.block();
+		ResourceLocation top = modBlock(this, "plywood_top");
+		ModelFile model = models().withExistingParent(path(block), mcBlock(this, "cube_column"))
+			.texture("end", top)
+			.texture("side", modBlock(this, "plywood_side"))
+			.texture("particle", top);
+
+		// One model for all three axes, rotated, the way 1.20.1 did it. cube_column_horizontal would turn the
+		// side texture with the grain, which a plain plywood side does not show
+		axisBlock(block, model, model);
+		generic3d(block);
 	}
 
 	/**

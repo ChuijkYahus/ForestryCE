@@ -17,6 +17,7 @@ import forestry.core.platform.registration.FeatureBlockGroup;
 import forestry.core.content.worktable.features.WorktableBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -25,6 +26,7 @@ import thedarkcolour.modkit.data.MKTagsProvider;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 public final class ForestryBlockTagsProvider {
@@ -35,7 +37,10 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(BlockTags.MINEABLE_WITH_AXE)
 			.add(CoreBlocks.NATURALIST_CHEST.blockArray())
 			.add(CharcoalBlocks.LOG_PILE.block())
-			.add(WorktableBlocks.WORKTABLE.block());
+			.add(WorktableBlocks.WORKTABLE.block())
+			.add(CoreBlocks.CORK.block())
+			.add(CoreBlocks.PLYWOOD_BLOCK.block())
+			.add(CoreBlocks.PLYWOOD_SHEET.block());
 
 		tags.tag(BlockTags.MINEABLE_WITH_PICKAXE)
 			.add(CoreBlocks.APATITE_ORE.block())
@@ -83,7 +88,9 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(BlockTags.MINEABLE_WITH_SHOVEL)
 			.add(CoreBlocks.HUMUS.block())
 			.add(CoreBlocks.BOG_EARTH.block())
-			.add(CoreBlocks.PEAT.block());
+			.add(CoreBlocks.PEAT.block())
+			.add(CoreBlocks.TURF.block())
+			.add(CoreBlocks.TURF_BLOCK.block());
 
 		for (Block block : union(
 			CoreBlocks.BASE,
@@ -187,7 +194,33 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_AMBER).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER).block());
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_SILICON).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON).block());
 
-		tags.tag(BlockTags.DIRT).add(CoreBlocks.HUMUS.block());
+		tags.tag(BlockTags.DIRT).add(CoreBlocks.HUMUS.block(), CoreBlocks.TURF_BLOCK.block());
+
+		// Turf has to stand in for grass, so both blocks join the tags a grass block carries. Not every one of
+		// them: 1.20.1 left animals and wolves spawnable on out, and they stay out here
+		for (TagKey<Block> tag : List.of(
+			BlockTags.BIG_DRIPLEAF_PLACEABLE,
+			BlockTags.VALID_SPAWN,
+			BlockTags.BAMBOO_PLANTABLE_ON,
+			BlockTags.AZALEA_GROWS_ON,
+			BlockTags.SCULK_REPLACEABLE,
+			BlockTags.AZALEA_ROOT_REPLACEABLE,
+			BlockTags.ENDERMAN_HOLDABLE,
+			BlockTags.DEAD_BUSH_MAY_PLACE_ON,
+			BlockTags.LUSH_GROUND_REPLACEABLE,
+			BlockTags.MOSS_REPLACEABLE
+		)) {
+			tags.tag(tag).add(CoreBlocks.TURF_BLOCK.block());
+		}
+		for (TagKey<Block> tag : List.of(
+			BlockTags.MINEABLE_WITH_HOE,
+			BlockTags.COMBINATION_STEP_SOUND_BLOCKS,
+			BlockTags.SWORD_EFFICIENT,
+			BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH,
+			BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH
+		)) {
+			tags.tag(tag).add(CoreBlocks.TURF.block());
+		}
 
 		Block[] pottedFlowers = {Blocks.POTTED_ALLIUM, Blocks.POTTED_AZURE_BLUET, Blocks.POTTED_BLUE_ORCHID, Blocks.POTTED_CORNFLOWER, Blocks.POTTED_DANDELION, Blocks.POTTED_FLOWERING_AZALEA, Blocks.POTTED_LILY_OF_THE_VALLEY, Blocks.POTTED_ORANGE_TULIP, Blocks.POTTED_OXEYE_DAISY, Blocks.POTTED_PINK_TULIP, Blocks.POTTED_POPPY, Blocks.POTTED_RED_TULIP, Blocks.POTTED_TORCHFLOWER, Blocks.POTTED_WHITE_TULIP, Blocks.POTTED_WITHER_ROSE};
 		tags.tag(ForestryTags.Blocks.VANILLA_FLOWERS).addTag(BlockTags.FLOWERS).add(pottedFlowers);
@@ -211,7 +244,7 @@ public final class ForestryBlockTagsProvider {
 			.add(Blocks.FERN)
 			.add(Blocks.CRIMSON_FUNGUS, Blocks.WARPED_FUNGUS, Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS);
 
-		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND).add(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE);
+		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND).add(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE, CoreBlocks.TURF_BLOCK.block());
 
 		tags.tag(ForestryTags.Blocks.MODEST_BEE_GROUND).addTag(BlockTags.SAND).addTag(BlockTags.TERRACOTTA);
 		tags.tag(ForestryTags.Blocks.WINTRY_BEE_GROUND).addTag(BlockTags.DIRT).addTag(BlockTags.SNOW);

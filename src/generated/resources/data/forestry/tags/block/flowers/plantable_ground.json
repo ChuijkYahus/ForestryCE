@@ -4,6 +4,7 @@
     "minecraft:grass_block",
     "minecraft:snow",
     "minecraft:sand",
-    "minecraft:sandstone"
+    "minecraft:sandstone",
+    "forestry:turf_block"
   ]
 }
