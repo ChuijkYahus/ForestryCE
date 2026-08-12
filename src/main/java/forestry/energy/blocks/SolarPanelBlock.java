@@ -91,32 +91,10 @@ public class SolarPanelBlock extends Block {
 		}
 	}
 
-	@Override
-	public boolean isRandomlyTicking(BlockState state) {
-		return true;
-	}
-
-	@Override
-	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-		boolean light=level.canSeeSky(pos);
-		if(state.getValue(IN_DAYLIGHT)!=light){
-			level.setBlockAndUpdate(pos, state.setValue(IN_DAYLIGHT, light));
-			if(state.getValue(CONNECTED)){
-				for(int x = SectionPos.blockToSectionCoord(pos.getX())-1;x<=SectionPos.blockToSectionCoord(pos.getX())+1;x++){
-					for(int z=SectionPos.blockToSectionCoord(pos.getZ())-1;z<=SectionPos.blockToSectionCoord(pos.getZ())+1;z++){
-						if(level.hasChunk(x,z)){
-							for(Map.Entry<BlockPos, BlockEntity> entry:level.getChunk(x,z).getBlockEntities().entrySet()){
-								if(entry.getValue() instanceof SolarEngineTileEntity tile){
-									if(tile.updatePanelExposure(pos,light))
-										return;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	// IN_DAYLIGHT used to be refreshed here from randomTick, which for any one block averages 4096 / randomTickSpeed
+	// ticks — over a minute at the default speed — so an array kept paying out long after it had been roofed over.
+	// SolarEngineTileEntity now sweeps its whole array on its own interval instead, which bounds the delay and lets
+	// it recount from scratch rather than trusting a running total.
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

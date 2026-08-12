@@ -25,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,6 +53,8 @@ public class SolarEngineTileEntity extends EngineBlockEntity implements WorldlyC
 	 * can only be generated in whole units, so the remainder is carried instead of being discarded.
 	 */
 	private double energyBuffer;
+	/** Output before it is truncated to whole units, kept so the GUI can show the real rate. */
+	private double outputRate;
 
 	// Client-side mirrors of the server state, synced through the GUI stream.
 	private int activeCount;
@@ -77,6 +80,47 @@ public class SolarEngineTileEntity extends EngineBlockEntity implements WorldlyC
 		if (this.array.isEmpty()) {
 			activePanels = 0;
 			attachPanel(this.array, pos.above(), level);
+			setChanged();
+		}
+		refreshPanelExposure(level);
+	}
+
+	/**
+	 * Re-reads the sky exposure of every attached panel and recounts how many of them are lit.
+	 * <p>
+	 * Panels used to refresh themselves from their own random tick, which for any one block averages
+	 * {@code 4096 / randomTickSpeed} ticks — over a minute at the default speed, with no upper bound — so roofing an
+	 * array kept paying out long after it should have stopped. Doing it from the engine bounds the delay to one
+	 * interval. Recounting from scratch rather than incrementing and decrementing also means a single missed update
+	 * can no longer leave the count permanently wrong.
+	 *
+	 * @param level The level the engine is in
+	 */
+	private void refreshPanelExposure(Level level) {
+		int lit = 0;
+
+		for (BlockPos panelPos : this.array) {
+			// A panel in an unloaded chunk can't be measured. Treating it as dark is the conservative choice, and
+			// the next sweep after the chunk loads puts it back.
+			if (!level.hasChunkAt(panelPos)) {
+				continue;
+			}
+			BlockState state = level.getBlockState(panelPos);
+			if (!state.is(EnergyBlocks.SOLAR_PANEL.block())) {
+				continue;
+			}
+			boolean exposed = level.canSeeSky(panelPos);
+			if (state.getValue(SolarPanelBlock.IN_DAYLIGHT) != exposed) {
+				// No neighbour updates: IN_DAYLIGHT only feeds this count, nothing reacts to it.
+				level.setBlock(panelPos, state.setValue(SolarPanelBlock.IN_DAYLIGHT, exposed), Block.UPDATE_CLIENTS);
+			}
+			if (exposed) {
+				lit++;
+			}
+		}
+
+		if (lit != this.activePanels) {
+			this.activePanels = lit;
 			setChanged();
 		}
 	}
@@ -130,18 +174,6 @@ public class SolarEngineTileEntity extends EngineBlockEntity implements WorldlyC
 		return false;
 	}
 
-	public boolean updatePanelExposure(BlockPos pos, boolean sun) {
-		if (array.contains(pos)) {
-			if (sun)
-				activePanels++;
-			else
-				activePanels--;
-			setChanged();
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onDropContents(ServerLevel level) {
 		array.forEach(pos -> {
@@ -173,13 +205,16 @@ public class SolarEngineTileEntity extends EngineBlockEntity implements WorldlyC
 	protected void burn() {
 		if (!isRedstoneActivated()) {
 			currentOutput = 0;
+			this.outputRate = 0.0;
 			return;
 		}
 		double output = calculateOutput(this.level, this.activePanels);
 		if (output <= 0.0) {
 			currentOutput = 0;
+			this.outputRate = 0.0;
 			return;
 		}
+		this.outputRate = output;
 		this.energyBuffer += output;
 		currentOutput = (int) this.energyBuffer;
 		this.energyBuffer -= currentOutput;
@@ -314,6 +349,7 @@ public class SolarEngineTileEntity extends EngineBlockEntity implements WorldlyC
 		data.writeInt(this.activePanels);
 		data.writeInt(this.array.size());
 		data.writeInt(this.level.getSkyDarken());
+		data.writeFloat((float) this.outputRate);
 	}
 
 	@Override
@@ -323,6 +359,12 @@ public class SolarEngineTileEntity extends EngineBlockEntity implements WorldlyC
 		this.activeCount = data.readInt();
 		this.totalCount = data.readInt();
 		this.skyDarken = data.readInt();
+		this.outputRate = data.readFloat();
+	}
+
+	@Override
+	public double getCurrentOutputRate() {
+		return canOutput() ? this.outputRate : 0.0;
 	}
 
 	@Override

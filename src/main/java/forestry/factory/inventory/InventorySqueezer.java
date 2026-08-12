@@ -39,6 +39,9 @@ public class InventorySqueezer extends InventoryAdapterTile<TileSqueezer> {
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
 		if (slotIndex == SLOT_CAN_INPUT) {
+			// todo only accept a glass bottle when the tank holds a fluid that fillContainers can actually bottle.
+			//  Right now a hopper can fill this slot with bottles while the squeezer is making, say, seed oil, and
+			//  the slot jams forever with no error shown.
 			return FluidHelper.isFillableEmptyContainer(stack) || stack.is(Items.GLASS_BOTTLE);
 		}
 
