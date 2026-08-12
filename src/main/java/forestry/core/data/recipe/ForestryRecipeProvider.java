@@ -73,6 +73,9 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.conditions.ICondition;
+import net.neoforged.neoforge.common.conditions.NotCondition;
+import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -130,6 +133,7 @@ public class ForestryRecipeProvider {
 		registerMoistener(output);
 		registerSqueezerContainer(output);
 		registerSqueezer(output);
+		registerSmelter(output);
 		registerStill(output);
 
 		// Built-in genetic mutations (bee/tree/butterfly) are generated as datapack recipes by the standalone
@@ -696,9 +700,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern("##");
 		});
 		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.SILICON, 4, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON));
-		// todo silicon itself still has no production recipe, so the two above only move it around.
-		//  1.20.1 smelted it from quartz plus coal or coal coke, and this tree has no smelter machine,
-		//  no SmelterRecipeBuilder and no coal coke tag.
 		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_PICKAXE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
@@ -989,6 +990,17 @@ public class ForestryRecipeProvider {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.INGOTS_IRON);
 			recipe.define('Y', CoreItems.STURDY_CASING);
+			recipe.pattern("X#X");
+			recipe.pattern("XYX");
+			recipe.pattern("X#X");
+		});
+
+		// Deviation from 1.20.1: '#' was Tags.Items.GLASS there, which every sibling above resolves to
+		// GLASS_BLOCKS_COLORLESS in this tree
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block(), recipe -> {
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
+			recipe.define('X', Tags.Items.INGOTS_IRON);
+			recipe.define('Y', Items.FURNACE);
 			recipe.pattern("X#X");
 			recipe.pattern("XYX");
 			recipe.pattern("X#X");
@@ -2260,6 +2272,88 @@ public class ForestryRecipeProvider {
 			.setRemnants(mulch)
 			.setRemnantsChance(mulchMultiplier * 3f)
 			.build(consumer, id("squeezer", "fruit", "pear"));
+	}
+
+	// Deviation from 1.20.1: NeoForge dropped ConditionalRecipe, so a recipe that only exists when some
+	// tag is filled is written straight to consumer.withConditions(...) instead of being wrapped
+	private static void registerSmelter(RecipeOutput consumer) {
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(Tags.Items.INGOTS_COPPER), 3)
+			.addIngredient(Ingredient.of(ForestryTags.Items.INGOTS_TIN))
+			.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_BRONZE), 4)
+			.setProcessingTime(40)
+			.build(consumer, id("smelter", "bronze_from_ingots"));
+
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_COPPER), 3)
+			.addIngredient(Ingredient.of(ForestryTags.Items.RAW_MATERIALS_TIN))
+			.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_BRONZE), 4)
+			.setProcessingTime(40)
+			.build(consumer, id("smelter", "bronze_from_raw_materials"));
+
+		// Silicon comes from coke where a mod supplies it and from plain coal where none does
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 3)
+			.addIngredient(Ingredient.of(Items.COAL), 2)
+			.setOutput(Ingredient.of(ForestryTags.Items.SILICON), 3)
+			.setProcessingTime(1200)
+			.build(consumer.withConditions(new TagEmptyCondition(ForestryTags.Items.COAL_COKE)), id("smelter", "silicon_from_coal"));
+
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 3)
+			.addIngredient(Ingredient.of(ForestryTags.Items.COAL_COKE), 1)
+			.setOutput(Ingredient.of(ForestryTags.Items.SILICON), 3)
+			.setProcessingTime(1200)
+			.build(consumer.withConditions(not(new TagEmptyCondition(ForestryTags.Items.COAL_COKE))), id("smelter", "silicon_from_coke"));
+
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(ForestryTags.Items.SILICON), 3)
+			.addIngredient(Ingredient.of(Tags.Items.GEMS_LAPIS), 4)
+			.addIngredient(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)), 2)
+			.addIngredient(Ingredient.of(ForestryTags.Items.NUGGETS_TIN), 3)
+			.setOutput(Ingredient.of(CoreItems.SOLAR_CELL), 3)
+			.setProcessingTime(80)
+			.build(consumer, id("smelter", "solar_cell"));
+
+		// Alloys forestry does not add itself. Each pair loads only when another mod supplies both the
+		// component and the alloy
+		alloy(consumer, "invar", Tags.Items.INGOTS_IRON, 2, ForestryTags.Items.INGOTS_NICKEL, ForestryTags.Items.INGOTS_INVAR, 3, false);
+		alloy(consumer, "invar", Tags.Items.RAW_MATERIALS_IRON, 2, ForestryTags.Items.RAW_MATERIALS_NICKEL, ForestryTags.Items.INGOTS_INVAR, 3, true);
+
+		alloy(consumer, "brass", Tags.Items.INGOTS_COPPER, 1, ForestryTags.Items.INGOTS_ZINC, ForestryTags.Items.INGOTS_BRASS, 2, false);
+		alloy(consumer, "brass", Tags.Items.RAW_MATERIALS_COPPER, 1, ForestryTags.Items.RAW_MATERIALS_ZINC, ForestryTags.Items.INGOTS_BRASS, 2, true);
+
+		alloy(consumer, "electrum", Tags.Items.INGOTS_GOLD, 1, ForestryTags.Items.INGOTS_SILVER, ForestryTags.Items.INGOTS_ELECTRUM, 2, false);
+		alloy(consumer, "electrum", Tags.Items.RAW_MATERIALS_GOLD, 1, ForestryTags.Items.RAW_MATERIALS_SILVER, ForestryTags.Items.INGOTS_ELECTRUM, 2, true);
+
+		alloy(consumer, "constantan", Tags.Items.INGOTS_COPPER, 1, ForestryTags.Items.INGOTS_NICKEL, ForestryTags.Items.INGOTS_CONSTANTAN, 2, false);
+		alloy(consumer, "constantan", Tags.Items.RAW_MATERIALS_COPPER, 1, ForestryTags.Items.RAW_MATERIALS_NICKEL, ForestryTags.Items.INGOTS_CONSTANTAN, 2, true);
+	}
+
+	/**
+	 * Writes one modded alloy recipe, guarded on both the alloying component and the alloy itself
+	 * being present. Deviation from 1.20.1: the eight alloy recipes were spelled out one by one there
+	 *
+	 * @param name      The first path segment of the recipe id. Ex. "invar" -> "smelter/invar_from_ingots"
+	 * @param base      The tag of the metal the alloy is mostly made of
+	 * @param baseCount The number of base items one recipe consumes
+	 * @param component The tag of the metal alloyed into the base
+	 * @param alloy     The tag of the resulting alloy
+	 * @param count     The number of alloy items one recipe produces
+	 * @param raw       Whether this is the raw material variant of the recipe
+	 */
+	private static void alloy(RecipeOutput consumer, String name, TagKey<Item> base, int baseCount, TagKey<Item> component, TagKey<Item> alloy, int count, boolean raw) {
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(base), baseCount)
+			.addIngredient(Ingredient.of(component))
+			.setOutput(Ingredient.of(alloy), count)
+			.setProcessingTime(40)
+			.build(consumer.withConditions(not(new TagEmptyCondition(component)), not(new TagEmptyCondition(alloy))),
+				id("smelter", name + (raw ? "_from_raw_materials" : "_from_ingots")));
+	}
+
+	private static ICondition not(ICondition condition) {
+		return new NotCondition(condition);
 	}
 
 	private static void registerStill(RecipeOutput consumer) {

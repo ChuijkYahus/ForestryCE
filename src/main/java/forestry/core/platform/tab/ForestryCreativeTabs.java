@@ -83,6 +83,7 @@ public class ForestryCreativeTabs {
 		items.accept(EnergyBlocks.SOLAR_PANEL);
 		// Machines
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER));
 		// Circuit boards
 		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR));
 		CoreItems.CIRCUITBOARDS.getItems().forEach(items::accept);

@@ -87,6 +87,24 @@ public class ForestryTags {
 		// Deviation from 1.20.1: item/block tags moved from the forge: namespace to c:, so this uses commonTag
 		public static final TagKey<Item> NUGGETS_TIN = commonTag("nuggets/tin");
 
+		// Alloys and their components. Forestry fills none of these; the smelter recipes that name them
+		// are written behind a tag-empty condition, so they only load when some other mod supplies both
+		// the component and the alloy
+		public static final TagKey<Item> INGOTS_BRASS = commonTag("ingots/brass");
+		public static final TagKey<Item> INGOTS_CONSTANTAN = commonTag("ingots/constantan");
+		public static final TagKey<Item> INGOTS_ELECTRUM = commonTag("ingots/electrum");
+		public static final TagKey<Item> INGOTS_INVAR = commonTag("ingots/invar");
+		public static final TagKey<Item> INGOTS_NICKEL = commonTag("ingots/nickel");
+		public static final TagKey<Item> INGOTS_SILVER = commonTag("ingots/silver");
+		public static final TagKey<Item> INGOTS_ZINC = commonTag("ingots/zinc");
+		public static final TagKey<Item> RAW_MATERIALS_NICKEL = commonTag("raw_materials/nickel");
+		public static final TagKey<Item> RAW_MATERIALS_SILVER = commonTag("raw_materials/silver");
+		public static final TagKey<Item> RAW_MATERIALS_ZINC = commonTag("raw_materials/zinc");
+
+		// Coke from a mod that adds it. The smelter smelts silicon from coke where it exists and from
+		// coal where it does not
+		public static final TagKey<Item> COAL_COKE = commonTag("coal_coke");
+
 		public static final TagKey<Item> GEARS = commonTag("gears");
 		public static final TagKey<Item> GEARS_BRONZE = commonTag("gears/bronze");
 		public static final TagKey<Item> GEARS_COPPER = commonTag("gears/copper");

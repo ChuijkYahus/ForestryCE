@@ -136,6 +136,11 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		horizontalMachine(this, ApicultureBlocks.BASE.get(BlockTypeApiculture.BEE_HOUSE).block(), "beehouse", 0, 1, 2, 4, 4, 4, 4);
 		horizontalMachine(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), "thermionic_fabricator", 0, 1, 3, 2, 4, 4, 4);
 		horizontalMachine(this, WorktableBlocks.WORKTABLE.block(), "worktable", 0, 1, 3, 2, 4, 4, 4);
+
+		// The smelter keeps its hand-authored 1.20.1 model, so only the facing blockstate is generated.
+		// Deviation from 1.20.1: that model parented block/machines/base_machine, whose only other job
+		// was to hold two tank slices the smelter never shows. The body is inlined instead
+		horizontalForestryBlock(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block(), models().getExistingFile(modBlock(this, "smelter")));
 	}
 
 	// Builds a block/cube model whose faces map to textures block/<prefix>.<n>, then emits a

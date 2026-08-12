@@ -1741,6 +1741,7 @@ forestry:forestry forestry:silicon x1
 forestry:forestry forestry:silicon_block x1
 forestry:forestry forestry:silicon_electron_tube x1
 forestry:forestry forestry:silk_wisp x1
+forestry:forestry forestry:smelter x1
 forestry:forestry forestry:solar_cell x1
 forestry:forestry forestry:solar_engine x1
 forestry:forestry forestry:solar_panel x1
