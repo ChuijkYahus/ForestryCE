@@ -29,6 +29,7 @@ public class ForestryItemModels {
 		models.generic2d(ApicultureItems.APIARIST_CHEST);
 		models.generic2d(ApicultureItems.APIARIST_BOOTS);
 		models.generic2d(CoreItems.ASH);
+		models.generic2d(CoreItems.ASH_BRICK);
 		models.generic2d(ApicultureItems.SMOKER);
 		models.generic2d(CoreItems.BEESWAX);
 		models.generic2d(CoreItems.BITUMINOUS_PEAT);
@@ -52,6 +53,8 @@ public class ForestryItemModels {
 		models.generic2d(ArboricultureItems.PROVEN_GRAFTER);
 		models.generic2d(CoreItems.PROVEN_SCOOP);
 		models.generic2d(CoreItems.REFRACTORY_WAX);
+		models.generic2d(CoreItems.REFRACTORY_WAX_BRICK);
+		models.generic2d(CoreItems.WAX_BRICK);
 		models.generic2d(ApicultureItems.ROYAL_JELLY);
 		models.generic2d(CoreItems.SCOOP);
 		models.generic2d(CoreItems.SILICON);

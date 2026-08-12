@@ -120,6 +120,10 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			existingModelBlock(CoreBlocks.RESOURCE_STORAGE.get(type).block(), "storage/" + type.getSerializedName());
 		}
 
+		// The wax blocks are not resource storage subtypes but share its model layout.
+		existingModelBlock(ApicultureBlocks.WAX_BLOCK.block(), "storage/wax");
+		existingModelBlock(ApicultureBlocks.REFRACTORY_WAX_BLOCK.block(), "storage/refractory_wax");
+
 		// Alveary components (the single-variant subset of the alveary block group).
 		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HYGRO).block(), "apiculture/alveary_hygroregulator");
 		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.STABILISER).block(), "apiculture/alveary_stabilizer");

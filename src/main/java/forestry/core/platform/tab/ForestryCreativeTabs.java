@@ -138,10 +138,13 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.SOLDERING_IRON);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(CoreItems.ASH);
+		items.accept(CoreItems.ASH_BRICK);
 		items.accept(CoreItems.PEAT);
 		items.accept(CoreItems.BITUMINOUS_PEAT);
 		items.accept(CoreItems.BEESWAX);
 		items.accept(CoreItems.REFRACTORY_WAX);
+		items.accept(CoreItems.WAX_BRICK);
+		items.accept(CoreItems.REFRACTORY_WAX_BRICK);
 		// Lighting
 		// Deviation from 1.20.1: that tree listed these in addAllBuildingBlocks, which this tree does not have yet
 		items.accept(CoreItems.PHOSPHOR_TORCH_ITEM);

@@ -348,6 +348,40 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" # ");
 			recipe.pattern(" Y ");
 		});
+
+		// Deviation from 1.20.1: storage3x3 replaces that tree's grid3x3 plus a hand-named
+		// "uncraft_wax_block". It writes the same two recipes and names the reverse one
+		// beeswax_from_wax_block, matching ash_from_ash_block and ingot_tin_from_resource_storage_tin
+		recipes.storage3x3(ApicultureBlocks.WAX_BLOCK.item(), CoreItems.BEESWAX);
+		recipes.storage3x3(ApicultureBlocks.REFRACTORY_WAX_BLOCK.item(), CoreItems.REFRACTORY_WAX);
+
+		// The bricks use ash or wood pulp to stop them melting. That's the logic.
+		// Deviation from 1.20.1: those recipe ids said "wax_bricks_ash", which named the brick block
+		// rather than the brick item. Renamed to the <result>_from_<binder> form this tree already uses
+		recipes.shapedCrafting("wax_brick_from_ash", RecipeCategory.BUILDING_BLOCKS, CoreItems.WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.BEESWAX);
+			recipe.define('#', ForestryTags.Items.DUSTS_ASH);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting("wax_brick_from_sawdust", RecipeCategory.BUILDING_BLOCKS, CoreItems.WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.BEESWAX);
+			recipe.define('#', ForestryTags.Items.SAWDUST);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting("refractory_wax_brick_from_ash", RecipeCategory.BUILDING_BLOCKS, CoreItems.REFRACTORY_WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX);
+			recipe.define('#', ForestryTags.Items.DUSTS_ASH);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting("refractory_wax_brick_from_sawdust", RecipeCategory.BUILDING_BLOCKS, CoreItems.REFRACTORY_WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX);
+			recipe.define('#', ForestryTags.Items.SAWDUST);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
@@ -1325,6 +1359,14 @@ public class ForestryRecipeProvider {
 				.pattern(" # ")
 				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 			.build(consumer, id("carpenter", "carton"));
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(5)
+			.setLiquid(new FluidStack(Fluids.WATER, 50))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ASH_BRICK, 1)
+				.pattern("##")
+				.define('#', CoreItems.ASH.item()))
+			.build(consumer, id("carpenter", "ash_brick"));
 
 		ItemStack basic = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.BASIC, null, new ICircuit[]{});
 		ItemStack enhanced = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.ENHANCED, null, new ICircuit[]{});
@@ -1897,6 +1939,17 @@ public class ForestryRecipeProvider {
 			.setProduct(liquidGlassX4)
 			.setMeltingPoint(4800)
 			.build(consumer, id("fabricator", "smelting", "sandstone"));
+
+		new FabricatorSmeltingRecipeBuilder()
+			.setResource(Ingredient.of(ApicultureBlocks.WAX_BLOCK))
+			.setProduct(ForestryFluids.WAX.getFluid(FluidType.BUCKET_VOLUME))
+			.setMeltingPoint(500) //Arbitrary value, yes. Longer to warm up, but more efficient use of material
+			.build(consumer, id("fabricator", "smelting", "wax_block"));
+		new FabricatorSmeltingRecipeBuilder()
+			.setResource(Ingredient.of(CoreItems.BEESWAX))
+			.setProduct(ForestryFluids.WAX.getFluid(FluidType.BUCKET_VOLUME / 10)) //A /9 is easier, but messier.
+			.setMeltingPoint(200) //Arbitrary value, yes. Shorter to warm up, but uses 10% more material
+			.build(consumer, id("fabricator", "smelting", "wax"));
 	}
 
 	private static void registerFermenter(RecipeOutput consumer) {

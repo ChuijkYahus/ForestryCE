@@ -63,6 +63,9 @@ public class ApicultureCreativeTab {
 			}
 		}
 
+		items.accept(ApicultureBlocks.WAX_BLOCK);
+		items.accept(ApicultureBlocks.REFRACTORY_WAX_BLOCK);
+
 		// Alveary
 		ApicultureBlocks.ALVEARY.getItems().forEach(items::accept);
 

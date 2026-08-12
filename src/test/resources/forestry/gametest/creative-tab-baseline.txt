@@ -175,6 +175,7 @@ forestry:apiculture forestry:proven_frame x1
 forestry:apiculture forestry:proven_scoop x1
 forestry:apiculture forestry:pulsating_propolis x1
 forestry:apiculture forestry:queen_bee x69
+forestry:apiculture forestry:refractory_wax_block x1
 forestry:apiculture forestry:royal_jelly x1
 forestry:apiculture forestry:savanna_hive x1
 forestry:apiculture forestry:scoop x1
@@ -194,6 +195,7 @@ forestry:apiculture forestry:tropical_hive x1
 forestry:apiculture forestry:untreated_frame x1
 forestry:apiculture forestry:vintage_comb x1
 forestry:apiculture forestry:vintage_comb_block x1
+forestry:apiculture forestry:wax_block x1
 forestry:apiculture forestry:wheaten_comb x1
 forestry:apiculture forestry:wheaten_comb_block x1
 forestry:apiculture forestry:wintry_hive x1
@@ -1664,6 +1666,7 @@ forestry:forestry forestry:arborists_backpack x1
 forestry:forestry forestry:arborists_chest x1
 forestry:forestry forestry:ash x1
 forestry:forestry forestry:ash_block x1
+forestry:forestry forestry:ash_brick x1
 forestry:forestry forestry:axe_kit x1
 forestry:forestry forestry:basic_circuit_board x1
 forestry:forestry forestry:bee_smoker x1
@@ -1729,6 +1732,7 @@ forestry:forestry forestry:raw_tin x1
 forestry:forestry forestry:raw_tin_block x1
 forestry:forestry forestry:refined_circuit_board x1
 forestry:forestry forestry:refractory_wax x1
+forestry:forestry forestry:refractory_wax_brick x1
 forestry:forestry forestry:research_note x1
 forestry:forestry forestry:scented_paneling x1
 forestry:forestry forestry:scoop x1
@@ -1759,6 +1763,7 @@ forestry:forestry forestry:tin_gear x1
 forestry:forestry forestry:tin_ingot x1
 forestry:forestry forestry:tin_nugget x1
 forestry:forestry forestry:tin_ore x1
+forestry:forestry forestry:wax_brick x1
 forestry:forestry forestry:wood_pulp x1
 forestry:forestry forestry:worktable x1
 forestry:forestry forestry:woven_silk x1
@@ -1804,8 +1809,9 @@ forestry:storage forestry:bucket_honey x1
 forestry:storage forestry:bucket_liquid_glass x1
 forestry:storage forestry:bucket_seed_oil x1
 forestry:storage forestry:bucket_short_mead x1
+forestry:storage forestry:bucket_wax x1
 forestry:storage forestry:builder_backpack x1
-forestry:storage forestry:can x13
+forestry:storage forestry:can x14
 forestry:storage forestry:carpenter x1
 forestry:storage forestry:carton x1
 forestry:storage forestry:crate x1
@@ -1902,7 +1908,7 @@ forestry:storage forestry:lepidopterists_chest x1
 forestry:storage forestry:miner_backpack x1
 forestry:storage forestry:pickaxe_kit x1
 forestry:storage forestry:pipette x1
-forestry:storage forestry:refractory_capsule x13
+forestry:storage forestry:refractory_capsule x14
 forestry:storage forestry:shovel_kit x1
 forestry:storage forestry:sword_kit x1
 forestry:storage forestry:wax_capsule x11

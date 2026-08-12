@@ -114,6 +114,8 @@ public class CoreItems {
 	/* Peat */
 	public static final FeatureItem<ItemForestry> PEAT = REGISTRY.item(ItemForestry::new, "peat");
 	public static final FeatureItem<ItemForestry> ASH = REGISTRY.item(ItemForestry::new, "ash");
+	// Deviation from 1.20.1: the id follows this tree's <material>_<form> naming, so "brick_ash" became "ash_brick"
+	public static final FeatureItem<ItemForestry> ASH_BRICK = REGISTRY.item(ItemForestry::new, "ash_brick");
 	public static final FeatureItem<ItemForestry> BITUMINOUS_PEAT = REGISTRY.item(ItemForestry::new, "bituminous_peat");
 
 	/* Moistener */
@@ -139,4 +141,8 @@ public class CoreItems {
 	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
 	public static final FeatureItem<ItemBeesWax> BEESWAX = REGISTRY.item(ItemBeesWax::new, "beeswax");
 	public static final FeatureItem<ItemRefractoryWax> REFRACTORY_WAX = REGISTRY.item(ItemRefractoryWax::new, "refractory_wax");
+	// Deviation from 1.20.1: ids follow this tree's <material>_<form> naming, so "brick_wax" became
+	// "wax_brick" and "brick_refractory_wax" became "refractory_wax_brick"
+	public static final FeatureItem<ItemForestry> WAX_BRICK = REGISTRY.item(ItemForestry::new, "wax_brick");
+	public static final FeatureItem<ItemForestry> REFRACTORY_WAX_BRICK = REGISTRY.item(ItemForestry::new, "refractory_wax_brick");
 }
