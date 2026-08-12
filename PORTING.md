@@ -355,3 +355,61 @@ To keep progress coherent across Codex sessions:
   - cleared the direct stale `super.load(...)`, old update-tag/on-data-packet overrides, and missing tree/cocoon compatibility-hook failures from the active block-entity serialization layer
 - Current next blocker after the block-entity HolderLookup serialization cleanup slice:
   - compile failures are now front-loaded by remaining 1.21 block/item/core signature drift (`BlockStructure`, `BlockBase`, `ItemFluidContainerForestry`, `CorePaintings`, `EscritoireGameToken`) plus packet/mail buffer rewrites (`PacketItemStackDisplay`, trader mail packets, recipe transfer packets)
+
+## Content port: 1.20.1 engine/solar additions (2026-08-11)
+
+This round is not an API-porting slice. The build already compiles; this brings across the
+content 1.20.1 gained from EnderiumSmith's solar work and Spearkiller's PR #361, which 1.21.1
+had never received. Branch: `port/engine-and-solar-additions`.
+
+### Ported
+
+- Solar Engine and Solar Panel, with the merged energy formula from #361 (array size bonus of
+  `0.03 * (panels - 1)^2` FE/t, floating point insolation) and the 20 tick array sweep that
+  recounts lit panels.
+- Liquid Experience: the fluid, its `forge:experience` tag, the squeezer recipe, and the
+  squeezer's glass bottle path (experience, honey and water bottles).
+- Phosphor Torch, Phosphor Wall Torch, Phosphor Lantern, Tin Chain, Tin Nugget.
+- Engine ledger showing fractional RF/t.
+- Solar engine error conditions, engine retextures, and 24 new textures.
+- GameTests for squeezer bottling and solar panel shading.
+
+### Verification for this round
+
+- `./gradlew compileJava compileTestJava --console=plain` — clean
+- `./gradlew runData` — 33 files written, 4 stale removed. NOTE: runData does not exit on its
+  own here; it finishes its work in ~30s, so watch `run/logs/latest.log` for
+  `Caching: total files` and then kill it.
+- `./gradlew runGameTestServer --console=plain` — all 109 pass
+
+### Naming and API deviations worth remembering
+
+- The engine registers as `solar_engine`, not 1.20.1's `engine_solar`: `EnergyBlocks` uses a
+  SUFFIX identifier. Assets and lang keys follow the new name.
+- `blockstates/solar_engine.json` must NOT be hand-written. `ForestryBlockStateProvider` loops
+  the engine blocks, so datagen emits it; a hand-written copy is a duplicate-resource collision.
+  `models/block/solar_engine.json` IS hand-written, same split as `peat_engine`.
+- `BlockBehaviour.Properties.ofFullCopy` copies `drops`, which `Properties.copy` did not.
+  Copying a vanilla block built with `.dropsLike(...)` therefore steals its loot table id — this
+  bit the phosphor wall torch, which copies `SOUL_TORCH` rather than `SOUL_WALL_TORCH` as a
+  result. Check for `dropsLike` before using `ofFullCopy` on a vanilla block.
+- 1.21.1's `TorchBlock` takes a `SimpleParticleType` first, so a `DustParticleOptions` cannot be
+  passed to super. The phosphor torches hand super a vanilla flame for the codec and spawn their
+  own dust from `animateTick`.
+- Item and block tags are `c:`; only fluid tags are still `forge:`.
+- `PotionUtils` is gone; build potions with `PotionContents.createItemStack`, and compare them
+  with `ItemStack.isSameItemSameComponents` since every potion is `Items.POTION`.
+
+### Not ported yet — the next blockers for this content
+
+1. **Silicon.** 1.21.1 has no silicon at all: no item, no `EnumResourceType` storage block, no
+   `EnumElectronTube.SILICON`, no `c:silicon` tag, no smelter recipes. Everything below waits on
+   this.
+2. **Solar Cell**, which needs silicon. Without it the Solar Panel has no crafting recipe and is
+   creative-only.
+3. **Solar Panel advancement** (`get_solar_panel`) and the `get_engine` advancement's extra
+   engine entries.
+4. **Magmatic Drop** and the bee product shuffle (phosphor moving to the Photosynthetic and
+   Autotroph bees, magmatic drop out of the Simmering comb, the squeezer lava recipes).
+5. **Combustion Engine.** Out of scope for this round and older port debt, but note the solar
+   work sits next to it: 1.21.1 has only PEAT, BIOGAS, CLOCKWORK and now SOLAR.
