@@ -6,6 +6,8 @@ import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.wood.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.content.decorative.BlockTypeBigCandle;
+import forestry.core.content.decorative.BlockTypeJumboCandle;
 import forestry.core.content.resources.EnumResourceType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.content.energy.features.EnergyBlocks;
@@ -61,6 +63,18 @@ public final class ForestryBlockTagsProvider {
 		for (FeatureBlock<Block, BlockItem> chiseled : CoreBlocks.DECORATIVE_CHISELED) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(chiseled.block());
 		}
+
+		tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(CoreBlocks.METAL_PLATING.blockArray());
+
+		// Candles
+		tags.tag(ForestryTags.Blocks.JUMBO_CANDLE).add(CoreBlocks.JUMBO_CANDLES.blockArray());
+		tags.tag(ForestryTags.Blocks.BIG_CANDLE).add(CoreBlocks.BIG_CANDLES.blockArray());
+		tags.tag(BlockTags.CANDLES).add(CoreBlocks.RAINBOW_CANDLE.block(), CoreBlocks.REFRACTORY_CANDLE.block());
+		tags.tag(BlockTags.PIGLIN_REPELLENTS).add(
+			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.REFRACTORY).block(),
+			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.REFRACTORY).block(),
+			CoreBlocks.REFRACTORY_CANDLE.block()
+		);
 
 		for (Block block : union(CoreBlocks.RESOURCE_STORAGE, FactoryBlocks.PLAIN, FactoryBlocks.TESR)) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);

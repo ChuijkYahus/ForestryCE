@@ -69,6 +69,10 @@ public class ForestryTags {
 		// Blocks where the Alveary Swarmer can spawn hives on top of
 		public static final TagKey<Block> SWARM_BEE_GROUND = blockTag("hive_grounds/swarm");
 
+		// A jumbo candle reads whether its neighbours carry this tag, so candles of different colours stack
+		public static final TagKey<Block> JUMBO_CANDLE = blockTag("jumbo_candle");
+		public static final TagKey<Block> BIG_CANDLE = blockTag("big_candle");
+
 		private static TagKey<Block> commonTag(String name) {
 			return BlockTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
 		}
@@ -134,6 +138,11 @@ public class ForestryTags {
 		public static final TagKey<Item> STAMPS = itemTag("stamps");
 
 		public static final TagKey<Item> SCOOPS = itemTag("scoops");
+
+		// The lacquering recipes take any plating and one dye, so they name the tag rather than 22 items
+		public static final TagKey<Item> METAL_PLATING = itemTag("metal_plating");
+		public static final TagKey<Item> JUMBO_CANDLES = itemTag("jumbo_candles");
+		public static final TagKey<Item> BIG_CANDLES = itemTag("big_candles");
 
 		// A sample carrying a genome. Bees and butterflies each contribute their own, so the genetic
 		// filter can name this instead of naming an item out of a jar that may not be installed

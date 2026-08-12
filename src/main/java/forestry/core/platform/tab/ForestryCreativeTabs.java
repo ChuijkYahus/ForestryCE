@@ -175,6 +175,16 @@ public class ForestryCreativeTabs {
 		//items.accept(CoreBlocks.ASHEN_WAX_BLOCK);
 		//items.accept(CoreBlocks.CRISPY_HONEY_BLOCK);
 
+		// Metal plating
+		CoreBlocks.METAL_PLATING.getItems().forEach(items::accept);
+
+		// Candles. Deviation from 1.20.1: that tree listed the seventeen vanilla candles here as well, which
+		// belong to vanilla's own tab. Only forestry's own are listed
+		items.accept(CoreBlocks.REFRACTORY_CANDLE);
+		items.accept(CoreBlocks.RAINBOW_CANDLE);
+		CoreBlocks.BIG_CANDLES.getItems().forEach(items::accept);
+		CoreBlocks.JUMBO_CANDLES.getItems().forEach(items::accept);
+
 		// Escritoire output — research notes ship players hint about mutations. Worth
 		// surfacing in creative so they can be inspected without needing the workflow.
 		items.accept(CoreItems.RESEARCH_NOTE);

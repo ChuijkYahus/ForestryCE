@@ -11,6 +11,10 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.content.burnbarrel.BlockBurnBarrel;
+import forestry.core.content.decorative.BlockJumboCandle;
+import forestry.core.content.decorative.BlockTypeBigCandle;
+import forestry.core.content.decorative.BlockTypeJumboCandle;
+import forestry.core.content.decorative.BlockTypeMetalPlating;
 import forestry.core.content.resources.EnumResourceType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
@@ -25,6 +29,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CandleBlock;
 import forestry.core.platform.block.BlockBase;
 import net.minecraft.core.Direction;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
@@ -172,6 +177,139 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		for (CoreBlocks.StoneSet set : CoreBlocks.STONE_SETS) {
 			chiseledColumn(set.chiseled().block());
 		}
+
+		// Metal plating
+		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
+			Block block = CoreBlocks.METAL_PLATING.get(type).block();
+			simpleBlock(block);
+			generic3d(block);
+		}
+
+		// Candles
+		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
+			jumboCandle(type);
+		}
+		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
+			bigCandle(type);
+		}
+		vanillaCandle(CoreBlocks.REFRACTORY_CANDLE.block());
+		vanillaCandle(CoreBlocks.RAINBOW_CANDLE.block());
+	}
+
+	/**
+	 * Emits the blockstate, the four shape models and the item model of one jumbo candle. Each shape gets its
+	 * own model, since a candle in the middle of a stack shows neither a wick nor a melted top.
+	 */
+	private void jumboCandle(BlockTypeJumboCandle type) {
+		String name = type.getSerializedName();
+		Block candle = CoreBlocks.JUMBO_CANDLES.get(type).block();
+
+		jumboCandleModel(name, "single", "bottom", "side", "top");
+		jumboCandleModel(name, "top", "bottom_top", "side_top", "top");
+		jumboCandleModel(name, "middle", "bottom_top", "side_middle", "middle_top");
+		jumboCandleModel(name, "bottom", "bottom", "side_bottom", "bottom_top");
+
+		getVariantBuilder(candle).forAllStates(state -> {
+			String shape = state.getValue(BlockJumboCandle.SHAPE).getSerializedName();
+			return ConfiguredModel.builder()
+				.modelFile(models().getExistingFile(modBlock(this, "candles/" + name + "_jumbo_" + shape)))
+				.build();
+		});
+
+		// Deviation from 1.20.1: the item models of the 38 jumbo and big candles were hand-authored one file
+		// each there, with simpleBlockItem left commented out. They are generated here, from the same model
+		// the block shows when it stands alone
+		itemModels().withExistingParent(path(candle), modBlock(this, "candles/" + name + "_jumbo_single"));
+	}
+
+	/**
+	 * Emits one shape model of one jumbo candle.
+	 *
+	 * @param name   The candle's colour, which the model and texture ids are built from
+	 * @param shape  The shape of the block states the model covers
+	 * @param bottom The texture on the bottom face
+	 * @param side   The texture on the four sides, which is also the particle
+	 * @param top    The texture on the top face
+	 */
+	private void jumboCandleModel(String name, String shape, String bottom, String side, String top) {
+		ResourceLocation sideTexture = modBlock(this, "candles/" + name + "_" + side);
+
+		models().withExistingParent("block/candles/" + name + "_jumbo_" + shape, modBlock(this, "candles/jumbo_" + shape))
+			.texture("bottom", modBlock(this, "candles/" + name + "_" + bottom))
+			.texture("side", sideTexture)
+			.texture("top", modBlock(this, "candles/" + name + "_" + top))
+			.texture("particle", sideTexture);
+	}
+
+	/**
+	 * Emits the blockstate, the one model and the item model of one big candle. A big candle shows the same
+	 * model in every state.
+	 * <p>
+	 * Deviation from 1.20.1: the blockstate listed all four lit and waterlogged combinations there, each
+	 * pointing at the one model. This writes the single empty variant, which matches every state.
+	 */
+	private void bigCandle(BlockTypeBigCandle type) {
+		Block candle = CoreBlocks.BIG_CANDLES.get(type).block();
+		String model = "candles/" + type.getSerializedName() + "_big";
+
+		models().withExistingParent("block/" + model, modBlock(this, "candles/big"))
+			.texture("0", modBlock(this, model))
+			.texture("particle", modBlock(this, model));
+
+		singleModelBlock(this, candle, models().getExistingFile(modBlock(this, model)));
+		itemModels().withExistingParent(path(candle), modBlock(this, model));
+	}
+
+	/**
+	 * Emits the blockstate, the eight models and the item model of one vanilla-shaped candle, which shows one
+	 * model per candle count and a second set of the four while lit.
+	 */
+	private void vanillaCandle(Block block) {
+		String name = path(block);
+		ResourceLocation texture = modBlock(this, "candles/" + name);
+		ResourceLocation litTexture = modBlock(this, "candles/" + name + "_lit");
+
+		ModelFile one = candleCountModel(name, "one", "template_candle", texture);
+		ModelFile oneLit = candleCountModel(name, "one_lit", "template_candle", litTexture);
+		ModelFile two = candleCountModel(name, "two", "template_two_candles", texture);
+		ModelFile twoLit = candleCountModel(name, "two_lit", "template_two_candles", litTexture);
+		ModelFile three = candleCountModel(name, "three", "template_three_candles", texture);
+		ModelFile threeLit = candleCountModel(name, "three_lit", "template_three_candles", litTexture);
+		ModelFile four = candleCountModel(name, "four", "template_four_candles", texture);
+		ModelFile fourLit = candleCountModel(name, "four_lit", "template_four_candles", litTexture);
+
+		getVariantBuilder(block).forAllStates(state -> {
+			int count = state.getValue(CandleBlock.CANDLES);
+			boolean lit = state.getValue(CandleBlock.LIT);
+
+			ModelFile model = switch (count) {
+				case 2 -> lit ? twoLit : two;
+				case 3 -> lit ? threeLit : three;
+				case 4 -> lit ? fourLit : four;
+				default -> lit ? oneLit : one;
+			};
+
+			return ConfiguredModel.builder().modelFile(model).build();
+		});
+
+		// Deviation from 1.20.1: the two item models were hand-authored there. They are generated here, from
+		// the item textures those two files already named
+		layer0(ModUtil.getRegistryName(block.asItem()), "item/generated");
+	}
+
+	/**
+	 * Emits one count model of one vanilla-shaped candle.
+	 *
+	 * @param name    The candle's registry id, which the model id is built from
+	 * @param count   The candle count the model covers, with a lit suffix where it is lit
+	 * @param parent  The vanilla template of the matching candle count
+	 * @param texture The texture on every face, which is also the particle
+	 * @return The registered model
+	 */
+	private ModelFile candleCountModel(String name, String count, String parent, ResourceLocation texture) {
+		return models().withExistingParent("block/candles/" + name + "_" + count, mcBlock(this, parent))
+			.texture("all", texture)
+			.texture("particle", texture);
 	}
 
 	/**

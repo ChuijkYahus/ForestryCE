@@ -1,0 +1,28 @@
+{
+  "type": "forestry:fabricator",
+  "id": "forestry:metal_plating/brown_metal_plating",
+  "molten": {
+    "amount": 50,
+    "id": "forestry:wax"
+  },
+  "recipe": {
+    "category": "building",
+    "key": {
+      "#": {
+        "tag": "forestry:metal_plating"
+      },
+      "D": {
+        "tag": "c:dyes/brown"
+      }
+    },
+    "pattern": [
+      "###",
+      "#D#",
+      "###"
+    ],
+    "result": {
+      "count": 8,
+      "id": "forestry:metal_plating_brown"
+    }
+  }
+}

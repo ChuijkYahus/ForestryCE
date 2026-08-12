@@ -26,6 +26,9 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.platform.block.BlockTypeCoreTesr;
+import forestry.core.content.decorative.BlockTypeBigCandle;
+import forestry.core.content.decorative.BlockTypeJumboCandle;
+import forestry.core.content.decorative.BlockTypeMetalPlating;
 import forestry.core.content.resources.EnumResourceType;
 import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.engine.circuits.ItemCircuitBoard;
@@ -904,6 +907,14 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" ^ ");
 		});
 
+		// Explicit ID, carried over from 1.20.1, which named this recipe in the plural like the one above it
+		recipes.shapedCrafting("refractory_candles", RecipeCategory.MISC, CoreBlocks.REFRACTORY_CANDLE, 1, recipe -> {
+			recipe.define('|', Tags.Items.STRINGS);
+			recipe.define('^', CoreItems.REFRACTORY_WAX);
+			recipe.pattern(" | ");
+			recipe.pattern(" ^ ");
+		});
+
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, CoreItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
@@ -939,6 +950,69 @@ public class ForestryRecipeProvider {
 		stoneSet(output, recipes, CoreBlocks.WAXSTONE, Ingredient.of(CoreItems.BEESWAX));
 		stoneSet(output, recipes, CoreBlocks.REFRACTORY_WAXSTONE, Ingredient.of(CoreItems.REFRACTORY_WAX));
 		stoneSet(output, recipes, CoreBlocks.HONEYSTONE, Ingredient.of(CoreItems.HONEY_DROP, CoreItems.HONEYDEW));
+
+		registerCandleRecipes(recipes);
+	}
+
+	/**
+	 * Registers the crafting recipes of the jumbo and big candles. The plain and refractory candles are cast
+	 * from wax, and every other colour is one of those dyed.
+	 */
+	private static void registerCandleRecipes(MKRecipeProvider recipes) {
+		bigCandle(recipes, BlockTypeBigCandle.NORMAL, CoreItems.BEESWAX);
+		jumboCandle(recipes, BlockTypeJumboCandle.NORMAL, ApicultureBlocks.WAX_BLOCK);
+		bigCandle(recipes, BlockTypeBigCandle.REFRACTORY, CoreItems.REFRACTORY_WAX);
+		jumboCandle(recipes, BlockTypeJumboCandle.REFRACTORY, ApicultureBlocks.REFRACTORY_WAX_BLOCK);
+
+		// The rainbow candles stay uncraftable, as on 1.20.1, where the comment reads "it's fun to have secrets"
+		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
+			TagKey<Item> dye = type.getDye();
+			if (dye != null) {
+				// Deviation from 1.20.1: the jumbo recipes took ForestryTags.Items.BIG_CANDLES as their base
+				// there, so a jumbo candle was dyed out of a big one. Read as a copy-paste slip from the big
+				// candle recipe beside it, and given the jumbo tag
+				recipes.shapelessCrafting(RecipeCategory.DECORATIONS, CoreBlocks.JUMBO_CANDLES.get(type), 1, ForestryTags.Items.JUMBO_CANDLES, Ingredient.of(dye));
+			}
+		}
+		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
+			TagKey<Item> dye = type.getDye();
+			if (dye != null) {
+				recipes.shapelessCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(type), 1, ForestryTags.Items.BIG_CANDLES, Ingredient.of(dye));
+			}
+		}
+	}
+
+	/**
+	 * Registers the crafting recipe of one big candle cast from wax, which is six wax under one string.
+	 *
+	 * @param recipes The provider the recipe is written through
+	 * @param type    The candle the recipe yields
+	 * @param wax     The wax the candle is cast from
+	 */
+	private static void bigCandle(MKRecipeProvider recipes, BlockTypeBigCandle type, ItemLike wax) {
+		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(type), recipe -> {
+			recipe.define('|', Tags.Items.STRINGS);
+			recipe.define('#', wax);
+			recipe.pattern(" | ");
+			recipe.pattern("###");
+			recipe.pattern("###");
+		});
+	}
+
+	/**
+	 * Registers the crafting recipe of one jumbo candle cast from wax, which is one wax block under one string.
+	 *
+	 * @param recipes The provider the recipe is written through
+	 * @param type    The candle the recipe yields
+	 * @param wax     The wax block the candle is cast from
+	 */
+	private static void jumboCandle(MKRecipeProvider recipes, BlockTypeJumboCandle type, ItemLike wax) {
+		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.JUMBO_CANDLES.get(type), recipe -> {
+			recipe.define('|', Tags.Items.STRINGS);
+			recipe.define('#', wax);
+			recipe.pattern("|");
+			recipe.pattern("#");
+		});
 	}
 
 	/**
@@ -2047,6 +2121,22 @@ public class ForestryRecipeProvider {
 				.define('E', Tags.Items.GEMS_EMERALD))
 			.build(consumer, id("fabricator", "electron_tubes", "flexible_casing"));
 
+		metalPlating(consumer, BlockTypeMetalPlating.IRON, Items.IRON_INGOT);
+		metalPlating(consumer, BlockTypeMetalPlating.GOLD, Items.GOLD_INGOT);
+		metalPlating(consumer, BlockTypeMetalPlating.COPPER, Items.COPPER_INGOT);
+		metalPlating(consumer, BlockTypeMetalPlating.NETHERITE, Items.NETHERITE_INGOT);
+		metalPlating(consumer, BlockTypeMetalPlating.TIN, CoreItems.INGOT_TIN);
+		// Deviation from 1.20.1: the bronze recipe named the tin plating as its result there, so bronze
+		// ingots made tin plating and the bronze plating had no recipe at all. It yields bronze here
+		metalPlating(consumer, BlockTypeMetalPlating.BRONZE, CoreItems.INGOT_BRONZE);
+
+		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
+			TagKey<Item> dye = type.getDye();
+			if (dye != null) {
+				lacqueredMetalPlating(consumer, type, dye);
+			}
+		}
+
 		for (ForestryWoodType type : ForestryWoodType.values()) {
 			addFireproofRecipes(consumer, type);
 		}
@@ -2054,6 +2144,47 @@ public class ForestryRecipeProvider {
 		for (VanillaWoodType type : VanillaWoodType.values()) {
 			addFireproofRecipes(consumer, type);
 		}
+	}
+
+	/**
+	 * Registers the fabricator recipe of one metal plating cast from an ingot, which is eight ingots in a
+	 * ring soaked in fifty millibuckets of wax.
+	 *
+	 * @param consumer The output the recipe is written through
+	 * @param type     The plating the recipe yields
+	 * @param base     The ingot the plating is cast from
+	 */
+	private static void metalPlating(RecipeOutput consumer, BlockTypeMetalPlating type, ItemLike base) {
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(ForestryFluids.WAX.getFluid(50))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.METAL_PLATING.get(type), 8)
+				.pattern("###")
+				.pattern("# #")
+				.pattern("###")
+				.define('#', base))
+			.build(consumer, id("metal_plating", type.getName()));
+	}
+
+	/**
+	 * Registers the fabricator recipe of one lacquered metal plating, which is eight of any plating around
+	 * one dye soaked in fifty millibuckets of wax.
+	 *
+	 * @param consumer The output the recipe is written through
+	 * @param type     The plating the recipe yields
+	 * @param dye      The dye the plating is lacquered with
+	 */
+	private static void lacqueredMetalPlating(RecipeOutput consumer, BlockTypeMetalPlating type, TagKey<Item> dye) {
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(ForestryFluids.WAX.getFluid(50))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.METAL_PLATING.get(type), 8)
+				.pattern("###")
+				.pattern("#D#")
+				.pattern("###")
+				.define('D', Ingredient.of(dye))
+				.define('#', Ingredient.of(ForestryTags.Items.METAL_PLATING)))
+			.build(consumer, id("metal_plating", type.getName()));
 	}
 
 	private static void addFireproofRecipes(RecipeOutput consumer, IWoodType type) {

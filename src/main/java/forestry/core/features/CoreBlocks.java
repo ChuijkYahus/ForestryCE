@@ -4,6 +4,12 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.core.platform.block.NaturalistChestBlockType;
 import forestry.core.platform.block.*;
 import forestry.core.content.burnbarrel.BlockBurnBarrel;
+import forestry.core.content.decorative.BlockBigCandle;
+import forestry.core.content.decorative.BlockJumboCandle;
+import forestry.core.content.decorative.BlockTypeBigCandle;
+import forestry.core.content.decorative.BlockTypeJumboCandle;
+import forestry.core.content.decorative.BlockTypeMetalPlating;
+import forestry.core.content.decorative.CandleRefractory;
 import forestry.core.content.soil.*;
 import forestry.core.content.lighting.BlockWaterloggableTorch;
 import forestry.core.content.lighting.BlockWaterloggableWallTorch;
@@ -18,6 +24,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.ChainBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.LanternBlock;
@@ -93,6 +100,41 @@ public class CoreBlocks {
 	// Misc
 	public static final FeatureBlock<Block, BlockItem> ASHEN_WAX_BLOCK = REGISTRY.block(Block::new, mudBrickProperties(Blocks.MUD_BRICKS, MapColor.SAND, SoundType.MUD_BRICKS), ItemBlockForestry::new, "ashen_wax_block");
 	public static final FeatureBlock<Block, BlockItem> CRISPY_HONEY_BLOCK = REGISTRY.block(Block::new, mudBrickProperties(Blocks.MUD_BRICKS, MapColor.COLOR_BROWN, SoundType.MUD_BRICKS), ItemBlockForestry::new, "crispy_honey_block");
+
+	/* Metal plating */
+	// Deviation from 1.20.1: BlockMetalPlating was a Block subclass whose only job was to build the
+	// properties in its constructor. The registry owns them here, so the subclass is gone and the group
+	// registers plain Blocks
+	public static final FeatureBlockGroup<Block, BlockTypeMetalPlating> METAL_PLATING = REGISTRY.<Block, BlockTypeMetalPlating>blockGroup((properties, type) -> new Block(properties), List.of(BlockTypeMetalPlating.values()))
+		.blockProperties((properties, type) -> Properties.ofFullCopy(Blocks.WAXED_COPPER_BLOCK).mapColor(type.getMapColor()))
+		.item(ItemBlockForestry::new)
+		.identifier("metal_plating")
+		.create();
+
+	/* Candles */
+	// Vanilla candles are built straight from Properties.of and never call dropsLike, so ofFullCopy carries
+	// a null `drops` and cannot steal a vanilla loot table id
+	public static final FeatureBlockGroup<BlockJumboCandle, BlockTypeJumboCandle> JUMBO_CANDLES = REGISTRY.blockGroup(BlockJumboCandle::new, List.of(BlockTypeJumboCandle.values()))
+		.blockProperties((properties, type) -> Properties.ofFullCopy(Blocks.CANDLE)
+			.mapColor(type.getMapColor())
+			.lightLevel(state -> candleLight(state.getValue(BlockJumboCandle.LIT), type == BlockTypeJumboCandle.REFRACTORY)))
+		.item(ItemBlockForestry::new)
+		.identifier("jumbo_candle")
+		.create();
+
+	// Deviation from 1.20.1: the big candles carried no map color there, so every one of them mapped as the
+	// vanilla candle's sand. They keep that here, since BlockTypeBigCandle names no colors
+	public static final FeatureBlockGroup<BlockBigCandle, BlockTypeBigCandle> BIG_CANDLES = REGISTRY.blockGroup(BlockBigCandle::new, List.of(BlockTypeBigCandle.values()))
+		.blockProperties((properties, type) -> Properties.ofFullCopy(Blocks.CANDLE)
+			.lightLevel(state -> candleLight(state.getValue(BlockBigCandle.LIT), type == BlockTypeBigCandle.REFRACTORY)))
+		.item(ItemBlockForestry::new)
+		.identifier("big_candle")
+		.create();
+
+	public static final FeatureBlock<CandleBlock, BlockItem> RAINBOW_CANDLE = REGISTRY.block(CandleBlock::new, () -> Properties.ofFullCopy(Blocks.MAGENTA_CANDLE), ItemBlockForestry::new, "rainbow_candle");
+	public static final FeatureBlock<CandleRefractory, BlockItem> REFRACTORY_CANDLE = REGISTRY.block(CandleRefractory::new, () -> Properties.ofFullCopy(Blocks.RED_CANDLE)
+		.lightLevel(state -> state.getValue(CandleBlock.LIT) ? state.getValue(CandleBlock.CANDLES) * 2 : 0), ItemBlockForestry::new, "refractory_candle");
+	// todo the cake variants are still missing
 
 	/**
 	 * Used to walk every decorative stone set at once. Datagen and the creative tab read this rather than
@@ -212,6 +254,21 @@ public class CoreBlocks {
 			stoneFamily("polished_" + id, color, sound),
 			chiseled(id, color, sound)
 		);
+	}
+
+	/**
+	 * Used to build the light level of one jumbo or big candle. A refractory candle burns cooler than the
+	 * rest, matching the soul fire it burns with.
+	 *
+	 * @param lit        Whether the candle is lit
+	 * @param refractory Whether the candle is the refractory one
+	 * @return The light level the candle emits
+	 */
+	private static int candleLight(boolean lit, boolean refractory) {
+		if (!lit) {
+			return 0;
+		}
+		return refractory ? 10 : 15;
 	}
 
 	/**

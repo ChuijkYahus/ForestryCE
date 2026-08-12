@@ -7,6 +7,7 @@ import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.wood.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
+import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
@@ -66,6 +67,13 @@ public class ForestryItemTagsProvider {
 		tags.copy(BlockTags.WOODEN_DOORS, ItemTags.WOODEN_DOORS);
 		// The decorative stone and brick walls are the only forestry blocks in BlockTags.WALLS
 		tags.copy(BlockTags.WALLS, ItemTags.WALLS);
+
+		// Metal plating and candles. The block tags are named in the singular and the item tags in the
+		// plural, so these are added rather than copied
+		tags.tag(ForestryTags.Items.METAL_PLATING).add(CoreBlocks.METAL_PLATING.getItems().toArray(Item[]::new));
+		tags.tag(ForestryTags.Items.JUMBO_CANDLES).add(CoreBlocks.JUMBO_CANDLES.getItems().toArray(Item[]::new));
+		tags.tag(ForestryTags.Items.BIG_CANDLES).add(CoreBlocks.BIG_CANDLES.getItems().toArray(Item[]::new));
+		tags.tag(ItemTags.CANDLES).add(CoreBlocks.RAINBOW_CANDLE.item(), CoreBlocks.REFRACTORY_CANDLE.item());
 
 		tags.tag(ItemTags.SAPLINGS).add(ArboricultureItems.TREE_SAPLING.get());
 		tags.copy(BlockTags.LEAVES, ItemTags.LEAVES);

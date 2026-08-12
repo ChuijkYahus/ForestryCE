@@ -116,6 +116,13 @@ public class CoreClientHandler implements IClientModuleHandler {
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_LANTERN.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.BURN_BARREL.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(EnergyBlocks.SOLAR_PANEL.block(), RenderType.cutout());
+
+			CoreBlocks.JUMBO_CANDLES.getList().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
+			CoreBlocks.BIG_CANDLES.getList().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
+			// Deviation from 1.20.1: these two were left on the solid layer there, which turns the transparent
+			// pixels of the vanilla candle templates black. Vanilla registers its own candles as cutout
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.RAINBOW_CANDLE.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.REFRACTORY_CANDLE.block(), RenderType.cutout());
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());
