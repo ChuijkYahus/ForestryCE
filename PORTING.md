@@ -420,63 +420,87 @@ Deviations for this pass:
 **Silicon has no production recipe.** Its only route on 1.20.1 is the smelter, so the storage
 block round trip and both fabricator recipes only move it around. A `todo` in
 `ForestryRecipeProvider` marks the gap.
+## Content parity round (2026-08-12)
 
-## Content gap audit against 1.20.1 (2026-08-11)
+Everything the 2026-08-11 gap audit found is now ported, in eight slices. The audit section it
+replaces is deleted rather than kept, since almost every line of it is now wrong.
 
-A full sweep of both trees. Ordered by size, largest first.
+One correction to that audit worth recording: it read the factory roster off
+`BlockTypeFactoryPlain` and concluded most machines were missing. They were not. This tree moved
+them to `BlockTypeFactoryTesr`, and the Smelter was the only machine actually absent.
 
-### Large missing subsystems
+### What landed
 
-1. **Decorative building blocks.** The biggest gap by volume. `CoreBlocks` is 95 block
-   registrations on 1.20.1 and 14 here. Missing whole families: ash bricks, wax bricks,
-   refractory wax bricks, waxstone, refractory waxstone, honeystone (each with the full
-   stairs/slab/wall/chiseled set), 22 metal platings, 18 jumbo candles, 18 big candles, rainbow
-   and refractory candles, turf, plywood, cork, ashen wax and crispy honey blocks. Drags along
-   `BlockMetalPlating`, `BlockJumboCandle`, `BlockBigCandle`, `BlockSheet`, `CorkBlock`, their
-   tags, ~139 loot tables, ~200 recipes and `registerFurnaceRecipes`.
-2. **Smelter.** The only missing factory machine. Needs the block type, tile, menu, screen,
-   inventory, recipe type and serializer, `ISmelterRecipe`, `SmelterRecipeBuilder`, the JEI
-   category, `registerSmelter` and its 13 recipes, plus the `COAL_COKE` and modded alloy ingot
-   tags. Blocks silicon production and all cross-mod alloying.
-3. **The advancement tree.** `ForestryAdvancementProvider` here is a 53 line stub emitting only
-   `forestry:root`; 1.20.1's is 808 lines emitting 57. The whole `forestry/core/advancements`
-   package is absent, so there is no `SimpleCriterionTrigger` subclass anywhere in this tree.
-   This is a rewrite against `AdvancementHolder`/`AdvancementType`, not a port.
-4. **Combustion Engine**, and with it the entire engine circuit socket:
-   `CircuitEngineUpgrade`, `IEngineUpgradeable`, the `ENGINE_UPGRADE` layout, the `ENGINE`
-   socket type and the 5 engine upgrade circuits. Only orphaned lang keys and gamemode config
-   entries remain here.
-5. **Burn Barrel.** Block, burnable block, tile, menu, screen, inventory, registrations, the
-   blacklist tag, its recipe and its advancement.
-6. **Paintings.** 10 of 14 variants ported; `jazz`, `tools`, `there_is_not_a_man_here` and
-   `the_hunny_tree` are missing along with their textures.
+| Slice | Contents |
+| --- | --- |
+| Small gaps | 4 painting variants, the iron gear, the proven scoop with its beekeeper trade, the ash block |
+| Wax | The Wax fluid and bucket, the wax and refractory wax blocks, the three brick items, the two fabricator smelting recipes that melt wax |
+| Smelter | The last unported machine, and with it a production route for silicon |
+| Burn Barrel | Block, tile, menu, screen, inventory, blacklist tag, recipe |
+| Combustion Engine | The engine, plus the whole engine circuit socket and its five upgrade circuits |
+| Brewer backpack | The tenth backpack type |
+| Decorative blocks | 135 blocks: the stone and brick families, 22 metal platings, 38 candles, turf, plywood, cork |
+| Advancements | The trigger layer, and all 57 advancements |
 
-### Smaller gaps
+### Bugs in 1.20.1 corrected rather than reproduced
 
-- **Wax fluid**, and with it `WAX_BLOCK`, `REFRACTORY_WAX_BLOCK`, `BlockWax` and `bucket_wax`.
-- **Brewer backpack** family: both tiers, the definition, the allow/reject tags, models and
-  recipes. The other 9 backpack types are complete.
-- `GEAR_IRON` and its tag, `SCOOP_PROVEN`, and the `ASH_BRICK`/`WAX_BRICK`/`REFRACTORY_WAX_BRICK`
-  intermediates that the missing brick families need.
-- **Magmatic Drop.** Possibly deliberate: it pairs with `EnumPropolis.VOLCANIC`, which 1.20.1
-  marks `todo remove in 1.21.1` and which is correctly gone here.
+Each carries a `// Deviation from 1.20.1:` comment where it lives.
 
-### Registers but incomplete
+- `InventorySmelter#removeResources` stopped one slot short of the last input slot, and its
+  partial-slot branch recorded the shortfall rather than what the slot held. The second let the
+  smelter pay a cost it could not afford, duplicating items. Pinned by GameTests that were
+  confirmed to fail against the original.
+- `InventoryBurnBarrel#setItem` dereferenced a level that is null during chunk load, so a barrel
+  saved with ash threw on load. It also counted ash before writing the slot, so `HAS_ASH` stuck
+  on after the last ash was removed.
+- Bronze metal plating named the tin plating as its result, so bronze ingots made tin plating and
+  bronze plating was uncraftable.
+- All 16 jumbo candle dye recipes took the big candle tag as their base.
+- Every cobbled stone family cut its stairs, slab and wall from the set's plain stone, so nine
+  crafting recipes had the same pattern and ingredient as their non-cobbled twin and only one of
+  each pair could fire.
+- `chiseled_refractory_wax_bricks` was `COLOR_YELLOW` amid a `COLOR_RED` family.
+- The root advancement's criterion required all seventeen combs at once, so it could not be
+  earned, and its reward called the `grant_guide` loot table as if it were a function.
+- Three lang typos: "Red Metal Lacquered Plating", "Big Green Cale", and trailing spaces.
 
-- `ash_block` is in no creative tab and has no recipe, though it has a lang key, loot table,
-  blockstate and model. 1.20.1 puts it in two tabs and gives it `ash_block` and
-  `ash_from_ash_block`. Same failure mode the Solar Panel had.
-- Silicon, as above.
-- `machine.speed.boost.1` uses `EnumElectronTube.EMERALD` here and `COPPER` on 1.20.1. May be
-  deliberate, since COPPER freed up when the engine circuits were dropped.
-- Charcoal and log pile burn times moved from `ItemProperties.burnTime` to the
-  `neoforge:furnace_fuels` data map. Values were not verified against 1.20.1.
+### Defects found in this tree, not inherited
 
-### Confirmed complete
+- The Solar Engine had no block entity renderer and the Solar Panel no cutout render layer, both
+  from the earlier solar round.
+- The Solar Engine and the Solar Panel had no crafting recipes.
+- `ash_block` registered through an overload that creates no `BlockItem`, which is why it had no
+  recipe and no creative tab entry.
+- `ForestryItemModelProvider` tested `path.endsWith("woven")`, which the id rename broke, so all
+  six woven backpacks generated with the plain model.
+- Twelve `item.forestry.*_bag` display names no longer matched any id.
+- The dye and map colour lookups for metal plating were static `HashMap`s, whose iteration order
+  made recipe emission nondeterministic between datagen runs.
 
-Every 1.20.1 top-level module has a home here. All machines except the smelter. Apiculture (69
-bee species, 30 effects, 17 combs, alveary, hives, frames, armour). Arboriculture (all wood
-types with full block sets, 50 tree species, charcoal). Lepidopterology. Farming and
-cultivation. Mail. Sorting, worktable. 66 crate types. All genetics data: 114 bee, 42 tree and
-1 butterfly mutations, taxonomy, karyotype. Village content. Commands, errors, particles,
-multiblock and network (rewritten, not dropped).
+### Deliberately not done
+
+- **The biogas engine socket rework.** 1.20.1's biogas engine is a socketed variant with a
+  different burn model. Porting it would replace behaviour already ported here, so the biogas
+  overclock circuit does not attach to it yet. The other four engine circuits work.
+- **Ashen wax and crispy honey blocks** stay out of the creative tab, as on 1.20.1, where their
+  smelting recipes are commented out too.
+- **`get_smelter`** and the other advancements 1.20.1 leaves commented out. `get_smelter` is
+  newly unblocked now the machine exists, if anyone wants it.
+
+### Known pre-existing issues left alone
+
+- `MKRecipeProvider.grid2x2` silently drops its `resultCount`, so several recipes that mean to
+  yield 4 emit 1. It is a ModKit fix, and 1.20.1 has the same output.
+- `registerFabricator` writes the Flexible Casing recipe under
+  `fabricator/electron_tubes/flexible_casing`.
+- Amber has no decomposition recipe, so amber blocks are a one-way trip.
+- The hand-written lang file still carries pre-rename fluid keys (`bucket_glass`, the dotted
+  `block.forestry.fluid.*` forms), so those read as datagen's auto-names in game.
+- `c:dusts/ash` lists `forestry:ash` twice.
+
+### Verification for this round
+
+Every slice was verified before commit: `compileJava` across all four source sets, `runData` run
+twice to confirm idempotence, and `runGameTestServer`. The suite is **113 tests, all passing**,
+up from 109 (the four new ones cover the smelter fix). The creative tab baseline was regenerated
+per slice and its diff checked to be additions only.
