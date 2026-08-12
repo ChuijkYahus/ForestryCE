@@ -41,7 +41,7 @@ public class EngineScreen<M extends AbstractContainerMenu, E extends EngineBlock
 				drawHeader(graphics, Component.translatable("for.gui.energy"), x + 22, y + 8);
 
 				drawSubheader(graphics, Component.translatable("for.gui.currentOutput").append(":"), x + 22, y + 20);
-				drawText(graphics, GuiUtil.formatRate(engine.getCurrentOutput()), x + 22, y + 32);
+				drawText(graphics, GuiUtil.formatRate(engine.getCurrentOutputRate()), x + 22, y + 32);
 
 				drawSubheader(graphics, Component.translatable("for.gui.stored").append(":"), x + 22, y + 44);
 				drawText(graphics, GuiUtil.formatEnergyValue(engine.getEnergyManager().getEnergyStored()), x + 22, y + 56);
@@ -53,7 +53,7 @@ public class EngineScreen<M extends AbstractContainerMenu, E extends EngineBlock
 
 		@Override
 		public Component getTooltip() {
-			return Component.translatable(GuiUtil.formatRate(engine.getCurrentOutput()));
+			return Component.translatable(GuiUtil.formatRate(engine.getCurrentOutputRate()));
 		}
 	}
 
