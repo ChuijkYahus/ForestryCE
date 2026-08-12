@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "forestry:phosphor"
+            "items": "#c:ingots/tin"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:phosphor_torches"
+        "recipe": "forestry:tin_chain"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:phosphor_torches"
+      "forestry:tin_chain"
     ]
   }
 }

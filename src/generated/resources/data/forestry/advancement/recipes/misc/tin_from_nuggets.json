@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:glass_bottle"
+            "items": "forestry:tin_nugget"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:exp_bottle_from_exp_drop"
+        "recipe": "forestry:tin_from_nuggets"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:exp_bottle_from_exp_drop"
+      "forestry:tin_from_nuggets"
     ]
   }
 }

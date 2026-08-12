@@ -1,0 +1,17 @@
+{
+  "type": "forestry:squeezer",
+  "chance": 0.0,
+  "id": "forestry:squeezer/experience_drop",
+  "output": {
+    "stack": {
+      "amount": 250,
+      "id": "forestry:experience"
+    }
+  },
+  "resources": [
+    {
+      "item": "forestry:experience_drop"
+    }
+  ],
+  "time": 10
+}
