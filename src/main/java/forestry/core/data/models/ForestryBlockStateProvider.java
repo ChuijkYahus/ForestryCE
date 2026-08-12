@@ -10,6 +10,7 @@ import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.content.burnbarrel.BlockBurnBarrel;
 import forestry.core.content.resources.EnumResourceType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
@@ -141,6 +142,18 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		// Deviation from 1.20.1: that model parented block/machines/base_machine, whose only other job
 		// was to hold two tank slices the smelter never shows. The body is inlined instead
 		horizontalForestryBlock(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block(), models().getExistingFile(modBlock(this, "smelter")));
+
+		// The burn barrel keeps its four hand-authored 1.20.1 models, one per LIT / HAS_ASH pair. Deviation from
+		// 1.20.1: the blockstate was hand-authored there, this tree generates it. The item model stays hand-authored,
+		// it parents the empty block model rather than a generated cube
+		getVariantBuilder(CoreBlocks.BURN_BARREL.block()).forAllStates(state -> {
+			boolean lit = state.getValue(BlockBurnBarrel.LIT);
+			boolean hasAsh = state.getValue(BlockBurnBarrel.HAS_ASH);
+			String name = hasAsh
+				? (lit ? "burn_barrel_full_burning" : "burn_barrel_full")
+				: (lit ? "burn_barrel_burning" : "burn_barrel_empty");
+			return ConfiguredModel.builder().modelFile(models().getExistingFile(modBlock(this, name))).build();
+		});
 	}
 
 	// Builds a block/cube model whose faces map to textures block/<prefix>.<n>, then emits a

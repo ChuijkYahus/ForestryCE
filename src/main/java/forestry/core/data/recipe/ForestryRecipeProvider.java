@@ -1006,6 +1006,14 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
+		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.BURN_BARREL.block(), recipe -> {
+			recipe.define('#', Items.IRON_BARS);
+			recipe.define('X', Tags.Items.INGOTS_IRON);
+			recipe.pattern("X X");
+			recipe.pattern("X#X");
+			recipe.pattern("XXX");
+		});
+
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.INGOTS_TIN);

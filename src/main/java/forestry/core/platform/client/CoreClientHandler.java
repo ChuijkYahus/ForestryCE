@@ -23,6 +23,7 @@ import forestry.core.features.*;
 import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.platform.gui.*;
 import forestry.core.content.analyzer.*;
+import forestry.core.content.burnbarrel.GuiBurnBarrel;
 import forestry.core.content.escritoire.*;
 import forestry.core.platform.item.ItemBlockTesr;
 import forestry.core.platform.models.ClientManager;
@@ -112,6 +113,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_TORCH.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.TIN_CHAIN.block(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_LANTERN.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.BURN_BARREL.block(), RenderType.cutout());
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());
@@ -122,6 +124,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
 		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
 		event.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
+		event.register(CoreMenuTypes.BURN_BARREL.menuType(), GuiBurnBarrel::new);
 		event.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
 	}
 

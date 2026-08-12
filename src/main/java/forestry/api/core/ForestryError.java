@@ -37,6 +37,7 @@ public enum ForestryError implements IError {
 	NO_REDSTONE("no_redstone", "disabled"), // This machine requires a redstone signal to activate it.
 	DISABLED_BY_REDSTONE("disabled_redstone", "disabled"), // This machine is being disabled by a redstone signal.
 	NOT_DARK("not_dark", "not_gloomy"), // A lower light level is required for operation.
+	NOT_LIT("not_lit", "no_heat"), // (Burn barrel) Light the barrel with a flint and steel or a fire charge.
 
 	// Rain Tank
 	NOT_RAINING("not_raining"), // Operation is only possible when it is raining.

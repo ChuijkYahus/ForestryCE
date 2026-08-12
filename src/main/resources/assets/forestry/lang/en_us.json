@@ -762,6 +762,8 @@
   "errors.forestry.no_space_tank.help": "Empty this machine's liquid tank.",
   "errors.forestry.not_dark.desc": "Not dark enough",
   "errors.forestry.not_dark.help": "A lower light level is required for operation.",
+  "errors.forestry.not_lit.desc": "Needs fire!",
+  "errors.forestry.not_lit.help": "Ensure there are burnable items inside the barrels inventory, then right click with a Flint and Steel or Fire Charge to start burning!",
   "_comment": "RAIN TANK",
   "errors.forestry.not_raining.desc": "No rain",
   "errors.forestry.not_raining.help": "Operation is only possible when it is raining.",

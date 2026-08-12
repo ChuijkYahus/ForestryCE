@@ -175,6 +175,9 @@ public class ForestryTags {
 
 		public static final TagKey<Item> BEES = itemTag("bees");
 
+		// Fuel the burn barrel refuses, even though the furnace accepts it
+		public static final TagKey<Item> BURN_BARREL_BLACKLIST = itemTag("burn_barrel_blacklist");
+
 		private static TagKey<Item> commonTag(String name) {
 			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
 		}

@@ -151,6 +151,11 @@ public class ForestryItemTagsProvider {
 		tags.tag(ItemTags.PICKAXES).add(CoreItems.SURVIVALISTS_PICKAXE);
 		tags.tag(ItemTags.SHOVELS).add(CoreItems.SURVIVALISTS_SHOVEL);
 
+		tags.tag(ForestryTags.Items.BURN_BARREL_BLACKLIST).add(
+			Items.LAVA_BUCKET,
+			Items.BLAZE_ROD
+		);
+
 		tags.tag("curios:head").add(CoreItems.SPECTACLES);
 	}
 }

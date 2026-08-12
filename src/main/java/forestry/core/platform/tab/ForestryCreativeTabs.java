@@ -84,6 +84,7 @@ public class ForestryCreativeTabs {
 		// Machines
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
 		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER));
+		items.accept(CoreBlocks.BURN_BARREL);
 		// Circuit boards
 		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR));
 		CoreItems.CIRCUITBOARDS.getItems().forEach(items::accept);

@@ -1679,6 +1679,7 @@ forestry:forestry forestry:bronze_block x1
 forestry:forestry forestry:bronze_electron_tube x1
 forestry:forestry forestry:bronze_gear x1
 forestry:forestry forestry:bronze_ingot x1
+forestry:forestry forestry:burn_barrel x1
 forestry:forestry forestry:carpenter x1
 forestry:forestry forestry:carton x1
 forestry:forestry forestry:centrifuge x1
