@@ -1,23 +1,16 @@
 {
+  "parent": "forestry:get_analyser",
   "criteria": {
-    "used_forestry": {
+    "forestry:get_relic_drone": {
       "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {}
-          }
-        ]
+        "tag": "forestry:chronofuge"
       },
-      "trigger": "minecraft:location"
+      "trigger": "forestry:pickup_species_trigger"
     }
   },
   "display": {
-    "announce_to_chat": false,
-    "background": "minecraft:textures/block/honeycomb_block.png",
     "description": {
-      "translate": "advancements.forestry.root.description"
+      "translate": "advancements.forestry.get_relic_drone.description"
     },
     "icon": {
       "components": {
@@ -37,20 +30,18 @@
             },
             "forestry:bee_effect": {
               "active": {
-                "dominant": true,
-                "value": "forestry:bee_effect_none"
+                "value": "forestry:bee_effect_rejuvenation"
               },
               "inactive": {
-                "dominant": true,
-                "value": "forestry:bee_effect_none"
+                "value": "forestry:bee_effect_rejuvenation"
               }
             },
             "forestry:bee_species": {
               "active": {
-                "value": "forestry:industrious"
+                "value": "forestry:chronofuge"
               },
               "inactive": {
-                "value": "forestry:industrious"
+                "value": "forestry:chronofuge"
               }
             },
             "forestry:cave_dwelling": {
@@ -66,21 +57,21 @@
             "forestry:fertility": {
               "active": {
                 "dominant": true,
-                "value": 2
+                "value": 1
               },
               "inactive": {
                 "dominant": true,
-                "value": 2
+                "value": 1
               }
             },
             "forestry:flower_type": {
               "active": {
                 "dominant": true,
-                "value": "forestry:flower_type_vanilla"
+                "value": "forestry:flower_type_ancient"
               },
               "inactive": {
                 "dominant": true,
-                "value": "forestry:flower_type_vanilla"
+                "value": "forestry:flower_type_ancient"
               }
             },
             "forestry:humidity_tolerance": {
@@ -93,36 +84,40 @@
             },
             "forestry:lifespan": {
               "active": {
-                "value": 40
+                "value": 2147483647
               },
               "inactive": {
-                "value": 40
+                "value": 2147483647
               }
             },
             "forestry:pollination": {
               "active": {
-                "value": 25
+                "dominant": true,
+                "value": 5
               },
               "inactive": {
-                "value": 25
+                "dominant": true,
+                "value": 5
               }
             },
             "forestry:speed": {
               "active": {
                 "dominant": true,
-                "value": 0.6
+                "value": 0.3
               },
               "inactive": {
                 "dominant": true,
-                "value": 0.6
+                "value": 0.3
               }
             },
             "forestry:temperature_tolerance": {
               "active": {
-                "value": "NONE"
+                "dominant": true,
+                "value": "DOWN_1"
               },
               "inactive": {
-                "value": "NONE"
+                "dominant": true,
+                "value": "DOWN_1"
               }
             },
             "forestry:territory": {
@@ -154,26 +149,20 @@
           },
           "karyotype": "forestry:bee_species"
         },
-        "forestry:health": 40,
-        "forestry:max_health": 40
+        "forestry:health": 2147483647,
+        "forestry:max_health": 2147483647
       },
       "count": 1,
-      "id": "forestry:queen_bee"
+      "id": "forestry:drone_bee"
     },
-    "show_toast": false,
     "title": {
-      "translate": "advancements.forestry.root.title"
+      "translate": "advancements.forestry.get_relic_drone.title"
     }
   },
   "requirements": [
     [
-      "used_forestry"
+      "forestry:get_relic_drone"
     ]
   ],
-  "rewards": {
-    "loot": [
-      "forestry:grant_guide"
-    ]
-  },
   "sends_telemetry_event": true
 }

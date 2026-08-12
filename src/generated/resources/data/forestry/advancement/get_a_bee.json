@@ -1,23 +1,24 @@
 {
+  "parent": "forestry:get_scoop",
   "criteria": {
-    "used_forestry": {
+    "forestry:get_a_bee": {
       "conditions": {
-        "player": [
+        "items": [
           {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {}
+            "items": [
+              "forestry:drone_bee",
+              "forestry:princess_bee",
+              "forestry:queen_bee"
+            ]
           }
         ]
       },
-      "trigger": "minecraft:location"
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "display": {
-    "announce_to_chat": false,
-    "background": "minecraft:textures/block/honeycomb_block.png",
     "description": {
-      "translate": "advancements.forestry.root.description"
+      "translate": "advancements.forestry.get_a_bee.description"
     },
     "icon": {
       "components": {
@@ -47,10 +48,12 @@
             },
             "forestry:bee_species": {
               "active": {
-                "value": "forestry:industrious"
+                "dominant": true,
+                "value": "forestry:meadows"
               },
               "inactive": {
-                "value": "forestry:industrious"
+                "dominant": true,
+                "value": "forestry:meadows"
               }
             },
             "forestry:cave_dwelling": {
@@ -85,36 +88,40 @@
             },
             "forestry:humidity_tolerance": {
               "active": {
-                "value": "NONE"
+                "dominant": true,
+                "value": "DOWN_1"
               },
               "inactive": {
-                "value": "NONE"
+                "dominant": true,
+                "value": "DOWN_1"
               }
             },
             "forestry:lifespan": {
               "active": {
-                "value": 40
+                "dominant": true,
+                "value": 20
               },
               "inactive": {
-                "value": 40
+                "dominant": true,
+                "value": 20
               }
             },
             "forestry:pollination": {
               "active": {
-                "value": 25
+                "value": 10
               },
               "inactive": {
-                "value": 25
+                "value": 10
               }
             },
             "forestry:speed": {
               "active": {
                 "dominant": true,
-                "value": 0.6
+                "value": 0.3
               },
               "inactive": {
                 "dominant": true,
-                "value": 0.6
+                "value": 0.3
               }
             },
             "forestry:temperature_tolerance": {
@@ -154,26 +161,20 @@
           },
           "karyotype": "forestry:bee_species"
         },
-        "forestry:health": 40,
-        "forestry:max_health": 40
+        "forestry:health": 20,
+        "forestry:max_health": 20
       },
       "count": 1,
-      "id": "forestry:queen_bee"
+      "id": "forestry:drone_bee"
     },
-    "show_toast": false,
     "title": {
-      "translate": "advancements.forestry.root.title"
+      "translate": "advancements.forestry.get_a_bee.title"
     }
   },
   "requirements": [
     [
-      "used_forestry"
+      "forestry:get_a_bee"
     ]
   ],
-  "rewards": {
-    "loot": [
-      "forestry:grant_guide"
-    ]
-  },
   "sends_telemetry_event": true
 }

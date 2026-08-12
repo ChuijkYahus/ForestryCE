@@ -1,24 +1,18 @@
 {
+  "parent": "forestry:use_research_note",
   "criteria": {
-    "used_forestry": {
+    "forestry:complete_bee_research": {
       "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {}
-          }
-        ]
+        "percent": 1.0
       },
-      "trigger": "minecraft:location"
+      "trigger": "forestry:apiculture_research_trigger"
     }
   },
   "display": {
-    "announce_to_chat": false,
-    "background": "minecraft:textures/block/honeycomb_block.png",
     "description": {
-      "translate": "advancements.forestry.root.description"
+      "translate": "advancements.forestry.complete_bee_research.description"
     },
+    "frame": "challenge",
     "icon": {
       "components": {
         "forestry:bee_generation": 0,
@@ -37,20 +31,18 @@
             },
             "forestry:bee_effect": {
               "active": {
-                "dominant": true,
-                "value": "forestry:bee_effect_none"
+                "value": "forestry:bee_effect_beatific"
               },
               "inactive": {
-                "dominant": true,
-                "value": "forestry:bee_effect_none"
+                "value": "forestry:bee_effect_beatific"
               }
             },
             "forestry:bee_species": {
               "active": {
-                "value": "forestry:industrious"
+                "value": "forestry:imperial"
               },
               "inactive": {
-                "value": "forestry:industrious"
+                "value": "forestry:imperial"
               }
             },
             "forestry:cave_dwelling": {
@@ -101,10 +93,12 @@
             },
             "forestry:pollination": {
               "active": {
-                "value": 25
+                "dominant": true,
+                "value": 5
               },
               "inactive": {
-                "value": 25
+                "dominant": true,
+                "value": 5
               }
             },
             "forestry:speed": {
@@ -160,20 +154,14 @@
       "count": 1,
       "id": "forestry:queen_bee"
     },
-    "show_toast": false,
     "title": {
-      "translate": "advancements.forestry.root.title"
+      "translate": "advancements.forestry.complete_bee_research.title"
     }
   },
   "requirements": [
     [
-      "used_forestry"
+      "forestry:complete_bee_research"
     ]
   ],
-  "rewards": {
-    "loot": [
-      "forestry:grant_guide"
-    ]
-  },
   "sends_telemetry_event": true
 }

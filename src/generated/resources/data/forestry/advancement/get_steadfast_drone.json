@@ -1,23 +1,16 @@
 {
+  "parent": "forestry:get_analyser",
   "criteria": {
-    "used_forestry": {
+    "forestry:get_steadfast_drone": {
       "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {}
-          }
-        ]
+        "tag": "forestry:steadfast"
       },
-      "trigger": "minecraft:location"
+      "trigger": "forestry:pickup_species_trigger"
     }
   },
   "display": {
-    "announce_to_chat": false,
-    "background": "minecraft:textures/block/honeycomb_block.png",
     "description": {
-      "translate": "advancements.forestry.root.description"
+      "translate": "advancements.forestry.get_steadfast_drone.description"
     },
     "icon": {
       "components": {
@@ -27,12 +20,10 @@
           "genome": {
             "forestry:activity": {
               "active": {
-                "dominant": true,
-                "value": "forestry:activity_diurnal"
+                "value": "forestry:activity_cathemeral"
               },
               "inactive": {
-                "dominant": true,
-                "value": "forestry:activity_diurnal"
+                "value": "forestry:activity_cathemeral"
               }
             },
             "forestry:bee_effect": {
@@ -47,20 +38,20 @@
             },
             "forestry:bee_species": {
               "active": {
-                "value": "forestry:industrious"
+                "value": "forestry:steadfast"
               },
               "inactive": {
-                "value": "forestry:industrious"
+                "value": "forestry:steadfast"
               }
             },
             "forestry:cave_dwelling": {
               "active": {
                 "dominant": true,
-                "value": false
+                "value": true
               },
               "inactive": {
                 "dominant": true,
-                "value": false
+                "value": true
               }
             },
             "forestry:fertility": {
@@ -101,10 +92,12 @@
             },
             "forestry:pollination": {
               "active": {
-                "value": 25
+                "dominant": true,
+                "value": 5
               },
               "inactive": {
-                "value": 25
+                "dominant": true,
+                "value": 5
               }
             },
             "forestry:speed": {
@@ -158,22 +151,16 @@
         "forestry:max_health": 40
       },
       "count": 1,
-      "id": "forestry:queen_bee"
+      "id": "forestry:drone_bee"
     },
-    "show_toast": false,
     "title": {
-      "translate": "advancements.forestry.root.title"
+      "translate": "advancements.forestry.get_steadfast_drone.title"
     }
   },
   "requirements": [
     [
-      "used_forestry"
+      "forestry:get_steadfast_drone"
     ]
   ],
-  "rewards": {
-    "loot": [
-      "forestry:grant_guide"
-    ]
-  },
   "sends_telemetry_event": true
 }
