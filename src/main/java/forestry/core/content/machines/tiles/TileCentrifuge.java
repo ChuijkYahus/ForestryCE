@@ -103,13 +103,9 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 
 	@Override
 	public boolean workCycle() {
-		if (tryAddPending()) {
-			return true;
-		}
-
 		if (!this.pendingProducts.isEmpty()) {
-			this.craftPreviewInventory.setItem(0, ItemStack.EMPTY);
-			return false;
+			tryAddPending();
+			return this.pendingProducts.isEmpty();
 		}
 
 		if (this.currentRecipe == null) {
@@ -126,7 +122,8 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		this.craftPreviewInventory.setItem(0, previewStack);
 
 		getInternalInventory().removeItem(InventoryCentrifuge.SLOT_RESOURCE, 1);
-		return true;
+		tryAddPending();
+		return this.pendingProducts.isEmpty();
 	}
 
 	private void checkRecipe() {
