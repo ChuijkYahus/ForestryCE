@@ -1,7 +1,9 @@
 package forestry.core.content.machines.tiles;
 
+import forestry.api.ForestryConstants;
 import forestry.api.core.machines.fuels.FuelManager;
 import forestry.api.core.machines.fuels.RainSubstrate;
+import forestry.core.platform.advancements.AdvancementHelper;
 import forestry.core.platform.render.ParticleRender;
 import forestry.core.content.machines.TileMill;
 import forestry.core.content.machines.features.FactoryTiles;
@@ -9,6 +11,7 @@ import forestry.core.content.machines.inventory.InventoryRainmaker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -24,6 +27,8 @@ import net.minecraft.world.level.storage.ServerLevelData;
 import javax.annotation.Nullable;
 
 public class TileMillRainmaker extends TileMill {
+	private static final ResourceLocation USE_RAINMAKER = ForestryConstants.forestry("use_rainmaker");
+
 	private int duration;
 	private boolean reverse;
 
@@ -46,6 +51,7 @@ public class TileMillRainmaker extends TileMill {
 					if (!player.isCreative()) {
 						heldItem.shrink(1);
 					}
+					AdvancementHelper.tryUnlock(player, USE_RAINMAKER);
 				}
 			}
 			sendNetworkUpdate();

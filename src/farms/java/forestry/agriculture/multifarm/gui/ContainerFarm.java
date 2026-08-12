@@ -1,5 +1,7 @@
 package forestry.agriculture.multifarm.gui;
 
+import forestry.api.ForestryConstants;
+import forestry.core.platform.advancements.AdvancementHelper;
 import forestry.core.platform.gui.ContainerSocketed;
 import forestry.core.platform.gui.IContainerTank;
 import forestry.core.platform.gui.slots.SlotFiltered;
@@ -11,10 +13,14 @@ import forestry.agriculture.features.FarmingMenuTypes;
 import forestry.agriculture.multifarm.multiblock.InventoryFarm;
 import forestry.agriculture.multifarm.tiles.TileFarm;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.fluids.IFluidTank;
 
 public class ContainerFarm extends ContainerSocketed<TileFarm> implements IContainerTank {
+	private static final ResourceLocation OPEN_FARM_UI = ForestryConstants.forestry("feed_the_world");
+
 	public static ContainerFarm fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TileFarm tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileFarm.class);
 		return new ContainerFarm(windowId, inv, tile);
@@ -22,6 +28,11 @@ public class ContainerFarm extends ContainerSocketed<TileFarm> implements IConta
 
 	public ContainerFarm(int windowId, Inventory playerInventory, TileFarm data) {
 		super(windowId, FarmingMenuTypes.FARM.menuType(), playerInventory, data, 28, 138);
+
+		Player player = playerInventory.player;
+		if (player != null) {
+			AdvancementHelper.tryUnlock(player, OPEN_FARM_UI);
+		}
 
 		// Resources
 		for (int i = 0; i < 3; i++) {

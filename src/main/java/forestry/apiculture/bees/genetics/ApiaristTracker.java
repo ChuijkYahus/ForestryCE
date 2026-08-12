@@ -1,5 +1,6 @@
 package forestry.apiculture.bees.genetics;
 
+import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.apiculture.genetics.IBee;
@@ -7,8 +8,10 @@ import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.core.genetics.IMutationManager;
 import forestry.api.core.genetics.ISpecies;
 import forestry.core.engine.genetics.BreedingTracker;
+import forestry.core.platform.advancements.ForestryAdvancementTriggers;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 public class ApiaristTracker extends BreedingTracker implements IApiaristTracker {
 	private int queensTotal = 0;
@@ -85,5 +88,11 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	@Override
 	public int getDroneCount() {
 		return this.dronesTotal;
+	}
+
+	@Override
+	public void registerProgress(Level level, GameProfile profile, ISpecies<?> species) {
+		double researchPercentage = (double) getSpeciesBred() / species.getType().getSpeciesCount();
+		ForestryAdvancementTriggers.APICULTURE_RESEARCH.trigger(level, profile, researchPercentage);
 	}
 }
