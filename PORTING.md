@@ -504,3 +504,60 @@ Every slice was verified before commit: `compileJava` across all four source set
 twice to confirm idempotence, and `runGameTestServer`. The suite is **113 tests, all passing**,
 up from 109 (the four new ones cover the smelter fix). The creative tab baseline was regenerated
 per slice and its diff checked to be additions only.
+
+## Texture parity sweep (2026-08-12)
+
+The content port was complete but the art was not. 1.20.1 ran fifteen-odd retexture passes that
+1.21.1 never received, so blocks that were functionally correct still wore old sprites. This round
+brings across every texture where this tree held a strictly older revision.
+
+### How the gap was found
+
+Compare every PNG in `ForestryCE-1.20.1/src/main/resources` against the union of this tree's four
+resource roots, then trace each differing file's blob back through 1.20.1's history. A file whose
+current bytes match some *ancestor* revision is stale; one that matches nothing is our own art.
+
+**All 128 differing files resolved to an older 1.20.1 revision. None were port-original.** So there
+was no judgement to make: every difference was a missed update.
+
+Two traps worth remembering, both of which faked a clean result:
+
+- **Compare against all four resource roots, not `src/main`.** 1.20.1 keeps everything in one
+  `src/main/resources`; here `farms`, `mail` and `butterflies` own theirs. A `src/main`-only diff
+  reports 26 farms and mail textures as missing when they are simply in another jar. See
+  `docs` note in the per-jar resources work for the same trap on the generated side.
+- **`git log --raw` marks renames `R100` and puts the new path in the *last* tab-separated field.**
+  Splitting on the first tab keys the entry under `oldpath\tnewpath`, so every file that was ever
+  renamed silently misses the blob lookup and reads as port-original. That mis-classified 48 of
+  the 128, the engine bodies among them.
+
+### What landed
+
+127 textures, all verified byte-identical to 1.20.1 afterwards. 101 core, 14 mail, 12 farms.
+
+| Group | Contents |
+| --- | --- |
+| Engines | The 5 heat trunks shared by every engine, the bronze and copper bodies, the biogas and peat engine GUIs. Clockwork, combustion and solar were already current, which is why the problem looked partial |
+| Mail | Mailbox, philatelist, trade station, stamps |
+| GUI atlas | Analyzer icons, error icons, slot icons, `mfarm`, `electricalengine`, the two socket GUIs |
+| Farms | Arboretum, the five farm types and their particles, peat bog |
+| Machines | Analyzer, the full rainmaker set, worktable |
+| Apiculture | Apiary, bee house, the three naturalist chests |
+| Items | Containers and capsules, tool kits, peat, ash, scoop, soldering iron, a painting |
+
+### Held back
+
+`block/escritoire.png` alone. 1.20.1 is 64x64 against this tree's 64x32, because that tree
+converted the escritoire to a JSON block model - its `RenderEscritoire` has the BER texture line
+commented out and no `createBodyLayer`. This tree still renders a hand-built `ModelPart` mesh whose
+`texOffs` address a 64x32 sheet, so the new art would scramble it. Porting it is a model change,
+not an asset swap.
+
+### Verification for this round
+
+- Dimensions compared per file before copying; only the escritoire differed, and it was held back
+- No `.mcmeta` companions exist on either side, so no animation metadata to keep in sync
+- All 127 pass PNG signature, IEND and per-chunk CRC validation
+- Every change overwrote a file already in place, so no jar-routing mistakes: `git status` shows
+  127 modifications and zero additions
+- 1609 of the 1610 shared textures are now byte-identical to 1.20.1, up from 1482
