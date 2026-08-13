@@ -25,8 +25,56 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
 
 public class TileMailbox extends TileBase {
+	// virtual slot for mail, sucessful  insertion immediately sends one letter
+	private final IItemHandler automatedMailHandler = new IItemHandler() {
+		@Override
+		public int getSlots() {
+			return 1;
+		}
+
+		@Override
+		public ItemStack getStackInSlot(int slot) {
+			return ItemStack.EMPTY;
+		}
+
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			if (slot != 0 || !isItemValid(slot, stack)) {
+				return stack;
+			}
+
+			if (!simulate) {
+				if (!(TileMailbox.this.level instanceof ServerLevel) || !tryDispatchLetter(stack.copyWithCount(1)).isOk()) {
+					return stack;
+				}
+			}
+
+			return stack.getCount() == 1 ? ItemStack.EMPTY : stack.copyWithCount(stack.getCount() - 1);
+		}
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			return ItemStack.EMPTY;
+		}
+
+		@Override
+		public int getSlotLimit(int slot) {
+			return 1;
+		}
+
+		@Override
+		public boolean isItemValid(int slot, ItemStack stack) {
+			if (slot != 0) {
+				return false;
+			}
+
+			ILetter letter = LetterUtils.getLetter(stack);
+			return letter != null && letter.isMailable() && letter.isPostPaid();
+		}
+	};
 
 	public TileMailbox(BlockPos pos, BlockState state) {
 		super(MailTiles.MAILBOX.tileType(), pos, state);
@@ -55,6 +103,10 @@ public class TileMailbox extends TileBase {
 	}
 
 	/* MAIL HANDLING */
+	public IItemHandler getAutomatedMailHandler() {
+		return this.automatedMailHandler;
+	}
+
 	public Container getOrCreateMailInventory(Level world, GameProfile playerProfile) {
 		if (world.isClientSide) {
 			return getInternalInventory();
