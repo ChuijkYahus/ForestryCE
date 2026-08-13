@@ -1,7 +1,13 @@
 package forestry.core.platform.tab;
 
 import forestry.api.ForestryConstants;
+import forestry.api.arboriculture.IWoodType;
 import forestry.api.modules.ForestryModuleIds;
+import forestry.apiculture.features.ApicultureBlocks;
+import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.arboriculture.tab.ArboricultureCreativeTab;
+import forestry.arboriculture.wood.WoodAccess;
+import forestry.core.content.decorative.BlockTypeMetalPlating;
 import forestry.core.platform.block.NaturalistChestBlockType;
 import forestry.core.platform.block.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;
@@ -45,7 +51,13 @@ public class ForestryCreativeTabs {
 		tab.icon(CoreItems.PORTABLE_ALYZER::stack);
 		tab.displayItems(ForestryCreativeTabs::addForestryItems);
 		tab.withTabsBefore(CreativeModeTabs.SPAWN_EGGS);
-		tab.withTabsAfter(tabKey("storage"), tabKey("apiculture"), tabKey("arboriculture"), tabKey("lepidopterology"));
+		tab.withTabsAfter(tabKey("building_blocks"), tabKey("storage"), tabKey("apiculture"), tabKey("arboriculture"), tabKey("lepidopterology"));
+	});
+	public static final FeatureCreativeTab BUILDING = REGISTRY.creativeTab("building_blocks", tab -> {
+		tab.icon(() -> CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.BLUE).stack());
+		tab.displayItems(ForestryCreativeTabs::addBuildingItems);
+		tab.withTabsBefore(tabKey("forestry"));
+		tab.withTabsAfter(tabKey("apiculture"));
 	});
 	public static final FeatureCreativeTab STORAGE = REGISTRY.creativeTab("storage", tab -> {
 		tab.icon(BackpackItems.MINER_BACKPACK::stack);
@@ -151,26 +163,60 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.REFRACTORY_WAX);
 		items.accept(CoreItems.WAX_BRICK);
 		items.accept(CoreItems.REFRACTORY_WAX_BRICK);
-		// Turf, plywood and cork
-		// Deviation from 1.20.1: that tree listed these in addAllBuildingBlocks, which this tree does not have yet
+		// todo merge more items into crafting materials
+		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
+
+		// The decorative blocks that used to sit here now live in the building blocks tab, as on 1.20.1
+
+		// Escritoire output — research notes ship players hint about mutations. Worth
+		// surfacing in creative so they can be inspected without needing the workflow.
+		items.accept(CoreItems.RESEARCH_NOTE);
+	}
+
+	private static void addBuildingItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
+		addAllBuildingBlocks(items);
+
+		// Wood blocks. These stay listed in the arboriculture tab as well, as on 1.20.1
+		WoodAccess access = WoodAccess.INSTANCE;
+		for (IWoodType type : access.getRegisteredWoodTypes()) {
+			ArboricultureCreativeTab.addAllWoodBlocks(items, access, type, false);
+		}
+		for (IWoodType type : access.getRegisteredWoodTypes()) {
+			ArboricultureCreativeTab.addAllWoodBlocks(items, access, type, true);
+		}
+	}
+
+	/**
+	 * Adds every decorative block Forestry makes to a tab, grouped by material.
+	 *
+	 * @param items The tab's output
+	 */
+	private static void addAllBuildingBlocks(CreativeModeTab.Output items) {
+		// Wood and soil
+		items.accept(CharcoalBlocks.LOG_PILE);
+		items.accept(CharcoalBlocks.DECORATIVE_LOG_PILE);
 		items.accept(CoreBlocks.TURF_BLOCK);
 		items.accept(CoreBlocks.TURF);
 		items.accept(CoreBlocks.PLYWOOD_BLOCK);
 		items.accept(CoreBlocks.PLYWOOD_SHEET);
 		items.accept(CoreBlocks.CORK);
+
 		// Lighting
-		// Deviation from 1.20.1: that tree listed these in addAllBuildingBlocks, which this tree does not have yet
 		items.accept(CoreItems.PHOSPHOR_TORCH_ITEM);
 		items.accept(CoreBlocks.PHOSPHOR_LANTERN);
 		items.accept(CoreBlocks.TIN_CHAIN);
-		// todo merge more items into crafting materials
-		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
 
-		// Decorative stone and brick blocks
-		// Deviation from 1.20.1: that tree listed these in addAllBuildingBlocks, which this tree does not have yet
+		// Ash
+		items.accept(CharcoalBlocks.ASH);
 		addStoneFamily(items, CoreBlocks.ASH_BRICKS, CoreBlocks.CHISELED_ASH_BRICKS);
+
+		// Wax
+		items.accept(ApicultureBlocks.WAX_BLOCK);
 		addStoneFamily(items, CoreBlocks.WAX_BRICKS, CoreBlocks.CHISELED_WAX_BRICKS);
+		items.accept(ApicultureBlocks.REFRACTORY_WAX_BLOCK);
 		addStoneFamily(items, CoreBlocks.REFRACTORY_WAX_BRICKS, CoreBlocks.CHISELED_REFRACTORY_WAX_BRICKS);
+
+		// Waxstone, refractory waxstone and honeystone
 		for (CoreBlocks.StoneSet set : CoreBlocks.STONE_SETS) {
 			addStoneFamily(items, set.stone(), set.chiseled());
 			addStoneFamily(items, set.cobbled(), null);
@@ -191,10 +237,6 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.RAINBOW_CANDLE);
 		CoreBlocks.BIG_CANDLES.getItems().forEach(items::accept);
 		CoreBlocks.JUMBO_CANDLES.getItems().forEach(items::accept);
-
-		// Escritoire output — research notes ship players hint about mutations. Worth
-		// surfacing in creative so they can be inspected without needing the workflow.
-		items.accept(CoreItems.RESEARCH_NOTE);
 	}
 
 	private static void addStorageItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {

@@ -36,7 +36,7 @@ public class ApicultureCreativeTab {
 	public static final FeatureCreativeTab APICULTURE = REGISTRY.creativeTab("apiculture", tab -> {
 		tab.icon(() -> SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.FOREST, BeeLifeStage.QUEEN));
 		tab.displayItems(ApicultureCreativeTab::addApicultureItems);
-		tab.withTabsBefore(ForestryCreativeTabs.tabKey("forestry"));
+		tab.withTabsBefore(ForestryCreativeTabs.tabKey("building_blocks"));
 		tab.withTabsAfter(ForestryCreativeTabs.tabKey("arboriculture"));
 	});
 

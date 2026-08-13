@@ -608,3 +608,48 @@ written instead, matching the choice already made for the turf blocks.
 - `runGameTestServer` 113 passing
 - No hand-written blockstate or block model exists for either block, so no duplicate-resource
   collision of the kind the solar engine hit
+
+## Forestry Building Blocks tab (2026-08-12)
+
+1.20.1's `17a39bfec` split the decorative blocks out of the main Forestry tab into their own. This
+tree had the blocks but not the tab, and three `Deviation from 1.20.1: that tree listed these in
+addAllBuildingBlocks, which this tree does not have yet` markers left by the content parity round
+marked the spot. Those markers are now resolved.
+
+### What landed
+
+- `building_blocks`, icon blue metal plating, ordered between Forestry and Apiculture.
+  `FeatureCreativeTab` builds the title from the registration name, so the id gives
+  `itemGroup.building_blocks` with no second place to keep in sync. Added to `en_us` only; the
+  other ten locales fall back rather than carry an untranslated English string.
+- `addAllBuildingBlocks` groups by material as 1.20.1 does: log piles, turf, plywood, cork,
+  lighting, ash, wax, the three stone sets, metal plating, candles.
+- All wood blocks, both fireproof passes. These stay listed in the arboriculture tab as well, as
+  on 1.20.1. `ArboricultureCreativeTab.addAllWoodBlocks` widened to public to allow it.
+- The same 136 decorative entries removed from the Forestry tab that 1.20.1 removes.
+- `ApicultureCreativeTab` now orders after `building_blocks`, and the new tab joins the Forestry
+  tab's `withTabsAfter` list.
+
+### Deviations from 1.20.1
+
+- **No vanilla candles.** That tree lists the seventeen vanilla candles here. They belong to
+  vanilla's own tab, and this tree already made that call for the Forestry tab.
+- **Stone families come from `CoreBlocks.STONE_SETS`** rather than 1.20.1's 51 hand-written
+  `items.accept` lines. Same coverage, and a new set joins without touching the tab.
+
+### Verification for this round
+
+`CreativeTabBaselineTest` is the oracle. The regenerated baseline was diffed rather than trusted:
+
+| Tab | Before | After |
+| --- | --- | --- |
+| `forestry` | 254 | 118 |
+| `building_blocks` | - | 1241 |
+| the other six | unchanged | unchanged |
+
+- All 136 entries removed from `forestry` are present in `building_blocks`, so nothing was lost
+- Nothing was added to `forestry`
+- The union across all tabs is identical before and after, so no item fell out of the menu entirely
+- `building_blocks` is 136 decorative plus 1105 wood
+- `compileJava compileTestJava` clean, `runGameTestServer` 113 passing against the committed
+  baseline, `runData` wrote 0 files and removed 0 stale
