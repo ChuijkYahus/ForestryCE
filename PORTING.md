@@ -561,3 +561,50 @@ not an asset swap.
 - Every change overwrote a file already in place, so no jar-routing mistakes: `git status` shows
   127 modifications and zero additions
 - 1609 of the 1610 shared textures are now byte-identical to 1.20.1, up from 1482
+
+## Bog earth and humus progression (2026-08-12)
+
+Both blocks age through their `randomTick` and both carry the property that records it, but the
+generated blockstate ignored the property and named one model, so every stage looked identical.
+1.20.1 shows three stages of bog earth and three of humus. This round makes the models follow the
+state.
+
+The Java side was already correct and is untouched. `simpleBlock` was the whole bug.
+
+### What landed
+
+- `ForestryBlockStateProvider.agingSoil(Block, IntegerProperty)` reads the property's possible
+  values and writes one `cube_all` model per value. Property-driven, so changing `MAX_MATURITY` or
+  `MAX_DEGRADE` needs no datagen edit.
+- Age 0 keeps the bare model name, `block/bog_earth` and `block/humus`, so the hand-written item
+  models still parent it. Later ages get `_1` and `_2`.
+- Four stage textures from 1.20.1's `481c2a760`, renamed off its dotted form to `bog_earth_1`,
+  `bog_earth_2`, `humus_1`, `humus_2`.
+- `block/humus.png` replaced. It was the *pre-progression* humus art, a chunky orange that looks
+  nothing like the grey stages either side of it, and the rename from `humus.0.png` had hidden it
+  from the texture sweep above. This also changes the humus item icon, which parents the block.
+
+### The state ranges are right as they stand
+
+This tree declares `maturity` and `degrade` as 0..2 where 1.20.1 declares 0..3, which looks like a
+lost stage but is not. 1.20.1's `degradeSoil` converts to sand the moment `degrade` would reach 3,
+and its bog earth converts to peat at `maturity < maturityDelimiter - 1`, so the top value of each
+is unreachable and `humus.3.png` is dead art there. The three states here are exactly the three
+1.20.1 displays.
+
+`humus.3.png` is still available if a sandier final stage before the conversion is ever wanted.
+
+### Deviation from 1.20.1
+
+That tree's blockstates list each model four times, once per y rotation. A `cube_all` model wears
+one texture on all six faces, so only the top face ever shows the rotation. One variant per age is
+written instead, matching the choice already made for the turf blocks.
+
+### Verification for this round
+
+- All six textures confirmed pixel-identical to their 1.20.1 sources
+- `compileJava` clean
+- `runData` wrote 6 files; a second run wrote 0 and removed 0 stale, so it is idempotent
+- `runGameTestServer` 113 passing
+- No hand-written blockstate or block model exists for either block, so no duplicate-resource
+  collision of the kind the solar engine hit

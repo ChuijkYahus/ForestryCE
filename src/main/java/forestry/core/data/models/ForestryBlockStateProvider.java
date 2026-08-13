@@ -17,6 +17,8 @@ import forestry.core.content.decorative.BlockTypeBigCandle;
 import forestry.core.content.decorative.BlockTypeJumboCandle;
 import forestry.core.content.decorative.BlockTypeMetalPlating;
 import forestry.core.content.resources.EnumResourceType;
+import forestry.core.content.soil.BlockBogEarth;
+import forestry.core.content.soil.BlockHumus;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.fluids.ForestryFluids;
@@ -25,8 +27,12 @@ import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.content.worktable.features.WorktableBlocks;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -46,8 +52,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		// Resources
-		simpleBlock(CoreBlocks.BOG_EARTH.block());
-		simpleBlock(CoreBlocks.HUMUS.block());
+		agingSoil(CoreBlocks.BOG_EARTH.block(), BlockBogEarth.MATURITY);
+		agingSoil(CoreBlocks.HUMUS.block(), BlockHumus.DEGRADE);
 
 		simpleBlock(CoreBlocks.APATITE_ORE.block());
 		simpleBlock(CoreBlocks.DEEPSLATE_APATITE_ORE.block());
@@ -461,6 +467,30 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				.rotationY(yRot)
 				.build();
 		});
+	}
+
+	/**
+	 * Used to build the blockstate and the cube models for a soil block that retextures itself as it ages.
+	 * Deviation from 1.20.1: the blockstate there listed each model four times, once per y rotation, but
+	 * a cube_all model wears one texture on all six faces, so only the top face ever showed the rotation.
+	 * One variant per age is written instead, matching the turf blocks above
+	 *
+	 * @param block    The soil block
+	 * @param property The age property, which gets one model per value
+	 */
+	private void agingSoil(Block block, IntegerProperty property) {
+		String name = path(block);
+		Map<Integer, ModelFile> models = new HashMap<>();
+
+		for (int age : property.getPossibleValues()) {
+			// age 0 keeps the bare name so the hand-written item model can still parent it
+			String model = age == 0 ? name : name + "_" + age;
+			models.put(age, models().cubeAll(model, modBlock(this, model)));
+		}
+
+		getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
+			.modelFile(models.get(state.getValue(property)))
+			.build());
 	}
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {
