@@ -24,6 +24,7 @@ public abstract class Ledger {
 	// Gui tabs (Ledger)
 	public static final int guiTabSpeed = 8;
 	protected static final int minWidth = 24;
+	protected static final int defaultMaxWidth = 124;
 	public static final int minHeight = 24;
 	protected final int maxWidth;
 	protected final int maxTextWidth;
@@ -39,6 +40,7 @@ public abstract class Ledger {
 	private final int fontColorSubheader;
 	private final int overlayColor;
 
+	private final boolean rightSide;
 	private boolean open;
 
 	public int currentShiftX = 0;
@@ -52,11 +54,20 @@ public abstract class Ledger {
 	private final ResourceLocation texture;
 
 	protected Ledger(LedgerManager manager, String name) {
-		this(manager, name, true);
+		this(manager, name, true, defaultMaxWidth);
 	}
 
 	protected Ledger(LedgerManager manager, String name, boolean rightSide) {
+		this(manager, name, rightSide, defaultMaxWidth);
+	}
+
+	protected Ledger(LedgerManager manager, String name, int maxWidth) {
+		this(manager, name, true, maxWidth);
+	}
+
+	protected Ledger(LedgerManager manager, String name, boolean rightSide, int maxWidth) {
 		this.manager = manager;
+		this.rightSide = rightSide;
 		if (rightSide) {
             this.texture = ledgerTextureRight;
 		} else {
@@ -68,7 +79,7 @@ public abstract class Ledger {
         this.fontColorText = manager.gui.getFontColor().get("ledger." + name + ".text");
         this.overlayColor = manager.gui.getFontColor().get("ledger." + name + ".background");
 
-        this.maxWidth = Math.min(124, manager.getMaxWidth());
+        this.maxWidth = Math.min(Math.max(maxWidth, minWidth), manager.getMaxWidth());
         this.maxTextWidth = this.maxWidth - 18;
 	}
 
@@ -140,6 +151,10 @@ public abstract class Ledger {
 	}
 
 	public abstract void draw(GuiGraphics graphics, int y, int x);
+	
+	public boolean shouldDrawTooltip() {
+		return true;
+	}
 
 	public abstract Component getTooltip();
 
@@ -169,6 +184,10 @@ public abstract class Ledger {
 
 	public boolean isVisible() {
 		return true;
+	}
+
+	public boolean isRightSide() {
+		return this.rightSide;
 	}
 
 	public boolean isOpen() {
