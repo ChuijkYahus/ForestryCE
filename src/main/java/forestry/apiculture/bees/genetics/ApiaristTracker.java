@@ -55,6 +55,7 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	public void registerQueen(IBee bee) {
 		this.queensTotal++;
 		registerBirth(bee.getSpecies());
+		setDirty();
 	}
 
 	@Override
@@ -66,6 +67,7 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	public void registerPrincess(IBee bee) {
 		this.princessesTotal++;
 		registerBirth(bee.getSpecies());
+		setDirty();
 	}
 
 	@Override
@@ -77,6 +79,7 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	public void registerDrone(IBee bee) {
 		this.dronesTotal++;
 		registerBirth(bee.getSpecies());
+		setDirty();
 	}
 
 	@Override

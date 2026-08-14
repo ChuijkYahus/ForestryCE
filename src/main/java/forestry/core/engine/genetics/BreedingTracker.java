@@ -196,6 +196,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 		if (!this.discoveredSpecies.contains(speciesId)) {
             this.discoveredSpecies.add(speciesId);
+			setDirty();
 
 			ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
 			ForestryEvent event = new ForestryEvent.SpeciesDiscovered(speciesType, this.username, species, this);
