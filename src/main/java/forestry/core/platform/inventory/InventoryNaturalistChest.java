@@ -9,7 +9,7 @@ public class InventoryNaturalistChest extends InventoryAdapterTile<TileNaturalis
 	private final ISpeciesType speciesRoot;
 
 	public InventoryNaturalistChest(TileNaturalistChest tile, ISpeciesType speciesRoot) {
-		super(tile, 125, "Items");
+		super(tile, 128, "Items");
 		this.speciesRoot = speciesRoot;
 	}
 
