@@ -21,12 +21,11 @@ public class NaturalistBackpackItem extends BackpackItem {
 
 	@Override
 	protected void writeContainerData(ServerPlayer player, ItemStack stack, RegistryFriendlyByteBuf buffer) {
-		buffer.writeByte(0);
 		buffer.writeResourceLocation(this.typeId);
 	}
 
 	@Override
 	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
-		return ContainerNaturalistBackpack.makeContainer(containerId, player, heldItem, 0, this.typeId);
+		return ContainerNaturalistBackpack.makeContainer(containerId, player, heldItem, this.typeId);
 	}
 }

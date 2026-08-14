@@ -2,41 +2,43 @@ package forestry.core.content.backpacks.gui;
 
 import forestry.api.IForestryApi;
 import forestry.api.core.genetics.ISpeciesType;
+import forestry.core.content.backpacks.features.BackpackMenuTypes;
+import forestry.core.content.backpacks.inventory.BackpackInventory;
+import forestry.core.content.backpacks.items.BackpackItem;
 import forestry.core.platform.gui.ContainerItemInventory;
 import forestry.core.platform.gui.ContainerNaturalistInventory;
 import forestry.core.platform.gui.IGuiSelectable;
 import forestry.core.platform.gui.INaturalistMenu;
-import forestry.core.content.backpacks.features.BackpackMenuTypes;
-import forestry.core.content.backpacks.inventory.PagedBackpackInventory;
-import forestry.core.content.backpacks.items.BackpackItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 
-public class ContainerNaturalistBackpack extends ContainerItemInventory<PagedBackpackInventory> implements IGuiSelectable, INaturalistMenu {
-	private final int currentPage;
+public class ContainerNaturalistBackpack extends ContainerItemInventory<BackpackInventory> implements IGuiSelectable, INaturalistMenu {
+	private final SimpleContainerData scrollData = new SimpleContainerData(1);
 	private final ISpeciesType<?, ?> speciesRoot;
 
-	public ContainerNaturalistBackpack(int windowId, Inventory inv, PagedBackpackInventory inventory, int selectedPage, ResourceLocation rootUid) {
-		super(windowId, inventory, inv, 18, 120, BackpackMenuTypes.NATURALIST_BACKPACK.menuType());
+	public ContainerNaturalistBackpack(int windowId, Inventory inv, BackpackInventory inventory, ResourceLocation rootUid) {
+		super(windowId, inventory, inv, 7, 107, BackpackMenuTypes.NATURALIST_BACKPACK.menuType());
 
-		ContainerNaturalistInventory.addInventory(this, inventory, selectedPage);
+		addDataSlots(this.scrollData);
+		ContainerNaturalistInventory.addScrollableInventory(this, inventory, this.scrollData);
 
-		this.currentPage = selectedPage;
 		this.speciesRoot = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(rootUid);
 	}
 
-	public static ContainerNaturalistBackpack makeContainer(int windowId, Player player, ItemStack heldItem, int page, ResourceLocation typeId) {
-		PagedBackpackInventory inventory = new PagedBackpackInventory(player, BackpackItem.SLOTS_BACKPACK_APIARIST, heldItem, typeId);
-		return new ContainerNaturalistBackpack(windowId, player.getInventory(), inventory, page, typeId);
+	public static ContainerNaturalistBackpack makeContainer(int windowId, Player player, ItemStack heldItem, ResourceLocation typeId) {
+		BackpackInventory inventory = new BackpackInventory(player, BackpackItem.SLOTS_BACKPACK_APIARIST, heldItem);
+		return new ContainerNaturalistBackpack(windowId, player.getInventory(), inventory, typeId);
 	}
 
 	@Override
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
-        this.inventory.flipPage(player, (short) primary);
+		setScrollRow(primary);
 	}
 
 	@Override
@@ -45,15 +47,19 @@ public class ContainerNaturalistBackpack extends ContainerItemInventory<PagedBac
 	}
 
 	@Override
-	public int getCurrentPage() {
-		return this.currentPage;
+	public int getScrollRow() {
+		return this.scrollData.get(0);
+	}
+
+	@Override
+	public void setScrollRow(int row) {
+		this.scrollData.set(0, Mth.clamp(row, 0, ContainerNaturalistInventory.MAX_SCROLL));
 	}
 
 	public static ContainerNaturalistBackpack fromNetwork(int windowId, Inventory playerInventory, FriendlyByteBuf buffer) {
-		int page = buffer.readByte();
 		ResourceLocation typeId = buffer.readResourceLocation();
 		ItemStack parent = playerInventory.getSelected();
 
-		return makeContainer(windowId, playerInventory.player, parent, page, typeId);
+		return makeContainer(windowId, playerInventory.player, parent, typeId);
 	}
 }
