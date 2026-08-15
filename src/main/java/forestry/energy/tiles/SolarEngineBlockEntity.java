@@ -8,7 +8,7 @@ import forestry.energy.blocks.SolarPanelBlock;
 import forestry.energy.features.EnergyBlocks;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.menu.SolarEngineMenu;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -23,18 +23,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SolarEngineBlockEntity extends EngineBlockEntity {
 	// level.getSkyDarken() must be less than 7 for efficiency to be nonzero
 	public static final int MAX_SKY_DARKEN = 7;
+	// panels must be within 16 blocks of the engine (square range)
+	public static final int MAX_PANEL_RANGE = 16;
 
-	// smallest number of panels one tick of the sweep reads
+	// number of panels checked per tick during a scan
 	private static final int PANELS_PER_TICK = 5;
+	private static final int EMPTY_SCAN_INTERVAL = 20;
 
-	// append-only until the array is cleared as a whole, so a sweep can index into it across ticks
-	private final ArrayList<BlockPos> array;
+	// panels counted by the last completed rescan pass
+	private final ArrayList<BlockPos> array = new ArrayList<>();
 
 	@VisibleForTesting
 	public int activePanels;
@@ -42,23 +45,25 @@ public class SolarEngineBlockEntity extends EngineBlockEntity {
 	// ex. if we generate 2.5 FE, 2 is added to the energy buffer and 0.5 FE is kept here, rolling over to next tick
 	private double energyRemainder;
 
-	// used to track progress of panel light refresh checks
-	private int refreshCursor;
-	// number of lit panels found during current light refresh check
-	private int refreshLit;
-	// indices of the entries the current check found to be gone, pruned once the check wraps around
-	private final IntArrayList refreshDead = new IntArrayList();
+	// positions the pass in progress has yet to check, empty between passes
+	private final ArrayDeque<BlockPos> pendingRescan = new ArrayDeque<>();
+	// panels owned when the current scan began
+	private final LongOpenHashSet oldPanels = new LongOpenHashSet();
+	// panels the current scan has discovered
+	private final ArrayList<BlockPos> newPanels = new ArrayList<>();
+	// number of active (exposed to daylight) panels the current scan has discovered
+	private int newActivePanels;
+	// positions already seen this pass, so the scan never rechecks a position twice (avoids duplicates in newPanels)
+	private final LongOpenHashSet seen = new LongOpenHashSet();
 
 	// only sent to client for displaying in GUI
-	private double outputRate;
-	private int activeCount;
-	private int totalCount;
-	private int skyDarken;
+	private double clientOutputRate;
+	private int clientActiveCount;
+	private int clientTotalCount;
+	private int clientSkyDarken;
 
 	public SolarEngineBlockEntity(BlockPos pos, BlockState state) {
 		super(EnergyTiles.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 10000);
-
-		this.array = new ArrayList<>();
 	}
 
 	@Override
@@ -68,145 +73,130 @@ public class SolarEngineBlockEntity extends EngineBlockEntity {
 		getErrorLogic().setCondition(this.array.isEmpty(), ForestryError.NO_SOLAR_PANELS);
 		getErrorLogic().setCondition(!this.array.isEmpty() && insolation(level) <= 0.0, ForestryError.NO_SUNLIGHT);
 
-		if (updateOnInterval(20) && this.array.isEmpty()) {
-			this.activePanels = 0;
-			attachPanel(this.array, pos.above(), level);
-			setChanged();
-		}
-		refreshPanelExposure(level);
+		rescanPanels(level, pos);
 	}
 
-	// checks all panels over the course of several ticks instead of checking all at once every tick
-	private void refreshPanelExposure(Level level) {
-		int size = this.array.size();
-
-		if (size == 0) {
-			resetSweep();
+	private void rescanPanels(Level level, BlockPos pos) {
+		if (this.pendingRescan.isEmpty() && !beginScan(pos)) {
 			return;
 		}
-		if (this.refreshCursor >= size) {
-			resetSweep();
+		for (int i = 0; i < PANELS_PER_TICK && !this.pendingRescan.isEmpty(); i++) {
+			scanNextPanel(level);
 		}
-
-		for (int i = 0; i < PANELS_PER_TICK; i++) {
-			switch (readPanel(level, this.array.get(this.refreshCursor))) {
-				case LIT -> this.refreshLit++;
-				// nothing else ever clears an entry whose panel is gone, so the sweep is what prunes it
-				case GONE -> this.refreshDead.add(this.refreshCursor);
-				// a dark panel is just not counted, and an unreadable one is left for a later sweep
-				case DARK, UNREADABLE -> {
-				}
-			}
-			this.refreshCursor++;
-
-			if (this.refreshCursor >= size) {
-				// the tally now covers every panel once, so it replaces the count instead of adjusting it
-				if (this.refreshLit != this.activePanels) {
-					this.activePanels = this.refreshLit;
-					setChanged();
-				}
-				pruneDeadPanels();
-				resetSweep();
-
-				size = this.array.size();
-				if (size == 0) {
-					return;
-				}
-			}
+		if (this.pendingRescan.isEmpty()) {
+			finishScan(level);
 		}
 	}
 
-	// drops the entries the sweep found to be gone, back to front so the earlier indices stay valid
-	private void pruneDeadPanels() {
-		if (this.refreshDead.isEmpty()) {
+	private boolean beginScan(BlockPos pos) {
+		// empty panels attempt to scan less often
+		if (this.array.isEmpty() && !updateOnInterval(EMPTY_SCAN_INTERVAL)) {
+			return false;
+		}
+
+		// start scan
+		this.seen.clear();
+		this.oldPanels.clear();
+		this.newPanels.clear();
+		this.newActivePanels = 0;
+		for (BlockPos panel : this.array) {
+			this.oldPanels.add(panel.asLong());
+		}
+		BlockPos seed = pos.above();
+		this.seen.add(seed.asLong());
+		this.pendingRescan.addLast(seed);
+		return true;
+	}
+
+	private void scanNextPanel(Level level) {
+		BlockPos nextPos = this.pendingRescan.pollFirst();
+		boolean wasOwned = this.oldPanels.contains(nextPos.asLong());
+
+		// an unloaded panel keeps its claim and keeps its neighbors reachable, but never counts as active
+		if (!level.hasChunkAt(nextPos)) {
+			if (wasOwned) {
+				this.newPanels.add(nextPos);
+				addNeighborsToScan(nextPos);
+			}
 			return;
 		}
-		for (int i = this.refreshDead.size() - 1; i >= 0; i--) {
-			this.array.remove(this.refreshDead.getInt(i));
-		}
-		setChanged();
-	}
 
-	private void resetSweep() {
-		this.refreshCursor = 0;
-		this.refreshLit = 0;
-		this.refreshDead.clear();
-	}
-
-	private static PanelReading readPanel(Level level, BlockPos panelPos) {
-		if (!level.hasChunkAt(panelPos)) {
-			return PanelReading.UNREADABLE;
-		}
-		BlockState state = level.getBlockState(panelPos);
+		// update CONNECTED state
+		BlockState state = level.getBlockState(nextPos);
 		if (!state.is(EnergyBlocks.SOLAR_PANEL.block())) {
-			return PanelReading.GONE;
+			return;
 		}
-		boolean exposed = level.canSeeSky(panelPos);
-		if (state.getValue(SolarPanelBlock.IN_DAYLIGHT) != exposed) {
+		if (state.getValue(SolarPanelBlock.CONNECTED)) {
+			// skip connected panels not owned by this engine
+			if (!wasOwned) {
+				return;
+			}
+		} else {
+			// if unconnected, connect the panel to this engine
+			state = state.setValue(SolarPanelBlock.CONNECTED, true);
+			level.setBlock(nextPos, state, Block.UPDATE_CLIENTS);
+		}
+
+		// update IN_DAYLIGHT state
+		boolean canSeeSky = level.canSeeSky(nextPos);
+		if (state.getValue(SolarPanelBlock.IN_DAYLIGHT) != canSeeSky) {
 			// skip neighbor update but still sync to client (might want to make server-only instead)
-			level.setBlock(panelPos, state.setValue(SolarPanelBlock.IN_DAYLIGHT, exposed), Block.UPDATE_CLIENTS);
+			level.setBlock(nextPos, state.setValue(SolarPanelBlock.IN_DAYLIGHT, canSeeSky), Block.UPDATE_CLIENTS);
 		}
-		return exposed ? PanelReading.LIT : PanelReading.DARK;
-	}
-
-	// what one sweep read of an array entry found
-	private enum PanelReading {
-		LIT,
-		DARK,
-		// the position is loaded and holds something other than a panel, so the entry is stale
-		GONE,
-		// the chunk is not loaded, so the entry cannot be judged either way
-		UNREADABLE
-	}
-
-	public void attachPanel(List<BlockPos> array, BlockPos pos, Level level) {
-		BlockState state = level.getBlockState(pos);
-		if (state.getBlock() == EnergyBlocks.SOLAR_PANEL.block() && !state.getValue(SolarPanelBlock.CONNECTED)) {
-			if ((this.worldPosition.getX() - pos.getX()) * (this.worldPosition.getX() - pos.getX()) <= 256 && (this.worldPosition.getZ() - pos.getZ()) * (this.worldPosition.getZ() - pos.getZ()) <= 256) {
-				array.add(pos);
-				if (state.getValue(SolarPanelBlock.IN_DAYLIGHT))
-					this.activePanels++;
-				level.setBlock(pos, state.setValue(SolarPanelBlock.CONNECTED, true), 3);
-				attachPanel(array, pos.north(), level);
-				attachPanel(array, pos.east(), level);
-				attachPanel(array, pos.south(), level);
-				attachPanel(array, pos.west(), level);
-			}
+		if (canSeeSky) {
+			this.newActivePanels++;
 		}
+
+		this.newPanels.add(nextPos);
+		addNeighborsToScan(nextPos);
 	}
 
-	public boolean clearPanels(BlockPos pos) {
-		if (this.array.contains(pos)) {
-			this.array.forEach(blockpos -> {
-				BlockState state = this.level.getBlockState(blockpos);
-				if (state.getBlock() == EnergyBlocks.SOLAR_PANEL.block())
-					this.level.setBlock(blockpos, state.setValue(SolarPanelBlock.CONNECTED, false), Block.UPDATE_CLIENTS);
-			});
-			this.array.clear();
-			this.activePanels = 0;
-			resetSweep();
-			setChanged();
-			return true;
-		}
-		return false;
-	}
-
-	public boolean attachNewPanel(BlockPos pos, Level level, BlockState state) {
+	private void addNeighborsToScan(BlockPos panelPos) {
 		for (Direction dir : HorizontalDirection.VALUES) {
-			if (this.array.contains(pos.relative(dir))) {
-				this.array.add(pos);
-				if (state.getValue(SolarPanelBlock.IN_DAYLIGHT))
-					this.activePanels++;
-				level.setBlock(pos, state.setValue(SolarPanelBlock.CONNECTED, true), 3);
-				attachPanel(this.array, pos.north(), level);
-				attachPanel(this.array, pos.east(), level);
-				attachPanel(this.array, pos.south(), level);
-				attachPanel(this.array, pos.west(), level);
-				setChanged();
-				return true;
+			BlockPos next = panelPos.relative(dir);
+			if (inRange(next) && this.seen.add(next.asLong())) {
+				this.pendingRescan.addLast(next);
 			}
 		}
-		return false;
+	}
+
+	private boolean inRange(BlockPos pos) {
+		return Math.abs(pos.getX() - this.worldPosition.getX()) <= MAX_PANEL_RANGE && Math.abs(pos.getZ() - this.worldPosition.getZ()) <= MAX_PANEL_RANGE;
+	}
+
+	private void finishScan(Level level) {
+		// use set for fast contains
+		LongOpenHashSet newPanels = new LongOpenHashSet(this.newPanels.size());
+		for (BlockPos panel : this.newPanels) {
+			newPanels.add(panel.asLong());
+		}
+
+		// update disconnected panels from the old array
+		for (BlockPos old : this.array) {
+			if (newPanels.contains(old.asLong())) {
+				continue;
+			}
+			// ignore unloaded panels
+			if (!level.hasChunkAt(old)) {
+				// never drop a claim that cannot also be cleared, or the panel is orphaned for good
+				newPanels.add(old.asLong());
+				this.newPanels.add(old);
+				continue;
+			}
+			BlockState state = level.getBlockState(old);
+			if (state.is(EnergyBlocks.SOLAR_PANEL.block()) && state.getValue(SolarPanelBlock.CONNECTED)) {
+				level.setBlock(old, state.setValue(SolarPanelBlock.CONNECTED, false), Block.UPDATE_CLIENTS);
+			}
+		}
+
+		// replace current panels array with (deduped) scan results and mark as dirty if needed
+		boolean changed = this.activePanels != this.newActivePanels || !this.array.equals(this.newPanels);
+		this.array.clear();
+		this.array.addAll(this.newPanels);
+		this.activePanels = this.newActivePanels;
+		if (changed) {
+			setChanged();
+		}
 	}
 
 	@Override
@@ -241,16 +231,16 @@ public class SolarEngineBlockEntity extends EngineBlockEntity {
 	protected void burn() {
 		if (!isRedstoneActivated()) {
 			this.currentOutput = 0;
-			this.outputRate = 0.0;
+			this.clientOutputRate = 0.0;
 			return;
 		}
 		double currentOutput = calculateOutput(this.level, this.activePanels);
 		if (currentOutput <= 0.0) {
 			this.currentOutput = 0;
-			this.outputRate = 0.0;
+			this.clientOutputRate = 0.0;
 			return;
 		} else {
-			this.outputRate = currentOutput;
+			this.clientOutputRate = currentOutput;
 		}
 
 		// add float output to remainder (which can have energy from previous ticks)
@@ -334,47 +324,50 @@ public class SolarEngineBlockEntity extends EngineBlockEntity {
 		super.load(nbt);
 		this.activePanels = nbt.getInt("active");
 		this.array.clear();
-		for (long packed : nbt.getLongArray("array")) {
-			this.array.add(BlockPos.of(packed));
+		for (long pos : nbt.getLongArray("array")) {
+			this.array.add(BlockPos.of(pos));
 		}
-		resetSweep();
+
+		// restart in-progress scans with new array
+		this.pendingRescan.clear();
+		this.seen.clear();
+		this.oldPanels.clear();
+		this.newPanels.clear();
+		this.newActivePanels = 0;
 	}
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
 		super.writeGuiData(data);
-		data.writeInt(this.activePanels);
-		data.writeInt(this.array.size());
-		data.writeInt(this.level.getSkyDarken());
-		data.writeFloat((float) this.outputRate);
+		data.writeVarInt(this.activePanels);
+		data.writeVarInt(this.array.size());
+		data.writeVarInt(this.level.getSkyDarken());
+		data.writeFloat((float) this.clientOutputRate);
 	}
 
 	@Override
 	public void readGuiData(FriendlyByteBuf data) {
 		super.readGuiData(data);
-		this.activeCount = data.readInt();
-		this.totalCount = data.readInt();
-		this.skyDarken = data.readInt();
-		this.outputRate = data.readFloat();
+		this.clientActiveCount = data.readVarInt();
+		this.clientTotalCount = data.readVarInt();
+		this.clientSkyDarken = data.readVarInt();
+		this.clientOutputRate = data.readFloat();
 	}
 
 	@Override
 	public double getCurrentOutputRate() {
-		return canOutput() ? this.outputRate : 0.0;
+		return canOutput() ? this.clientOutputRate : 0.0;
 	}
 
-	// WORKS CLIENTSIDE ONLY
-	public int getActivePanelCount() {
-		return this.activeCount;
+	public int getClientActivePanelCount() {
+		return this.clientActiveCount;
 	}
 
-	// WORKS CLIENTSIDE ONLY
-	public int getPanelCount() {
-		return this.totalCount;
+	public int getClientPanelCount() {
+		return this.clientTotalCount;
 	}
 
-	// WORKS CLIENTSIDE ONLY
-	public int getSkyDarken() {
-		return this.skyDarken;
+	public int getClientSkyDarken() {
+		return this.clientSkyDarken;
 	}
 }

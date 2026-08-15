@@ -29,11 +29,11 @@ public class SolarEngineScreen extends EngineScreen<SolarEngineMenu, SolarEngine
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
 		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
-		int active = this.engine.getActivePanelCount();
-		int total = this.engine.getPanelCount();
+		int active = this.engine.getClientActivePanelCount();
+		int total = this.engine.getClientPanelCount();
 		int textColour = ColourProperties.INSTANCE.get("gui.screen");
 		// how much of a panel's rated output the current sky is delivering.
-		double insolation = SolarEngineBlockEntity.insolation(this.engine.getLevel(), this.engine.getSkyDarken()) * 100.0;
+		double insolation = SolarEngineBlockEntity.insolation(this.engine.getLevel(), this.engine.getClientSkyDarken()) * 100.0;
 		// how much the size of the array multiplies that output by.
 		double multiplier = SolarEngineBlockEntity.calculateMult(this.engine.getLevel(), active);
 		// with the bonus turned off the multiplier is always 1, so the row says nothing worth a line
