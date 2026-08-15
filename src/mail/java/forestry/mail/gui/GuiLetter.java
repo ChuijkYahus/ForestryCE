@@ -61,7 +61,7 @@ public class GuiLetter extends GuiForestry<LetterMenu> {
 	public void init() {
 		super.init();
 
-        this.address = new EditBox(this.minecraft.font, this.leftPos + 46, this.topPos + 13, 93, 13, null);
+        this.address = new EditBox(this.minecraft.font, this.leftPos + 46, this.topPos + 13, 93, 13, Component.translatable("for.gui.mail.to"));
         this.address.setEditable(!this.isProcessedLetter);
 		IMailAddress recipient = this.menu.getRecipient();
 		if (recipient != null) {

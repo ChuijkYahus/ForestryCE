@@ -95,7 +95,7 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 
 		String oldString = this.searchField != null ? this.searchField.getValue() : "";
 
-		this.searchField = new EditBox(this.font, this.leftPos + this.selection.getX() + 89 + 36, this.selection.getY() + this.topPos + 4, 80, this.font.lineHeight, null);
+		this.searchField = new EditBox(this.font, this.leftPos + this.selection.getX() + 89 + 36, this.selection.getY() + this.topPos + 4, 80, this.font.lineHeight, Component.empty());
 		this.searchField.setMaxLength(50);
 		this.searchField.setBordered(false);
 		this.searchField.setTextColor(16777215);

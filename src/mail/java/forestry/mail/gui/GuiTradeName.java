@@ -28,7 +28,7 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 	public void init() {
 		super.init();
 
-        this.addressNameField = new EditBox(this.font, this.leftPos + 44, this.topPos + 39, 90, 14, null);
+        this.addressNameField = new EditBox(this.font, this.leftPos + 44, this.topPos + 39, 90, 14, Component.translatable("for.gui.mail.nametrader"));
         this.addressNameField.setCanLoseFocus(true);
         this.addressNameField.setTextColor(-1);
         this.addressNameField.setTextColorUneditable(-1);
