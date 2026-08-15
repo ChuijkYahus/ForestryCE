@@ -3107,16 +3107,6 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 						.build(id("smelter", "silicon_from_coke")))
 				.build(consumer, id("smelter", "silicon_from_coke"));
 
-			new SmelterRecipeBuilder()
-				.addIngredient(Ingredient.of(ForestryTags.Items.SILICON), 3)
-				.addIngredient(Ingredient.of(Tags.Items.GEMS_LAPIS), 4)
-				.addIngredient(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)),2)
-				.addIngredient(Ingredient.of(ForestryTags.Items.NUGGETS_TIN),3)
-				.setOutput(Ingredient.of(CoreItems.SOLAR_CELL), 3)
-				.setProcessingTime(80)
-				.build(consumer, id("smelter", "solar_cell"));
-
-
 			// This is the fun part where I have to try and remember a whole bunch of modded alloys uhhhhhhhh
 			// Invar, Brass, Electrum, Rose Gold (sometimes?), Constantan I think those are the big ones
 			// I don't think there's an issue doing this here?

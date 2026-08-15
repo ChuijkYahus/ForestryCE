@@ -14,7 +14,7 @@ import forestry.api.ForestryConstants;
 import forestry.energy.blocks.EngineBlockType;
 import forestry.energy.blocks.SolarPanelBlock;
 import forestry.energy.features.EnergyBlocks;
-import forestry.energy.tiles.SolarEngineTileEntity;
+import forestry.energy.tiles.SolarEngineBlockEntity;
 
 /**
  * Covers a solar array noticing that one of its panels has been shaded.
@@ -118,7 +118,7 @@ public class SolarPanelExposureTest {
 	}
 
 	private static void assertActivePanels(GameTestHelper helper, BlockPos enginePos, int expected, String situation) {
-		SolarEngineTileEntity engine = (SolarEngineTileEntity) helper.getLevel().getBlockEntity(enginePos);
+		SolarEngineBlockEntity engine = (SolarEngineBlockEntity) helper.getLevel().getBlockEntity(enginePos);
 		helper.assertTrue(engine != null, "no solar engine at " + enginePos);
 		helper.assertTrue(engine.activePanels == expected,
 			"expected " + expected + " active panel(s) for " + situation + ", the engine counted " + engine.activePanels);

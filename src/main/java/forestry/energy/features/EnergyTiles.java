@@ -16,5 +16,5 @@ public class EnergyTiles {
 	public static final FeatureTileType<ClockworkEngineBlockEntity> CLOCKWORK_ENGINE = REGISTRY.tile(ClockworkEngineBlockEntity::new, "clockwork_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK).collect());
 	public static final FeatureTileType<PeatEngineBlockEntity> PEAT_ENGINE = REGISTRY.tile(PeatEngineBlockEntity::new, "peat_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.PEAT).collect());
 	public static final FeatureTileType<CombustionEngineBlockEntity> COMBUSTION_ENGINE = REGISTRY.tile(CombustionEngineBlockEntity::new, "combustion_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.COMBUSTION).collect());
-	public static final FeatureTileType<SolarEngineTileEntity> SOLAR_ENGINE = REGISTRY.tile(SolarEngineTileEntity::new, "solar_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR).collect());
+	public static final FeatureTileType<SolarEngineBlockEntity> SOLAR_ENGINE = REGISTRY.tile(SolarEngineBlockEntity::new, "solar_engine", () -> EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR).collect());
 }

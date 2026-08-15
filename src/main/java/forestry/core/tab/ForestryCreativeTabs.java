@@ -16,7 +16,9 @@ import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
+import forestry.apiculture.items.EnumPropolis;
 import forestry.apiculture.items.ItemCreativeHiveFrame;
+import forestry.apiculture.items.ItemPropolis;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
@@ -275,12 +277,14 @@ public class ForestryCreativeTabs {
 		// Food
 		items.accept(ApicultureItems.HONEYED_SLICE);
 		items.accept(ApicultureItems.AMBROSIA);
-		items.accept(ApicultureItems.HONEY_POT);
 
 		// Misc items
 		ApicultureItems.BEE_COMBS.getItems().forEach(items::accept);
 		ApicultureBlocks.BEE_COMB.getItems().forEach(items::accept);
-		ApicultureItems.PROPOLIS.getItems().forEach(items::accept);
+		// todo use forEach in 1.21.1 when Volcanic Propolis is removed
+		items.accept(ApicultureItems.PROPOLIS.item(EnumPropolis.NORMAL));
+		items.accept(ApicultureItems.PROPOLIS.item(EnumPropolis.PULSATING));
+		items.accept(ApicultureItems.PROPOLIS.item(EnumPropolis.SILKY));
 		ApicultureItems.POLLEN_CLUSTER.getItems().forEach(items::accept);
 		items.accept(ApicultureItems.ROYAL_JELLY);
 		items.accept(ApicultureItems.EXPERIENCE_DROP);
@@ -500,6 +504,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.PORTABLE_ALYZER);
 		items.accept(ApicultureItems.HONEY_DROP);
 		items.accept(ApicultureItems.HONEYDEW);
+		items.accept(ApicultureItems.EXPERIENCE_DROP);
+		items.accept(ApicultureItems.MAGMATIC_DROP);
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE));
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER));
 	}

@@ -154,6 +154,9 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 
 		dropSelf(CoreBlocks.RAW_TIN_BLOCK.block());
 
+		registerDroppingWithSilkTouch(CoreBlocks.WAXSTONE, CoreBlocks.COBBLED_WAXSTONE);
+		registerDroppingWithSilkTouch(CoreBlocks.REFRACTORY_WAXSTONE, CoreBlocks.COBBLED_REFRACTORY_WAXSTONE);
+		registerDroppingWithSilkTouch(CoreBlocks.HONEYSTONE, CoreBlocks.COBBLED_HONEYSTONE);
 	}
 
 	private LootTable.Builder createApatiteOreDrops(Block block) {
@@ -173,6 +176,11 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 
 	public void registerDropping(FeatureBlock<?, ?> featureBlock, ItemLike drop) {
 		dropOther(featureBlock.block(), drop);
+	}
+
+	public void registerDroppingWithSilkTouch(FeatureBlock<?, ?> featureBlock, ItemLike drop) {
+		Block block = featureBlock.block();
+		add(block, createSingleItemTableWithSilkTouch(block, drop));
 	}
 
 	public void registerEmptyTables(FeatureBlockGroup<?, ?> blockGroup) {

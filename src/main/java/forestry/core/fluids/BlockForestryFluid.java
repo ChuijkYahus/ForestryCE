@@ -11,9 +11,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -27,7 +27,7 @@ public class BlockForestryFluid extends LiquidBlock {
 	private final boolean explodes;
 
 	public BlockForestryFluid(FeatureFluid feature) {
-		super(feature::fluid, Block.Properties.of().liquid().noCollission().noLootTable().replaceable());
+		super(feature::fluid, createBlockProperties(feature.properties()));
 		FluidProperties properties = feature.properties();
 		this.flammability = properties.flammability;
 		this.spreadsFire = properties.spreadsFire;
@@ -37,6 +37,17 @@ public class BlockForestryFluid extends LiquidBlock {
 		// Explosion size is determined by flammability, up to size 4.
 		this.explosionPower = 4F * this.flammability / 300F;
 		this.explodes = this.explosionPower > 1.0f;
+	}
+
+	private static BlockBehaviour.Properties createBlockProperties(FluidProperties properties) {
+		var blockProperties = BlockBehaviour.Properties.of().liquid().noCollission().noLootTable().replaceable();
+
+		if (properties.luminosity > 0) {
+			var luminosity = properties.luminosity;
+			blockProperties.lightLevel(state -> luminosity);
+		}
+
+		return blockProperties;
 	}
 
 	@Override
