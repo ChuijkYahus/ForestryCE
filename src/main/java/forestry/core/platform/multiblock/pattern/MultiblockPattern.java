@@ -83,6 +83,12 @@ public final class MultiblockPattern {
 	 * structure, otherwise a {@link PatternResult.Failure}.
 	 */
 	public PatternResult validate(StructureView view, StructurePos origin) {
+		// A valid origin is always the min-corner component itself. Candidate discovery is deliberately
+		// permissive, so discard empty origins before they can surface bogus size errors.
+		if (!view.isLoaded(origin) || !isSameTypeComponent(view.sample(origin))) {
+			return failure(origin, Predicates.KEY_NOT_MAXIMAL);
+		}
+
 		// --- Maximality on the lower faces. Origin must actually be the lowest member. If a same-type
 		// component sits just below origin on any axis, this origin is non-maximal -> defer. Those
 		// confirming cells must be loaded (loaded-shell). Both branches mean "this candidate is not
