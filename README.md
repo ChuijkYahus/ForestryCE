@@ -39,6 +39,7 @@ If you'd like to contribute to Forestry:
 - **Textures**: New textures for Forestry are mostly done. New texture proposals will be showcased on Discord before being merged.
 - **Gameplay changes**: Discuss your proposed changes with me on Discord before implementing them in code.
 - **New Features**: Discuss your feature idea on Discord before implementing it in code.
+  - Do not include unrelated changes in a feature PR. These should be discussed and PR'd separately.
 - **Multiple Features**: Please make separate pull requests for each feature instead of making one giant PR. Large pull requests are difficult and time-consuming to review.
 
 ### For Mod Developers
