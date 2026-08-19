@@ -175,13 +175,13 @@ public class ForestryConfig {
 			builder.push("solar_engine");
 			this.solarFE = builder
 				.comment("How much FE/t a single solar panel generates.")
-				.defineInRange("solar_fe_per_panel", 6.0, 0.001, 10.0);
+				.defineInRange("solar_fe_per_panel", 6.0, 0.001, 10000000.0);
 			this.twilightSolarFE = builder
 				.comment("How much FE/t a single solar panel generates in the Twilight Forest.")
-				.defineInRange("twilight_solar_fe_per_panel", 2.5, 0.001, 10.0);
+				.defineInRange("twilight_solar_fe_per_panel", 3, 0.001, 10000000.0);
 			this.solarArrayBonusFactor = builder
 				.comment("A solar array generates a bonus on top of the flat output of its panels. The bonus is this factor multiplied by the square of one less than the number of lit panels, so at the default value an array of 100 lit panels adds 0.03 * 99^2 = 294.03 FE/t. Insolation scales the bonus the same way it scales the flat output. Set to 0 to disable.")
-				.defineInRange("solar_array_bonus_factor", 0.03, 0.0, 100.0);
+				.defineInRange("solar_array_bonus_factor", 0.03, 0.0, 10000000.0);
 			builder.pop();
 		}
 	}
