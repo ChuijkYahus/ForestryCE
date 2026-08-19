@@ -2610,10 +2610,11 @@ public class ForestryRecipeProvider implements IConditionBuilder {
 			.setMolten(ForestryFluids.GLASS.getFluid(50))
 			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL)
 				.pattern(" T ")
-				.pattern(" S ")
+				.pattern("LSL")
 				.pattern(" ^ ")
 				.define('S', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHORESCENT_JELLY))
 				.define('^', ForestryTags.Items.SILICON)
+				.define('L', Tags.Items.GEMS_LAPIS)
 				.define('T', ForestryTags.Items.NUGGETS_TIN))
 			.build(consumer, id("fabricator", "solar_cell"));
 

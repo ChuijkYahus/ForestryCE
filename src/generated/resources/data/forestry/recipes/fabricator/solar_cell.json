@@ -9,6 +9,9 @@
     "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
+      "L": {
+        "tag": "forge:gems/lapis"
+      },
       "S": {
         "item": "forestry:phosphorescent_jelly"
       },
@@ -21,7 +24,7 @@
     },
     "pattern": [
       " T ",
-      " S ",
+      "LSL",
       " ^ "
     ],
     "result": {
