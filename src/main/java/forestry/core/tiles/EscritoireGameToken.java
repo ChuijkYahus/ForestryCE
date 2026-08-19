@@ -59,17 +59,16 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 		}
 	}
 
-	private boolean setTokenSpeciesSafe(ResourceLocation typeId, ResourceLocation speciesId) {
+	private void setTokenSpeciesSafe(ResourceLocation typeId, ResourceLocation speciesId) {
 		ISpeciesType<?, ?> type = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(typeId);
 		if (type == null) {
-			return false;
+			return;
 		}
 		ISpecies<?> species = type.getSpeciesSafe(speciesId);
 		if (species == null) {
-			return false;
+			return;
 		}
 		setTokenSpecies(species);
-		return true;
 	}
 
 	public boolean hasSpecies() {
@@ -151,8 +150,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	public boolean matches(EscritoireGameToken other) {
-		// Two blank tokens both hold ItemStack.EMPTY, which ItemStack.matches considers equal. Without
-		// this guard an unresolved board would pair any token with any other and be instantly winnable.
+		// ensure that two empty stacks are not counted as a match
 		return !this.tokenStack.isEmpty() && ItemStack.matches(this.tokenStack, other.getTokenStack());
 	}
 
@@ -160,9 +158,6 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	public CompoundTag write(CompoundTag nbt) {
 		nbt.putInt("state", this.state.ordinal());
 
-		// Both ids are required: read() needs the species type to know which registry to resolve the
-		// species id against. Writing only tokenSpecies (the old behaviour) meant no saved token ever
-		// resolved back to a species.
 		if (this.tokenIndividual != null && this.tokenType != null) {
 			nbt.putString(NBT_TOKEN_SPECIES, this.tokenIndividual.getSpecies().id().toString());
 			nbt.putString(NBT_TOKEN_TYPE, this.tokenType.id().toString());

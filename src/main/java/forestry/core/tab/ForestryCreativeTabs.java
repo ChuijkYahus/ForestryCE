@@ -331,9 +331,6 @@ public class ForestryCreativeTabs {
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.TREE);
 		items.accept(ArboricultureItems.AMBER_SAPLING);
 		ArboricultureBlocks.LEAVES_DECORATIVE.getItems().forEach(items::accept);
-		// Default species leaf blocks (and the fruit-bearing variants) are spawned by
-		// genetic trees but were missing from any creative tab — surface them next to
-		// the decorative leaves so they're discoverable in JEI and the creative menu.
 		ArboricultureBlocks.LEAVES_DEFAULT.getItems().forEach(items::accept);
 		ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.getItems().forEach(items::accept);
 	}
