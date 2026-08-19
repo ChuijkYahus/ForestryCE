@@ -44,7 +44,7 @@ import java.util.List;
 public class BackpackItem extends WithScreenItem implements IColoredItem {
 	public static final int SLOTS_BACKPACK_DEFAULT = 15;
 	public static final int SLOTS_BACKPACK_WOVEN = 45;
-	public static final int SLOTS_BACKPACK_APIARIST = 125;
+	public static final int SLOTS_BACKPACK_APIARIST = 128;
 	private final IBackpackDefinition definition;
 	private final EnumBackpackType type;
 
