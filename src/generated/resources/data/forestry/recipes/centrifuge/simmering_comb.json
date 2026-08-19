@@ -10,10 +10,6 @@
     },
     {
       "chance": 0.7,
-      "item": "forestry:honey_drop"
-    },
-    {
-      "chance": 0.4,
       "item": "forestry:magmatic_drop"
     }
   ],

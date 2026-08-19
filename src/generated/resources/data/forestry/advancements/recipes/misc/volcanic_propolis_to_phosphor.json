@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:volcanic_propolis_to_magmatic_drop"
+        "recipe": "forestry:volcanic_propolis_to_phosphor"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:volcanic_propolis_to_magmatic_drop"
+      "forestry:volcanic_propolis_to_phosphor"
     ]
   },
   "sends_telemetry_event": true

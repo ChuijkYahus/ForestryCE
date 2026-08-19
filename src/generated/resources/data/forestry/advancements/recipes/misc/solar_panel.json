@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:glass_panes"
+            "items": [
+              "minecraft:glass_pane"
+            ]
           }
         ]
       },

@@ -1,7 +1,7 @@
 {
   "type": "forestry:fabricator",
   "molten": {
-    "Amount": 500,
+    "Amount": 50,
     "FluidName": "forestry:glass"
   },
   "plan": [],
@@ -9,20 +9,20 @@
     "type": "minecraft:crafting_shaped",
     "category": "misc",
     "key": {
-      "D": {
-        "tag": "forge:ingots/tin"
+      "S": {
+        "item": "forestry:phosphorescent_jelly"
       },
-      "O": {
-        "item": "forestry:phosphor"
+      "T": {
+        "tag": "forge:nuggets/tin"
       },
       "^": {
         "tag": "forge:silicon"
       }
     },
     "pattern": [
-      "DOD",
-      "^^^",
-      "DOD"
+      " T ",
+      " S ",
+      " ^ "
     ],
     "result": {
       "item": "forestry:solar_cell"
