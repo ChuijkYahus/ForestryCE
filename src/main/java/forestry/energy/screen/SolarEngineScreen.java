@@ -18,7 +18,7 @@ public class SolarEngineScreen extends EngineScreen<SolarEngineMenu, SolarEngine
 	private static final int SUN_SIZE = 16;
 
 	private static final int TEXT_X = 44;
-	private static final int TEXT_TOP = 31;
+	private static final int TEXT_TOP = 32;
 	private static final int TEXT_LINE_HEIGHT = 10;
 
 	public SolarEngineScreen(SolarEngineMenu menu, Inventory inv, Component title) {

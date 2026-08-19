@@ -13,7 +13,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class SolarPanelBlock extends Block {
-	private static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D);
+	private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 6, 16);
 
 	public static final BooleanProperty CONNECTED = BlockStateProperties.ATTACHED;
 	public static final BooleanProperty IN_DAYLIGHT = BlockStateProperties.LIT;

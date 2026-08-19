@@ -50,24 +50,24 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 	private int coolantTime;
 	//upgrades
 	private final InventoryAdapter sockets = new InventoryAdapter(1, "sockets");
-	private float outputBoost=1.0f;
-	private float outputMult=1.0f;
-	private float efficiencyMult=1.0f;
-	private float burnRate=1.0f;
+	private float outputBoost = 1.0f;
+	private float outputMult = 1.0f;
+	private float efficiencyMult = 1.0f;
+	private float burnRate = 1.0f;
 
 	private final LazyOptional<IFluidHandler> fluidCap;
 
-	public CombustionEngineBlockEntity(BlockPos pos, BlockState state){
+	public CombustionEngineBlockEntity(BlockPos pos, BlockState state) {
 		super(EnergyTiles.COMBUSTION_ENGINE.tileType(), pos, state, "engine_iron", Constants.ENGINE_COPPER_HEAT_MAX, 80000);
 
 		setInternalInventory(new InventoryEngineCombustion(this));
 
 		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilters(FuelManager.combustionEngineFuel.keySet());
-		this.coolantTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY,true,false).setFilters(FuelManager.combustionEngineCoolant.keySet());
+		this.coolantTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilters(FuelManager.combustionEngineCoolant.keySet());
 		this.burnTank = new StandardTank(BUCKET_VOLUME, false, false);
 		this.waterTank = new StandardTank(BUCKET_VOLUME, false, false);
-		this.tankManager = new TankManager(this,fuelTank,coolantTank,burnTank,waterTank);
-		this.fluidCap = LazyOptional.of(()->tankManager);
+		this.tankManager = new TankManager(this, this.fuelTank, this.coolantTank, this.burnTank, this.waterTank);
+		this.fluidCap = LazyOptional.of(() -> this.tankManager);
 	}
 
 	@Override
@@ -82,43 +82,43 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 		IErrorLogic errorLogic = getErrorLogic();
 
-		errorLogic.setCondition(coolantTank.isEmpty() && waterTank.isEmpty(), ForestryError.NO_COOLANT);
+		errorLogic.setCondition(this.coolantTank.isEmpty() && this.waterTank.isEmpty(), ForestryError.NO_COOLANT);
 
-		errorLogic.setCondition(burnTank.isEmpty() && fuelTank.isEmpty(), ForestryError.NO_FUEL);
+		errorLogic.setCondition(this.burnTank.isEmpty() && this.fuelTank.isEmpty(), ForestryError.NO_FUEL);
 	}
 
 	@Override
 	protected void dissipateHeat() {
-		if(!isBurning() && heat>0)
-			heat--;
-		int heatToCool=0;
-		double heatLevel=getHeatLevel();
-		if(heatLevel>0.2)
+		if (!isBurning() && this.heat > 0)
+			this.heat--;
+		int heatToCool = 0;
+		double heatLevel = getHeatLevel();
+		if (heatLevel > 0.2)
 			heatToCool++;
-		if(heatLevel>0.25)
+		if (heatLevel > 0.25)
 			heatToCool++;
-		if(heatLevel>0.45)
-			heatToCool+=2;
-		if(heatLevel>0.55)
-			heatToCool+=2;
-		if(heatLevel>0.65)
-			heatToCool+=2;
-		if(heatLevel>0.75)
-			heatToCool+=2;
-		if(heatLevel>0.85)
-			heatToCool+=2;
+		if (heatLevel > 0.45)
+			heatToCool += 2;
+		if (heatLevel > 0.55)
+			heatToCool += 2;
+		if (heatLevel > 0.65)
+			heatToCool += 2;
+		if (heatLevel > 0.75)
+			heatToCool += 2;
+		if (heatLevel > 0.85)
+			heatToCool += 2;
 
-		FluidStack water=waterTank.drainInternal(heatToCool, IFluidHandler.FluidAction.EXECUTE);
-		heat-=water.getAmount();
-		if(waterTank.isEmpty()){
-			FluidStack fluidStack=coolantTank.drainInternal(BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
-			if(!fluidStack.isEmpty()){
+		FluidStack water = this.waterTank.drainInternal(heatToCool, IFluidHandler.FluidAction.EXECUTE);
+		this.heat -= water.getAmount();
+		if (this.waterTank.isEmpty()) {
+			FluidStack fluidStack = this.coolantTank.drainInternal(BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
+			if (!fluidStack.isEmpty()) {
 				fluidStack.setAmount(determineCoolantTime(fluidStack));
-				waterTank.setCapacity(fluidStack.getAmount());
-				waterTank.setFluid(fluidStack);
-				if(water.getFluid()!=fluidStack.getFluid()) {
-					removeEngineUpgrade(0,determineCoolantModifier(water)/100f,0);
-					applyEngineUpgrade(0, determineCoolantModifier(fluidStack)/100f, 0);
+				this.waterTank.setCapacity(fluidStack.getAmount());
+				this.waterTank.setFluid(fluidStack);
+				if (water.getFluid() != fluidStack.getFluid()) {
+					removeEngineUpgrade(0, determineCoolantModifier(water) / 100f, 0);
+					applyEngineUpgrade(0, determineCoolantModifier(fluidStack) / 100f, 0);
 				}
 			}
 		}
@@ -126,39 +126,39 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 	@Override
 	protected void generateHeat() {
-		if(isBurning()){
-			addHeat((int) (2*outputMult));
+		if (isBurning()) {
+			addHeat((int) (2 * this.outputMult));
 		}
 	}
 
 	@Override
 	protected void burn() {
 
-		currentOutput=0;
+		this.currentOutput = 0;
 
-		if(isRedstoneActivated()){
-			if(burnTime>0 && !waterTank.isEmpty()){
-				currentOutput= (int) (determineFuelValue(burnTank.getFluid())*outputMult);
-				if(energyStorage.getMaxEnergyStored()-energyStorage.getEnergyStored()>=currentOutput){
-					burnTime-=burnRate;
+		if (isRedstoneActivated()) {
+			if (this.burnTime > 0 && !this.waterTank.isEmpty()) {
+				this.currentOutput = (int) (determineFuelValue(this.burnTank.getFluid()) * this.outputMult);
+				if (this.energyStorage.getMaxEnergyStored() - this.energyStorage.getEnergyStored() >= this.currentOutput) {
+					this.burnTime -= this.burnRate;
 					setChanged();
-					energyStorage.generateEnergy(currentOutput);
-					FluidStack fuel=burnTank.getFluid();
-					fuel.setAmount((int) burnTime);
-					burnTank.setFluid(fuel);
+					this.energyStorage.generateEnergy(this.currentOutput);
+					FluidStack fuel = this.burnTank.getFluid();
+					fuel.setAmount((int) this.burnTime);
+					this.burnTank.setFluid(fuel);
 					this.level.updateNeighbourForOutputSignal(this.worldPosition, getBlockState().getBlock());
-				}else{
-					currentOutput=0;
+				} else {
+					this.currentOutput = 0;
 				}
-			}else if(fuelTank.getFluidAmount() >= BUCKET_VOLUME){
-				FluidStack fuel=fuelTank.drainInternal(BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE).copy();
-				int time=determineBurnTime(fuel);
-				if(!fuel.isEmpty()){
+			} else if (this.fuelTank.getFluidAmount() >= BUCKET_VOLUME) {
+				FluidStack fuel = this.fuelTank.drainInternal(BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE).copy();
+				int time = determineBurnTime(fuel);
+				if (!fuel.isEmpty()) {
 					fuel.setAmount(time);
-					burnTime=time;
+					this.burnTime = time;
 				}
-				burnTank.setCapacity(time);
-				burnTank.setFluid(fuel);
+				this.burnTank.setCapacity(time);
+				this.burnTank.setFluid(fuel);
 			}
 		}
 
@@ -166,7 +166,7 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 	@Override
 	protected boolean isBurning() {
-		return mayBurn() && (level.isClientSide || (!burnTank.isEmpty() && currentOutput!=0));
+		return mayBurn() && (this.level.isClientSide || (!this.burnTank.isEmpty() && this.currentOutput != 0));
 	}
 
 	/**
@@ -215,26 +215,26 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 		return 0;
 	}
 
-	public boolean isCrushedIce(){
-		return waterTank.getFluidType()==ForestryFluids.ICE.getFluid();
+	public boolean isCrushedIce() {
+		return this.waterTank.getFluidType() == ForestryFluids.ICE.getFluid();
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
-		tankManager.write(nbt);
-		nbt.putFloat("burnTime",burnTime);
-		nbt.putInt("coolantTime",coolantTime);
-		sockets.write(nbt);
+		this.tankManager.write(nbt);
+		nbt.putFloat("burnTime", this.burnTime);
+		nbt.putInt("coolantTime", this.coolantTime);
+		this.sockets.write(nbt);
 	}
 
 	@Override
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
-		tankManager.read(nbt);
-		burnTime=nbt.getFloat("burnTime");
-		coolantTime=nbt.getInt("coolantTime");
-		sockets.read(nbt);
+		this.tankManager.read(nbt);
+		this.burnTime = nbt.getFloat("burnTime");
+		this.coolantTime = nbt.getInt("coolantTime");
+		this.sockets.read(nbt);
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
@@ -243,23 +243,23 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 				chipset.onLoad(this);
 			}
 		}
-		if(!waterTank.isEmpty())
-			applyEngineUpgrade(0,determineCoolantModifier(waterTank.getFluid())/100f,0);
+		if (!this.waterTank.isEmpty())
+			applyEngineUpgrade(0, determineCoolantModifier(this.waterTank.getFluid()) / 100f, 0);
 	}
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
-		tankManager.writeData(data);
-		sockets.writeData(data);
+		this.tankManager.writeData(data);
+		this.sockets.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-		tankManager.readData(data);
-		sockets.readData(data);
+		this.tankManager.readData(data);
+		this.sockets.readData(data);
 	}
 
 	@Override
@@ -283,27 +283,27 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 	@Override
 	public ITankManager getTankManager() {
-		return tankManager;
+		return this.tankManager;
 	}
 
 	@Override
 	public void applyEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
 		//dont stack multiple chokes
-		if(!(outputBoost<0&&this.outputBoost<0))
-			this.efficiencyMult+=efficiencyMult;
-		this.outputBoost+=outputBoost;
-		this.outputMult=Math.max(0.5f,this.outputBoost);
-		this.burnRate=this.outputMult/Math.min(1.6f,Math.max(this.efficiencyMult,isCrushedIce()?1.0f:0.1f));
+		if (!(outputBoost < 0 && this.outputBoost < 0))
+			this.efficiencyMult += efficiencyMult;
+		this.outputBoost += outputBoost;
+		this.outputMult = Math.max(0.5f, this.outputBoost);
+		this.burnRate = this.outputMult / Math.min(1.6f, Math.max(this.efficiencyMult, isCrushedIce() ? 1.0f : 0.1f));
 	}
 
 	@Override
 	public void removeEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
 		//dont unstack multiple chokes
-		if(!(outputBoost<0&&this.outputBoost<outputBoost))
-			this.efficiencyMult-=efficiencyMult;
-		this.outputBoost-=outputBoost;
-		this.outputMult=this.outputBoost;
-		this.burnRate=this.outputBoost/Math.max(this.efficiencyMult,isCrushedIce()?1.0f:0.1f);
+		if (!(outputBoost < 0 && this.outputBoost < outputBoost))
+			this.efficiencyMult -= efficiencyMult;
+		this.outputBoost -= outputBoost;
+		this.outputMult = this.outputBoost;
+		this.burnRate = this.outputBoost / Math.max(this.efficiencyMult, isCrushedIce() ? 1.0f : 0.1f);
 	}
 
 	@Override
