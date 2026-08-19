@@ -252,6 +252,7 @@ tasks.named('processResources', ProcessResources) {
 	dependsOn(generateEnUsLang)
 
 	exclude 'assets/forestry/lang/check_translations.py'
+	exclude '**/*.bbmodel'
 
 	filesMatching('assets/forestry/lang/en_us.json') { fileCopyDetails ->
 		def file = fileCopyDetails.file
