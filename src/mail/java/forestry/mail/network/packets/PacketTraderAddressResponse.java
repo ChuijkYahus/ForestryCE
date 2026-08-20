@@ -5,7 +5,7 @@ import forestry.mail.network.MailPacketIds;
 import forestry.api.mail.IMailAddress;
 import forestry.core.platform.tile.TileUtil;
 import forestry.mail.letters.MailAddress;
-import forestry.mail.tradestation.TileTrader;
+import forestry.mail.tradestation.TradeStationBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -27,6 +27,6 @@ public record PacketTraderAddressResponse(BlockPos pos, IMailAddress address) im
 	}
 
 	public static void handle(PacketTraderAddressResponse msg, Player player) {
-		TileUtil.actOnTile(player.level(), msg.pos, TileTrader.class, tile -> tile.setAddress(msg.address));
+		TileUtil.actOnTile(player.level(), msg.pos, TradeStationBlockEntity.class, tile -> tile.setAddress(msg.address));
 	}
 }

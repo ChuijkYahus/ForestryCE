@@ -16,8 +16,8 @@ import forestry.mail.letters.MailAddress;
 import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailTiles;
-import forestry.mail.gui.ContainerTradeName;
-import forestry.mail.gui.ContainerTrader;
+import forestry.mail.gui.TradeStationNamingMenu;
+import forestry.mail.gui.TradeStationMenu;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.network.packets.PacketTraderAddressResponse;
 import net.minecraft.core.BlockPos;
@@ -36,11 +36,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public class TileTrader extends TileBase implements IOwnedTile {
+public class TradeStationBlockEntity extends TileBase implements IOwnedTile {
 	private final OwnerHandler ownerHandler = new OwnerHandler();
 	private IMailAddress address;
 
-	public TileTrader(BlockPos pos, BlockState state) {
+	public TradeStationBlockEntity(BlockPos pos, BlockState state) {
 		super(MailTiles.TRADER.tileType(), pos, state);
         this.address = MailAddress.INVALID;
 		setInternalInventory(new InventoryTradeStation());
@@ -294,9 +294,9 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
 		if (isLinked()) {
-			return new ContainerTrader(windowId, inv, this);
+			return new TradeStationMenu(windowId, inv, this);
 		} else {
-			return new ContainerTradeName(windowId, inv.player, this);
+			return new TradeStationNamingMenu(windowId, inv.player, this);
 		}
 	}
 }

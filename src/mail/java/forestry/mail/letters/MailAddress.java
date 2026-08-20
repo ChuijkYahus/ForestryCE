@@ -25,10 +25,14 @@ public class MailAddress implements IMailAddress {
 	public static final Codec<MailAddress> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 		ResourceLocation.CODEC.fieldOf("carrier").forGetter(address -> ForestryRegistries.POSTAL_CARRIER.getKey(address.getCarrier())),
 		Codec.STRING.optionalFieldOf("name", "").forGetter(MailAddress::getName),
-		UUIDUtil.CODEC.optionalFieldOf("id").forGetter(address -> Optional.ofNullable(address.gameProfile.getId()))
+		UUIDUtil.CODEC.optionalFieldOf("id").forGetter(MailAddress::getPlayerId)
 	).apply(instance, MailAddress::fromCodec));
 
-	private static final GameProfile INVALID_GAME_PROFILE = new GameProfile(new UUID(0, 0), "");
+	// Traders have no player UUID. authlib rejects a null id, and PlayerUtil treats this one as absent,
+	// so it is how an address says "identified by name alone"
+	private static final UUID NO_ID = new UUID(0, 0);
+
+	private static final GameProfile INVALID_GAME_PROFILE = new GameProfile(NO_ID, "");
 
 	public static final MailAddress INVALID = new MailAddress(null, INVALID_GAME_PROFILE);
 
@@ -42,12 +46,13 @@ public class MailAddress implements IMailAddress {
 		this.gameProfile = gameProfile;
 	}
 
+	// used by trading stations
 	public MailAddress(String name) {
 		Preconditions.checkNotNull(name, "name must not be null");
 		Preconditions.checkArgument(StringUtils.isNotBlank(name), "name must not be blank");
 
 		this.carrier = PostalCarriers.TRADER.value();
-		this.gameProfile = INVALID_GAME_PROFILE;
+		this.gameProfile = new GameProfile(NO_ID, name);
 	}
 
 	public MailAddress(CompoundTag nbt) {
@@ -83,10 +88,10 @@ public class MailAddress implements IMailAddress {
 		}
 
 		GameProfile profile;
-		if (StringUtils.isBlank(name) || id.isEmpty()) {
+		if (StringUtils.isBlank(name)) {
 			profile = INVALID_GAME_PROFILE;
 		} else {
-			profile = new GameProfile(id.get(), name);
+			profile = new GameProfile(id.orElse(NO_ID), name);
 		}
 		return new MailAddress(carrier, profile);
 	}
@@ -98,8 +103,14 @@ public class MailAddress implements IMailAddress {
 
 		GameProfile profile = address.getCarrier().equals(PostalCarriers.PLAYER.value())
 			? address.getPlayerProfile()
-			: new GameProfile(null, address.getName());
+			: new GameProfile(NO_ID, address.getName());
 		return new MailAddress(address.getCarrier(), profile);
+	}
+
+	// Empty for traders, which are identified by name alone
+	private Optional<UUID> getPlayerId() {
+		UUID id = this.gameProfile.getId();
+		return id == null || id.equals(NO_ID) ? Optional.empty() : Optional.of(id);
 	}
 
 	@Override

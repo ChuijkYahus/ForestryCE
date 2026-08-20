@@ -8,11 +8,10 @@ import forestry.core.platform.inventory.InventoryAdapter;
 import forestry.core.platform.tile.TileBase;
 import forestry.mail.letters.LetterUtils;
 import forestry.mail.letters.MailAddress;
-import forestry.mail.postoffice.PostOffice;
 import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.features.MailTiles;
-import forestry.mail.gui.ContainerMailbox;
+import forestry.mail.gui.MailboxMenu;
 import forestry.mail.letters.EnumDeliveryState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -27,8 +26,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 
-public class TileMailbox extends TileBase {
-	// virtual slot for mail, sucessful  insertion immediately sends one letter
+public class MailboxBlockEntity extends TileBase {
+	// virtual slot for mail, successful insertion immediately sends one letter
 	private final IItemHandler automatedMailHandler = new IItemHandler() {
 		@Override
 		public int getSlots() {
@@ -47,7 +46,7 @@ public class TileMailbox extends TileBase {
 			}
 
 			if (!simulate) {
-				if (!(TileMailbox.this.level instanceof ServerLevel) || !tryDispatchLetter(stack.copyWithCount(1)).isOk()) {
+				if (!(MailboxBlockEntity.this.level instanceof ServerLevel) || !tryDispatchLetter(stack.copyWithCount(1)).isOk()) {
 					return stack;
 				}
 			}
@@ -76,7 +75,7 @@ public class TileMailbox extends TileBase {
 		}
 	};
 
-	public TileMailbox(BlockPos pos, BlockState state) {
+	public MailboxBlockEntity(BlockPos pos, BlockState state) {
 		super(MailTiles.MAILBOX.tileType(), pos, state);
 		setInternalInventory(new InventoryAdapter(POBox.SLOT_SIZE, "Letters").disableAutomation());
 	}
@@ -133,6 +132,6 @@ public class TileMailbox extends TileBase {
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerMailbox(windowId, inv, this);
+		return new MailboxMenu(windowId, inv, this);
 	}
 }

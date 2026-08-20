@@ -3,16 +3,16 @@ package forestry.mail.gui;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.gui.GuiForestry;
 import forestry.core.platform.render.ColourProperties;
-import forestry.mail.tradestation.TileTrader;
+import forestry.mail.tradestation.TradeStationBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiTrader extends GuiForestry<ContainerTrader> {
-	private final TileTrader tile;
+public class TradeStationScreen extends GuiForestry<TradeStationMenu> {
+	private final TradeStationBlockEntity tile;
 
-	public GuiTrader(ContainerTrader container, Inventory inv, Component title) {
-		super(Constants.TEXTURE_PATH_GUI + "/mailtrader2.png", container, inv, title);
+	public TradeStationScreen(TradeStationMenu container, Inventory inv, Component title) {
+		super(Constants.TEXTURE_PATH_GUI + "/trade_station.png", container, inv, title);
 		this.tile = container.getTile();
 		this.imageWidth = 226;
 		this.imageHeight = 220;
@@ -33,8 +33,8 @@ public class GuiTrader extends GuiForestry<ContainerTrader> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(graphics, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
 		graphics.drawString(this.font, this.menu.getAddress().getName(), this.leftPos + 19, this.topPos + 22, ColourProperties.INSTANCE.get("gui.mail.text"));
 	}

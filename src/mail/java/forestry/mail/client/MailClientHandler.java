@@ -19,10 +19,10 @@ public class MailClientHandler implements IClientModuleHandler {
 	private static void registerMenuScreens(RegisterMenuScreensEvent event) {
 		event.register(MailMenuTypes.CATALOGUE.menuType(), GuiCatalogue::new);
 		event.register(MailMenuTypes.LETTER.menuType(), GuiLetter::new);
-		event.register(MailMenuTypes.MAILBOX.menuType(), GuiMailbox::new);
-		event.register(MailMenuTypes.STAMP_COLLECTOR.menuType(), GuiStampCollector::new);
-		event.register(MailMenuTypes.TRADE_NAME.menuType(), GuiTradeName::new);
-		event.register(MailMenuTypes.TRADER.menuType(), GuiTrader::new);
+		event.register(MailMenuTypes.MAILBOX.menuType(), MailboxScreen::new);
+		event.register(MailMenuTypes.STAMP_COLLECTOR.menuType(), StampCollectorScreen::new);
+		event.register(MailMenuTypes.TRADE_NAME.menuType(), TradeStationNamingScreen::new);
+		event.register(MailMenuTypes.TRADER.menuType(), TradeStationScreen::new);
 	}
 
 	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {

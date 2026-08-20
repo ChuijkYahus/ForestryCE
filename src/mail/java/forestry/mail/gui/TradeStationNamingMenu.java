@@ -4,19 +4,19 @@ import forestry.api.mail.IMailAddress;
 import forestry.core.platform.gui.ContainerTile;
 import forestry.core.platform.tile.TileUtil;
 import forestry.mail.features.MailMenuTypes;
-import forestry.mail.tradestation.TileTrader;
+import forestry.mail.tradestation.TradeStationBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 
-public class ContainerTradeName extends ContainerTile<TileTrader> {
-	public static ContainerTradeName fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileTrader tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileTrader.class);
-		return new ContainerTradeName(windowId, inv.player, tile);
+public class TradeStationNamingMenu extends ContainerTile<TradeStationBlockEntity> {
+	public static TradeStationNamingMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
+		TradeStationBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TradeStationBlockEntity.class);
+		return new TradeStationNamingMenu(windowId, inv.player, tile);
 	}
 
-	public ContainerTradeName(int windowId, Player player, TileTrader tile) {
+	public TradeStationNamingMenu(int windowId, Player player, TradeStationBlockEntity tile) {
 		super(windowId, MailMenuTypes.TRADE_NAME.menuType(), tile, player);
 	}
 

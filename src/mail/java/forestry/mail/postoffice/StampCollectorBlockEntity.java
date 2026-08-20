@@ -4,9 +4,8 @@ import forestry.api.mail.IStamps;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.tile.TileBase;
 import forestry.core.platform.util.InventoryUtil;
-import forestry.mail.postoffice.PostOffice;
 import forestry.mail.features.MailTiles;
-import forestry.mail.gui.ContainerStampCollector;
+import forestry.mail.gui.StampCollectorMenu;
 import forestry.mail.inventory.InventoryStampCollector;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -18,8 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class TileStampCollector extends TileBase implements Container {
-	public TileStampCollector(BlockPos pos, BlockState state) {
+public class StampCollectorBlockEntity extends TileBase implements Container {
+	public StampCollectorBlockEntity(BlockPos pos, BlockState state) {
 		super(MailTiles.STAMP_COLLECTOR.tileType(), pos, state);
 		setInternalInventory(new InventoryStampCollector(this));
 	}
@@ -52,6 +51,6 @@ public class TileStampCollector extends TileBase implements Container {
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerStampCollector(windowId, inv, this);
+		return new StampCollectorMenu(windowId, inv, this);
 	}
 }

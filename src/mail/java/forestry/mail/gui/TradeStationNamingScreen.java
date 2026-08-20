@@ -5,7 +5,7 @@ import forestry.core.platform.gui.GuiForestry;
 import forestry.core.platform.render.ColourProperties;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.network.packets.PacketTraderAddressRequest;
-import forestry.mail.tradestation.TileTrader;
+import forestry.mail.tradestation.TradeStationBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
@@ -13,12 +13,12 @@ import net.minecraft.world.entity.player.Inventory;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.glfw.GLFW;
 
-public class GuiTradeName extends GuiForestry<ContainerTradeName> {
-	private final TileTrader tile;
+public class TradeStationNamingScreen extends GuiForestry<TradeStationNamingMenu> {
+	private final TradeStationBlockEntity tile;
 	private EditBox addressNameField;
 
-	public GuiTradeName(ContainerTradeName container, Inventory inv, Component title) {
-		super(Constants.TEXTURE_PATH_GUI + "/tradername.png", container, inv, title);
+	public TradeStationNamingScreen(TradeStationNamingMenu container, Inventory inv, Component title) {
+		super(Constants.TEXTURE_PATH_GUI + "/trade_station_naming.png", container, inv, title);
 		this.tile = container.getTile();
 		this.imageWidth = 176;
 		this.imageHeight = 90;

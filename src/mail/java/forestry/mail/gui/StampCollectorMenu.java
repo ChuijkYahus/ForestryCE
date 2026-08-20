@@ -6,17 +6,17 @@ import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.tile.TileUtil;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.inventory.InventoryStampCollector;
-import forestry.mail.postoffice.TileStampCollector;
+import forestry.mail.postoffice.StampCollectorBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class ContainerStampCollector extends ContainerTile<TileStampCollector> {
-	public static ContainerStampCollector fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileStampCollector tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileStampCollector.class);
-		return new ContainerStampCollector(windowId, inv, tile);
+public class StampCollectorMenu extends ContainerTile<StampCollectorBlockEntity> {
+	public static StampCollectorMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
+		StampCollectorBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), StampCollectorBlockEntity.class);
+		return new StampCollectorMenu(windowId, inv, tile);
 	}
 
-	public ContainerStampCollector(int windowId, Inventory inv, TileStampCollector tile) {
+	public StampCollectorMenu(int windowId, Inventory inv, StampCollectorBlockEntity tile) {
 		super(windowId, MailMenuTypes.STAMP_COLLECTOR.menuType(), inv, tile, 8, 111);
 
 		// Filter

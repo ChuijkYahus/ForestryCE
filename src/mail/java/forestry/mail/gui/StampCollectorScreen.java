@@ -2,15 +2,15 @@ package forestry.mail.gui;
 
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.gui.GuiForestry;
-import forestry.mail.postoffice.TileStampCollector;
+import forestry.mail.postoffice.StampCollectorBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiStampCollector extends GuiForestry<ContainerStampCollector> {
-	private final TileStampCollector tile;
+public class StampCollectorScreen extends GuiForestry<StampCollectorMenu> {
+	private final StampCollectorBlockEntity tile;
 
-	public GuiStampCollector(ContainerStampCollector container, Inventory inv, Component title) {
-		super(Constants.TEXTURE_PATH_GUI + "/philatelist.png", container, inv, title);
+	public StampCollectorScreen(StampCollectorMenu container, Inventory inv, Component title) {
+		super(Constants.TEXTURE_PATH_GUI + "/stamp_collector.png", container, inv, title);
 		this.tile = container.getTile();
 		this.imageWidth = 176;
 		this.imageHeight = 193;

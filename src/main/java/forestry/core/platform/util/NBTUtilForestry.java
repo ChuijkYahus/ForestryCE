@@ -3,6 +3,7 @@ package forestry.core.platform.util;
 import com.mojang.authlib.GameProfile;
 import forestry.core.platform.network.IStreamable;
 import io.netty.buffer.Unpooled;
+import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
@@ -56,7 +57,9 @@ public abstract class NBTUtilForestry {
 		if (id == null && (name == null || name.isEmpty())) {
 			return null;
 		}
-		return new GameProfile(id, name);
+		// authlib rejects a null id or name. A half-written profile is a name-only trade station address
+		// or an id-only owner, so fill the missing half with the value the rest of the mod reads as absent
+		return new GameProfile(id == null ? Util.NIL_UUID : id, name == null ? "" : name);
 	}
 
 	public static CompoundTag writeGameProfile(CompoundTag nbt, GameProfile profile) {

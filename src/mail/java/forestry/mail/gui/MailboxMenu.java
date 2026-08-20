@@ -9,7 +9,7 @@ import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxInfo;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
-import forestry.mail.postoffice.TileMailbox;
+import forestry.mail.postoffice.MailboxBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -19,7 +19,7 @@ import net.minecraft.world.inventory.ClickType;
 
 import javax.annotation.Nullable;
 
-public class ContainerMailbox extends ContainerTile<TileMailbox> {
+public class MailboxMenu extends ContainerTile<MailboxBlockEntity> {
 
 	public static final short SLOT_LETTERS = 0;
 	public static final short SLOT_LETTERS_COUNT = 7 * 12;
@@ -27,12 +27,12 @@ public class ContainerMailbox extends ContainerTile<TileMailbox> {
 	private final POBox mailInventory;
 
 
-	public static ContainerMailbox fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileMailbox tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileMailbox.class);
-		return new ContainerMailbox(windowId, inv, tile);    //TODO nullability.
+	public static MailboxMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
+		MailboxBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), MailboxBlockEntity.class);
+		return new MailboxMenu(windowId, inv, tile);    //TODO nullability.
 	}
 
-	public ContainerMailbox(int windowId, Inventory playerInventory, TileMailbox tile) {
+	public MailboxMenu(int windowId, Inventory playerInventory, MailboxBlockEntity tile) {
 		super(windowId, MailMenuTypes.MAILBOX.menuType(), playerInventory, tile, 35, 145);
 		Container inventory = tile.getOrCreateMailInventory(playerInventory.player.level(), playerInventory.player.getGameProfile());
 
