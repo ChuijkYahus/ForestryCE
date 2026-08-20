@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "#c:glass_panes"
+            "items": "minecraft:glass_pane"
           }
         ]
       },
