@@ -1,5 +1,18 @@
 package forestry.api.core;
 
+import java.util.stream.Stream;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.DynamicOps;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.MapLike;
+import com.mojang.serialization.RecordBuilder;
+
+import forestry.api.ForestryRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.neoforged.neoforge.fluids.FluidStack;
 
@@ -9,6 +22,78 @@ import net.neoforged.neoforge.fluids.FluidStack;
  * @see FluidProduct The default fixed-fluid implementation used by Forestry's own recipes.
  */
 public interface IFluidProduct {
+	String TYPE_KEY = "type";
+
+	/**
+	 * The dispatch codec, resolving the {@code "type"} key against {@link ForestryRegistries#FLUID_PRODUCT_TYPE}.
+	 * Unlike a stock {@link Codec#dispatch}, the key is optional and defaults to {@link FluidProduct#TYPE}; encoding
+	 * a {@link FluidProduct} omits the key entirely. This keeps the common case (a fixed fluid) as clean,
+	 * backwards-compatible JSON, while dynamic products (addon-provided tag/random/chance outputs) round-trip
+	 * through their own type by declaring {@code "type"}.
+	 */
+	MapCodec<IFluidProduct> MAP_CODEC = new MapCodec<>() {
+		@Override
+		public <T> DataResult<IFluidProduct> decode(DynamicOps<T> ops, MapLike<T> input) {
+			T typeValue = input.get(TYPE_KEY);
+			DataResult<FluidProductType<?>> type = typeValue == null
+				? DataResult.success(FluidProduct.TYPE)
+				: ResourceLocation.CODEC.parse(ops, typeValue).flatMap(IFluidProduct::byId);
+			return type.flatMap(t -> t.codec().decode(ops, input).map(product -> (IFluidProduct) product));
+		}
+
+		@Override
+		@SuppressWarnings({"unchecked", "rawtypes"})
+		public <T> RecordBuilder<T> encode(IFluidProduct input, DynamicOps<T> ops, RecordBuilder<T> prefix) {
+			FluidProductType<?> type = input.type();
+			if (type != FluidProduct.TYPE) {
+				ResourceLocation id = ForestryRegistries.FLUID_PRODUCT_TYPE.getKey(type);
+				if (id == null) {
+					return prefix.withErrorsFrom(DataResult.error(() -> "Unregistered fluid product type: " + type));
+				}
+				prefix.add(TYPE_KEY, ResourceLocation.CODEC.encodeStart(ops, id));
+			}
+			return ((MapCodec) type.codec()).encode(input, ops, prefix);
+		}
+
+		@Override
+		public <T> Stream<T> keys(DynamicOps<T> ops) {
+			return Stream.of(ops.createString(TYPE_KEY));
+		}
+	};
+
+	Codec<IFluidProduct> CODEC = MAP_CODEC.codec();
+
+	/**
+	 * Network counterpart of {@link #CODEC}. Always writes the registry name of the product's type, since the
+	 * "omit the default" trick only buys readability in JSON.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	StreamCodec<RegistryFriendlyByteBuf, IFluidProduct> STREAM_CODEC = StreamCodec.of(
+		(buf, product) -> {
+			ResourceLocation.STREAM_CODEC.encode(buf, idOf(product.type()));
+			((StreamCodec) product.type().streamCodec()).encode(buf, product);
+		},
+		buf -> {
+			ResourceLocation id = ResourceLocation.STREAM_CODEC.decode(buf);
+			return byId(id).getOrThrow().streamCodec().decode(buf);
+		});
+
+	private static DataResult<FluidProductType<?>> byId(ResourceLocation id) {
+		FluidProductType<?> type = ForestryRegistries.FLUID_PRODUCT_TYPE.get(id);
+		if (type == null) {
+			return DataResult.error(() -> "Unknown fluid product type: " + id);
+		}
+		return DataResult.success(type);
+	}
+
+	private static ResourceLocation idOf(FluidProductType<?> type) {
+		ResourceLocation id = ForestryRegistries.FLUID_PRODUCT_TYPE.getKey(type);
+		if (id == null) {
+			throw new IllegalArgumentException("Unregistered fluid product type: " + type);
+		}
+		return id;
+	}
+
 	/**
 	 * Creates a new, non-random stack to represent this product in recipe viewers. <p>
 	 *
@@ -36,9 +121,9 @@ public interface IFluidProduct {
 	}
 
 	/**
-	 * The type of this product, used to (de)serialize it via the dispatch codec in
-	 * {@code forestry.core.platform.fluids.FluidProductTypes}. Plain {@link FluidProduct} instances return {@link FluidProduct#TYPE},
-	 * which the dispatch codec treats as the default: it serializes without a {@code "type"} key.
+	 * The type of this product, used to (de)serialize it via {@link #CODEC}. Plain {@link FluidProduct} instances
+	 * return {@link FluidProduct#TYPE}, which the dispatch codec treats as the default: it serializes without a
+	 * {@code "type"} key.
 	 *
 	 * @return The type of this product.
 	 */

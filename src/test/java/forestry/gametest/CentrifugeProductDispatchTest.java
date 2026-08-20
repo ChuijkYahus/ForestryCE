@@ -23,7 +23,6 @@ import forestry.api.core.Product;
 import forestry.api.core.machines.ICentrifugeRecipe;
 import forestry.apiculture.bees.genetics.FireworkProduct;
 import forestry.core.features.CoreItems;
-import forestry.core.engine.genetics.ProductTypes;
 import forestry.core.platform.util.RecipeUtils;
 import forestry.core.content.machines.features.FactoryRecipeTypes;
 
@@ -43,7 +42,7 @@ public class CentrifugeProductDispatchTest {
 		Product product = Product.of(Items.SUGAR, 2, 0.9f);
 
 		JsonElement viaProduct = Product.CODEC.encodeStart(ops, product).getOrThrow();
-		JsonElement viaDispatch = ProductTypes.CODEC.encodeStart(ops, product).getOrThrow();
+		JsonElement viaDispatch = IProduct.CODEC.encodeStart(ops, product).getOrThrow();
 		if (!viaProduct.equals(viaDispatch)) {
 			helper.fail("Default product must encode byte-for-byte like the plain product codec. plain=" + viaProduct + " dispatch=" + viaDispatch);
 			return;
@@ -54,7 +53,7 @@ public class CentrifugeProductDispatchTest {
 		}
 
 		// Legacy JSON (a bare product, no "type") must still decode under the dispatch codec.
-		IProduct decoded = ProductTypes.CODEC.parse(ops, viaProduct).getOrThrow();
+		IProduct decoded = IProduct.CODEC.parse(ops, viaProduct).getOrThrow();
 		if (!product.equals(decoded)) {
 			helper.fail("Legacy product JSON decoded to a different product: " + decoded);
 			return;
@@ -69,14 +68,14 @@ public class CentrifugeProductDispatchTest {
 		RegistryOps<JsonElement> ops = helper.getLevel().registryAccess().createSerializationContext(JsonOps.INSTANCE);
 		FireworkProduct firework = new FireworkProduct(0.5f);
 
-		JsonElement json = ProductTypes.CODEC.encodeStart(ops, firework).getOrThrow();
+		JsonElement json = IProduct.CODEC.encodeStart(ops, firework).getOrThrow();
 		String type = json.getAsJsonObject().has("type") ? json.getAsJsonObject().get("type").getAsString() : null;
 		if (!ForestryConstants.forestry("firework").toString().equals(type)) {
 			helper.fail("Dynamic firework product must declare its type; got " + json);
 			return;
 		}
 
-		IProduct decoded = ProductTypes.CODEC.parse(ops, json).getOrThrow();
+		IProduct decoded = IProduct.CODEC.parse(ops, json).getOrThrow();
 		if (!(decoded instanceof FireworkProduct decodedFirework) || decodedFirework.chance() != 0.5f) {
 			helper.fail("Firework product did not round-trip through the dispatch codec: " + decoded);
 			return;
@@ -91,8 +90,8 @@ public class CentrifugeProductDispatchTest {
 		List<IProduct> products = List.of(Product.of(Items.SUGAR, 2, 0.9f), new FireworkProduct(0.5f));
 		RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), helper.getLevel().registryAccess());
 
-		ProductTypes.LIST_STREAM_CODEC.encode(buf, products);
-		List<IProduct> decoded = ProductTypes.LIST_STREAM_CODEC.decode(buf);
+		IProduct.LIST_STREAM_CODEC.encode(buf, products);
+		List<IProduct> decoded = IProduct.LIST_STREAM_CODEC.decode(buf);
 		if (decoded.size() != 2 || !products.get(0).equals(decoded.get(0)) || !(decoded.get(1) instanceof FireworkProduct)) {
 			helper.fail("List stream codec round-trip changed the products: " + decoded);
 			return;

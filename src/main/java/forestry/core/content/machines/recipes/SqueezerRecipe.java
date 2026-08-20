@@ -6,7 +6,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.core.IFluidProduct;
 import forestry.api.core.machines.ISqueezerRecipe;
-import forestry.core.platform.fluids.FluidProductTypes;
 import forestry.core.content.machines.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -27,7 +26,7 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 		Ingredient.CODEC_NONEMPTY.listOf().fieldOf("resources").forGetter(SqueezerRecipe::getInputs),
 		// A fluid product nested under "output" (dispatch codec): a plain FluidProduct serializes with no "type" key;
 		// addon-provided dynamic products (tag resolution, random amount, chance) declare their own "type".
-		FluidProductTypes.CODEC.fieldOf("output").forGetter(SqueezerRecipe::getFluidOutput),
+		IFluidProduct.CODEC.fieldOf("output").forGetter(SqueezerRecipe::getFluidOutput),
 		// "remnant" is optional: many squeezer recipes drop no remnant.
 		// ItemStack.STRICT_CODEC rejects EMPTY at serialization, so map EMPTY to absent.
 		ItemStack.STRICT_CODEC.optionalFieldOf("remnant").forGetter(r -> r.remnants.isEmpty() ? java.util.Optional.<ItemStack>empty() : java.util.Optional.of(r.remnants)),
@@ -120,7 +119,7 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 			ResourceLocation recipeId = ResourceLocation.STREAM_CODEC.decode(buffer);
 			int processingTime = ByteBufCodecs.VAR_INT.decode(buffer);
 			List<Ingredient> resources = Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()).decode(buffer);
-			IFluidProduct fluidOutput = FluidProductTypes.STREAM_CODEC.decode(buffer);
+			IFluidProduct fluidOutput = IFluidProduct.STREAM_CODEC.decode(buffer);
 			ItemStack remnants = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
 			float remnantsChance = ByteBufCodecs.FLOAT.decode(buffer);
 
@@ -131,7 +130,7 @@ public class SqueezerRecipe implements ISqueezerRecipe {
 			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.id);
 			ByteBufCodecs.VAR_INT.encode(buffer, recipe.processingTime);
 			Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()).encode(buffer, recipe.resources);
-			FluidProductTypes.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
+			IFluidProduct.STREAM_CODEC.encode(buffer, recipe.fluidOutput);
 			ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, recipe.remnants);
 			ByteBufCodecs.FLOAT.encode(buffer, recipe.remnantsChance);
 		}

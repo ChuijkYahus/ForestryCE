@@ -18,7 +18,6 @@ import forestry.api.core.genetics.ISpeciesType;
 import forestry.apiimpl.GeneticManager;
 import forestry.core.features.GeneticsRecipeTypes;
 import forestry.core.engine.genetics.mutations.Mutation;
-import forestry.core.engine.genetics.mutations.MutationConditionTypes;
 import forestry.core.engine.genetics.mutations.MutationRecipe;
 import forestry.core.platform.registration.FeatureRecipeType;
 
@@ -52,7 +51,6 @@ public final class GeneticsReloadHandler {
 	}
 
 	public static void rebuildMutations(RecipeManager recipeManager) {
-		MutationConditionTypes.registerBuiltins(); // idempotent safety net
 		for (ISpeciesType<?, ?> type : IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypes()) {
 			rebuildOne(type, recipeManager);
 		}

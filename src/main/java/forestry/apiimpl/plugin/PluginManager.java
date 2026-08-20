@@ -35,7 +35,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;
 import forestry.api.modules.IForestryModule;
-import forestry.core.platform.fluids.FluidProductTypes;
 
 public class PluginManager {
 	private static final ArrayList<IForestryPlugin> LOADED_PLUGINS = new ArrayList<>();
@@ -157,10 +156,6 @@ public class PluginManager {
 			plugin.registerGenetics(registration);
 		}
 
-		// Flower types are shared by bees and butterflies, so base installs them rather than the
-		// apiculture plugin. Registering the built-in types here means a butterfly can resolve its
-		// flower chromosome with no apiculture jar present
-		forestry.core.engine.genetics.FlowerTypeTypes.registerBuiltins();
 		((forestry.core.engine.genetics.ForestryFlowerTypeManager) IForestryApi.INSTANCE.getFlowerTypeManager())
 				.setCodeFlowerTypes(registration.getFlowerTypes());
 
@@ -168,18 +163,6 @@ public class PluginManager {
 		ImmutableMap<String, ITaxon> taxa = registration.buildTaxa();
 
 		Forestry.LOGGER.debug("Registered {} species types: {}", speciesTypes.size(), Arrays.toString(speciesTypes.keySet().toArray(new ResourceLocation[0])));
-
-		// Register the built-in mutation condition types so their `type` ids are known before any
-		// datapack/recipe parse populates the mutation managers in a later reload handler.
-		forestry.core.engine.genetics.mutations.MutationConditionTypes.registerBuiltins();
-
-		// Register the built-in product types so the optional `type` key on species products (e.g. the
-		// Patriotic bee's randomized firework) resolves before any species JSON parse or network sync.
-		forestry.core.engine.genetics.ProductTypes.registerBuiltins();
-
-		// Register the built-in fluid product types so the optional `type` key on machine fluid outputs (e.g. the
-		// squeezer) resolves before any recipe JSON parse or network sync.
-		forestry.core.platform.fluids.FluidProductTypes.registerBuiltins();
 
 		ForestryApiImpl api = (ForestryApiImpl) IForestryApi.INSTANCE;
 		GeneticManager geneticManager = new GeneticManager(taxa, speciesTypes);

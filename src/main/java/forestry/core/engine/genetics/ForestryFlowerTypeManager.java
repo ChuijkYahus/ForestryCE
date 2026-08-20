@@ -66,7 +66,6 @@ public class ForestryFlowerTypeManager implements IFlowerTypeManager {
 	 * @param dataDefinitions The datapack-loaded flower types, keyed by id
 	 */
 	public void rebuild(Map<ResourceLocation, IFlowerType> dataDefinitions) {
-		FlowerTypeTypes.registerBuiltins(); // idempotent safety net
 		Map<ResourceLocation, IFlowerType> effective = new LinkedHashMap<>(this.codeFlowerTypes);
 		effective.putAll(dataDefinitions);
 		this.flowerTypes = ImmutableMap.copyOf(effective);

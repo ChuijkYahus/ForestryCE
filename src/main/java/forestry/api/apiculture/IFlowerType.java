@@ -1,7 +1,13 @@
 package forestry.api.apiculture;
 
+import com.mojang.serialization.Codec;
+
+import forestry.api.ForestryRegistries;
 import forestry.api.core.genetics.IIndividual;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -9,6 +15,40 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 public interface IFlowerType {
+	/**
+	 * Dispatch codec for datapack flower type definitions. The {@code "type"} field is resolved against
+	 * {@link ForestryRegistries#FLOWER_TYPE_SERIALIZER}. Flower types are always type-keyed, so there is no plain fallback.
+	 */
+	Codec<IFlowerType> CODEC = ForestryRegistries.FLOWER_TYPE_SERIALIZER.byNameCodec()
+		.dispatch("type", IFlowerType::type, FlowerTypeType::codec);
+
+	/**
+	 * Network counterpart of {@link #CODEC}, used by {@code FlowerTypeSyncPacket}. Writes the registry name of the
+	 * flower type's type, then the flower type itself.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	StreamCodec<RegistryFriendlyByteBuf, IFlowerType> STREAM_CODEC = StreamCodec.of(
+		(buf, flowerType) -> {
+			ResourceLocation.STREAM_CODEC.encode(buf, idOf(flowerType.type()));
+			((StreamCodec) flowerType.type().streamCodec()).encode(buf, flowerType);
+		},
+		buf -> {
+			ResourceLocation id = ResourceLocation.STREAM_CODEC.decode(buf);
+			FlowerTypeType<?> type = ForestryRegistries.FLOWER_TYPE_SERIALIZER.get(id);
+			if (type == null) {
+				throw new IllegalArgumentException("Unknown flower type serializer: " + id);
+			}
+			return type.streamCodec().decode(buf);
+		});
+
+	private static ResourceLocation idOf(FlowerTypeType<?> type) {
+		ResourceLocation id = ForestryRegistries.FLOWER_TYPE_SERIALIZER.getKey(type);
+		if (id == null) {
+			throw new IllegalArgumentException("Unregistered flower type serializer: " + type);
+		}
+		return id;
+	}
+
 	/**
 	 * @return Whether the allele for this value is dominant or recessive.
 	 */

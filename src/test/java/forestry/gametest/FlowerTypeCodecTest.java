@@ -17,14 +17,12 @@ import forestry.api.apiculture.IFlowerType;
 import forestry.core.engine.genetics.flowers.PhotosynthesisFlowerType;
 import forestry.core.engine.genetics.flowers.TagFlowerType;
 import forestry.core.engine.genetics.flowers.WaterTagFlowerType;
-import forestry.core.engine.genetics.FlowerTypeTypes;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class FlowerTypeCodecTest {
 	@GameTest(template = "empty")
 	public static void streamRoundTrip(GameTestHelper helper) {
-		FlowerTypeTypes.registerBuiltins();
 		IFlowerType[] samples = {
 			new TagFlowerType(BlockTags.FLOWERS, true),
 			new TagFlowerType(BlockTags.FLOWERS, false, BiomeTags.IS_END), // END-style
@@ -33,8 +31,8 @@ public class FlowerTypeCodecTest {
 		};
 		for (IFlowerType original : samples) {
 			RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), helper.getLevel().registryAccess());
-			FlowerTypeTypes.STREAM_CODEC.encode(buf, original);
-			IFlowerType decoded = FlowerTypeTypes.STREAM_CODEC.decode(buf);
+			IFlowerType.STREAM_CODEC.encode(buf, original);
+			IFlowerType decoded = IFlowerType.STREAM_CODEC.decode(buf);
 			if (decoded.getClass() != original.getClass() || decoded.isDominant() != original.isDominant()) {
 				helper.fail("Stream round-trip mismatch for " + original.getClass().getSimpleName());
 				return;
@@ -45,11 +43,10 @@ public class FlowerTypeCodecTest {
 
 	@GameTest(template = "empty")
 	public static void jsonRoundTrip(GameTestHelper helper) {
-		FlowerTypeTypes.registerBuiltins();
 		RegistryOps<com.google.gson.JsonElement> jsonOps = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
 		IFlowerType end = new TagFlowerType(BlockTags.FLOWERS, false, BiomeTags.IS_END);
-		var json = FlowerTypeTypes.CODEC.encodeStart(jsonOps, end).getOrThrow();
-		IFlowerType decoded = FlowerTypeTypes.CODEC.parse(jsonOps, json).getOrThrow();
+		var json = IFlowerType.CODEC.encodeStart(jsonOps, end).getOrThrow();
+		IFlowerType decoded = IFlowerType.CODEC.parse(jsonOps, json).getOrThrow();
 		if (!(decoded instanceof TagFlowerType t) || t.biomes() == null || t.isDominant()) {
 			helper.fail("JSON round-trip lost biomes/dominant on END-style tag flower type: " + json);
 			return;

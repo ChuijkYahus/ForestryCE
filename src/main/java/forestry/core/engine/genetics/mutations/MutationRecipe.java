@@ -190,7 +190,7 @@ public class MutationRecipe implements IForestryRecipe {
 				ResourceLocation.CODEC.fieldOf("second").forGetter(MutationRecipe::getSecondParentId),
 				ResourceLocation.CODEC.fieldOf("result").forGetter(MutationRecipe::getResultId),
 				Codec.FLOAT.fieldOf("chance").forGetter(MutationRecipe::getChance),
-				MutationConditionTypes.LIST_CODEC.optionalFieldOf("conditions", List.of()).forGetter(MutationRecipe::getConditions),
+				IMutationCondition.LIST_CODEC.optionalFieldOf("conditions", List.of()).forGetter(MutationRecipe::getConditions),
 				resultAllelesCodec.optionalFieldOf("result_alleles", Map.of()).forGetter(MutationRecipe::getResultAlleles)
 			).apply(instance, (id, first, second, result, chance, conditions, resultAlleles) ->
 				new MutationRecipe(speciesTypeId, id, first, second, result, chance, conditions, resultAlleles)));
@@ -206,7 +206,7 @@ public class MutationRecipe implements IForestryRecipe {
 					ResourceLocation.STREAM_CODEC.encode(buf, recipe.secondParentId);
 					ResourceLocation.STREAM_CODEC.encode(buf, recipe.resultId);
 					buf.writeFloat(recipe.chance);
-					MutationConditionTypes.LIST_STREAM_CODEC.encode(buf, recipe.conditions);
+					IMutationCondition.LIST_STREAM_CODEC.encode(buf, recipe.conditions);
 					resultAllelesStreamCodec.encode(buf, recipe.resultAlleles);
 				},
 				buf -> {
@@ -215,7 +215,7 @@ public class MutationRecipe implements IForestryRecipe {
 					ResourceLocation second = ResourceLocation.STREAM_CODEC.decode(buf);
 					ResourceLocation result = ResourceLocation.STREAM_CODEC.decode(buf);
 					float chance = buf.readFloat();
-					List<IMutationCondition> conditions = MutationConditionTypes.LIST_STREAM_CODEC.decode(buf);
+					List<IMutationCondition> conditions = IMutationCondition.LIST_STREAM_CODEC.decode(buf);
 					Map<ResourceLocation, Allele<?>> resultAlleles = resultAllelesStreamCodec.decode(buf);
 					return new MutationRecipe(speciesTypeId, id, first, second, result, chance, conditions, resultAlleles);
 				}

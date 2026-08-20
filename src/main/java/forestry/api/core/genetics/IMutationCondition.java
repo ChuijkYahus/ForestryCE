@@ -1,11 +1,58 @@
 package forestry.api.core.genetics;
 
+import java.util.List;
+
+import com.mojang.serialization.Codec;
+
+import forestry.api.ForestryRegistries;
 import forestry.api.core.climate.IClimateProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 public interface IMutationCondition {
+	/**
+	 * Dispatch codec for the {@code conditions} list of a datapack mutation recipe. The {@code "type"} field is
+	 * resolved against {@link ForestryRegistries#MUTATION_CONDITION_TYPE}. Conditions are always type-keyed, so
+	 * there is no plain fallback.
+	 */
+	Codec<IMutationCondition> CODEC = ForestryRegistries.MUTATION_CONDITION_TYPE.byNameCodec()
+		.dispatch("type", IMutationCondition::type, MutationConditionType::codec);
+
+	/**
+	 * Network counterpart of {@link #CODEC}, used by the mutation recipe serializers. Writes the registry name of
+	 * the condition's type, then the condition itself.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	StreamCodec<RegistryFriendlyByteBuf, IMutationCondition> STREAM_CODEC = StreamCodec.of(
+		(buf, condition) -> {
+			ResourceLocation.STREAM_CODEC.encode(buf, idOf(condition.type()));
+			((StreamCodec) condition.type().streamCodec()).encode(buf, condition);
+		},
+		buf -> {
+			ResourceLocation id = ResourceLocation.STREAM_CODEC.decode(buf);
+			MutationConditionType<?> type = ForestryRegistries.MUTATION_CONDITION_TYPE.get(id);
+			if (type == null) {
+				throw new IllegalArgumentException("Unknown mutation condition type: " + id);
+			}
+			return type.streamCodec().decode(buf);
+		});
+
+	Codec<List<IMutationCondition>> LIST_CODEC = CODEC.listOf();
+	StreamCodec<RegistryFriendlyByteBuf, List<IMutationCondition>> LIST_STREAM_CODEC = STREAM_CODEC.apply(ByteBufCodecs.list());
+
+	private static ResourceLocation idOf(MutationConditionType<?> type) {
+		ResourceLocation id = ForestryRegistries.MUTATION_CONDITION_TYPE.getKey(type);
+		if (id == null) {
+			throw new IllegalArgumentException("Unregistered mutation condition type: " + type);
+		}
+		return id;
+	}
+
 	/**
 	 * Used to modify the chance of a mutation based on certain conditions being met.
 	 * Most conditions will either return the current chance or {@code 0.0f} if the condition is not met.

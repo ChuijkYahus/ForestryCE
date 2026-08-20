@@ -21,7 +21,6 @@ import forestry.core.engine.genetics.flowers.PhotosynthesisFlowerType;
 import forestry.core.engine.genetics.flowers.TagFlowerType;
 import forestry.core.engine.genetics.flowers.WaterTagFlowerType;
 import forestry.core.engine.genetics.FlowerTypeManager;
-import forestry.core.engine.genetics.FlowerTypeTypes;
 
 /**
  * Generates {@code data/forestry/flower_type/*.json} for the 15 built-in flower types. This provider is the single
@@ -80,7 +79,6 @@ public class FlowerTypeProvider implements DataProvider {
 	 * BeeSpeciesProvider#seedLiveSpeciesForDatagen}/{@code TreeSpeciesProvider}/{@code ButterflySpeciesProvider}.
 	 */
 	public static void seedLiveFlowerTypesForDatagen() {
-		FlowerTypeTypes.registerBuiltins();
 		FlowerTypeProvider collector = new FlowerTypeProvider();
 		collector.addFlowerTypes();
 		FlowerTypeManager.rebuild(collector.pending);
@@ -88,11 +86,10 @@ public class FlowerTypeProvider implements DataProvider {
 
 	@Override
 	public CompletableFuture<?> run(CachedOutput output) {
-		FlowerTypeTypes.registerBuiltins();
 		this.pending.clear();
 		addFlowerTypes();
 		var futures = this.pending.entrySet().stream().map(entry -> {
-			JsonElement json = FlowerTypeTypes.CODEC.encodeStart(JsonOps.INSTANCE, entry.getValue()).getOrThrow();
+			JsonElement json = IFlowerType.CODEC.encodeStart(JsonOps.INSTANCE, entry.getValue()).getOrThrow();
 			return DataProvider.saveStable(output, json, this.path.json(entry.getKey()));
 		}).toArray(CompletableFuture[]::new);
 		return CompletableFuture.allOf(futures);

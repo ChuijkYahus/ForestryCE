@@ -5,8 +5,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
 /**
- * The serializer for a kind of {@link IFluidProduct}, used to (de)serialize it via the dispatch codec built in
- * {@code forestry.core.platform.fluids.FluidProductTypes}. Fluid analog of {@link ProductType}.
+ * The serializer for a kind of {@link IFluidProduct}, used to (de)serialize it via {@link IFluidProduct#CODEC}.
+ * Fluid analog of {@link ProductType}.
  * <p>
  * A {@link MapCodec} is required (rather than a plain {@link com.mojang.serialization.Codec}) so the product's fields
  * serialize inline alongside the optional {@code "type"} key instead of nesting under it.
