@@ -81,7 +81,9 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 		for (DeferredHolder<Item, ? extends Item> object : ModFeatureRegistry.get(ForestryModuleIds.STORAGE).getRegistry(Registries.ITEM).getEntries()) {
 			if (object.get() instanceof BackpackItem) {
 				String path = object.getId().getPath();
-				boolean woven = path.endsWith("woven");
+				// Deviation from 1.20.1: the ids here are woven_<type>_backpack, not <type>_bag_woven, so
+				// the old endsWith test never matched and every woven bag took the plain model
+				boolean woven = path.startsWith("woven");
 
 				withExistingParent(path, woven ? modLoc("item/backpack/woven_neutral") : modLoc("item/backpack/normal_neutral"))
 					.override().predicate(mcLoc("mode"), 1).model(file(woven ? modLoc("item/backpack/woven_locked") : modLoc("item/backpack/normal_locked"))).end()

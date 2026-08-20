@@ -20,5 +20,7 @@ public class CoreJeiPlugin implements IModPlugin {
 		JeiUtil.addDescription(registration, CoreItems.COMPOST);
 		JeiUtil.addDescription(registration, CoreItems.MULCH);
 		JeiUtil.addDescription(registration, CoreItems.FERTILIZER_COMPOUND);
+		// Explains that the Phosphor Torch is waterloggable (for.jei.description.phosphor_torch)
+		JeiUtil.addDescription(registration, CoreItems.PHOSPHOR_TORCH_ITEM);
 	}
 }

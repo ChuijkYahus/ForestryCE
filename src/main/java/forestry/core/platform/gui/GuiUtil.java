@@ -73,10 +73,19 @@ public class GuiUtil {
 
 	public static String formatEnergyValue(int energy) {
 		NumberFormat format = NumberFormat.getIntegerInstance(Minecraft.getInstance().getLocale());
-		return format.format(energy) + " RF";
+		return format.format(energy) + " FE";
 	}
 
-	public static String formatRate(int rate) {
-		return formatEnergyValue(rate) + "/t";
+	/**
+	 * Formats an energy rate to at most two decimal places, dropping trailing zeros so a whole
+	 * rate still reads "10 FE/t" while a fractional one reads "0.75 FE/t".
+	 *
+	 * @param rate The energy produced or consumed per tick
+	 * @return The formatted rate, including the unit
+	 */
+	public static String formatRate(double rate) {
+		NumberFormat format = NumberFormat.getNumberInstance(Minecraft.getInstance().getLocale());
+		format.setMaximumFractionDigits(2);
+		return format.format(rate) + " FE/t";
 	}
 }

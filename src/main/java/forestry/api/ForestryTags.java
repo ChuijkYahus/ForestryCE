@@ -32,6 +32,7 @@ public class ForestryTags {
 		public static final TagKey<Block> STORAGE_BLOCKS_TIN = commonTag("storage_blocks/tin");
 		public static final TagKey<Block> STORAGE_BLOCKS_BRONZE = commonTag("storage_blocks/bronze");
 		public static final TagKey<Block> STORAGE_BLOCKS_AMBER = commonTag("storage_blocks/amber");
+		public static final TagKey<Block> STORAGE_BLOCKS_SILICON = commonTag("storage_blocks/silicon");
 
 		public static final TagKey<Block> ORES_TIN = commonTag("ores/tin");
 		public static final TagKey<Block> ORES_APATITE = commonTag("ores/apatite");
@@ -68,6 +69,10 @@ public class ForestryTags {
 		// Blocks where the Alveary Swarmer can spawn hives on top of
 		public static final TagKey<Block> SWARM_BEE_GROUND = blockTag("hive_grounds/swarm");
 
+		// A jumbo candle reads whether its neighbours carry this tag, so candles of different colours stack
+		public static final TagKey<Block> JUMBO_CANDLE = blockTag("jumbo_candle");
+		public static final TagKey<Block> BIG_CANDLE = blockTag("big_candle");
+
 		private static TagKey<Block> commonTag(String name) {
 			return BlockTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
 		}
@@ -83,11 +88,32 @@ public class ForestryTags {
 
 		public static final TagKey<Item> INGOTS_BRONZE = commonTag("ingots/bronze");
 		public static final TagKey<Item> INGOTS_TIN = commonTag("ingots/tin");
+		// Deviation from 1.20.1: item/block tags moved from the forge: namespace to c:, so this uses commonTag
+		public static final TagKey<Item> NUGGETS_TIN = commonTag("nuggets/tin");
+
+		// Alloys and their components. Forestry fills none of these; the smelter recipes that name them
+		// are written behind a tag-empty condition, so they only load when some other mod supplies both
+		// the component and the alloy
+		public static final TagKey<Item> INGOTS_BRASS = commonTag("ingots/brass");
+		public static final TagKey<Item> INGOTS_CONSTANTAN = commonTag("ingots/constantan");
+		public static final TagKey<Item> INGOTS_ELECTRUM = commonTag("ingots/electrum");
+		public static final TagKey<Item> INGOTS_INVAR = commonTag("ingots/invar");
+		public static final TagKey<Item> INGOTS_NICKEL = commonTag("ingots/nickel");
+		public static final TagKey<Item> INGOTS_SILVER = commonTag("ingots/silver");
+		public static final TagKey<Item> INGOTS_ZINC = commonTag("ingots/zinc");
+		public static final TagKey<Item> RAW_MATERIALS_NICKEL = commonTag("raw_materials/nickel");
+		public static final TagKey<Item> RAW_MATERIALS_SILVER = commonTag("raw_materials/silver");
+		public static final TagKey<Item> RAW_MATERIALS_ZINC = commonTag("raw_materials/zinc");
+
+		// Coke from a mod that adds it. The smelter smelts silicon from coke where it exists and from
+		// coal where it does not
+		public static final TagKey<Item> COAL_COKE = commonTag("coal_coke");
 
 		public static final TagKey<Item> GEARS = commonTag("gears");
 		public static final TagKey<Item> GEARS_BRONZE = commonTag("gears/bronze");
 		public static final TagKey<Item> GEARS_COPPER = commonTag("gears/copper");
 		public static final TagKey<Item> GEARS_TIN = commonTag("gears/tin");
+		public static final TagKey<Item> GEARS_IRON = commonTag("gears/iron");
 		public static final TagKey<Item> GEARS_STONE = commonTag("gears/stone");
 
 		public static final TagKey<Item> DUSTS_ASH = commonTag("dusts/ash");
@@ -95,11 +121,13 @@ public class ForestryTags {
 
 		public static final TagKey<Item> GEMS_APATITE = commonTag("gems/apatite");
 		public static final TagKey<Item> GEMS_AMBER = commonTag("gems/amber");
+		public static final TagKey<Item> SILICON = commonTag("silicon");
 
 		public static final TagKey<Item> STORAGE_BLOCKS_APATITE = commonTag("storage_blocks/apatite");
 		public static final TagKey<Item> STORAGE_BLOCKS_TIN = commonTag("storage_blocks/tin");
 		public static final TagKey<Item> STORAGE_BLOCKS_BRONZE = commonTag("storage_blocks/bronze");
 		public static final TagKey<Item> STORAGE_BLOCKS_AMBER = commonTag("storage_blocks/amber");
+		public static final TagKey<Item> STORAGE_BLOCKS_SILICON = commonTag("storage_blocks/silicon");
 
 		public static final TagKey<Item> ORES_TIN = commonTag("ores/tin");
 		public static final TagKey<Item> RAW_MATERIALS_TIN = commonTag("raw_materials/tin");
@@ -110,6 +138,11 @@ public class ForestryTags {
 		public static final TagKey<Item> STAMPS = itemTag("stamps");
 
 		public static final TagKey<Item> SCOOPS = itemTag("scoops");
+
+		// The lacquering recipes take any plating and one dye, so they name the tag rather than 22 items
+		public static final TagKey<Item> METAL_PLATING = itemTag("metal_plating");
+		public static final TagKey<Item> JUMBO_CANDLES = itemTag("jumbo_candles");
+		public static final TagKey<Item> BIG_CANDLES = itemTag("big_candles");
 
 		// A sample carrying a genome. Bees and butterflies each contribute their own, so the genetic
 		// filter can name this instead of naming an item out of a jar that may not be installed
@@ -149,7 +182,13 @@ public class ForestryTags {
 		public static final TagKey<Item> HUNTER_ALLOW = itemTag("backpack/allow/hunter");
 		public static final TagKey<Item> HUNTER_REJECT = itemTag("backpack/reject/hunter");
 
+		public static final TagKey<Item> BREWER_ALLOW = itemTag("backpack/allow/brewer");
+		public static final TagKey<Item> BREWER_REJECT = itemTag("backpack/reject/brewer");
+
 		public static final TagKey<Item> BEES = itemTag("bees");
+
+		// Fuel the burn barrel refuses, even though the furnace accepts it
+		public static final TagKey<Item> BURN_BARREL_BLACKLIST = itemTag("burn_barrel_blacklist");
 
 		private static TagKey<Item> commonTag(String name) {
 			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
@@ -181,6 +220,8 @@ public class ForestryTags {
 
 	public static class Fluids {
 		public static final TagKey<Fluid> HONEY = forgeTag("honey");
+		public static final TagKey<Fluid> EXPERIENCE = forgeTag("experience");
+		public static final TagKey<Fluid> WAX = forgeTag("wax");
 
 		private static TagKey<Fluid> forgeTag(String name) {
 			return FluidTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));

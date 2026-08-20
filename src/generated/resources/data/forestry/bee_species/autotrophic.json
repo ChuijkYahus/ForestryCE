@@ -18,5 +18,11 @@
       "item": "forestry:honey_comb"
     }
   ],
+  "specialties": [
+    {
+      "chance": 0.2,
+      "item": "forestry:phosphorescent_jelly"
+    }
+  ],
   "species": "solaris"
 }

@@ -1,0 +1,41 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:ingots/zinc"
+      }
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:ingots/brass"
+      }
+    }
+  ],
+  "type": "forestry:smelter",
+  "id": "forestry:smelter/brass_from_ingots",
+  "inputs": [
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "c:ingots/copper"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "c:ingots/zinc"
+      }
+    }
+  ],
+  "output": {
+    "count": 2,
+    "ingredient": {
+      "tag": "c:ingots/brass"
+    }
+  },
+  "processingTime": 40
+}

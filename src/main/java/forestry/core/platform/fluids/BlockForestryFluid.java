@@ -28,7 +28,7 @@ public class BlockForestryFluid extends LiquidBlock {
 	private final boolean explodes;
 
 	public BlockForestryFluid(BlockBehaviour.Properties blockProperties, FeatureFluid feature) {
-		super(feature.fluid(), blockProperties.liquid().noCollission().noLootTable().replaceable());
+		super(feature.fluid(), createBlockProperties(blockProperties, feature.properties()));
 		FluidProperties properties = feature.properties();
 		this.flammability = properties.flammability;
 		this.spreadsFire = properties.spreadsFire;
@@ -38,6 +38,17 @@ public class BlockForestryFluid extends LiquidBlock {
 		// Explosion size is determined by flammability, up to size 4.
 		this.explosionPower = 4F * this.flammability / 300F;
 		this.explodes = this.explosionPower > 1.0f;
+	}
+
+	private static BlockBehaviour.Properties createBlockProperties(BlockBehaviour.Properties blockProperties, FluidProperties properties) {
+		blockProperties.liquid().noCollission().noLootTable().replaceable();
+
+		if (properties.luminosity > 0) {
+			var luminosity = properties.luminosity;
+			blockProperties.lightLevel(state -> luminosity);
+		}
+
+		return blockProperties;
 	}
 
 	@Override

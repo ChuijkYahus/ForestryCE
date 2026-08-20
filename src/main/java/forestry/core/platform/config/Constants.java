@@ -36,7 +36,11 @@ public class Constants {
 	public static final int ENGINE_FUEL_VALUE_MILK = 10;
 	public static final int ENGINE_FUEL_VALUE_SEED_OIL = 30;
 	public static final int ENGINE_FUEL_VALUE_BIOMASS = 50;
+	public static final int ENGINE_FUEL_VALUE_ETHANOL = 40;
 	public static final int ENGINE_HEAT_VALUE_LAVA = 20;
+
+	public static final int ENGINE_COOLANT_VALUE_WATER = 10000;
+	public static final int ENGINE_COOLANT_VALUE_CRUSHED_ICE = 100000;
 
 	public static final float ENGINE_PISTON_SPEED_MAX = 0.08f;
 

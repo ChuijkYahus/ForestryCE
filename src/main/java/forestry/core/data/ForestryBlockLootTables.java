@@ -106,6 +106,11 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		registerLootTable(CoreBlocks.DEEPSLATE_TIN_ORE, block -> createOreDrop(block, CoreItems.RAW_TIN.item()));
 
 		dropSelf(CoreBlocks.RAW_TIN_BLOCK.block());
+
+		// the smooth stones drop their cobbled form, the way vanilla stone drops cobblestone
+		for (CoreBlocks.StoneSet set : CoreBlocks.STONE_SETS) {
+			registerDroppingWithSilkTouch(set.stone().base(), set.cobbled().base());
+		}
 	}
 
 	private HolderLookup.RegistryLookup<net.minecraft.world.item.enchantment.Enchantment> enchantments() {
@@ -129,6 +134,11 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 
 	public void registerDropping(FeatureBlock<?, ?> featureBlock, ItemLike drop) {
 		dropOther(featureBlock.block(), drop);
+	}
+
+	public void registerDroppingWithSilkTouch(FeatureBlock<?, ?> featureBlock, ItemLike drop) {
+		Block block = featureBlock.block();
+		add(block, createSingleItemTableWithSilkTouch(block, drop));
 	}
 
 	public void registerEmptyTables(FeatureBlockGroup<?, ?> blockGroup) {

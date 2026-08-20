@@ -20,6 +20,7 @@ public class FactoryClientHandler implements IClientModuleHandler {
 		event.register(FactoryMenuTypes.FERMENTER.menuType(), GuiFermenter::new);
 		event.register(FactoryMenuTypes.MOISTENER.menuType(), GuiMoistener::new);
 		event.register(FactoryMenuTypes.RAINTANK.menuType(), GuiRaintank::new);
+		event.register(FactoryMenuTypes.SMELTER.menuType(), GuiSmelter::new);
 		event.register(FactoryMenuTypes.SQUEEZER.menuType(), GuiSqueezer::new);
 		event.register(FactoryMenuTypes.STILL.menuType(), GuiStill::new);
 	}

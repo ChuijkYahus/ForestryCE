@@ -1,0 +1,26 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "forestry:carpenter/cork",
+  "liquid": {
+    "amount": 200,
+    "id": "minecraft:water"
+  },
+  "recipe": {
+    "category": "building",
+    "key": {
+      "*": {
+        "tag": "c:sawdust"
+      }
+    },
+    "pattern": [
+      "**",
+      "**"
+    ],
+    "result": {
+      "count": 4,
+      "id": "forestry:cork"
+    }
+  },
+  "time": 5
+}

@@ -27,5 +27,13 @@ public class FuelManager {
 	 * Add new fuels for EngineCopper (= peat-fired engine) here
 	 */
 	public static Map<ItemStack, EngineCopperFuel> peatEngineFuel;
+	/**
+	 * Add new fuels for the combustion engine here
+	 */
+	public static Map<Fluid, EngineBronzeFuel> combustionEngineFuel;
+	/**
+	 * Add new coolants for the combustion engine here
+	 */
+	public static Map<Fluid, EngineBronzeFuel> combustionEngineCoolant;
 
 }

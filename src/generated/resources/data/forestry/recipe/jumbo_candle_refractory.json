@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "forestry:refractory_wax_block"
+    },
+    "|": {
+      "tag": "c:strings"
+    }
+  },
+  "pattern": [
+    "|",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "forestry:jumbo_candle_refractory"
+  }
+}

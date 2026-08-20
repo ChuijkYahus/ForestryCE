@@ -1,6 +1,10 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
+import forestry.core.content.decorative.BlockTypeBigCandle;
+import forestry.core.content.decorative.BlockTypeJumboCandle;
+import forestry.core.content.decorative.BlockTypeMetalPlating;
+import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 
 import thedarkcolour.modkit.data.MKEnglishProvider;
@@ -40,6 +44,23 @@ public class ForestryEnglishProvider {
 		lang.add("block." + ForestryConstants.MOD_ID + ".leaves", "Leaves");
 		lang.add("item." + ForestryConstants.MOD_ID + ".letter", "Letter");
 
+		// These three families carry their type last in the id, so a generated name reads "Metal Plating Gold"
+		// or "Jumbo Candle Red". Named explicitly, in the wording 1.20.1 shipped
+		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
+			// The six cast from an ingot are named after the metal, the sixteen dyed ones after the lacquer.
+			// Deviation from 1.20.1: red read "Red Metal Lacquered Plating" and green and magenta carried a
+			// trailing space. All three are typos and are dropped here
+			String suffix = type.getDye() == null ? " Metal Plating" : " Lacquered Metal Plating";
+			lang.add(CoreBlocks.METAL_PLATING.get(type).item(), titleCase(type.getSerializedName()) + suffix);
+		}
+		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
+			lang.add(CoreBlocks.JUMBO_CANDLES.get(type).item(), candleName("Jumbo", type.getSerializedName()));
+		}
+		// Deviation from 1.20.1: big_candle_green read "Big Green Cale" there, plainly a typo
+		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
+			lang.add(CoreBlocks.BIG_CANDLES.get(type).item(), candleName("Big", type.getSerializedName()));
+		}
+
 		// The denomination is part of the id, so a generated name reads "Stamp 1n"
 		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_1n", "Stamp (1n)");
 		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_2n", "Stamp (2n)");
@@ -48,5 +69,37 @@ public class ForestryEnglishProvider {
 		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_20n", "Stamp (20n)");
 		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_50n", "Stamp (50n)");
 		lang.add("item." + ForestryConstants.MOD_ID + ".stamp_100n", "Stamp (100n)");
+	}
+
+	/**
+	 * Ex. {@code candleName("Big", "light_gray")} -> {@code "Big Light Gray Candle"}
+	 *
+	 * @param size The size the candle is named after, either Jumbo or Big
+	 * @param type The candle's subtype, whose plain form is named after its size alone
+	 * @return The English name of one jumbo or big candle
+	 */
+	private static String candleName(String size, String type) {
+		if (type.equals("normal")) {
+			return size + " Candle";
+		}
+		return size + " " + titleCase(type) + " Candle";
+	}
+
+	/**
+	 * Ex. {@code "light_gray" -> "Light Gray"}
+	 *
+	 * @param name The serialized name of a subtype
+	 * @return The name with underscores read as spaces and every word capitalized
+	 */
+	private static String titleCase(String name) {
+		StringBuilder builder = new StringBuilder(name.length());
+
+		for (String word : name.split("_")) {
+			if (!builder.isEmpty()) {
+				builder.append(' ');
+			}
+			builder.append(Character.toUpperCase(word.charAt(0))).append(word, 1, word.length());
+		}
+		return builder.toString();
 	}
 }

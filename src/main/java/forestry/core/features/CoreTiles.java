@@ -10,6 +10,7 @@ import forestry.core.platform.tile.*;
 import forestry.core.content.machines.*;
 import forestry.core.content.escritoire.*;
 import forestry.core.content.analyzer.*;
+import forestry.core.content.burnbarrel.TileBurnBarrel;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.FeatureTileType;
 import forestry.core.platform.registration.IFeatureRegistry;
@@ -24,5 +25,6 @@ public class CoreTiles {
 	public static final FeatureTileType<TileApiaristChest> APIARIST_CHEST = REGISTRY.tile(TileApiaristChest::new, "apiarists_chest", () -> CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.APIARIST_CHEST).collect());
 	public static final FeatureTileType<TileArboristChest> ARBORIST_CHEST = REGISTRY.tile(TileArboristChest::new, "arborists_chest", () -> CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.ARBORIST_CHEST).collect());
 	public static final FeatureTileType<TileLepidopteristChest> LEPIDOPTERIST_CHEST = REGISTRY.tile(TileLepidopteristChest::new, "lepidopterists_chest", () -> CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST).collect());
+	public static final FeatureTileType<TileBurnBarrel> BURN_BARREL = REGISTRY.tile(TileBurnBarrel::new, "burn_barrel", () -> CoreBlocks.BURN_BARREL.collect());
 
 }

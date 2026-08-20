@@ -31,7 +31,11 @@ public class ModuleEnergy extends BlankForestryModule {
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, EnergyTiles.CLOCKWORK_ENGINE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, EnergyTiles.BIOGAS_ENGINE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, EnergyTiles.PEAT_ENGINE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		// Deviation from 1.20.1: capabilities are registered here instead of overriding getCapability on the tile.
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, EnergyTiles.SOLAR_ENGINE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, EnergyTiles.COMBUSTION_ENGINE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
 		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, EnergyTiles.BIOGAS_ENGINE.tileType(), (tile, side) -> tile.getFluidHandler(side));
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, EnergyTiles.COMBUSTION_ENGINE.tileType(), (tile, side) -> tile.getFluidHandler(side));
 	}
 
 	@Override
@@ -48,6 +52,8 @@ public class ModuleEnergy extends BlankForestryModule {
 	public void setupApi() {
 		FuelManager.biogasEngineFuel = new FluidMap<>();
 		FuelManager.peatEngineFuel = new ItemStackMap<>();
+		FuelManager.combustionEngineFuel = new FluidMap<>();
+		FuelManager.combustionEngineCoolant = new FluidMap<>();
 
 		// Biogas Engine
 		Fluid biomass = ForestryFluids.BIOMASS.getFluid();
@@ -72,6 +78,22 @@ public class ModuleEnergy extends BlankForestryModule {
 		Fluid juice = ForestryFluids.JUICE.getFluid();
 		FuelManager.biogasEngineFuel.put(juice, new EngineBronzeFuel(juice,
 			Constants.ENGINE_FUEL_VALUE_JUICE, Constants.ENGINE_CYCLE_DURATION_JUICE, 1));
+
+		// Combustion Engine
+		// Deviation from 1.20.1: the duration constant is named ENGINE_CYCLE_DURATION_ETHANOL here, not
+		// ENGINE_FUEL_DURATION_ETHANOL. Same value. The commented-out biodiesel entry was left behind
+		Fluid ethanol = ForestryFluids.BIO_ETHANOL.getFluid();
+		FuelManager.combustionEngineFuel.put(ethanol, new EngineBronzeFuel(ethanol,
+			Constants.ENGINE_FUEL_VALUE_ETHANOL, Constants.ENGINE_CYCLE_DURATION_ETHANOL, 1));
+
+		// Coolant
+		Fluid water = Fluids.WATER.getSource();
+		FuelManager.combustionEngineCoolant.put(water, new EngineBronzeFuel(water,
+			0, Constants.ENGINE_COOLANT_VALUE_WATER, 0));
+
+		Fluid crushedIce = ForestryFluids.ICE.getFluid();
+		FuelManager.combustionEngineCoolant.put(crushedIce, new EngineBronzeFuel(crushedIce,
+			0, Constants.ENGINE_COOLANT_VALUE_CRUSHED_ICE, 20));
 
 		// Peat Engine
 		ItemStack peat = CoreItems.PEAT.stack();

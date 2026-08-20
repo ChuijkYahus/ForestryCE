@@ -1,0 +1,28 @@
+{
+  "type": "forestry:fabricator",
+  "id": "forestry:fabricator/electron_tubes/silicon",
+  "molten": {
+    "amount": 500,
+    "id": "forestry:liquid_glass"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "#": {
+        "tag": "c:dusts/redstone"
+      },
+      "X": {
+        "tag": "c:silicon"
+      }
+    },
+    "pattern": [
+      " X ",
+      "#X#",
+      "XXX"
+    ],
+    "result": {
+      "count": 4,
+      "id": "forestry:silicon_electron_tube"
+    }
+  }
+}

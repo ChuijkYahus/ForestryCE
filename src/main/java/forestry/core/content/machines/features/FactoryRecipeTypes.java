@@ -18,6 +18,7 @@ public class FactoryRecipeTypes {
 	public static final FeatureRecipeType<IFabricatorSmeltingRecipe> FABRICATOR_SMELTING = REGISTRY.recipeType("fabricator_smelting", FabricatorSmeltingRecipe.Serializer::new);
 	public static final FeatureRecipeType<IFermenterRecipe> FERMENTER = REGISTRY.recipeType("fermenter", FermenterRecipe.Serializer::new);
 	public static final FeatureRecipeType<IMoistenerRecipe> MOISTENER = REGISTRY.recipeType("moistener", MoistenerRecipe.Serializer::new);
+	public static final FeatureRecipeType<ISmelterRecipe> SMELTER = REGISTRY.recipeType("smelter", SmelterRecipe.Serializer::new);
 	public static final FeatureRecipeType<ISqueezerRecipe> SQUEEZER = REGISTRY.recipeType("squeezer", SqueezerRecipe.Serializer::new);
 	public static final FeatureRecipeType<ISqueezerContainerRecipe> SQUEEZER_CONTAINER = REGISTRY.recipeType("squeezer_container", SqueezerContainerRecipe.Serializer::new);
 	public static final FeatureRecipeType<IStillRecipe> STILL = REGISTRY.recipeType("still", StillRecipe.Serializer::new);

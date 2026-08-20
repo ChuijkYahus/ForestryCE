@@ -69,6 +69,18 @@ public enum ForestryFluids {
 		.spreadsFire()
 		.flammability(4)
 		.drinkProperties(1, 0.2f, 32)
+	),
+	WAX(properties -> properties
+		.particleColor(ForestryColors.color(255, 237, 140))
+		.density(1420)
+		.viscosity(500)
+		.temperature(329)
+	),
+	EXPERIENCE(properties -> properties
+		.particleColor(ForestryColors.color(133, 211, 84))
+		.density(520)
+		.viscosity(5000)
+		.luminosity(15)
 	);
 
 	private static final Map<ResourceLocation, ForestryFluids> BY_ID = new HashMap<>();

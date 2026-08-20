@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -78,6 +79,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 		int temperature = 295;
 		int particleColor = ForestryColors.WHITE;
 		int flammability = 0;
+		int luminosity = 0;
 		boolean spreadsFire = false;
 		@Nullable
 		DrinkProperties properties = null;
@@ -91,6 +93,11 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 
 		public Builder spreadsFire() {
 			this.spreadsFire = true;
+			return this;
+		}
+
+		public Builder luminosity(int luminosity) {
+			this.luminosity = Mth.clamp(luminosity, 0, 15);
 			return this;
 		}
 

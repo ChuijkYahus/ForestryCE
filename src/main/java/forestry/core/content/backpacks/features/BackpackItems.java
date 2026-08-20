@@ -30,4 +30,7 @@ public class BackpackItems {
 	public static final FeatureItem<?> ADVENTURER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.ADVENTURER, EnumBackpackType.WOVEN, "woven_adventurer_backpack");
 	public static final FeatureItem<?> BUILDER_BACKPACK = REGISTRY.backpack(ModuleStorage.BUILDER, EnumBackpackType.NORMAL, "builder_backpack");
 	public static final FeatureItem<?> BUILDER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.BUILDER, EnumBackpackType.WOVEN, "woven_builder_backpack");
+	// Deviation from 1.20.1: brewer_bag/brewer_bag_woven renamed to match the ids the other nine backpacks use here
+	public static final FeatureItem<?> BREWER_BACKPACK = REGISTRY.backpack(ModuleStorage.BREWER, EnumBackpackType.NORMAL, "brewer_backpack");
+	public static final FeatureItem<?> BREWER_BACKPACK_T_2 = REGISTRY.backpack(ModuleStorage.BREWER, EnumBackpackType.WOVEN, "woven_brewer_backpack");
 }

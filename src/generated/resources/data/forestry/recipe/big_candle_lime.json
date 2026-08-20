@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forestry:big_candles"
+    },
+    {
+      "tag": "c:dyes/lime"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "forestry:big_candle_lime"
+  }
+}
