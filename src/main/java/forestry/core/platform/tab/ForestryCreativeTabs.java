@@ -4,6 +4,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.features.ApicultureBlocks;
+import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.arboriculture.tab.ArboricultureCreativeTab;
 import forestry.arboriculture.wood.WoodAccess;
@@ -333,6 +334,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.PORTABLE_ALYZER);
 		items.accept(CoreItems.HONEY_DROP);
 		items.accept(CoreItems.HONEYDEW);
+		items.accept(ApicultureItems.EXPERIENCE_DROP);
+		items.accept(ApicultureItems.MAGMATIC_DROP);
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE));
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER));
 	}

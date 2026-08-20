@@ -644,8 +644,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XX");
 			recipe.pattern("XX");
 		});
-		// Explicit ID: the default would be "ash", which collides with the peat->ash smelting recipe
-		// in registerCoreRecipes and silently overwrites it in the generated output
+		// name collides with the peat->ash smelting recipe (would otherwise overwrite one of the recipes)
 		recipes.shapelessCrafting("ash_from_ash_block", RecipeCategory.MISC, CoreItems.ASH, 4, CharcoalBlocks.ASH.item());
 	}
 
@@ -1369,12 +1368,12 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.SOLAR_PANEL, recipe -> {
-			recipe.define('P', Tags.Items.GLASS_PANES);
-			recipe.define('C', CoreItems.SOLAR_CELL);
+			recipe.define('P', Items.GLASS_PANE);
+			recipe.define('S', CoreItems.SOLAR_CELL);
 			recipe.define('Q', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('D', CoreItems.ELECTRON_TUBES.item(EnumElectronTube.COPPER));
 			recipe.pattern("PPP");
-			recipe.pattern("CCC");
+			recipe.pattern("SSS");
 			recipe.pattern("QDQ");
 		});
 	}
@@ -1768,14 +1767,6 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONES));
 		crate(consumer, CrateItems.CRATED_DIRT.get(), Ingredient.of(Items.DIRT));
 		crate(consumer, CrateItems.CRATED_GRASS_BLOCK.get(), Ingredient.of(Items.GRASS_BLOCK));
-		// Use Items.STONE rather than Tags.Items.STONES (= c:stones) so this recipe doesn't
-		// shadow the per-stone-variant recipes below. The c:stones tag includes diorite,
-		// granite, andesite, deepslate, and any modded stone variants — when the carpenter
-		// looks up a recipe for a given crafting-grid input, this recipe matches ANYTHING in
-		// the tag, masking the more specific crated_diorite/granite/andesite recipes whenever
-		// the BE finds it first in registry-iteration order. Per-item ingredient leaves the
-		// crated_stone recipe meaning "actual minecraft:stone" and the variant recipes meaning
-		// "actual minecraft:granite/diorite/andesite".
 		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Items.STONE));
 		crate(consumer, CrateItems.CRATED_GRANITE.get(), Ingredient.of(Items.GRANITE));
 		crate(consumer, CrateItems.CRATED_DIORITE.get(), Ingredient.of(Items.DIORITE));
@@ -1862,6 +1853,7 @@ public class ForestryRecipeProvider {
 	private static void registerCentrifuge(RecipeOutput consumer) {
 
 		ItemStack honeyDrop = CoreItems.HONEY_DROP.stack();
+		ItemStack magmaDrop = ApicultureItems.MAGMATIC_DROP.stack();
 
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -1879,7 +1871,7 @@ public class ForestryRecipeProvider {
 			.setProcessingTime(20)
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SIMMERING)))
 			.product(1.0f, CoreItems.REFRACTORY_WAX.stack())
-			.product(0.7f, honeyDrop)
+			.product(0.7f, magmaDrop)
 			.build(consumer, id("centrifuge", "simmering_comb"));
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -2138,14 +2130,15 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("fabricator", "electron_tubes", "silicon"));
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
+			.setMolten(ForestryFluids.GLASS.getFluid(50))
 			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL)
-				.pattern("DOD")
-				.pattern("^^^")
-				.pattern("DOD")
-				.define('O', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR))
+				.pattern(" T ")
+				.pattern("LSL")
+				.pattern(" ^ ")
+				.define('S', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHORESCENT_JELLY))
 				.define('^', ForestryTags.Items.SILICON)
-				.define('D', ForestryTags.Items.INGOTS_TIN))
+				.define('L', Tags.Items.GEMS_LAPIS)
+				.define('T', ForestryTags.Items.NUGGETS_TIN))
 			.build(consumer, id("fabricator", "solar_cell"));
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
@@ -2412,8 +2405,20 @@ public class ForestryRecipeProvider {
 			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEY_DROP)))
 			.setFluidOutput(honeyDropFluid)
 			.setRemnants(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
-			.setRemnantsChance(5 / 100f)
+			.setRemnantsChance(0.05f)
 			.build(consumer, id("squeezer", "honey_drop"));
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEYDEW)))
+			.setFluidOutput(honeyDropFluid)
+			.build(consumer, id("squeezer", "honey_dew"));
+		// reevaluate later
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.MAGMATIC_DROP)))
+			.setFluidOutput(honeyDropFluid)
+			.build(consumer, id("squeezer", "magmatic_drop"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.BEE_COMBS.stack(EnumHoneyComb.SPONGE))))
@@ -2427,12 +2432,6 @@ public class ForestryRecipeProvider {
 			.setResources(NonNullList.withSize(1, Ingredient.of(Items.HONEY_BLOCK)))
 			.setFluidOutput(honeyBlockFluid)
 			.build(consumer, id("squeezer", "honey_block"));
-
-		new SqueezerRecipeBuilder()
-			.setProcessingTime(10)
-			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEYDEW)))
-			.setFluidOutput(honeyDropFluid)
-			.build(consumer, id("squeezer", "honey_dew"));
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
@@ -2639,14 +2638,6 @@ public class ForestryRecipeProvider {
 			.setProcessingTime(1200)
 			.build(consumer.withConditions(not(new TagEmptyCondition(ForestryTags.Items.COAL_COKE))), id("smelter", "silicon_from_coke"));
 
-		new SmelterRecipeBuilder()
-			.addIngredient(Ingredient.of(ForestryTags.Items.SILICON), 3)
-			.addIngredient(Ingredient.of(Tags.Items.GEMS_LAPIS), 4)
-			.addIngredient(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)), 2)
-			.addIngredient(Ingredient.of(ForestryTags.Items.NUGGETS_TIN), 3)
-			.setOutput(Ingredient.of(CoreItems.SOLAR_CELL), 3)
-			.setProcessingTime(80)
-			.build(consumer, id("smelter", "solar_cell"));
 
 		// Alloys forestry does not add itself. Each pair loads only when another mod supplies both the
 		// component and the alloy

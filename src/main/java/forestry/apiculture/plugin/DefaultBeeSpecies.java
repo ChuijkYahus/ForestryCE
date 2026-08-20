@@ -502,6 +502,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.KLEPTOPLASTIC, GENUS_KLEPTOPLASTIC, SPECIES_KLEPTOPLASTIC, false, TextColor.fromRgb(0xffc987))
 			.setBody(TextColor.fromRgb(0x64E986))
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.30F)
+			.addSpecialty(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHORESCENT_JELLY), 0.05f)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGER);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_NORMAL);
@@ -512,6 +513,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.PHOTOSYNTHETIC, GENUS_KLEPTOPLASTIC, SPECIES_PHOTOSYNTHETIC, true, TextColor.fromRgb(0xB6C9FF))
 			.setBody(TextColor.fromRgb(0x64E986))
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.40F)
+			.addSpecialty(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHORESCENT_JELLY), 0.15F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGER);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_FAST);
@@ -522,6 +524,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.AUTOTROPHIC, GENUS_KLEPTOPLASTIC, SPECIES_AUTOTROPHIC, false, TextColor.fromRgb(0xFFF5EC))
 			.setBody(TextColor.fromRgb(0x64E986))
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.30F)
+			.addSpecialty(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHORESCENT_JELLY), 0.20F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGEST);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_FASTER);

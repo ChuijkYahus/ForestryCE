@@ -119,7 +119,7 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.BEE_COMBS).add(ApicultureItems.BEE_COMBS.itemArray());
 		tags.tag(ForestryTags.Items.VILLAGE_COMBS).add(ApicultureItems.BEE_COMBS.itemArray());
 		tags.tag(ForestryTags.Items.PROPOLIS).add(ApicultureItems.PROPOLIS.itemArray());
-		tags.tag(ForestryTags.Items.DROP_HONEY).add(CoreItems.HONEY_DROP, CoreItems.HONEYDEW);
+		tags.tag(ForestryTags.Items.DROP_HONEY).add(CoreItems.HONEY_DROP, CoreItems.HONEYDEW, ApicultureItems.EXPERIENCE_DROP, ApicultureItems.MAGMATIC_DROP);
 
 		tags.copy(Tags.Blocks.ORES, Tags.Items.ORES);
 

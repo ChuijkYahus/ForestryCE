@@ -114,6 +114,7 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.HONEY_DROP);
 		models.generic2d(CoreItems.HONEYDEW);
 		models.generic2d(ApicultureItems.EXPERIENCE_DROP);
+		models.generic2d(ApicultureItems.MAGMATIC_DROP);
 		models.generic2d(ApicultureItems.HONEY_POT);
 		models.generic2d(ApicultureItems.HONEYED_SLICE);
 

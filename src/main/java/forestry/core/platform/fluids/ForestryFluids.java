@@ -80,6 +80,7 @@ public enum ForestryFluids {
 		.particleColor(ForestryColors.color(133, 211, 84))
 		.density(520)
 		.viscosity(5000)
+		.luminosity(15)
 	);
 
 	private static final Map<ResourceLocation, ForestryFluids> BY_ID = new HashMap<>();
