@@ -10,6 +10,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
+import com.google.gson.JsonObject;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 
 import forestry.api.ForestryConstants;
@@ -74,6 +76,31 @@ public class FluidProductCodecTest {
 			helper.fail("Dispatch JSON round-trip failed for default FluidProduct: " + json);
 			return;
 		}
+		helper.succeed();
+	}
+
+	/**
+	 * An unknown "type" must fail with an error naming it, not fall back to the default FluidProduct. The JSON is
+	 * otherwise a valid default product, so a dispatch built on trial decoding would silently accept it.
+	 */
+	@GameTest(template = "empty")
+	public static void unknownFluidProductTypeFailsInsteadOfFallingBack(GameTestHelper helper) {
+		RegistryOps<com.google.gson.JsonElement> jsonOps = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
+		String bogus = ForestryConstants.forestry("no_such_fluid_product_type").toString();
+
+		JsonObject json = IFluidProduct.CODEC.encodeStart(jsonOps, FluidProduct.of(Fluids.WATER, 1000)).getOrThrow().getAsJsonObject();
+		json.addProperty("type", bogus);
+
+		DataResult<IFluidProduct> result = IFluidProduct.CODEC.parse(jsonOps, json);
+		if (result.result().isPresent()) {
+			helper.fail("Unknown fluid product type must not decode, got: " + result.result().get());
+			return;
+		}
+		if (result.error().isEmpty() || !result.error().get().message().contains(bogus)) {
+			helper.fail("Unknown fluid product type error must name the type, got: " + result.error().map(DataResult.Error::message).orElse("no error"));
+			return;
+		}
+
 		helper.succeed();
 	}
 

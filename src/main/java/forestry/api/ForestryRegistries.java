@@ -31,43 +31,23 @@ public class ForestryRegistries {
 		.sync(true)
 		.create();
 
-	/**
-	 * Serializer registry for {@link IBeeEffect} primitive types, used to dispatch {@link IBeeEffect#CODEC}
-	 * in datapack effect definitions. Not synced: the datapack-loaded {@link IBeeEffect} instances themselves
-	 * are delivered to clients by {@code BeeEffectSyncPacket} (mirroring {@code BeeSpeciesSyncPacket}); this
-	 * registry only needs to be populated on both sides at mod init to resolve the {@code "type"} dispatch key.
-	 */
 	public static final Registry<MapCodec<? extends IBeeEffect>> BEE_EFFECT_TYPE = new RegistryBuilder<>(Keys.BEE_EFFECT_TYPE)
 		.create();
 
-	/**
-	 * Serializer registry for {@link IMutationCondition} types, used to dispatch {@link IMutationCondition#CODEC}
-	 * in datapack mutation recipes. Not synced: the entries are code-registered on both sides at mod init, and the
-	 * mutation recipes that reference them travel over the vanilla recipe sync keyed by name.
-	 */
 	public static final Registry<MutationConditionType<?>> MUTATION_CONDITION_TYPE = new RegistryBuilder<>(Keys.MUTATION_CONDITION_TYPE)
+		.sync(true)
 		.create();
 
-	/**
-	 * Serializer registry for {@link IProduct} types, used to dispatch {@link IProduct#CODEC} in datapack species
-	 * definitions and machine recipes. Not synced: the entries are code-registered on both sides at mod init, and
-	 * the definitions that reference them are delivered by their own sync packets keyed by name.
-	 */
 	public static final Registry<ProductType<?>> PRODUCT_TYPE = new RegistryBuilder<>(Keys.PRODUCT_TYPE)
+		.sync(true)
 		.create();
 
-	/**
-	 * Serializer registry for {@link IFluidProduct} types, used to dispatch {@link IFluidProduct#CODEC} in machine
-	 * recipes. Fluid analog of {@link #PRODUCT_TYPE}, and not synced for the same reason.
-	 */
 	public static final Registry<FluidProductType<?>> FLUID_PRODUCT_TYPE = new RegistryBuilder<>(Keys.FLUID_PRODUCT_TYPE)
+		.sync(true)
 		.create();
 
-	/**
-	 * Serializer registry for {@link IFlowerType} types, used to dispatch {@link IFlowerType#CODEC} in datapack
-	 * flower type definitions. Not synced: the definitions themselves are delivered by {@code FlowerTypeSyncPacket}.
-	 */
 	public static final Registry<FlowerTypeType<?>> FLOWER_TYPE_SERIALIZER = new RegistryBuilder<>(Keys.FLOWER_TYPE_SERIALIZER)
+		.sync(true)
 		.create();
 
 	public static class Keys {
