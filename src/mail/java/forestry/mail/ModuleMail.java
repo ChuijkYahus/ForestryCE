@@ -13,6 +13,7 @@ import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.client.MailClientHandler;
 import forestry.mail.commands.CommandMail;
+import forestry.mail.features.MailTiles;
 import forestry.mail.network.packets.*;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
@@ -20,6 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.bus.api.IEventBus;
@@ -36,7 +39,12 @@ public class ModuleMail extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ModuleMail::registerCapabilities);
 		NeoForge.EVENT_BUS.addListener(ModuleMail::handlePlayerLoggedIn);
+	}
+
+	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, MailTiles.MAILBOX.tileType(), (tile, side) -> tile.getAutomatedMailHandler());
 	}
 
 	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
