@@ -33,7 +33,6 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		// registered by the agriculture plugin, which crashed a core-only install outright
 		circuits.registerLayout(ForestryCircuitLayouts.MACHINE_UPGRADE, ForestryCircuitSocketTypes.MACHINE);
 		circuits.registerLayout(ForestryCircuitLayouts.ENGINE_UPGRADE, ForestryCircuitSocketTypes.ENGINE);
-		circuits.registerLayout(ForestryCircuitLayouts.SOLAR_ENGINE_UPGRADE, ForestryCircuitSocketTypes.SOLAR_ENGINE);
 
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.EMERALD, 1), new CircuitMachineUpgrade("machine.speed.boost.1", 0.125f, 0.05f, 1.0f));
 		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.BLAZE, 1), new CircuitMachineUpgrade("machine.speed.boost.2", 0.250f, 0.10f, 1.0f));
@@ -46,8 +45,6 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.LAPIS), new CircuitEngineUpgrade("engine.efficiency.1", 0, 0.1f, 0));
 		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.DIAMOND), new CircuitEngineUpgrade("engine.efficiency.2", 0, 0.2f, 0));
 		circuits.registerCircuit(ForestryCircuitLayouts.ENGINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.APATITE), new CircuitEngineUpgrade("engine.biogas.overclock", 0, -0.2f, 2));
-
-		//Currently, there are no upgrades for Solar Engines... Maybe Steve hasn't discovered them yet?
 	}
 
 	@Override

@@ -174,10 +174,9 @@
   "for.gui.currentBiome": "Current Biome",t
   "for.gui.currentOutput": "Current Output",
   "for.gui.damp": "Damp",
-  "for.gui.engine.tin.total_panel_count": "%s panel(s) connected",
-  "for.gui.engine.tin.obscured_panel_count": "%s panel(s) are covered!",
-  "for.gui.engine.tin.efficiency": "Array Size Bonus: x%s",
+  "for.gui.engine.tin.array_size": "Array Size: %s",
   "for.gui.engine.tin.insolation": "Insolation: %s",
+  "for.gui.engine.tin.efficiency": "Array Size Bonus: x%s",
   "for.gui.derelict": "Derelict",
   "for.gui.desert": "Desert",
   "for.gui.didyouknow": "Did you know",

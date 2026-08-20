@@ -1,21 +1,21 @@
 package forestry.core.content.energy.menu;
 
-import forestry.core.platform.gui.ContainerSocketed;
+import forestry.core.platform.gui.ContainerTile;
 import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.content.energy.features.EnergyMenus;
-import forestry.core.content.energy.tiles.SolarEngineTileEntity;
+import forestry.core.content.energy.tiles.SolarEngineBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class SolarEngineMenu extends ContainerSocketed<SolarEngineTileEntity> {
+public class SolarEngineMenu extends ContainerTile<SolarEngineBlockEntity> {
 	public static SolarEngineMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf extraData) {
-		SolarEngineTileEntity tile = TileUtil.getTile(inv.player.level(), extraData.readBlockPos(), SolarEngineTileEntity.class);
+		SolarEngineBlockEntity tile = TileUtil.getTile(inv.player.level(), extraData.readBlockPos(), SolarEngineBlockEntity.class);
 		return new SolarEngineMenu(windowId, inv, tile);
 	}
 
-	public SolarEngineMenu(int id, Inventory player, SolarEngineTileEntity tile) {
-		super(id, EnergyMenus.ENGINE_SOLAR.menuType(), player, tile, 18, 80);
+	public SolarEngineMenu(int id, Inventory player, SolarEngineBlockEntity tile) {
+		super(id, EnergyMenus.ENGINE_SOLAR.menuType(), player, tile, 8, 84);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.PushReaction;
 
 import java.util.List;
 
@@ -27,5 +28,5 @@ public class EnergyBlocks {
 
 	// Deviation from 1.20.1: the block factory now takes the Properties as an argument and the
 	// properties come from a separate supplier, and Properties.copy was renamed to ofFullCopy.
-	public static final FeatureBlock<Block, BlockItem> SOLAR_PANEL = REGISTRY.block(SolarPanelBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.DAYLIGHT_DETECTOR).sound(SoundType.METAL), ItemBlockForestry::new, "solar_panel");
+	public static final FeatureBlock<Block, BlockItem> SOLAR_PANEL = REGISTRY.block(SolarPanelBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.DAYLIGHT_DETECTOR).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK), ItemBlockForestry::new, "solar_panel");
 }

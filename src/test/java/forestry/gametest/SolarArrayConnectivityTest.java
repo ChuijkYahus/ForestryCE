@@ -17,68 +17,68 @@ import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.energy.tiles.SolarEngineBlockEntity;
 
 /**
- * Covers a solar array noticing that one of its panels has been shaded.
+ * Covers the solar engine claiming and releasing panels through its rescan pass.
  * <p>
- * A panel's {@code IN_DAYLIGHT} state is what the engine counts to decide how much power to make, so it has to track
- * the sky in something close to real time. It used to be refreshed only from {@code SolarPanelBlock.randomTick}, which
- * for any one block averages {@code 4096 / randomTickSpeed} ticks — about 68 seconds at the default speed, with no
- * upper bound. Building a roof over an array therefore kept paying out for a minute or more, and because the engine's
- * count was maintained by incrementing and decrementing rather than recounting, any missed update stayed wrong.
+ * The engine is the only authority on array membership: panel blocks have no place or break callbacks, so a
+ * panel joins by being reachable from the panel above the engine, and a break that splits the plane must
+ * release everything past the split. The panel past the split has to come back once the gap is refilled,
+ * so the release cannot be "clear CONNECTED and forget".
  * <p>
- * The rig is built at absolute coordinates in open air rather than inside the test plot. GameTest buries its plots
- * deep underground, with no sky access at all, and on 1.20.1 the plot sits under an ocean so a shaft dug up to the
- * surface simply refills with water and blocks sky light. Building above sea level and clearing the panel's own
- * column sidesteps whatever terrain the plot happens to be under. The rig is torn down again at the end.
+ * The rig is built at absolute coordinates in open air rather than inside the test plot, for the reasons
+ * documented on {@link SolarPanelExposureTest}.
  */
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
-public class SolarPanelExposureTest {
-	/** Comfortably above sea level, so the column is open to the sky. */
+public class SolarArrayConnectivityTest {
+	/** Comfortably above sea level, so the columns are open to the sky. */
 	private static final int OPEN_SKY_Y = 80;
-	/** Everything between the panel and here is cleared so the panel's column is open to the sky. */
+	/** Everything between a panel and here is cleared so the panel's column is open to the sky. */
 	private static final int COLUMN_TOP_Y = 250;
 
 	/** The engine attaches its array on a 20 tick interval, so give it two of those to settle. */
 	private static final int ATTACH_TICKS = 45;
-	/** How long the engine may take to notice a change in the sky. One rescan interval plus slack. */
+	/** How long the engine may take to notice a change in the plane. One rescan pass plus slack. */
 	private static final int REACT_TICKS = 30;
 
 	@GameTest(template = "empty", timeoutTicks = 600)
-	public static void shadingAPanelStopsItCountingAsActive(GameTestHelper helper) {
+	public static void breakingAPanelReleasesEverythingPastTheSplit(GameTestHelper helper) {
 		BlockPos engine = openSkySite(helper);
-		BlockPos panel = engine.above();
-		// Well clear of the panel, to prove the check is "is anything above me" and not "is a block touching me".
-		BlockPos roof = panel.above(5);
+		BlockPos seed = engine.above();
+		BlockPos middle = seed.east();
+		BlockPos far = middle.east();
 
-		clear(helper, engine, panel, roof);
-		// GameTest hands out a different plot column depending on how many tests are registered, so the rig can land
-		// under terrain. Open the column above it rather than depending on where it happens to be.
-		clearColumnAbove(helper, panel);
+		clear(helper, engine, seed, middle, far);
+		clearColumnAbove(helper, seed);
+		clearColumnAbove(helper, middle);
+		clearColumnAbove(helper, far);
 
-		int sky = helper.getLevel().getBrightness(LightLayer.SKY, panel);
+		int sky = helper.getLevel().getBrightness(LightLayer.SKY, seed);
 		helper.assertTrue(sky >= 15,
-			"the rig site at " + panel + " has no sky access (sky light " + sky + "), so this test cannot measure anything");
+			"the rig site at " + seed + " has no sky access (sky light " + sky + "), so this test cannot measure anything");
 
 		set(helper, engine, EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR).block());
-		set(helper, panel, EnergyBlocks.SOLAR_PANEL.block());
+		set(helper, seed, EnergyBlocks.SOLAR_PANEL.block());
+		set(helper, middle, EnergyBlocks.SOLAR_PANEL.block());
+		set(helper, far, EnergyBlocks.SOLAR_PANEL.block());
 
 		helper.startSequence()
 			.thenExecuteAfter(ATTACH_TICKS, () -> {
-				assertLit(helper, panel, true, "an unobstructed panel");
-				assertActivePanels(helper, engine, 1, "an unobstructed panel");
+				assertActivePanels(helper, engine, 3, "a three panel row");
+				assertConnected(helper, far, true, "the far end of a three panel row");
 			})
-			.thenExecute(() -> set(helper, roof, Blocks.STONE))
+			.thenExecute(() -> set(helper, middle, Blocks.AIR))
 			.thenExecuteAfter(REACT_TICKS, () -> {
-				assertLit(helper, panel, false, "a panel with stone 5 blocks above it");
-				assertActivePanels(helper, engine, 0, "a panel with stone 5 blocks above it");
+				assertActivePanels(helper, engine, 1, "a row split in the middle");
+				assertConnected(helper, seed, true, "the seed panel of a split row");
+				assertConnected(helper, far, false, "a panel cut off by the split");
 			})
-			// And back again, so the fix cannot be "always report obscured".
-			.thenExecute(() -> set(helper, roof, Blocks.AIR))
+			// And back again, so the release cannot be permanent.
+			.thenExecute(() -> set(helper, middle, EnergyBlocks.SOLAR_PANEL.block()))
 			.thenExecuteAfter(REACT_TICKS, () -> {
-				assertLit(helper, panel, true, "a panel whose roof was removed");
-				assertActivePanels(helper, engine, 1, "a panel whose roof was removed");
+				assertActivePanels(helper, engine, 3, "a row whose gap was refilled");
+				assertConnected(helper, far, true, "a panel reconnected through the refilled gap");
 			})
-			.thenExecute(() -> clear(helper, engine, panel, roof))
+			.thenExecute(() -> clear(helper, engine, seed, middle, far))
 			.thenSucceed();
 	}
 
@@ -109,12 +109,12 @@ public class SolarPanelExposureTest {
 		}
 	}
 
-	private static void assertLit(GameTestHelper helper, BlockPos panel, boolean expected, String situation) {
+	private static void assertConnected(GameTestHelper helper, BlockPos panel, boolean expected, String situation) {
 		BlockState state = helper.getLevel().getBlockState(panel);
 		helper.assertTrue(state.is(EnergyBlocks.SOLAR_PANEL.block()), "the panel vanished from " + panel);
-		boolean lit = state.getValue(SolarPanelBlock.IN_DAYLIGHT);
-		helper.assertTrue(lit == expected,
-			"expected IN_DAYLIGHT=" + expected + " for " + situation + ", found " + lit);
+		boolean connected = state.getValue(SolarPanelBlock.CONNECTED);
+		helper.assertTrue(connected == expected,
+			"expected CONNECTED=" + expected + " for " + situation + ", found " + connected);
 	}
 
 	private static void assertActivePanels(GameTestHelper helper, BlockPos enginePos, int expected, String situation) {
