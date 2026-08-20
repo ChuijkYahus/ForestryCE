@@ -653,3 +653,72 @@ marked the spot. Those markers are now resolved.
 - `building_blocks` is 136 decorative plus 1105 wood
 - `compileJava compileTestJava` clean, `runGameTestServer` 113 passing against the committed
   baseline, `runData` wrote 0 files and removed 0 stale
+
+## 1.20.1 catch-up round: the solar rewrite and the phosphor moves
+
+Ports the thirteen 1.20.1 commits from `346bd9426` (the last one this branch already mirrored) up to
+`4abde9a60`. Paths differ throughout: `forestry/energy/**` is `forestry/core/content/energy/**` here,
+and the config, render, tab and plugin classes all sit under `forestry/core/platform` or
+`forestry/core/plugin`.
+
+### What came across
+
+- **Solar engine rewrite.** `SolarEngineTileEntity` becomes `SolarEngineBlockEntity`. The engine is
+  now the only authority on array membership: `SolarPanelBlock` loses `onPlace` and `onRemove`, which
+  walked every block entity in a 3x3 chunk area, and the recursive `attachPanel` becomes an
+  incremental breadth-first rescan of five panels per tick. Panels in unloaded chunks keep their
+  claim rather than being orphaned.
+- **Solar engine circuit socket removed.** It had no circuits to put in it, so
+  `ISolarEngineUpgradeable`, `CircuitSolarEngineUpgrade`, the layout and the socket type all go.
+- **New `solar_engine` config section** holding `solar_fe_per_panel`, `twilight_solar_fe_per_panel`
+  and the new `solar_array_bonus_factor`, which was a hardcoded constant here before.
+- **Solar engine GUI** rebuilt on the standard 176px background: an array size row, insolation, and
+  an efficiency row that hides itself when the bonus is configured off.
+- **Phosphorescent Jelly** as a specialty of the three Kleptoplastic bees, and the **Magmatic Drop**
+  replacing the Honey Drop on Simmering combs.
+- **Solar Cell** is fabricated from jelly, lapis and a tin nugget; the Smelter recipe for it is gone.
+- **Liquid Experience emits light**, which needed a `luminosity` property on the fluid builder.
+- Silk touch loot for the three smooth stones, Spear's Solar Cell and Tin Nugget textures, the
+  Blockbench sources, and the 1.20.1 comment cleanups.
+
+### Deviations from 1.20.1
+
+- **`saveAdditional` / `loadAdditional` take a `HolderLookup.Provider`**, and the panel array is
+  stored as a long array under `array`.
+- **`HorizontalDirection` lives in `forestry.api.agriculture`** here, and `VALUES` is a `List`.
+- **`BlockForestryFluid` is handed its block properties** rather than building them, so the
+  luminosity helper decorates what it is given instead of creating a fresh set.
+- **The Volcanic Propolis conversion recipe is not ported.** That variant is already gone here, which
+  also resolves 1.20.1's `todo` about using `forEach` for propolis in the creative tab.
+- **Phosphor was already on Sinister and Embittered** and already off the Kleptoplastic line, so only
+  the jelly specialty was added.
+- **The three smooth stone loot tables come from `CoreBlocks.STONE_SETS`** rather than three
+  hand-written lines.
+
+### Not ported
+
+- `ForestryPaintingTagsProvider` adding `MYSTICAL_TREE`. Paintings are data-driven JSON here, and
+  `mystical_tree.json` plus its placeable tag entry already exist.
+- The `registerSmelter` reindentation, which was whitespace against a body this tree had already
+  reformatted.
+
+### Open
+
+- **Phosphorescent Jelly has no texture.** It renders as the missing texture placeholder, matching
+  1.20.1. `assets/forestry/textures/item/phosphorescent_jelly.png` is the file to add.
+
+### Verification for this round
+
+- `compileJava compileTestJava` clean
+- `runData` drift was 15 files, all of them consequences of this round, and idempotent on a second run
+- `runGameTestServer` 117 passing, up from 116, the new one being `SolarArrayConnectivityTest`
+- The creative tab baseline delta was diffed rather than trusted: eight entries added
+  (Phosphorescent Jelly, and the Experience and Magmatic Drops across the genetic tabs), one removed
+  (the Honey Pot leaving the apiculture tab)
+
+### Unrelated fix folded in
+
+`for.gui.currentBiome` in `assets/forestry/lang/en_us.json` carried a stray `t` after its closing
+comma, which made the hand-written lang file invalid JSON. It arrived with upstream `a4ab1bd90` and
+is unreferenced from code, so nothing was visibly broken, and the lang merge is line-based rather
+than a JSON parse. Corrected here because the same file was being edited.
