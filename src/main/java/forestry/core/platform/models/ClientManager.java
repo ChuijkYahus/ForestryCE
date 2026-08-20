@@ -22,9 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public enum ClientManager {
@@ -50,8 +49,10 @@ public enum ClientManager {
 	};
 
 	/* CUSTOM MODELS*/
-	private final List<BlockModelEntry> customBlockModels = new ArrayList<>();
-	private final List<ModelEntry> customModels = new ArrayList<>();
+	// Keyed, not appended: models are registered on ModelEvent.RegisterGeometryLoaders, which is posted once per
+	// resource reload, so registering the same block again must replace its entry instead of growing these
+	private final Map<Block, BlockModelEntry> customBlockModels = new LinkedHashMap<>();
+	private final Map<ModelResourceLocation, BakedModel> customModels = new LinkedHashMap<>();
 	/* DEFAULT ITEM AND BLOCK MODEL STATES*/
 	@Nullable
 	private ModelState defaultBlockState;
@@ -80,17 +81,17 @@ public enum ClientManager {
 	}
 
 	public void registerModel(BakedModel model, Block block, @Nullable BlockItem item, Collection<BlockState> states) {
-        this.customBlockModels.add(new BlockModelEntry(model, block, item, states));
+        this.customBlockModels.put(block, new BlockModelEntry(model, item, states));
 	}
 
 	public void registerModel(BakedModel model, Item item) {
-        this.customModels.add(new ModelEntry(new ModelResourceLocation(ModUtil.getRegistryName(item), "inventory"), model));
+        this.customModels.put(new ModelResourceLocation(ModUtil.getRegistryName(item), "inventory"), model);
 	}
 
 	public void onBakeModels(ModelEvent.ModifyBakingResult event) {
 		//register custom models
 		Map<ModelResourceLocation, BakedModel> registry = event.getModels();
-		for (final BlockModelEntry entry : this.customBlockModels) {
+		for (final BlockModelEntry entry : this.customBlockModels.values()) {
 			for (BlockState state : entry.states) {
 				registry.put(BlockModelShaper.stateToModelLocation(state), entry.model);
 			}
@@ -103,15 +104,9 @@ public enum ClientManager {
 			}
 		}
 
-		for (final ModelEntry entry : this.customModels) {
-			registry.put(entry.modelLocation, entry.model);
-		}
+		registry.putAll(this.customModels);
 	}
 
-	private record BlockModelEntry(BakedModel model, Block block, @Nullable BlockItem item,
-								   Collection<BlockState> states) {
-	}
-
-	private record ModelEntry(ModelResourceLocation modelLocation, BakedModel model) {
+	private record BlockModelEntry(BakedModel model, @Nullable BlockItem item, Collection<BlockState> states) {
 	}
 }
