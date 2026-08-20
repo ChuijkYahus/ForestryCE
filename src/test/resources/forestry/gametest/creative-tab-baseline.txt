@@ -146,7 +146,6 @@ forestry:apiculture forestry:frozen_comb_block x1
 forestry:apiculture forestry:honey_comb x1
 forestry:apiculture forestry:honey_comb_block x1
 forestry:apiculture forestry:honey_drop x1
-forestry:apiculture forestry:honey_pot x1
 forestry:apiculture forestry:honeydew x1
 forestry:apiculture forestry:honeyed_slice x1
 forestry:apiculture forestry:impregnated_frame x1
@@ -154,6 +153,7 @@ forestry:apiculture forestry:kaolin_comb x1
 forestry:apiculture forestry:kaolin_comb_block x1
 forestry:apiculture forestry:larvae_bee x69
 forestry:apiculture forestry:lush_hive x1
+forestry:apiculture forestry:magmatic_drop x1
 forestry:apiculture forestry:marshy_hive x1
 forestry:apiculture forestry:meadows_hive x1
 forestry:apiculture forestry:mellow_comb x1
@@ -553,6 +553,7 @@ forestry:arboriculture forestry:elm_stripped_wood x1
 forestry:arboriculture forestry:elm_trapdoor x1
 forestry:arboriculture forestry:elm_wood x1
 forestry:arboriculture forestry:escritoire x1
+forestry:arboriculture forestry:experience_drop x1
 forestry:arboriculture forestry:feijoa x1
 forestry:arboriculture forestry:feijoa_boat x1
 forestry:arboriculture forestry:feijoa_button x1
@@ -948,6 +949,7 @@ forestry:arboriculture forestry:macrocarpa_stripped_log x1
 forestry:arboriculture forestry:macrocarpa_stripped_wood x1
 forestry:arboriculture forestry:macrocarpa_trapdoor x1
 forestry:arboriculture forestry:macrocarpa_wood x1
+forestry:arboriculture forestry:magmatic_drop x1
 forestry:arboriculture forestry:mahoe_boat x1
 forestry:arboriculture forestry:mahoe_button x1
 forestry:arboriculture forestry:mahoe_chest_boat x1
@@ -2937,6 +2939,7 @@ forestry:forestry forestry:emerald_electron_tube x1
 forestry:forestry forestry:ender_electron_tube x1
 forestry:forestry forestry:enhanced_circuit_board x1
 forestry:forestry forestry:escritoire x1
+forestry:forestry forestry:experience_drop x1
 forestry:forestry forestry:fermenter x1
 forestry:forestry forestry:fertilizer x1
 forestry:forestry forestry:flexible_casing x1
@@ -2957,11 +2960,13 @@ forestry:forestry forestry:iron_gear x1
 forestry:forestry forestry:lapis_electron_tube x1
 forestry:forestry forestry:lepidopterists_backpack x1
 forestry:forestry forestry:lepidopterists_chest x1
+forestry:forestry forestry:magmatic_drop x1
 forestry:forestry forestry:moistener x1
 forestry:forestry forestry:obsidian_electron_tube x1
 forestry:forestry forestry:peat x1
 forestry:forestry forestry:peat_engine x1
 forestry:forestry forestry:phosphor x1
+forestry:forestry forestry:phosphorescent_jelly x1
 forestry:forestry forestry:pickaxe_kit x1
 forestry:forestry forestry:pipette x1
 forestry:forestry forestry:portable_analyzer x1
@@ -3016,10 +3021,12 @@ forestry:lepidopterology forestry:butterfly_serum x35
 forestry:lepidopterology forestry:caterpillar x35
 forestry:lepidopterology forestry:cocoon x35
 forestry:lepidopterology forestry:escritoire x1
+forestry:lepidopterology forestry:experience_drop x1
 forestry:lepidopterology forestry:honey_drop x1
 forestry:lepidopterology forestry:honeydew x1
 forestry:lepidopterology forestry:lepidopterists_backpack x1
 forestry:lepidopterology forestry:lepidopterists_chest x1
+forestry:lepidopterology forestry:magmatic_drop x1
 forestry:lepidopterology forestry:portable_analyzer x1
 forestry:lepidopterology forestry:proven_scoop x1
 forestry:lepidopterology forestry:scoop x1
