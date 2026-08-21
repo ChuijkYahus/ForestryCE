@@ -6,16 +6,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 
 public class InventoryNaturalistChest extends InventoryAdapterTile<TileNaturalistChest> {
-	private final ISpeciesType speciesRoot;
-
-	public InventoryNaturalistChest(TileNaturalistChest tile, ISpeciesType speciesRoot) {
+	public InventoryNaturalistChest(TileNaturalistChest tile) {
 		super(tile, 128, "Items");
-		this.speciesRoot = speciesRoot;
 	}
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		return this.speciesRoot.isMember(stack);
+		// Null when the jar owning this chest's species type is not installed, so the chest takes nothing
+		ISpeciesType<?, ?> speciesType = this.tile.getSpeciesTypeSafe();
+		return speciesType != null && speciesType.isMember(stack);
 	}
 
 	@Override

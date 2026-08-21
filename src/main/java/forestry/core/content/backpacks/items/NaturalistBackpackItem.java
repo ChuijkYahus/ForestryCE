@@ -1,5 +1,6 @@
 package forestry.core.content.backpacks.items;
 
+import forestry.api.IForestryApi;
 import forestry.api.core.backpacks.EnumBackpackType;
 import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.core.content.backpacks.gui.ContainerNaturalistBackpack;
@@ -22,6 +23,16 @@ public class NaturalistBackpackItem extends BackpackItem {
 	@Override
 	protected void writeContainerData(ServerPlayer player, ItemStack stack, RegistryFriendlyByteBuf buffer) {
 		buffer.writeResourceLocation(this.typeId);
+	}
+
+	// The lepidopterist backpack is registered by base, but the butterfly jar owns its species type. The
+	// menu needs that type, so a backpack whose type is missing stays shut rather than kicking the player.
+	@Override
+	protected void openGui(ServerPlayer serverPlayer, ItemStack heldItem) {
+		if (IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(this.typeId) == null) {
+			return;
+		}
+		super.openGui(serverPlayer, heldItem);
 	}
 
 	@Override

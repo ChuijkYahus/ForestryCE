@@ -22,6 +22,7 @@ import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.registration.*;
+import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.content.sorting.features.SortingBlocks;
 import forestry.core.content.backpacks.features.BackpackItems;
 import forestry.core.content.backpacks.features.CrateItems;
@@ -87,8 +88,14 @@ public class ForestryCreativeTabs {
 		// Storages
 		items.accept(BackpackItems.APIARIST_BACKPACK);
 		items.accept(BackpackItems.ARBORIST_BACKPACK);
-		items.accept(BackpackItems.LEPIDOPTERIST_BACKPACK);
-		CoreBlocks.NATURALIST_CHEST.getItems().forEach(items::accept);
+		if (butterfliesInstalled()) {
+			items.accept(BackpackItems.LEPIDOPTERIST_BACKPACK);
+		}
+		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.APIARIST_CHEST));
+		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.ARBORIST_CHEST));
+		if (butterfliesInstalled()) {
+			items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST));
+		}
 
 		// Machine tools
 		items.accept(CoreItems.WRENCH);
@@ -240,11 +247,19 @@ public class ForestryCreativeTabs {
 		CoreBlocks.JUMBO_CANDLES.getItems().forEach(items::accept);
 	}
 
+	// The lepidopterist chest and backpack are registered by base but do nothing without the butterfly
+	// jar, so a base-only install leaves them out of the tabs rather than offering two inert items
+	private static boolean butterfliesInstalled() {
+		return SpeciesUtil.getButterflyTypeSafe() != null;
+	}
+
 	private static void addStorageItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
 		// Genetics backpacks
 		items.accept(BackpackItems.APIARIST_BACKPACK);
 		items.accept(BackpackItems.ARBORIST_BACKPACK);
-		items.accept(BackpackItems.LEPIDOPTERIST_BACKPACK);
+		if (butterfliesInstalled()) {
+			items.accept(BackpackItems.LEPIDOPTERIST_BACKPACK);
+		}
 
 		// T1
 		items.accept(BackpackItems.MINER_BACKPACK);
@@ -272,7 +287,9 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.PIPETTE);
 		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.APIARIST_CHEST));
 		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.ARBORIST_CHEST));
-		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST));
+		if (butterfliesInstalled()) {
+			items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST));
+		}
 		items.accept(SortingBlocks.FILTER);
 
 		// Empty containers

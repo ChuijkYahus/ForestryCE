@@ -19,6 +19,7 @@ import forestry.api.core.genetics.IIndividual;
 import forestry.api.core.genetics.alleles.*;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
+import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.arboriculture.features.ArboricultureTiles;
 import forestry.arboriculture.network.IRipeningPacketReceiver;
 import forestry.arboriculture.network.PacketRipeningUpdate;
@@ -70,6 +71,10 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	private ITreeSpecies species;
 	@Nullable
 	private IButterfly caterpillar;
+	// Set when a save holds a caterpillar but the butterfly jar is gone. Written back out untouched, so
+	// removing the jar for one session does not wipe every caterpillar in the world.
+	@Nullable
+	private Tag unloadableCaterpillar;
 
 	private boolean isFruitLeaf;
 	private boolean isPollinatedState;
@@ -98,7 +103,13 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		Tag caterpillarNbt = nbt.get(NBT_CATERPILLAR);
 		if (caterpillarNbt != null) {
 			this.maturationTime = nbt.getInt(NBT_MATURATION);
-			this.caterpillar = SpeciesUtil.deserializeIndividual(SpeciesUtil.BUTTERFLY_TYPE.get(), caterpillarNbt);
+
+			IButterflySpeciesType butterflyType = SpeciesUtil.getButterflyTypeSafe();
+			if (butterflyType != null) {
+				this.caterpillar = SpeciesUtil.deserializeIndividual(butterflyType, caterpillarNbt);
+			} else {
+				this.unloadableCaterpillar = caterpillarNbt;
+			}
 		}
 
 		ITree tree = getTree();
@@ -128,6 +139,9 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			if (caterpillarNbt != null) {
 				nbt.put(NBT_CATERPILLAR, caterpillarNbt);
 			}
+		} else if (this.unloadableCaterpillar != null) {
+			nbt.putInt(NBT_MATURATION, this.maturationTime);
+			nbt.put(NBT_CATERPILLAR, this.unloadableCaterpillar);
 		}
 	}
 
@@ -489,6 +503,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	public void setCaterpillar(@Nullable IButterfly caterpillar) {
         this.maturationTime = 0;
 		this.caterpillar = caterpillar;
+		this.unloadableCaterpillar = null;
 		sendNetworkUpdate();
 	}
 

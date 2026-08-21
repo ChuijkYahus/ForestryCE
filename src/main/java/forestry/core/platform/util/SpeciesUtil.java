@@ -51,6 +51,19 @@ public class SpeciesUtil {
 		return BEE_TYPE.get().getAllSpecies();
 	}
 
+	/**
+	 * Gets the butterfly species type, or returns {@code null} if the butterfly jar is not installed.
+	 * Base ships content that names it anyway: the lepidopterist chest, the lepidopterist backpack and
+	 * caterpillars in leaves. Each of those stays inert rather than throwing when the jar is absent.
+	 *
+	 * @return The {@link IButterflySpeciesType}, or {@code null} if the butterfly jar is not installed
+	 */
+	@Nullable
+	public static IButterflySpeciesType getButterflyTypeSafe() {
+		ISpeciesType<?, ?> type = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(ForestrySpeciesTypes.BUTTERFLY);
+		return type instanceof IButterflySpeciesType butterflyType ? butterflyType : null;
+	}
+
 	public static IButterflySpecies getButterflySpecies(ResourceLocation id) {
 		return BUTTERFLY_TYPE.get().getSpecies(id);
 	}

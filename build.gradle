@@ -163,6 +163,15 @@ neoForge {
 			loadedMods = [mods.forestry]
 		}
 
+		// The server boots above never touch client setup, so nothing in D4 proved that base alone
+		// reaches the main menu. It did not: FMLClientSetupEvent builds one block entity per TESR
+		// item, and the lepidopterist chest resolved a species type the butterfly jar owns.
+		coreOnlyClient {
+			client()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/boot-core-client'))
+			loadedMods = [mods.forestry]
+		}
+
 		// Butterflies alone. Bees and trees are core now, so this proves only what it should: that the
 		// butterfly jar needs nothing but base
 		butterfliesServer {

@@ -1,10 +1,12 @@
 package forestry.core.platform.tile;
 
+import forestry.api.IForestryApi;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.platform.gui.ContainerNaturalistInventory;
 import forestry.core.platform.inventory.InventoryNaturalistChest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -17,19 +19,23 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import javax.annotation.Nullable;
+
 public abstract class TileNaturalistChest extends TileBase {
 	private static final float lidAngleVariationPerTick = 0.1F;
 	public static final VoxelShape CHEST_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
-	private final ISpeciesType<?, ?> speciesType;
+	private final ResourceLocation speciesTypeId;
+	@Nullable
+	private ISpeciesType<?, ?> speciesType;
 	public float lidAngle;
 	public float prevLidAngle;
 	private int numPlayersUsing;
 
-	public TileNaturalistChest(BlockEntityType type, BlockPos pos, BlockState state, ISpeciesType<?, ?> speciesType) {
+	public TileNaturalistChest(BlockEntityType type, BlockPos pos, BlockState state, ResourceLocation speciesTypeId) {
 		super(type, pos, state);
-		this.speciesType = speciesType;
-		setInternalInventory(new InventoryNaturalistChest(this, speciesType));
+		this.speciesTypeId = speciesTypeId;
+		setInternalInventory(new InventoryNaturalistChest(this));
 	}
 
 	public void increaseNumPlayersUsing() {
@@ -88,7 +94,35 @@ public abstract class TileNaturalistChest extends TileBase {
 	}
 
 	public ISpeciesType<?, ?> getSpeciesType() {
-		return this.speciesType;
+		ISpeciesType<?, ?> speciesType = getSpeciesTypeSafe();
+		if (speciesType == null) {
+			throw new IllegalStateException("No species type was registered with ID: " + this.speciesTypeId);
+		}
+		return speciesType;
+	}
+
+	/**
+	 * Gets the species type this chest accepts, or returns {@code null} if that type was never registered.
+	 * The lepidopterist chest ships in base, but its species type belongs to the optional butterfly jar,
+	 * and resolving it at construction crashed a base-only client. {@code FMLClientSetupEvent} builds one
+	 * block entity per TESR item.
+	 *
+	 * @return The {@link ISpeciesType} this chest accepts, or {@code null} if no jar registered it
+	 */
+	@Nullable
+	public ISpeciesType<?, ?> getSpeciesTypeSafe() {
+		ISpeciesType<?, ?> speciesType = this.speciesType;
+		if (speciesType == null) {
+			speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(this.speciesTypeId);
+			this.speciesType = speciesType;
+		}
+		return speciesType;
+	}
+
+	// A chest whose species type never got registered accepts nothing, so it has nothing to show
+	@Override
+	protected boolean hasGui() {
+		return getSpeciesTypeSafe() != null;
 	}
 
 }
