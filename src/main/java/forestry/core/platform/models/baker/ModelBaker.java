@@ -24,7 +24,7 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public final class ModelBaker {
 
-	private static final float[] UVS = new float[]{0.0F, 0.0F, 16.0F, 16.0F, 0.0F, 0.0F, 16.0F, 16.0F};
+	// FaceBakery is stateless, so one shared instance is safe across chunk worker threads
 	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	private static final Vector3f POS_FROM = new Vector3f(0.0F, 0.0F, 0.0F);
 	private static final Vector3f POS_TO = new Vector3f(16.0F, 16.0F, 16.0F);
@@ -64,7 +64,10 @@ public final class ModelBaker {
 
 		for (ModelBakerFace face : this.faces) {
 			Direction facing = face.face;
-			BlockFaceUV uvFace = new BlockFaceUV(UVS, 0);
+			// Fresh array per quad. FaceBakery.bakeQuad shrinks the uv array in place (uvShrinkRatio) and restores
+			// it afterwards, so a shared array races across chunk worker threads: quads come out unshrunk (edge
+			// bleeding) and each lost race leaves the array a little more shrunk until leaves render invisible.
+			BlockFaceUV uvFace = new BlockFaceUV(new float[]{0.0F, 0.0F, 16.0F, 16.0F}, 0);
 			BlockElementFace partFace = new BlockElementFace(facing, face.colorIndex, "", uvFace);
 			BakedQuad quad = FACE_BAKERY.bakeQuad(POS_FROM, POS_TO, partFace, face.spite, facing, modelRotation, null, true);
 
