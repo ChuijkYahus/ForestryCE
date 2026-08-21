@@ -3,12 +3,12 @@ package forestry.core.content.machines.recipes.jei.centrifuge;
 import forestry.api.ForestryConstants;
 import forestry.api.core.IProduct;
 import forestry.api.core.machines.ICentrifugeRecipe;
+import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ChanceTooltipCallback;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
 import forestry.core.platform.util.JeiUtil;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
 import forestry.core.content.machines.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -39,7 +39,7 @@ public class CentrifugeRecipeCategory extends ForestryRecipeCategory<ICentrifuge
 
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(TEXTURE, 176, 0, 4, 17);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 80, IDrawableAnimated.StartDirection.BOTTOM, false);
-		ItemStack centrifuge = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE).block());
+		ItemStack centrifuge = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, centrifuge);
 	}
 

@@ -27,7 +27,7 @@ public class GrafterItem extends ItemForestry implements IToolGrafter {
 	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag advanced) {
 		super.appendHoverText(stack, context, tooltip, advanced);
 		if (!stack.isDamaged()) {
-			tooltip.add(Component.translatable("item.forestry.uses", stack.getMaxDamage() + 1).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable("item.forestry.uses", stack.getMaxDamage()).withStyle(ChatFormatting.GRAY));
 		}
 	}
 

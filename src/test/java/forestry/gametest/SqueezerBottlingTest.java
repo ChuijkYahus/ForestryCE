@@ -15,7 +15,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
+import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.content.machines.inventory.InventorySqueezer;
 import forestry.core.content.machines.tiles.TileSqueezer;
@@ -127,8 +127,7 @@ public class SqueezerBottlingTest {
 	}
 
 	private static TileSqueezer squeezerWith(GameTestHelper helper, Fluid fluid, int amount) {
-		// Deviation from 1.20.1: the squeezer is a TESR machine block here, not a plain one.
-		helper.setBlock(SQUEEZER_POS, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).block());
+		helper.setBlock(SQUEEZER_POS, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).block());
 		TileSqueezer squeezer = (TileSqueezer) helper.getBlockEntity(SQUEEZER_POS);
 
 		// The product tank refuses external fills by design, so seed it the way workCycle() does.

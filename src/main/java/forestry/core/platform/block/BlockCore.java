@@ -1,9 +1,9 @@
 package forestry.core.platform.block;
 
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class BlockCore extends BlockBase<BlockTypeCoreTesr> {
-	public BlockCore(BlockTypeCoreTesr blockType) {
-		super(Properties.of().sound(SoundType.WOOD).noOcclusion(), blockType);
+	public BlockCore(BlockTypeCoreTesr blockType, BlockBehaviour.Properties properties) {
+		super(properties, blockType);
 	}
 }

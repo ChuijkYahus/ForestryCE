@@ -384,15 +384,13 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 				InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(EnergyBlocks.SOLAR_PANEL.get())));
 
 			// Next Level Crafting
-			// Deviation from 1.20.1: the carpenter is a BlockTypeFactoryTesr in this tree
 			ForestryAdvancements.add(writer, "get_carpenter",
-				FactoryBlocks.TESR.stack(BlockTypeFactoryTesr.CARPENTER),
+				FactoryBlocks.PLAIN.stack(BlockTypeFactoryPlain.CARPENTER),
 				engine,
-				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).get()));
 
 			// Lightly Bronzed
 			// To be bronzed is to be tanned.
-			// Deviation from 1.20.1: the forge:ingots/bronze tag became c:ingots/bronze
 			AdvancementHolder bronzed = ForestryAdvancements.add(writer, "get_bronze",
 				CoreItems.INGOT_BRONZE.stack(),
 				engine,
@@ -412,11 +410,10 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 				InventoryChangeTrigger.TriggerInstance.hasItems(ForestryFluids.BIOMASS.getBucket()));
 
 			// You Spin Me Right Round
-			// Deviation from 1.20.1: the centrifuge is a BlockTypeFactoryTesr in this tree
 			AdvancementHolder centrifuge = ForestryAdvancements.add(writer, "get_centrifuge",
-				FactoryBlocks.TESR.stack(BlockTypeFactoryTesr.CENTRIFUGE),
+				FactoryBlocks.PLAIN.stack(BlockTypeFactoryPlain.CENTRIFUGE),
 				bronzed,
-				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).get()));
 
 			// Honey (Sugar, Sugar)
 			// Deviation from 1.20.1: the honey drop, honeydew and beeswax moved to core
@@ -430,11 +427,10 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 				)));
 
 			// Freshly Squeezed
-			// Deviation from 1.20.1: the squeezer is a BlockTypeFactoryTesr in this tree
 			AdvancementHolder squeezer = ForestryAdvancements.add(writer, "get_squeezer",
-				FactoryBlocks.TESR.stack(BlockTypeFactoryTesr.SQUEEZER),
+				FactoryBlocks.PLAIN.stack(BlockTypeFactoryPlain.SQUEEZER),
 				bronzed,
-				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).get()));
 
 			// Bee Juice
 			// A reference to Clarkson's Farm, and what Clarkson refers to his honey as

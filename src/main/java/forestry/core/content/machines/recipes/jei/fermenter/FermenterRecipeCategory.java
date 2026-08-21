@@ -1,15 +1,15 @@
 package forestry.core.content.machines.recipes.jei.fermenter;
 
 import forestry.api.ForestryConstants;
-import forestry.api.core.machines.fuels.FermenterFuel;
-import forestry.api.core.machines.fuels.FuelManager;
 import forestry.api.core.machines.IFermenterRecipe;
 import forestry.api.core.machines.IVariableFermentable;
+import forestry.api.core.machines.fuels.FermenterFuel;
+import forestry.api.core.machines.fuels.FuelManager;
+import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
-import forestry.core.content.machines.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
@@ -46,7 +46,7 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		IDrawableStatic progressBarDrawable1 = guiHelper.createDrawable(TEXTURE, 176, 78, 4, 18);
 		this.progressBar1 = guiHelper.createAnimatedDrawable(progressBarDrawable1, 80, IDrawableAnimated.StartDirection.BOTTOM, false);
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 192, 0, 16, 58);
-		ItemStack fermenter = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.FERMENTER).block());
+		ItemStack fermenter = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, fermenter);
 	}
 

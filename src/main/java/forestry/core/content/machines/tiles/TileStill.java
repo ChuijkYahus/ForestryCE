@@ -13,6 +13,7 @@ import forestry.core.platform.render.TankRenderInfo;
 import forestry.core.platform.tile.ILiquidTankTile;
 import forestry.core.platform.tile.TilePowered;
 import forestry.core.platform.util.RecipeUtils;
+import forestry.core.content.machines.blocks.BlockFactoryPlain;
 import forestry.core.content.machines.features.FactoryTiles;
 import forestry.core.content.machines.gui.ContainerStill;
 import forestry.core.content.machines.inventory.InventoryStill;
@@ -96,6 +97,29 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 			FluidStack fluidStack = this.productTank.getFluid();
 			if (!fluidStack.isEmpty()) {
 				FluidHelper.fillContainers(this.tankManager, this, InventoryStill.SLOT_RESOURCE, InventoryStill.SLOT_PRODUCT, fluidStack.getFluid(), true);
+			}
+
+			TankRenderInfo resourceTankInfo = this.getResourceTankInfo();
+			TankRenderInfo productTankInfo = this.getProductTankInfo();
+
+			int newLevelLeft = resourceTankInfo.getLevel().getLevelScaled(4);
+			int newLevelRight = productTankInfo.getLevel().getLevelScaled(4);
+			boolean update = false;
+
+			if (state.hasProperty(BlockFactoryPlain.TANK_RESOURCE_LEVEL) &&
+				state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL) != newLevelLeft) {
+				state = state.setValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL, newLevelLeft);
+				update = true;
+			}
+
+			if (state.hasProperty(BlockFactoryPlain.TANK_PRODUCT_LEVEL) &&
+				state.getValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL) != newLevelRight) {
+				state = state.setValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL, newLevelRight);
+				update = true;
+			}
+
+			if (update) {
+				level.setBlock(pos, state, BlockFactoryPlain.UPDATE_CLIENTS);
 			}
 		}
 	}

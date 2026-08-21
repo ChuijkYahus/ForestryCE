@@ -1,6 +1,7 @@
 package forestry.core.content.energy.screen;
 
 import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.widgets.SocketWidget;
 import forestry.core.content.energy.menu.PeatEngineMenu;
 import forestry.core.content.energy.tiles.PeatEngineBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class PeatEngineScreen extends EngineScreen<PeatEngineMenu, PeatEngineBlockEntity> {
 	public PeatEngineScreen(PeatEngineMenu menu, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/peatengine.png", menu, inv, title, menu.getTile());
+		this.widgetManager.add(new SocketWidget(this.widgetManager, 71, 44, menu.getTile(), 0));
 	}
 
 	@Override

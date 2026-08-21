@@ -43,7 +43,9 @@ import net.minecraft.world.level.material.MapColor;
 public class CoreBlocks {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 
-	public static final FeatureBlockGroup<BlockCore, BlockTypeCoreTesr> BASE = REGISTRY.blockGroup(BlockCore::new, List.of(BlockTypeCoreTesr.values())).item(ItemBlockTesr::new).create();
+	public static final FeatureBlockGroup<BlockCore, BlockTypeCoreTesr> BASE = REGISTRY.blockGroup((properties, type) -> new BlockCore(type, properties), List.of(BlockTypeCoreTesr.values()))
+		.blockProperties((properties, type) -> type.getBlockProperties())
+		.item(ItemBlockTesr::new).create();
 
 	// Deviation from 1.20.1: the barrel built its own properties inside its constructor. Here the registry owns them.
 	// Blocks.FURNACE is safe to ofFullCopy, it sets no dropsLike, so the copy cannot steal a vanilla loot table id
@@ -53,7 +55,7 @@ public class CoreBlocks {
 		.lightLevel(state -> state.getValue(BlockBurnBarrel.LIT) ? 15 : 0), ItemBlockForestry::new, "burn_barrel");
 
 	public static final FeatureBlock<BlockBogEarth, ItemBlockForestry<?>> BOG_EARTH = REGISTRY.block(BlockBogEarth::new, ItemBlockForestry::new, "bog_earth");
-	public static final FeatureBlock<Block, ItemBlockForestry<?>> PEAT = REGISTRY.block(Block::new, () -> Properties.of().strength(0.5f).sound(SoundType.GRAVEL), null, "peat");
+	public static final FeatureBlock<BlockPeat, ItemBlockForestry<?>> PEAT = REGISTRY.block(BlockPeat::new, null, "peat");
 	public static final FeatureBlock<BlockHumus, ItemBlockForestry<?>> HUMUS = REGISTRY.block(BlockHumus::new, ItemBlockForestry::new, "humus");
 	public static final FeatureBlockGroup<BlockResourceStorage, EnumResourceType> RESOURCE_STORAGE = REGISTRY.blockGroup(BlockResourceStorage::new, List.of(EnumResourceType.values())).item(ItemBlockForestry::new).identifier("block", FeatureGroup.IdentifierType.SUFFIX).create();
 	public static final FeatureBlock<Block, BlockItem> APATITE_ORE = REGISTRY.block((properties) -> new DropExperienceBlock(UniformInt.of(0, 4), properties), () -> Properties.ofFullCopy(Blocks.COAL_ORE), ItemBlockForestry::new, "apatite_ore");

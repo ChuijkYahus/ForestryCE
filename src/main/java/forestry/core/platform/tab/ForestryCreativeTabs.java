@@ -19,7 +19,6 @@ import forestry.core.platform.item.EnumContainerType;
 import forestry.core.platform.item.FluidHandlerItemForestry;
 import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.registration.*;
 import forestry.core.platform.util.SpeciesUtil;
@@ -106,8 +105,8 @@ public class ForestryCreativeTabs {
 		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
 		items.accept(EnergyBlocks.SOLAR_PANEL);
 		// Machines
+		FactoryBlocks.PLAIN.getItems().forEach(items::accept);
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER));
 		items.accept(CoreBlocks.BURN_BARREL);
 		// Circuit boards
 		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR));
@@ -280,8 +279,8 @@ public class ForestryCreativeTabs {
 		items.accept(BackpackItems.BREWER_BACKPACK_T_2);
 
 		// Packing machines
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.BOTTLER));
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER));
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.BOTTLER));
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER));
 
 		// Misc gear
 		items.accept(CoreItems.PIPETTE);

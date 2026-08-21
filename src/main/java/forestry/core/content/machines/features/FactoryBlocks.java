@@ -19,5 +19,5 @@ public class FactoryBlocks {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.FACTORY);
 
 	public static final FeatureBlockGroup<BlockFactoryTESR, BlockTypeFactoryTesr> TESR = REGISTRY.blockGroup(BlockFactoryTESR::new, List.of(BlockTypeFactoryTesr.values())).item(ItemBlockTesr::new).create();
-	public static final FeatureBlockGroup<BlockFactoryPlain, BlockTypeFactoryPlain> PLAIN = REGISTRY.blockGroup(BlockFactoryPlain::new, List.of(BlockTypeFactoryPlain.values())).item(ItemBlockForestry::new).create();
+	public static final FeatureBlockGroup<BlockFactoryPlain, BlockTypeFactoryPlain> PLAIN = REGISTRY.blockGroup(BlockFactoryPlain::create, List.of(BlockTypeFactoryPlain.values())).item(ItemBlockForestry::new).create();
 }

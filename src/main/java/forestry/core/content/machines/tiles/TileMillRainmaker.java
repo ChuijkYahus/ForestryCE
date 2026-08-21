@@ -10,8 +10,10 @@ import forestry.core.content.machines.features.FactoryTiles;
 import forestry.core.content.machines.inventory.InventoryRainmaker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -28,9 +30,14 @@ import javax.annotation.Nullable;
 
 public class TileMillRainmaker extends TileMill {
 	private static final ResourceLocation USE_RAINMAKER = ForestryConstants.forestry("use_rainmaker");
+	private static final int MAX_PARTICLE_COUNT = 64;
 
 	private int duration;
 	private boolean reverse;
+
+	// height of the cloud column climbing above the rainmaker, in sendParticles calls
+	private int yParticle;
+	private int particleCount = MAX_PARTICLE_COUNT;
 
 	public TileMillRainmaker(BlockPos pos, BlockState state) {
 		super(FactoryTiles.RAINMAKER.tileType(), pos, state);
@@ -90,6 +97,27 @@ public class TileMillRainmaker extends TileMill {
 	}
 
 	@Override
+	protected void update(Level level, BlockPos pos, boolean isSimulating) {
+		super.update(level, pos, isSimulating);
+
+		if (this.particleCount < MAX_PARTICLE_COUNT && level instanceof ServerLevel serverLevel) {
+			serverLevel.sendParticles(ParticleTypes.CLOUD,
+				pos.getX() + 0.5,
+				this.yParticle,
+				pos.getZ() + 0.5,
+				10,
+				0.025f,
+				1f,
+				0.025f,
+				0.01f
+			);
+
+			this.yParticle += 2;
+			this.particleCount++;
+		}
+	}
+
+	@Override
 	public void activate(Level level, BlockPos pos) {
 		if (level.isClientSide) {
 			level.playSound(null, pos, SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 10000.0F, 0.8F + level.random.nextFloat() * 0.2F);
@@ -105,6 +133,10 @@ public class TileMillRainmaker extends TileMill {
 			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 - f3);
 			ParticleRender.addEntityExplodeFX(level, f + f4, f1, f2 + f3);
 		} else {
+			// restart the cloud column so it climbs again from this activation
+			this.particleCount = 0;
+			this.yParticle = pos.getY() + 2;
+
 			if (this.reverse) {
 				level.getLevelData().setRaining(false);
 			} else {

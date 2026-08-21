@@ -18,6 +18,7 @@ import forestry.core.platform.tile.ILiquidTankTile;
 import forestry.core.platform.tile.TilePowered;
 import forestry.core.platform.util.InventoryUtil;
 import forestry.core.platform.util.RecipeUtils;
+import forestry.core.content.machines.blocks.BlockFactoryPlain;
 import forestry.core.content.machines.features.FactoryTiles;
 import forestry.core.content.machines.gui.ContainerSqueezer;
 import forestry.core.content.machines.inventory.InventorySqueezer;
@@ -123,6 +124,21 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 			FluidStack fluid = this.productTank.getFluid();
 			if (!fluid.isEmpty()) {
 				this.inventory.fillContainers(fluid, this.tankManager);
+			}
+
+			TankRenderInfo productTankInfo = this.getProductTankInfo();
+
+			int newLevel = productTankInfo.getLevel().getLevelScaled(4);
+			boolean update = false;
+
+			if (state.hasProperty(BlockFactoryPlain.TANK_PRODUCT_LEVEL) &&
+				state.getValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL) != newLevel) {
+				state = state.setValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL, newLevel);
+				update = true;
+			}
+
+			if (update) {
+				level.setBlock(pos, state, BlockFactoryPlain.UPDATE_CLIENTS);
 			}
 		}
 	}

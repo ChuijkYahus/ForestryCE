@@ -780,15 +780,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" X ");
 			recipe.pattern("X  ");
 		});
-		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.PORTABLE_ALYZER, recipe -> {
-			recipe.define('#', Tags.Items.GLASS_PANES);
-			recipe.define('X', ForestryTags.Items.INGOTS_TIN);
-			recipe.define('R', Tags.Items.DUSTS_REDSTONE);
-			recipe.define('D', Tags.Items.GEMS_DIAMOND);
-			recipe.pattern("X#X");
-			recipe.pattern("X#X");
-			recipe.pattern("RDR");
-		});
 
 		recipes.shapedCrafting("string_from_wisp", RecipeCategory.MISC, Items.STRING, recipe -> {
 			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SILK_WISP));
@@ -1150,7 +1141,7 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerFactoryRecipes(MKRecipeProvider recipes) {
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.BOTTLER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.BOTTLER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', FluidsItems.CONTAINERS.get(EnumContainerType.CAN));
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1159,7 +1150,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1168,7 +1159,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.INGOTS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1187,7 +1178,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XZX");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.FERMENTER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.GEARS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1196,7 +1187,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1211,15 +1202,6 @@ public class ForestryRecipeProvider {
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
 			recipe.pattern("#Y#");
-			recipe.pattern("X#X");
-		});
-
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.RAINTANK).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
-			recipe.define('X', Tags.Items.INGOTS_IRON);
-			recipe.define('Y', CoreItems.STURDY_CASING);
-			recipe.pattern("X#X");
-			recipe.pattern("XYX");
 			recipe.pattern("X#X");
 		});
 
@@ -1242,7 +1224,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XXX");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1251,7 +1233,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.DUSTS_REDSTONE);
 			recipe.define('Y', CoreItems.STURDY_CASING);

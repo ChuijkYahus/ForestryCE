@@ -418,8 +418,6 @@
   "for.hints.pipette.tag": "Empty tanks with the pipette",
   "for.hints.postage.desc": "Sending letters costs stamps. To a base fee of 1n, every attachment adds another 1n of cost.",
   "for.hints.postage.tag": "Pay the Ferryman",
-  "for.hints.powerraintank.desc": "Even an unpowered raintank will collect rain. However to bottle the water, energy from an engine is required.",
-  "for.hints.powerraintank.tag": "Bottling Requires Energy!",
   "for.hints.shortmead.desc": "Your fermenter can not only create biomass, you can also use honeydew and liquid honey to make some short mead.",
   "for.hints.shortmead.tag": "Get your energy drink!",
   "for.hints.smelter.desc": "You can use a smelter to alloy metals. Before any smelting can occur, the Smelter must warm up to a sufficient temperature!",
@@ -674,7 +672,6 @@
   "block.forestry.still": "Still",
   "block.forestry.rainmaker": "Rainmaker",
   "block.forestry.thermionic_fabricator": "Thermionic Fabricator",
-  "block.forestry.raintank": "Rain Tank",
   "block.forestry.worktable": "Worktable",
   "block.forestry.apatite_ore": "Apatite Ore",
   "block.forestry.deepslate_apatite_ore": "Deepslate Apatite Ore",
@@ -784,6 +781,8 @@
   "errors.forestry.no_space_tank.help": "Empty this machine's liquid tank.",
   "errors.forestry.not_dark.desc": "Not dark enough",
   "errors.forestry.not_dark.help": "A lower light level is required for operation.",
+  "errors.forestry.not_warm_enough.desc": "Not warm enough",
+  "errors.forestry.not_warm_enough.help": "This machine isn't warm enough to operate. Ensure power is connected.",
   "errors.forestry.not_lit.desc": "Needs fire!",
   "errors.forestry.not_lit.help": "Ensure there are burnable items inside the barrels inventory, then right click with a Flint and Steel or Fire Charge to start burning!",
   "_comment": "RAIN TANK",
@@ -1420,9 +1419,6 @@
   "for.gui.book.patchouli.entry.core.machine.rainmaker": "Rainmaker",
   "for.gui.book.patchouli.entry.core.machine.rainmaker1": "The Rainmaker is a machine that, when placed, will wait for the player to give it an Iodine Charge or a Dissipation Charge.",
   "for.gui.book.patchouli.entry.core.machine.rainmaker2": "An Iodine Charge when placed inside the Rainmaker will make it rain and the Dissipation Charge when placed inside the Rainmaker will stop the rain.$(br2)Charges can be inserted in to the machine either by a player right-clicking with the charge in hand, or by inserting the charges using pipes. Both Iodine Charges and Dissipation Charges are made in the Carpenter.",
-
-  "for.gui.book.patchouli.entry.core.machine.raintank": "Rain Tank",
-  "for.gui.book.patchouli.entry.core.machine.raintank1": "The raintank is a machine that will build up its internal buffer with water when it's placed outside in the rain.$(br)The raintank does not require energy to bottle water.",
 
   "for.gui.book.patchouli.entry.core.machine.squeezer": "Squeezer",
   "for.gui.book.patchouli.entry.core.machine.squeezer1": "The Squeezer is a machine that is tasked with squeezing liquids from item. For example, you can squeeze Honey Drops into Liquid Honey.",
@@ -2410,7 +2406,6 @@
   "for.jei.description.kit_shovel": "A stackable package that contains a bronze shovel. Use it in your hand to open.",
   "for.jei.description.kit_pickaxe": "A stackable package that contains a bronze pickaxe. Use it in your hand to open.",
   "for.jei.description.fertilizer_compound": "Rich fertilizer. Can be used as bonemeal on crops and saplings. Required in order to run a Forestry farm.",
-  "for.jei.description.raintank": "Collects water when it rains. Can automatically output water from the bottom side.",
   "for.jei.description.worktable": "Advanced crafting table with an inventory. Remembers up to 9 recipes. Has the ability to choose the crafting result when there is a recipe conflict.",
   "for.jei.description.grafter": "Guarantees a sapling drop when breaking Forestry leaves. Has a very limited number of uses.",
   "for.jei.description.grafter_proven": "Guarantees a sapling drop when breaking Forestry leaves. They can only be purchased from villagers.",
@@ -2610,5 +2605,8 @@
   "painting.forestry.the_hunny_tree.title": "The Hunny Tree",
   "painting.forestry.the_hunny_tree.author": "Spearkiller",
   "for.gui.mail.toast.title": "You've got Mail!",
-  "for.gui.mail.toast.message": "%1$d unopened letters"
+  "for.gui.mail.toast.message": "%1$d unopened letters",
+
+  "for.gui.fabricator.heat": "Current temperature: %1$s/%2$s ",
+  "for.gui.fabricator.requiredHeat": "Required melting temperature: %s"
 }

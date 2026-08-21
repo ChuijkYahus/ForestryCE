@@ -1,14 +1,14 @@
 package forestry.core.content.machines.recipes.jei.moistener;
 
 import forestry.api.ForestryConstants;
+import forestry.api.core.machines.IMoistenerRecipe;
 import forestry.api.core.machines.fuels.FuelManager;
 import forestry.api.core.machines.fuels.MoistenerFuel;
-import forestry.api.core.machines.IMoistenerRecipe;
+import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
-import forestry.core.content.machines.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
@@ -47,14 +47,14 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		IDrawableStatic progressBar = guiHelper.createDrawable(TEXTURE, 176, 74, 16, 15);
 		this.progressBar = guiHelper.createAnimatedDrawable(progressBar, 160, IDrawableAnimated.StartDirection.LEFT, false);
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 176, 0, 16, 58);
-		ItemStack moistener = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER).block());
+		ItemStack moistener = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, moistener);
 
 		Collection<MoistenerFuel> fuels = FuelManager.moistenerResource.values();
-        this.fuelResources = fuels.stream()
+		this.fuelResources = fuels.stream()
 			.map(MoistenerFuel::resource)
 			.toList();
-        this.fuelProducts = fuels.stream()
+		this.fuelProducts = fuels.stream()
 			.map(MoistenerFuel::product)
 			.toList();
 	}

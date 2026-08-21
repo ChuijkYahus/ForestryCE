@@ -2,7 +2,10 @@ package forestry.core.platform.models;
 
 import forestry.core.platform.block.IColoredBlock;
 import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.render.TankRenderInfo;
+import forestry.core.platform.tile.IRenderableTile;
 import forestry.core.platform.util.ModUtil;
+import forestry.core.platform.util.RenderUtil;
 import forestry.core.platform.util.ResourceUtil;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureGroup;
@@ -18,8 +21,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -42,9 +47,24 @@ public enum ClientManager {
 	};
 	public static final BlockColor FORESTRY_BLOCK_COLOR = (state, level, pos, tintIndex) -> {
 		Block block = state.getBlock();
-		if (level != null && pos != null && block instanceof IColoredBlock coloredBlock) {
+		if (level == null || pos == null) {
+			return 0xffffff;
+		}
+		if (block instanceof IColoredBlock coloredBlock) {
 			return coloredBlock.colorMultiplier(state, level, pos, tintIndex);
 		}
+
+		// Packaging machine tank slices. tintIndex 0 is the resource tank, tintIndex 1 the product tank
+		BlockEntity blockEntity = level.getBlockEntity(pos);
+		if (blockEntity instanceof IRenderableTile tile) {
+			TankRenderInfo tankInfo = tintIndex == 0 ? tile.getResourceTankInfo() : tile.getProductTankInfo();
+			FluidStack fluidStack = tankInfo.getFluidStack();
+			if (!fluidStack.isEmpty()) {
+				return RenderUtil.getFluidColor(fluidStack.getFluid());
+			}
+			return 0x000000;
+		}
+
 		return 0xffffff;
 	};
 

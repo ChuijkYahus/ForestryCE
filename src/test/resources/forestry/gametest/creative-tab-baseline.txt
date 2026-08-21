@@ -97,7 +97,6 @@ forestry:agriculture forestry:quartz_pillar_farm_hatch x1
 forestry:agriculture forestry:quartz_pillar_farm_plain x1
 forestry:agriculture forestry:quartz_pillar_farm_valve x1
 forestry:agriculture forestry:rainmaker x1
-forestry:agriculture forestry:raintank x1
 forestry:agriculture forestry:refined_circuit_board x1
 forestry:agriculture forestry:silicon_electron_tube x1
 forestry:agriculture forestry:solar_engine x1
