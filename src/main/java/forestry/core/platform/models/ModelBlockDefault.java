@@ -12,20 +12,31 @@ import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class ModelBlockDefault<B extends Block, K> implements BakedModel {
+	/**
+	 * The particle sprite of the model baked for one block position.
+	 *
+	 * <p>One model instance serves every block it was registered for, so {@link #getParticleIcon(ModelData)} cannot
+	 * tell the blocks apart. {@link #getModelData} has the block state, so it resolves the sprite there.
+	 */
+	public static final ModelProperty<TextureAtlasSprite> PARTICLE_SPRITE = new ModelProperty<>();
+
 	@Nullable
 	private ItemOverrides overrideList;
 
@@ -45,9 +56,11 @@ public abstract class ModelBlockDefault<B extends Block, K> implements BakedMode
 
 		bakeBlock(block, extraData, key, baker, false);
 
-        this.blockModel = baker.bake(false);
-		onCreateModel(this.blockModel);
-		return this.blockModel;
+		// return the local, not the field: another worker thread may overwrite blockModel mid-bake
+		ModelBakerModel model = baker.bake(false);
+		onCreateModel(model);
+		this.blockModel = model;
+		return model;
 	}
 
 	protected BakedModel getModel(BlockState state, ModelData extraData) {
@@ -111,6 +124,30 @@ public abstract class ModelBlockDefault<B extends Block, K> implements BakedMode
 		return this.itemModel != null && this.itemModel.usesBlockLight();
 	}
 
+	@Override
+	public ModelData getModelData(BlockAndTintGetter level, BlockPos pos, BlockState state, ModelData modelData) {
+		if (!this.blockClass.isInstance(state.getBlock())) {
+			return modelData;
+		}
+		// Break and hit particles read the sprite through getParticleIcon(ModelData), which has no block state to
+		// bake from, so carry the sprite of this state's model in the model data. Chunk meshing calls this once per
+		// block, and the model it bakes is the one the following getQuads calls reuse.
+		return modelData.derive().with(PARTICLE_SPRITE, getModel(state, modelData).getParticleIcon()).build();
+	}
+
+	@Override
+	public TextureAtlasSprite getParticleIcon(ModelData data) {
+		TextureAtlasSprite sprite = data.get(PARTICLE_SPRITE);
+
+		return sprite != null ? sprite : getParticleIcon();
+	}
+
+	/**
+	 * Used as the last resort for callers that have no model data. Prefer {@link #getParticleIcon(ModelData)}, which
+	 * tells apart the blocks that share this model instance.
+	 *
+	 * @return The particle sprite of the model baked last, or the missing texture before the first bake
+	 */
 	@Override
 	public TextureAtlasSprite getParticleIcon() {
 		if (this.blockModel != null) {

@@ -6,6 +6,7 @@ import forestry.api.agriculture.*;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -103,7 +104,7 @@ public final class FarmType implements IFarmType {
 				return true;
 			}
 		}
-		return false;
+		return this.id.equals(ForestryFarmTypes.ARBOREAL) && stack.is(ItemTags.SAPLINGS);
 	}
 
 	@Override

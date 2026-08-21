@@ -9,6 +9,7 @@ import forestry.arboriculture.leaves.BlockDefaultLeaves;
 import forestry.core.platform.models.ModelBlockCached;
 import forestry.core.platform.models.ModelTransforms;
 import forestry.core.platform.models.baker.ModelBaker;
+import forestry.core.platform.models.baker.ModelBakerModel;
 import forestry.core.platform.util.ResourceUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.client.Minecraft;
@@ -109,9 +110,11 @@ public class ModelDefaultLeaves extends ModelBlockCached<BlockDefaultLeaves, Mod
 
 		bakeBlock(block, extraData, key, baker, false);
 
-        this.blockModel = baker.bake(false);
-		onCreateModel(this.blockModel);
-		return this.blockModel;
+		// return the local, not the field: another worker thread may overwrite blockModel mid-bake
+		ModelBakerModel model = baker.bake(false);
+		onCreateModel(model);
+		this.blockModel = model;
+		return model;
 	}
 
 	@Override
