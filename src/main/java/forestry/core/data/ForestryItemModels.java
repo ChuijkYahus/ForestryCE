@@ -9,6 +9,7 @@ import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.core.content.resources.EnumElectronTube;
+import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.content.backpacks.features.CrateItems;
@@ -105,11 +106,14 @@ public class ForestryItemModels {
 			layered(models, CoreItems.ELECTRON_TUBES.get(type), "item/electron_tube_" + type.getSerializedName());
 		}
 
+		// Circuit boards each have their own texture (1.20.1's per-tier set), not a shared tinted
+		// layer pair, so they get a single-layer model like the electron tubes above.
+		for (EnumCircuitBoardType type : EnumCircuitBoardType.values()) {
+			layered(models, CoreItems.CIRCUITBOARDS.get(type), "item/circuit_board_" + type.getSerializedName());
+		}
+
 		// Tier 3: layered `item/generated` models. Every item in a family shares the same texture pair,
 		// so pointing at the registered features keeps the model ids from drifting off the item ids.
-		for (FeatureItem<?> board : CoreItems.CIRCUITBOARDS.getFeatures()) {
-			layered(models, board, "item/chipsets.1", "item/chipsets.0");
-		}
 		for (FeatureItem<?> pollen : ApicultureItems.POLLEN_CLUSTER.getFeatures()) {
 			layered(models, pollen, "item/pollen.0", "item/pollen.1");
 		}

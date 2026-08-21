@@ -54,18 +54,6 @@ public class CircuitBoard implements ICircuitBoard {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public int getPrimaryColor() {
-		return this.type.getPrimaryColor();
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getSecondaryColor() {
-		return this.type.getSecondaryColor();
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void addTooltip(List<Component> list) {
 		if (this.layout != null) {
 			list.add(Component.literal(this.layout.getUsage().getString() + ":").withStyle(ChatFormatting.GOLD));

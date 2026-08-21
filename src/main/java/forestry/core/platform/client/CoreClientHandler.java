@@ -262,7 +262,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
 		// Core
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.CIRCUITBOARDS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, FluidsItems.CONTAINERS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.PIPETTE.item());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.HONEY_DROP.item());

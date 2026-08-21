@@ -750,3 +750,30 @@ approach; this tree had kept the tint instead, and that decision is now reversed
 
 Not run, per this slice's instructions: no `gradlew`, no datagen. The generated model JSONs under
 `src/generated/` still show the old tinted pair until `runData` regenerates them.
+
+## Circuit board resprite (2026-08-20)
+
+The same reversal as the electron tubes above, for the other family that had been left on a tinted
+shared sprite. 1.20.1's `019729845` ("Updated Circuit Board textures") gave every tier its own
+texture and deleted the colour plumbing outright.
+
+- The four 1.20.1 `circuit_board_<tier>.png` textures were copied in.
+- `EnumCircuitBoardType` loses `getPrimaryColor` / `getSecondaryColor`, so it no longer reads
+  `item.circuit.<tier>.primary` / `.secondary` out of `colour.properties`. Those two keys per tier
+  are now unread. 1.20.1 left them in the file and so does this tree.
+- `ICircuitBoard` loses the same two methods from the API surface, and `CircuitBoard` loses the
+  overrides that forwarded them.
+- `ItemCircuitBoard` no longer implements `IColoredItem`, and its `CoreItems.CIRCUITBOARDS` item
+  colour registration is gone from `CoreClientHandler`.
+- `ForestryItemModels` gives each board a single-layer model pointing at
+  `item/circuit_board_<tier>`. Registry ids are unchanged (`basic_circuit_board`,
+  `enhanced_circuit_board`, `refined_circuit_board`, `intricate_circuit_board`); only the texture
+  moved.
+- `item/chipsets.0.png` and `.1.png` are deleted, matching 1.20.1, which removed both. This is the
+  one place the two resprites differ: 1.20.1 kept the dead `thermionic_tubes` pair but dropped the
+  dead `chipsets` pair, and this tree follows it on both counts.
+
+### Verification for this round
+
+Not run: no `gradlew`, no datagen. The generated model JSONs under `src/generated/` still show the
+old tinted pair until `runData` regenerates them.

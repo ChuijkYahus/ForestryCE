@@ -1,9 +1,6 @@
 package forestry.core.engine.circuits;
 
 import forestry.api.core.IItemSubtype;
-import forestry.core.platform.render.ColourProperties;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.Locale;
 
@@ -28,15 +25,5 @@ public enum EnumCircuitBoardType implements IItemSubtype {
 	@Override
 	public String getSerializedName() {
 		return this.name;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public int getPrimaryColor() {
-		return ColourProperties.INSTANCE.get("item.circuit." + name().toLowerCase(Locale.ENGLISH) + ".primary");
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public int getSecondaryColor() {
-		return ColourProperties.INSTANCE.get("item.circuit." + name().toLowerCase(Locale.ENGLISH) + ".secondary");
 	}
 }

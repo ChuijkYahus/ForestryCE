@@ -6,7 +6,6 @@ import forestry.api.core.circuits.ICircuitBoard;
 import forestry.api.core.circuits.ICircuitLayout;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemForestry;
-import forestry.core.platform.item.IColoredItem;
 import forestry.core.platform.util.NBTUtilForestry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
@@ -14,13 +13,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
+public class ItemCircuitBoard extends ItemForestry {
 	private final EnumCircuitBoardType type;
 
 	public ItemCircuitBoard(EnumCircuitBoardType type) {
@@ -29,16 +26,6 @@ public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 
 	public EnumCircuitBoardType getType() {
 		return this.type;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getColorFromItemStack(ItemStack itemstack, int tintIndex) {
-		if (tintIndex == 0) {
-			return this.type.getPrimaryColor();
-		} else {
-			return this.type.getSecondaryColor();
-		}
 	}
 
 	@Override
