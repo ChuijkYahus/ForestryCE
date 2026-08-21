@@ -2,11 +2,11 @@ package forestry.core.content.machines.recipes.jei.still;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.IStillRecipe;
+import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
-import forestry.core.content.machines.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -34,7 +34,7 @@ public class StillRecipeCategory extends ForestryRecipeCategory<IStillRecipe> {
 
 		IDrawableStatic progressBarDrawable0 = guiHelper.createDrawable(guiTexture, 176, 74, 4, 18);
 		this.progressBar = guiHelper.createAnimatedDrawable(progressBarDrawable0, 20, IDrawableAnimated.StartDirection.BOTTOM, false);
-		ItemStack still = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL).block());
+		ItemStack still = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, still);
 	}
 

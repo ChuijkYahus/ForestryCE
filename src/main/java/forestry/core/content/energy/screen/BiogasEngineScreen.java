@@ -1,6 +1,7 @@
 package forestry.core.content.energy.screen;
 
 import forestry.core.platform.config.Constants;
+import forestry.core.platform.gui.widgets.SocketWidget;
 import forestry.core.platform.gui.widgets.TankWidget;
 import forestry.core.content.energy.menu.BiogasEngineMenu;
 import forestry.core.content.energy.tiles.BiogasEngineBlockEntity;
@@ -16,6 +17,8 @@ public class BiogasEngineScreen extends EngineScreen<BiogasEngineMenu, BiogasEng
         this.widgetManager.add(new TankWidget(this.widgetManager, 107, 19, 1));
 
         this.widgetManager.add(new BiogasSlot(this.widgetManager, 30, 47, 2));
+
+		this.widgetManager.add(new SocketWidget(this.widgetManager, 60, 47, menu.getTile(), 0));
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import forestry.api.IForestryApi;
 import forestry.api.core.circuits.ICircuit;
 import forestry.api.core.circuits.ICircuitLayout;
 import forestry.api.core.circuits.ICircuitManager;
-import forestry.api.core.ItemGroups;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -14,14 +13,15 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.ArrayList;
 import java.util.List;
-import forestry.core.platform.item.ItemOverlay;
+import forestry.core.platform.item.ItemForestry;
 
-public class ItemElectronTube extends ItemOverlay {
-	public ItemElectronTube(ItemOverlay.IOverlayInfo type) {
-		super(ItemGroups.tabForestry, type);
+public class ItemElectronTube extends ItemForestry {
+
+	// The subtype is what the registry keys the item by, nothing here reads it back
+	public ItemElectronTube(EnumElectronTube type) {
 	}
 
-	//TODO: Make it so total speed, efficiency, and fortune multipliers are shown?
+	// todo show the combined speed, efficiency and fortune multipliers
 	@Override
 	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, context, list, flag);

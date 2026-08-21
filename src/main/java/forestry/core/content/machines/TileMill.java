@@ -45,7 +45,7 @@ public abstract class TileMill extends TileBase {
         this.stage = data.readInt();
 	}
 
-	private void update(Level level, BlockPos pos, boolean isSimulating) {
+	protected void update(Level level, BlockPos pos, boolean isSimulating) {
 		// Stop gracefully if discharged.
 		if (this.charge <= 0) {
 			if (this.stage > 0) {

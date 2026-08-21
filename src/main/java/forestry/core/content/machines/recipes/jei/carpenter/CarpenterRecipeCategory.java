@@ -2,6 +2,7 @@ package forestry.core.content.machines.recipes.jei.carpenter;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.ICarpenterRecipe;
+import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
@@ -43,7 +44,7 @@ public class CarpenterRecipeCategory extends ForestryRecipeCategory<ICarpenterRe
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(guiTexture, 176, 59, 4, 17);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.BOTTOM, false);
 		this.tankOverlay = guiHelper.createDrawable(guiTexture, 176, 0, 16, 58);
-		ItemStack carpenter = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER).block());
+		ItemStack carpenter = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, carpenter);
 	}
 

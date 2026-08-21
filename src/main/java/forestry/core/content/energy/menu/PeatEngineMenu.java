@@ -1,6 +1,6 @@
 package forestry.core.content.energy.menu;
 
-import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.ContainerSocketed;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.network.packets.PacketGuiStream;
@@ -10,7 +10,7 @@ import forestry.core.content.energy.tiles.PeatEngineBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class PeatEngineMenu extends ContainerTile<PeatEngineBlockEntity> {
+public class PeatEngineMenu extends ContainerSocketed<PeatEngineBlockEntity> {
 	public static PeatEngineMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf extraData) {
 		PeatEngineBlockEntity tile = TileUtil.getTile(inv.player.level(), extraData.readBlockPos(), PeatEngineBlockEntity.class);
 		return new PeatEngineMenu(windowId, inv, tile);

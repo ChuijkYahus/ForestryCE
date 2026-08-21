@@ -60,9 +60,6 @@ public class ModuleEnergy extends BlankForestryModule {
 		FuelManager.biogasEngineFuel.put(biomass, new EngineBronzeFuel(biomass,
 			Constants.ENGINE_FUEL_VALUE_BIOMASS, Constants.ENGINE_CYCLE_DURATION_BIOMASS, 1));
 
-		FuelManager.biogasEngineFuel.put(Fluids.WATER, new EngineBronzeFuel(Fluids.WATER,
-			Constants.ENGINE_FUEL_VALUE_WATER, Constants.ENGINE_CYCLE_DURATION_WATER, 3));
-
 		Fluid milk = NeoForgeMod.MILK.get();
 		FuelManager.biogasEngineFuel.put(milk, new EngineBronzeFuel(milk,
 			Constants.ENGINE_FUEL_VALUE_MILK, Constants.ENGINE_CYCLE_DURATION_MILK, 3));
@@ -77,7 +74,7 @@ public class ModuleEnergy extends BlankForestryModule {
 
 		Fluid juice = ForestryFluids.JUICE.getFluid();
 		FuelManager.biogasEngineFuel.put(juice, new EngineBronzeFuel(juice,
-			Constants.ENGINE_FUEL_VALUE_JUICE, Constants.ENGINE_CYCLE_DURATION_JUICE, 1));
+			Constants.ENGINE_FUEL_VALUE_JUICE, Constants.ENGINE_CYCLE_DURATION_JUICE, 2));
 
 		// Combustion Engine
 		// Deviation from 1.20.1: the duration constant is named ENGINE_CYCLE_DURATION_ETHANOL here, not

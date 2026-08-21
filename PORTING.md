@@ -410,10 +410,8 @@ Deviations for this pass:
 
 - Ids are `silicon_block` and `silicon_electron_tube`, following this tree's naming rather than
   1.20.1's `resource_storage_silicon` and `electron_tube_silicon`.
-- 1.21.1 rewrote electron tubes onto `ItemOverlay`, so every tube is a tint over the shared
-  `item/thermionic_tubes.0/.1` pair. Silicon therefore needs a color, not a texture. The two
-  colors are sampled from 1.20.1's `electron_tube_silicon.png`, avoiding a collision with
-  Apatite's `0x579CD9`. The old texture is left in place but is now unused.
+- Silicon's `electron_tube_silicon.png` is already byte-identical to 1.20.1's, so it needed no
+  new texture (see the 2026-08-20 electron tube resprite note below).
 - Silicon joins the `c:storage_blocks` aggregate tag, which 1.20.1 leaves it out of.
 - The engine recipe uses `Tags.Items.GLASS_BLOCKS_COLORLESS`, matching the other three engines.
 
@@ -722,3 +720,33 @@ and the config, render, tab and plugin classes all sit under `forestry/core/plat
 comma, which made the hand-written lang file invalid JSON. It arrived with upstream `a4ab1bd90` and
 is unreferenced from code, so nothing was visibly broken, and the lang merge is line-based rather
 than a JSON parse. Corrected here because the same file was being edited.
+
+## Electron tube resprite (2026-08-20)
+
+Reverses the tint deviation recorded in the Silicon and Solar Cell round above. 1.20.1's
+`bdce82f0a` ("Electron Tube resprites") gave every tube its own texture and dropped the tint
+approach; this tree had kept the tint instead, and that decision is now reversed in favor of
+1.20.1's per-tube textures.
+
+- The thirteen 1.20.1 `electron_tube_<material>.png` textures were copied in.
+  `electron_tube_silicon.png` needed no copy: this tree's existing file was already
+  byte-identical to 1.20.1's (it came in with `d739b7750`).
+- `EnumElectronTube` (`forestry/core/content/resources`) no longer implements
+  `ItemOverlay.IOverlayInfo` and carries no color fields, matching 1.20.1's bare
+  `IItemSubtype` shape. `ItemElectronTube` extends `ItemForestry` directly instead of
+  `ItemOverlay`.
+- `ForestryItemModels` gives each tube a single-layer `item/generated` model pointing at its own
+  `item/electron_tube_<material>` texture instead of the shared, tinted
+  `item/thermionic_tubes.0/.1` pair. Registry ids are unchanged (`amber_electron_tube`,
+  `apatine_electron_tube`, `blazing_electron_tube`, `diamantine_electron_tube`,
+  `golden_electron_tube`, etc.); only the texture each model points at moved.
+- The now-dead `CoreItems.ELECTRON_TUBES` item color registration is removed from
+  `CoreClientHandler`. `ItemOverlay` and `IOverlayInfo` stay in place: propolis, pollen clusters
+  and mail stamps still use them.
+- `item/thermionic_tubes.0.png` and `.1.png` are now referenced by nothing and were left on disk
+  rather than deleted.
+
+### Verification for this round
+
+Not run, per this slice's instructions: no `gradlew`, no datagen. The generated model JSONs under
+`src/generated/` still show the old tinted pair until `runData` regenerates them.

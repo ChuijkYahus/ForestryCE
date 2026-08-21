@@ -1,5 +1,6 @@
 package forestry.core.platform.block;
 
+import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.platform.tile.IForestryTicker;
 import forestry.core.platform.tile.TileForestry;
 import net.minecraft.core.BlockPos;
@@ -27,4 +28,6 @@ public interface IMachineProperties<T extends TileForestry> extends StringRepres
 
 	@Nullable
 	Block getBlock();
+
+	ForestryBlockStateProvider.TankLayout getTankLayout();
 }

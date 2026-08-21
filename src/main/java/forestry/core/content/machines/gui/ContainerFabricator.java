@@ -6,6 +6,7 @@ import forestry.core.platform.gui.slots.SlotCraftMatrix;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.inventory.InventoryGhostCrafting;
+import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.content.machines.features.FactoryMenuTypes;
 import forestry.core.content.machines.inventory.InventoryFabricator;
@@ -22,6 +23,7 @@ import java.util.List;
 
 public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> implements IContainerCrafting {
 	private final List<ContainerListener> trackedListeners = new ArrayList<>();
+	private int previousHeatValue = 0;
 
 	@Override
 	public void addSlotListener(ContainerListener listener) {
@@ -88,9 +90,12 @@ public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> im
 		for (ContainerListener crafter : this.trackedListeners) {
             this.tile.sendGUINetworkData(this, crafter);
 		}
-	}
 
-	public TileFabricator getFabricator() {
-		return this.tile;
+		int currentHeat = this.tile.getHeat();
+		if (currentHeat != this.previousHeatValue) {
+			this.previousHeatValue = currentHeat;
+			PacketGuiStream packet = new PacketGuiStream(this.tile);
+			sendPacketToListeners(packet);
+		}
 	}
 }

@@ -45,7 +45,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import javax.annotation.Nullable;
 
 public class TileFabricator extends TilePowered implements ISlotPickupWatcher, ILiquidTankTile, WorldlyContainer {
-	private static final int MAX_HEAT = 5000;
+	public static final int MAX_HEAT = 5000;
 
 	private final InventoryAdapterTile craftingInventory;
 	private final TankManager tankManager;
@@ -71,6 +71,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		super.saveAdditional(compound, registries);
 
 		compound.putInt("Heat", this.heat);
+		compound.putInt("MeltingPont", this.meltingPoint);
         this.tankManager.write(compound, registries);
         this.craftingInventory.write(compound, registries);
 	}
@@ -80,6 +81,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		super.loadAdditional(compound, registries);
 
         this.heat = compound.getInt("Heat");
+		this.meltingPoint = compound.getInt("MeltingPont");
         this.tankManager.read(compound, registries);
         this.craftingInventory.read(compound, registries);
 	}
@@ -93,6 +95,21 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
         this.tankManager.readData(data);
+	}
+
+	@Override
+	public void writeGuiData(FriendlyByteBuf data) {
+		super.writeGuiData(data);
+		data.writeVarInt(this.heat);
+		data.writeVarInt(this.meltingPoint);
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void readGuiData(FriendlyByteBuf data) {
+		super.readGuiData(data);
+		this.heat = data.readVarInt();
+		this.meltingPoint = data.readVarInt();
 	}
 
 	/* UPDATING */
@@ -242,7 +259,11 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		return this.heat * i / MAX_HEAT;
 	}
 
-	private int getMeltingPoint() {
+	public int getHeat() {
+		return this.heat;
+	}
+
+	public int getMeltingPoint() {
 		if (!this.getItem(InventoryFabricator.SLOT_METAL).isEmpty()) {
 			IFabricatorSmeltingRecipe meltingRecipe = RecipeUtils.getFabricatorMeltingRecipe(getLevel().getRecipeManager(), this.getItem(InventoryFabricator.SLOT_METAL));
 			return meltingRecipe == null ? 0 : meltingRecipe.getMeltingPoint();

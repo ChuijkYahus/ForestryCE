@@ -1,6 +1,7 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
+import forestry.arboriculture.charcoal.BlockAsh;
 import forestry.arboriculture.leaves.BlockDecorativeLeaves;
 import forestry.arboriculture.leaves.BlockDefaultLeaves;
 import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
@@ -16,6 +17,7 @@ import forestry.core.platform.loot.OrganismFunction;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.platform.registration.FeatureBlock;
 import forestry.core.platform.registration.FeatureBlockGroup;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -35,6 +37,8 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -83,9 +87,47 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		for (BlockForestryDoor door : ArboricultureBlocks.DOORS.getList()) {
 			add(door, createDoorTable(door));
 		}
-		registerLootTable(CharcoalBlocks.ASH, (block) -> LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK)
-			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(CoreItems.ASH)).apply(SetItemCountFunction.setCount(BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f))))
-			.withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL)).apply(CountBlockFunction.builder()).apply(ApplyBonusCount.addBonusBinomialDistributionCount(enchantments().getOrThrow(Enchantments.FORTUNE), 23.0f / 40, 2))));
+		LootItemCondition.Builder hasAsh =
+			LootItemBlockStatePropertyCondition.hasBlockStateProperties(CharcoalBlocks.ASH.block())
+				.setProperties(
+					StatePropertiesPredicate.Builder.properties()
+						.hasProperty(BlockAsh.AMOUNT, 0)
+				).invert();
+
+		registerLootTable(CharcoalBlocks.ASH, block ->
+			LootTable.lootTable()
+				.setParamSet(LootContextParamSets.BLOCK)
+
+				// Normal ash drops
+				.withPool(LootPool.lootPool()
+					.when(hasAsh)
+					.add(LootItem.lootTableItem(CoreItems.ASH))
+					.apply(SetItemCountFunction.setCount(
+						BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f)
+					))
+				)
+
+				// Normal charcoal drops
+				.withPool(LootPool.lootPool()
+					.when(hasAsh)
+					.add(LootItem.lootTableItem(Items.CHARCOAL))
+					.apply(CountBlockFunction.builder())
+					.apply(ApplyBonusCount.addBonusBinomialDistributionCount(
+						enchantments().getOrThrow(Enchantments.FORTUNE),
+						23.0f / 40,
+						2
+					))
+				)
+
+				// Extra drop when Silk Touch is used
+				// This is weird and goes against how Silk Touch should work but, to me, it makes sense
+				// Because I don't want players to have 64 different types of ash block. So we'll just
+				// Give them the default amount (0) when digging with silk touch
+				.withPool(LootPool.lootPool()
+					.when(hasSilkTouch())
+					.add(LootItem.lootTableItem(block))
+				)
+		);
 		registerLootTable(CoreBlocks.PEAT, block -> LootTable.lootTable()
 			.withPool(LootPool.lootPool()
 				.add(LootItem.lootTableItem(Blocks.DIRT)))

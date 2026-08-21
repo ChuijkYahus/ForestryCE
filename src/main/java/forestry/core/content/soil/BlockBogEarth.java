@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 /**
@@ -57,7 +58,8 @@ public class BlockBogEarth extends Block {
 		for (BlockPos waterPos : BlockPos.betweenClosed(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))) {
 			BlockState blockState = world.getBlockState(waterPos);
 			Block block = blockState.getBlock();
-			if (block == Blocks.WATER) {
+			// also counts waterlogged blocks (ex. seagrass, waterlogged stairs), not just source water
+			if (block == Blocks.WATER || (blockState.hasProperty(BlockStateProperties.WATERLOGGED) && blockState.getValue(BlockStateProperties.WATERLOGGED))) {
 				return true;
 			}
 		}

@@ -37,6 +37,7 @@ import forestry.core.platform.util.RenderUtil;
 import forestry.core.platform.registration.FeatureFluid;
 import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.energy.features.EnergyTiles;
+import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.content.machines.features.FactoryTiles;
 import forestry.modules.ModuleUtil;
 import forestry.core.content.backpacks.features.BackpackItems;
@@ -171,10 +172,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void setupLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		event.registerLayerDefinition(ForestryModelLayers.ANALYZER_LAYER, RenderAnalyzer::createBodyLayer);
-		event.registerLayerDefinition(ForestryModelLayers.MACHINE_LAYER, RenderMachine::createBodyLayer);
 		event.registerLayerDefinition(ForestryModelLayers.NATURALIST_CHEST_LAYER, RenderNaturalistChest::createBodyLayer);
-		event.registerLayerDefinition(ForestryModelLayers.ESCRITOIRE_LAYER, RenderEscritoire::createBodyLayer);
 		event.registerLayerDefinition(ForestryModelLayers.MILL_LAYER, RenderMill::createBodyLayer);
 		event.registerLayerDefinition(ForestryModelLayers.ENGINE_LAYER, RenderEngine::createBodyLayer);
 	}
@@ -194,13 +192,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.registerBlockEntityRenderer(EnergyTiles.COMBUSTION_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_iron_"));
 		event.registerBlockEntityRenderer(EnergyTiles.SOLAR_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_tin_"));
 		// Factory
-		event.registerBlockEntityRenderer(FactoryTiles.BOTTLER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/bottler_"));
-		event.registerBlockEntityRenderer(FactoryTiles.CARPENTER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/carpenter_"));
-		event.registerBlockEntityRenderer(FactoryTiles.CENTRIFUGE.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/centrifuge_"));
-		event.registerBlockEntityRenderer(FactoryTiles.FERMENTER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/fermenter_"));
-		event.registerBlockEntityRenderer(FactoryTiles.MOISTENER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/moistener_"));
-		event.registerBlockEntityRenderer(FactoryTiles.SQUEEZER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/squeezer_"));
-		event.registerBlockEntityRenderer(FactoryTiles.STILL.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/still_"));
 		event.registerBlockEntityRenderer(FactoryTiles.RAINMAKER.tileType(), ctx -> new RenderMill(ctx, Constants.TEXTURE_PATH_BLOCK + "/rainmaker_"));
 	}
 
@@ -248,7 +239,9 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 				@Override
 				public int getTintColor() {
-					return forestryType.getColor();
+					// forestryType.getColor() double-tints placed fluids, since the still/flowing textures
+					// are already tinted; white leaves the texture's own color alone
+					return 0xFFFFFFFF;
 				}
 			}, type);
 		}
@@ -262,11 +255,13 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.register((state, level, pos, tintIndex) -> level != null && pos != null
 			? BiomeColors.getAverageGrassColor(level, pos)
 			: GrassColor.getDefaultColor(), CoreBlocks.TURF_BLOCK.block(), CoreBlocks.TURF.block());
+
+		// Packaging machine tank slices, tinted with the fluid colour of whatever they hold
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, FactoryBlocks.PLAIN.blockArray());
 	}
 
 	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
 		// Core
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.ELECTRON_TUBES.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.CIRCUITBOARDS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, FluidsItems.CONTAINERS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CoreItems.PIPETTE.item());

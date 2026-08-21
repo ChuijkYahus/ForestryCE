@@ -18,7 +18,7 @@ public abstract class ContainerLiquidTanks<T extends BlockEntity & ILiquidTankTi
 	protected ContainerLiquidTanks(int windowId, MenuType<?> type, Inventory playerInventory, T tile, int xInv, int yInv) {
 		super(windowId, type, playerInventory, tile, xInv, yInv);
 
-		this.helper = new ContainerLiquidTanksHelper<>(tile);
+		this.helper = new ContainerLiquidTanksHelper<>(this.tile);
 
 		if (this.player != null) {
 			this.tile.getTankManager().sendAllTanks(this, this.player);

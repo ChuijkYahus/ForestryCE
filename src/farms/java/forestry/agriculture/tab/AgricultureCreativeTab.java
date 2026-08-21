@@ -51,13 +51,12 @@ public class AgricultureCreativeTab {
 		// Engines
 		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
 		// Machines
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER));
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE));
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.FERMENTER));
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER));
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER));
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL));
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.RAINTANK));
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER));
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE));
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER));
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER));
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER));
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL));
 
 		// Rainmaker
 		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER));

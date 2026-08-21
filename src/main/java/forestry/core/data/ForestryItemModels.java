@@ -8,6 +8,7 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
+import forestry.core.content.resources.EnumElectronTube;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.content.backpacks.features.CrateItems;
@@ -98,11 +99,14 @@ public class ForestryItemModels {
 			models.withExistingParent(comb.id().getPath(), models.modLoc("item/bee_combs"));
 		}
 
+		// Electron tubes each have their own texture (1.20.1's per-material set), not a shared
+		// tinted layer pair, so they get a single-layer model instead of the Tier 3 loop below.
+		for (EnumElectronTube type : EnumElectronTube.values()) {
+			layered(models, CoreItems.ELECTRON_TUBES.get(type), "item/electron_tube_" + type.getSerializedName());
+		}
+
 		// Tier 3: layered `item/generated` models. Every item in a family shares the same texture pair,
 		// so pointing at the registered features keeps the model ids from drifting off the item ids.
-		for (FeatureItem<?> tube : CoreItems.ELECTRON_TUBES.getFeatures()) {
-			layered(models, tube, "item/thermionic_tubes.0", "item/thermionic_tubes.1");
-		}
 		for (FeatureItem<?> board : CoreItems.CIRCUITBOARDS.getFeatures()) {
 			layered(models, board, "item/chipsets.1", "item/chipsets.0");
 		}
