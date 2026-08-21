@@ -229,6 +229,24 @@ neoForge {
 	contentModules.each { addModdingDependenciesTo sourceSets[it] }
 }
 
+// Every mod id declared above becomes an entry in -Dfml.modFolders on every dev run, pointing at that
+// source set's build/classes and build/resources. Gradle's own runClient depends on all of them. The run
+// configurations the IDE generates do not: they are Application configs on module ForestryCE.main whose
+// before-launch step is Make, and a delegated Make runs the single task `:classes`. That compiled core and
+// left farms, mail, butterflies and the gametests at whatever the last `gradlew build` wrote, so an IDE
+// launch silently booted stale content code.
+//
+// finalizedBy, not dependsOn. sourceSets.main.output is built by :classes, and it is on the compile
+// classpath of every other source set, so :classes depending on theirs is a cycle. A finalizer is allowed
+// to depend on the task it finalizes.
+//
+// The cost is that anything running :classes now also builds the other source sets, `jar` included. They
+// are small and up-to-date checks make a no-op run free.
+tasks.named('classes') {
+	contentModules.each { finalizedBy sourceSets[it].classesTaskName }
+	finalizedBy sourceSets.test.classesTaskName
+}
+
 // The test source set holds GameTests (run via runGameTestServer), not JUnit tests, so the standard `test` task
 // discovers nothing. Gradle 9 fails the build on no-discovered-tests by default; opt out so `./gradlew build` is green.
 tasks.named('test', Test) {

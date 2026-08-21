@@ -88,6 +88,7 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOVEN_SILK));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
+		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHORESCENT_JELLY));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.IMPREGNATED_STICK));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SCENTED_PANELING));
 
