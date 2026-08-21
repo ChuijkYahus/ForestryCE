@@ -23,6 +23,7 @@ import forestry.core.features.*;
 import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.platform.gui.*;
 import forestry.core.content.analyzer.*;
+import forestry.core.content.burnbarrel.GuiBurnBarrel;
 import forestry.core.content.escritoire.*;
 import forestry.core.platform.item.ItemBlockTesr;
 import forestry.core.platform.models.ClientManager;
@@ -34,6 +35,7 @@ import forestry.core.content.machines.*;
 import forestry.core.platform.util.GeneticsUtil;
 import forestry.core.platform.util.RenderUtil;
 import forestry.core.platform.registration.FeatureFluid;
+import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.energy.features.EnergyTiles;
 import forestry.core.content.machines.features.FactoryTiles;
 import forestry.modules.ModuleUtil;
@@ -47,6 +49,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
@@ -108,6 +111,20 @@ public class CoreClientHandler implements IClientModuleHandler {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFlowing(), RenderType.translucent());
 			}
 
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_WALL_TORCH.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_TORCH.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.TIN_CHAIN.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PHOSPHOR_LANTERN.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.BURN_BARREL.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(EnergyBlocks.SOLAR_PANEL.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.PLYWOOD_SHEET.block(), RenderType.cutout());
+
+			CoreBlocks.JUMBO_CANDLES.getList().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
+			CoreBlocks.BIG_CANDLES.getList().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
+			// Deviation from 1.20.1: these two were left on the solid layer there, which turns the transparent
+			// pixels of the vanilla candle templates black. Vanilla registers its own candles as cutout
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.RAINBOW_CANDLE.block(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(CoreBlocks.REFRACTORY_CANDLE.block(), RenderType.cutout());
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());
@@ -118,6 +135,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
 		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
 		event.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
+		event.register(CoreMenuTypes.BURN_BARREL.menuType(), GuiBurnBarrel::new);
 		event.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
 	}
 
@@ -173,6 +191,8 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.registerBlockEntityRenderer(EnergyTiles.CLOCKWORK_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_clock_"));
 		event.registerBlockEntityRenderer(EnergyTiles.BIOGAS_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_bronze_"));
 		event.registerBlockEntityRenderer(EnergyTiles.PEAT_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_copper_"));
+		event.registerBlockEntityRenderer(EnergyTiles.COMBUSTION_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_iron_"));
+		event.registerBlockEntityRenderer(EnergyTiles.SOLAR_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_tin_"));
 		// Factory
 		event.registerBlockEntityRenderer(FactoryTiles.BOTTLER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/bottler_"));
 		event.registerBlockEntityRenderer(FactoryTiles.CARPENTER.tileType(), ctx -> new RenderMachine(ctx, Constants.TEXTURE_PATH_BLOCK + "/carpenter_"));
@@ -235,6 +255,13 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+		// Turf wears the grass texture and tints it by biome, the same way vanilla tints its grass block.
+		// Deviation from 1.20.1: that tree named the two blocks inside ClientManager's shared block colour,
+		// which every other forestry block reaches through IColoredBlock. Neither turf block is one, so they
+		// get vanilla's own lambda here instead
+		event.register((state, level, pos, tintIndex) -> level != null && pos != null
+			? BiomeColors.getAverageGrassColor(level, pos)
+			: GrassColor.getDefaultColor(), CoreBlocks.TURF_BLOCK.block(), CoreBlocks.TURF.block());
 	}
 
 	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
@@ -263,8 +290,13 @@ public class CoreClientHandler implements IClientModuleHandler {
 			BackpackItems.ADVENTURER_BACKPACK.item(),
 			BackpackItems.ADVENTURER_BACKPACK_T_2.item(),
 			BackpackItems.BUILDER_BACKPACK.item(),
-			BackpackItems.BUILDER_BACKPACK_T_2.item()
+			BackpackItems.BUILDER_BACKPACK_T_2.item(),
+			BackpackItems.BREWER_BACKPACK.item(),
+			BackpackItems.BREWER_BACKPACK_T_2.item()
 		);
+
+		// A turf item has no level to sample, so both show the default grass colour, the way vanilla's does
+		event.register((stack, tintIndex) -> GrassColor.getDefaultColor(), CoreBlocks.TURF_BLOCK.item(), CoreBlocks.TURF.item());
 
 		// Crates. The bee ones are registered by ApicultureClientHandler
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, CrateItems.CRATED_GRASS_BLOCK.item());

@@ -1,11 +1,18 @@
 package forestry.api.core;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import forestry.api.ForestryRegistries;
 import it.unimi.dsi.fastutil.Hash;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Represents some item that has a set chance of being produced.
@@ -28,6 +35,13 @@ public interface IProduct {
 			return (a == null || b == null) ? a == b : a.item() == b.item();
 		}
 	};
+
+	MapCodec<IProduct> MAP_CODEC = OptionalTypeMapCodec.of(ForestryRegistries.PRODUCT_TYPE, "product type", "type", () -> Product.TYPE, IProduct::type, ProductType::codec);
+	Codec<IProduct> CODEC = MAP_CODEC.codec();
+	StreamCodec<RegistryFriendlyByteBuf, IProduct> STREAM_CODEC = ByteBufCodecs.registry(ForestryRegistries.Keys.PRODUCT_TYPE).dispatch(IProduct::type, ProductType::streamCodec);
+
+	Codec<List<IProduct>> LIST_CODEC = CODEC.listOf();
+	StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> LIST_STREAM_CODEC = STREAM_CODEC.apply(ByteBufCodecs.list());
 
 	// todo should this be replaced with is(ItemStack) and getIconStack() methods instead?
 
@@ -60,8 +74,8 @@ public interface IProduct {
 	}
 
 	/**
-	 * The type of this product, used to (de)serialize it via the dispatch codec in
-	 * {@code forestry.core.engine.genetics.ProductTypes}. Most products are plain {@link Product} instances and return
+	 * The type of this product, used to (de)serialize it via {@link #CODEC}. Most products are plain
+	 * {@link Product} instances and return
 	 * {@link Product#TYPE}, which the dispatch codec treats as the default: it serializes without a {@code "type"}
 	 * key. Dynamic products (e.g. a randomized firework) return their own type so their randomness survives the
 	 * round-trip through JSON and network sync.

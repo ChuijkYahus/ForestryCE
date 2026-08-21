@@ -1,7 +1,13 @@
 package forestry.api.apiculture;
 
+import com.mojang.serialization.Codec;
+
+import forestry.api.ForestryRegistries;
 import forestry.api.core.genetics.IIndividual;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -9,6 +15,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 public interface IFlowerType {
+	Codec<IFlowerType> CODEC = ForestryRegistries.FLOWER_TYPE_SERIALIZER.byNameCodec()
+		.dispatch("type", IFlowerType::type, FlowerTypeType::codec);
+	StreamCodec<RegistryFriendlyByteBuf, IFlowerType> STREAM_CODEC = ByteBufCodecs.registry(ForestryRegistries.Keys.FLOWER_TYPE_SERIALIZER).dispatch(IFlowerType::type, FlowerTypeType::streamCodec);
+
 	/**
 	 * @return Whether the allele for this value is dominant or recessive.
 	 */

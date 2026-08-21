@@ -18,7 +18,9 @@ public enum EnumElectronTube implements ItemOverlay.IOverlayInfo {
 	APATITE(TextColor.fromRgb(0x579CD9)),
 	LAPIS(TextColor.fromRgb(0x1c57c6)),
 	ENDER(TextColor.fromRgb(0x33adad), TextColor.fromRgb(0x255661)),
-	AMBER(TextColor.fromRgb(0xE29536));
+	AMBER(TextColor.fromRgb(0xE29536)),
+	// Deviation from 1.20.1: silicon had its own texture there. These colors are sampled from it
+	SILICON(TextColor.fromRgb(0x5E6877), TextColor.fromRgb(0xD4E5F7));
 
 	private final String uid;
 	private final int primaryColor;

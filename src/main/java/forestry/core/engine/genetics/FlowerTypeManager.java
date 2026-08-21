@@ -20,7 +20,7 @@ import forestry.api.apiculture.IFlowerType;
 
 /**
  * Datapack loader for flower types: a {@link SimpleJsonResourceReloadListener} over the {@code flower_type} folder.
- * Decodes each entry via {@link FlowerTypeTypes#CODEC} (fail-soft), stores the last-parsed map, and hands it to
+ * Decodes each entry via {@link IFlowerType#CODEC} (fail-soft), stores the last-parsed map, and hands it to
  * {@link #rebuild} which installs the code base overlaid by the datapack into the core flower type manager.
  * Server-only reload listener; the client reuses the instance as a data holder for {@code FlowerTypeSyncPacket}.
  */
@@ -55,13 +55,12 @@ public class FlowerTypeManager extends SimpleJsonResourceReloadListener {
 
 	@Override
 	protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profiler) {
-		FlowerTypeTypes.registerBuiltins();
 		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, getRegistryLookup());
 
 		Map<ResourceLocation, IFlowerType> parsed = new LinkedHashMap<>();
 		for (Map.Entry<ResourceLocation, JsonElement> entry : object.entrySet()) {
 			ResourceLocation id = entry.getKey();
-			DataResult<IFlowerType> result = FlowerTypeTypes.CODEC.parse(ops, entry.getValue());
+			DataResult<IFlowerType> result = IFlowerType.CODEC.parse(ops, entry.getValue());
 			result.resultOrPartial(error -> Forestry.LOGGER.error("Skipping flower type {}: {}", id, error))
 				.ifPresent(type -> parsed.put(id, type));
 		}

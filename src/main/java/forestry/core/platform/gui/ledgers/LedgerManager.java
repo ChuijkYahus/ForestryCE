@@ -70,27 +70,32 @@ public class LedgerManager {
 
 	@Nullable
 	private Ledger getAtPosition(double mX, double mY) {
-		if (!this.ledgers.isEmpty()) {
-			final int xShift = this.gui.getGuiLeft() + this.gui.getSizeX();
-			int yShift = this.gui.getGuiTop() + 8;
+		int yShiftRight = this.gui.getGuiTop() + 8;
+		int yShiftLeft = this.gui.getGuiTop() + 8;
 
-			for (Ledger ledger : this.ledgers) {
-				if (!ledger.isVisible()) {
-					continue;
-				}
+		for (Ledger ledger : this.ledgers) {
+			if (!ledger.isVisible()) {
+				continue;
+			}
 
-				ledger.currentShiftX = xShift;
-				ledger.currentShiftY = yShift;
-				if (ledger.intersects(mX, mY)) {
-					return ledger;
-				}
+			int yShift = ledger.isRightSide() ? yShiftRight : yShiftLeft;
+			ledger.currentShiftX = ledger.isRightSide()
+				? this.gui.getGuiLeft() + this.gui.getSizeX()
+				: this.gui.getGuiLeft() - ledger.getWidth();
+			ledger.currentShiftY = yShift;
+			if (ledger.intersects(mX, mY)) {
+				return ledger;
+			}
 
-				yShift += ledger.getHeight();
+			if (ledger.isRightSide()) {
+				yShiftRight += ledger.getHeight();
+			} else {
+				yShiftLeft += ledger.getHeight();
 			}
 		}
 
 		final int xShiftError = this.gui.getGuiLeft();
-		int yShiftError = this.gui.getGuiTop() + 8;
+		int yShiftError = yShiftLeft;
 
 		for (ErrorLedger errorLedger : this.errorLedgers) {
 			if (!errorLedger.isVisible()) {
@@ -122,7 +127,8 @@ public class LedgerManager {
 	}
 
 	public void drawLedgers(GuiGraphics transform) {
-		int yPos = 8;
+		int yPosRight = 8;
+		int yPosLeft = 8;
 		for (Ledger ledger : this.ledgers) {
 
 			ledger.update();
@@ -131,14 +137,19 @@ public class LedgerManager {
 			}
 
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			ledger.setPosition(this.gui.getSizeX(), yPos);
+			int yPos = ledger.isRightSide() ? yPosRight : yPosLeft;
+			ledger.setPosition(ledger.isRightSide() ? this.gui.getSizeX() : -ledger.getWidth(), yPos);
 			ledger.draw(transform);
-			yPos += ledger.getHeight();
+			if (ledger.isRightSide()) {
+				yPosRight += ledger.getHeight();
+			} else {
+				yPosLeft += ledger.getHeight();
+			}
 		}
 
 		List<IError> errorStates = new ArrayList<>(this.errorSource.getErrors());
 
-		yPos = 8;
+		int yPos = yPosLeft;
 		int index = 0;
 		for (ErrorLedger errorLedger : this.errorLedgers) {
 			if (index >= errorStates.size()) {
@@ -162,7 +173,7 @@ public class LedgerManager {
 
 	public void drawTooltips(GuiGraphics graphics, int mouseX, int mouseY) {
 		Ledger ledger = getAtPosition(mouseX, mouseY);
-		if (ledger != null) {
+		if (ledger != null && ledger.shouldDrawTooltip()) {
 			ToolTip toolTip = new ToolTip();
 			toolTip.add(ledger.getTooltip());
 			GuiUtil.drawToolTips(graphics, this.gui, null, toolTip, mouseX, mouseY);

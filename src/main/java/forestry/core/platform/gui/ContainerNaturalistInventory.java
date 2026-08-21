@@ -1,9 +1,9 @@
 package forestry.core.platform.gui;
 
+import forestry.api.core.IFilterSlotDelegate;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.features.CoreMenuTypes;
 import forestry.core.platform.gui.slots.SlotFilteredInventory;
-import forestry.api.core.IFilterSlotDelegate;
 import forestry.core.platform.tile.TileNaturalistChest;
 import forestry.core.platform.tile.TileUtil;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,56 +13,53 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.item.ItemStack;
 
 public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistChest> implements IGuiSelectable, INaturalistMenu {
-	public static final int MAX_PAGE = 5;
-	private final int page;
-	private boolean isFlipPage;
+	public static final int COLUMNS = 8;
+	public static final int VISIBLE_ROWS = 5;
+	public static final int MAX_SCROLL = 11;
+	private final SimpleContainerData scrollData = new SimpleContainerData(1);
 
-	public ContainerNaturalistInventory(int windowId, Inventory player, TileNaturalistChest tile, int page, boolean isFlipPage) {
-		super(windowId, CoreMenuTypes.NATURALIST_INVENTORY.menuType(), player, tile, 18, 120);
+	public ContainerNaturalistInventory(int windowId, Inventory player, TileNaturalistChest tile) {
+		super(windowId, CoreMenuTypes.NATURALIST_INVENTORY.menuType(), player, tile, 7, 107);
 
-		this.page = page;
-		this.isFlipPage = isFlipPage;
-		addInventory(this, tile, page);
+		addDataSlots(this.scrollData);
+		addScrollableInventory(this, tile, this.scrollData);
 	}
 
-	public static <T extends Container & IFilterSlotDelegate> void addInventory(ContainerForestry container, T inventory, int selectedPage) {
-		int page = Mth.clamp(selectedPage, 0, MAX_PAGE);
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++) {
-				int slot = y + page * 25 + x * 5;
-
-				container.addSlot(new SlotFilteredInventory(inventory, slot, 100 + y * 18, 21 + x * 18));
+	public static <T extends Container & IFilterSlotDelegate> void addScrollableInventory(ContainerForestry container, T inventory, SimpleContainerData scrollData) {
+		ScrollingInventory<T> view = new ScrollingInventory<>(inventory, scrollData);
+		for (int row = 0; row < VISIBLE_ROWS; row++) {
+			for (int column = 0; column < COLUMNS; column++) {
+				int slot = column + row * COLUMNS;
+				container.addSlot(new SlotFilteredInventory(view, slot, 7 + column * 18, 7 + row * 18));
 			}
 		}
 	}
 
 	public static ContainerNaturalistInventory fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		TileNaturalistChest tile = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), TileNaturalistChest.class);
-		return new ContainerNaturalistInventory(windowId, playerInv, tile, extraData.readVarInt(), extraData.readBoolean());
+		return new ContainerNaturalistInventory(windowId, playerInv, tile);
 	}
 
 	@Override
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
-        this.isFlipPage = true;
-        this.tile.flipPage(player, (short) primary);
+		setScrollRow(primary);
+	}
+
+	public void setScrollRow(int row) {
+		this.scrollData.set(0, Mth.clamp(row, 0, MAX_SCROLL));
+	}
+
+	public int getScrollRow() {
+		return this.scrollData.get(0);
 	}
 
 	@Override
 	public ISpeciesType<?, ?> getSpeciesType() {
 		return this.tile.getSpeciesType();
-	}
-
-	@Override
-	public int getCurrentPage() {
-		return this.page;
-	}
-
-	@Override
-	public void onFlipPage() {
-		// stop chest from playing closing animation and sound
-		this.isFlipPage = true;
 	}
 
 	@Override
@@ -73,12 +70,7 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 		// a separate object that implements ContainerListener. Luckily, it's still declared as an anonymous class
 		// inside of ServerPlayer, so we can identify it by its nest host. Hack fix for chests staying open :)
 		if (listener.getClass().getNestHost() == ServerPlayer.class) {
-			if (!this.isFlipPage) {
-                this.tile.increaseNumPlayersUsing();
-			} else {
-				// set to false after flip is done
-				this.isFlipPage = false;
-			}
+			this.tile.increaseNumPlayersUsing();
 		}
 	}
 
@@ -86,8 +78,90 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 	public void removed(Player player) {
 		super.removed(player);
 
-		if (!this.isFlipPage && player instanceof ServerPlayer) {
-            this.tile.decreaseNumPlayersUsing();
+		if (player instanceof ServerPlayer) {
+			this.tile.decreaseNumPlayersUsing();
+		}
+	}
+
+	private static final class ScrollingInventory<T extends Container & IFilterSlotDelegate> implements Container, IFilterSlotDelegate {
+		private final T inventory;
+		private final SimpleContainerData scrollData;
+
+		private ScrollingInventory(T inventory, SimpleContainerData scrollData) {
+			this.inventory = inventory;
+			this.scrollData = scrollData;
+		}
+
+		private int getInventorySlot(int slot) {
+			return slot + this.scrollData.get(0) * COLUMNS;
+		}
+
+		private boolean isInventorySlot(int slot) {
+			return getInventorySlot(slot) < this.inventory.getContainerSize();
+		}
+
+		@Override
+		public int getContainerSize() {
+			return COLUMNS * VISIBLE_ROWS;
+		}
+
+		@Override
+		public boolean isEmpty() {
+			for (int slot = 0; slot < getContainerSize(); slot++) {
+				if (!getItem(slot).isEmpty()) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		@Override
+		public ItemStack getItem(int slot) {
+			return isInventorySlot(slot) ? this.inventory.getItem(getInventorySlot(slot)) : ItemStack.EMPTY;
+		}
+
+		@Override
+		public ItemStack removeItem(int slot, int amount) {
+			return isInventorySlot(slot) ? this.inventory.removeItem(getInventorySlot(slot), amount) : ItemStack.EMPTY;
+		}
+
+		@Override
+		public ItemStack removeItemNoUpdate(int slot) {
+			return isInventorySlot(slot) ? this.inventory.removeItemNoUpdate(getInventorySlot(slot)) : ItemStack.EMPTY;
+		}
+
+		@Override
+		public void setItem(int slot, ItemStack stack) {
+			if (isInventorySlot(slot)) {
+				this.inventory.setItem(getInventorySlot(slot), stack);
+			}
+		}
+
+		@Override
+		public void setChanged() {
+			this.inventory.setChanged();
+		}
+
+		@Override
+		public boolean stillValid(Player player) {
+			return this.inventory.stillValid(player);
+		}
+
+		@Override
+		public void clearContent() {
+			for (int slot = 0; slot < getContainerSize(); slot++) {
+				setItem(slot, ItemStack.EMPTY);
+			}
+		}
+
+		@Override
+		public boolean canSlotAccept(int slotIndex, ItemStack stack) {
+			return isInventorySlot(slotIndex) && this.inventory.canSlotAccept(getInventorySlot(slotIndex), stack);
+		}
+
+		@Override
+		public boolean isLocked(int slotIndex) {
+			return !isInventorySlot(slotIndex) || this.inventory.isLocked(getInventorySlot(slotIndex));
 		}
 	}
 }

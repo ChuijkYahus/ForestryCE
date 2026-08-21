@@ -21,7 +21,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 import forestry.api.core.IProduct;
 import forestry.api.core.machines.ICentrifugeRecipe;
-import forestry.core.engine.genetics.ProductTypes;
 import forestry.core.content.machines.features.FactoryRecipeTypes;
 
 public class CentrifugeRecipe implements ICentrifugeRecipe {
@@ -29,13 +28,13 @@ public class CentrifugeRecipe implements ICentrifugeRecipe {
 		ResourceLocation.CODEC.fieldOf("id").forGetter(CentrifugeRecipe::getId),
 		Codec.INT.fieldOf("time").forGetter(CentrifugeRecipe::getProcessingTime),
 		Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(CentrifugeRecipe::getInput),
-		ProductTypes.LIST_CODEC.fieldOf("products").forGetter(CentrifugeRecipe::getAllProducts)
+		IProduct.LIST_CODEC.fieldOf("products").forGetter(CentrifugeRecipe::getAllProducts)
 	).apply(instance, CentrifugeRecipe::new));
 	private static final StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> STREAM_CODEC = StreamCodec.composite(
 		ResourceLocation.STREAM_CODEC, CentrifugeRecipe::getId,
 		ByteBufCodecs.INT, CentrifugeRecipe::getProcessingTime,
 		Ingredient.CONTENTS_STREAM_CODEC, CentrifugeRecipe::getInput,
-		ProductTypes.LIST_STREAM_CODEC, CentrifugeRecipe::getAllProducts,
+		IProduct.LIST_STREAM_CODEC, CentrifugeRecipe::getAllProducts,
 		CentrifugeRecipe::new
 	);
 

@@ -1,0 +1,25 @@
+{
+  "type": "forestry:smelter",
+  "id": "forestry:smelter/bronze_from_raw_materials",
+  "inputs": [
+    {
+      "count": 3,
+      "ingredient": {
+        "tag": "c:raw_materials/copper"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "c:raw_materials/tin"
+      }
+    }
+  ],
+  "output": {
+    "count": 4,
+    "ingredient": {
+      "tag": "c:ingots/bronze"
+    }
+  },
+  "processingTime": 40
+}

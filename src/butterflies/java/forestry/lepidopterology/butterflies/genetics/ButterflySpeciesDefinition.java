@@ -27,7 +27,6 @@ import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.core.engine.genetics.GenomeCodecs;
 import forestry.core.engine.genetics.ISpeciesDefinition;
-import forestry.core.engine.genetics.ProductTypes;
 import forestry.core.engine.genetics.SpeciesCore;
 
 /**
@@ -111,8 +110,8 @@ public record ButterflySpeciesDefinition(
 		return IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(ForestrySpeciesTypes.BUTTERFLY).getKaryotype();
 	}
 
-	private static final Codec<List<IProduct>> PRODUCTS_CODEC = ProductTypes.LIST_CODEC;
-	private static final StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> PRODUCTS_STREAM_CODEC = ProductTypes.LIST_STREAM_CODEC;
+	private static final Codec<List<IProduct>> PRODUCTS_CODEC = IProduct.LIST_CODEC;
+	private static final StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> PRODUCTS_STREAM_CODEC = IProduct.LIST_STREAM_CODEC;
 
 	private static Codec<ButterflySpeciesDefinition> buildCodec() {
 		Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype());

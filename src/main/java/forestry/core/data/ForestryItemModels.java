@@ -29,6 +29,7 @@ public class ForestryItemModels {
 		models.generic2d(ApicultureItems.APIARIST_CHEST);
 		models.generic2d(ApicultureItems.APIARIST_BOOTS);
 		models.generic2d(CoreItems.ASH);
+		models.generic2d(CoreItems.ASH_BRICK);
 		models.generic2d(ApicultureItems.SMOKER);
 		models.generic2d(CoreItems.BEESWAX);
 		models.generic2d(CoreItems.BITUMINOUS_PEAT);
@@ -50,12 +51,18 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.PORTABLE_ALYZER);
 		models.generic2d(ApicultureItems.FRAME_PROVEN);
 		models.generic2d(ArboricultureItems.PROVEN_GRAFTER);
+		models.generic2d(CoreItems.PROVEN_SCOOP);
 		models.generic2d(CoreItems.REFRACTORY_WAX);
+		models.generic2d(CoreItems.REFRACTORY_WAX_BRICK);
+		models.generic2d(CoreItems.WAX_BRICK);
 		models.generic2d(ApicultureItems.ROYAL_JELLY);
 		models.generic2d(CoreItems.SCOOP);
+		models.generic2d(CoreItems.SILICON);
+		models.generic2d(CoreItems.SOLAR_CELL);
 		models.generic2d(CoreItems.SOLDERING_IRON);
 		models.generic2d(CoreItems.SPECTACLES);
 		models.generic2d(CoreItems.STURDY_CASING);
+		models.generic2d(CoreItems.TIN_NUGGET);
 		models.generic2d(ApicultureItems.FRAME_UNTREATED);
 
 		// what kind of fruit is this?
@@ -107,6 +114,7 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.HONEY_DROP);
 		models.generic2d(CoreItems.HONEYDEW);
 		models.generic2d(ApicultureItems.EXPERIENCE_DROP);
+		models.generic2d(ApicultureItems.MAGMATIC_DROP);
 		models.generic2d(ApicultureItems.HONEY_POT);
 		models.generic2d(ApicultureItems.HONEYED_SLICE);
 

@@ -19,7 +19,7 @@ public class GuiTextBox extends EditBox {
 	private int maxLines = 0;
 
 	public GuiTextBox(Font font, int startX, int startY, int width, int height) {
-		super(font, startX, startY, width, height, null);
+		super(font, startX, startY, width, height, Component.empty());
 		this.font = font;
 		this.startX = startX;
 		this.startY = startY;

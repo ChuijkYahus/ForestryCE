@@ -5,6 +5,7 @@ import forestry.api.IForestryApi;
 import forestry.api.core.genetics.*;
 import forestry.core.features.CoreItems;
 import forestry.core.engine.genetics.mutations.EnumMutateChance;
+import forestry.core.platform.advancements.ForestryAdvancementTriggers;
 import forestry.core.platform.item.ItemForestry;
 import forestry.core.platform.util.NBTUtilForestry;
 import net.minecraft.ChatFormatting;
@@ -145,6 +146,8 @@ public class ItemResearchNote extends ItemForestry {
 		ISpecies<?> speciesFirst = encoded.getFirstParent();
 		ISpecies<?> speciesSecond = encoded.getSecondParent();
 		ISpecies<?> speciesResult = encoded.getResult();
+
+		ForestryAdvancementTriggers.DISCOVER_SPECIES.trigger(level, player.getGameProfile(), speciesResult.id());
 
 		tracker.registerSpecies(speciesFirst);
 		tracker.registerSpecies(speciesSecond);

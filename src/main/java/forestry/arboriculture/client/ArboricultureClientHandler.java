@@ -45,12 +45,6 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 
 	private static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-			ClientManager clientManager = ClientManager.INSTANCE;
-			clientManager.registerModel(new ModelLeaves(), ArboricultureBlocks.LEAVES);
-			clientManager.registerModel(new ModelDecorativeLeaves<>(BlockDecorativeLeaves.class), ArboricultureBlocks.LEAVES_DECORATIVE);
-			clientManager.registerModel(new ModelDefaultLeaves(), ArboricultureBlocks.LEAVES_DEFAULT);
-			clientManager.registerModel(new ModelDefaultLeavesFruit(), ArboricultureBlocks.LEAVES_DEFAULT_FRUIT);
-
 			// fruit overlays require CUTOUT_MIPPED, even in Fast graphics
 			ArboricultureBlocks.LEAVES_DEFAULT.getList().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
 			ItemBlockRenderTypes.setRenderLayer(ArboricultureBlocks.LEAVES.block(), RenderType.cutoutMipped());
@@ -65,6 +59,16 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
 		event.register(ForestryConstants.forestry("sapling_ge"), new SaplingModelLoader());
+
+		// Registered here and not in FMLClientSetupEvent: this event is posted at the top of ModelManager.reload,
+		// so it is ordered before the ModifyBakingResult that reads these models back. Client setup runs on its own
+		// thread during the same reload, and losing that race leaves the leaf blocks on the particle-only models
+		// they fall back to, which bake to no quads at all - a see-through block.
+		ClientManager clientManager = ClientManager.INSTANCE;
+		clientManager.registerModel(new ModelLeaves(), ArboricultureBlocks.LEAVES);
+		clientManager.registerModel(new ModelDecorativeLeaves<>(BlockDecorativeLeaves.class), ArboricultureBlocks.LEAVES_DECORATIVE);
+		clientManager.registerModel(new ModelDefaultLeaves(), ArboricultureBlocks.LEAVES_DEFAULT);
+		clientManager.registerModel(new ModelDefaultLeavesFruit(), ArboricultureBlocks.LEAVES_DEFAULT_FRUIT);
 	}
 
 	private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

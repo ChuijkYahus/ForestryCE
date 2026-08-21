@@ -8,6 +8,7 @@ import forestry.api.core.genetics.IBreedingTracker;
 import forestry.api.core.genetics.IMutation;
 import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.ISpeciesType;
+import forestry.core.platform.advancements.ForestryAdvancementTriggers;
 import forestry.core.platform.network.packets.PacketGenomeTrackerSync;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.HolderLookup;
@@ -194,8 +195,11 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	public void registerSpecies(ISpecies<?> species) {
 		ResourceLocation speciesId = species.id();
 
+		discover(species);
+
 		if (!this.discoveredSpecies.contains(speciesId)) {
             this.discoveredSpecies.add(speciesId);
+			setDirty();
 
 			ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
 			ForestryEvent event = new ForestryEvent.SpeciesDiscovered(speciesType, this.username, species, this);
@@ -222,5 +226,33 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	public boolean isResearched(IMutation<?> mutation) {
 		String mutationString = getMutationString(mutation);
 		return this.researchedMutations.contains(mutationString);
+	}
+
+	/**
+	 * Used purely for tracking advancements.
+	 *
+	 * @param species The species that was discovered
+	 */
+	public void discover(ISpecies<?> species) {
+		// A tracker read back from disk has neither until the player who owns it logs in
+		if (this.level == null || this.username == null) {
+			return;
+		}
+
+		ForestryAdvancementTriggers.DISCOVER_SPECIES.trigger(this.level, this.username, species.id());
+		registerProgress(this.level, this.username, species);
+	}
+
+	/**
+	 * Called when a species is discovered, after the discovery itself is reported. The base
+	 * implementation does nothing, for the species types that track no research progress.
+	 *
+	 * @param level   The level the discovering player is in
+	 * @param profile The profile of the discovering player
+	 * @param species The species that was discovered
+	 */
+	// Deviation from 1.20.1: abstract there, where every tracker lived in one jar. A content jar's
+	// tracker now compiles on its own, so this is a hook with a do-nothing default
+	public void registerProgress(Level level, GameProfile profile, ISpecies<?> species) {
 	}
 }

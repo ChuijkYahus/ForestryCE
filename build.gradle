@@ -633,6 +633,8 @@ tasks.named('processResources', ProcessResources) {
 	}
 
 	exclude 'assets/forestry/lang/check_translations.py'
+	// Blockbench project sources, kept in VCS so the models can be shared with teammates
+	exclude '**/*.bbmodel'
 }
 
 sourceSets.main {

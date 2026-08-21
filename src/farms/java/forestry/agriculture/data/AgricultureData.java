@@ -25,6 +25,7 @@ public class AgricultureData extends ContentJarData {
 		jar.helper().createRecipes(AgricultureRecipeProvider::addRecipes);
 
 		jar.addServer(new JarLootTableProvider(jar.output(), jar.lookup(), AgricultureBlockLootTables::new));
+		jar.addServer(new AgricultureAdvancementProvider(jar.output(), jar.lookup(), jar.existingFileHelper()));
 		jar.addClient(new AgricultureBlockStateProvider(jar.output(), jar.existingFileHelper()));
 	}
 }

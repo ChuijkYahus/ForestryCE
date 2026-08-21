@@ -1,62 +1,16 @@
 {
   "criteria": {
-    "tick": {
+    "used_forestry": {
       "conditions": {
-        "items": [
+        "player": [
           {
-            "items": "forestry:honey_comb"
-          },
-          {
-            "items": "forestry:cocoa_comb"
-          },
-          {
-            "items": "forestry:simmering_comb"
-          },
-          {
-            "items": "forestry:stringy_comb"
-          },
-          {
-            "items": "forestry:frozen_comb"
-          },
-          {
-            "items": "forestry:dripping_comb"
-          },
-          {
-            "items": "forestry:silky_comb"
-          },
-          {
-            "items": "forestry:parched_comb"
-          },
-          {
-            "items": "forestry:mysterious_comb"
-          },
-          {
-            "items": "forestry:powdery_comb"
-          },
-          {
-            "items": "forestry:wheaten_comb"
-          },
-          {
-            "items": "forestry:mossy_comb"
-          },
-          {
-            "items": "forestry:mellow_comb"
-          },
-          {
-            "items": "forestry:kaolin_comb"
-          },
-          {
-            "items": "forestry:vintage_comb"
-          },
-          {
-            "items": "forestry:spongy_comb"
-          },
-          {
-            "items": "forestry:sculken_comb"
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {}
           }
         ]
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:location"
     }
   },
   "display": {
@@ -213,11 +167,13 @@
   },
   "requirements": [
     [
-      "tick"
+      "used_forestry"
     ]
   ],
   "rewards": {
-    "function": "forestry:grant_guide"
+    "loot": [
+      "forestry:grant_guide"
+    ]
   },
   "sends_telemetry_event": true
 }

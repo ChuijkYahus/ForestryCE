@@ -355,3 +355,370 @@ To keep progress coherent across Codex sessions:
   - cleared the direct stale `super.load(...)`, old update-tag/on-data-packet overrides, and missing tree/cocoon compatibility-hook failures from the active block-entity serialization layer
 - Current next blocker after the block-entity HolderLookup serialization cleanup slice:
   - compile failures are now front-loaded by remaining 1.21 block/item/core signature drift (`BlockStructure`, `BlockBase`, `ItemFluidContainerForestry`, `CorePaintings`, `EscritoireGameToken`) plus packet/mail buffer rewrites (`PacketItemStackDisplay`, trader mail packets, recipe transfer packets)
+
+## Content port: 1.20.1 engine/solar additions (2026-08-11)
+
+This round is not an API-porting slice. The build already compiles; this brings across the
+content 1.20.1 gained from EnderiumSmith's solar work and Spearkiller's PR #361, which 1.21.1
+had never received. Branch: `port/engine-and-solar-additions`.
+
+### Ported
+
+- Solar Engine and Solar Panel, with the merged energy formula from #361 (array size bonus of
+  `0.03 * (panels - 1)^2` FE/t, floating point insolation) and the 20 tick array sweep that
+  recounts lit panels.
+- Liquid Experience: the fluid, its `forge:experience` tag, the squeezer recipe, and the
+  squeezer's glass bottle path (experience, honey and water bottles).
+- Phosphor Torch, Phosphor Wall Torch, Phosphor Lantern, Tin Chain, Tin Nugget.
+- Engine ledger showing fractional RF/t.
+- Solar engine error conditions, engine retextures, and 24 new textures.
+- GameTests for squeezer bottling and solar panel shading.
+
+### Verification for this round
+
+- `./gradlew compileJava compileTestJava --console=plain` — clean
+- `./gradlew runData` — 33 files written, 4 stale removed. NOTE: runData does not exit on its
+  own here; it finishes its work in ~30s, so watch `run/logs/latest.log` for
+  `Caching: total files` and then kill it.
+- `./gradlew runGameTestServer --console=plain` — all 109 pass
+
+### Naming and API deviations worth remembering
+
+- The engine registers as `solar_engine`, not 1.20.1's `engine_solar`: `EnergyBlocks` uses a
+  SUFFIX identifier. Assets and lang keys follow the new name.
+- `blockstates/solar_engine.json` must NOT be hand-written. `ForestryBlockStateProvider` loops
+  the engine blocks, so datagen emits it; a hand-written copy is a duplicate-resource collision.
+  `models/block/solar_engine.json` IS hand-written, same split as `peat_engine`.
+- `BlockBehaviour.Properties.ofFullCopy` copies `drops`, which `Properties.copy` did not.
+  Copying a vanilla block built with `.dropsLike(...)` therefore steals its loot table id — this
+  bit the phosphor wall torch, which copies `SOUL_TORCH` rather than `SOUL_WALL_TORCH` as a
+  result. Check for `dropsLike` before using `ofFullCopy` on a vanilla block.
+- 1.21.1's `TorchBlock` takes a `SimpleParticleType` first, so a `DustParticleOptions` cannot be
+  passed to super. The phosphor torches hand super a vanilla flame for the codec and spawn their
+  own dust from `animateTick`.
+- Item and block tags are `c:`; only fluid tags are still `forge:`.
+- `PotionUtils` is gone; build potions with `PotionContents.createItemStack`, and compare them
+  with `ItemStack.isSameItemSameComponents` since every potion is `Items.POTION`.
+
+### Silicon and Solar Cell round (2026-08-11)
+
+Silicon and the Solar Cell followed in a second pass, which also restored the Solar Engine's
+crafting recipe. The engine registered a block, loot table, blockstate, model and lang key but
+had no recipe at all, so it was uncraftable in survival.
+
+Deviations for this pass:
+
+- Ids are `silicon_block` and `silicon_electron_tube`, following this tree's naming rather than
+  1.20.1's `resource_storage_silicon` and `electron_tube_silicon`.
+- 1.21.1 rewrote electron tubes onto `ItemOverlay`, so every tube is a tint over the shared
+  `item/thermionic_tubes.0/.1` pair. Silicon therefore needs a color, not a texture. The two
+  colors are sampled from 1.20.1's `electron_tube_silicon.png`, avoiding a collision with
+  Apatite's `0x579CD9`. The old texture is left in place but is now unused.
+- Silicon joins the `c:storage_blocks` aggregate tag, which 1.20.1 leaves it out of.
+- The engine recipe uses `Tags.Items.GLASS_BLOCKS_COLORLESS`, matching the other three engines.
+
+**Silicon has no production recipe.** Its only route on 1.20.1 is the smelter, so the storage
+block round trip and both fabricator recipes only move it around. A `todo` in
+`ForestryRecipeProvider` marks the gap.
+## Content parity round (2026-08-12)
+
+Everything the 2026-08-11 gap audit found is now ported, in eight slices. The audit section it
+replaces is deleted rather than kept, since almost every line of it is now wrong.
+
+One correction to that audit worth recording: it read the factory roster off
+`BlockTypeFactoryPlain` and concluded most machines were missing. They were not. This tree moved
+them to `BlockTypeFactoryTesr`, and the Smelter was the only machine actually absent.
+
+### What landed
+
+| Slice | Contents |
+| --- | --- |
+| Small gaps | 4 painting variants, the iron gear, the proven scoop with its beekeeper trade, the ash block |
+| Wax | The Wax fluid and bucket, the wax and refractory wax blocks, the three brick items, the two fabricator smelting recipes that melt wax |
+| Smelter | The last unported machine, and with it a production route for silicon |
+| Burn Barrel | Block, tile, menu, screen, inventory, blacklist tag, recipe |
+| Combustion Engine | The engine, plus the whole engine circuit socket and its five upgrade circuits |
+| Brewer backpack | The tenth backpack type |
+| Decorative blocks | 135 blocks: the stone and brick families, 22 metal platings, 38 candles, turf, plywood, cork |
+| Advancements | The trigger layer, and all 57 advancements |
+
+### Bugs in 1.20.1 corrected rather than reproduced
+
+Each carries a `// Deviation from 1.20.1:` comment where it lives.
+
+- `InventorySmelter#removeResources` stopped one slot short of the last input slot, and its
+  partial-slot branch recorded the shortfall rather than what the slot held. The second let the
+  smelter pay a cost it could not afford, duplicating items. Pinned by GameTests that were
+  confirmed to fail against the original.
+- `InventoryBurnBarrel#setItem` dereferenced a level that is null during chunk load, so a barrel
+  saved with ash threw on load. It also counted ash before writing the slot, so `HAS_ASH` stuck
+  on after the last ash was removed.
+- Bronze metal plating named the tin plating as its result, so bronze ingots made tin plating and
+  bronze plating was uncraftable.
+- All 16 jumbo candle dye recipes took the big candle tag as their base.
+- Every cobbled stone family cut its stairs, slab and wall from the set's plain stone, so nine
+  crafting recipes had the same pattern and ingredient as their non-cobbled twin and only one of
+  each pair could fire.
+- `chiseled_refractory_wax_bricks` was `COLOR_YELLOW` amid a `COLOR_RED` family.
+- The root advancement's criterion required all seventeen combs at once, so it could not be
+  earned, and its reward called the `grant_guide` loot table as if it were a function.
+- Three lang typos: "Red Metal Lacquered Plating", "Big Green Cale", and trailing spaces.
+
+### Defects found in this tree, not inherited
+
+- The Solar Engine had no block entity renderer and the Solar Panel no cutout render layer, both
+  from the earlier solar round.
+- The Solar Engine and the Solar Panel had no crafting recipes.
+- `ash_block` registered through an overload that creates no `BlockItem`, which is why it had no
+  recipe and no creative tab entry.
+- `ForestryItemModelProvider` tested `path.endsWith("woven")`, which the id rename broke, so all
+  six woven backpacks generated with the plain model.
+- Twelve `item.forestry.*_bag` display names no longer matched any id.
+- The dye and map colour lookups for metal plating were static `HashMap`s, whose iteration order
+  made recipe emission nondeterministic between datagen runs.
+
+### Deliberately not done
+
+- **The biogas engine socket rework.** 1.20.1's biogas engine is a socketed variant with a
+  different burn model. Porting it would replace behaviour already ported here, so the biogas
+  overclock circuit does not attach to it yet. The other four engine circuits work.
+- **Ashen wax and crispy honey blocks** stay out of the creative tab, as on 1.20.1, where their
+  smelting recipes are commented out too.
+- **`get_smelter`** and the other advancements 1.20.1 leaves commented out. `get_smelter` is
+  newly unblocked now the machine exists, if anyone wants it.
+
+### Known pre-existing issues left alone
+
+- `MKRecipeProvider.grid2x2` silently drops its `resultCount`, so several recipes that mean to
+  yield 4 emit 1. It is a ModKit fix, and 1.20.1 has the same output.
+- `registerFabricator` writes the Flexible Casing recipe under
+  `fabricator/electron_tubes/flexible_casing`.
+- Amber has no decomposition recipe, so amber blocks are a one-way trip.
+- The hand-written lang file still carries pre-rename fluid keys (`bucket_glass`, the dotted
+  `block.forestry.fluid.*` forms), so those read as datagen's auto-names in game.
+- `c:dusts/ash` lists `forestry:ash` twice.
+
+### Verification for this round
+
+Every slice was verified before commit: `compileJava` across all four source sets, `runData` run
+twice to confirm idempotence, and `runGameTestServer`. The suite is **113 tests, all passing**,
+up from 109 (the four new ones cover the smelter fix). The creative tab baseline was regenerated
+per slice and its diff checked to be additions only.
+
+## Texture parity sweep (2026-08-12)
+
+The content port was complete but the art was not. 1.20.1 ran fifteen-odd retexture passes that
+1.21.1 never received, so blocks that were functionally correct still wore old sprites. This round
+brings across every texture where this tree held a strictly older revision.
+
+### How the gap was found
+
+Compare every PNG in `ForestryCE-1.20.1/src/main/resources` against the union of this tree's four
+resource roots, then trace each differing file's blob back through 1.20.1's history. A file whose
+current bytes match some *ancestor* revision is stale; one that matches nothing is our own art.
+
+**All 128 differing files resolved to an older 1.20.1 revision. None were port-original.** So there
+was no judgement to make: every difference was a missed update.
+
+Two traps worth remembering, both of which faked a clean result:
+
+- **Compare against all four resource roots, not `src/main`.** 1.20.1 keeps everything in one
+  `src/main/resources`; here `farms`, `mail` and `butterflies` own theirs. A `src/main`-only diff
+  reports 26 farms and mail textures as missing when they are simply in another jar. See
+  `docs` note in the per-jar resources work for the same trap on the generated side.
+- **`git log --raw` marks renames `R100` and puts the new path in the *last* tab-separated field.**
+  Splitting on the first tab keys the entry under `oldpath\tnewpath`, so every file that was ever
+  renamed silently misses the blob lookup and reads as port-original. That mis-classified 48 of
+  the 128, the engine bodies among them.
+
+### What landed
+
+127 textures, all verified byte-identical to 1.20.1 afterwards. 101 core, 14 mail, 12 farms.
+
+| Group | Contents |
+| --- | --- |
+| Engines | The 5 heat trunks shared by every engine, the bronze and copper bodies, the biogas and peat engine GUIs. Clockwork, combustion and solar were already current, which is why the problem looked partial |
+| Mail | Mailbox, philatelist, trade station, stamps |
+| GUI atlas | Analyzer icons, error icons, slot icons, `mfarm`, `electricalengine`, the two socket GUIs |
+| Farms | Arboretum, the five farm types and their particles, peat bog |
+| Machines | Analyzer, the full rainmaker set, worktable |
+| Apiculture | Apiary, bee house, the three naturalist chests |
+| Items | Containers and capsules, tool kits, peat, ash, scoop, soldering iron, a painting |
+
+### Held back
+
+`block/escritoire.png` alone. 1.20.1 is 64x64 against this tree's 64x32, because that tree
+converted the escritoire to a JSON block model - its `RenderEscritoire` has the BER texture line
+commented out and no `createBodyLayer`. This tree still renders a hand-built `ModelPart` mesh whose
+`texOffs` address a 64x32 sheet, so the new art would scramble it. Porting it is a model change,
+not an asset swap.
+
+### Verification for this round
+
+- Dimensions compared per file before copying; only the escritoire differed, and it was held back
+- No `.mcmeta` companions exist on either side, so no animation metadata to keep in sync
+- All 127 pass PNG signature, IEND and per-chunk CRC validation
+- Every change overwrote a file already in place, so no jar-routing mistakes: `git status` shows
+  127 modifications and zero additions
+- 1609 of the 1610 shared textures are now byte-identical to 1.20.1, up from 1482
+
+## Bog earth and humus progression (2026-08-12)
+
+Both blocks age through their `randomTick` and both carry the property that records it, but the
+generated blockstate ignored the property and named one model, so every stage looked identical.
+1.20.1 shows three stages of bog earth and three of humus. This round makes the models follow the
+state.
+
+The Java side was already correct and is untouched. `simpleBlock` was the whole bug.
+
+### What landed
+
+- `ForestryBlockStateProvider.agingSoil(Block, IntegerProperty)` reads the property's possible
+  values and writes one `cube_all` model per value. Property-driven, so changing `MAX_MATURITY` or
+  `MAX_DEGRADE` needs no datagen edit.
+- Age 0 keeps the bare model name, `block/bog_earth` and `block/humus`, so the hand-written item
+  models still parent it. Later ages get `_1` and `_2`.
+- Four stage textures from 1.20.1's `481c2a760`, renamed off its dotted form to `bog_earth_1`,
+  `bog_earth_2`, `humus_1`, `humus_2`.
+- `block/humus.png` replaced. It was the *pre-progression* humus art, a chunky orange that looks
+  nothing like the grey stages either side of it, and the rename from `humus.0.png` had hidden it
+  from the texture sweep above. This also changes the humus item icon, which parents the block.
+
+### The state ranges are right as they stand
+
+This tree declares `maturity` and `degrade` as 0..2 where 1.20.1 declares 0..3, which looks like a
+lost stage but is not. 1.20.1's `degradeSoil` converts to sand the moment `degrade` would reach 3,
+and its bog earth converts to peat at `maturity < maturityDelimiter - 1`, so the top value of each
+is unreachable and `humus.3.png` is dead art there. The three states here are exactly the three
+1.20.1 displays.
+
+`humus.3.png` is still available if a sandier final stage before the conversion is ever wanted.
+
+### Deviation from 1.20.1
+
+That tree's blockstates list each model four times, once per y rotation. A `cube_all` model wears
+one texture on all six faces, so only the top face ever shows the rotation. One variant per age is
+written instead, matching the choice already made for the turf blocks.
+
+### Verification for this round
+
+- All six textures confirmed pixel-identical to their 1.20.1 sources
+- `compileJava` clean
+- `runData` wrote 6 files; a second run wrote 0 and removed 0 stale, so it is idempotent
+- `runGameTestServer` 113 passing
+- No hand-written blockstate or block model exists for either block, so no duplicate-resource
+  collision of the kind the solar engine hit
+
+## Forestry Building Blocks tab (2026-08-12)
+
+1.20.1's `17a39bfec` split the decorative blocks out of the main Forestry tab into their own. This
+tree had the blocks but not the tab, and three `Deviation from 1.20.1: that tree listed these in
+addAllBuildingBlocks, which this tree does not have yet` markers left by the content parity round
+marked the spot. Those markers are now resolved.
+
+### What landed
+
+- `building_blocks`, icon blue metal plating, ordered between Forestry and Apiculture.
+  `FeatureCreativeTab` builds the title from the registration name, so the id gives
+  `itemGroup.building_blocks` with no second place to keep in sync. Added to `en_us` only; the
+  other ten locales fall back rather than carry an untranslated English string.
+- `addAllBuildingBlocks` groups by material as 1.20.1 does: log piles, turf, plywood, cork,
+  lighting, ash, wax, the three stone sets, metal plating, candles.
+- All wood blocks, both fireproof passes. These stay listed in the arboriculture tab as well, as
+  on 1.20.1. `ArboricultureCreativeTab.addAllWoodBlocks` widened to public to allow it.
+- The same 136 decorative entries removed from the Forestry tab that 1.20.1 removes.
+- `ApicultureCreativeTab` now orders after `building_blocks`, and the new tab joins the Forestry
+  tab's `withTabsAfter` list.
+
+### Deviations from 1.20.1
+
+- **No vanilla candles.** That tree lists the seventeen vanilla candles here. They belong to
+  vanilla's own tab, and this tree already made that call for the Forestry tab.
+- **Stone families come from `CoreBlocks.STONE_SETS`** rather than 1.20.1's 51 hand-written
+  `items.accept` lines. Same coverage, and a new set joins without touching the tab.
+
+### Verification for this round
+
+`CreativeTabBaselineTest` is the oracle. The regenerated baseline was diffed rather than trusted:
+
+| Tab | Before | After |
+| --- | --- | --- |
+| `forestry` | 254 | 118 |
+| `building_blocks` | - | 1241 |
+| the other six | unchanged | unchanged |
+
+- All 136 entries removed from `forestry` are present in `building_blocks`, so nothing was lost
+- Nothing was added to `forestry`
+- The union across all tabs is identical before and after, so no item fell out of the menu entirely
+- `building_blocks` is 136 decorative plus 1105 wood
+- `compileJava compileTestJava` clean, `runGameTestServer` 113 passing against the committed
+  baseline, `runData` wrote 0 files and removed 0 stale
+
+## 1.20.1 catch-up round: the solar rewrite and the phosphor moves
+
+Ports the thirteen 1.20.1 commits from `346bd9426` (the last one this branch already mirrored) up to
+`4abde9a60`. Paths differ throughout: `forestry/energy/**` is `forestry/core/content/energy/**` here,
+and the config, render, tab and plugin classes all sit under `forestry/core/platform` or
+`forestry/core/plugin`.
+
+### What came across
+
+- **Solar engine rewrite.** `SolarEngineTileEntity` becomes `SolarEngineBlockEntity`. The engine is
+  now the only authority on array membership: `SolarPanelBlock` loses `onPlace` and `onRemove`, which
+  walked every block entity in a 3x3 chunk area, and the recursive `attachPanel` becomes an
+  incremental breadth-first rescan of five panels per tick. Panels in unloaded chunks keep their
+  claim rather than being orphaned.
+- **Solar engine circuit socket removed.** It had no circuits to put in it, so
+  `ISolarEngineUpgradeable`, `CircuitSolarEngineUpgrade`, the layout and the socket type all go.
+- **New `solar_engine` config section** holding `solar_fe_per_panel`, `twilight_solar_fe_per_panel`
+  and the new `solar_array_bonus_factor`, which was a hardcoded constant here before.
+- **Solar engine GUI** rebuilt on the standard 176px background: an array size row, insolation, and
+  an efficiency row that hides itself when the bonus is configured off.
+- **Phosphorescent Jelly** as a specialty of the three Kleptoplastic bees, and the **Magmatic Drop**
+  replacing the Honey Drop on Simmering combs.
+- **Solar Cell** is fabricated from jelly, lapis and a tin nugget; the Smelter recipe for it is gone.
+- **Liquid Experience emits light**, which needed a `luminosity` property on the fluid builder.
+- Silk touch loot for the three smooth stones, Spear's Solar Cell and Tin Nugget textures, the
+  Blockbench sources, and the 1.20.1 comment cleanups.
+
+### Deviations from 1.20.1
+
+- **`saveAdditional` / `loadAdditional` take a `HolderLookup.Provider`**, and the panel array is
+  stored as a long array under `array`.
+- **`HorizontalDirection` lives in `forestry.api.agriculture`** here, and `VALUES` is a `List`.
+- **`BlockForestryFluid` is handed its block properties** rather than building them, so the
+  luminosity helper decorates what it is given instead of creating a fresh set.
+- **The Volcanic Propolis conversion recipe is not ported.** That variant is already gone here, which
+  also resolves 1.20.1's `todo` about using `forEach` for propolis in the creative tab.
+- **Phosphor was already on Sinister and Embittered** and already off the Kleptoplastic line, so only
+  the jelly specialty was added.
+- **The three smooth stone loot tables come from `CoreBlocks.STONE_SETS`** rather than three
+  hand-written lines.
+
+### Not ported
+
+- `ForestryPaintingTagsProvider` adding `MYSTICAL_TREE`. Paintings are data-driven JSON here, and
+  `mystical_tree.json` plus its placeable tag entry already exist.
+- The `registerSmelter` reindentation, which was whitespace against a body this tree had already
+  reformatted.
+
+### Open
+
+- **Phosphorescent Jelly has no texture.** It renders as the missing texture placeholder, matching
+  1.20.1. `assets/forestry/textures/item/phosphorescent_jelly.png` is the file to add.
+
+### Verification for this round
+
+- `compileJava compileTestJava` clean
+- `runData` drift was 15 files, all of them consequences of this round, and idempotent on a second run
+- `runGameTestServer` 117 passing, up from 116, the new one being `SolarArrayConnectivityTest`
+- The creative tab baseline delta was diffed rather than trusted: eight entries added
+  (Phosphorescent Jelly, and the Experience and Magmatic Drops across the genetic tabs), one removed
+  (the Honey Pot leaving the apiculture tab)
+
+### Unrelated fix folded in
+
+`for.gui.currentBiome` in `assets/forestry/lang/en_us.json` carried a stray `t` after its closing
+comma, which made the hand-written lang file invalid JSON. It arrived with upstream `a4ab1bd90` and
+is unreferenced from code, so nothing was visibly broken, and the lang merge is line-based rather
+than a JSON parse. Corrected here because the same file was being edited.

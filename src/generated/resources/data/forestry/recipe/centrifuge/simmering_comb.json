@@ -11,7 +11,7 @@
     },
     {
       "chance": 0.7,
-      "item": "forestry:honey_drop"
+      "item": "forestry:magmatic_drop"
     }
   ],
   "time": 20

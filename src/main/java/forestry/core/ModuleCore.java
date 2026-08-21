@@ -100,6 +100,10 @@ public class ModuleCore extends BlankForestryModule {
 		event.register(ForestryRegistries.POSTAL_CARRIER);
 		event.register(ForestryRegistries.SPECIES_TYPE);
 		event.register(ForestryRegistries.BEE_EFFECT_TYPE);
+		event.register(ForestryRegistries.MUTATION_CONDITION_TYPE);
+		event.register(ForestryRegistries.PRODUCT_TYPE);
+		event.register(ForestryRegistries.FLUID_PRODUCT_TYPE);
+		event.register(ForestryRegistries.FLOWER_TYPE_SERIALIZER);
 	}
 
 	private static void onGatherData(net.neoforged.neoforge.data.event.GatherDataEvent event) {

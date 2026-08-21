@@ -8,7 +8,8 @@ public enum EnumResourceType implements IBlockSubtype {
 	APATITE,
 	TIN,
 	BRONZE,
-	AMBER;
+	AMBER,
+	SILICON;
 
 	@Override
 	public String getSerializedName() {

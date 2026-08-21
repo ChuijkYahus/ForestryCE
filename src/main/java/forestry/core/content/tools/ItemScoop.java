@@ -27,8 +27,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 public class ItemScoop extends TieredItem {
-	public ItemScoop() {
-		super(Tiers.WOOD, new Item.Properties().durability(10));
+	public ItemScoop(int durability) {
+		super(Tiers.WOOD, new Item.Properties().durability(durability));
 	}
 
 	@Override

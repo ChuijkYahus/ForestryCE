@@ -57,7 +57,6 @@ import forestry.core.engine.genetics.mutations.MutationConditionHumidity;
 import forestry.core.engine.genetics.mutations.MutationConditionRequiresResource;
 import forestry.core.engine.genetics.mutations.MutationConditionTemperature;
 import forestry.core.engine.genetics.mutations.MutationConditionTimeLimited;
-import forestry.core.engine.genetics.mutations.MutationConditionTypes;
 import forestry.core.engine.genetics.mutations.MutationRecipe;
 import forestry.core.platform.util.SpeciesUtil;
 
@@ -145,8 +144,8 @@ public class MutationRecipeTest {
 			Component expected = condition.getDescription();
 
 			// JSON dispatch codec.
-			JsonElement json = MutationConditionTypes.CODEC.encodeStart(JsonOps.INSTANCE, condition).getOrThrow();
-			IMutationCondition fromJson = MutationConditionTypes.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
+			JsonElement json = IMutationCondition.CODEC.encodeStart(JsonOps.INSTANCE, condition).getOrThrow();
+			IMutationCondition fromJson = IMutationCondition.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
 			if (fromJson.type() != condition.type()) {
 				helper.fail("JSON round-trip changed condition type for " + condition.getClass().getSimpleName());
 				return;
@@ -159,8 +158,8 @@ public class MutationRecipeTest {
 
 			// Network stream codec.
 			RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), helper.getLevel().registryAccess());
-			MutationConditionTypes.STREAM_CODEC.encode(buf, condition);
-			IMutationCondition fromBuf = MutationConditionTypes.STREAM_CODEC.decode(buf);
+			IMutationCondition.STREAM_CODEC.encode(buf, condition);
+			IMutationCondition fromBuf = IMutationCondition.STREAM_CODEC.decode(buf);
 			if (fromBuf.type() != condition.type() || !fromBuf.getDescription().equals(expected)) {
 				helper.fail("Stream round-trip changed condition for " + condition.getClass().getSimpleName());
 				return;

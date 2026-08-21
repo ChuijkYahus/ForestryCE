@@ -193,11 +193,26 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	}
 
 	public int getCurrentOutput() {
-		if (isBurning() && isRedstoneActivated()) {
+		if (canOutput()) {
 			return this.currentOutput;
 		} else {
 			return 0;
 		}
+	}
+
+	/**
+	 * Same as {@link #getCurrentOutput()}, but as a decimal amount. Engines that generate a
+	 * fractional amount of energy per tick override this so the GUI reads the rate itself instead
+	 * of flickering between the two whole numbers the rate rounds to.
+	 *
+	 * @return RF produced per tick, as a decimal amount
+	 */
+	public double getCurrentOutputRate() {
+		return getCurrentOutput();
+	}
+
+	protected boolean canOutput() {
+		return isBurning() && isRedstoneActivated();
 	}
 
 	public int getHeat() {

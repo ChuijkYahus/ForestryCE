@@ -7,6 +7,7 @@ import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.wood.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
+import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
@@ -64,6 +65,15 @@ public class ForestryItemTagsProvider {
 		tags.copy(BlockTags.WOODEN_SLABS, ItemTags.WOODEN_SLABS);
 		tags.copy(BlockTags.DOORS, ItemTags.DOORS);
 		tags.copy(BlockTags.WOODEN_DOORS, ItemTags.WOODEN_DOORS);
+		// The decorative stone and brick walls are the only forestry blocks in BlockTags.WALLS
+		tags.copy(BlockTags.WALLS, ItemTags.WALLS);
+
+		// Metal plating and candles. The block tags are named in the singular and the item tags in the
+		// plural, so these are added rather than copied
+		tags.tag(ForestryTags.Items.METAL_PLATING).add(CoreBlocks.METAL_PLATING.getItems().toArray(Item[]::new));
+		tags.tag(ForestryTags.Items.JUMBO_CANDLES).add(CoreBlocks.JUMBO_CANDLES.getItems().toArray(Item[]::new));
+		tags.tag(ForestryTags.Items.BIG_CANDLES).add(CoreBlocks.BIG_CANDLES.getItems().toArray(Item[]::new));
+		tags.tag(ItemTags.CANDLES).add(CoreBlocks.RAINBOW_CANDLE.item(), CoreBlocks.REFRACTORY_CANDLE.item());
 
 		tags.tag(ItemTags.SAPLINGS).add(ArboricultureItems.TREE_SAPLING.get());
 		tags.copy(BlockTags.LEAVES, ItemTags.LEAVES);
@@ -77,24 +87,28 @@ public class ForestryItemTagsProvider {
 		tags.copy(ForestryTags.Blocks.STORAGE_BLOCKS_TIN, ForestryTags.Items.STORAGE_BLOCKS_TIN);
 		tags.copy(ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE, ForestryTags.Items.STORAGE_BLOCKS_BRONZE);
 		tags.copy(ForestryTags.Blocks.STORAGE_BLOCKS_AMBER, ForestryTags.Items.STORAGE_BLOCKS_AMBER);
+		tags.copy(ForestryTags.Blocks.STORAGE_BLOCKS_SILICON, ForestryTags.Items.STORAGE_BLOCKS_SILICON);
 
 		tags.copy(BlockTags.DIRT, ItemTags.DIRT);
 
 		// Add item-specific tags
 		tags.tag(ForestryTags.Items.GRASSES).add(Items.FERN, Items.LARGE_FERN, Items.SHORT_GRASS, Items.TALL_GRASS);
-		tags.tag(ForestryTags.Items.GEARS).addTags(ForestryTags.Items.GEARS_BRONZE, ForestryTags.Items.GEARS_COPPER, ForestryTags.Items.GEARS_TIN);
+		tags.tag(ForestryTags.Items.GEARS).addTags(ForestryTags.Items.GEARS_BRONZE, ForestryTags.Items.GEARS_COPPER, ForestryTags.Items.GEARS_TIN, ForestryTags.Items.GEARS_IRON);
 		tags.tag(ForestryTags.Items.GEARS_BRONZE).add(CoreItems.GEAR_BRONZE.item());
 		tags.tag(ForestryTags.Items.GEARS_TIN).add(CoreItems.GEAR_TIN.item());
+		tags.tag(ForestryTags.Items.GEARS_IRON).add(CoreItems.GEAR_IRON.item());
 		tags.tag(ForestryTags.Items.GEARS_COPPER).add(CoreItems.GEAR_COPPER.item());
 		tags.tag(ForestryTags.Items.GEARS_STONE);
 
 		tags.tag(Tags.Items.INGOTS).addTags(ForestryTags.Items.INGOTS_BRONZE, ForestryTags.Items.INGOTS_TIN);
 		tags.tag(ForestryTags.Items.INGOTS_BRONZE).add(CoreItems.INGOT_BRONZE.item());
 		tags.tag(ForestryTags.Items.INGOTS_TIN).add(CoreItems.INGOT_TIN.item());
+		tags.tag(ForestryTags.Items.NUGGETS_TIN).add(CoreItems.TIN_NUGGET.item());
 
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());
 		tags.tag(ForestryTags.Items.GEMS_APATITE).add(CoreItems.APATITE.item());
 		tags.tag(ForestryTags.Items.GEMS_AMBER).add(CoreItems.AMBER.item());
+		tags.tag(ForestryTags.Items.SILICON).add(CoreItems.SILICON.item());
 		tags.tag(ForestryTags.Items.RAW_MATERIALS_TIN).add(CoreItems.RAW_TIN.item());
 
 		tags.copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
@@ -105,7 +119,7 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.BEE_COMBS).add(ApicultureItems.BEE_COMBS.itemArray());
 		tags.tag(ForestryTags.Items.VILLAGE_COMBS).add(ApicultureItems.BEE_COMBS.itemArray());
 		tags.tag(ForestryTags.Items.PROPOLIS).add(ApicultureItems.PROPOLIS.itemArray());
-		tags.tag(ForestryTags.Items.DROP_HONEY).add(CoreItems.HONEY_DROP, CoreItems.HONEYDEW);
+		tags.tag(ForestryTags.Items.DROP_HONEY).add(CoreItems.HONEY_DROP, CoreItems.HONEYDEW, ApicultureItems.EXPERIENCE_DROP, ApicultureItems.MAGMATIC_DROP);
 
 		tags.copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
@@ -137,6 +151,7 @@ public class ForestryItemTagsProvider {
 			.add(Items.CRAFTING_TABLE);
 
 		tags.tag(ForestryTags.Items.SCOOPS).add(CoreItems.SCOOP.item());
+		tags.tag(ForestryTags.Items.SCOOPS).add(CoreItems.PROVEN_SCOOP.item());
 
 		tags.tag(ForestryTags.Items.BEES).add(ApicultureItems.BEE_DRONE.get(), ApicultureItems.BEE_PRINCESS.get(), ApicultureItems.BEE_QUEEN.get(), ApicultureItems.BEE_LARVAE.get());
 		tags.tag(ItemTags.BOATS).add(ArboricultureItems.BOAT.itemArray());
@@ -145,6 +160,11 @@ public class ForestryItemTagsProvider {
 		tags.tag(ItemTags.CLUSTER_MAX_HARVESTABLES).add(CoreItems.SURVIVALISTS_PICKAXE);
 		tags.tag(ItemTags.PICKAXES).add(CoreItems.SURVIVALISTS_PICKAXE);
 		tags.tag(ItemTags.SHOVELS).add(CoreItems.SURVIVALISTS_SHOVEL);
+
+		tags.tag(ForestryTags.Items.BURN_BARREL_BLACKLIST).add(
+			Items.LAVA_BUCKET,
+			Items.BLAZE_ROD
+		);
 
 		tags.tag("curios:head").add(CoreItems.SPECTACLES);
 	}

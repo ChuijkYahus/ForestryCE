@@ -19,7 +19,6 @@ import com.mojang.serialization.JsonOps;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.FluidProduct;
-import forestry.core.platform.fluids.FluidProductTypes;
 import forestry.core.content.machines.recipes.SqueezerRecipe;
 
 @GameTestHolder(ForestryConstants.MOD_ID)
@@ -38,7 +37,6 @@ public class SqueezerRecipeCodecTest {
 
 	@GameTest(template = "empty")
 	public static void jsonRoundTrip(GameTestHelper helper) {
-		FluidProductTypes.registerBuiltins();
 		RegistryOps<com.google.gson.JsonElement> jsonOps = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
 		SqueezerRecipe.Serializer serializer = new SqueezerRecipe.Serializer();
 		SqueezerRecipe original = sample();
@@ -54,7 +52,6 @@ public class SqueezerRecipeCodecTest {
 
 	@GameTest(template = "empty")
 	public static void streamRoundTrip(GameTestHelper helper) {
-		FluidProductTypes.registerBuiltins();
 		SqueezerRecipe.Serializer serializer = new SqueezerRecipe.Serializer();
 		SqueezerRecipe original = sample();
 		RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), helper.getLevel().registryAccess());

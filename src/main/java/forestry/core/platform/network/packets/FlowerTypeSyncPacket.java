@@ -13,7 +13,6 @@ import net.minecraft.world.entity.player.Player;
 
 import forestry.api.apiculture.IFlowerType;
 import forestry.core.engine.genetics.FlowerTypeManager;
-import forestry.core.engine.genetics.FlowerTypeTypes;
 import forestry.api.IForestryApi;
 import forestry.core.platform.network.PacketIdClient;
 
@@ -24,7 +23,7 @@ import forestry.core.platform.network.PacketIdClient;
  */
 public record FlowerTypeSyncPacket(Map<ResourceLocation, IFlowerType> definitions) implements CustomPacketPayload {
 	private static final StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, IFlowerType>> MAP_STREAM_CODEC =
-		ByteBufCodecs.map(HashMap::new, ResourceLocation.STREAM_CODEC, FlowerTypeTypes.STREAM_CODEC);
+		ByteBufCodecs.map(HashMap::new, ResourceLocation.STREAM_CODEC, IFlowerType.STREAM_CODEC);
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {

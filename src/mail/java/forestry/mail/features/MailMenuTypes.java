@@ -13,8 +13,8 @@ public class MailMenuTypes {
 
 	public static final FeatureMenuType<ContainerCatalogue> CATALOGUE = REGISTRY.menuType(ContainerCatalogue::fromNetwork, "catalog");
 	public static final FeatureMenuType<LetterMenu> LETTER = REGISTRY.menuType(LetterMenu::fromNetwork, "letter");
-	public static final FeatureMenuType<ContainerMailbox> MAILBOX = REGISTRY.menuType(ContainerMailbox::fromNetwork, "mailbox");
-	public static final FeatureMenuType<ContainerStampCollector> STAMP_COLLECTOR = REGISTRY.menuType(ContainerStampCollector::fromNetwork, "stamp_collector");
-	public static final FeatureMenuType<ContainerTradeName> TRADE_NAME = REGISTRY.menuType(ContainerTradeName::fromNetwork, "trade_name");
-	public static final FeatureMenuType<ContainerTrader> TRADER = REGISTRY.menuType(ContainerTrader::fromNetwork, "trader");
+	public static final FeatureMenuType<MailboxMenu> MAILBOX = REGISTRY.menuType(MailboxMenu::fromNetwork, "mailbox");
+	public static final FeatureMenuType<StampCollectorMenu> STAMP_COLLECTOR = REGISTRY.menuType(StampCollectorMenu::fromNetwork, "stamp_collector");
+	public static final FeatureMenuType<TradeStationNamingMenu> TRADE_NAME = REGISTRY.menuType(TradeStationNamingMenu::fromNetwork, "trade_name");
+	public static final FeatureMenuType<TradeStationMenu> TRADER = REGISTRY.menuType(TradeStationMenu::fromNetwork, "trader");
 }

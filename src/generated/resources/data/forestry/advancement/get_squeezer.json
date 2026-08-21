@@ -1,0 +1,33 @@
+{
+  "parent": "forestry:get_bronze",
+  "criteria": {
+    "forestry:get_squeezer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "forestry:squeezer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.forestry.get_squeezer.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "forestry:squeezer"
+    },
+    "title": {
+      "translate": "advancements.forestry.get_squeezer.title"
+    }
+  },
+  "requirements": [
+    [
+      "forestry:get_squeezer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

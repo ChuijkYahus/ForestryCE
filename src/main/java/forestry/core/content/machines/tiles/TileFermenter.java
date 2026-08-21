@@ -60,7 +60,19 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 
 		this.resourceTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY, true, true).setFilter(FluidRecipeFilter.FERMENTER_INPUT);
 		this.productTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY, false, true).setFilter(FluidRecipeFilter.FERMENTER_OUTPUT);
-		this.tankManager = new TankManager(this, this.resourceTank, this.productTank);
+
+		// Keep the resource tank fillable, but only expose the finished product for fluid extraction.
+		this.tankManager = new TankManager(this, this.resourceTank, this.productTank) {
+			@Override
+			public FluidStack drain(FluidStack resource, IFluidHandler.FluidAction action) {
+				return TileFermenter.this.productTank.drain(resource, action);
+			}
+
+			@Override
+			public FluidStack drain(int maxDrain, IFluidHandler.FluidAction action) {
+				return TileFermenter.this.productTank.drain(maxDrain, action);
+			}
+		};
 	}
 
 	@Override

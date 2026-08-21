@@ -22,7 +22,6 @@ import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.core.engine.genetics.GenomeCodecs;
-import forestry.core.engine.genetics.ProductTypes;
 import forestry.core.engine.genetics.ISpeciesDefinition;
 import forestry.core.engine.genetics.SpeciesCore;
 
@@ -125,8 +124,8 @@ public record BeeSpeciesDefinition(
 		return RecordCodecBuilder.create(instance -> instance.group(
 			SpeciesCore.MAP_CODEC.forGetter(BeeSpeciesDefinition::core),
 			SpritePalette.CODEC.forGetter(def -> new SpritePalette(def.body(), def.stripes(), def.outline())),
-			ProductTypes.LIST_CODEC.optionalFieldOf("products", List.of()).forGetter(BeeSpeciesDefinition::products),
-			ProductTypes.LIST_CODEC.optionalFieldOf("specialties", List.of()).forGetter(BeeSpeciesDefinition::specialties),
+			IProduct.LIST_CODEC.optionalFieldOf("products", List.of()).forGetter(BeeSpeciesDefinition::products),
+			IProduct.LIST_CODEC.optionalFieldOf("specialties", List.of()).forGetter(BeeSpeciesDefinition::specialties),
 			ResourceLocation.CODEC.optionalFieldOf("jubilance", DEFAULT_JUBILANCE).forGetter(BeeSpeciesDefinition::jubilance),
 			genomeCodec.optionalFieldOf("genome", Map.of()).forGetter(BeeSpeciesDefinition::genome)
 		).apply(instance, (core, palette, products, specialties, jubilance, genome) ->
@@ -137,7 +136,7 @@ public record BeeSpeciesDefinition(
 
 	private static StreamCodec<RegistryFriendlyByteBuf, BeeSpeciesDefinition> buildStreamCodec() {
 		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> genomeStreamCodec = GenomeCodecs.alleleMapStreamCodec(karyotype());
-		StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> productListStreamCodec = ProductTypes.LIST_STREAM_CODEC;
+		StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> productListStreamCodec = IProduct.LIST_STREAM_CODEC;
 		return StreamCodec.of(
 			(buf, def) -> {
 				SpeciesCore.STREAM_CODEC.encode(buf, def.core());

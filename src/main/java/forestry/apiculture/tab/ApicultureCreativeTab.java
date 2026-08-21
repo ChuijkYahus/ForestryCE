@@ -36,7 +36,7 @@ public class ApicultureCreativeTab {
 	public static final FeatureCreativeTab APICULTURE = REGISTRY.creativeTab("apiculture", tab -> {
 		tab.icon(() -> SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.FOREST, BeeLifeStage.QUEEN));
 		tab.displayItems(ApicultureCreativeTab::addApicultureItems);
-		tab.withTabsBefore(ForestryCreativeTabs.tabKey("forestry"));
+		tab.withTabsBefore(ForestryCreativeTabs.tabKey("building_blocks"));
 		tab.withTabsAfter(ForestryCreativeTabs.tabKey("arboriculture"));
 	});
 
@@ -48,6 +48,7 @@ public class ApicultureCreativeTab {
 
 		// Gear
 		items.accept(CoreItems.SCOOP);
+		items.accept(CoreItems.PROVEN_SCOOP);
 		items.accept(CoreItems.SPECTACLES);
 		items.accept(ApicultureItems.APIARIST_HELMET);
 		items.accept(ApicultureItems.APIARIST_CHEST);
@@ -61,6 +62,9 @@ public class ApicultureCreativeTab {
 				items.accept(ApicultureBlocks.BEEHIVE.get(type));
 			}
 		}
+
+		items.accept(ApicultureBlocks.WAX_BLOCK);
+		items.accept(ApicultureBlocks.REFRACTORY_WAX_BLOCK);
 
 		// Alveary
 		ApicultureBlocks.ALVEARY.getItems().forEach(items::accept);
@@ -79,7 +83,6 @@ public class ApicultureCreativeTab {
 		// Food
 		items.accept(ApicultureItems.HONEYED_SLICE);
 		items.accept(ApicultureItems.AMBROSIA);
-		items.accept(ApicultureItems.HONEY_POT);
 
 		// Misc items
 		ApicultureItems.BEE_COMBS.getItems().forEach(items::accept);

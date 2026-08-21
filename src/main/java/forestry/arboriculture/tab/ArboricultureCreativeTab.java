@@ -56,6 +56,7 @@ public class ArboricultureCreativeTab {
 		// Blocks
 		items.accept(CharcoalBlocks.LOG_PILE);
 		items.accept(CharcoalBlocks.DECORATIVE_LOG_PILE);
+		items.accept(CharcoalBlocks.ASH);
 		items.accept(CoreItems.ASH);
 		WoodAccess access = WoodAccess.INSTANCE;
 		for (IWoodType type : access.getRegisteredWoodTypes()) {
@@ -76,14 +77,20 @@ public class ArboricultureCreativeTab {
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.TREE);
 		items.accept(ArboricultureItems.AMBER_SAPLING_FOSSIL);
 		ArboricultureBlocks.LEAVES_DECORATIVE.getItems().forEach(items::accept);
-		// Default species leaf blocks (and the fruit-bearing variants) are spawned by
-		// genetic trees but were missing from any creative tab — surface them next to
-		// the decorative leaves so they're discoverable in JEI and the creative menu.
 		ArboricultureBlocks.LEAVES_DEFAULT.getItems().forEach(items::accept);
 		ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.getItems().forEach(items::accept);
 	}
 
-	static void addAllWoodBlocks(CreativeModeTab.Output items, WoodAccess access, IWoodType type, boolean fireproof) {
+	/**
+	 * Adds every block shape of one wood type to a tab. Public so the building blocks tab can list
+	 * the same wood, which it does alongside this tab rather than instead of it, as on 1.20.1.
+	 *
+	 * @param items     The tab's output
+	 * @param access    The wood access to read the blocks from
+	 * @param type      The wood type to list
+	 * @param fireproof Whether to list the fireproof variants
+	 */
+	public static void addAllWoodBlocks(CreativeModeTab.Output items, WoodAccess access, IWoodType type, boolean fireproof) {
 		items.accept(access.getStack(type, WoodBlockKind.LOG, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.WOOD, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.STRIPPED_LOG, fireproof));
@@ -110,6 +117,9 @@ public class ArboricultureCreativeTab {
 			event.accept(ArboricultureItems.PROVEN_GRAFTER);
 			event.accept(ArboricultureItems.AMBER_SAPLING_FOSSIL);
 			event.accept(CharcoalBlocks.CHARCOAL);
+			// Deviation from 1.20.1: that tree listed the ash block in its building blocks tab,
+			// which this tree does not have, so it appends to the base Forestry tab instead
+			event.accept(CharcoalBlocks.ASH);
 		}
 	}
 }

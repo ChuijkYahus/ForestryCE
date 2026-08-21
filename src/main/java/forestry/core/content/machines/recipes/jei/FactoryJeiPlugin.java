@@ -25,6 +25,7 @@ import forestry.core.content.machines.recipes.jei.fabricator.FabricatorRecipeTra
 import forestry.core.content.machines.recipes.jei.fermenter.FermenterRecipeCategory;
 import forestry.core.content.machines.recipes.jei.moistener.MoistenerRecipeCategory;
 import forestry.core.content.machines.recipes.jei.rainmaker.RainmakerRecipeCategory;
+import forestry.core.content.machines.recipes.jei.smelter.SmelterRecipeCategory;
 import forestry.core.content.machines.recipes.jei.squeezer.SqueezerRecipeCategory;
 import forestry.core.content.machines.recipes.jei.still.StillRecipeCategory;
 import mezz.jei.api.IModPlugin;
@@ -69,6 +70,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 			new FermenterRecipeCategory(guiHelper),
 			new MoistenerRecipeCategory(guiHelper),
 			new RainmakerRecipeCategory(guiHelper),
+			new SmelterRecipeCategory(guiHelper),
 			new SqueezerRecipeCategory(guiHelper),
 			new StillRecipeCategory(guiHelper)
 		);
@@ -86,6 +88,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipes(ForestryRecipeType.RAINMAKER, FuelManager.rainSubstrate.values().stream()
 			.sorted(Comparator.comparing(RainSubstrate::duration))
 			.toList());
+		registry.addRecipes(ForestryRecipeType.SMELTER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SMELTER).toList());
 		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());
 		registry.addRecipes(ForestryRecipeType.STILL, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.STILL).toList());
 
@@ -108,6 +111,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.FERMENTER).block()), ForestryRecipeType.FERMENTER);
 		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER).block()), ForestryRecipeType.MOISTENER);
 		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).block()), ForestryRecipeType.RAINMAKER);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block()), ForestryRecipeType.SMELTER);
 		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).block()), ForestryRecipeType.SQUEEZER);
 		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL).block()), ForestryRecipeType.STILL);
 	}
@@ -126,6 +130,8 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipeClickArea(GuiFermenter.class, 72, 40, 32, 18, ForestryRecipeType.FERMENTER);
 
 		registry.addRecipeClickArea(GuiMoistener.class, 123, 35, 19, 21, ForestryRecipeType.MOISTENER);
+
+		registry.addRecipeClickArea(GuiSmelter.class, 95, 57, 16, 16, ForestryRecipeType.SMELTER);
 
 		registry.addRecipeClickArea(GuiSqueezer.class, 76, 41, 43, 16, ForestryRecipeType.SQUEEZER);
 

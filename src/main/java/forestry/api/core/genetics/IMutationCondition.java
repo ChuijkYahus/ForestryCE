@@ -1,11 +1,26 @@
 package forestry.api.core.genetics;
 
+import java.util.List;
+
+import com.mojang.serialization.Codec;
+
+import forestry.api.ForestryRegistries;
 import forestry.api.core.climate.IClimateProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.Level;
 
 public interface IMutationCondition {
+	Codec<IMutationCondition> CODEC = ForestryRegistries.MUTATION_CONDITION_TYPE.byNameCodec()
+		.dispatch("type", IMutationCondition::type, MutationConditionType::codec);
+	StreamCodec<RegistryFriendlyByteBuf, IMutationCondition> STREAM_CODEC = ByteBufCodecs.registry(ForestryRegistries.Keys.MUTATION_CONDITION_TYPE).dispatch(IMutationCondition::type, MutationConditionType::streamCodec);
+
+	Codec<List<IMutationCondition>> LIST_CODEC = CODEC.listOf();
+	StreamCodec<RegistryFriendlyByteBuf, List<IMutationCondition>> LIST_STREAM_CODEC = STREAM_CODEC.apply(ByteBufCodecs.list());
+
 	/**
 	 * Used to modify the chance of a mutation based on certain conditions being met.
 	 * Most conditions will either return the current chance or {@code 0.0f} if the condition is not met.

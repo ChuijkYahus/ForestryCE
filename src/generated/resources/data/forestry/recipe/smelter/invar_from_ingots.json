@@ -1,0 +1,41 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:ingots/nickel"
+      }
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:ingots/invar"
+      }
+    }
+  ],
+  "type": "forestry:smelter",
+  "id": "forestry:smelter/invar_from_ingots",
+  "inputs": [
+    {
+      "count": 2,
+      "ingredient": {
+        "tag": "c:ingots/iron"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "c:ingots/nickel"
+      }
+    }
+  ],
+  "output": {
+    "count": 3,
+    "ingredient": {
+      "tag": "c:ingots/invar"
+    }
+  },
+  "processingTime": 40
+}

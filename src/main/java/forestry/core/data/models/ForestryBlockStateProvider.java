@@ -10,7 +10,15 @@ import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.CharcoalBlocks;
+import forestry.core.content.burnbarrel.BlockBurnBarrel;
+import forestry.core.content.decorative.BlockJumboCandle;
+import forestry.core.content.decorative.BlockPlywoodBlock;
+import forestry.core.content.decorative.BlockTypeBigCandle;
+import forestry.core.content.decorative.BlockTypeJumboCandle;
+import forestry.core.content.decorative.BlockTypeMetalPlating;
 import forestry.core.content.resources.EnumResourceType;
+import forestry.core.content.soil.BlockBogEarth;
+import forestry.core.content.soil.BlockHumus;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.fluids.ForestryFluids;
@@ -19,11 +27,16 @@ import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.content.worktable.features.WorktableBlocks;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CandleBlock;
 import forestry.core.platform.block.BlockBase;
 import net.minecraft.core.Direction;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
@@ -39,8 +52,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		// Resources
-		simpleBlock(CoreBlocks.BOG_EARTH.block());
-		simpleBlock(CoreBlocks.HUMUS.block());
+		agingSoil(CoreBlocks.BOG_EARTH.block(), BlockBogEarth.MATURITY);
+		agingSoil(CoreBlocks.HUMUS.block(), BlockHumus.DEGRADE);
 
 		simpleBlock(CoreBlocks.APATITE_ORE.block());
 		simpleBlock(CoreBlocks.DEEPSLATE_APATITE_ORE.block());
@@ -59,6 +72,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic2d(CoreItems.INGOT_BRONZE);
 		generic2d(CoreItems.GEAR_BRONZE);
 		generic2d(CoreItems.GEAR_COPPER);
+		generic2d(CoreItems.GEAR_IRON);
 
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
 		for (ForestryFluids fluid : ForestryFluids.values()) {
@@ -119,6 +133,10 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			existingModelBlock(CoreBlocks.RESOURCE_STORAGE.get(type).block(), "storage/" + type.getSerializedName());
 		}
 
+		// The wax blocks are not resource storage subtypes but share its model layout.
+		existingModelBlock(ApicultureBlocks.WAX_BLOCK.block(), "storage/wax");
+		existingModelBlock(ApicultureBlocks.REFRACTORY_WAX_BLOCK.block(), "storage/refractory_wax");
+
 		// Alveary components (the single-variant subset of the alveary block group).
 		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HYGRO).block(), "apiculture/alveary_hygroregulator");
 		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.STABILISER).block(), "apiculture/alveary_stabilizer");
@@ -131,6 +149,264 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		horizontalMachine(this, ApicultureBlocks.BASE.get(BlockTypeApiculture.BEE_HOUSE).block(), "beehouse", 0, 1, 2, 4, 4, 4, 4);
 		horizontalMachine(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), "thermionic_fabricator", 0, 1, 3, 2, 4, 4, 4);
 		horizontalMachine(this, WorktableBlocks.WORKTABLE.block(), "worktable", 0, 1, 3, 2, 4, 4, 4);
+
+		// The smelter keeps its hand-authored 1.20.1 model, so only the facing blockstate is generated.
+		// Deviation from 1.20.1: that model parented block/machines/base_machine, whose only other job
+		// was to hold two tank slices the smelter never shows. The body is inlined instead
+		horizontalForestryBlock(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block(), models().getExistingFile(modBlock(this, "smelter")));
+
+		// The burn barrel keeps its four hand-authored 1.20.1 models, one per LIT / HAS_ASH pair. Deviation from
+		// 1.20.1: the blockstate was hand-authored there, this tree generates it. The item model stays hand-authored,
+		// it parents the empty block model rather than a generated cube
+		getVariantBuilder(CoreBlocks.BURN_BARREL.block()).forAllStates(state -> {
+			boolean lit = state.getValue(BlockBurnBarrel.LIT);
+			boolean hasAsh = state.getValue(BlockBurnBarrel.HAS_ASH);
+			String name = hasAsh
+				? (lit ? "burn_barrel_full_burning" : "burn_barrel_full")
+				: (lit ? "burn_barrel_burning" : "burn_barrel_empty");
+			return ConfiguredModel.builder().modelFile(models().getExistingFile(modBlock(this, name))).build();
+		});
+
+		// Turf. Both keep their hand-authored 1.20.1 models, an inline cube tinted by the grass colour, which no
+		// vanilla parent writes. Deviation from 1.20.1: the two blockstates listed that one model four times,
+		// once per y rotation, and both models wear one texture on all six faces, so the rotation was never
+		// visible. One variant is written instead
+		existingModelBlock(CoreBlocks.TURF_BLOCK.block());
+		generic3d(CoreBlocks.TURF_BLOCK.block());
+		existingModelBlock(CoreBlocks.TURF.block());
+		generic3d(CoreBlocks.TURF.block());
+
+		// Plywood and cork
+		plywood();
+		simpleBlock(CoreBlocks.CORK.block());
+		generic3d(CoreBlocks.CORK.block());
+
+		// Decorative stone and brick blocks
+		simpleBlock(CoreBlocks.ASHEN_WAX_BLOCK.block());
+		generic3d(CoreBlocks.ASHEN_WAX_BLOCK.block());
+		simpleBlock(CoreBlocks.CRISPY_HONEY_BLOCK.block());
+		generic3d(CoreBlocks.CRISPY_HONEY_BLOCK.block());
+
+		for (CoreBlocks.StoneFamily family : CoreBlocks.DECORATIVE_FAMILIES) {
+			stoneFamily(family);
+		}
+		// A chiseled brick block wears one texture on all six faces
+		chiseledCube(CoreBlocks.CHISELED_ASH_BRICKS.block());
+		chiseledCube(CoreBlocks.CHISELED_WAX_BRICKS.block());
+		chiseledCube(CoreBlocks.CHISELED_REFRACTORY_WAX_BRICKS.block());
+		// A chiseled stone block wears a separate top
+		for (CoreBlocks.StoneSet set : CoreBlocks.STONE_SETS) {
+			chiseledColumn(set.chiseled().block());
+		}
+
+		// Metal plating
+		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
+			Block block = CoreBlocks.METAL_PLATING.get(type).block();
+			simpleBlock(block);
+			generic3d(block);
+		}
+
+		// Candles
+		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
+			jumboCandle(type);
+		}
+		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
+			bigCandle(type);
+		}
+		vanillaCandle(CoreBlocks.REFRACTORY_CANDLE.block());
+		vanillaCandle(CoreBlocks.RAINBOW_CANDLE.block());
+	}
+
+	/**
+	 * Emits the blockstate, the four shape models and the item model of one jumbo candle. Each shape gets its
+	 * own model, since a candle in the middle of a stack shows neither a wick nor a melted top.
+	 */
+	private void jumboCandle(BlockTypeJumboCandle type) {
+		String name = type.getSerializedName();
+		Block candle = CoreBlocks.JUMBO_CANDLES.get(type).block();
+
+		jumboCandleModel(name, "single", "bottom", "side", "top");
+		jumboCandleModel(name, "top", "bottom_top", "side_top", "top");
+		jumboCandleModel(name, "middle", "bottom_top", "side_middle", "middle_top");
+		jumboCandleModel(name, "bottom", "bottom", "side_bottom", "bottom_top");
+
+		getVariantBuilder(candle).forAllStates(state -> {
+			String shape = state.getValue(BlockJumboCandle.SHAPE).getSerializedName();
+			return ConfiguredModel.builder()
+				.modelFile(models().getExistingFile(modBlock(this, "candles/" + name + "_jumbo_" + shape)))
+				.build();
+		});
+
+		// Deviation from 1.20.1: the item models of the 38 jumbo and big candles were hand-authored one file
+		// each there, with simpleBlockItem left commented out. They are generated here, from the same model
+		// the block shows when it stands alone
+		itemModels().withExistingParent(path(candle), modBlock(this, "candles/" + name + "_jumbo_single"));
+	}
+
+	/**
+	 * Emits one shape model of one jumbo candle.
+	 *
+	 * @param name   The candle's colour, which the model and texture ids are built from
+	 * @param shape  The shape of the block states the model covers
+	 * @param bottom The texture on the bottom face
+	 * @param side   The texture on the four sides, which is also the particle
+	 * @param top    The texture on the top face
+	 */
+	private void jumboCandleModel(String name, String shape, String bottom, String side, String top) {
+		ResourceLocation sideTexture = modBlock(this, "candles/" + name + "_" + side);
+
+		models().withExistingParent("block/candles/" + name + "_jumbo_" + shape, modBlock(this, "candles/jumbo_" + shape))
+			.texture("bottom", modBlock(this, "candles/" + name + "_" + bottom))
+			.texture("side", sideTexture)
+			.texture("top", modBlock(this, "candles/" + name + "_" + top))
+			.texture("particle", sideTexture);
+	}
+
+	/**
+	 * Emits the blockstate, the one model and the item model of one big candle. A big candle shows the same
+	 * model in every state.
+	 * <p>
+	 * Deviation from 1.20.1: the blockstate listed all four lit and waterlogged combinations there, each
+	 * pointing at the one model. This writes the single empty variant, which matches every state.
+	 */
+	private void bigCandle(BlockTypeBigCandle type) {
+		Block candle = CoreBlocks.BIG_CANDLES.get(type).block();
+		String model = "candles/" + type.getSerializedName() + "_big";
+
+		models().withExistingParent("block/" + model, modBlock(this, "candles/big"))
+			.texture("0", modBlock(this, model))
+			.texture("particle", modBlock(this, model));
+
+		singleModelBlock(this, candle, models().getExistingFile(modBlock(this, model)));
+		itemModels().withExistingParent(path(candle), modBlock(this, model));
+	}
+
+	/**
+	 * Emits the blockstate, the eight models and the item model of one vanilla-shaped candle, which shows one
+	 * model per candle count and a second set of the four while lit.
+	 */
+	private void vanillaCandle(Block block) {
+		String name = path(block);
+		ResourceLocation texture = modBlock(this, "candles/" + name);
+		ResourceLocation litTexture = modBlock(this, "candles/" + name + "_lit");
+
+		ModelFile one = candleCountModel(name, "one", "template_candle", texture);
+		ModelFile oneLit = candleCountModel(name, "one_lit", "template_candle", litTexture);
+		ModelFile two = candleCountModel(name, "two", "template_two_candles", texture);
+		ModelFile twoLit = candleCountModel(name, "two_lit", "template_two_candles", litTexture);
+		ModelFile three = candleCountModel(name, "three", "template_three_candles", texture);
+		ModelFile threeLit = candleCountModel(name, "three_lit", "template_three_candles", litTexture);
+		ModelFile four = candleCountModel(name, "four", "template_four_candles", texture);
+		ModelFile fourLit = candleCountModel(name, "four_lit", "template_four_candles", litTexture);
+
+		getVariantBuilder(block).forAllStates(state -> {
+			int count = state.getValue(CandleBlock.CANDLES);
+			boolean lit = state.getValue(CandleBlock.LIT);
+
+			ModelFile model = switch (count) {
+				case 2 -> lit ? twoLit : two;
+				case 3 -> lit ? threeLit : three;
+				case 4 -> lit ? fourLit : four;
+				default -> lit ? oneLit : one;
+			};
+
+			return ConfiguredModel.builder().modelFile(model).build();
+		});
+
+		// Deviation from 1.20.1: the two item models were hand-authored there. They are generated here, from
+		// the item textures those two files already named
+		layer0(ModUtil.getRegistryName(block.asItem()), "item/generated");
+	}
+
+	/**
+	 * Emits one count model of one vanilla-shaped candle.
+	 *
+	 * @param name    The candle's registry id, which the model id is built from
+	 * @param count   The candle count the model covers, with a lit suffix where it is lit
+	 * @param parent  The vanilla template of the matching candle count
+	 * @param texture The texture on every face, which is also the particle
+	 * @return The registered model
+	 */
+	private ModelFile candleCountModel(String name, String count, String parent, ResourceLocation texture) {
+		return models().withExistingParent("block/candles/" + name + "_" + count, mcBlock(this, parent))
+			.texture("all", texture)
+			.texture("particle", texture);
+	}
+
+	/**
+	 * Emits the blockstates, block models and item models of the plywood sheet and the plywood block. Both
+	 * sample block/plywood_top on the two end faces and block/plywood_side on the four others.
+	 * <p>
+	 * Deviation from 1.20.1: both blockstates were hand-authored there, and both are generated here. The sheet
+	 * keeps its hand-authored model, a one-pixel slab no vanilla parent writes. The plywood block's model was
+	 * hand-authored too, as an inline cube carrying the display block vanilla's block/block parent already
+	 * gives it. cube_column writes the same six faces.
+	 */
+	private void plywood() {
+		Block sheet = CoreBlocks.PLYWOOD_SHEET.block();
+		directionalBlock(sheet, models().getExistingFile(modBlock(this, path(sheet))));
+		generic3d(sheet);
+
+		BlockPlywoodBlock block = CoreBlocks.PLYWOOD_BLOCK.block();
+		ResourceLocation top = modBlock(this, "plywood_top");
+		ModelFile model = models().withExistingParent(path(block), mcBlock(this, "cube_column"))
+			.texture("end", top)
+			.texture("side", modBlock(this, "plywood_side"))
+			.texture("particle", top);
+
+		// One model for all three axes, rotated, the way 1.20.1 did it. cube_column_horizontal would turn the
+		// side texture with the grain, which a plain plywood side does not show
+		axisBlock(block, model, model);
+		generic3d(block);
+	}
+
+	/**
+	 * Emits the blockstates, block models and item models of one decorative shape family. Every block in the
+	 * family samples block/&lt;base block id&gt;.
+	 */
+	private void stoneFamily(CoreBlocks.StoneFamily family) {
+		Block base = family.base().block();
+		ResourceLocation texture = modBlock(this, path(base));
+
+		simpleBlock(base);
+		generic3d(base);
+
+		stairsBlock(family.stairs().block(), texture);
+		generic3d(family.stairs().block());
+
+		// The double-slab variant reuses the base block's cube_all, which sits at the texture's own path
+		slabBlock(family.slab().block(), texture, texture);
+		generic3d(family.slab().block());
+
+		String wall = path(family.wall().block());
+		wallBlock(family.wall().block(), texture);
+		// wallBlock emits post and side models only, so the item needs an inventory model of its own
+		models().wallInventory(wall + "_inventory", texture);
+		itemModels().withExistingParent(wall, modBlock(this, wall + "_inventory"));
+	}
+
+	/**
+	 * Emits the blockstate, block model and item model of a chiseled brick block, which samples
+	 * block/&lt;id&gt; on all six faces.
+	 */
+	private void chiseledCube(Block block) {
+		simpleBlock(block);
+		generic3d(block);
+	}
+
+	/**
+	 * Emits the blockstate, block model and item model of a chiseled stone block, which samples
+	 * block/&lt;id&gt;_top on the top and bottom and block/&lt;id&gt;_side on the four sides.
+	 * <p>
+	 * Deviation from 1.20.1: these three models were hand-authored there, as an inline cube carrying the
+	 * display block vanilla's block/block parent already gives it. cube_bottom_top writes the same six faces.
+	 */
+	private void chiseledColumn(Block block) {
+		String name = path(block);
+		ResourceLocation top = modBlock(this, name + "_top");
+
+		singleModelBlock(this, block, models().cubeBottomTop(name, modBlock(this, name + "_side"), top, top));
+		generic3d(block);
 	}
 
 	// Builds a block/cube model whose faces map to textures block/<prefix>.<n>, then emits a
@@ -191,6 +467,30 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				.rotationY(yRot)
 				.build();
 		});
+	}
+
+	/**
+	 * Used to build the blockstate and the cube models for a soil block that retextures itself as it ages.
+	 * Deviation from 1.20.1: the blockstate there listed each model four times, once per y rotation, but
+	 * a cube_all model wears one texture on all six faces, so only the top face ever showed the rotation.
+	 * One variant per age is written instead, matching the turf blocks above
+	 *
+	 * @param block    The soil block
+	 * @param property The age property, which gets one model per value
+	 */
+	private void agingSoil(Block block, IntegerProperty property) {
+		String name = path(block);
+		Map<Integer, ModelFile> models = new HashMap<>();
+
+		for (int age : property.getPossibleValues()) {
+			// age 0 keeps the bare name so the hand-written item model can still parent it
+			String model = age == 0 ? name : name + "_" + age;
+			models.put(age, models().cubeAll(model, modBlock(this, model)));
+		}
+
+		getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
+			.modelFile(models.get(state.getValue(property)))
+			.build());
 	}
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {

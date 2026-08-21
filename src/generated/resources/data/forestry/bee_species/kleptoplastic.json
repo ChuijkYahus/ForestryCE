@@ -17,5 +17,11 @@
       "item": "forestry:honey_comb"
     }
   ],
+  "specialties": [
+    {
+      "chance": 0.05,
+      "item": "forestry:phosphorescent_jelly"
+    }
+  ],
   "species": "vitaraptor"
 }

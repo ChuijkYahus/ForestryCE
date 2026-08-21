@@ -199,6 +199,16 @@ public class ForestryBackpackTagProvider {
 		);
 		tags.tag(ForestryTags.Items.BUILDER_REJECT);
 
+		tags.tag(ForestryTags.Items.BREWER_ALLOW).add(
+			Items.EXPERIENCE_BOTTLE,
+			Items.GLASS_BOTTLE,
+			Items.HONEY_BOTTLE,
+			Items.LINGERING_POTION,
+			Items.POTION,
+			Items.SPLASH_POTION
+		);
+		tags.tag(ForestryTags.Items.BREWER_REJECT);
+
 		tags.tag(ForestryTags.Items.ADVENTURER_ALLOW);
 		tags.tag(ForestryTags.Items.ADVENTURER_REJECT);
 	}

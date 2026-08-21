@@ -4,6 +4,7 @@ import forestry.api.core.machines.*;
 import forestry.core.platform.client.ClientsideCode;
 import forestry.core.platform.fluids.FluidHelper;
 import forestry.core.content.machines.features.FactoryRecipeTypes;
+import forestry.core.content.machines.recipes.SmelterRecipe;
 import forestry.core.platform.registration.FeatureRecipeType;
 import forestry.core.content.worktable.inventory.WorktableCraftingContainer;
 import net.minecraft.core.NonNullList;
@@ -201,6 +202,11 @@ public class RecipeUtils {
 	@Nullable
 	public static IMoistenerRecipe getMoistenerRecipe(RecipeManager manager, ItemStack stack) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.MOISTENER, recipe -> recipe.getInput().test(stack));
+	}
+
+	@Nullable
+	public static ISmelterRecipe getSmelterRecipe(RecipeManager manager, List<ItemStack> contents) {
+		return getMatchingRecipe(manager, FactoryRecipeTypes.SMELTER, recipe -> SmelterRecipe.canAlloy(recipe, contents));
 	}
 
 	@Nullable

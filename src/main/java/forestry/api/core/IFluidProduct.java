@@ -1,5 +1,12 @@
 package forestry.api.core;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+
+import forestry.api.ForestryRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.neoforged.neoforge.fluids.FluidStack;
 
@@ -9,6 +16,12 @@ import net.neoforged.neoforge.fluids.FluidStack;
  * @see FluidProduct The default fixed-fluid implementation used by Forestry's own recipes.
  */
 public interface IFluidProduct {
+	String TYPE_KEY = "type";
+
+	MapCodec<IFluidProduct> MAP_CODEC = OptionalTypeMapCodec.of(ForestryRegistries.FLUID_PRODUCT_TYPE, "fluid product type", TYPE_KEY, () -> FluidProduct.TYPE, IFluidProduct::type, FluidProductType::codec);
+	Codec<IFluidProduct> CODEC = MAP_CODEC.codec();
+	StreamCodec<RegistryFriendlyByteBuf, IFluidProduct> STREAM_CODEC = ByteBufCodecs.registry(ForestryRegistries.Keys.FLUID_PRODUCT_TYPE).dispatch(IFluidProduct::type, FluidProductType::streamCodec);
+
 	/**
 	 * Creates a new, non-random stack to represent this product in recipe viewers. <p>
 	 *
@@ -36,9 +49,9 @@ public interface IFluidProduct {
 	}
 
 	/**
-	 * The type of this product, used to (de)serialize it via the dispatch codec in
-	 * {@code forestry.core.platform.fluids.FluidProductTypes}. Plain {@link FluidProduct} instances return {@link FluidProduct#TYPE},
-	 * which the dispatch codec treats as the default: it serializes without a {@code "type"} key.
+	 * The type of this product, used to (de)serialize it via {@link #CODEC}. Plain {@link FluidProduct} instances
+	 * return {@link FluidProduct#TYPE}, which the dispatch codec treats as the default: it serializes without a
+	 * {@code "type"} key.
 	 *
 	 * @return The type of this product.
 	 */

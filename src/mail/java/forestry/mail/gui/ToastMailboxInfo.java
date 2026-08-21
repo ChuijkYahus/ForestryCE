@@ -22,7 +22,7 @@ import java.util.List;
 public class ToastMailboxInfo implements Toast {
 	private static final long DISPLAY_TIME = 5000L;
 	private static final long ICON_TIME = 500L;
-	private static final ResourceLocation BACKGROUND_SPRITE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/mailalert.png");
+	private static final ResourceLocation BACKGROUND_SPRITE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/mail_toast.png");
 
 	private final Component title = Component.translatable("for.gui.mail.toast.title");
 	private POBoxInfo poBox;

@@ -2,6 +2,8 @@
   "values": [
     "forestry:humus",
     "forestry:bog_earth",
-    "forestry:peat"
+    "forestry:peat",
+    "forestry:turf",
+    "forestry:turf_block"
   ]
 }

@@ -37,6 +37,7 @@ public enum ForestryError implements IError {
 	NO_REDSTONE("no_redstone", "disabled"), // This machine requires a redstone signal to activate it.
 	DISABLED_BY_REDSTONE("disabled_redstone", "disabled"), // This machine is being disabled by a redstone signal.
 	NOT_DARK("not_dark", "not_gloomy"), // A lower light level is required for operation.
+	NOT_LIT("not_lit", "no_heat"), // (Burn barrel) Light the barrel with a flint and steel or a fire charge.
 
 	// Rain Tank
 	NOT_RAINING("not_raining"), // Operation is only possible when it is raining.
@@ -51,7 +52,10 @@ public enum ForestryError implements IError {
 	FORCED_COOLDOWN("forced_cooldown"), // Engine has overheated and is forced into cooldown.
 	NO_FUEL("no_fuel"), // (Biogas & Peat-fired) Replenish this machine's fuel supplies.
 	NO_HEAT("no_heat"), // (Biogas engine) Refill the heating tank.
+	NO_COOLANT("no_coolant"), // (Combustion engine) Refill the coolant tank.
 	NO_ENERGY_NET("no_energy_net"), // Your world is barren of any electricity. (Install IndustrialCraft\u00b2.)
+	NO_SOLAR_PANELS("no_solar_panels"), // (Solar engine) Attach solar panels above the engine.
+	NO_SUNLIGHT("no_sunlight"), // (Solar engine) The sky is too dark for the panels to generate.
 
 	// Trade Station
 	NO_STAMPS("no_stamps"), // The trade station requires more stamps to pay postage.

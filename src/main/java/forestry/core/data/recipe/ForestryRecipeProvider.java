@@ -26,6 +26,9 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.platform.block.BlockTypeCoreTesr;
+import forestry.core.content.decorative.BlockTypeBigCandle;
+import forestry.core.content.decorative.BlockTypeJumboCandle;
+import forestry.core.content.decorative.BlockTypeMetalPlating;
 import forestry.core.content.resources.EnumResourceType;
 import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.engine.circuits.ItemCircuitBoard;
@@ -59,6 +62,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -73,6 +77,9 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.conditions.ICondition;
+import net.neoforged.neoforge.common.conditions.NotCondition;
+import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -114,6 +121,7 @@ public class ForestryRecipeProvider {
 		registerBackpackRecipes(recipes);
 		registerCharcoalRecipes(recipes);
 		registerCoreRecipes(recipes);
+		registerDecorativeRecipes(output, recipes);
 		registerFactoryRecipes(recipes);
 		registerFluidsRecipes(output);
 		registerSortingRecipes(recipes);
@@ -130,6 +138,7 @@ public class ForestryRecipeProvider {
 		registerMoistener(output);
 		registerSqueezerContainer(output);
 		registerSqueezer(output);
+		registerSmelter(output);
 		registerStill(output);
 
 		// Built-in genetic mutations (bee/tree/butterfly) are generated as datapack recipes by the standalone
@@ -349,8 +358,39 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" Y ");
 		});
 
-		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
+		// Deviation from 1.20.1: storage3x3 replaces that tree's grid3x3 plus a hand-named
+		// "uncraft_wax_block". It writes the same two recipes and names the reverse one
+		// beeswax_from_wax_block, matching ash_from_ash_block and ingot_tin_from_resource_storage_tin
+		recipes.storage3x3(ApicultureBlocks.WAX_BLOCK.item(), CoreItems.BEESWAX);
+		recipes.storage3x3(ApicultureBlocks.REFRACTORY_WAX_BLOCK.item(), CoreItems.REFRACTORY_WAX);
 
+		// The bricks use ash or wood pulp to stop them melting. That's the logic.
+		// Deviation from 1.20.1: those recipe ids said "wax_bricks_ash", which named the brick block
+		// rather than the brick item. Renamed to the <result>_from_<binder> form this tree already uses
+		recipes.shapedCrafting("wax_brick_from_ash", RecipeCategory.BUILDING_BLOCKS, CoreItems.WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.BEESWAX);
+			recipe.define('#', ForestryTags.Items.DUSTS_ASH);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting("wax_brick_from_sawdust", RecipeCategory.BUILDING_BLOCKS, CoreItems.WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.BEESWAX);
+			recipe.define('#', ForestryTags.Items.SAWDUST);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting("refractory_wax_brick_from_ash", RecipeCategory.BUILDING_BLOCKS, CoreItems.REFRACTORY_WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX);
+			recipe.define('#', ForestryTags.Items.DUSTS_ASH);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
+		recipes.shapedCrafting("refractory_wax_brick_from_sawdust", RecipeCategory.BUILDING_BLOCKS, CoreItems.REFRACTORY_WAX_BRICK, 2, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX);
+			recipe.define('#', ForestryTags.Items.SAWDUST);
+			recipe.pattern("#X");
+			recipe.pattern("X#");
+		});
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
@@ -499,6 +539,16 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
+		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.BREWER_BACKPACK, recipe -> {
+			recipe.define('#', ItemTags.WOOL);
+			recipe.define('V', Items.GLASS_BOTTLE);
+			recipe.define('X', Tags.Items.STRINGS);
+			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
+			recipe.pattern("X#X");
+			recipe.pattern("VYV");
+			recipe.pattern("X#X");
+		});
+
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.BUILDER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Items.CLAY_BALL);
@@ -588,6 +638,14 @@ public class ForestryRecipeProvider {
 		recipes.shapelessCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.DECORATIVE_LOG_PILE.block(), 1, CharcoalBlocks.LOG_PILE.block());
 
 		recipes.shapelessCrafting("wood_pile_from_decorative", RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.LOG_PILE.block(), 1, CharcoalBlocks.DECORATIVE_LOG_PILE.block());
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.ASH.item(), recipe -> {
+			recipe.define('X', ForestryTags.Items.DUSTS_ASH);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		// name collides with the peat->ash smelting recipe (would otherwise overwrite one of the recipes)
+		recipes.shapelessCrafting("ash_from_ash_block", RecipeCategory.MISC, CoreItems.ASH, 4, CharcoalBlocks.ASH.item());
 	}
 
 	private static void registerCoreRecipes(MKRecipeProvider recipes) {
@@ -616,11 +674,52 @@ public class ForestryRecipeProvider {
 			recipe.pattern("###");
 		});
 		recipes.shapelessCrafting("ingot_tin_from_resource_storage_tin", RecipeCategory.MISC, CoreItems.INGOT_TIN.item(), 9, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN));
+		// Deviation from 1.20.1: that tree spelled the counted ingredient IntObjectPair.of(9, item);
+		// this tree's idiom for the same MKRecipeProvider feature is ObjectIntPair.of(item, 9)
+		recipes.shapelessCrafting("tin_from_nuggets", RecipeCategory.MISC, CoreItems.INGOT_TIN, 1, ObjectIntPair.of(CoreItems.TIN_NUGGET, 9));
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.TIN_NUGGET, 9, CoreItems.INGOT_TIN);
+
+		// Building blocks
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TURF, 3, recipe -> {
+			recipe.define('X', CoreBlocks.TURF_BLOCK);
+			recipe.pattern("XX");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TIN_CHAIN, recipe -> {
+			recipe.define('|', Ingredient.of(ForestryTags.Items.INGOTS_TIN));
+			recipe.define('.', Ingredient.of(ForestryTags.Items.NUGGETS_TIN));
+			recipe.pattern(".");
+			recipe.pattern("|");
+			recipe.pattern(".");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreItems.PHOSPHOR_TORCH_ITEM, 4, recipe -> {
+			recipe.define('.', CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.PHOSPHOR));
+			recipe.define('^', ItemTags.COALS);
+			recipe.define('|', Items.STICK);
+			recipe.pattern(".");
+			recipe.pattern("^");
+			recipe.pattern("|");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PHOSPHOR_LANTERN, recipe -> {
+			recipe.define('.', Ingredient.of(ForestryTags.Items.NUGGETS_TIN));
+			recipe.define('^', CoreItems.PHOSPHOR_TORCH_ITEM);
+			recipe.pattern("...");
+			recipe.pattern(".^.");
+			recipe.pattern("...");
+		});
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER), recipe -> {
 			recipe.define('#', CoreItems.AMBER);
 			recipe.pattern("##");
 			recipe.pattern("##");
 		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON), recipe -> {
+			recipe.define('#', CoreItems.SILICON);
+			recipe.pattern("##");
+			recipe.pattern("##");
+		});
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.SILICON, 4, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON));
 		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_PICKAXE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
@@ -660,6 +759,7 @@ public class ForestryRecipeProvider {
 		gear(recipes, CoreItems.GEAR_BRONZE, ForestryTags.Items.INGOTS_BRONZE);
 		gear(recipes, CoreItems.GEAR_TIN, ForestryTags.Items.INGOTS_TIN);
 		gear(recipes, CoreItems.GEAR_COPPER, Tags.Items.INGOTS_COPPER);
+		gear(recipes, CoreItems.GEAR_IRON, Tags.Items.INGOTS_IRON);
 
 		recipes.shapelessCrafting("ingot_bronze_alloying", RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 4, ForestryTags.Items.INGOTS_TIN, ObjectIntPair.of(Items.COPPER_INGOT, 3));
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.PICKAXE_KIT, 1, CoreItems.SURVIVALISTS_PICKAXE, CoreItems.CARTON);
@@ -805,13 +905,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern("VVV");
 		});
 
-		recipes.shapedCrafting("phosphor_torches", RecipeCategory.MISC, Items.TORCH, 6, recipe -> {
-			recipe.define('P', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR));
-			recipe.define('|', Tags.Items.RODS_WOODEN);
-			recipe.pattern(" P ");
-			recipe.pattern(" | ");
-		});
-
 		recipes.shapedCrafting("beeswax_candles", RecipeCategory.MISC, Items.CANDLE, 1, recipe -> {
 			recipe.define('|', Tags.Items.STRINGS);
 			recipe.define('^', CoreItems.BEESWAX);
@@ -819,9 +912,217 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" ^ ");
 		});
 
+		// Explicit ID, carried over from 1.20.1, which named this recipe in the plural like the one above it
+		recipes.shapedCrafting("refractory_candles", RecipeCategory.MISC, CoreBlocks.REFRACTORY_CANDLE, 1, recipe -> {
+			recipe.define('|', Tags.Items.STRINGS);
+			recipe.define('^', CoreItems.REFRACTORY_WAX);
+			recipe.pattern(" | ");
+			recipe.pattern(" ^ ");
+		});
+
+		// Plywood. 1.20.1 also carried a commented-out sheet recipe, noting the carpenter was the better
+		// place for it. The carpenter has it, so the comment is dropped rather than carried over
+		recipes.grid3x3(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_BLOCK, Ingredient.of(CoreBlocks.PLYWOOD_SHEET));
+		recipes.shapelessCrafting("plywood_from_block", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 9, CoreBlocks.PLYWOOD_BLOCK);
+
 		// Books
 		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, CoreItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
+	}
+
+	/**
+	 * Registers the crafting, smelting and stonecutting recipes of the decorative stone and brick blocks.
+	 */
+	private static void registerDecorativeRecipes(RecipeOutput output, MKRecipeProvider recipes) {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.ASH_BRICKS.base(), recipe -> {
+			recipe.define('X', CoreItems.ASH_BRICK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.WAX_BRICKS.base(), 4, recipe -> {
+			recipe.define('X', CoreItems.WAX_BRICK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.REFRACTORY_WAX_BRICKS.base(), 4, recipe -> {
+			recipe.define('X', CoreItems.REFRACTORY_WAX_BRICK);
+			recipe.pattern("XX");
+			recipe.pattern("XX");
+		});
+
+		stoneFamily(output, recipes, CoreBlocks.ASH_BRICKS);
+		chiseledStone(output, recipes, CoreBlocks.CHISELED_ASH_BRICKS, CoreBlocks.ASH_BRICKS);
+		stoneFamily(output, recipes, CoreBlocks.WAX_BRICKS);
+		chiseledStone(output, recipes, CoreBlocks.CHISELED_WAX_BRICKS, CoreBlocks.WAX_BRICKS);
+		stoneFamily(output, recipes, CoreBlocks.REFRACTORY_WAX_BRICKS);
+		chiseledStone(output, recipes, CoreBlocks.CHISELED_REFRACTORY_WAX_BRICKS, CoreBlocks.REFRACTORY_WAX_BRICKS);
+
+		stoneSet(output, recipes, CoreBlocks.WAXSTONE, Ingredient.of(CoreItems.BEESWAX));
+		stoneSet(output, recipes, CoreBlocks.REFRACTORY_WAXSTONE, Ingredient.of(CoreItems.REFRACTORY_WAX));
+		stoneSet(output, recipes, CoreBlocks.HONEYSTONE, Ingredient.of(CoreItems.HONEY_DROP, CoreItems.HONEYDEW));
+
+		registerCandleRecipes(recipes);
+	}
+
+	/**
+	 * Registers the crafting recipes of the jumbo and big candles. The plain and refractory candles are cast
+	 * from wax, and every other colour is one of those dyed.
+	 */
+	private static void registerCandleRecipes(MKRecipeProvider recipes) {
+		bigCandle(recipes, BlockTypeBigCandle.NORMAL, CoreItems.BEESWAX);
+		jumboCandle(recipes, BlockTypeJumboCandle.NORMAL, ApicultureBlocks.WAX_BLOCK);
+		bigCandle(recipes, BlockTypeBigCandle.REFRACTORY, CoreItems.REFRACTORY_WAX);
+		jumboCandle(recipes, BlockTypeJumboCandle.REFRACTORY, ApicultureBlocks.REFRACTORY_WAX_BLOCK);
+
+		// The rainbow candles stay uncraftable, as on 1.20.1, where the comment reads "it's fun to have secrets"
+		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
+			TagKey<Item> dye = type.getDye();
+			if (dye != null) {
+				// Deviation from 1.20.1: the jumbo recipes took ForestryTags.Items.BIG_CANDLES as their base
+				// there, so a jumbo candle was dyed out of a big one. Read as a copy-paste slip from the big
+				// candle recipe beside it, and given the jumbo tag
+				recipes.shapelessCrafting(RecipeCategory.DECORATIONS, CoreBlocks.JUMBO_CANDLES.get(type), 1, ForestryTags.Items.JUMBO_CANDLES, Ingredient.of(dye));
+			}
+		}
+		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
+			TagKey<Item> dye = type.getDye();
+			if (dye != null) {
+				recipes.shapelessCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(type), 1, ForestryTags.Items.BIG_CANDLES, Ingredient.of(dye));
+			}
+		}
+	}
+
+	/**
+	 * Registers the crafting recipe of one big candle cast from wax, which is six wax under one string.
+	 *
+	 * @param recipes The provider the recipe is written through
+	 * @param type    The candle the recipe yields
+	 * @param wax     The wax the candle is cast from
+	 */
+	private static void bigCandle(MKRecipeProvider recipes, BlockTypeBigCandle type, ItemLike wax) {
+		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(type), recipe -> {
+			recipe.define('|', Tags.Items.STRINGS);
+			recipe.define('#', wax);
+			recipe.pattern(" | ");
+			recipe.pattern("###");
+			recipe.pattern("###");
+		});
+	}
+
+	/**
+	 * Registers the crafting recipe of one jumbo candle cast from wax, which is one wax block under one string.
+	 *
+	 * @param recipes The provider the recipe is written through
+	 * @param type    The candle the recipe yields
+	 * @param wax     The wax block the candle is cast from
+	 */
+	private static void jumboCandle(MKRecipeProvider recipes, BlockTypeJumboCandle type, ItemLike wax) {
+		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.JUMBO_CANDLES.get(type), recipe -> {
+			recipe.define('|', Tags.Items.STRINGS);
+			recipe.define('#', wax);
+			recipe.pattern("|");
+			recipe.pattern("#");
+		});
+	}
+
+	/**
+	 * Registers the recipes of one decorative stone set. The plain stone and the cobbled block are eight
+	 * vanilla stone or cobblestone soaked in one unit of the binder, the brick and polished finishes are cut
+	 * from those two, and the plain stone is also smelted back out of the cobbled block.
+	 *
+	 * @param output  The output the stonecutting recipes are written through
+	 * @param recipes The provider the crafting and smelting recipes are written through
+	 * @param set     The seventeen blocks to write recipes for
+	 * @param binder  The ingredient the vanilla stone is soaked in, one per eight
+	 */
+	private static void stoneSet(RecipeOutput output, MKRecipeProvider recipes, CoreBlocks.StoneSet set, Ingredient binder) {
+		ItemLike stone = set.stone().base();
+		ItemLike cobbled = set.cobbled().base();
+
+		// Explicit ID: the default would be the plain stone's own name, which the smelting recipe below
+		// already claims, and one would silently overwrite the other
+		recipes.shapedCrafting(path(stone) + "_crafting", RecipeCategory.BUILDING_BLOCKS, stone, 8, recipe -> {
+			recipe.define('X', binder);
+			recipe.define('#', Blocks.STONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, cobbled, 8, recipe -> {
+			recipe.define('X', binder);
+			recipe.define('#', Blocks.COBBLESTONE);
+			recipe.pattern("###");
+			recipe.pattern("#X#");
+			recipe.pattern("###");
+		});
+		recipes.smelting(cobbled, stone, 0.1f);
+
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, set.polished().base(), 4, Ingredient.of(cobbled));
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, set.bricks().base(), 4, Ingredient.of(stone));
+
+		for (CoreBlocks.StoneFamily family : set.families()) {
+			stoneFamily(output, recipes, family);
+		}
+		chiseledStone(output, recipes, set.chiseled(), set.stone());
+	}
+
+	/**
+	 * Registers the crafting and stonecutting recipes of one decorative shape family.
+	 * <p>
+	 * Deviation from 1.20.1: the cobbled families took the set's plain stone as the ingredient of all three
+	 * shapes there, not their own cobbled block. That gave, for example, cobbled_waxstone_stairs and
+	 * waxstone_stairs the same pattern over the same ingredient, so only one of the two could ever fire.
+	 * Each family is cut from its own base block here.
+	 *
+	 * @param output  The output the stonecutting recipes are written through
+	 * @param recipes The provider the crafting recipes are written through
+	 * @param family  The four blocks to write recipes for
+	 */
+	private static void stoneFamily(RecipeOutput output, MKRecipeProvider recipes, CoreBlocks.StoneFamily family) {
+		ItemLike base = family.base();
+		String name = path(base);
+
+		recipes.stairs(family.stairs(), base);
+		stonecutting(output, base, family.stairs(), 1, name + "_stairs_from_stonecutting");
+
+		recipes.slab(family.slab(), base);
+		stonecutting(output, base, family.slab(), 2, name + "_slabs_from_stonecutting");
+
+		recipes.grid3x2(RecipeCategory.BUILDING_BLOCKS, family.wall(), 6, Ingredient.of(base));
+		stonecutting(output, base, family.wall(), 1, name + "_walls_from_stonecutting");
+	}
+
+	/**
+	 * Registers the crafting and stonecutting recipes of one chiseled block, which is two slabs stacked or
+	 * one base block cut.
+	 *
+	 * @param output   The output the stonecutting recipe is written through
+	 * @param recipes  The provider the crafting recipe is written through
+	 * @param chiseled The block to write recipes for
+	 * @param family   The family the chiseled block belongs to
+	 */
+	private static void chiseledStone(RecipeOutput output, MKRecipeProvider recipes, ItemLike chiseled, CoreBlocks.StoneFamily family) {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, chiseled, recipe -> {
+			recipe.define('_', family.slab());
+			recipe.pattern("_");
+			recipe.pattern("_");
+		});
+		stonecutting(output, family.base(), chiseled, 1, path(chiseled) + "_from_stonecutting");
+	}
+
+	/**
+	 * Registers one stonecutting recipe.
+	 *
+	 * @param output The output the recipe is written through
+	 * @param input  The block fed to the stonecutter
+	 * @param result The block cut out of it
+	 * @param count  The number of results one input yields
+	 * @param name   The recipe id, carried over from 1.20.1 unchanged
+	 */
+	private static void stonecutting(RecipeOutput output, ItemLike input, ItemLike result, int count, String name) {
+		SingleItemRecipeBuilder builder = SingleItemRecipeBuilder.stonecutting(Ingredient.of(input), RecipeCategory.BUILDING_BLOCKS, result, count);
+		MKRecipeProvider.unlockedByHaving(builder, input);
+		builder.save(output, id(name));
 	}
 
 	private static void bogRecipe(MKRecipeProvider recipes, int amount, ItemStack container, String name) {
@@ -920,6 +1221,25 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 			recipe.pattern("XYX");
 			recipe.pattern("X#X");
+		});
+
+		// Deviation from 1.20.1: '#' was Tags.Items.GLASS there, which every sibling above resolves to
+		// GLASS_BLOCKS_COLORLESS in this tree
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block(), recipe -> {
+			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
+			recipe.define('X', Tags.Items.INGOTS_IRON);
+			recipe.define('Y', Items.FURNACE);
+			recipe.pattern("X#X");
+			recipe.pattern("XYX");
+			recipe.pattern("X#X");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.BURN_BARREL.block(), recipe -> {
+			recipe.define('#', Items.IRON_BARS);
+			recipe.define('X', Tags.Items.INGOTS_IRON);
+			recipe.pattern("X X");
+			recipe.pattern("X#X");
+			recipe.pattern("XXX");
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).block(), recipe -> {
@@ -1022,6 +1342,38 @@ public class ForestryRecipeProvider {
 			recipe.define('D', Items.PISTON);
 			recipe.pattern("PPP");
 			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
+
+		// Deviation from 1.20.1: Tags.Items.GLASS is now GLASS_BLOCKS_COLORLESS, matching the other engines
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.COMBUSTION), recipe -> {
+			recipe.define('P', Tags.Items.INGOTS_IRON);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS_COLORLESS);
+			recipe.define('Q', ForestryTags.Items.GEARS_IRON);
+			recipe.define('D', Items.PISTON);
+			recipe.pattern("PPP");
+			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
+
+		// Deviation from 1.20.1: Tags.Items.GLASS is now GLASS_BLOCKS_COLORLESS, matching the other engines
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.SOLAR), recipe -> {
+			recipe.define('P', ForestryTags.Items.INGOTS_TIN);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS_COLORLESS);
+			recipe.define('Q', ForestryTags.Items.GEARS_TIN);
+			recipe.define('D', Items.PISTON);
+			recipe.pattern("PPP");
+			recipe.pattern(" I ");
+			recipe.pattern("QDQ");
+		});
+
+		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.SOLAR_PANEL, recipe -> {
+			recipe.define('P', Items.GLASS_PANE);
+			recipe.define('S', CoreItems.SOLAR_CELL);
+			recipe.define('Q', ForestryTags.Items.INGOTS_TIN);
+			recipe.define('D', CoreItems.ELECTRON_TUBES.item(EnumElectronTube.COPPER));
+			recipe.pattern("PPP");
+			recipe.pattern("SSS");
 			recipe.pattern("QDQ");
 		});
 	}
@@ -1266,6 +1618,14 @@ public class ForestryRecipeProvider {
 				.pattern(" # ")
 				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 			.build(consumer, id("carpenter", "carton"));
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(5)
+			.setLiquid(new FluidStack(Fluids.WATER, 50))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ASH_BRICK, 1)
+				.pattern("##")
+				.define('#', CoreItems.ASH.item()))
+			.build(consumer, id("carpenter", "ash_brick"));
 
 		ItemStack basic = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.BASIC, null, new ICircuit[]{});
 		ItemStack enhanced = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.ENHANCED, null, new ICircuit[]{});
@@ -1330,6 +1690,33 @@ public class ForestryRecipeProvider {
 				.define('X', Items.STRING))
 			.build(consumer, id("carpenter", "candles"));
 
+		new CarpenterRecipeBuilder()
+			.setPackagingTime(20)
+			.setLiquid(new FluidStack(Fluids.WATER, 100))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, CoreBlocks.TURF_BLOCK, 4)
+				.pattern("XX")
+				.pattern("XX")
+				.define('X', Blocks.GRASS_BLOCK))
+			.build(consumer, id("carpenter", "turf_blocks"));
+		new CarpenterRecipeBuilder()
+			.setLiquid(new FluidStack(Fluids.WATER, 100))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.PLYWOOD_SHEET, 24)
+				.pattern("___")
+				.pattern("^^^")
+				.define('_', ItemTags.WOODEN_SLABS)
+				.define('^', ForestryTags.Items.SAWDUST))
+			.build(consumer, id("carpenter", "plywood"));
+		new CarpenterRecipeBuilder()
+			.setLiquid(new FluidStack(Fluids.WATER, 200))
+			.setBox(Ingredient.EMPTY)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.CORK, 4)
+				.pattern("**")
+				.pattern("**")
+				.define('*', ForestryTags.Items.SAWDUST))
+			.build(consumer, id("carpenter", "cork"));
+
 		// Crates
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(20)
@@ -1380,14 +1767,6 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONES));
 		crate(consumer, CrateItems.CRATED_DIRT.get(), Ingredient.of(Items.DIRT));
 		crate(consumer, CrateItems.CRATED_GRASS_BLOCK.get(), Ingredient.of(Items.GRASS_BLOCK));
-		// Use Items.STONE rather than Tags.Items.STONES (= c:stones) so this recipe doesn't
-		// shadow the per-stone-variant recipes below. The c:stones tag includes diorite,
-		// granite, andesite, deepslate, and any modded stone variants — when the carpenter
-		// looks up a recipe for a given crafting-grid input, this recipe matches ANYTHING in
-		// the tag, masking the more specific crated_diorite/granite/andesite recipes whenever
-		// the BE finds it first in registry-iteration order. Per-item ingredient leaves the
-		// crated_stone recipe meaning "actual minecraft:stone" and the variant recipes meaning
-		// "actual minecraft:granite/diorite/andesite".
 		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Items.STONE));
 		crate(consumer, CrateItems.CRATED_GRANITE.get(), Ingredient.of(Items.GRANITE));
 		crate(consumer, CrateItems.CRATED_DIORITE.get(), Ingredient.of(Items.DIORITE));
@@ -1432,6 +1811,7 @@ public class ForestryRecipeProvider {
 		wovenBackpack(consumer, "hunter", BackpackItems.HUNTER_BACKPACK, BackpackItems.HUNTER_BACKPACK_T_2);
 		wovenBackpack(consumer, "adventurer", BackpackItems.ADVENTURER_BACKPACK, BackpackItems.ADVENTURER_BACKPACK_T_2);
 		wovenBackpack(consumer, "builder", BackpackItems.BUILDER_BACKPACK, BackpackItems.BUILDER_BACKPACK_T_2);
+		wovenBackpack(consumer, "brewer", BackpackItems.BREWER_BACKPACK, BackpackItems.BREWER_BACKPACK_T_2);
 	}
 
 	private static void wovenBackpack(RecipeOutput consumer, String id, FeatureItem<?> tier1, FeatureItem<?> tier2) {
@@ -1473,6 +1853,7 @@ public class ForestryRecipeProvider {
 	private static void registerCentrifuge(RecipeOutput consumer) {
 
 		ItemStack honeyDrop = CoreItems.HONEY_DROP.stack();
+		ItemStack magmaDrop = ApicultureItems.MAGMATIC_DROP.stack();
 
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -1490,7 +1871,7 @@ public class ForestryRecipeProvider {
 			.setProcessingTime(20)
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SIMMERING)))
 			.product(1.0f, CoreItems.REFRACTORY_WAX.stack())
-			.product(0.7f, honeyDrop)
+			.product(0.7f, magmaDrop)
 			.build(consumer, id("centrifuge", "simmering_comb"));
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -1740,6 +2121,28 @@ public class ForestryRecipeProvider {
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(liquidGlass)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.SILICON), 4)
+				.pattern(" X ")
+				.pattern("#X#")
+				.pattern("XXX")
+				.define('#', Tags.Items.DUSTS_REDSTONE)
+				.define('X', ForestryTags.Items.SILICON))
+			.build(consumer, id("fabricator", "electron_tubes", "silicon"));
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(ForestryFluids.GLASS.getFluid(50))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.SOLAR_CELL)
+				.pattern(" T ")
+				.pattern("LSL")
+				.pattern(" ^ ")
+				.define('S', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHORESCENT_JELLY))
+				.define('^', ForestryTags.Items.SILICON)
+				.define('L', Tags.Items.GEMS_LAPIS)
+				.define('T', ForestryTags.Items.NUGGETS_TIN))
+			.build(consumer, id("fabricator", "solar_cell"));
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(liquidGlass)
 			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.FLEXIBLE_CASING)
 				.pattern("#E#")
 				.pattern("B B")
@@ -1749,6 +2152,22 @@ public class ForestryRecipeProvider {
 				.define('E', Tags.Items.GEMS_EMERALD))
 			.build(consumer, id("fabricator", "electron_tubes", "flexible_casing"));
 
+		metalPlating(consumer, BlockTypeMetalPlating.IRON, Items.IRON_INGOT);
+		metalPlating(consumer, BlockTypeMetalPlating.GOLD, Items.GOLD_INGOT);
+		metalPlating(consumer, BlockTypeMetalPlating.COPPER, Items.COPPER_INGOT);
+		metalPlating(consumer, BlockTypeMetalPlating.NETHERITE, Items.NETHERITE_INGOT);
+		metalPlating(consumer, BlockTypeMetalPlating.TIN, CoreItems.INGOT_TIN);
+		// Deviation from 1.20.1: the bronze recipe named the tin plating as its result there, so bronze
+		// ingots made tin plating and the bronze plating had no recipe at all. It yields bronze here
+		metalPlating(consumer, BlockTypeMetalPlating.BRONZE, CoreItems.INGOT_BRONZE);
+
+		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
+			TagKey<Item> dye = type.getDye();
+			if (dye != null) {
+				lacqueredMetalPlating(consumer, type, dye);
+			}
+		}
+
 		for (ForestryWoodType type : ForestryWoodType.values()) {
 			addFireproofRecipes(consumer, type);
 		}
@@ -1756,6 +2175,47 @@ public class ForestryRecipeProvider {
 		for (VanillaWoodType type : VanillaWoodType.values()) {
 			addFireproofRecipes(consumer, type);
 		}
+	}
+
+	/**
+	 * Registers the fabricator recipe of one metal plating cast from an ingot, which is eight ingots in a
+	 * ring soaked in fifty millibuckets of wax.
+	 *
+	 * @param consumer The output the recipe is written through
+	 * @param type     The plating the recipe yields
+	 * @param base     The ingot the plating is cast from
+	 */
+	private static void metalPlating(RecipeOutput consumer, BlockTypeMetalPlating type, ItemLike base) {
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(ForestryFluids.WAX.getFluid(50))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.METAL_PLATING.get(type), 8)
+				.pattern("###")
+				.pattern("# #")
+				.pattern("###")
+				.define('#', base))
+			.build(consumer, id("metal_plating", type.getName()));
+	}
+
+	/**
+	 * Registers the fabricator recipe of one lacquered metal plating, which is eight of any plating around
+	 * one dye soaked in fifty millibuckets of wax.
+	 *
+	 * @param consumer The output the recipe is written through
+	 * @param type     The plating the recipe yields
+	 * @param dye      The dye the plating is lacquered with
+	 */
+	private static void lacqueredMetalPlating(RecipeOutput consumer, BlockTypeMetalPlating type, TagKey<Item> dye) {
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(ForestryFluids.WAX.getFluid(50))
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.METAL_PLATING.get(type), 8)
+				.pattern("###")
+				.pattern("#D#")
+				.pattern("###")
+				.define('D', Ingredient.of(dye))
+				.define('#', Ingredient.of(ForestryTags.Items.METAL_PLATING)))
+			.build(consumer, id("metal_plating", type.getName()));
 	}
 
 	private static void addFireproofRecipes(RecipeOutput consumer, IWoodType type) {
@@ -1817,6 +2277,17 @@ public class ForestryRecipeProvider {
 			.setProduct(liquidGlassX4)
 			.setMeltingPoint(4800)
 			.build(consumer, id("fabricator", "smelting", "sandstone"));
+
+		new FabricatorSmeltingRecipeBuilder()
+			.setResource(Ingredient.of(ApicultureBlocks.WAX_BLOCK))
+			.setProduct(ForestryFluids.WAX.getFluid(FluidType.BUCKET_VOLUME))
+			.setMeltingPoint(500) //Arbitrary value, yes. Longer to warm up, but more efficient use of material
+			.build(consumer, id("fabricator", "smelting", "wax_block"));
+		new FabricatorSmeltingRecipeBuilder()
+			.setResource(Ingredient.of(CoreItems.BEESWAX))
+			.setProduct(ForestryFluids.WAX.getFluid(FluidType.BUCKET_VOLUME / 10)) //A /9 is easier, but messier.
+			.setMeltingPoint(200) //Arbitrary value, yes. Shorter to warm up, but uses 10% more material
+			.build(consumer, id("fabricator", "smelting", "wax"));
 	}
 
 	private static void registerFermenter(RecipeOutput consumer) {
@@ -1934,8 +2405,20 @@ public class ForestryRecipeProvider {
 			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEY_DROP)))
 			.setFluidOutput(honeyDropFluid)
 			.setRemnants(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
-			.setRemnantsChance(5 / 100f)
+			.setRemnantsChance(0.05f)
 			.build(consumer, id("squeezer", "honey_drop"));
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEYDEW)))
+			.setFluidOutput(honeyDropFluid)
+			.build(consumer, id("squeezer", "honey_dew"));
+		// reevaluate later
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.MAGMATIC_DROP)))
+			.setFluidOutput(honeyDropFluid)
+			.build(consumer, id("squeezer", "magmatic_drop"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.BEE_COMBS.stack(EnumHoneyComb.SPONGE))))
@@ -1952,9 +2435,9 @@ public class ForestryRecipeProvider {
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
-			.setResources(NonNullList.withSize(1, Ingredient.of(CoreItems.HONEYDEW)))
-			.setFluidOutput(honeyDropFluid)
-			.build(consumer, id("squeezer", "honey_dew"));
+			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.EXPERIENCE_DROP)))
+			.setFluidOutput(ForestryFluids.EXPERIENCE.getFluid(250))
+			.build(consumer, id("squeezer", "experience_drop"));
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
@@ -2121,6 +2604,80 @@ public class ForestryRecipeProvider {
 			.setRemnants(mulch)
 			.setRemnantsChance(mulchMultiplier * 3f)
 			.build(consumer, id("squeezer", "fruit", "pear"));
+	}
+
+	// Deviation from 1.20.1: NeoForge dropped ConditionalRecipe, so a recipe that only exists when some
+	// tag is filled is written straight to consumer.withConditions(...) instead of being wrapped
+	private static void registerSmelter(RecipeOutput consumer) {
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(Tags.Items.INGOTS_COPPER), 3)
+			.addIngredient(Ingredient.of(ForestryTags.Items.INGOTS_TIN))
+			.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_BRONZE), 4)
+			.setProcessingTime(40)
+			.build(consumer, id("smelter", "bronze_from_ingots"));
+
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(Tags.Items.RAW_MATERIALS_COPPER), 3)
+			.addIngredient(Ingredient.of(ForestryTags.Items.RAW_MATERIALS_TIN))
+			.setOutput(Ingredient.of(ForestryTags.Items.INGOTS_BRONZE), 4)
+			.setProcessingTime(40)
+			.build(consumer, id("smelter", "bronze_from_raw_materials"));
+
+		// Silicon comes from coke where a mod supplies it and from plain coal where none does
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 3)
+			.addIngredient(Ingredient.of(Items.COAL), 2)
+			.setOutput(Ingredient.of(ForestryTags.Items.SILICON), 3)
+			.setProcessingTime(1200)
+			.build(consumer.withConditions(new TagEmptyCondition(ForestryTags.Items.COAL_COKE)), id("smelter", "silicon_from_coal"));
+
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(Tags.Items.GEMS_QUARTZ), 3)
+			.addIngredient(Ingredient.of(ForestryTags.Items.COAL_COKE), 1)
+			.setOutput(Ingredient.of(ForestryTags.Items.SILICON), 3)
+			.setProcessingTime(1200)
+			.build(consumer.withConditions(not(new TagEmptyCondition(ForestryTags.Items.COAL_COKE))), id("smelter", "silicon_from_coke"));
+
+
+		// Alloys forestry does not add itself. Each pair loads only when another mod supplies both the
+		// component and the alloy
+		alloy(consumer, "invar", Tags.Items.INGOTS_IRON, 2, ForestryTags.Items.INGOTS_NICKEL, ForestryTags.Items.INGOTS_INVAR, 3, false);
+		alloy(consumer, "invar", Tags.Items.RAW_MATERIALS_IRON, 2, ForestryTags.Items.RAW_MATERIALS_NICKEL, ForestryTags.Items.INGOTS_INVAR, 3, true);
+
+		alloy(consumer, "brass", Tags.Items.INGOTS_COPPER, 1, ForestryTags.Items.INGOTS_ZINC, ForestryTags.Items.INGOTS_BRASS, 2, false);
+		alloy(consumer, "brass", Tags.Items.RAW_MATERIALS_COPPER, 1, ForestryTags.Items.RAW_MATERIALS_ZINC, ForestryTags.Items.INGOTS_BRASS, 2, true);
+
+		alloy(consumer, "electrum", Tags.Items.INGOTS_GOLD, 1, ForestryTags.Items.INGOTS_SILVER, ForestryTags.Items.INGOTS_ELECTRUM, 2, false);
+		alloy(consumer, "electrum", Tags.Items.RAW_MATERIALS_GOLD, 1, ForestryTags.Items.RAW_MATERIALS_SILVER, ForestryTags.Items.INGOTS_ELECTRUM, 2, true);
+
+		alloy(consumer, "constantan", Tags.Items.INGOTS_COPPER, 1, ForestryTags.Items.INGOTS_NICKEL, ForestryTags.Items.INGOTS_CONSTANTAN, 2, false);
+		alloy(consumer, "constantan", Tags.Items.RAW_MATERIALS_COPPER, 1, ForestryTags.Items.RAW_MATERIALS_NICKEL, ForestryTags.Items.INGOTS_CONSTANTAN, 2, true);
+	}
+
+	/**
+	 * Writes one modded alloy recipe, guarded on both the alloying component and the alloy itself
+	 * being present. Deviation from 1.20.1: the eight alloy recipes were spelled out one by one there
+	 *
+	 * @param name      The first path segment of the recipe id. Ex. "invar" -> "smelter/invar_from_ingots"
+	 * @param base      The tag of the metal the alloy is mostly made of
+	 * @param baseCount The number of base items one recipe consumes
+	 * @param component The tag of the metal alloyed into the base
+	 * @param alloy     The tag of the resulting alloy
+	 * @param count     The number of alloy items one recipe produces
+	 * @param raw       Whether this is the raw material variant of the recipe
+	 */
+	private static void alloy(RecipeOutput consumer, String name, TagKey<Item> base, int baseCount, TagKey<Item> component, TagKey<Item> alloy, int count, boolean raw) {
+		new SmelterRecipeBuilder()
+			.addIngredient(Ingredient.of(base), baseCount)
+			.addIngredient(Ingredient.of(component))
+			.setOutput(Ingredient.of(alloy), count)
+			.setProcessingTime(40)
+			.build(consumer.withConditions(not(new TagEmptyCondition(component)), not(new TagEmptyCondition(alloy))),
+				id("smelter", name + (raw ? "_from_raw_materials" : "_from_ingots")));
+	}
+
+	private static ICondition not(ICondition condition) {
+		return new NotCondition(condition);
 	}
 
 	private static void registerStill(RecipeOutput consumer) {

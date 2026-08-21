@@ -38,6 +38,7 @@ public class ModuleFactory extends BlankForestryModule {
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FactoryTiles.RAINMAKER.tileType(), (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FactoryTiles.MOISTENER.tileType(), (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FactoryTiles.RAIN_TANK.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FactoryTiles.SMELTER.tileType(), (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FactoryTiles.SQUEEZER.tileType(), (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FactoryTiles.STILL.tileType(), (tile, side) -> tile.getItemHandler(side));
 
@@ -46,6 +47,7 @@ public class ModuleFactory extends BlankForestryModule {
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, FactoryTiles.CENTRIFUGE.tileType(), (tile, side) -> tile.getEnergyHandler(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, FactoryTiles.FABRICATOR.tileType(), (tile, side) -> tile.getEnergyHandler(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, FactoryTiles.FERMENTER.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, FactoryTiles.SMELTER.tileType(), (tile, side) -> tile.getEnergyHandler(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, FactoryTiles.SQUEEZER.tileType(), (tile, side) -> tile.getEnergyHandler(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, FactoryTiles.STILL.tileType(), (tile, side) -> tile.getEnergyHandler(side));
 

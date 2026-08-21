@@ -3,14 +3,21 @@ package forestry.gametest;
 import java.util.List;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -20,10 +27,10 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import forestry.api.ForestryConstants;
 import forestry.api.core.IProduct;
 import forestry.api.core.Product;
+import forestry.api.core.ProductType;
 import forestry.api.core.machines.ICentrifugeRecipe;
 import forestry.apiculture.bees.genetics.FireworkProduct;
 import forestry.core.features.CoreItems;
-import forestry.core.engine.genetics.ProductTypes;
 import forestry.core.platform.util.RecipeUtils;
 import forestry.core.content.machines.features.FactoryRecipeTypes;
 
@@ -43,7 +50,7 @@ public class CentrifugeProductDispatchTest {
 		Product product = Product.of(Items.SUGAR, 2, 0.9f);
 
 		JsonElement viaProduct = Product.CODEC.encodeStart(ops, product).getOrThrow();
-		JsonElement viaDispatch = ProductTypes.CODEC.encodeStart(ops, product).getOrThrow();
+		JsonElement viaDispatch = IProduct.CODEC.encodeStart(ops, product).getOrThrow();
 		if (!viaProduct.equals(viaDispatch)) {
 			helper.fail("Default product must encode byte-for-byte like the plain product codec. plain=" + viaProduct + " dispatch=" + viaDispatch);
 			return;
@@ -54,7 +61,7 @@ public class CentrifugeProductDispatchTest {
 		}
 
 		// Legacy JSON (a bare product, no "type") must still decode under the dispatch codec.
-		IProduct decoded = ProductTypes.CODEC.parse(ops, viaProduct).getOrThrow();
+		IProduct decoded = IProduct.CODEC.parse(ops, viaProduct).getOrThrow();
 		if (!product.equals(decoded)) {
 			helper.fail("Legacy product JSON decoded to a different product: " + decoded);
 			return;
@@ -69,16 +76,56 @@ public class CentrifugeProductDispatchTest {
 		RegistryOps<JsonElement> ops = helper.getLevel().registryAccess().createSerializationContext(JsonOps.INSTANCE);
 		FireworkProduct firework = new FireworkProduct(0.5f);
 
-		JsonElement json = ProductTypes.CODEC.encodeStart(ops, firework).getOrThrow();
+		JsonElement json = IProduct.CODEC.encodeStart(ops, firework).getOrThrow();
 		String type = json.getAsJsonObject().has("type") ? json.getAsJsonObject().get("type").getAsString() : null;
 		if (!ForestryConstants.forestry("firework").toString().equals(type)) {
 			helper.fail("Dynamic firework product must declare its type; got " + json);
 			return;
 		}
 
-		IProduct decoded = ProductTypes.CODEC.parse(ops, json).getOrThrow();
+		IProduct decoded = IProduct.CODEC.parse(ops, json).getOrThrow();
 		if (!(decoded instanceof FireworkProduct decodedFirework) || decodedFirework.chance() != 0.5f) {
 			helper.fail("Firework product did not round-trip through the dispatch codec: " + decoded);
+			return;
+		}
+
+		helper.succeed();
+	}
+
+	/**
+	 * An unknown "type" must fail with an error naming it. The JSON is otherwise a valid plain product, so a
+	 * dispatch built on trial decoding (ex. Codec#withAlternative) would silently decode it as a plain Product
+	 * instead. This pins the "dispatch on key presence" behaviour that prevents that.
+	 */
+	@GameTest(template = "empty")
+	public static void unknownProductTypeFailsInsteadOfFallingBack(GameTestHelper helper) {
+		RegistryOps<JsonElement> ops = helper.getLevel().registryAccess().createSerializationContext(JsonOps.INSTANCE);
+		String bogus = ForestryConstants.forestry("no_such_product_type").toString();
+
+		JsonObject json = IProduct.CODEC.encodeStart(ops, Product.of(Items.SUGAR, 2, 0.9f)).getOrThrow().getAsJsonObject();
+		json.addProperty("type", bogus);
+
+		DataResult<IProduct> result = IProduct.CODEC.parse(ops, json);
+		if (result.result().isPresent()) {
+			helper.fail("Unknown product type must not decode, got: " + result.result().get());
+			return;
+		}
+		if (result.error().isEmpty() || !result.error().get().message().contains(bogus)) {
+			helper.fail("Unknown product type error must name the type, got: " + result.error().map(DataResult.Error::message).orElse("no error"));
+			return;
+		}
+
+		helper.succeed();
+	}
+
+	/** Encoding a product whose type was never registered must fail rather than write a dangling type key. */
+	@GameTest(template = "empty")
+	public static void unregisteredProductTypeFailsToEncode(GameTestHelper helper) {
+		RegistryOps<JsonElement> ops = helper.getLevel().registryAccess().createSerializationContext(JsonOps.INSTANCE);
+
+		DataResult<JsonElement> result = IProduct.CODEC.encodeStart(ops, new UnregisteredProduct(0.5f));
+		if (result.error().isEmpty() || !result.error().get().message().contains("Unregistered product type")) {
+			helper.fail("Unregistered product type must fail to encode, got: " + result);
 			return;
 		}
 
@@ -91,8 +138,8 @@ public class CentrifugeProductDispatchTest {
 		List<IProduct> products = List.of(Product.of(Items.SUGAR, 2, 0.9f), new FireworkProduct(0.5f));
 		RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), helper.getLevel().registryAccess());
 
-		ProductTypes.LIST_STREAM_CODEC.encode(buf, products);
-		List<IProduct> decoded = ProductTypes.LIST_STREAM_CODEC.decode(buf);
+		IProduct.LIST_STREAM_CODEC.encode(buf, products);
+		List<IProduct> decoded = IProduct.LIST_STREAM_CODEC.decode(buf);
 		if (decoded.size() != 2 || !products.get(0).equals(decoded.get(0)) || !(decoded.get(1) instanceof FireworkProduct)) {
 			helper.fail("List stream codec round-trip changed the products: " + decoded);
 			return;
@@ -138,5 +185,28 @@ public class CentrifugeProductDispatchTest {
 		}
 
 		helper.succeed();
+	}
+
+	/** A product whose type is deliberately never registered, used to exercise the encode-side guard. */
+	private record UnregisteredProduct(float chance) implements IProduct {
+		static final MapCodec<UnregisteredProduct> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+			Codec.FLOAT.fieldOf("chance").forGetter(UnregisteredProduct::chance)
+		).apply(instance, UnregisteredProduct::new));
+		static final ProductType<UnregisteredProduct> TYPE = new ProductType<>(MAP_CODEC, StreamCodec.unit(new UnregisteredProduct(1f)));
+
+		@Override
+		public Item item() {
+			return Items.SUGAR;
+		}
+
+		@Override
+		public ItemStack createStack() {
+			return new ItemStack(Items.SUGAR);
+		}
+
+		@Override
+		public ProductType<?> type() {
+			return TYPE;
+		}
 	}
 }
