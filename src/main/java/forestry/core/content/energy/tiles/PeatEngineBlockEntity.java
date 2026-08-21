@@ -167,7 +167,10 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 		if (isBurning()) {
 			heatToAdd++;
-			heatToAdd += (int) this.outputMultCap * this.energyStorage.getEnergyStored() >= this.energyStorage.getMaxEnergyStored() ? 2 : 1;
+			// Deviation from 1.20.1: the multiplier there binds to the charge instead of the step,
+			// so an upgraded engine reached the doubled step early rather than doubling it
+			boolean bufferFull = this.energyStorage.getEnergyStored() >= this.energyStorage.getMaxEnergyStored();
+			heatToAdd += (int) this.outputMultCap * (bufferFull ? 2 : 1);
 		}
 
 		addHeat(heatToAdd);
