@@ -1,9 +1,9 @@
 package forestry.apiculture.apiarist;
 
 import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.apiculture.apiary.BlockApiculture;
-import forestry.apiculture.bees.ItemBeeGE;
-import forestry.apiculture.beehouse.TileBeeHouse;
+import forestry.apiculture.apiary.ApicultureBlock;
+import forestry.apiculture.bees.ForestryBeeItem;
+import forestry.apiculture.beehouse.BeeHouseBlockEntity;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.InventoryUtil;
 import net.minecraft.core.BlockPos;
@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import forestry.apiculture.bees.InventoryBeeHousing;
+import forestry.apiculture.bees.BeeHousingInventory;
 
 public class ApiaristAI extends MoveToBlockGoal {
 	private final Villager villager;
@@ -22,10 +22,10 @@ public class ApiaristAI extends MoveToBlockGoal {
 	private boolean hasPrincess;
 	private final SimpleContainer villagerInventory;
 
-	private static final int SLOT_PRODUCT_1 = InventoryBeeHousing.SLOT_PRODUCT_1;
-	private static final int SLOT_PRODUCT_COUNT = InventoryBeeHousing.SLOT_PRODUCT_COUNT;
-	private static final int SLOT_QUEEN = InventoryBeeHousing.SLOT_QUEEN;
-	private static final int SLOT_DRONE = InventoryBeeHousing.SLOT_DRONE;
+	private static final int SLOT_PRODUCT_1 = BeeHousingInventory.SLOT_PRODUCT_1;
+	private static final int SLOT_PRODUCT_COUNT = BeeHousingInventory.SLOT_PRODUCT_COUNT;
+	private static final int SLOT_QUEEN = BeeHousingInventory.SLOT_QUEEN;
+	private static final int SLOT_DRONE = BeeHousingInventory.SLOT_DRONE;
 
 	public ApiaristAI(Villager villager, double speed) {
 		super(villager, speed, 16);
@@ -51,15 +51,15 @@ public class ApiaristAI extends MoveToBlockGoal {
 		if (this.isReachedTarget()) {
 			Level world = this.villager.level();
 
-			TileBeeHouse beeHouse = (TileBeeHouse) TileUtil.getTile(world, housePos);
+			BeeHouseBlockEntity beeHouse = (BeeHouseBlockEntity) TileUtil.getTile(world, housePos);
 			if (beeHouse == null) {
 				return;
 			}
-			InventoryBeeHousing inventory = (InventoryBeeHousing) beeHouse.getBeeInventory();
+			BeeHousingInventory inventory = (BeeHousingInventory) beeHouse.getBeeInventory();
 
 			//fill slots from inside bee house
 			for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_PRODUCT_1, SLOT_PRODUCT_COUNT)) {
-				if (!stack.isEmpty() && stack.getItem() instanceof ItemBeeGE geneticItem) {
+				if (!stack.isEmpty() && stack.getItem() instanceof ForestryBeeItem geneticItem) {
 					BeeLifeStage type = geneticItem.getStage();
 					if (inventory.getItem(SLOT_QUEEN).isEmpty() && type == BeeLifeStage.PRINCESS) {
 						inventory.setQueen(stack.copy());
@@ -79,8 +79,8 @@ public class ApiaristAI extends MoveToBlockGoal {
 					if (princessAdded && droneAdded) {
 						break;
 					}
-					if (!stack.isEmpty() && stack.getItem() instanceof ItemBeeGE) {
-						BeeLifeStage type = ((ItemBeeGE) stack.getItem()).getStage();
+					if (!stack.isEmpty() && stack.getItem() instanceof ForestryBeeItem) {
+						BeeLifeStage type = ((ForestryBeeItem) stack.getItem()).getStage();
 						if (type == BeeLifeStage.DRONE && inventory.getItem(SLOT_DRONE).isEmpty()) {
 							InventoryUtil.addStack(inventory, stack, SLOT_DRONE, 1, true);
 							droneAdded = true;
@@ -94,7 +94,7 @@ public class ApiaristAI extends MoveToBlockGoal {
 
 			//add remaining bees to villager inventory
 			for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_PRODUCT_1, SLOT_PRODUCT_COUNT)) {
-				if (stack.getItem() instanceof ItemBeeGE) {
+				if (stack.getItem() instanceof ForestryBeeItem) {
 					InventoryUtil.addStack(this.villagerInventory, stack, true);
 				}
 			}
@@ -107,8 +107,8 @@ public class ApiaristAI extends MoveToBlockGoal {
 			return false;
 		}
 		for (ItemStack stack : InventoryUtil.getStacks(this.villagerInventory)) {
-			if (!stack.isEmpty() && stack.getItem() instanceof ItemBeeGE) {
-				if (((ItemBeeGE) stack.getItem()).getStage() == type) {
+			if (!stack.isEmpty() && stack.getItem() instanceof ForestryBeeItem) {
+				if (((ForestryBeeItem) stack.getItem()).getStage() == type) {
 					return true;
 				}
 			}
@@ -120,13 +120,13 @@ public class ApiaristAI extends MoveToBlockGoal {
 	protected boolean isValidTarget(LevelReader world, BlockPos pos) {
 		pos = pos.north().above();
 		Block block = world.getBlockState(pos).getBlock();
-		if (block instanceof BlockApiculture && TileUtil.getTile(world, pos) instanceof TileBeeHouse beeHouse) {
-			InventoryBeeHousing inventory = (InventoryBeeHousing) beeHouse.getBeeInventory();
+		if (block instanceof ApicultureBlock && TileUtil.getTile(world, pos) instanceof BeeHouseBlockEntity beeHouse) {
+			BeeHousingInventory inventory = (BeeHousingInventory) beeHouse.getBeeInventory();
 			if (inventory.isEmpty()) {
 				return false;
 			}
 			if (!inventory.getItem(SLOT_QUEEN).isEmpty()) {
-				BeeLifeStage type = ((ItemBeeGE) inventory.getItem(SLOT_QUEEN).getItem()).getStage();
+				BeeLifeStage type = ((ForestryBeeItem) inventory.getItem(SLOT_QUEEN).getItem()).getStage();
 				if (type == BeeLifeStage.QUEEN) {
 					return false;
 				}
@@ -140,8 +140,8 @@ public class ApiaristAI extends MoveToBlockGoal {
 				return true;
 			}
 			for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_PRODUCT_1, SLOT_PRODUCT_COUNT)) {
-				if (!stack.isEmpty() && stack.getItem() instanceof ItemBeeGE) {
-					BeeLifeStage type = ((ItemBeeGE) stack.getItem()).getStage();
+				if (!stack.isEmpty() && stack.getItem() instanceof ForestryBeeItem) {
+					BeeLifeStage type = ((ForestryBeeItem) stack.getItem()).getStage();
 					if (type == BeeLifeStage.PRINCESS) {
 						foundPrincess = true;
 					}

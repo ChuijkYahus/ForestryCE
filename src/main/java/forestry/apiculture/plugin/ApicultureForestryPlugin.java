@@ -9,7 +9,6 @@ import java.util.function.Supplier;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 import forestry.api.apiculture.ForestryActivityTypes;
 import forestry.api.apiculture.ForestryBeeEffects;
@@ -105,7 +104,7 @@ public class ApicultureForestryPlugin implements IForestryPlugin {
 		Supplier<List<ItemStack>> mysteriousComb = getHoneyComb(EnumHoneyComb.MYSTERIOUS);
 		Supplier<List<ItemStack>> frozenComb = getHoneyComb(EnumHoneyComb.FROZEN);
 		Supplier<List<ItemStack>> mossyComb = getHoneyComb(EnumHoneyComb.MOSSY);
-		Supplier<List<ItemStack>> spongeComb = getHoneyComb(EnumHoneyComb.SPONGE);
+		Supplier<List<ItemStack>> spongeComb = getHoneyComb(EnumHoneyComb.SPONGY);
 		Supplier<List<ItemStack>> simmerComb = getHoneyComb(EnumHoneyComb.SIMMERING);
 
 		apiculture.registerHive(ForestryBeeSpecies.FOREST, HiveDefinition.FOREST)

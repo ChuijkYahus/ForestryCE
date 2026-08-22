@@ -10,7 +10,7 @@ import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.apiary.ItemCreativeHiveFrame;
+import forestry.apiculture.apiary.CreativeHiveFrameItem;
 import forestry.core.platform.util.JeiUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import mezz.jei.api.IModPlugin;
@@ -68,12 +68,12 @@ public class ApicultureJeiPlugin implements IModPlugin {
 		registry.registerSubtypeInterpreter(ApicultureItems.FRAME_CREATIVE.item(), new ISubtypeInterpreter<>() {
 			@Override
 			public Object getSubtypeData(ItemStack stack, UidContext context) {
-				return ItemCreativeHiveFrame.hasForceMutations(stack);
+				return CreativeHiveFrameItem.hasForceMutations(stack);
 			}
 
 			@Override
 			public String getLegacyStringSubtypeInfo(ItemStack stack, UidContext context) {
-				return String.valueOf(ItemCreativeHiveFrame.hasForceMutations(stack));
+				return String.valueOf(CreativeHiveFrameItem.hasForceMutations(stack));
 			}
 		});
 	}

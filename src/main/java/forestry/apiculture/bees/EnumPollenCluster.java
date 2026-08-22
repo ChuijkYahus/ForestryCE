@@ -1,11 +1,11 @@
 package forestry.apiculture.bees;
 
-import forestry.core.platform.item.ItemOverlay;
+import forestry.core.platform.item.TwoTintItem;
 import net.minecraft.network.chat.TextColor;
 
 import java.util.Locale;
 
-public enum EnumPollenCluster implements ItemOverlay.IOverlayInfo {
+public enum EnumPollenCluster implements TwoTintItem.ITwoTintItemSubtype {
 	NORMAL(TextColor.fromRgb(0xa28a25), TextColor.fromRgb(0xa28a25)),
 	CRYSTALLINE(TextColor.fromRgb(0xffffff), TextColor.fromRgb(0xc5feff));
 
@@ -25,12 +25,12 @@ public enum EnumPollenCluster implements ItemOverlay.IOverlayInfo {
 	}
 
 	@Override
-	public int getPrimaryColor() {
+	public int primaryColor() {
 		return this.primaryColor;
 	}
 
 	@Override
-	public int getSecondaryColor() {
+	public int secondaryColor() {
 		return this.secondaryColor;
 	}
 }

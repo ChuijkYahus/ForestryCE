@@ -11,7 +11,7 @@ import forestry.api.apiculture.hives.IHiveDrop;
 import forestry.api.apiculture.hives.IHiveManager;
 import forestry.apiculture.bees.BeeHousingListener;
 import forestry.apiculture.bees.BeeHousingModifier;
-import forestry.apiculture.bees.BeekeepingLogic;
+import forestry.apiculture.bees.BeeHousingBeekeepingLogic;
 import forestry.api.apiculture.hives.VillageHive;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
@@ -65,7 +65,7 @@ public class HiveManager implements IHiveManager {
 
 	@Override
 	public IBeekeepingLogic createBeekeepingLogic(IBeeHousing housing) {
-		return new BeekeepingLogic(housing);
+		return new BeeHousingBeekeepingLogic(housing);
 	}
 
 	@Override

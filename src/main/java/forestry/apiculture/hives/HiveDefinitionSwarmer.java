@@ -5,9 +5,7 @@ import forestry.api.apiculture.hives.IHiveDefinition;
 import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.apiculture.hives.BlockHiveType;
 import forestry.apiculture.features.ApicultureBlocks;
-import forestry.apiculture.hives.TileHive;
 import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -37,7 +35,7 @@ public class HiveDefinitionSwarmer implements IHiveDefinition {
 
 	@Override
 	public BlockState getBlockState() {
-		return ApicultureBlocks.BEEHIVE.get(BlockHiveType.SWARM).defaultState();
+		return ApicultureBlocks.HIVE.get(HiveBlockType.SWARM).defaultState();
 	}
 
 	@Override
@@ -57,6 +55,6 @@ public class HiveDefinitionSwarmer implements IHiveDefinition {
 
 	@Override
 	public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
-		TileUtil.actOnTile(level, pos, TileHive.class, tile -> tile.setContained(this.bees));
+		TileUtil.actOnTile(level, pos, HiveBlockEntity.class, tile -> tile.setContained(this.bees));
 	}
 }

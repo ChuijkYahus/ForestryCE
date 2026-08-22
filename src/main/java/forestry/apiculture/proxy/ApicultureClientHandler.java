@@ -8,19 +8,16 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureCrates;
 import forestry.apiculture.features.ApicultureMenuTypes;
-import forestry.apiculture.bees.ContainerBeeHousing;
-import forestry.apiculture.alveary.GuiAlveary;
-import forestry.apiculture.alveary.GuiAlvearyHygroregulator;
-import forestry.apiculture.alveary.GuiAlvearySieve;
-import forestry.apiculture.alveary.GuiAlvearySwarmer;
-import forestry.apiculture.bees.GuiBeeHousing;
+import forestry.apiculture.alveary.AlvearyScreen;
+import forestry.apiculture.alveary.AlvearyHygroregulatorScreen;
+import forestry.apiculture.alveary.AlvearySieveScreen;
+import forestry.apiculture.alveary.AlvearySwarmerScreen;
+import forestry.apiculture.bees.BeeHousingScreen;
 import forestry.apiculture.models.ModelBee;
 import forestry.apiculture.particles.*;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -43,15 +40,15 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 
 	private static void setupClient(FMLClientSetupEvent event) {
 		// todo use JSON render_type field
-		event.enqueueWork(() -> ApicultureBlocks.BEE_COMB.getList().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout())));
+		event.enqueueWork(() -> ApicultureBlocks.COMB_BLOCK.getList().forEach((block) -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout())));
 	}
 
 	private static void registerMenus(RegisterMenuScreensEvent event) {
-		event.register(ApicultureMenuTypes.ALVEARY.menuType(), GuiAlveary::new);
-		event.register(ApicultureMenuTypes.ALVEARY_HYGROREGULATOR.menuType(), GuiAlvearyHygroregulator::new);
-		event.register(ApicultureMenuTypes.ALVEARY_SIEVE.menuType(), GuiAlvearySieve::new);
-		event.register(ApicultureMenuTypes.ALVEARY_SWARMER.menuType(), GuiAlvearySwarmer::new);
-		event.register(ApicultureMenuTypes.BEE_HOUSING.menuType(), (MenuScreens.ScreenConstructor<ContainerBeeHousing, GuiBeeHousing<ContainerBeeHousing>>) GuiBeeHousing::new);
+		event.register(ApicultureMenuTypes.ALVEARY.menuType(), AlvearyScreen::new);
+		event.register(ApicultureMenuTypes.ALVEARY_HYGROREGULATOR.menuType(), AlvearyHygroregulatorScreen::new);
+		event.register(ApicultureMenuTypes.ALVEARY_SIEVE.menuType(), AlvearySieveScreen::new);
+		event.register(ApicultureMenuTypes.ALVEARY_SWARMER.menuType(), AlvearySwarmerScreen::new);
+		event.register(ApicultureMenuTypes.BEE_HOUSING.menuType(), BeeHousingScreen::new);
 	}
 
 	private static void registerParticleFactory(RegisterParticleProvidersEvent event) {
@@ -66,8 +63,8 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 	private static void handleSprites(TextureAtlasStitchedEvent event) {
 		TextureAtlas map = event.getAtlas();
 		if (map.location().equals(TextureAtlas.LOCATION_PARTICLES)) {
-			for (int i = 0; i < ParticleSnow.SPRITES.length; i++) {
-				ParticleSnow.SPRITES[i] = map.getSprite(ForestryConstants.forestry("snow." + (i + 1)));
+			for (int i = 0; i < SnowParticle.SPRITES.length; i++) {
+				SnowParticle.SPRITES[i] = map.getSprite(ForestryConstants.forestry("snow." + (i + 1)));
 			}
 		}
 	}
@@ -77,11 +74,11 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
-		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ApicultureBlocks.BEE_COMB.blockArray());
+		event.register(ClientManager.FORESTRY_BLOCK_COLOR, ApicultureBlocks.COMB_BLOCK.blockArray());
 	}
 
 	private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureBlocks.BEE_COMB.blockArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureBlocks.COMB_BLOCK.blockArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR,
 			ApicultureItems.BEE_QUEEN.item(),
 			ApicultureItems.BEE_DRONE.item(),

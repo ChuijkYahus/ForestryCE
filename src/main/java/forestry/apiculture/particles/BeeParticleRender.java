@@ -86,7 +86,7 @@ public class BeeParticleRender {
 		}
 
 		ParticleEngine effectRenderer = Minecraft.getInstance().particleEngine;
-		effectRenderer.add(new ParticleSnow((ClientLevel) world, x + world.random.nextGaussian(), y, z + world.random.nextGaussian()));
+		effectRenderer.add(new SnowParticle((ClientLevel) world, x + world.random.nextGaussian(), y, z + world.random.nextGaussian()));
 	}
 
 	private BeeParticleRender() {}

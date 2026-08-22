@@ -12,7 +12,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.alveary.AlvearyBlock;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.core.platform.multiblock.LevelStructureView;
 import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
@@ -40,7 +40,7 @@ public class LevelStructureViewComponentTest {
 	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
 	public static void alvearyFormsWithNonRoleComponent(GameTestHelper helper) {
 		List<BlockPos> members = MultiblockTestSupport.buildAlveary(helper, BASE);
-		BlockState sieve = ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.SIEVE).defaultState();
+		BlockState sieve = ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.SIEVE).defaultState();
 		// exterior (x == 0), and not the plain-only top layer
 		helper.setBlock(BASE.offset(0, 1, 1), sieve);
 

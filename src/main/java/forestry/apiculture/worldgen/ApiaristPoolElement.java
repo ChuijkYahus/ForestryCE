@@ -17,14 +17,14 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IChromosome;
-import forestry.apiculture.bees.InventoryBeeHousing;
+import forestry.apiculture.bees.BeeHousingInventory;
 import forestry.api.apiculture.hives.VillageHive;
-import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.apiculture.apiary.ApicultureBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureFeatures;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.apiary.InventoryApiary;
-import forestry.apiculture.apiary.TileApiary;
+import forestry.apiculture.apiary.ApiaryInventory;
+import forestry.apiculture.apiary.ApiaryBlockEntity;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
@@ -86,20 +86,20 @@ public class ApiaristPoolElement extends SinglePoolElement {
 
 		// remove the block entity of the Data block beforehand so that its NBT doesn't overwrite the apiary
 		level.removeBlock(markerPos, false);
-		level.setBlock(markerPos, ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).defaultState(), Block.UPDATE_CLIENTS | Block.UPDATE_NEIGHBORS);
+		level.setBlock(markerPos, ApicultureBlocks.BASE.get(ApicultureBlockType.APIARY).defaultState(), Block.UPDATE_CLIENTS | Block.UPDATE_NEIGHBORS);
 
 		// add a queen and some frames
-		TileUtil.actOnTile(level, markerPos, TileApiary.class, apiary -> {
+		TileUtil.actOnTile(level, markerPos, ApiaryBlockEntity.class, apiary -> {
 			ItemStack queen = chooseRandomVillageQueen(level, markerPos, random);
 
-			apiary.setItem(InventoryBeeHousing.SLOT_QUEEN, queen);
+			apiary.setItem(BeeHousingInventory.SLOT_QUEEN, queen);
 
 			// this method gets called multiple times so having random number of frames is impossible :)))
 			for (int i = 0; i < 3; ++i) {
 				ItemStack frame = ApicultureItems.FRAME_PROVEN.stack();
 				int maxDamage = frame.getMaxDamage();
 				frame.setDamageValue(random.nextIntBetweenInclusive(maxDamage / 4, maxDamage - maxDamage / 4));
-				apiary.setItem(InventoryApiary.SLOT_FRAMES_1 + i, frame);
+				apiary.setItem(ApiaryInventory.SLOT_FRAMES_1 + i, frame);
 			}
 		});
 	}

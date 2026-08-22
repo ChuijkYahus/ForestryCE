@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "bottom": "forestry:block/beehives/savanna.bottom",
-    "side": "forestry:block/beehives/savanna.side",
-    "top": "forestry:block/beehives/savanna.top"
+    "bottom": "forestry:block/hive/savanna_bottom",
+    "side": "forestry:block/hive/savanna_side",
+    "top": "forestry:block/hive/savanna_top"
   }
 }

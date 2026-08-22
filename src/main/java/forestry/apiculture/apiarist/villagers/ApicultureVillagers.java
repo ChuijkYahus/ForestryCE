@@ -5,7 +5,7 @@ import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.apiculture.apiary.ApicultureBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.bees.EnumPropolis;
@@ -74,7 +74,7 @@ public class ApicultureVillagers {
 
 			trades.get(3).add(new GiveEmeraldForItem(ApicultureItems.BEE_PRINCESS.item(), new VillagerTrade.PriceInterval(1, 1), new VillagerTrade.PriceInterval(1, 1), 8, 10));
 			trades.get(3).add(new GiveItemForEmeralds(ApicultureItems.FRAME_PROVEN.item(), new VillagerTrade.PriceInterval(1, 2), new VillagerTrade.PriceInterval(1, 6), 8, 10));
-			trades.get(3).add(new GiveItemForLogAndEmerald(new VillagerTrade.PriceInterval(32, 64), new VillagerTrade.PriceInterval(16, 32), ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).stack().getItem(), new VillagerTrade.PriceInterval(1, 1), 8, 10));
+			trades.get(3).add(new GiveItemForLogAndEmerald(new VillagerTrade.PriceInterval(32, 64), new VillagerTrade.PriceInterval(16, 32), ApicultureBlocks.BASE.get(ApicultureBlockType.APIARY).stack().getItem(), new VillagerTrade.PriceInterval(1, 1), 8, 10));
 
 			trades.get(4).add(new GiveItemForItemAndEmerald(ApicultureItems.BEE_PRINCESS.item(), new VillagerTrade.PriceInterval(1, 1), new VillagerTrade.PriceInterval(10, 64), SpeciesUtil.getBeeSpecies(ForestryBeeSpecies.MONASTIC).createStack(BeeLifeStage.DRONE), new VillagerTrade.PriceInterval(1, 1), 8, 15));
 			trades.get(4).add(new GiveItemForTwoItems(ApicultureItems.BEE_DRONE.item(), new VillagerTrade.PriceInterval(1, 1), Items.ENDER_EYE, new VillagerTrade.PriceInterval(12, 16), SpeciesUtil.getBeeSpecies(ForestryBeeSpecies.ENDED).createStack(BeeLifeStage.DRONE), new VillagerTrade.PriceInterval(1, 1), 8, 15));

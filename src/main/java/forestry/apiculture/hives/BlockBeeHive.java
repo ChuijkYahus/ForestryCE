@@ -9,7 +9,6 @@ import forestry.api.apiculture.hives.IHiveTile;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.features.ApicultureTiles;
-import forestry.apiculture.hives.TileHive;
 import forestry.core.platform.tile.TileUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
@@ -43,13 +42,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import forestry.api.apiculture.ForestryActivityTypes;
-import forestry.apiculture.hives.BlockHiveType;
 
 // Hives where wild bees live
 public class BlockBeeHive extends Block implements EntityBlock {
 	private final ResourceLocation speciesId;
 
-	public BlockBeeHive(BlockHiveType type) {
+	public BlockBeeHive(HiveBlockType type) {
 		this(type.getSpeciesId());
 	}
 
@@ -60,13 +58,13 @@ public class BlockBeeHive extends Block implements EntityBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new TileHive(pos, state);
+		return new HiveBlockEntity(pos, state);
 	}
 
 	@Nullable
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> actualType) {
-		return actualType != ApicultureTiles.HIVE.tileType() ? null : (level1, pos, state1, t) -> ((TileHive) t).tick(level1);
+		return actualType != ApicultureTiles.HIVE.tileType() ? null : (level1, pos, state1, t) -> ((HiveBlockEntity) t).tick(level1);
 	}
 
 	@Override

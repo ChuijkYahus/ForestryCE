@@ -11,8 +11,8 @@ import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.core.circuits.ICircuit;
 import forestry.apiculture.features.ApicultureCrates;
-import forestry.apiculture.alveary.BlockAlveary;
-import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.apiculture.alveary.AlvearyBlock;
+import forestry.apiculture.apiary.ApicultureBlockType;
 import forestry.core.platform.block.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
@@ -149,7 +149,7 @@ public class ForestryRecipeProvider {
 	private static void registerApicultureRecipes(MKRecipeProvider recipes) {
 		registerCombRecipes(recipes);
 
-		BlockAlveary plain = ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.PLAIN).block();
+		AlvearyBlock plain = ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.PLAIN).block();
 		ItemLike goldElectronTube = CoreItems.ELECTRON_TUBES.get(EnumElectronTube.GOLD);
 
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, plain, recipe -> {
@@ -161,7 +161,7 @@ public class ForestryRecipeProvider {
 			recipe.group("alveary");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.FAN).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.FAN).block(), recipe -> {
 			recipe.define('#', goldElectronTube);
 			recipe.define('X', plain);
 			recipe.define('I', Tags.Items.INGOTS_IRON);
@@ -171,7 +171,7 @@ public class ForestryRecipeProvider {
 			recipe.group("alveary");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HEATER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.HEATER).block(), recipe -> {
 			recipe.define('#', goldElectronTube);
 			recipe.define('I', Tags.Items.INGOTS_IRON);
 			recipe.define('X', plain);
@@ -182,7 +182,7 @@ public class ForestryRecipeProvider {
 			recipe.group("alveary");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HYGRO).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.HYGROREGULATOR).block(), recipe -> {
 			recipe.define('G', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', plain);
 			recipe.define('I', Tags.Items.INGOTS_IRON);
@@ -192,7 +192,7 @@ public class ForestryRecipeProvider {
 			recipe.group("alveary");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.SIEVE).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.SIEVE).block(), recipe -> {
 			recipe.define('W', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOVEN_SILK));
 			recipe.define('X', plain);
 			recipe.define('I', Tags.Items.INGOTS_IRON);
@@ -202,7 +202,7 @@ public class ForestryRecipeProvider {
 			recipe.group("alveary");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.STABILISER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.STABILIZER).block(), recipe -> {
 			recipe.define('X', plain);
 			recipe.define('G', Tags.Items.GEMS_QUARTZ);
 			recipe.pattern("G G");
@@ -211,7 +211,7 @@ public class ForestryRecipeProvider {
 			recipe.group("alveary");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.SWARMER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.SWARMER).block(), recipe -> {
 			recipe.define('#', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.DIAMOND));
 			recipe.define('X', plain);
 			recipe.define('G', Tags.Items.INGOTS_GOLD);
@@ -253,7 +253,7 @@ public class ForestryRecipeProvider {
 			recipe.group("apiarist_armour");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureBlocks.BASE.get(ApicultureBlockType.APIARY).block(), recipe -> {
 			recipe.define('S', ItemTags.WOODEN_SLABS);
 			recipe.define('P', ItemTags.PLANKS);
 			recipe.define('C', CoreItems.IMPREGNATED_CASING);
@@ -262,7 +262,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("PPP");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureBlocks.BASE.get(BlockTypeApiculture.BEE_HOUSE).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureBlocks.BASE.get(ApicultureBlockType.BEE_HOUSE).block(), recipe -> {
 			recipe.define('S', ItemTags.WOODEN_SLABS);
 			recipe.define('P', ItemTags.PLANKS);
 			recipe.define('C', ForestryTags.Items.BEE_COMBS);
@@ -396,7 +396,7 @@ public class ForestryRecipeProvider {
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
 		for (EnumHoneyComb honeyComb : EnumHoneyComb.VALUES) {
 			ItemLike comb = ApicultureItems.BEE_COMBS.get(honeyComb);
-			Block combBlock = ApicultureBlocks.BEE_COMB.get(honeyComb).block();
+			Block combBlock = ApicultureBlocks.COMB_BLOCK.get(honeyComb).block();
 			recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, combBlock, 1, Ingredient.of(comb), "combs");
 		}
 	}
@@ -2403,7 +2403,7 @@ public class ForestryRecipeProvider {
 
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
-			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.BEE_COMBS.stack(EnumHoneyComb.SPONGE))))
+			.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.BEE_COMBS.stack(EnumHoneyComb.SPONGY))))
 			.setFluidOutput(honeyDropFluid)
 			.setRemnants(new ItemStack(Items.SPONGE))
 			.setRemnantsChance(2 / 100f)

@@ -18,7 +18,7 @@ import net.neoforged.neoforge.registries.datamaps.builtin.RaidHeroGift;
 
 import forestry.api.ForestryConstants;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.bees.ItemPollenCluster;
+import forestry.apiculture.bees.PollenClusterItem;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
@@ -63,7 +63,7 @@ public class ForestryDataMapProvider extends DataMapProvider {
 		compostable(composts, CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP), 0.65f);
 		compostable(composts, CoreItems.PEAT.item(), 0.75f);
 		compostable(composts, CoreItems.COMPOST.item(), 1f);
-		for (ItemPollenCluster pollen : ApicultureItems.POLLEN_CLUSTER.getItems()) {
+		for (PollenClusterItem pollen : ApicultureItems.POLLEN_CLUSTER.getItems()) {
 			compostable(composts, pollen, 0.3f);
 		}
 		compostable(composts, ArboricultureItems.TREE_SAPLING.item(), 0.3f);

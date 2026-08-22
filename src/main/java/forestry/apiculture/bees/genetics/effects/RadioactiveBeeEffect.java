@@ -5,7 +5,7 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.genetics.IEffectData;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
-import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.alveary.AlvearyBlock;
 import forestry.core.platform.damage.CoreDamageTypes;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.BlockUtil;
@@ -74,7 +74,7 @@ public class RadioactiveBeeEffect extends ThrottledBeeEffect {
 
 			BlockState state = level.getBlockState(posBlock);
 
-			if (state.getBlock() instanceof BlockAlveary) {
+			if (state.getBlock() instanceof AlvearyBlock) {
 				continue;
 			}
 

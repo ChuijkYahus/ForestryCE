@@ -2,10 +2,10 @@ package forestry.core.data.models;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
-import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.alveary.AlvearyBlock;
 import forestry.apiculture.hives.BlockBeeHive;
-import forestry.apiculture.hives.BlockHiveType;
-import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.apiculture.hives.HiveBlockType;
+import forestry.apiculture.apiary.ApicultureBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.leaves.ForestryLeafType;
@@ -102,13 +102,13 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		}
 		singleModelBlock(this, ArboricultureBlocks.LEAVES.block(), particleOnly(this, ArboricultureBlocks.LEAVES.getName(), blockTexture(Blocks.OAK_LEAVES)));
 
-		for (BlockHiveType type : BlockHiveType.values()) {
-			BlockBeeHive feature = ApicultureBlocks.BEEHIVE.get(type).block();
+		for (HiveBlockType type : HiveBlockType.values()) {
+			BlockBeeHive feature = ApicultureBlocks.HIVE.get(type).block();
 			String path = path(feature);
 
-			ResourceLocation side = modBlock(this, "beehives/" + type.getSerializedName() + ".side");
-			ResourceLocation top = modBlock(this, "beehives/" + type.getSerializedName() + ".top");
-			ResourceLocation bottom = modBlock(this, "beehives/" + type.getSerializedName() + ".bottom");
+			ResourceLocation side = modBlock(this, "hive/" + type.getSerializedName() + "_side");
+			ResourceLocation top = modBlock(this, "hive/" + type.getSerializedName() + "_top");
+			ResourceLocation bottom = modBlock(this, "hive/" + type.getSerializedName() + "_bottom");
 
 			singleModelBlock(this, feature, models().cubeBottomTop(path, side, bottom, top));
 			generic3d(feature);
@@ -131,7 +131,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		// Comb blocks all share the block_bee_combs model.
 		ModelFile combModel = models().getExistingFile(modBlock(this, "block_bee_combs"));
-		for (Block block : ApicultureBlocks.BEE_COMB.blockArray()) singleModelBlock(this, block, combModel);
+		for (Block block : ApicultureBlocks.COMB_BLOCK.blockArray()) singleModelBlock(this, block, combModel);
 
 		// Resource storage blocks use block/storage/<type>.
 		for (EnumResourceType type : EnumResourceType.values()) {
@@ -143,15 +143,15 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		existingModelBlock(ApicultureBlocks.REFRACTORY_WAX_BLOCK.block(), "storage/refractory_wax");
 
 		// Alveary components (the single-variant subset of the alveary block group).
-		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HYGRO).block(), "apiculture/alveary_hygroregulator");
-		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.STABILISER).block(), "apiculture/alveary_stabilizer");
-		existingModelBlock(ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.SIEVE).block(), "apiculture/alveary_sieve");
+		existingModelBlock(ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.HYGROREGULATOR).block(), "apiculture/alveary_hygroregulator");
+		existingModelBlock(ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.STABILIZER).block(), "apiculture/alveary_stabilizer");
+		existingModelBlock(ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.SIEVE).block(), "apiculture/alveary_sieve");
 
 		// Horizontal-facing machines migrated from hand-authored blockstates + models. Each is a
 		// block/cube with per-face textures <prefix>.<n>, rotated by BlockBase.FACING. Item models
 		// stay hand-authored (custom display transforms), so no generic3d here.
-		horizontalMachine(this, ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).block(), "apiary", 0, 1, 2, 4, 4, 4, 4);
-		horizontalMachine(this, ApicultureBlocks.BASE.get(BlockTypeApiculture.BEE_HOUSE).block(), "beehouse", 0, 1, 2, 4, 4, 4, 4);
+		horizontalMachine(this, ApicultureBlocks.BASE.get(ApicultureBlockType.APIARY).block(), "apiary", 0, 1, 2, 4, 4, 4, 4);
+		horizontalMachine(this, ApicultureBlocks.BASE.get(ApicultureBlockType.BEE_HOUSE).block(), "beehouse", 0, 1, 2, 4, 4, 4, 4);
 		horizontalMachine(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), "thermionic_fabricator", 0, 1, 3, 2, 4, 4, 4);
 		horizontalMachine(this, WorktableBlocks.WORKTABLE.block(), "worktable", 0, 1, 3, 2, 4, 4, 4);
 

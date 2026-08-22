@@ -3,7 +3,7 @@ package forestry.gametest;
 import forestry.api.ForestryConstants;
 import forestry.api.core.multiblock.IMultiblockController;
 import forestry.api.core.multiblock.IMultiblockInventoryProbe;
-import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.alveary.AlvearyBlock;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
 import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
@@ -62,7 +62,7 @@ public class MultiblockGameTests {
 	}
 
 	private static BlockState alvearyPart() {
-		return ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.PLAIN).defaultState();
+		return ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.PLAIN).defaultState();
 	}
 
 	private static BlockState farmPart() {

@@ -10,11 +10,11 @@ import forestry.api.core.climate.IClimateControlled;
 import forestry.api.core.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
+import forestry.api.core.genetics.IGenome;
 import forestry.api.core.multiblock.IAlvearyComponent;
 import forestry.api.core.multiblock.IMultiblockComponent;
 import forestry.api.core.multiblock.IMultiblockInventoryProbe;
-import forestry.apiculture.alveary.AlvearyBeeModifier;
-import forestry.apiculture.bees.InventoryBeeHousing;
+import forestry.apiculture.bees.BeeHousingInventory;
 import forestry.core.platform.inventory.FakeInventoryAdapter;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.multiblock.MultiblockController;
@@ -23,6 +23,7 @@ import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -42,7 +43,7 @@ import java.util.List;
 import java.util.Set;
 
 public class AlvearyController extends MultiblockController implements IAlvearyControllerInternal, IClimateControlled, IMultiblockInventoryProbe {
-	private final InventoryBeeHousing inventory;
+	private final BeeHousingInventory inventory;
 	private final IBeekeepingLogic beekeepingLogic;
 	private IClimateProvider climate = IForestryApi.INSTANCE.getClimateManager().createDummyClimateProvider();
 
@@ -60,7 +61,7 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 
 	public AlvearyController(Level world) {
 		super(world);
-		this.inventory = new InventoryBeeHousing(9);
+		this.inventory = new BeeHousingInventory(9);
 		this.beekeepingLogic = IForestryApi.INSTANCE.getHiveManager().createBeekeepingLogic(this);
 
 		this.beeModifiers.add(new AlvearyBeeModifier());
@@ -347,4 +348,11 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 		this.temperatureSteps = data.readByte();
 		this.humiditySteps = data.readByte();
 	}
+
+    public static class AlvearyBeeModifier implements IBeeModifier {
+        @Override
+        public Vec3i modifyTerritory(IGenome genome, Vec3i currentModifier) {
+            return currentModifier.multiply(2);
+        }
+    }
 }

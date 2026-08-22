@@ -535,7 +535,7 @@ public class DefaultBeeSpecies {
 		// AQUATIC
 		apiculture.registerSpecies(ForestryBeeSpecies.AQUATIC, GENUS_AQUATIC, SPECIES_AQUATIC, true, TextColor.fromRgb(0x3F76E4))
 			.setTemperature(TemperatureType.WARM)
-			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SPONGE), 0.30F)
+			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SPONGY), 0.30F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTEST);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
@@ -547,7 +547,7 @@ public class DefaultBeeSpecies {
 
 		// PIRATE
 		apiculture.registerSpecies(ForestryBeeSpecies.PIRATE, GENUS_AQUATIC, SPECIES_PIRATE, true, TextColor.fromRgb(0x3F605B))
-			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SPONGE), 0.20F)
+			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SPONGY), 0.20F)
 			.addSpecialty(new ItemStack(Items.GOLD_NUGGET), 0.15F)
 			.addSpecialty(new ItemStack(Items.LAPIS_LAZULI), 0.02F)
 			.addSpecialty(new ItemStack(Items.EMERALD), 0.005F)
@@ -564,7 +564,7 @@ public class DefaultBeeSpecies {
 		// PRISMATIC
 		apiculture.registerSpecies(ForestryBeeSpecies.PRISMATIC, GENUS_AQUATIC, SPECIES_PRISMATIC, false, TextColor.fromRgb(0x539882))
 			.setTemperature(TemperatureType.WARM)
-			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SPONGE), 0.20F)
+			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SPONGY), 0.20F)
 			.addSpecialty(new ItemStack(Items.PRISMARINE_SHARD), 0.40F)
 			.addSpecialty(new ItemStack(Items.PRISMARINE_CRYSTALS), 0.05F)
 			.setGenome(genome -> {
@@ -581,7 +581,7 @@ public class DefaultBeeSpecies {
 		// ABYSSAL
 		apiculture.registerSpecies(ForestryBeeSpecies.ABYSSAL, GENUS_AQUATIC, SPECIES_ABYSSAL, false, TextColor.fromRgb(0x050533))
 			.setTemperature(TemperatureType.COLD)
-			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SPONGE), 0.20F)
+			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SPONGY), 0.20F)
 			.addSpecialty(new ItemStack(Items.GLOW_INK_SAC), 0.15F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGER);

@@ -1,7 +1,6 @@
 package forestry.apiculture.bees;
 
-import forestry.apiculture.bees.InventoryBeeHousing;
-import forestry.apiculture.apiary.InventoryApiary;
+import forestry.apiculture.apiary.ApiaryInventory;
 import forestry.core.platform.gui.ContainerForestry;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotOutput;
@@ -11,21 +10,21 @@ import net.minecraft.world.Container;
 public abstract class ContainerBeeHelper {
 	public static <T extends Container & IFilterSlotDelegate> void addSlots(ContainerForestry container, T inventory, boolean hasFrames) {
 		// Queen/Princess
-		container.addSlot(new SlotFiltered(inventory, InventoryBeeHousing.SLOT_QUEEN, 29, 39));
+		container.addSlot(new SlotFiltered(inventory, BeeHousingInventory.SLOT_QUEEN, 29, 39));
 
 		// Drone
-		container.addSlot(new SlotFiltered(inventory, InventoryBeeHousing.SLOT_DRONE, 29, 65));
+		container.addSlot(new SlotFiltered(inventory, BeeHousingInventory.SLOT_DRONE, 29, 65));
 
 		// Frames
 		if (hasFrames) {
-			int slotFrames = InventoryApiary.SLOT_FRAMES_1;
+			int slotFrames = ApiaryInventory.SLOT_FRAMES_1;
 			container.addSlot(new SlotFiltered(inventory, slotFrames++, 66, 23).setStackLimit(1));
 			container.addSlot(new SlotFiltered(inventory, slotFrames++, 66, 52).setStackLimit(1));
 			container.addSlot(new SlotFiltered(inventory, slotFrames, 66, 81).setStackLimit(1));
 		}
 
 		// Product Inventory
-		int slotProduct = InventoryBeeHousing.SLOT_PRODUCT_1;
+		int slotProduct = BeeHousingInventory.SLOT_PRODUCT_1;
 		container.addSlot(new SlotOutput(inventory, slotProduct++, 116, 52));
 		container.addSlot(new SlotOutput(inventory, slotProduct++, 137, 39));
 		container.addSlot(new SlotOutput(inventory, slotProduct++, 137, 65));

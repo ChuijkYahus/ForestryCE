@@ -12,7 +12,7 @@ import java.util.UUID;
 import forestry.api.core.multiblock.IMultiblockComponent;
 import forestry.api.core.multiblock.IMultiblockController;
 import forestry.api.core.multiblock.IMultiblockInventoryProbe;
-import forestry.apiculture.alveary.BlockAlveary;
+import forestry.apiculture.alveary.AlvearyBlock;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
 import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
@@ -59,7 +59,7 @@ public final class MultiblockTestSupport {
 	 * @return the absolute world positions of the 27 alveary block entities (sorted), for later teardown/inventory access.
 	 */
 	public static List<BlockPos> buildAlveary(GameTestHelper helper, BlockPos base) {
-		BlockState plain = ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.PLAIN).defaultState();
+		BlockState plain = ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.PLAIN).defaultState();
 		BlockState slab = Blocks.OAK_SLAB.defaultBlockState();
 		List<BlockPos> members = new ArrayList<>();
 		for (int x = 0; x < 3; x++) {

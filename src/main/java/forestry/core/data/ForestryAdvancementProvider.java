@@ -34,8 +34,8 @@ import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.apiculture.alveary.BlockAlveary;
-import forestry.apiculture.apiary.BlockTypeApiculture;
+import forestry.apiculture.alveary.AlvearyBlock;
+import forestry.apiculture.apiary.ApicultureBlockType;
 import forestry.apiculture.bees.EnumHoneyComb;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
@@ -201,15 +201,15 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 			// Bee house, Sweet Bee house
 			// A play on Home Sweet Home
 			AdvancementHolder beeHouse = ForestryAdvancements.add(writer, "get_bee_house",
-				ApicultureBlocks.BASE.stack(BlockTypeApiculture.BEE_HOUSE),
+				ApicultureBlocks.BASE.stack(ApicultureBlockType.BEE_HOUSE),
 				bee,
-				InventoryChangeTrigger.TriggerInstance.hasItems(ApicultureBlocks.BASE.get(BlockTypeApiculture.BEE_HOUSE).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(ApicultureBlocks.BASE.get(ApicultureBlockType.BEE_HOUSE).get()));
 
 			// Beevolutionary!
 			AdvancementHolder apiary = ForestryAdvancements.add(writer, "get_apiary",
-				ApicultureBlocks.BASE.stack(BlockTypeApiculture.APIARY),
+				ApicultureBlocks.BASE.stack(ApicultureBlockType.APIARY),
 				beeHouse,
-				InventoryChangeTrigger.TriggerInstance.hasItems(ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(ApicultureBlocks.BASE.get(ApicultureBlockType.APIARY).get()));
 
 			// When Is a Raven Like a Writing Desk?
 			// A reference to the quote which is from like, Lewis Carrol or something?
@@ -253,21 +253,21 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 			// Granted manually via ContainerAlveary
 			// Deviation from 1.20.1: BlockAlvearyType became the BlockAlveary.Type record
 			AdvancementHolder alveary = ForestryAdvancements.add(writer, "get_alveary",
-				ApicultureBlocks.ALVEARY.stack(BlockAlveary.Type.PLAIN),
+				ApicultureBlocks.ALVEARY.stack(AlvearyBlock.Type.PLAIN),
 				apiary,
 				CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()));
 
 			// Make a House a Home
 			ForestryAdvancements.add(writer, "get_alveary_upgrade",
-				ApicultureBlocks.ALVEARY.stack(BlockAlveary.Type.SWARMER),
+				ApicultureBlocks.ALVEARY.stack(AlvearyBlock.Type.SWARMER),
 				alveary,
 				InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(
-					ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HEATER).get(),
-					ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.FAN).get(),
-					ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.STABILISER).get(),
-					ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.HYGRO).get(),
-					ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.SIEVE).get(),
-					ApicultureBlocks.ALVEARY.get(BlockAlveary.Type.SWARMER).get()
+					ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.HEATER).get(),
+					ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.FAN).get(),
+					ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.STABILIZER).get(),
+					ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.HYGROREGULATOR).get(),
+					ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.SIEVE).get(),
+					ApicultureBlocks.ALVEARY.get(AlvearyBlock.Type.SWARMER).get()
 				)),
 				AdvancementType.GOAL, false);
 

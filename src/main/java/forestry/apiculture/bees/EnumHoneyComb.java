@@ -23,7 +23,7 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 	MELLOW(TextColor.fromRgb(0x886000), TextColor.fromRgb(0xfff960)),
 	KAOLIN(TextColor.fromRgb(0x5e6c8d), TextColor.fromRgb(0xafb9d6)),
 	VINTAGE(TextColor.fromRgb(0xDEB887), TextColor.fromRgb(0xCD853F)),
-	SPONGE(TextColor.fromRgb(0x9D8F39), TextColor.fromRgb(0xe1e351)),
+	SPONGY(TextColor.fromRgb(0x9D8F39), TextColor.fromRgb(0xe1e351)),
 	SCULKEN(TextColor.fromRgb(0x111B21), TextColor.fromRgb(0x05625d)),
 	//LUMINOUS(TextColor.fromRgb(0x495E27), TextColor.fromRgb(0xF7CE46));
 	;
@@ -44,12 +44,5 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 	@Override
 	public String getSerializedName() {
 		return this.name;
-	}
-
-	public static EnumHoneyComb get(int meta) {
-		if (meta >= VALUES.length) {
-			meta = 0;
-		}
-		return VALUES[meta];
 	}
 }

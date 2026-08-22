@@ -31,7 +31,7 @@ import java.util.Set;
 
 public final class ForestryBlockTagsProvider {
 	public static void addTags(MKTagsProvider<Block> tags, HolderLookup.Provider lookup) {
-		tags.tag(ForestryTags.Blocks.MINEABLE_SCOOP).add(ApicultureBlocks.BEEHIVE.blockArray());
+		tags.tag(ForestryTags.Blocks.MINEABLE_SCOOP).add(ApicultureBlocks.HIVE.blockArray());
 		tags.tag(ForestryTags.Blocks.MINEABLE_GRAFTER).addTag(BlockTags.LEAVES);
 
 		tags.tag(BlockTags.MINEABLE_WITH_AXE)

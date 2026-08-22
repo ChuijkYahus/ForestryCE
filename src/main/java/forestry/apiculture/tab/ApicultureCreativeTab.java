@@ -16,10 +16,10 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.apiculture.hives.BlockHiveType;
+import forestry.apiculture.hives.HiveBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.apiary.ItemCreativeHiveFrame;
+import forestry.apiculture.apiary.CreativeHiveFrameItem;
 import forestry.core.platform.util.NBTUtilForestry;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
@@ -57,9 +57,9 @@ public class ApicultureCreativeTab {
 
 		// Hives
 		ApicultureBlocks.BASE.getItems().forEach(items::accept);
-		for (BlockHiveType type : BlockHiveType.values()) {
-			if (type != BlockHiveType.SWARM) {
-				items.accept(ApicultureBlocks.BEEHIVE.get(type));
+		for (HiveBlockType type : HiveBlockType.values()) {
+			if (type != HiveBlockType.SWARM) {
+				items.accept(ApicultureBlocks.HIVE.get(type));
 			}
 		}
 
@@ -75,7 +75,7 @@ public class ApicultureCreativeTab {
 		items.accept(ApicultureItems.FRAME_PROVEN);
 		ItemStack creativeFrameMaxMutation = ApicultureItems.FRAME_CREATIVE.stack();
 		CompoundTag forceMutationsTag = new CompoundTag();
-		forceMutationsTag.put(ItemCreativeHiveFrame.NBT_FORCE_MUTATIONS, ByteTag.valueOf((byte) 1));
+		forceMutationsTag.put(CreativeHiveFrameItem.NBT_FORCE_MUTATIONS, ByteTag.valueOf((byte) 1));
 		NBTUtilForestry.setItemStackTag(creativeFrameMaxMutation, forceMutationsTag);
 		items.accept(ApicultureItems.FRAME_CREATIVE);
 		items.accept(creativeFrameMaxMutation);
@@ -86,7 +86,7 @@ public class ApicultureCreativeTab {
 
 		// Misc items
 		ApicultureItems.BEE_COMBS.getItems().forEach(items::accept);
-		ApicultureBlocks.BEE_COMB.getItems().forEach(items::accept);
+		ApicultureBlocks.COMB_BLOCK.getItems().forEach(items::accept);
 		ApicultureItems.PROPOLIS.getItems().forEach(items::accept);
 		ApicultureItems.POLLEN_CLUSTER.getItems().forEach(items::accept);
 		items.accept(ApicultureItems.ROYAL_JELLY);
