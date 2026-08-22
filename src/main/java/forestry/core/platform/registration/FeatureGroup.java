@@ -82,7 +82,12 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 			this.subTypes = new LinkedHashSet<>(types);
 		}
 
+		@Deprecated
 		public Builder<S, G> identifier(String identifier) {
+			return identifier(identifier, IdentifierType.PREFIX);
+		}
+
+		public Builder<S, G> identifierPrefix(String identifier) {
 			return identifier(identifier, IdentifierType.PREFIX);
 		}
 
@@ -92,11 +97,10 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 			return this;
 		}
 
-		/**
-		 * Assigns a fully custom registry identifier per subtype, bypassing the prefix/suffix
-		 * {@link IdentifierType} scheme. Used where the desired ids do not follow a uniform
-		 * ordering or where individual subtypes need irregular names.
-		 */
+		public Builder<S, G> identifierSuffix(String suffix) {
+			return identifier(suffix, IdentifierType.SUFFIX);
+		}
+
 		public Builder<S, G> identifier(java.util.function.Function<S, String> identifierFunction) {
 			this.identifierFunction = identifierFunction;
 			return this;

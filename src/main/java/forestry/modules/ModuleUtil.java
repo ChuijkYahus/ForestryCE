@@ -34,7 +34,7 @@ public class ModuleUtil {
 				try {
 					Class<?> klass = Class.forName(className);
 					action.accept(klass);
-				} catch (ReflectiveOperationException e) {
+				} catch (ReflectiveOperationException | ExceptionInInitializerError e) {
 					throw new RuntimeException("Failed to load annotated member " + className, e);
 				}
 			}
