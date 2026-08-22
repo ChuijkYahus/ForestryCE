@@ -22,6 +22,7 @@ import forestry.core.content.soil.BlockHumus;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.block.BlockTypeCoreTesr;
+import forestry.core.platform.block.IMachineProperties;
 import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.machines.blocks.BlockFactoryPlain;
@@ -49,14 +50,6 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
 		super(output, ForestryConstants.MOD_ID, exFileHelper);
-	}
-
-	// How many fluid tanks a machine's model shows, and which slots they fill
-	public enum TankLayout {
-		NONE,
-		RESOURCE,
-		PRODUCT,
-		BOTH
 	}
 
 	@Override
@@ -170,13 +163,13 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		// The packaging machines moved from a BlockEntityRenderer to generated .json models + blockstates,
 		// with the fluid tank levels expressed as blockstate properties. Each model parents
 		// block/machines/base_machine and layers per-level tank textures on top of the base
-		machineBlock(BlockTypeFactoryPlain.BOTTLER, TankLayout.RESOURCE);
-		machineBlock(BlockTypeFactoryPlain.CARPENTER, TankLayout.RESOURCE);
-		machineBlock(BlockTypeFactoryPlain.CENTRIFUGE, TankLayout.NONE);
-		machineBlock(BlockTypeFactoryPlain.FERMENTER, TankLayout.BOTH);
-		machineBlock(BlockTypeFactoryPlain.MOISTENER, TankLayout.RESOURCE);
-		machineBlock(BlockTypeFactoryPlain.SQUEEZER, TankLayout.PRODUCT);
-		machineBlock(BlockTypeFactoryPlain.STILL, TankLayout.BOTH);
+		machineBlock(BlockTypeFactoryPlain.BOTTLER, IMachineProperties.TankLayout.RESOURCE);
+		machineBlock(BlockTypeFactoryPlain.CARPENTER, IMachineProperties.TankLayout.RESOURCE);
+		machineBlock(BlockTypeFactoryPlain.CENTRIFUGE, IMachineProperties.TankLayout.NONE);
+		machineBlock(BlockTypeFactoryPlain.FERMENTER, IMachineProperties.TankLayout.BOTH);
+		machineBlock(BlockTypeFactoryPlain.MOISTENER, IMachineProperties.TankLayout.RESOURCE);
+		machineBlock(BlockTypeFactoryPlain.SQUEEZER, IMachineProperties.TankLayout.PRODUCT);
+		machineBlock(BlockTypeFactoryPlain.STILL, IMachineProperties.TankLayout.BOTH);
 
 		// The analyzer and escritoire keep their hand-authored 1.20.1 Blockbench models, so only the
 		// facing blockstate is generated
@@ -464,7 +457,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	 * @param block  The machine's block type, which the model and texture ids are built from
 	 * @param layout How many tanks the model shows
 	 */
-	private void machineBlock(BlockTypeFactoryPlain block, TankLayout layout) {
+	private void machineBlock(BlockTypeFactoryPlain block, IMachineProperties.TankLayout layout) {
 		BlockFactoryPlain machine = FactoryBlocks.PLAIN.get(block).block();
 		String name = block.name().toLowerCase();
 

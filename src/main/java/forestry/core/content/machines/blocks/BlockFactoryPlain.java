@@ -1,7 +1,7 @@
 package forestry.core.content.machines.blocks;
 
-import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.block.IMachineProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -36,7 +36,7 @@ public class BlockFactoryPlain extends BlockBase<BlockTypeFactoryPlain> {
 		BlockTypeFactoryPlain type = CACHE_TYPE.get();
 
 		if (type != null) {
-			ForestryBlockStateProvider.TankLayout layout = type.getMachineProperties().getTankLayout();
+			IMachineProperties.TankLayout layout = type.getMachineProperties().getTankLayout();
 
 			switch (layout) {
 				case BOTH -> {

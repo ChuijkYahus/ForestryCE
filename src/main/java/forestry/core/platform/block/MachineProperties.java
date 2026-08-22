@@ -1,7 +1,6 @@
 package forestry.core.platform.block;
 
 import com.google.common.base.Preconditions;
-import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.platform.tile.IForestryTicker;
 import forestry.core.platform.tile.TileForestry;
 import forestry.core.platform.registration.FeatureTileType;
@@ -30,9 +29,9 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	@Nullable
 	private Block block;
 
-	private final ForestryBlockStateProvider.TankLayout tankLayout;
+	private final TankLayout tankLayout;
 
-	public MachineProperties(FeatureTileType<? extends T> teType, String name, IShapeProvider shape, ForestryBlockStateProvider.TankLayout tankLayout, @Nullable IForestryTicker<? extends T> clientTicker, @Nullable IForestryTicker<? extends T> serverTicker) {
+	public MachineProperties(FeatureTileType<? extends T> teType, String name, IShapeProvider shape, TankLayout tankLayout, @Nullable IForestryTicker<? extends T> clientTicker, @Nullable IForestryTicker<? extends T> serverTicker) {
 		this.teType = teType;
 		this.name = name;
 		this.shape = shape;
@@ -58,7 +57,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	}
 
 	@Override
-	public ForestryBlockStateProvider.TankLayout getTankLayout() {
+	public TankLayout getTankLayout() {
 		return this.tankLayout;
 	}
 
@@ -93,7 +92,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 		protected final FeatureTileType<? extends T> type;
 		protected final String name;
 		protected IShapeProvider shape = FULL_CUBE;
-		protected ForestryBlockStateProvider.TankLayout tankLayout = ForestryBlockStateProvider.TankLayout.NONE;
+		protected TankLayout tankLayout = IMachineProperties.TankLayout.NONE;
 		@Nullable
 		protected IForestryTicker<? extends T> clientTicker = null;
 		@Nullable
@@ -120,7 +119,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 			return (B) this;
 		}
 
-		public B setTankLayout(ForestryBlockStateProvider.TankLayout tankLayout) {
+		public B setTankLayout(TankLayout tankLayout) {
 			this.tankLayout = tankLayout;
 			//noinspection unchecked
 			return (B) this;
