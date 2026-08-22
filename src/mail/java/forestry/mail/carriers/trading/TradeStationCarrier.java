@@ -13,15 +13,15 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public class CarrierTrader implements IPostalCarrier {
+public class TradeStationCarrier implements IPostalCarrier {
 	private final ResourceLocation iconID;
 
-	public CarrierTrader() {
+	public TradeStationCarrier() {
 		this.iconID = ForestryConstants.forestry("mail/carrier.trader");
 	}
 
 	@Override
-	public String getDescriptionId() {
+	public String getTranslationKey() {
 		return "for.gui.addressee.trader";
 	}
 

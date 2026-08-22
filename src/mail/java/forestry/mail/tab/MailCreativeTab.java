@@ -1,19 +1,13 @@
 package forestry.mail.tab;
 
-import forestry.api.ForestryConstants;
-import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.features.CoreBlocks;
-import forestry.core.features.CoreItems;
 import forestry.core.platform.tab.ForestryCreativeTabs;
-import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.platform.registration.FeatureCreativeTab;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;
 import forestry.core.platform.registration.ModFeatureRegistry;
-import forestry.core.content.backpacks.features.BackpackItems;
 import net.minecraft.world.item.CreativeModeTab;
-import forestry.mail.blocks.BlockTypeMail;
+import forestry.mail.blocks.MailBlockType;
 import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
 import forestry.mail.letters.LetterItem;
@@ -27,7 +21,7 @@ public class MailCreativeTab {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.MAIL);
 
 	public static final FeatureCreativeTab MAIL = REGISTRY.creativeTab("mail", tab -> {
-		tab.icon(() -> MailBlocks.BASE.stack(BlockTypeMail.MAILBOX));
+		tab.icon(() -> MailBlocks.BASE.stack(MailBlockType.MAILBOX));
 		tab.displayItems(MailCreativeTab::addMailItems);
 		tab.withTabsBefore(ForestryCreativeTabs.tabKey("storage"));
 	});

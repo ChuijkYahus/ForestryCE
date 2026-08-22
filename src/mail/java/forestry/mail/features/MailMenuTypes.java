@@ -11,7 +11,7 @@ import forestry.core.platform.registration.ModFeatureRegistry;
 public class MailMenuTypes {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.MAIL);
 
-	public static final FeatureMenuType<ContainerCatalogue> CATALOGUE = REGISTRY.menuType(ContainerCatalogue::fromNetwork, "catalog");
+	public static final FeatureMenuType<CatalogMenu> CATALOGUE = REGISTRY.menuType(CatalogMenu::fromNetwork, "catalog");
 	public static final FeatureMenuType<LetterMenu> LETTER = REGISTRY.menuType(LetterMenu::fromNetwork, "letter");
 	public static final FeatureMenuType<MailboxMenu> MAILBOX = REGISTRY.menuType(MailboxMenu::fromNetwork, "mailbox");
 	public static final FeatureMenuType<StampCollectorMenu> STAMP_COLLECTOR = REGISTRY.menuType(StampCollectorMenu::fromNetwork, "stamp_collector");

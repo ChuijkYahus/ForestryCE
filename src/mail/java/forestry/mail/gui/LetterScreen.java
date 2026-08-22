@@ -28,7 +28,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class GuiLetter extends GuiForestry<LetterMenu> {
+public class LetterScreen extends GuiForestry<LetterMenu> {
 	private final LetterInventory itemInventory;
 	private final boolean isProcessedLetter;
 	private boolean checkedSessionVars;
@@ -44,7 +44,7 @@ public class GuiLetter extends GuiForestry<LetterMenu> {
 
 	private final ArrayList<Widget> tradeInfoWidgets;
 
-	public GuiLetter(LetterMenu container, Inventory inv, Component title) {
+	public LetterScreen(LetterMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/letter.png", container, inv, title);
 		this.minecraft = Minecraft.getInstance(); //not 100% why this is needed, maybe side issues
 

@@ -12,7 +12,7 @@ import forestry.mail.letters.MailAddress;
 import forestry.mail.postoffice.PostOffice;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.features.MailItems;
-import forestry.mail.inventory.InventoryTradeStation;
+import forestry.mail.inventory.TradeStationInventory;
 import forestry.mail.letters.EnumStampDefinition;
 import forestry.mail.letters.EnumDeliveryState;
 import forestry.mail.letters.ResponseNotMailable;
@@ -53,7 +53,7 @@ public class TradeStation implements ITradeStation {
 	private IMailAddress address;
 	private boolean isVirtual = false;
 	private boolean isInvalid = false;
-	private final InventoryAdapter inventory = new InventoryTradeStation();
+	private final InventoryAdapter inventory = new TradeStationInventory();
 
 	private final Set<Watcher> updateWatchers = new HashSet<>();
 

@@ -21,15 +21,15 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public class CarrierPlayer implements IPostalCarrier {
+public class PlayerPostalCarrier implements IPostalCarrier {
 	private final ResourceLocation iconID;
 
-	public CarrierPlayer() {
+	public PlayerPostalCarrier() {
 		this.iconID = ForestryConstants.forestry("mail/carrier.player");
 	}
 
 	@Override
-	public String getDescriptionId() {
+	public String getTranslationKey() {
 		return "for.gui.addressee.player";
 	}
 

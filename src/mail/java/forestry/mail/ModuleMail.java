@@ -12,8 +12,8 @@ import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.client.MailClientHandler;
-import forestry.mail.commands.CommandMail;
-import forestry.mail.features.MailTiles;
+import forestry.mail.commands.MailCommand;
+import forestry.mail.features.MailBlockEntities;
 import forestry.mail.network.packets.*;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
@@ -44,7 +44,7 @@ public class ModuleMail extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, MailTiles.MAILBOX.tileType(), (tile, side) -> tile.getAutomatedMailHandler());
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, MailBlockEntities.MAILBOX.tileType(), (tile, side) -> tile.getAutomatedMailHandler());
 	}
 
 	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
@@ -61,7 +61,7 @@ public class ModuleMail extends BlankForestryModule {
 
 	@Override
 	public void addToRootCommand(LiteralArgumentBuilder<CommandSourceStack> command) {
-		command.then(CommandMail.register());
+		command.then(MailCommand.register());
 	}
 
 	@Override

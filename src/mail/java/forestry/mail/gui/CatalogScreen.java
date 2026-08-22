@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
+public class CatalogScreen extends GuiForestry<CatalogMenu> {
 	private static final String BOLD_UNDERLINE = ChatFormatting.BOLD.toString() + ChatFormatting.UNDERLINE;
 
 	@Nullable
@@ -35,7 +35,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 
 	private final List<ItemStackWidget> tradeInfoWidgets = new ArrayList<>();
 
-	public GuiCatalogue(ContainerCatalogue container, Inventory inv, Component title) {
+	public CatalogScreen(CatalogMenu container, Inventory inv, Component title) {
 		super(ResourceLocation.parse("textures/gui/book.png"), container, inv, title);
 
 		this.imageWidth = 192;

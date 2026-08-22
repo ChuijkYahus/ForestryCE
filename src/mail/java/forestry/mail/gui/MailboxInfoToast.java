@@ -18,8 +18,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import java.util.ArrayList;
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
-public class ToastMailboxInfo implements Toast {
+public class MailboxInfoToast implements Toast {
 	private static final long DISPLAY_TIME = 5000L;
 	private static final long ICON_TIME = 500L;
 	private static final ResourceLocation BACKGROUND_SPRITE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/mail_toast.png");
@@ -27,7 +26,7 @@ public class ToastMailboxInfo implements Toast {
 	private final Component title = Component.translatable("for.gui.mail.toast.title");
 	private POBoxInfo poBox;
 
-	public ToastMailboxInfo(POBoxInfo info) {
+	public MailboxInfoToast(POBoxInfo info) {
 		this.poBox = info;
 	}
 
@@ -67,11 +66,11 @@ public class ToastMailboxInfo implements Toast {
 	}
 
 	public static void addOrUpdate(ToastComponent toastGui, POBoxInfo poBox, boolean modifiedThroughPlayer) {
-		ToastMailboxInfo toast = toastGui.getToast(ToastMailboxInfo.class, NO_TOKEN);
+		MailboxInfoToast toast = toastGui.getToast(MailboxInfoToast.class, NO_TOKEN);
 		if (toast != null) {
 			toast.poBox = poBox;
 		} else if (!modifiedThroughPlayer) {
-			toastGui.addToast(new ToastMailboxInfo(poBox));
+			toastGui.addToast(new MailboxInfoToast(poBox));
 		}
 
 	}

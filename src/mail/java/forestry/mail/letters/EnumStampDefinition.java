@@ -2,7 +2,7 @@ package forestry.mail.letters;
 
 import forestry.api.ForestryTags;
 import forestry.api.mail.EnumPostage;
-import forestry.core.platform.item.ItemOverlay;
+import forestry.core.platform.item.TwoTintItem;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -14,7 +14,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public enum EnumStampDefinition implements ItemOverlay.IOverlayInfo {
+public enum EnumStampDefinition implements TwoTintItem.ITwoTintItemSubtype {
 	P_1("1n", EnumPostage.P_1, ForestryTags.Items.GEMS_APATITE, TextColor.fromRgb(0x4a8ca7), TextColor.fromRgb(0xffffff)),
 	P_2("2n", EnumPostage.P_2, Items.COPPER_INGOT, TextColor.fromRgb(0xe8c814), TextColor.fromRgb(0xffffff)),
 	P_5("5n", EnumPostage.P_5, ForestryTags.Items.INGOTS_TIN, TextColor.fromRgb(0x9c0707), TextColor.fromRgb(0xffffff)),
@@ -69,12 +69,12 @@ public enum EnumStampDefinition implements ItemOverlay.IOverlayInfo {
 	}
 
 	@Override
-	public int getPrimaryColor() {
+	public int primaryColor() {
 		return this.primaryColor;
 	}
 
 	@Override
-	public int getSecondaryColor() {
+	public int secondaryColor() {
 		return this.secondaryColor;
 	}
 

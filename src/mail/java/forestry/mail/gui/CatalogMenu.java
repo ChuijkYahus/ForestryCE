@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSelectable, ILetterInfoReceiver {
+public class CatalogMenu extends AbstractContainerMenu implements IGuiSelectable, ILetterInfoReceiver {
 	private final Player player;
 	private final List<ITradeStation> stations = new ArrayList<>();
 
@@ -47,11 +47,11 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		FILTERS.add(Collections.unmodifiableSet(offline));
 	}
 
-	public static ContainerCatalogue fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		return new ContainerCatalogue(windowId, inv);
+	public static CatalogMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
+		return new CatalogMenu(windowId, inv);
 	}
 
-	public ContainerCatalogue(int windowId, Inventory inv) {
+	public CatalogMenu(int windowId, Inventory inv) {
 		super(MailMenuTypes.CATALOGUE.menuType(), windowId);
 		this.player = inv.player;
 

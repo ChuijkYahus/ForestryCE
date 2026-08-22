@@ -1,7 +1,7 @@
 package forestry.mail.tradestation;
 
 import forestry.core.platform.item.WithScreenItem;
-import forestry.mail.gui.ContainerCatalogue;
+import forestry.mail.gui.CatalogMenu;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -9,14 +9,14 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 
-public class CatalogueItem extends WithScreenItem {
-	public CatalogueItem() {
+public class CatalogItem extends WithScreenItem {
+	public CatalogItem() {
 		super(new Item.Properties());
 	}
 
 	@Nullable
 	@Override
 	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
-		return new ContainerCatalogue(containerId, player.getInventory());
+		return new CatalogMenu(containerId, player.getInventory());
 	}
 }

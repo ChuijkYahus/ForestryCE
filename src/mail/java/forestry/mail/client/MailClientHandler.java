@@ -17,8 +17,8 @@ public class MailClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerMenuScreens(RegisterMenuScreensEvent event) {
-		event.register(MailMenuTypes.CATALOGUE.menuType(), GuiCatalogue::new);
-		event.register(MailMenuTypes.LETTER.menuType(), GuiLetter::new);
+		event.register(MailMenuTypes.CATALOGUE.menuType(), CatalogScreen::new);
+		event.register(MailMenuTypes.LETTER.menuType(), LetterScreen::new);
 		event.register(MailMenuTypes.MAILBOX.menuType(), MailboxScreen::new);
 		event.register(MailMenuTypes.STAMP_COLLECTOR.menuType(), StampCollectorScreen::new);
 		event.register(MailMenuTypes.TRADE_NAME.menuType(), TradeStationNamingScreen::new);

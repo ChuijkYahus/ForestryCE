@@ -3,8 +3,8 @@ package forestry.mail.carriers;
 import forestry.api.ForestryRegistries;
 import forestry.api.mail.IPostalCarrier;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.mail.carriers.players.CarrierPlayer;
-import forestry.mail.carriers.trading.CarrierTrader;
+import forestry.mail.carriers.players.PlayerPostalCarrier;
+import forestry.mail.carriers.trading.TradeStationCarrier;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.core.Holder;
@@ -14,6 +14,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class PostalCarriers {
 	private static final DeferredRegister<IPostalCarrier> POSTAL_CARRIERS = ModFeatureRegistry.get(ForestryModuleIds.MAIL).getRegistry(ForestryRegistries.POSTAL_CARRIER.key());
 
-	public static final Holder<IPostalCarrier> PLAYER = POSTAL_CARRIERS.register("player", CarrierPlayer::new);
-	public static final Holder<IPostalCarrier> TRADER = POSTAL_CARRIERS.register("trader", CarrierTrader::new);
+	public static final Holder<IPostalCarrier> PLAYER = POSTAL_CARRIERS.register("player", PlayerPostalCarrier::new);
+	public static final Holder<IPostalCarrier> TRADER = POSTAL_CARRIERS.register("trader", TradeStationCarrier::new);
 }

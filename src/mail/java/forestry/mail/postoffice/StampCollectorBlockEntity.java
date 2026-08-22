@@ -4,9 +4,9 @@ import forestry.api.mail.IStamps;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.tile.TileBase;
 import forestry.core.platform.util.InventoryUtil;
-import forestry.mail.features.MailTiles;
+import forestry.mail.features.MailBlockEntities;
 import forestry.mail.gui.StampCollectorMenu;
-import forestry.mail.inventory.InventoryStampCollector;
+import forestry.mail.inventory.StampCollectorInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
@@ -19,8 +19,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class StampCollectorBlockEntity extends TileBase implements Container {
 	public StampCollectorBlockEntity(BlockPos pos, BlockState state) {
-		super(MailTiles.STAMP_COLLECTOR.tileType(), pos, state);
-		setInternalInventory(new InventoryStampCollector(this));
+		super(MailBlockEntities.STAMP_COLLECTOR.tileType(), pos, state);
+		setInternalInventory(new StampCollectorInventory(this));
 	}
 
 	@Override
@@ -32,10 +32,10 @@ public class StampCollectorBlockEntity extends TileBase implements Container {
 		ItemStack stamp = null;
 
 		IInventoryAdapter inventory = getInternalInventory();
-		if (inventory.getItem(InventoryStampCollector.SLOT_FILTER).isEmpty()) {
+		if (inventory.getItem(StampCollectorInventory.SLOT_FILTER).isEmpty()) {
 			stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(1);
 		} else {
-			ItemStack filter = inventory.getItem(InventoryStampCollector.SLOT_FILTER);
+			ItemStack filter = inventory.getItem(StampCollectorInventory.SLOT_FILTER);
 			if (filter.getItem() instanceof IStamps) {
 				stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(((IStamps) filter.getItem()).getPostage(filter), 1);
 			}
@@ -46,7 +46,7 @@ public class StampCollectorBlockEntity extends TileBase implements Container {
 		}
 
 		// Store it.
-		InventoryUtil.stowInInventory(stamp, inventory, true, InventoryStampCollector.SLOT_BUFFER_1, InventoryStampCollector.SLOT_BUFFER_COUNT);
+		InventoryUtil.stowInInventory(stamp, inventory, true, StampCollectorInventory.SLOT_BUFFER_1, StampCollectorInventory.SLOT_BUFFER_COUNT);
 	}
 
 	@Override

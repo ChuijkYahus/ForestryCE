@@ -16,11 +16,10 @@ import net.neoforged.api.distmarker.OnlyIn;
  * "trader" - Handles mail addressed to trade stations.
  */
 public interface IPostalCarrier {
-
 	/**
 	 * @return The translation key for the human-readable name for this carrier.
 	 */
-	String getDescriptionId();
+	String getTranslationKey();
 
 	/**
 	 * Sprite registered to the Gui Texture Map at {@link ITextureManager}.

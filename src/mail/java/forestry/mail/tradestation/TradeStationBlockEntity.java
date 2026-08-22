@@ -15,10 +15,10 @@ import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.letters.MailAddress;
 import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.carriers.trading.TradeStationRegistry;
-import forestry.mail.features.MailTiles;
+import forestry.mail.features.MailBlockEntities;
 import forestry.mail.gui.TradeStationNamingMenu;
 import forestry.mail.gui.TradeStationMenu;
-import forestry.mail.inventory.InventoryTradeStation;
+import forestry.mail.inventory.TradeStationInventory;
 import forestry.mail.network.packets.PacketTraderAddressResponse;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -41,9 +41,9 @@ public class TradeStationBlockEntity extends TileBase implements IOwnedTile {
 	private IMailAddress address;
 
 	public TradeStationBlockEntity(BlockPos pos, BlockState state) {
-		super(MailTiles.TRADER.tileType(), pos, state);
+		super(MailBlockEntities.TRADER.tileType(), pos, state);
         this.address = MailAddress.INVALID;
-		setInternalInventory(new InventoryTradeStation());
+		setInternalInventory(new TradeStationInventory());
 	}
 
 	@Override

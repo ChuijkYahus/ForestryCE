@@ -10,7 +10,6 @@ import forestry.core.platform.util.SoundUtil;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class AddresseeSlot extends Widget {
-
 	private final LetterMenu menu;
 
 	public AddresseeSlot(WidgetManager widgetManager, int xPos, int yPos, LetterMenu menu) {
@@ -31,7 +30,7 @@ public class AddresseeSlot extends Widget {
 	@Override
 	public ToolTip getToolTip(int mouseX, int mouseY) {
 		ToolTip tooltip = new ToolTip();
-		tooltip.translated(this.menu.getCarrier().getDescriptionId());
+		tooltip.translated(this.menu.getCarrier().getTranslationKey());
 		return tooltip;
 	}
 

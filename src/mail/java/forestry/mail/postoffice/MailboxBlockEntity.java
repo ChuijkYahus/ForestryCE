@@ -10,7 +10,7 @@ import forestry.mail.letters.LetterUtils;
 import forestry.mail.letters.MailAddress;
 import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
-import forestry.mail.features.MailTiles;
+import forestry.mail.features.MailBlockEntities;
 import forestry.mail.gui.MailboxMenu;
 import forestry.mail.letters.EnumDeliveryState;
 import net.minecraft.core.BlockPos;
@@ -76,7 +76,7 @@ public class MailboxBlockEntity extends TileBase {
 	};
 
 	public MailboxBlockEntity(BlockPos pos, BlockState state) {
-		super(MailTiles.MAILBOX.tileType(), pos, state);
+		super(MailBlockEntities.MAILBOX.tileType(), pos, state);
 		setInternalInventory(new InventoryAdapter(POBox.SLOT_SIZE, "Letters").disableAutomation());
 	}
 

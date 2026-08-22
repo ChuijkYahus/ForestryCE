@@ -25,7 +25,7 @@ import forestry.core.engine.circuits.ItemCircuitBoard;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.platform.registration.FeatureItem;
-import forestry.mail.blocks.BlockTypeMail;
+import forestry.mail.blocks.MailBlockType;
 import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
 import forestry.mail.letters.EnumStampDefinition;
@@ -43,7 +43,7 @@ public class MailRecipeProvider {
 		Ingredient sealant = CompoundIngredient.of(Ingredient.of(ForestryTags.Items.PROPOLIS), Ingredient.of(Tags.Items.SLIMEBALLS));
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(LetterItem.Size.EMPTY, LetterItem.State.FRESH), 1, Items.PAPER, sealant);
 
-		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.MAILBOX).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(MailBlockType.MAILBOX).block(), recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('X', Tags.Items.CHESTS_WOODEN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -62,7 +62,7 @@ public class MailRecipeProvider {
 			recipe.pattern(" # ");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.TRADE_STATION).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(MailBlockType.TRADE_STATION).block(), recipe -> {
 			recipe.define('#', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.BRONZE));
 			recipe.define('X', Tags.Items.CHESTS_WOODEN);
 			recipe.define('Y', CoreItems.STURDY_CASING);

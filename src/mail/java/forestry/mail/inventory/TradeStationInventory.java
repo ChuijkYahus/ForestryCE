@@ -13,8 +13,8 @@ import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryTradeStation extends InventoryAdapter {
-	public InventoryTradeStation() {
+public class TradeStationInventory extends InventoryAdapter {
+	public TradeStationInventory() {
 		super(TradeStation.SLOT_SIZE, "INV");
 	}
 
