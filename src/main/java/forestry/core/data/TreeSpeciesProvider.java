@@ -1,5 +1,6 @@
 package forestry.core.data;
 
+import forestry.api.core.data.BeeSpeciesProvider;
 import forestry.arboriculture.plugin.DefaultTreeSpecies;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -32,7 +33,7 @@ import forestry.core.platform.util.SpeciesUtil;
  * {@code TreeSpeciesEquivalenceTest}).
  * <p>
  * Unlike {@link BeeSpeciesProvider}, trees need no companion instance -&gt; id inversion: the only reference
- * chromosomes on a tree genome (fruit, tree effect) are already recorded by {@link RecordingGenomeBuilder} as
+ * chromosomes on a tree genome (fruit, tree effect) are already recorded by {@link MapGenomeBuilder} as
  * {@code Allele.reference(id)}, since {@code IGenomeBuilder#set(IChromosome, ResourceLocation)} is the id-based
  * overload species builders call directly for those chromosomes.
  * <p>
@@ -111,7 +112,7 @@ public class TreeSpeciesProvider implements DataProvider {
 	}
 
 	private static TreeSpeciesDefinition buildDefinition(ITreeSpeciesBuilder builder) {
-		RecordingGenomeBuilder rec = new RecordingGenomeBuilder();
+		MapGenomeBuilder rec = new MapGenomeBuilder();
 		builder.buildGenome(rec);
 		return new TreeSpeciesDefinition(
 			builder.getGenus(),

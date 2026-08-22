@@ -15,7 +15,7 @@ import forestry.api.IForestryApi;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
-import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.core.engine.genetics.GenomeCodecs;
 import forestry.core.engine.genetics.ISpeciesDefinition;
@@ -38,7 +38,7 @@ import forestry.core.engine.genetics.SpeciesCore;
  * @param temperature     This species' ideal temperature.
  * @param humidity        This species' ideal humidity.
  * @param rarity          The relative rarity used when picking this species for worldgen.
- * @param genome          Sparse genome overrides: chromosome id -&gt; inline allele, applied over the karyotype defaults.
+ * @param genome          Sparse genome overrides: chromosome id -> inline allele pair, applied over the karyotype defaults.
  */
 public record TreeSpeciesDefinition(
 	String genus,
@@ -52,7 +52,7 @@ public record TreeSpeciesDefinition(
 	TemperatureType temperature,
 	HumidityType humidity,
 	float rarity,
-	Map<ResourceLocation, Allele<?>> genome
+	Map<ResourceLocation, AlleleOverride<?>> genome
 ) implements ISpeciesDefinition {
 	@Nullable
 	private static Codec<TreeSpeciesDefinition> codec;
@@ -88,7 +88,7 @@ public record TreeSpeciesDefinition(
 	}
 
 	private static Codec<TreeSpeciesDefinition> buildCodec() {
-		Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype());
+		Codec<Map<ResourceLocation, AlleleOverride<?>>> genomeCodec = GenomeCodecs.overrideMapCodec(karyotype());
 		return RecordCodecBuilder.create(instance -> instance.group(
 			SpeciesCore.MAP_CODEC.forGetter(TreeSpeciesDefinition::core),
 			Codec.FLOAT.optionalFieldOf("rarity", 0.0f).forGetter(TreeSpeciesDefinition::rarity),
@@ -100,7 +100,7 @@ public record TreeSpeciesDefinition(
 	}
 
 	private static StreamCodec<RegistryFriendlyByteBuf, TreeSpeciesDefinition> buildStreamCodec() {
-		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> genomeStreamCodec = GenomeCodecs.alleleMapStreamCodec(karyotype());
+		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, AlleleOverride<?>>> genomeStreamCodec = GenomeCodecs.overrideMapStreamCodec(karyotype());
 		return StreamCodec.of(
 			(buf, def) -> {
 				SpeciesCore.STREAM_CODEC.encode(buf, def.core());
@@ -110,7 +110,7 @@ public record TreeSpeciesDefinition(
 			buf -> {
 				SpeciesCore core = SpeciesCore.STREAM_CODEC.decode(buf);
 				float rarity = buf.readFloat();
-				Map<ResourceLocation, Allele<?>> genome = genomeStreamCodec.decode(buf);
+				Map<ResourceLocation, AlleleOverride<?>> genome = genomeStreamCodec.decode(buf);
 				return new TreeSpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
 					core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
 					rarity, genome);

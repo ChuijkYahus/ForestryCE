@@ -24,6 +24,7 @@ import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestryTaxa;
 import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.lepidopterology.ForestryButterflyEffects;
@@ -31,8 +32,9 @@ import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
 
 /**
  * Behavioral oracle for {@link ButterflySpeciesDefinition}: proves that a definition with a data-chromosome genome
- * override (size), a reference-chromosome genome override (butterfly effect), and an optional biome tag survives
- * both the lazily-built JSON codec and the lazily-built network stream codec unchanged.
+ * override (size), a reference-chromosome genome override (butterfly effect), a one-sided override (fertility),
+ * and an optional biome tag survives both the lazily-built JSON codec and the lazily-built network stream codec
+ * unchanged.
  */
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
@@ -59,9 +61,11 @@ public class ButterflySpeciesDefinitionTest {
 			List.of(),
 			Map.of(
 				// one inline-value chromosome
-				ButterflyChromosomes.SIZE.id(), ForestryAlleles.SIZE_AVERAGE,
+				ButterflyChromosomes.SIZE.id(), AlleleOverride.both(ForestryAlleles.SIZE_AVERAGE),
 				// one reference chromosome
-				ButterflyChromosomes.EFFECT.id(), Allele.reference(ForestryButterflyEffects.NONE)
+				ButterflyChromosomes.EFFECT.id(), AlleleOverride.both(Allele.reference(ForestryButterflyEffects.NONE)),
+				// one override that names only the inactive side
+				ButterflyChromosomes.FERTILITY.id(), AlleleOverride.onlyInactive(ForestryAlleles.FERTILITY_2)
 			)
 		);
 	}

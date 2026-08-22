@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 
 /**
  * The base genetics/metadata shared by every data-driven species definition
@@ -36,7 +36,7 @@ public interface ISpeciesDefinition {
 
 	HumidityType humidity();
 
-	Map<ResourceLocation, Allele<?>> genome();
+	Map<ResourceLocation, AlleleOverride<?>> genome();
 
 	/**
 	 * @return A {@link SpeciesCore} view of this definition's base fields, used by the definition codecs

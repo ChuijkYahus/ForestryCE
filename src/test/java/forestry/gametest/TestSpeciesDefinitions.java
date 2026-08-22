@@ -11,7 +11,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
-import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
 import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
@@ -83,7 +83,7 @@ public final class TestSpeciesDefinitions {
 		int escritoireColor = -1;
 		TemperatureType temperature = TemperatureType.NORMAL;
 		HumidityType humidity = HumidityType.NORMAL;
-		Map<ResourceLocation, Allele<?>> genome = Map.of();
+		Map<ResourceLocation, AlleleOverride<?>> genome = Map.of();
 
 		Base(String genus, String species) {
 			this.genus = genus;
@@ -107,7 +107,7 @@ public final class TestSpeciesDefinitions {
 		public Bee outline(int v) { this.outline = v; return this; }
 		public Bee products(List<IProduct> v) { this.products = v; return this; }
 		public Bee jubilance(ResourceLocation v) { this.jubilance = v; return this; }
-		public Bee genome(Map<ResourceLocation, Allele<?>> v) { this.genome = v; return this; }
+		public Bee genome(Map<ResourceLocation, AlleleOverride<?>> v) { this.genome = v; return this; }
 
 		public BeeSpeciesDefinition build() {
 			return new BeeSpeciesDefinition(genus, species, dominant, glint, secret, complexity, authority,
@@ -123,7 +123,7 @@ public final class TestSpeciesDefinitions {
 		}
 
 		public Tree escritoireColor(int v) { this.escritoireColor = v; return this; }
-		public Tree genome(Map<ResourceLocation, Allele<?>> v) { this.genome = v; return this; }
+		public Tree genome(Map<ResourceLocation, AlleleOverride<?>> v) { this.genome = v; return this; }
 
 		public TreeSpeciesDefinition build() {
 			return new TreeSpeciesDefinition(genus, species, dominant, glint, secret, complexity, authority,
@@ -146,7 +146,7 @@ public final class TestSpeciesDefinitions {
 		}
 
 		public Butterfly rarity(float v) { this.rarity = v; return this; }
-		public Butterfly genome(Map<ResourceLocation, Allele<?>> v) { this.genome = v; return this; }
+		public Butterfly genome(Map<ResourceLocation, AlleleOverride<?>> v) { this.genome = v; return this; }
 
 		public ButterflySpeciesDefinition build() {
 			return new ButterflySpeciesDefinition(genus, species, dominant, glint, secret, complexity, authority,

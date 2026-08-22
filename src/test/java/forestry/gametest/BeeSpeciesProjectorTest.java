@@ -27,6 +27,7 @@ import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestryTaxa;
 import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.apiculture.bees.BeeSpecies;
@@ -48,7 +49,7 @@ public class BeeSpeciesProjectorTest {
 			.dominant(true)
 			.outline(0x19d0ec)
 			.products(List.of(Product.of(Items.HONEY_BOTTLE, 1, 0.3f)))
-			.genome(Map.of(BeeChromosomes.POLLINATION.id(), ForestryAlleles.POLLINATION_SLOWER))
+			.genome(Map.of(BeeChromosomes.POLLINATION.id(), AlleleOverride.both(ForestryAlleles.POLLINATION_SLOWER)))
 			.build();
 
 		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();

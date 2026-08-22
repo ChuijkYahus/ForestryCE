@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.api.plugin.ILepidopterologyRegistration;
-import forestry.core.data.RecordingGenomeBuilder;
+import forestry.core.data.MapGenomeBuilder;
 import forestry.lepidopterology.plugin.LepidopterologyRegistration;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesDefinition;
@@ -35,7 +35,7 @@ import forestry.lepidopterology.plugin.DefaultButterflySpecies;
  * <p>
  * Like {@code BeeSpeciesProvider} (and unlike {@code TreeSpeciesProvider}), butterflies set some reference
  * chromosomes (cocoon, effect, flower type) via the id-based {@code IGenomeBuilder#set(IChromosome, ResourceLocation)}
- * overload, so {@link RecordingGenomeBuilder} already records them as {@code Allele.reference(id)}. Unlike bees,
+ * overload, so {@link MapGenomeBuilder} already records them as {@code Allele.reference(id)}. Unlike bees,
  * none of the built-in butterflies register a cocoon/effect *instance* directly on the builder (only bee jubilance
  * does that), so no companion instance -&gt; id inversion map is needed here.
  * <p>
@@ -115,7 +115,7 @@ public class ButterflySpeciesProvider implements DataProvider {
 	}
 
 	private static ButterflySpeciesDefinition buildDefinition(IButterflySpeciesBuilder builder) {
-		RecordingGenomeBuilder rec = new RecordingGenomeBuilder();
+		MapGenomeBuilder rec = new MapGenomeBuilder();
 		builder.buildGenome(rec);
 
 		return new ButterflySpeciesDefinition(

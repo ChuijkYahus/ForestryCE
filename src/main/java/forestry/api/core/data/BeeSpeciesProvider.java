@@ -1,4 +1,4 @@
-package forestry.core.data;
+package forestry.api.core.data;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 
+import forestry.core.data.MapGenomeBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -125,7 +126,7 @@ public class BeeSpeciesProvider implements DataProvider {
 	}
 
 	private static BeeSpeciesDefinition buildDefinition(Map<IBeeJubilance, ResourceLocation> jubilanceIds, IBeeSpeciesBuilder builder) {
-		RecordingGenomeBuilder rec = new RecordingGenomeBuilder();
+		MapGenomeBuilder rec = new MapGenomeBuilder();
 		builder.buildGenome(rec);
 
 		ResourceLocation jubilanceId = jubilanceIds.getOrDefault(builder.getJubilance(), ForestryBeeJubilances.DEFAULT);

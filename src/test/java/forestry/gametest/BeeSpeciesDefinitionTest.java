@@ -24,14 +24,16 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
 
 /**
  * Behavioral oracle for {@link BeeSpeciesDefinition}: proves that a definition with a data-chromosome genome
- * override (speed) and a reference-chromosome genome override (bee effect) survives both the lazily-built JSON
- * codec and the lazily-built network stream codec unchanged.
+ * override (speed), a reference-chromosome genome override (bee effect), a heterozygous override (fertility), and
+ * a one-sided override (lifespan) survives both the lazily-built JSON codec and the lazily-built network stream
+ * codec unchanged.
  */
 @GameTestHolder(ForestryConstants.MOD_ID)
 @PrefixGameTestTemplate(false)
@@ -56,8 +58,12 @@ public class BeeSpeciesDefinitionTest {
 			List.of(),
 			ForestryBeeJubilances.HERMIT,
 			Map.of(
-				BeeChromosomes.SPEED.id(), ForestryAlleles.SPEED_SLOWER,
-				BeeChromosomes.EFFECT.id(), Allele.reference(ForestryBeeEffects.BEATIFIC)
+				BeeChromosomes.SPEED.id(), AlleleOverride.both(ForestryAlleles.SPEED_SLOWER),
+				BeeChromosomes.EFFECT.id(), AlleleOverride.both(Allele.reference(ForestryBeeEffects.BEATIFIC)),
+				// heterozygous: the two sides differ in both value and dominance
+				BeeChromosomes.FERTILITY.id(), new AlleleOverride<>(ForestryAlleles.FERTILITY_4, ForestryAlleles.FERTILITY_1),
+				// one-sided: the active allele keeps whatever the karyotype default produced
+				BeeChromosomes.LIFESPAN.id(), AlleleOverride.onlyInactive(ForestryAlleles.LIFESPAN_SHORT)
 			)
 		);
 

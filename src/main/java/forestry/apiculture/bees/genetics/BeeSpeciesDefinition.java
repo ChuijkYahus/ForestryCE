@@ -19,7 +19,7 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
-import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.core.engine.genetics.GenomeCodecs;
 import forestry.core.engine.genetics.ISpeciesDefinition;
@@ -27,7 +27,7 @@ import forestry.core.engine.genetics.SpeciesCore;
 
 /**
  * The pure-data, datapack-loadable shape of a bee species: everything a {@code BeeSpeciesBuilder} would otherwise
- * set in code, plus a sparse map of genome overrides (chromosome id -&gt; inline allele). This is also the network
+ * set in code, plus a sparse map of genome overrides (chromosome id -> inline allele pair). This is also the network
  * sync payload, so the client can render species it has never seen registered in code.
  * <p>
  * The {@link #codec()} and {@link #streamCodec()} are built lazily on first use: they are keyed against the bee
@@ -51,7 +51,7 @@ import forestry.core.engine.genetics.SpeciesCore;
  * @param products       The items a worker of this species can produce.
  * @param specialties    The items a worker of this species can rarely produce.
  * @param jubilance      The id of the {@link forestry.api.apiculture.IBeeJubilance} that determines when this species is jubilant.
- * @param genome         Sparse genome overrides: chromosome id -&gt; inline allele, applied over the karyotype defaults.
+ * @param genome         Sparse genome overrides: chromosome id -> inline allele pair, applied over the karyotype defaults.
  */
 public record BeeSpeciesDefinition(
 	String genus,
@@ -70,7 +70,7 @@ public record BeeSpeciesDefinition(
 	List<IProduct> products,
 	List<IProduct> specialties,
 	ResourceLocation jubilance,
-	Map<ResourceLocation, Allele<?>> genome
+	Map<ResourceLocation, AlleleOverride<?>> genome
 ) implements ISpeciesDefinition {
 	public static final ResourceLocation DEFAULT_JUBILANCE = ForestryBeeJubilances.DEFAULT;
 
@@ -120,7 +120,7 @@ public record BeeSpeciesDefinition(
 	}
 
 	private static Codec<BeeSpeciesDefinition> buildCodec() {
-		Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype());
+		Codec<Map<ResourceLocation, AlleleOverride<?>>> genomeCodec = GenomeCodecs.overrideMapCodec(karyotype());
 		return RecordCodecBuilder.create(instance -> instance.group(
 			SpeciesCore.MAP_CODEC.forGetter(BeeSpeciesDefinition::core),
 			SpritePalette.CODEC.forGetter(def -> new SpritePalette(def.body(), def.stripes(), def.outline())),
@@ -135,7 +135,7 @@ public record BeeSpeciesDefinition(
 	}
 
 	private static StreamCodec<RegistryFriendlyByteBuf, BeeSpeciesDefinition> buildStreamCodec() {
-		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> genomeStreamCodec = GenomeCodecs.alleleMapStreamCodec(karyotype());
+		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, AlleleOverride<?>>> genomeStreamCodec = GenomeCodecs.overrideMapStreamCodec(karyotype());
 		StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> productListStreamCodec = IProduct.LIST_STREAM_CODEC;
 		return StreamCodec.of(
 			(buf, def) -> {
@@ -156,7 +156,7 @@ public record BeeSpeciesDefinition(
 				List<IProduct> products = productListStreamCodec.decode(buf);
 				List<IProduct> specialties = productListStreamCodec.decode(buf);
 				ResourceLocation jubilance = ResourceLocation.STREAM_CODEC.decode(buf);
-				Map<ResourceLocation, Allele<?>> genome = genomeStreamCodec.decode(buf);
+				Map<ResourceLocation, AlleleOverride<?>> genome = genomeStreamCodec.decode(buf);
 				return new BeeSpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
 					core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
 					body, stripes, outline, products, specialties, jubilance, genome);

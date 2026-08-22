@@ -18,6 +18,7 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestryTaxa;
 import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
@@ -40,9 +41,11 @@ public class TreeSpeciesDefinitionTest {
 			0.0f,
 			Map.of(
 				// one inline-value chromosome
-				TreeChromosomes.HEIGHT.id(), ForestryAlleles.HEIGHT_AVERAGE,
+				TreeChromosomes.HEIGHT.id(), AlleleOverride.both(ForestryAlleles.HEIGHT_AVERAGE),
 				// one reference chromosome
-				TreeChromosomes.FRUIT.id(), Allele.reference(forestry.api.arboriculture.ForestryFruits.APPLE)
+				TreeChromosomes.FRUIT.id(), AlleleOverride.both(Allele.reference(forestry.api.arboriculture.ForestryFruits.APPLE)),
+				// one heterozygous override
+				TreeChromosomes.GIRTH.id(), new AlleleOverride<>(ForestryAlleles.GIRTH_2, ForestryAlleles.GIRTH_1)
 			)
 		);
 	}

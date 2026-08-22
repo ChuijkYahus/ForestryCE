@@ -9,6 +9,7 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.genetics.IGenome;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
@@ -34,7 +35,7 @@ public class ButterflySpeciesProjectorTest {
 		IButterflySpecies monarch = type.getSpecies(ForestryButterflySpecies.MONARCH);
 
 		ButterflySpeciesDefinition def = TestSpeciesDefinitions.butterflyFrom(monarch)
-			.genome(Map.of(ButterflyChromosomes.SIZE.id(), ForestryAlleles.SIZE_AVERAGE))
+			.genome(Map.of(ButterflyChromosomes.SIZE.id(), AlleleOverride.both(ForestryAlleles.SIZE_AVERAGE)))
 			.build();
 
 		// Project against the real Monarch id.
@@ -99,7 +100,7 @@ public class ButterflySpeciesProjectorTest {
 		IButterflySpecies monarch = type.getSpecies(ForestryButterflySpecies.MONARCH);
 		ButterflySpeciesDefinition def = TestSpeciesDefinitions.butterfly(monarch.getGenusName(), "phantom")
 			.rarity(0.1f)
-			.genome(Map.of(ForestryConstants.forestry("no_such_chromosome"), ForestryAlleles.SIZE_AVERAGE))
+			.genome(Map.of(ForestryConstants.forestry("no_such_chromosome"), AlleleOverride.both(ForestryAlleles.SIZE_AVERAGE)))
 			.build();
 		ButterflySpecies projected = ButterflySpeciesProjector.project(type, ForestryConstants.forestry("phantom_butterfly_bad_override"), def);
 		if (projected == null) {

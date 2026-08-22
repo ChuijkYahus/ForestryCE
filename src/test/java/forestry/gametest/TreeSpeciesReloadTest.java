@@ -14,6 +14,7 @@ import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
@@ -49,7 +50,7 @@ public class TreeSpeciesReloadTest {
 
 		TreeSpeciesDefinition def = TestSpeciesDefinitions.treeFrom(oak)
 			.escritoireColor(oak.getEscritoireColor())
-			.genome(Map.of(TreeChromosomes.HEIGHT.id(), ForestryAlleles.HEIGHT_AVERAGE))
+			.genome(Map.of(TreeChromosomes.HEIGHT.id(), AlleleOverride.both(ForestryAlleles.HEIGHT_AVERAGE)))
 			.build();
 
 		Map<ResourceLocation, TreeSpeciesDefinition> defs = Map.of(ForestryTreeSpecies.OAK, def);

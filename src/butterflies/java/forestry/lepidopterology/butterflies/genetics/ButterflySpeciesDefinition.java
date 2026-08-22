@@ -23,7 +23,7 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
-import forestry.api.core.genetics.alleles.Allele;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.core.engine.genetics.GenomeCodecs;
 import forestry.core.engine.genetics.ISpeciesDefinition;
@@ -54,7 +54,7 @@ import forestry.core.engine.genetics.SpeciesCore;
  * @param spawnBiomes         The biome tag this species can spawn in, or empty for none.
  * @param products            The items a caught butterfly of this species can produce.
  * @param caterpillarProducts The items a caterpillar of this species can produce.
- * @param genome              Sparse genome overrides: chromosome id -&gt; inline allele, applied over the karyotype defaults.
+ * @param genome              Sparse genome overrides: chromosome id -> inline allele pair, applied over the karyotype defaults.
  */
 public record ButterflySpeciesDefinition(
 	String genus,
@@ -75,7 +75,7 @@ public record ButterflySpeciesDefinition(
 	Optional<TagKey<Biome>> spawnBiomes,
 	List<IProduct> products,
 	List<IProduct> caterpillarProducts,
-	Map<ResourceLocation, Allele<?>> genome
+	Map<ResourceLocation, AlleleOverride<?>> genome
 ) implements ISpeciesDefinition {
 	@Nullable
 	private static Codec<ButterflySpeciesDefinition> codec;
@@ -114,7 +114,7 @@ public record ButterflySpeciesDefinition(
 	private static final StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> PRODUCTS_STREAM_CODEC = IProduct.LIST_STREAM_CODEC;
 
 	private static Codec<ButterflySpeciesDefinition> buildCodec() {
-		Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype());
+		Codec<Map<ResourceLocation, AlleleOverride<?>>> genomeCodec = GenomeCodecs.overrideMapCodec(karyotype());
 		return RecordCodecBuilder.create(instance -> instance.group(
 			SpeciesCore.MAP_CODEC.forGetter(ButterflySpeciesDefinition::core),
 			Codec.BOOL.optionalFieldOf("nocturnal", false).forGetter(ButterflySpeciesDefinition::nocturnal),
@@ -133,7 +133,7 @@ public record ButterflySpeciesDefinition(
 	}
 
 	private static StreamCodec<RegistryFriendlyByteBuf, ButterflySpeciesDefinition> buildStreamCodec() {
-		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> genomeStreamCodec = GenomeCodecs.alleleMapStreamCodec(karyotype());
+		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, AlleleOverride<?>>> genomeStreamCodec = GenomeCodecs.overrideMapStreamCodec(karyotype());
 		StreamCodec<ByteBuf, Optional<TagKey<Biome>>> spawnBiomesStreamCodec = ByteBufCodecs.optional(
 			ResourceLocation.STREAM_CODEC.map(location -> TagKey.create(Registries.BIOME, location), TagKey::location));
 		return StreamCodec.of(
@@ -159,7 +159,7 @@ public record ButterflySpeciesDefinition(
 				Optional<TagKey<Biome>> spawnBiomes = spawnBiomesStreamCodec.decode(buf);
 				List<IProduct> products = PRODUCTS_STREAM_CODEC.decode(buf);
 				List<IProduct> caterpillarProducts = PRODUCTS_STREAM_CODEC.decode(buf);
-				Map<ResourceLocation, Allele<?>> genome = genomeStreamCodec.decode(buf);
+				Map<ResourceLocation, AlleleOverride<?>> genome = genomeStreamCodec.decode(buf);
 				return new ButterflySpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),
 					core.complexity(), core.authority(), core.escritoireColor(), core.temperature(), core.humidity(),
 					nocturnal, moth, rarity, flightDistance, serumColor, spawnBiomes, products, caterpillarProducts, genome);

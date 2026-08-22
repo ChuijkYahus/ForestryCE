@@ -12,6 +12,7 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
+import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
@@ -61,7 +62,7 @@ public class ButterflySpawnerReloadTest {
 		);
 
 		ButterflySpeciesDefinition def = TestSpeciesDefinitions.butterflyFrom(monarch)
-			.genome(Map.of(ButterflyChromosomes.SIZE.id(), ForestryAlleles.SIZE_AVERAGE))
+			.genome(Map.of(ButterflyChromosomes.SIZE.id(), AlleleOverride.both(ForestryAlleles.SIZE_AVERAGE)))
 			.build();
 
 		Map<ResourceLocation, ButterflySpeciesDefinition> defs = Map.of(ForestryButterflySpecies.MONARCH, def);

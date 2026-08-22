@@ -2,6 +2,7 @@ package forestry.core.data;
 
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
+import forestry.api.core.data.BeeSpeciesProvider;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.data.models.ForestryItemModelProvider;
