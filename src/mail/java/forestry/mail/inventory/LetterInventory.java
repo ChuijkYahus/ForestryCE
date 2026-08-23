@@ -12,11 +12,10 @@ import forestry.mail.letters.Letter;
 import forestry.mail.letters.LetterProperties;
 import forestry.mail.letters.LetterUtils;
 import forestry.mail.letters.MailAddress;
-import forestry.mail.letters.ItemStamp;
+import forestry.mail.letters.PostageUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class LetterInventory extends ItemInventory implements IErrorSource {
@@ -107,8 +106,7 @@ public class LetterInventory extends ItemInventory implements IErrorSource {
 		if (this.letter.isProcessed()) {
 			return false;
 		} else if (SlotUtil.isSlotInRange(slotIndex, Letter.SLOT_POSTAGE_1, Letter.SLOT_POSTAGE_COUNT)) {
-			Item item = stack.getItem();
-			return item instanceof ItemStamp;
+			return PostageUtil.isStamp(stack);
 		} else if (SlotUtil.isSlotInRange(slotIndex, Letter.SLOT_ATTACHMENT_1, Letter.SLOT_ATTACHMENT_COUNT)) {
 			return !(stack.getItem() instanceof WithScreenItem);
 		}
