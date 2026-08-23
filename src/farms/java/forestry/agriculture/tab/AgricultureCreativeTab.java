@@ -1,27 +1,23 @@
 package forestry.agriculture.tab;
 
-import forestry.api.ForestryConstants;
-import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.tab.ForestryCreativeTabs;
-import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.platform.registration.FeatureCreativeTab;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.IFeatureRegistry;
 import forestry.core.platform.registration.ModFeatureRegistry;
-import forestry.core.content.backpacks.features.BackpackItems;
 import net.minecraft.world.item.CreativeModeTab;
-import forestry.agriculture.planter.blocks.BlockTypePlanter;
-import forestry.agriculture.features.CultivationBlocks;
+import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
+import forestry.agriculture.features.MinifarmBlocks;
 import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
 import forestry.core.content.machines.features.FactoryBlocks;
-import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
-import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
-import forestry.agriculture.features.FarmingBlocks;
+import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
+import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
+import forestry.agriculture.features.MultifarmBlocks;
 
 /**
  * The farming creative tab. Ordering keys are built from tab ids rather than tab objects so
@@ -32,7 +28,7 @@ public class AgricultureCreativeTab {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.FARMING);
 
 	public static final FeatureCreativeTab AGRICULTURE = REGISTRY.creativeTab("agriculture", tab -> {
-		tab.icon(() -> CultivationBlocks.MANAGED_PLANTER.stack(BlockTypePlanter.ARBORETUM));
+		tab.icon(() -> MinifarmBlocks.MANAGED_PLANTER.stack(MinifarmBlockType.ARBORETUM));
 		tab.displayItems(AgricultureCreativeTab::addAgricultureItems);
 		tab.withTabsBefore(ForestryCreativeTabs.tabKey("lepidopterology"));
 		tab.withTabsAfter(ForestryCreativeTabs.tabKey("storage"));
@@ -74,16 +70,16 @@ public class AgricultureCreativeTab {
 		items.accept(CoreItems.MULCH);
 
 		// Multi farm
-		for (EnumFarmMaterial material : EnumFarmMaterial.values()) {
-			for (EnumFarmBlockType type : EnumFarmBlockType.values()) {
-				items.accept(FarmingBlocks.FARM.stack(type, material));
+		for (MultifarmMaterialType material : MultifarmMaterialType.values()) {
+			for (MultifarmBlockType type : MultifarmBlockType.values()) {
+				items.accept(MultifarmBlocks.FARM.stack(type, material));
 			}
 		}
 
 		// Single farm (boo)
-		for (BlockTypePlanter type : BlockTypePlanter.values()) {
-			items.accept(CultivationBlocks.MANAGED_PLANTER.stack(type));
-			items.accept(CultivationBlocks.MANUAL_PLANTER.stack(type));
+		for (MinifarmBlockType type : MinifarmBlockType.values()) {
+			items.accept(MinifarmBlocks.MANAGED_PLANTER.stack(type));
+			items.accept(MinifarmBlocks.MANUAL_PLANTER.stack(type));
 		}
 	}
 }

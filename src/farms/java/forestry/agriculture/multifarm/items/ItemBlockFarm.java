@@ -2,7 +2,7 @@ package forestry.agriculture.multifarm.items;
 
 import forestry.core.platform.util.TranslationKeys;
 import forestry.core.platform.item.ItemBlockForestry;
-import forestry.agriculture.multifarm.blocks.FarmBlock;
+import forestry.agriculture.multifarm.blocks.MultifarmBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -11,8 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import java.util.List;
 
-public class ItemBlockFarm extends ItemBlockForestry<FarmBlock> {
-	public ItemBlockFarm(FarmBlock block) {
+public class ItemBlockFarm extends ItemBlockForestry<MultifarmBlock> {
+	public ItemBlockFarm(MultifarmBlock block) {
 		super(block, new Item.Properties());
 	}
 

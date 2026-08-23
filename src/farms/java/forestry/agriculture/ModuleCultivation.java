@@ -3,9 +3,9 @@ package forestry.agriculture;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.agriculture.features.CultivationTiles;
-import forestry.agriculture.client.CultivationClientHandler;
-import forestry.agriculture.planter.tiles.TilePlanter;
+import forestry.agriculture.features.MinifarmBlockEntities;
+import forestry.agriculture.client.MinifarmClientHandler;
+import forestry.agriculture.minifarm.tiles.AbstractMinifarmBlockEntity;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -19,16 +19,16 @@ import java.util.function.Consumer;
 @ForestryModule
 public class ModuleCultivation extends BlankForestryModule {
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		registerPlanterCapabilities(event, CultivationTiles.ARBORETUM.tileType());
-		registerPlanterCapabilities(event, CultivationTiles.BOG.tileType());
-		registerPlanterCapabilities(event, CultivationTiles.CROPS.tileType());
-		registerPlanterCapabilities(event, CultivationTiles.ENDER.tileType());
-		registerPlanterCapabilities(event, CultivationTiles.GOURD.tileType());
-		registerPlanterCapabilities(event, CultivationTiles.MUSHROOM.tileType());
-		registerPlanterCapabilities(event, CultivationTiles.NETHER.tileType());
+		registerPlanterCapabilities(event, MinifarmBlockEntities.ARBORETUM.tileType());
+		registerPlanterCapabilities(event, MinifarmBlockEntities.BOG.tileType());
+		registerPlanterCapabilities(event, MinifarmBlockEntities.CROPS.tileType());
+		registerPlanterCapabilities(event, MinifarmBlockEntities.ENDER.tileType());
+		registerPlanterCapabilities(event, MinifarmBlockEntities.GOURD.tileType());
+		registerPlanterCapabilities(event, MinifarmBlockEntities.MUSHROOM.tileType());
+		registerPlanterCapabilities(event, MinifarmBlockEntities.NETHER.tileType());
 	}
 
-	private static <T extends TilePlanter> void registerPlanterCapabilities(RegisterCapabilitiesEvent event, BlockEntityType<T> type) {
+	private static <T extends AbstractMinifarmBlockEntity> void registerPlanterCapabilities(RegisterCapabilitiesEvent event, BlockEntityType<T> type) {
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, (tile, side) -> tile.getItemHandler(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, (tile, side) -> tile.getEnergyHandler(side));
 		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type, (tile, side) -> tile.getFluidHandler(side));
@@ -46,7 +46,7 @@ public class ModuleCultivation extends BlankForestryModule {
 
 	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
-		registrar.accept(new CultivationClientHandler());
+		registrar.accept(new MinifarmClientHandler());
 	}
 
 	@Override

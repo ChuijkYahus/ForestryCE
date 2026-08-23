@@ -11,7 +11,7 @@ import forestry.core.platform.network.IStreamableGui;
 import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.platform.tile.ITitled;
-import forestry.agriculture.multifarm.gui.ContainerFarm;
+import forestry.agriculture.multifarm.gui.MultifarmMenu;
 import forestry.agriculture.multifarm.multiblock.MultiblockLogicFarm;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -115,7 +115,7 @@ public abstract class TileFarm extends MultiblockTileEntityForestry<MultiblockLo
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerFarm(windowId, inv, this);
+		return new MultifarmMenu(windowId, inv, this);
 	}
 
 	@Override

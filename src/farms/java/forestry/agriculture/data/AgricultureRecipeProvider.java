@@ -10,11 +10,11 @@ import net.neoforged.neoforge.common.Tags;
 
 import thedarkcolour.modkit.data.MKRecipeProvider;
 
-import forestry.agriculture.features.CultivationBlocks;
-import forestry.agriculture.features.FarmingBlocks;
-import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
-import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
-import forestry.agriculture.planter.blocks.BlockTypePlanter;
+import forestry.agriculture.features.MinifarmBlocks;
+import forestry.agriculture.features.MultifarmBlocks;
+import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
+import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
+import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
 import forestry.api.ForestryTags;
 import forestry.core.content.resources.EnumElectronTube;
 import forestry.core.engine.circuits.EnumCircuitBoardType;
@@ -33,9 +33,9 @@ public class AgricultureRecipeProvider {
 	}
 
 	private static void registerCultivationRecipes(MKRecipeProvider recipes) {
-		for (BlockTypePlanter planter : BlockTypePlanter.VALUES) {
-			Block managed = CultivationBlocks.MANAGED_PLANTER.get(planter).block();
-			Block manual = CultivationBlocks.MANUAL_PLANTER.get(planter).block();
+		for (MinifarmBlockType planter : MinifarmBlockType.VALUES) {
+			Block managed = MinifarmBlocks.MANAGED_PLANTER.get(planter).block();
+			Block manual = MinifarmBlocks.MANUAL_PLANTER.get(planter).block();
 
 			recipes.shapedCrafting(RecipeCategory.MISC, managed, recipe -> {
 				recipe.define('G', Tags.Items.GLASS_BLOCKS_COLORLESS);
@@ -52,9 +52,9 @@ public class AgricultureRecipeProvider {
 	}
 
 	private static void registerFarmingRecipes(MKRecipeProvider recipes) {
-		for (EnumFarmMaterial material : EnumFarmMaterial.values()) {
+		for (MultifarmMaterialType material : MultifarmMaterialType.values()) {
 			Item base = material.getBase().asItem();
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.PLAIN, material), recipe -> {
+			recipes.shapedCrafting(RecipeCategory.MISC, MultifarmBlocks.FARM.get(MultifarmBlockType.PLAIN, material), recipe -> {
 				recipe.define('I', Tags.Items.INGOTS_COPPER);
 				recipe.define('#', base);
 				recipe.define('C', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.TIN));
@@ -62,27 +62,27 @@ public class AgricultureRecipeProvider {
 				recipe.pattern("I#I");
 				recipe.pattern("WCW");
 			});
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.GEARBOX, material), recipe -> {
+			recipes.shapedCrafting(RecipeCategory.MISC, MultifarmBlocks.FARM.get(MultifarmBlockType.GEARBOX, material), recipe -> {
 				recipe.define('T', ForestryTags.Items.GEARS_TIN);
 				recipe.define('#', base);
 				recipe.pattern(" # ");
 				recipe.pattern("TTT");
 			});
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.HATCH, material), recipe -> {
+			recipes.shapedCrafting(RecipeCategory.MISC, MultifarmBlocks.FARM.get(MultifarmBlockType.HATCH, material), recipe -> {
 				recipe.define('T', ForestryTags.Items.GEARS_TIN);
 				recipe.define('#', base);
 				recipe.define('D', ItemTags.WOODEN_TRAPDOORS);
 				recipe.pattern(" # ");
 				recipe.pattern("TDT");
 			});
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.VALVE, material), recipe -> {
+			recipes.shapedCrafting(RecipeCategory.MISC, MultifarmBlocks.FARM.get(MultifarmBlockType.VALVE, material), recipe -> {
 				recipe.define('T', ForestryTags.Items.GEARS_TIN);
 				recipe.define('#', base);
 				recipe.define('X', Tags.Items.GLASS_BLOCKS_COLORLESS);
 				recipe.pattern(" # ");
 				recipe.pattern("XTX");
 			});
-			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.CONTROL, material), recipe -> {
+			recipes.shapedCrafting(RecipeCategory.MISC, MultifarmBlocks.FARM.get(MultifarmBlockType.CONTROL, material), recipe -> {
 				recipe.define('T', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.GOLD));
 				recipe.define('#', base);
 				recipe.define('X', Tags.Items.DUSTS_REDSTONE);
@@ -93,7 +93,7 @@ public class AgricultureRecipeProvider {
 	}
 
 	// The tube a planter is built around says what it farms
-	private static EnumElectronTube getElectronTube(BlockTypePlanter planter) {
+	private static EnumElectronTube getElectronTube(MinifarmBlockType planter) {
 		return switch (planter) {
 			case ARBORETUM -> EnumElectronTube.GOLD;
 			case FARM_CROPS -> EnumElectronTube.BRONZE;

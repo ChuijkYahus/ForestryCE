@@ -2,15 +2,15 @@ package forestry.agriculture.multifarm.tiles;
 
 import forestry.agriculture.multifarm.multiblock.FarmPattern;
 import forestry.api.core.multiblock.IMultiblockController;
-import forestry.agriculture.multifarm.blocks.FarmBlock;
-import forestry.agriculture.features.FarmingTiles;
+import forestry.agriculture.multifarm.blocks.MultifarmBlock;
+import forestry.agriculture.features.MultifarmBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TileFarmPlain extends TileFarm {
 	public TileFarmPlain(BlockPos pos, BlockState state) {
-		super(FarmingTiles.PLAIN.tileType(), pos, state);
+		super(MultifarmBlockEntities.PLAIN.tileType(), pos, state);
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class TileFarmPlain extends TileFarm {
 		int bandY = maxCoord.getY() - 1;
 		if (getBlockPos().getY() == bandY) {
 			BlockState state = getBlockState();
-			this.level.setBlock(this.worldPosition, state.setValue(FarmBlock.BAND, true), Block.UPDATE_CLIENTS);
+			this.level.setBlock(this.worldPosition, state.setValue(MultifarmBlock.BAND, true), Block.UPDATE_CLIENTS);
 		}
 	}
 
@@ -31,7 +31,7 @@ public class TileFarmPlain extends TileFarm {
 
 		// set band block meta back to normal
 		BlockState state = getBlockState();
-		this.level.setBlock(this.worldPosition, state.setValue(FarmBlock.BAND, false), Block.UPDATE_CLIENTS);
+		this.level.setBlock(this.worldPosition, state.setValue(MultifarmBlock.BAND, false), Block.UPDATE_CLIENTS);
 	}
 
 	@Override

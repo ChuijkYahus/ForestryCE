@@ -5,7 +5,7 @@ import forestry.api.core.multiblock.IFarmComponent;
 import forestry.api.core.multiblock.IFarmController;
 import forestry.core.content.energy.EnergyHelper;
 import forestry.core.content.energy.ForestryEnergyStorage;
-import forestry.agriculture.features.FarmingTiles;
+import forestry.agriculture.features.MultifarmBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -24,7 +24,7 @@ public class TileFarmGearbox extends TileFarm implements IFarmComponent.Active {
 	private int workCounter;
 
 	public TileFarmGearbox(BlockPos pos, BlockState state) {
-		super(FarmingTiles.GEARBOX.tileType(), pos, state);
+		super(MultifarmBlockEntities.GEARBOX.tileType(), pos, state);
 
 		this.energyStorage = new ForestryEnergyStorage(200, 10000);
 	}

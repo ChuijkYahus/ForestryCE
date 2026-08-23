@@ -5,9 +5,9 @@ import forestry.api.core.multiblock.IMultiblockController;
 import forestry.api.core.multiblock.IMultiblockInventoryProbe;
 import forestry.apiculture.alveary.AlvearyBlock;
 import forestry.apiculture.features.ApicultureBlocks;
-import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
-import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
-import forestry.agriculture.features.FarmingBlocks;
+import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
+import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
+import forestry.agriculture.features.MultifarmBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -66,7 +66,7 @@ public class MultiblockGameTests {
 	}
 
 	private static BlockState farmPart() {
-		return FarmingBlocks.FARM.get(EnumFarmBlockType.PLAIN, EnumFarmMaterial.STONE_BRICK).defaultState();
+		return MultifarmBlocks.FARM.get(MultifarmBlockType.PLAIN, MultifarmMaterialType.STONE_BRICK).defaultState();
 	}
 
 	// ===================== Alveary =====================

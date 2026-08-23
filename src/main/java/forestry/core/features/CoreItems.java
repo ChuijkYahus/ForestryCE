@@ -31,7 +31,7 @@ import net.minecraft.world.item.component.ItemContainerContents;
 public class CoreItems {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 
-	/* Foresters' Manual */
+	/* Forester's Manual */
 	public static final FeatureItem<ForestersManualItem> FORESTERS_MANUAL = REGISTRY.item(ForestersManualItem::new, "foresters_manual");
 
 	/* Fertilizer */

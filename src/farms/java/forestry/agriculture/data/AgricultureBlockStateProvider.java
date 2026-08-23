@@ -9,12 +9,12 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import forestry.agriculture.features.CultivationBlocks;
-import forestry.agriculture.features.FarmingBlocks;
-import forestry.agriculture.multifarm.blocks.EnumFarmBlockType;
-import forestry.agriculture.multifarm.blocks.EnumFarmMaterial;
-import forestry.agriculture.multifarm.blocks.FarmBlock;
-import forestry.agriculture.planter.blocks.BlockTypePlanter;
+import forestry.agriculture.features.MinifarmBlocks;
+import forestry.agriculture.features.MultifarmBlocks;
+import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
+import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
+import forestry.agriculture.multifarm.blocks.MultifarmBlock;
+import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
 import forestry.api.ForestryConstants;
 import forestry.core.data.models.ForestryBlockStateProvider;
 
@@ -35,8 +35,8 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
-			if (block.getType() == EnumFarmBlockType.PLAIN) {
+		for (MultifarmBlock block : MultifarmBlocks.FARM.getBlocks()) {
+			if (block.getType() == MultifarmBlockType.PLAIN) {
 				plainFarm(block);
 			} else {
 				singleFarm(block);
@@ -45,10 +45,10 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 			ForestryBlockStateProvider.generic3d(this, block);
 		}
 
-		for (BlockTypePlanter planter : BlockTypePlanter.values()) {
+		for (MinifarmBlockType planter : MinifarmBlockType.values()) {
 			ModelFile model = models().getExistingFile(modBlock(this, planter.getSerializedName()));
-			Block managed = CultivationBlocks.MANAGED_PLANTER.get(planter).block();
-			Block manual = CultivationBlocks.MANUAL_PLANTER.get(planter).block();
+			Block managed = MinifarmBlocks.MANAGED_PLANTER.get(planter).block();
+			Block manual = MinifarmBlocks.MANUAL_PLANTER.get(planter).block();
 
 			ForestryBlockStateProvider.horizontalForestryBlock(this, managed, model);
 			ForestryBlockStateProvider.horizontalForestryBlock(this, manual, model);
@@ -58,23 +58,23 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 		}
 	}
 
-	private void singleFarm(FarmBlock block) {
-		EnumFarmMaterial material = block.getFarmMaterial();
+	private void singleFarm(MultifarmBlock block) {
+		MultifarmMaterialType material = block.getFarmMaterial();
 		Block base = material.getBase();
 		ResourceLocation texture = modBlock(this, "farm/" + block.getType().getSerializedName());
 
 		ForestryBlockStateProvider.singleModelBlock(this, block, farmPillar(path(block), base, texture, texture));
 	}
 
-	private void plainFarm(FarmBlock block) {
-		EnumFarmMaterial material = block.getFarmMaterial();
+	private void plainFarm(MultifarmBlock block) {
+		MultifarmMaterialType material = block.getFarmMaterial();
 		Block base = material.getBase();
 
 		// todo need to use reverse texture
 		getVariantBuilder(block)
-			.partialState().with(FarmBlock.BAND, false)
+			.partialState().with(MultifarmBlock.BAND, false)
 			.modelForState().modelFile(farmPillar(path(block), base, modBlock(this, "farm/top"), modBlock(this, "farm/plain"))).addModel()
-			.partialState().with(FarmBlock.BAND, true)
+			.partialState().with(MultifarmBlock.BAND, true)
 			.modelForState().modelFile(farmPillar(path(block) + "_band", base, modBlock(this, "farm/top"), modBlock(this, "farm/band"))).addModel();
 	}
 
@@ -98,7 +98,7 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 	}
 
 	// Every planter type shares one hand-authored block model, and its item renders that model
-	private void planterItem(Block block, BlockTypePlanter planter) {
+	private void planterItem(Block block, MinifarmBlockType planter) {
 		itemModels().withExistingParent(path(block), modBlock(this, planter.getSerializedName()));
 	}
 }

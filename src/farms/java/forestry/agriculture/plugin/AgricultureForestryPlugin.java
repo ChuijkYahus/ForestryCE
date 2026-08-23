@@ -11,7 +11,7 @@ import forestry.api.plugin.IFarmingRegistration;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.core.features.CoreItems;
 import forestry.core.content.resources.EnumElectronTube;
-import forestry.agriculture.multifarm.circuits.CircuitFarmLogic;
+import forestry.agriculture.multifarm.circuits.MultifarmCircuit;
 
 /**
  * Base Forestry's farming registrations. Split out of {@code forestry.core.plugin.DefaultForestryPlugin}
@@ -49,7 +49,7 @@ public class AgricultureForestryPlugin implements IForestryPlugin {
 
 	private static void registerFarmCircuit(ICircuitRegistration circuits, EnumElectronTube tube, ResourceLocation typeId, boolean manual) {
 		String id = manual ? "farm.manual." + typeId.getPath() : "farm.managed." + typeId.getPath();
-		circuits.registerCircuit(manual ? ForestryCircuitLayouts.MANUAL_FARM : ForestryCircuitLayouts.MANAGED_FARM, CoreItems.ELECTRON_TUBES.stack(tube, 1), new CircuitFarmLogic(id, typeId, manual));
+		circuits.registerCircuit(manual ? ForestryCircuitLayouts.MANUAL_FARM : ForestryCircuitLayouts.MANAGED_FARM, CoreItems.ELECTRON_TUBES.stack(tube, 1), new MultifarmCircuit(id, typeId, manual));
 	}
 
 	@Override
