@@ -104,8 +104,8 @@ public abstract class AbstractMinifarmBlockEntity extends TilePowered implements
 
 	@Override
 	protected boolean workCycle() {
-        this.manager.doWork();
-		return false;
+		// the return value resets the work counter, which is what makes the next cycle draw energy again
+		return this.manager.doWork();
 	}
 
 	@Override
