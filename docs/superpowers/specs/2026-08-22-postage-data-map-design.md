@@ -32,9 +32,16 @@ Postage is a NeoForge data map on `Registries.ITEM`. A third party declares stam
 one JSON file and depends on nothing:
 
 ```json
-// data/theirmod/data_maps/item/forestry/postage.json
+// data/forestry/data_maps/item/postage.json
 { "values": { "theirmod:fancy_stamp": 25, "#c:stamps/cheap": 3 } }
 ```
+
+The file goes under the namespace of the data map, not the namespace of the mod adding to it.
+`DataMapLoader` derives the data map id from the file's own namespace and path, so a file under
+`data/theirmod/` would resolve to `theirmod:postage`, a data map nothing registered, and be logged
+and skipped. Every mod's file at that one path is merged, which is how a pack ends up with Forestry's
+stamps and an addon's in the same map. Forestry already writes into another mod's namespace this way
+for `neoforge:compostables` and `neoforge:furnace_fuels`.
 
 A data component was considered and rejected for the same reason as the capability. A
 `DataComponentType` is a registry object, so setting a default component still requires either a
@@ -95,7 +102,7 @@ depends on tag membership.
 ### Datagen
 
 A `MailDataMapProvider` registered through `jar.addServer(...)` in `MailData`, writing
-`src/generated/resources_mail/data/forestry/data_maps/item/forestry/postage.json` from
+`src/generated/resources_mail/data/forestry/data_maps/item/postage.json` from
 `EnumStampDefinition.VALUES`.
 
 ## Post office
