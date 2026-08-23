@@ -8,6 +8,7 @@ import forestry.mail.gui.StampCollectorMenu;
 import forestry.mail.inventory.StampCollectorInventory;
 import forestry.mail.letters.PostageUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -48,7 +49,12 @@ public class StampCollectorBlockEntity extends TileBase implements Container {
 		}
 
 		// Store it.
-		InventoryUtil.stowInInventory(stamp, inventory, true, StampCollectorInventory.SLOT_BUFFER_1, StampCollectorInventory.SLOT_BUFFER_COUNT);
+		boolean stowed = InventoryUtil.stowInInventory(stamp, inventory, true, StampCollectorInventory.SLOT_BUFFER_1, StampCollectorInventory.SLOT_BUFFER_COUNT);
+		if (!stowed) {
+			// getAnyStamp already removed the stamp from the vault; a full buffer must bank it back
+			// instead of destroying it
+			PostOffice.getOrCreate((ServerLevel) level).collectPostage(NonNullList.of(ItemStack.EMPTY, stamp));
+		}
 	}
 
 	@Override
