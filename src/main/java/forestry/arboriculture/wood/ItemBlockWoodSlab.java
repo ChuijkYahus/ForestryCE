@@ -1,9 +1,5 @@
 package forestry.arboriculture.wood;
 
-import forestry.api.arboriculture.IWoodType;
-import forestry.arboriculture.wood.WoodHelper;
-import forestry.arboriculture.wood.BlockForestrySlab;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,13 +10,6 @@ import javax.annotation.Nullable;
 public class ItemBlockWoodSlab extends BlockItem {
 	public ItemBlockWoodSlab(BlockForestrySlab block) {
 		super(block, new Item.Properties());
-	}
-
-	@Override
-	public Component getName(ItemStack itemstack) {
-		BlockForestrySlab wood = (BlockForestrySlab) getBlock();
-		IWoodType woodType = wood.getWoodType();
-		return WoodHelper.getDisplayName(wood, woodType);
 	}
 
 	@Override

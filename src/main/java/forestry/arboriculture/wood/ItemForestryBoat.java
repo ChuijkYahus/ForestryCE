@@ -37,12 +37,6 @@ public class ItemForestryBoat extends ItemForestry {
 	}
 
 	@Override
-	public Component getName(ItemStack itemstack) {
-		// todo use vanilla names and data generation instead of this
-		return Component.translatable("for." + (this.hasChest ? "chest_boat" : "boat") + ".grammar", Component.translatable("for.trees.woodType." + this.type));
-	}
-
-	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		HitResult hit = getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY);
