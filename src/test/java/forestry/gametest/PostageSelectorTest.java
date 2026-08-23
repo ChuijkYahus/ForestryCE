@@ -94,6 +94,18 @@ public class PostageSelectorTest {
 		helper.succeed();
 	}
 
+	@GameTest(template = "empty")
+	public static void aZeroPostageDenominationIsIgnored(GameTestHelper helper) {
+		// A datapack can strip an item's postage entry, which leaves getPostage returning zero. The
+		// solver divides by postage, so a zero denomination has to be filtered rather than divided by
+		List<PostageSelector.Denomination> denominations = List.of(
+			new PostageSelector.Denomination(MailItems.STAMPS.item(EnumStampDefinition.P_1), 0, 99));
+
+		helper.assertTrue(PostageSelector.select(denominations, 5).isEmpty(),
+			"A zero-postage denomination was selected instead of ignored");
+		helper.succeed();
+	}
+
 	private static boolean isForestryStamp(PostageSelector.Denomination denomination) {
 		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
 			if (MailItems.STAMPS.item(stamp) == denomination.item()) {

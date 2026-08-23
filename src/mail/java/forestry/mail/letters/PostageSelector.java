@@ -71,7 +71,12 @@ public class PostageSelector {
 
 		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
 			Item item = MailItems.STAMPS.item(stamp);
-			denominations.add(new Denomination(item, PostageUtil.getPostage(item), VIRTUAL_SUPPLY));
+			int postage = PostageUtil.getPostage(item);
+
+			// A datapack can strip the item's postage entry, leaving it worth nothing
+			if (postage > 0) {
+				denominations.add(new Denomination(item, postage, VIRTUAL_SUPPLY));
+			}
 		}
 
 		denominations.sort(CHEAPEST_FIRST);
@@ -84,6 +89,16 @@ public class PostageSelector {
 	 * @return The stamps to attach, which may fall short when the denominations cannot cover it
 	 */
 	public static List<ItemStack> select(List<Denomination> denominations, int postageRequired) {
+		// A zero-postage denomination can only reach here through a caller building one directly, since
+		// heldDenominations and virtualDenominations both filter it out. Dividing by it would crash
+		List<Denomination> usable = new ArrayList<>(denominations.size());
+		for (Denomination denomination : denominations) {
+			if (denomination.postage() > 0) {
+				usable.add(denomination);
+			}
+		}
+		denominations = usable;
+
 		int[] taken = new int[denominations.size()];
 		int postageRemaining = postageRequired;
 
