@@ -86,6 +86,10 @@ public class PostOffice extends SavedData implements IPostOffice {
 		if (dropped > 0) {
 			Forestry.LOGGER.warn("Post office dropped {} collected stamp(s) from a denomination that never had an item", dropped);
 		}
+
+		// A vault nobody deposits into or withdraws from never dirties itself otherwise, so the
+		// migrated data could sit unsaved in the new format for the life of the world
+		setDirty();
 	}
 
 	@Override
