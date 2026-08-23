@@ -1373,8 +1373,15 @@ git commit -m "Delete IStamps and EnumPostage"
 
 After Task 5, the following must all hold:
 
-1. `./gradlew build` succeeds, `checkJarPartition` included.
+1. `./gradlew checkJarPartition` succeeds.
+
+   Not `./gradlew build`. That task fails at `checkApiBoundary` on a `BeeSpeciesProvider` violation
+   in apiculture, and it fails identically at 79da0e00c, before any of this feature's commits. The
+   original wording of this item was wrong: it named a gate this branch never passed.
 2. `./gradlew runGameTestServer` is green.
-3. `./gradlew runData` produces no diff.
-4. `grep -rn "IStamps\|EnumPostage" src/` returns nothing.
+3. `./gradlew runData` produces no diff. The postage values are the same integers reached by a
+   different route, so `postage.json` must come out byte-identical.
+4. `grep -rn "IStamps\|EnumPostage" src/` returns no code references. Three comments legitimately
+   survive, because they document the historical `CPS<n>` save format and the interface the data map
+   replaced: `PostageUtil.java`, `PostOffice.java` and `PostOfficeStampVaultTest.java`.
 5. `./gradlew runCoreOnlyServer` boots. The core jar declares `POSTAGE` but never reads it, so a core-only install must be unaffected by the data map's absence.
