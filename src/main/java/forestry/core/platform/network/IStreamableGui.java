@@ -1,10 +1,10 @@
 package forestry.core.platform.network;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 
 // IStreamable variant for screen data
 public interface IStreamableGui {
-	void writeGuiData(FriendlyByteBuf data);
+	void writeGuiData(RegistryFriendlyByteBuf data);
 
-	void readGuiData(FriendlyByteBuf data);
+	void readGuiData(RegistryFriendlyByteBuf data);
 }

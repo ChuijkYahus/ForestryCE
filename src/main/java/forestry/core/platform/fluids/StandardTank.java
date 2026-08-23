@@ -3,7 +3,6 @@ package forestry.core.platform.fluids;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.core.platform.network.IStreamable;
 import forestry.core.platform.util.ModUtil;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Rarity;
@@ -94,12 +93,12 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	public int fillInternal(FluidStack resource, FluidAction action) {
-        this.internalTest = true;
+		this.internalTest = true;
 		int filled = super.fill(resource, action);
 		if (action == FluidAction.EXECUTE && filled > 0) {
-            this.tankUpdateHandler.updateTankLevels(this);
+			this.tankUpdateHandler.updateTankLevels(this);
 		}
-        this.internalTest = false;
+		this.internalTest = false;
 		return filled;
 	}
 
@@ -116,7 +115,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	public FluidStack drainInternal(int maxDrain, FluidAction action) {
 		FluidStack drained = super.drain(maxDrain, action);
 		if (action == FluidAction.EXECUTE && !drained.isEmpty() && drained.getAmount() > 0) {
-            this.tankUpdateHandler.updateTankLevels(this);
+			this.tankUpdateHandler.updateTankLevels(this);
 		}
 		return drained;
 	}
@@ -134,7 +133,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	public FluidStack drainInternal(FluidStack resource, FluidAction action) {
 		FluidStack drained = super.drain(resource, action);
 		if (action == FluidAction.EXECUTE && !drained.isEmpty() && drained.getAmount() > 0) {
-            this.tankUpdateHandler.updateTankLevels(this);
+			this.tankUpdateHandler.updateTankLevels(this);
 		}
 		return drained;
 	}
@@ -154,28 +153,18 @@ public class StandardTank extends FluidTank implements IStreamable {
 		FluidStack.OPTIONAL_STREAM_CODEC.encode(data, this.fluid);
 	}
 
-	public void writeData(FriendlyByteBuf data) {
-		FluidStack.OPTIONAL_STREAM_CODEC.encode((RegistryFriendlyByteBuf) data, this.fluid);
-	}
-
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-        this.fluid = FluidStack.OPTIONAL_STREAM_CODEC.decode(data);
+		this.fluid = FluidStack.OPTIONAL_STREAM_CODEC.decode(data);
 	}
 
-	public void readData(FriendlyByteBuf data) {
-        this.fluid = FluidStack.OPTIONAL_STREAM_CODEC.decode((RegistryFriendlyByteBuf) data);
-	}
-
-	@OnlyIn(Dist.CLIENT)
 	public ToolTip getToolTip() {
 		if (this.toolTip == null) {
-            this.toolTip = new TankToolTip(this);
+			this.toolTip = new TankToolTip(this);
 		}
 		return this.toolTip;
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	protected void refreshTooltip() {
 		ToolTip toolTip = getToolTip();
 		toolTip.clear();
@@ -195,7 +184,6 @@ public class StandardTank extends FluidTank implements IStreamable {
 		toolTip.add(liquidAmount);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	private static class TankToolTip extends ToolTip {
 		private final StandardTank standardTank;
 
@@ -205,7 +193,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 		@Override
 		public void refresh() {
-            this.standardTank.refreshTooltip();
+			this.standardTank.refreshTooltip();
 		}
 	}
 }

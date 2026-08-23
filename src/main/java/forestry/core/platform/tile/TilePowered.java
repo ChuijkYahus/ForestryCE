@@ -12,7 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -164,15 +164,14 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		this.energyStorage.writeData(data);
 		data.writeVarInt(this.workCounter);
 		data.writeVarInt(getStepsPerWorkCycle());
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		this.energyStorage.readData(data);
 		this.workCounter = data.readVarInt();
 		this.stepsPerWorkCycle = data.readVarInt();

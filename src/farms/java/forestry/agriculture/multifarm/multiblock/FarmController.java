@@ -36,7 +36,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Player;
@@ -230,13 +230,13 @@ public class FarmController extends MultiblockController implements IFarmControl
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
         this.manager.writeData(data);
         this.sockets.writeData(data);
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
         this.manager.readData(data);
         this.sockets.readData(data);
 

@@ -26,7 +26,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -37,8 +36,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -97,21 +94,19 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
 		this.tankManager.readData(data);
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		super.writeGuiData(data);
 		this.sockets.writeData(data);
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		super.readGuiData(data);
 		this.sockets.readData(data);
 	}

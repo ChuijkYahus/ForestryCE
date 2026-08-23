@@ -3,7 +3,7 @@ package forestry.api.apiculture;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -87,9 +87,19 @@ public interface IBeekeepingLogic extends INbtWritable, INbtReadable {
 	 */
 	List<BlockPos> getFlowerPositions();
 
-	default void readData(FriendlyByteBuf data) {
+	/**
+	 * Called on the serverside to sync additional information about this logic to the client.
+	 *
+	 * @param data The stream of data about this object to send to the client
+	 */
+	default void writeData(RegistryFriendlyByteBuf data) {
 	}
 
-	default void writeData(FriendlyByteBuf data) {
+	/**
+	 * Called on the clientside to receive data from the server.
+	 *
+	 * @param data The stream of data about this object sent by the server
+	 */
+	default void readData(RegistryFriendlyByteBuf data) {
 	}
 }

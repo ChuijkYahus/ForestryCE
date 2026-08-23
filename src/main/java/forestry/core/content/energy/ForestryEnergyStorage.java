@@ -39,17 +39,8 @@ public class ForestryEnergyStorage extends EnergyStorage implements IStreamable,
 		data.writeVarInt(this.energy);
 	}
 
-	public void writeData(FriendlyByteBuf data) {
-		data.writeVarInt(this.energy);
-	}
-
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-		int energyStored = data.readVarInt();
-		setEnergyStored(energyStored);
-	}
-
-	public void readData(FriendlyByteBuf data) {
 		int energyStored = data.readVarInt();
 		setEnergyStored(energyStored);
 	}

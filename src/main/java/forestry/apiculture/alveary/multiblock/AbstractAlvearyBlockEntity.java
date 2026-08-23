@@ -21,7 +21,7 @@ import forestry.core.platform.tile.ITitled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -32,8 +32,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
@@ -175,12 +173,12 @@ public abstract class AbstractAlvearyBlockEntity extends MultiblockTileEntityFor
 
 	/* IStreamableGui */
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		getMultiblockLogic().getController().writeGuiData(data);
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		getMultiblockLogic().getController().readGuiData(data);
 	}
 

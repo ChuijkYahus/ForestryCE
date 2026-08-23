@@ -207,28 +207,28 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf buffer) {
-		NetworkUtil.writeInventory(buffer, this.craftMatrix);
-		buffer.writeBoolean(this.locked);
-		buffer.writeVarInt(this.selectedRecipe);
+	public void writeData(RegistryFriendlyByteBuf data) {
+		NetworkUtil.writeInventory(data, this.craftMatrix);
+		data.writeBoolean(this.locked);
+		data.writeVarInt(this.selectedRecipe);
 
-		buffer.writeVarInt(this.recipeIds.size());
+		data.writeVarInt(this.recipeIds.size());
 		for (ResourceLocation recipeName : this.recipeIds) {
-			buffer.writeResourceLocation(recipeName);
+			data.writeResourceLocation(recipeName);
 		}
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf buffer) {
-		NetworkUtil.readInventory(buffer, this.craftMatrix);
-		this.locked = buffer.readBoolean();
-		this.selectedRecipe = buffer.readVarInt();
+	public void readData(RegistryFriendlyByteBuf data) {
+		NetworkUtil.readInventory(data, this.craftMatrix);
+		this.locked = data.readBoolean();
+		this.selectedRecipe = data.readVarInt();
 
 		this.recipes.clear();
 		this.recipeIds.clear();
-		int recipeCount = buffer.readVarInt();
+		int recipeCount = data.readVarInt();
 		for (int i = 0; i < recipeCount; i++) {
-			ResourceLocation recipeId = buffer.readResourceLocation();
+			ResourceLocation recipeId = data.readResourceLocation();
 			this.recipeIds.add(recipeId);
 		}
 	}

@@ -102,18 +102,8 @@ public class FarmHydrationManager implements IFarmLedgerDelegate, INbtWritable, 
 		data.writeVarInt(this.ticksSinceRainfall);
 	}
 
-	public void writeData(FriendlyByteBuf data) {
-		data.writeVarInt(this.hydrationDelay);
-		data.writeVarInt(this.ticksSinceRainfall);
-	}
-
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-        this.hydrationDelay = data.readVarInt();
-        this.ticksSinceRainfall = data.readVarInt();
-	}
-
-	public void readData(FriendlyByteBuf data) {
         this.hydrationDelay = data.readVarInt();
         this.ticksSinceRainfall = data.readVarInt();
 	}

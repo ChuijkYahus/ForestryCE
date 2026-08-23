@@ -6,7 +6,6 @@ import forestry.core.platform.network.PacketIdClient;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +17,7 @@ public record PacketGuiStream(
 	// null on client side
 	IStreamableGui guiStreamable,
 	// null on server side
-	FriendlyByteBuf payload
+	RegistryFriendlyByteBuf payload
 ) implements CustomPacketPayload {
 	public <T extends IStreamableGui & ILocationProvider> PacketGuiStream(T guiStreamable) {
 		this(guiStreamable.getBlockPos(), guiStreamable, null);

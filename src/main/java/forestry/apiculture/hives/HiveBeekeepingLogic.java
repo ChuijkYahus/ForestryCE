@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
@@ -53,7 +54,7 @@ public class HiveBeekeepingLogic implements IBeekeepingLogic {
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		data.writeBoolean(this.active);
 		if (this.active) {
             this.hasFlowersCache.writeData(data);
@@ -61,7 +62,7 @@ public class HiveBeekeepingLogic implements IBeekeepingLogic {
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		boolean active = data.readBoolean();
 		setActive(active);
 		if (active) {

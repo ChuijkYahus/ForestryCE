@@ -81,20 +81,8 @@ public class EscritoireGame implements INbtWritable, INbtReadable, IStreamable {
 		NetworkUtil.writeEnum(data, this.status);
 	}
 
-	public void writeData(FriendlyByteBuf data) {
-		data.writeInt(this.bountyLevel);
-        this.gameBoard.writeData(data);
-		NetworkUtil.writeEnum(data, this.status);
-	}
-
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-        this.bountyLevel = data.readInt();
-        this.gameBoard.readData(data);
-        this.status = NetworkUtil.readEnum(data, Status.VALUES);
-	}
-
-	public void readData(FriendlyByteBuf data) {
         this.bountyLevel = data.readInt();
         this.gameBoard.readData(data);
         this.status = NetworkUtil.readEnum(data, Status.VALUES);

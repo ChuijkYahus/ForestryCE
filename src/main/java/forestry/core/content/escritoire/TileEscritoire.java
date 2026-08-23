@@ -6,7 +6,6 @@ import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.features.CoreTiles;
-import forestry.core.content.escritoire.ContainerEscritoire;
 import forestry.core.platform.inventory.InventoryAnalyzer;
 import forestry.core.platform.inventory.InventoryEscritoire;
 import forestry.core.platform.inventory.watchers.ISlotPickupWatcher;
@@ -17,7 +16,6 @@ import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -106,12 +104,12 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 
 	/* NETWORK */
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
         this.game.writeData(data);
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
         this.game.readData(data);
 	}
 

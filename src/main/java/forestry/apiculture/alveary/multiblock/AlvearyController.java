@@ -26,7 +26,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
@@ -334,7 +334,7 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		data.writeVarInt(this.beekeepingLogic.getBeeProgressPercent());
 		NetworkUtil.writeClimateState(data, this.climate.temperature(), this.climate.humidity());
 		data.writeByte(this.temperatureSteps);
@@ -342,7 +342,7 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		this.breedingProgressPercent = data.readVarInt();
 		this.climate = NetworkUtil.readClimateState(data);
 		this.temperatureSteps = data.readByte();

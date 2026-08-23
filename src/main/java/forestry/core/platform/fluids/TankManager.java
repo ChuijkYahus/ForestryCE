@@ -13,7 +13,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -91,20 +90,8 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 		}
 	}
 
-	public void writeData(FriendlyByteBuf data) {
-		for (StandardTank tank : this.tanks) {
-			tank.writeData(data);
-		}
-	}
-
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-		for (StandardTank tank : this.tanks) {
-			tank.readData(data);
-		}
-	}
-
-	public void readData(FriendlyByteBuf data) {
 		for (StandardTank tank : this.tanks) {
 			tank.readData(data);
 		}

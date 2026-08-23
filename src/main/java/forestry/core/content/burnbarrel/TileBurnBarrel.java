@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -263,7 +262,6 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
 		this.burnTime = data.readVarInt();
@@ -272,15 +270,14 @@ public class TileBurnBarrel extends TileBase implements IStreamableGui {
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		data.writeVarInt(this.burnTime);
 		data.writeVarInt(this.currentMaxBurnTime);
 		data.writeVarInt(this.ashProductionTimer);
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		this.burnTime = data.readVarInt();
 		this.currentMaxBurnTime = data.readVarInt();
 		this.ashProductionTimer = data.readVarInt();

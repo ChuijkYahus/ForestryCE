@@ -278,7 +278,6 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		this.tankManager.write(nbt, registries);
 	}
 
-	/* NETWORK */
 	@Override
 	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);

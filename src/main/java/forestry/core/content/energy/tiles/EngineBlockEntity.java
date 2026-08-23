@@ -17,7 +17,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -282,7 +281,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		data.writeInt(this.currentOutput);
 		data.writeInt(this.heat);
 		data.writeBoolean(this.forceCooldown);
@@ -290,7 +289,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
         this.currentOutput = data.readInt();
         this.heat = data.readInt();
         this.forceCooldown = data.readBoolean();

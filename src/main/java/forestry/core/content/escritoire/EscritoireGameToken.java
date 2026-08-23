@@ -11,7 +11,6 @@ import forestry.core.platform.util.ColourUtil;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -41,10 +40,6 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	private State state = State.UNREVEALED;
 
 	public EscritoireGameToken(RegistryFriendlyByteBuf data) {
-		readData(data);
-	}
-
-	public EscritoireGameToken(FriendlyByteBuf data) {
 		readData(data);
 	}
 
@@ -170,10 +165,6 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 
 	@Override
 	public void writeData(RegistryFriendlyByteBuf data) {
-		writeData((FriendlyByteBuf) data);
-	}
-
-	public void writeData(FriendlyByteBuf data) {
 		NetworkUtil.writeEnum(data, this.state);
 		if (this.tokenIndividual != null && this.tokenType != null) {
 			data.writeBoolean(true);
@@ -186,11 +177,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-		readData((FriendlyByteBuf) data);
-	}
-
-	public void readData(FriendlyByteBuf data) {
-        this.state = NetworkUtil.readEnum(data, State.VALUES);
+		this.state = NetworkUtil.readEnum(data, State.VALUES);
 		if (data.readBoolean()) {
 			ResourceLocation speciesId = data.readResourceLocation();
 			ResourceLocation typeId = data.readResourceLocation();

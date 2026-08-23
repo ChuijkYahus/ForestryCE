@@ -18,7 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
@@ -152,13 +152,13 @@ public abstract class AbstractBeeHousingBlockEntity extends TileBase implements 
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		data.writeVarInt(this.beeLogic.getBeeProgressPercent());
 		NetworkUtil.writeClimateState(data, this.climate);
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
         this.breedingProgressPercent = data.readVarInt();
 		this.climate = NetworkUtil.readClimateState(data);
 	}

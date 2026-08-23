@@ -17,7 +17,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -128,20 +127,8 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	public void writeData(RegistryFriendlyByteBuf data) {
 	}
 
-	public void writeData(FriendlyByteBuf data) {
-		if (data instanceof RegistryFriendlyByteBuf registryData) {
-			writeData(registryData);
-		}
-	}
-
 	@Override
 	public void readData(RegistryFriendlyByteBuf data) {
-	}
-
-	public void readData(FriendlyByteBuf data) {
-		if (data instanceof RegistryFriendlyByteBuf registryData) {
-			readData(registryData);
-		}
 	}
 
 	protected HolderLookup.Provider getRegistries() {

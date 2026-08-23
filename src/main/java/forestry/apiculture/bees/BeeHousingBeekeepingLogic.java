@@ -120,25 +120,25 @@ public class BeeHousingBeekeepingLogic implements IBeekeepingLogic {
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		data.writeBoolean(this.active);
 		if (this.active) {
 			// PacketBeeLogicActive sends this through a RegistryFriendlyByteBuf payload.
 			// OPTIONAL_STREAM_CODEC tolerates ItemStack.EMPTY — the queen slot can be empty
 			// when the apiary has no queen yet, and STREAM_CODEC throws on empty.
-			ItemStack.OPTIONAL_STREAM_CODEC.encode((RegistryFriendlyByteBuf) data, this.queenStack);
+			ItemStack.OPTIONAL_STREAM_CODEC.encode(data, this.queenStack);
 			this.hasFlowersCache.writeData(data);
 		}
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		boolean active = data.readBoolean();
 
 		setActive(active);
 
 		if (active) {
-			this.queenStack = ItemStack.OPTIONAL_STREAM_CODEC.decode((RegistryFriendlyByteBuf) data);
+			this.queenStack = ItemStack.OPTIONAL_STREAM_CODEC.decode(data);
 			this.queen = (IBee) IIndividualHandlerItem.getIndividual(this.queenStack);
 			this.hasFlowersCache.readData(data);
 		}

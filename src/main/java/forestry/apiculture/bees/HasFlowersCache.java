@@ -8,11 +8,12 @@ import forestry.api.core.INbtWritable;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.core.util.TickHelper;
+import forestry.core.platform.network.IStreamable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -25,7 +26,7 @@ import java.util.List;
 // Cache used to determine if a beehive has a suitable flower nearby.
 // This passively checks one block a tick in a spiraling pattern centered on the hive,
 // but the entire area is checked at once when a player opens the hive GUI.
-public class HasFlowersCache implements INbtWritable, INbtReadable {
+public class HasFlowersCache implements INbtWritable, INbtReadable, IStreamable {
 	private static final String NBT_KEY = "hasFlowerCache";
 	private static final String NBT_KEY_FLOWERS = "flowers";
 	private final int flowerCheckInterval;
@@ -203,7 +204,8 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 		return CompoundNBT;
 	}
 
-	public void writeData(FriendlyByteBuf data) {
+	@Override
+	public void writeData(RegistryFriendlyByteBuf data) {
 		int size = this.flowerCoords.size();
 		data.writeVarInt(size);
 		if (size > 0) {
@@ -215,7 +217,8 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 		}
 	}
 
-	public void readData(FriendlyByteBuf data) {
+	@Override
+	public void readData(RegistryFriendlyByteBuf data) {
         this.flowerCoords.clear();
         this.flowers.clear();
 

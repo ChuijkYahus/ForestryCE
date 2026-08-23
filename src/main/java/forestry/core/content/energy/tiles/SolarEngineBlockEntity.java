@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -381,7 +381,7 @@ public class SolarEngineBlockEntity extends EngineBlockEntity {
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		super.writeGuiData(data);
 		data.writeVarInt(this.activePanels);
 		data.writeVarInt(this.array.size());
@@ -390,7 +390,7 @@ public class SolarEngineBlockEntity extends EngineBlockEntity {
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		super.readGuiData(data);
 		this.clientActiveCount = data.readVarInt();
 		this.clientTotalCount = data.readVarInt();

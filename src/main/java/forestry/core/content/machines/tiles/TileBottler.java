@@ -21,7 +21,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -90,7 +89,6 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.tankManager.readData(data);
@@ -267,7 +265,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		super.writeGuiData(data);
 		if (this.currentRecipe == null) {
 			data.writeBoolean(false);
@@ -277,8 +275,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		super.readGuiData(data);
         this.isFillRecipe = data.readBoolean();
 	}

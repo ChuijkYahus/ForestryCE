@@ -7,7 +7,6 @@ import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +17,7 @@ public record PacketBeeLogicActive(
 	// null on client side
 	IBeekeepingLogic logic,
 	// null on server side
-	FriendlyByteBuf payload
+	RegistryFriendlyByteBuf payload
 ) implements CustomPacketPayload {
 	public PacketBeeLogicActive(IBeeHousing tile) {
 		this(tile.getBlockPos(), tile.getBeekeepingLogic(), null);
