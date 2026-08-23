@@ -32,7 +32,7 @@ public class PostageDataMapTest {
 		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
 			Item item = MailItems.STAMPS.item(stamp);
 			Integer postage = item.builtInRegistryHolder().getData(ForestryDataMaps.POSTAGE);
-			int expected = stamp.getPostage().getValue();
+			int expected = stamp.getPostage();
 
 			if (postage == null) {
 				broken.add(stamp.getSerializedName() + " has no postage entry at all");

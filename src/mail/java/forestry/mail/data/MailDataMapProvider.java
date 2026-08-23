@@ -26,7 +26,7 @@ public class MailDataMapProvider extends DataMapProvider {
 		var postage = builder(ForestryDataMaps.POSTAGE);
 
 		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
-			postage.add(MailItems.STAMPS.item(stamp).builtInRegistryHolder(), stamp.getPostage().getValue(), false);
+			postage.add(MailItems.STAMPS.item(stamp).builtInRegistryHolder(), stamp.getPostage(), false);
 		}
 	}
 

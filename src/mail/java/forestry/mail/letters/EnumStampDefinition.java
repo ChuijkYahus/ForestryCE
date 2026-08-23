@@ -1,7 +1,6 @@
 package forestry.mail.letters;
 
 import forestry.api.ForestryTags;
-import forestry.api.mail.EnumPostage;
 import forestry.core.platform.item.TwoTintItem;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.TagKey;
@@ -10,44 +9,35 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
 
-import java.util.EnumMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public enum EnumStampDefinition implements TwoTintItem.ITwoTintItemSubtype {
-	P_1("1n", EnumPostage.P_1, ForestryTags.Items.GEMS_APATITE, TextColor.fromRgb(0x4a8ca7), TextColor.fromRgb(0xffffff)),
-	P_2("2n", EnumPostage.P_2, Items.COPPER_INGOT, TextColor.fromRgb(0xe8c814), TextColor.fromRgb(0xffffff)),
-	P_5("5n", EnumPostage.P_5, ForestryTags.Items.INGOTS_TIN, TextColor.fromRgb(0x9c0707), TextColor.fromRgb(0xffffff)),
-	P_10("10n", EnumPostage.P_10, Tags.Items.INGOTS_GOLD, TextColor.fromRgb(0x7bd1b8), TextColor.fromRgb(0xffffff)),
-	P_20("20n", EnumPostage.P_20, Tags.Items.GEMS_DIAMOND, TextColor.fromRgb(0xff9031), TextColor.fromRgb(0xfff7dd)),
-	P_50("50n", EnumPostage.P_50, Tags.Items.GEMS_EMERALD, TextColor.fromRgb(0x6431d7), TextColor.fromRgb(0xfff7dd)),
-	P_100("100n", EnumPostage.P_100, Items.NETHER_STAR, TextColor.fromRgb(0xd731ba), TextColor.fromRgb(0xfff7dd)),
+	P_1("1n", 1, ForestryTags.Items.GEMS_APATITE, TextColor.fromRgb(0x4a8ca7), TextColor.fromRgb(0xffffff)),
+	P_2("2n", 2, Items.COPPER_INGOT, TextColor.fromRgb(0xe8c814), TextColor.fromRgb(0xffffff)),
+	P_5("5n", 5, ForestryTags.Items.INGOTS_TIN, TextColor.fromRgb(0x9c0707), TextColor.fromRgb(0xffffff)),
+	P_10("10n", 10, Tags.Items.INGOTS_GOLD, TextColor.fromRgb(0x7bd1b8), TextColor.fromRgb(0xffffff)),
+	P_20("20n", 20, Tags.Items.GEMS_DIAMOND, TextColor.fromRgb(0xff9031), TextColor.fromRgb(0xfff7dd)),
+	P_50("50n", 50, Tags.Items.GEMS_EMERALD, TextColor.fromRgb(0x6431d7), TextColor.fromRgb(0xfff7dd)),
+	P_100("100n", 100, Items.NETHER_STAR, TextColor.fromRgb(0xd731ba), TextColor.fromRgb(0xfff7dd)),
 	;
 
 	public static final EnumStampDefinition[] VALUES = values();
-	private static final Map<EnumPostage, EnumStampDefinition> POSTAGE_MAP = new EnumMap<>(EnumPostage.class);
-
-	static {
-		for (EnumStampDefinition stampDefinition : VALUES) {
-			POSTAGE_MAP.put(stampDefinition.getPostage(), stampDefinition);
-		}
-	}
 
 	private final String name;
 	private final int primaryColor;
 	private final int secondaryColor;
 	private final Supplier<Ingredient> craftingIngredient;
-	private final EnumPostage postage;
+	private final int postage;
 
-	EnumStampDefinition(String name, EnumPostage postage, TagKey<Item> crafting, TextColor primaryColor, TextColor secondaryColor) {
+	EnumStampDefinition(String name, int postage, TagKey<Item> crafting, TextColor primaryColor, TextColor secondaryColor) {
 		this(name, postage, () -> Ingredient.of(crafting), primaryColor, secondaryColor);
 	}
 
-	EnumStampDefinition(String name, EnumPostage postage, Item crafting, TextColor primaryColor, TextColor secondaryColor) {
+	EnumStampDefinition(String name, int postage, Item crafting, TextColor primaryColor, TextColor secondaryColor) {
 		this(name, postage, () -> Ingredient.of(crafting), primaryColor, secondaryColor);
 	}
 
-	EnumStampDefinition(String name, EnumPostage postage, Supplier<Ingredient> crafting, TextColor primaryColor, TextColor secondaryColor) {
+	EnumStampDefinition(String name, int postage, Supplier<Ingredient> crafting, TextColor primaryColor, TextColor secondaryColor) {
 		this.name = name;
 		this.primaryColor = primaryColor.getValue();
 		this.secondaryColor = secondaryColor.getValue();
@@ -55,7 +45,7 @@ public enum EnumStampDefinition implements TwoTintItem.ITwoTintItemSubtype {
 		this.postage = postage;
 	}
 
-	public EnumPostage getPostage() {
+	public int getPostage() {
 		return this.postage;
 	}
 
@@ -76,9 +66,5 @@ public enum EnumStampDefinition implements TwoTintItem.ITwoTintItemSubtype {
 	@Override
 	public int secondaryColor() {
 		return this.secondaryColor;
-	}
-
-	public static EnumStampDefinition getFromPostage(EnumPostage postage) {
-		return POSTAGE_MAP.get(postage);
 	}
 }
