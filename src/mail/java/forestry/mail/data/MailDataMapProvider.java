@@ -12,8 +12,9 @@ import forestry.mail.features.MailItems;
 import forestry.mail.letters.EnumStampDefinition;
 
 /**
- * Generates the postage every Forestry stamp is worth. Other mods add their own stamps by shipping a
- * file of this shape, which is the whole point of the data map.
+ * Generates the postage every Forestry stamp is worth. The game merges a data map across every pack
+ * that names it, so another mod adds its own stamps with a file of this shape and no dependency on
+ * Forestry.
  */
 public class MailDataMapProvider extends DataMapProvider {
 	public MailDataMapProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup) {
@@ -27,5 +28,10 @@ public class MailDataMapProvider extends DataMapProvider {
 		for (EnumStampDefinition stamp : EnumStampDefinition.VALUES) {
 			postage.add(MailItems.STAMPS.item(stamp).builtInRegistryHolder(), stamp.getPostage().getValue(), false);
 		}
+	}
+
+	@Override
+	public String getName() {
+		return "Forestry Data Maps";
 	}
 }
