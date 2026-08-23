@@ -1,6 +1,6 @@
 package forestry.core.platform.compat.patchouli.processor;
 
-import com.google.common.base.Preconditions;
+import forestry.Forestry;
 import forestry.api.core.machines.IFabricatorRecipe;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.platform.util.RecipeUtils;
@@ -20,20 +20,27 @@ import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class FabricatorProcessor implements IComponentProcessor {
+	protected ItemStack output = ItemStack.EMPTY;
 	@Nullable
 	protected IFabricatorRecipe recipe;
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		ItemStack stack = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
+		this.output = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
+		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, level.registryAccess(), this.output);
 
-		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, level.registryAccess(), stack);
+		if (this.recipe == null) {
+			Forestry.LOGGER.warn("No fabricator recipe with output {}, showing an empty recipe in the guide", this.output);
+		}
 	}
 
 	@Override
 	public IVariable process(Level level, String key) {
-		Preconditions.checkNotNull(this.recipe);
 		HolderLookup.Provider registries = level.registryAccess();
+		// a datapack can remove or replace the recipe this page was written for
+		if (this.recipe == null) {
+			return key.equals("output") ? IVariable.from(this.output, registries) : IVariable.empty();
+		}
 		if (key.equals("output")) {
 			return IVariable.from(this.recipe.getCraftingGridRecipe().getResultItem(registries), registries);
 		} else if (key.equals("fluid")) {

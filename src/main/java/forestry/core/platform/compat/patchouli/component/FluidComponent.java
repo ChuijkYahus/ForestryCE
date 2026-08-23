@@ -69,10 +69,11 @@ public class FluidComponent implements ICustomComponent {
 
 	@Override
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup, HolderLookup.Provider registries) {
-		ResourceLocation id = ResourceLocation.parse(lookup.apply(this.fluid).asString());
 		int mb = lookup.apply(this.amount).asNumber().intValue();
 
 		try {
+			// the fluid is absent when the processor found no recipe to show
+			ResourceLocation id = ResourceLocation.parse(lookup.apply(this.fluid).asString());
 			this.fluidStack = new FluidStack(BuiltInRegistries.FLUID.get(id), mb);
 		} catch (Exception e) {
 			this.fluidStack = FluidStack.EMPTY;

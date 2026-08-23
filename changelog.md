@@ -4,6 +4,7 @@
 - Fixed Minifarms not consuming energy while working
 - A bunch of internal code renaming
 - Items can now be assigned postage values through a new NeoForge Data Map, `forestry:postage`.
+- Fix Forester's Manual completely breaking when a recipe is missing
 - Bees now support different active and inactive alleles again, adding back a missing API feature from 1.20.1:
 ```json
 {
