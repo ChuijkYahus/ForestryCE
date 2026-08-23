@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.gametest.GameTestHolder;
@@ -61,6 +62,10 @@ public class PostageSelectorTest {
 			MailItems.STAMPS.stack(EnumStampDefinition.P_20, 9))), 27);
 
 		assertEquals(helper, PostageUtil.sumPostage(selected), 27, "selected postage");
+		assertEquals(helper, selected.size(), 3, "selected stack count");
+		assertStack(helper, selected, EnumStampDefinition.P_20, 1);
+		assertStack(helper, selected, EnumStampDefinition.P_5, 1);
+		assertStack(helper, selected, EnumStampDefinition.P_1, 2);
 		helper.succeed();
 	}
 
@@ -83,7 +88,9 @@ public class PostageSelectorTest {
 		List<ItemStack> selected = PostageSelector.select(PostageSelector.heldDenominations(List.of(
 			MailItems.STAMPS.stack(EnumStampDefinition.P_2, 9))), 7);
 
-		helper.assertTrue(PostageUtil.sumPostage(selected) >= 7, "Combined stamps did not cover the required postage");
+		assertEquals(helper, PostageUtil.sumPostage(selected), 8, "selected postage");
+		assertEquals(helper, selected.size(), 1, "selected stack count");
+		assertStack(helper, selected, EnumStampDefinition.P_2, 4);
 		helper.succeed();
 	}
 
@@ -113,6 +120,17 @@ public class PostageSelectorTest {
 			}
 		}
 		return false;
+	}
+
+	private static void assertStack(GameTestHelper helper, List<ItemStack> stacks, EnumStampDefinition denomination, int expectedCount) {
+		Item item = MailItems.STAMPS.item(denomination);
+		for (ItemStack stack : stacks) {
+			if (stack.is(item)) {
+				assertEquals(helper, stack.getCount(), expectedCount, denomination + " stamp count");
+				return;
+			}
+		}
+		helper.fail("Selected postage did not include a " + denomination + " stamp");
 	}
 
 	private static void assertEquals(GameTestHelper helper, int actual, int expected, String what) {
