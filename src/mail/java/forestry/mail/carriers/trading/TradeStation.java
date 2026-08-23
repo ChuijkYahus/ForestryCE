@@ -9,6 +9,7 @@ import forestry.core.platform.util.NBTUtilForestry;
 import forestry.mail.letters.Letter;
 import forestry.mail.letters.LetterUtils;
 import forestry.mail.letters.MailAddress;
+import forestry.mail.letters.PostageSelector;
 import forestry.mail.letters.PostageUtil;
 import forestry.mail.postoffice.PostOffice;
 import forestry.mail.carriers.PostalCarriers;
@@ -224,14 +225,9 @@ public class TradeStation implements ITradeStation {
 		}
 
 		// Attach necessary postage
-		int[] stampCount = getPostage(requiredPostage, isVirtual());
-		for (int i = 0; i < stampCount.length; i++) {
-			int count = stampCount[i];
-			if (count > 0) {
-				EnumPostage postage = EnumPostage.values()[i];
-				EnumStampDefinition stampDefinition = EnumStampDefinition.getFromPostage(postage);
-				mail.addStamps(MailItems.STAMPS.stack(stampDefinition, count));
-			}
+		List<ItemStack> stampsUsed = PostageSelector.select(denominations(), requiredPostage);
+		for (ItemStack stamp : stampsUsed) {
+			mail.addStamps(stamp);
 		}
 
 		// Send the letter
@@ -256,7 +252,7 @@ public class TradeStation implements ITradeStation {
 
 		// Remove resources
 		removePaper();
-		removeStamps(stampCount);
+		removeStamps(stampsUsed);
 		removeTradegood(ordersToFillCount);
 
 		// Send confirmation message to seller
@@ -281,7 +277,7 @@ public class TradeStation implements ITradeStation {
 			PostOffice.getOrCreate(world).lodgeLetter(world, confirmstack, doLodge);
 
 			removePaper();
-			removeStamps(new int[]{0, 1});
+			removeStamps(List.of(MailItems.STAMPS.stack(EnumStampDefinition.P_1, 1)));
 		}
 
 		setDirty();
@@ -385,113 +381,24 @@ public class TradeStation implements ITradeStation {
 		return PostageUtil.sumPostage(InventoryUtil.getStacks(this.inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT)) >= postage;
 	}
 
-	private int[] getPostage(final int postageRequired, boolean virtual) {
-		int[] stamps = new int[EnumPostage.values().length];
-		int postageRemaining = postageRequired;
-
-		for (int i = EnumPostage.values().length - 1; i > 0; i--) {
-			if (postageRemaining <= 0) {
-				break;
-			}
-
-			EnumPostage postValue = EnumPostage.values()[i];
-
-			if (postValue.getValue() > postageRemaining) {
-				continue;
-			}
-
-			int num = virtual ? 99 : getNumStamps(postValue);
-			int max = (int) Math.floor(postageRemaining / postValue.getValue());
-			if (max < num) {
-				num = max;
-			}
-
-			stamps[i] = num;
-			postageRemaining -= num * postValue.getValue();
-		}
-
-		// use larger stamps if exact change isn't available
-		if (postageRemaining > 0) {
-			for (int i = 0; i < EnumPostage.values().length; i++) {
-				EnumPostage postValue = EnumPostage.values()[i];
-
-				if (postValue.getValue() >= postageRequired) {
-					stamps = new int[EnumPostage.values().length];
-
-					int num = virtual ? 99 : getNumStamps(postValue);
-					if (num > 0) {
-						stamps[i] = 1;
-						return stamps;
-					}
-				}
-			}
-		}
-
-		// if there isn't a single larger stamp we will just combine smaller ones, starting with the higher values
-		// this is totally disregarding whether there's a better solution or not, but I won't implement a knapsack solver here
-		if (postageRemaining > 0) {
-			postageRemaining = postageRequired;
-			stamps = new int[EnumPostage.values().length];
-			for (int i = stamps.length - 1; i >= 0; i--) {
-				EnumPostage postValue = EnumPostage.values()[i];
-				int num = virtual ? 99 : getNumStamps(postValue);
-
-				int reqNum = Math.min((int) Math.ceil((double) postageRemaining / postValue.getValue()), num);
-				stamps[i] = reqNum;
-				postageRemaining -= reqNum * postValue.getValue();
-				if (postageRemaining <= 0) {
-					return stamps;
-				}
-			}
-		}
-
-		return stamps;
+	private List<PostageSelector.Denomination> denominations() {
+		return isVirtual()
+			? PostageSelector.virtualDenominations()
+			: PostageSelector.heldDenominations(InventoryUtil.getStacks(this.inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT));
 	}
 
-	private int getNumStamps(EnumPostage postage) {
-		int count = 0;
-		for (ItemStack stamp : InventoryUtil.getStacks(this.inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT)) {
-			if (stamp == null) {
-				continue;
-			}
-			if (!(stamp.getItem() instanceof IStamps)) {
-				continue;
-			}
+	private void removeStamps(List<ItemStack> stamps) {
+		for (ItemStack stamp : stamps) {
+			int remaining = stamp.getCount();
 
-			if (((IStamps) stamp.getItem()).getPostage(stamp) == postage) {
-				count += stamp.getCount();
-			}
+			for (int slot = SLOT_STAMPS_1; slot < SLOT_STAMPS_1 + SLOT_STAMPS_COUNT && remaining > 0; slot++) {
+				ItemStack held = this.inventory.getItem(slot);
 
-		}
-
-		return count;
-	}
-
-	private void removeStamps(int[] stampCount) {
-		for (int i = 1; i < stampCount.length; i++) {
-
-			if (stampCount[i] <= 0) {
-				continue;
-			}
-
-			for (int j = SLOT_STAMPS_1; j < SLOT_STAMPS_1 + SLOT_STAMPS_COUNT; j++) {
-				if (stampCount[i] <= 0) {
+				if (held.isEmpty() || !ItemStack.isSameItem(held, stamp)) {
 					continue;
 				}
 
-				ItemStack stamp = this.inventory.getItem(j);
-				if (stamp.isEmpty()) {
-					continue;
-				}
-
-				if (!(stamp.getItem() instanceof IStamps)) {
-					continue;
-				}
-
-				if (((IStamps) stamp.getItem()).getPostage(stamp) == EnumPostage.values()[i]) {
-					ItemStack decrease = this.inventory.removeItem(j, stampCount[i]);
-					stampCount[i] -= decrease.getCount();
-				}
+				remaining -= this.inventory.removeItem(slot, remaining).getCount();
 			}
 		}
 	}
