@@ -370,6 +370,8 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		}
 
 		this.sockets.setItem(slot, stack);
+		// sockets has no tile link of its own
+		setChanged();
 		if (stack.isEmpty()) {
 			return;
 		}

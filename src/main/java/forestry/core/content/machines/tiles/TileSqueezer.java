@@ -285,6 +285,8 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 			}
 
 			this.sockets.setItem(slot, stack);
+			// sockets has no tile link of its own
+			setChanged();
 			if (!stack.isEmpty()) {
 				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(stack);
 				if (chipset != null) {

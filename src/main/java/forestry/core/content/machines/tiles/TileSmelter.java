@@ -90,6 +90,8 @@ public class TileSmelter extends TilePowered implements WorldlyContainer, ISocke
 		}
 
 		this.sockets.setItem(slot, stack);
+		// sockets has no tile link of its own
+		setChanged();
 		if (stack.isEmpty()) {
 			return;
 		}
