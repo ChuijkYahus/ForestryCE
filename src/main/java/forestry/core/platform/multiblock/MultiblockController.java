@@ -394,9 +394,20 @@ public abstract class MultiblockController implements IMultiblockController, Wor
 		return FakeInventoryAdapter.INSTANCE;
 	}
 
+	/**
+	 * Marks the holder's chunk unsaved so a mutation of the shared inventory survives an unload. The shared
+	 * inventory has no tile of its own, and every controller inventory bottoms out in a {@code setChanged}
+	 * with an empty body, so delegating there marked nothing dirty.
+	 *
+	 * <p>Routine persistence does not depend on this. {@link MultiblockTicker} already dirties the holder
+	 * whenever {@link #serverTick(int)} reports a change, which is every tick for a farm.
+	 */
 	@Override
 	public void setChanged() {
-		getInternalInventory().setChanged();
+		BlockPos holder = getHolderPos();
+		if (holder != null) {
+			markChunkDirty(this.level, holder);
+		}
 	}
 
 	@Override
