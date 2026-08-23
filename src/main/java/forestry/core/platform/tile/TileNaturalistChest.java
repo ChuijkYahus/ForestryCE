@@ -5,7 +5,7 @@ import forestry.api.core.genetics.ISpeciesType;
 import forestry.core.platform.gui.ContainerNaturalistInventory;
 import forestry.core.platform.inventory.InventoryNaturalistChest;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -78,12 +78,12 @@ public abstract class TileNaturalistChest extends TileBase {
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		data.writeInt(this.numPlayersUsing);
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		this.numPlayersUsing = data.readInt();
 	}
 
