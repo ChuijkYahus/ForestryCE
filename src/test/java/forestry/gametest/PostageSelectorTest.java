@@ -97,7 +97,7 @@ public class PostageSelectorTest {
 	@GameTest(template = "empty")
 	public static void aZeroPostageDenominationIsIgnored(GameTestHelper helper) {
 		// A datapack can strip an item's postage entry, which leaves getPostage returning zero. The
-		// solver divides by postage, so a zero denomination has to be filtered rather than divided by
+		// solver divides by postage, so a zero denomination has to be filtered out before a pass reaches it.
 		List<PostageSelector.Denomination> denominations = List.of(
 			new PostageSelector.Denomination(MailItems.STAMPS.item(EnumStampDefinition.P_1), 0, 99));
 
