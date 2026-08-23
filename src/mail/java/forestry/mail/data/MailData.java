@@ -27,6 +27,7 @@ public class MailData extends ContentJarData {
 		jar.helper().createItemModels(false, false, false, MailItemModels::addModels);
 
 		jar.addServer(new JarLootTableProvider(jar.output(), jar.lookup(), MailBlockLootTables::new));
+		jar.addServer(new MailDataMapProvider(jar.output(), jar.lookup()));
 		jar.addClient(new MailBlockStateProvider(jar.output(), jar.existingFileHelper()));
 	}
 }

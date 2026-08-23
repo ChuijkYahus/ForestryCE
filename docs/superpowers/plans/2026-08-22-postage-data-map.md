@@ -166,7 +166,10 @@ public class ForestryDataMaps {
 	 * <p>Registered by the mail jar, so the data map is absent when that jar is not installed. Nothing
 	 * in base Forestry reads it.
 	 *
-	 * Ex. {@code data/mymod/data_maps/item/forestry/postage.json}
+	 * <p>A file goes under the namespace of the data map rather than the namespace of the mod adding
+	 * to it, and every mod's file at that path is merged.
+	 *
+	 * Ex. {@code data/forestry/data_maps/item/postage.json}
 	 */
 	public static final DataMapType<Item, Integer> POSTAGE = DataMapType
 		.builder(forestry("postage"), Registries.ITEM, ExtraCodecs.POSITIVE_INT)
@@ -250,11 +253,11 @@ In `src/mail/java/forestry/mail/data/MailData.java`, add the provider inside `ad
 - [ ] **Step 6: Generate the data map file**
 
 Run: `./gradlew runData`
-Expected: BUILD SUCCESSFUL, and `src/generated/resources_mail/data/forestry/data_maps/item/forestry/postage.json` now exists.
+Expected: BUILD SUCCESSFUL, and `src/generated/resources_mail/data/forestry/data_maps/item/postage.json` now exists.
 
 Verify its contents:
 
-Run: `cat src/generated/resources_mail/data/forestry/data_maps/item/forestry/postage.json`
+Run: `cat src/generated/resources_mail/data/forestry/data_maps/item/postage.json`
 Expected: a `values` object with seven entries, `forestry:stamp_1n` through `forestry:stamp_100n`, worth 1, 2, 5, 10, 20, 50 and 100.
 
 If the file landed under `src/generated/resources/` instead, the provider was attached to the wrong `PackOutput`. Check that it was constructed with `jar.output()`.
@@ -1370,8 +1373,15 @@ git commit -m "Delete IStamps and EnumPostage"
 
 After Task 5, the following must all hold:
 
-1. `./gradlew build` succeeds, `checkJarPartition` included.
+1. `./gradlew checkJarPartition` succeeds.
+
+   Not `./gradlew build`. That task fails at `checkApiBoundary` on a `BeeSpeciesProvider` violation
+   in apiculture, and it fails identically at 79da0e00c, before any of this feature's commits. The
+   original wording of this item was wrong: it named a gate this branch never passed.
 2. `./gradlew runGameTestServer` is green.
-3. `./gradlew runData` produces no diff.
-4. `grep -rn "IStamps\|EnumPostage" src/` returns nothing.
+3. `./gradlew runData` produces no diff. The postage values are the same integers reached by a
+   different route, so `postage.json` must come out byte-identical.
+4. `grep -rn "IStamps\|EnumPostage" src/` returns no code references. Three comments legitimately
+   survive, because they document the historical `CPS<n>` save format and the interface the data map
+   replaced: `PostageUtil.java`, `PostOffice.java` and `PostOfficeStampVaultTest.java`.
 5. `./gradlew runCoreOnlyServer` boots. The core jar declares `POSTAGE` but never reads it, so a core-only install must be unaffected by the data map's absence.

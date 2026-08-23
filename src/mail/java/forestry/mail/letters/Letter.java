@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IStamps;
 import forestry.core.platform.inventory.InventoryAdapter;
 import forestry.core.platform.util.InventoryUtil;
 import net.minecraft.ChatFormatting;
@@ -134,21 +133,7 @@ public class Letter implements ILetter {
 
 	@Override
 	public boolean isPostPaid() {
-
-		int posted = 0;
-
-		for (ItemStack stamp : getPostage()) {
-			if (stamp.isEmpty()) {
-				continue;
-			}
-			if (!(stamp.getItem() instanceof IStamps)) {
-				continue;
-			}
-
-			posted += ((IStamps) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
-		}
-
-		return posted >= requiredPostage();
+		return PostageUtil.sumPostage(getPostage()) >= requiredPostage();
 	}
 
 	@Override

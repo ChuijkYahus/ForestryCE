@@ -4,15 +4,16 @@ import com.google.common.base.Preconditions;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IStamps;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.platform.owner.OwnerHandler;
 import forestry.core.platform.tile.TileBase;
+import forestry.core.platform.util.InventoryUtil;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.letters.MailAddress;
+import forestry.mail.letters.PostageUtil;
 import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailBlockEntities;
@@ -214,23 +215,7 @@ public class TradeStationBlockEntity extends TileBase implements IOwnedTile {
 	//	}
 
 	public boolean hasPostageMin(int postage) {
-
-		int posted = 0;
-
-		Container tradeInventory = this.getInternalInventory();
-		for (int i = TradeStation.SLOT_STAMPS_1; i < TradeStation.SLOT_STAMPS_1 + TradeStation.SLOT_STAMPS_COUNT; i++) {
-			ItemStack stamp = tradeInventory.getItem(i);
-			if (!stamp.isEmpty()) {
-				if (stamp.getItem() instanceof IStamps) {
-					posted += ((IStamps) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
-					if (posted >= postage) {
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
+		return PostageUtil.sumPostage(InventoryUtil.getStacks(getInternalInventory(), TradeStation.SLOT_STAMPS_1, TradeStation.SLOT_STAMPS_COUNT)) >= postage;
 	}
 
 	/* ADDRESS */

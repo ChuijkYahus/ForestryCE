@@ -1,13 +1,14 @@
 package forestry.mail.postoffice;
 
-import forestry.api.mail.IStamps;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.tile.TileBase;
 import forestry.core.platform.util.InventoryUtil;
 import forestry.mail.features.MailBlockEntities;
 import forestry.mail.gui.StampCollectorMenu;
 import forestry.mail.inventory.StampCollectorInventory;
+import forestry.mail.letters.PostageUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -29,24 +30,31 @@ public class StampCollectorBlockEntity extends TileBase implements Container {
 			return;
 		}
 
-		ItemStack stamp = null;
-
 		IInventoryAdapter inventory = getInternalInventory();
-		if (inventory.getItem(StampCollectorInventory.SLOT_FILTER).isEmpty()) {
+		ItemStack filter = inventory.getItem(StampCollectorInventory.SLOT_FILTER);
+		ItemStack stamp;
+
+		if (filter.isEmpty()) {
 			stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(1);
+		} else if (PostageUtil.isStamp(filter)) {
+			// The filter names one stamp item rather than a postage value, so two stamps worth the
+			// same are no longer interchangeable here
+			stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(filter.getItem(), 1);
 		} else {
-			ItemStack filter = inventory.getItem(StampCollectorInventory.SLOT_FILTER);
-			if (filter.getItem() instanceof IStamps) {
-				stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(((IStamps) filter.getItem()).getPostage(filter), 1);
-			}
+			return;
 		}
 
-		if (stamp == null) {
+		if (stamp.isEmpty()) {
 			return;
 		}
 
 		// Store it.
-		InventoryUtil.stowInInventory(stamp, inventory, true, StampCollectorInventory.SLOT_BUFFER_1, StampCollectorInventory.SLOT_BUFFER_COUNT);
+		boolean stowed = InventoryUtil.stowInInventory(stamp, inventory, true, StampCollectorInventory.SLOT_BUFFER_1, StampCollectorInventory.SLOT_BUFFER_COUNT);
+		if (!stowed) {
+			// getAnyStamp already removed the stamp from the vault; a full buffer must bank it back
+			// instead of destroying it
+			PostOffice.getOrCreate((ServerLevel) level).collectPostage(NonNullList.of(ItemStack.EMPTY, stamp));
+		}
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package forestry.mail;
 import forestry.mail.network.MailPacketIds;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import forestry.api.ForestryDataMaps;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.mail.IMailAddress;
 import forestry.api.modules.ForestryModule;
@@ -25,6 +26,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import net.neoforged.bus.api.IEventBus;
 
 import java.util.function.Consumer;
@@ -40,11 +42,16 @@ public class ModuleMail extends BlankForestryModule {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleMail::registerCapabilities);
+		modBus.addListener(ModuleMail::registerDataMaps);
 		NeoForge.EVENT_BUS.addListener(ModuleMail::handlePlayerLoggedIn);
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, MailBlockEntities.MAILBOX.tileType(), (tile, side) -> tile.getAutomatedMailHandler());
+	}
+
+	private static void registerDataMaps(RegisterDataMapTypesEvent event) {
+		event.register(ForestryDataMaps.POSTAGE);
 	}
 
 	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
