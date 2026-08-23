@@ -5,8 +5,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * The only reader of the postage data map. Every place that used to test for {@code IStamps} and call
- * {@code getPostage} goes through here instead.
+ * The only reader of {@link ForestryDataMaps#POSTAGE}.
+ * <p>
+ * An item with no entry in the data map is not a stamp and is worth zero postage.
  */
 public class PostageUtil {
 	private PostageUtil() {
