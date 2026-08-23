@@ -5,9 +5,9 @@ import net.minecraft.world.item.ItemStack;
 /**
  * Gives an item the ability to be colored.
  * <p>
- * Item marked with this class get registered to the minecraft color system by {@link forestry.core.platform.models.ClientManager}
+ * <b>NOTE:</b> Items are NOT automatically registered to be tinted. You will have to register in {@code RegisterColorHandlersEvent.Item} yourself.
  */
-public interface IColoredItem {
+public interface ITintedItem {
 	/**
 	 * Defines the color of the texture sprite with the given index in the model file of the item.
 	 *

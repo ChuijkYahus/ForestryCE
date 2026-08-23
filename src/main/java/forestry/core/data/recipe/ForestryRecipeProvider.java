@@ -39,7 +39,7 @@ import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
 import forestry.core.platform.fluids.ForestryFluids;
-import forestry.core.platform.item.EnumContainerType;
+import forestry.core.platform.item.FluidContainerType;
 import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.core.content.resources.EnumElectronTube;
 import forestry.core.platform.util.ModUtil;
@@ -101,11 +101,11 @@ public class ForestryRecipeProvider {
 	public static final int STILL_DESTILLATION_INPUT = 10;
 	public static final int STILL_DESTILLATION_OUTPUT = 3;
 
-	public static ItemStack getContainer(EnumContainerType type, ForestryFluids fluid) {
+	public static ItemStack getContainer(FluidContainerType type, ForestryFluids fluid) {
 		return getContainer(type, fluid.getFluid());
 	}
 
-	public static ItemStack getContainer(EnumContainerType type, Fluid fluid) {
+	public static ItemStack getContainer(FluidContainerType type, Fluid fluid) {
 		ItemStack container = FluidsItems.CONTAINERS.stack(type);
 		return FluidUtil.getFluidHandler(container).map(handler -> {
 			handler.fill(new FluidStack(fluid, Integer.MAX_VALUE), IFluidHandler.FluidAction.EXECUTE);
@@ -505,7 +505,7 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerFoodRecipes(MKRecipeProvider recipes) {
-		ItemLike waxCapsule = FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE);
+		ItemLike waxCapsule = FluidsItems.CONTAINERS.get(FluidContainerType.WAX_CAPSULE);
 		ItemLike honeyDrop = CoreItems.HONEY_DROP;
 
 		recipes.shapedCrafting(RecipeCategory.FOOD, ApicultureItems.AMBROSIA, recipe -> {
@@ -860,24 +860,24 @@ public class ForestryRecipeProvider {
 		});
 
 		// Bog earth
-		bogRecipe(recipes, 8, getContainer(EnumContainerType.CAN, Fluids.WATER), "can");
-		bogRecipe(recipes, 8, getContainer(EnumContainerType.CAPSULE, Fluids.WATER), "wax_capsule");
-		bogRecipe(recipes, 8, getContainer(EnumContainerType.REFRACTORY, Fluids.WATER), "refractory");
+		bogRecipe(recipes, 8, getContainer(FluidContainerType.CAN, Fluids.WATER), "can");
+		bogRecipe(recipes, 8, getContainer(FluidContainerType.WAX_CAPSULE, Fluids.WATER), "wax_capsule");
+		bogRecipe(recipes, 8, getContainer(FluidContainerType.REFRACTORY_CAPSULE, Fluids.WATER), "refractory");
 		bogRecipe(recipes, 6, new ItemStack(Items.WATER_BUCKET), "bucket");
 
-		recipes.shapedCrafting("can", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(EnumContainerType.CAN), 12, recipe -> {
+		recipes.shapedCrafting("can", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(FluidContainerType.CAN), 12, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
 			recipe.pattern(" # ");
 			recipe.pattern("# #");
 		});
 
-		recipes.shapedCrafting("capsule", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE), 4, recipe -> {
+		recipes.shapedCrafting("capsule", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(FluidContainerType.WAX_CAPSULE), 4, recipe -> {
 			recipe.define('#', CoreItems.BEESWAX);
 			recipe.pattern(" # ");
 			recipe.pattern("# #");
 		});
 
-		recipes.shapedCrafting("refractory_capsule", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(EnumContainerType.REFRACTORY), 4, recipe -> {
+		recipes.shapedCrafting("refractory_capsule", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(FluidContainerType.REFRACTORY_CAPSULE), 4, recipe -> {
 			recipe.define('#', CoreItems.REFRACTORY_WAX);
 			recipe.pattern(" # ");
 			recipe.pattern("# #");
@@ -1143,7 +1143,7 @@ public class ForestryRecipeProvider {
 	private static void registerFactoryRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.BOTTLER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
-			recipe.define('X', FluidsItems.CONTAINERS.get(EnumContainerType.CAN));
+			recipe.define('X', FluidsItems.CONTAINERS.get(FluidContainerType.CAN));
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
 			recipe.pattern("#Y#");
@@ -1248,7 +1248,7 @@ public class ForestryRecipeProvider {
 		// attemptAutoCriterion calls Ingredient#getValues, which throws on
 		// DataComponentIngredient. Build with vanilla ShapedRecipeBuilder
 		// and set the unlock criterion via MKRecipeProvider.unlockedByHaving.
-		for (EnumContainerType containerType : EnumContainerType.values()) {
+		for (FluidContainerType containerType : FluidContainerType.values()) {
 			MKRecipeProvider.unlockedByHaving(
 				ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, Items.CAKE)
 					.define('A', DataComponentIngredient.of(true, getContainer(containerType, NeoForgeMod.MILK.get())))
@@ -1437,7 +1437,7 @@ public class ForestryRecipeProvider {
 				.pattern("X#X")
 				.define('#', ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL))
 				.define('X', Items.GUNPOWDER)
-				.define('Y', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
+				.define('Y', FluidsItems.CONTAINERS.get(FluidContainerType.CAN))
 				.define('Z', CoreItems.HONEY_DROP))
 			.build(consumer, id("carpenter", "iodine_charge"));
 		new CarpenterRecipeBuilder()
@@ -1449,7 +1449,7 @@ public class ForestryRecipeProvider {
 				.pattern("X#X")
 				.define('#', ApicultureItems.ROYAL_JELLY)
 				.define('X', Items.GUNPOWDER)
-				.define('Y', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
+				.define('Y', FluidsItems.CONTAINERS.get(FluidContainerType.CAN))
 				.define('Z', CoreItems.HONEYDEW))
 			.build(consumer, id("carpenter", "dissipation_charge"));
 		new CarpenterRecipeBuilder()
@@ -2360,19 +2360,19 @@ public class ForestryRecipeProvider {
 	private static void registerSqueezerContainer(RecipeOutput consumer) {
 		new SqueezerContainerRecipeBuilder()
 			.setProcessingTime(10)
-			.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.CAN))
+			.setEmptyContainer(FluidsItems.CONTAINERS.stack(FluidContainerType.CAN))
 			.setRemnants(CoreItems.INGOT_TIN.stack())
 			.setRemnantsChance(0.05f)
 			.build(consumer, id("squeezer", "container", "can"));
 		new SqueezerContainerRecipeBuilder()
 			.setProcessingTime(10)
-			.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.CAPSULE))
+			.setEmptyContainer(FluidsItems.CONTAINERS.stack(FluidContainerType.WAX_CAPSULE))
 			.setRemnants(CoreItems.BEESWAX.stack())
 			.setRemnantsChance(0.10f)
 			.build(consumer, id("squeezer", "container", "capsule"));
 		new SqueezerContainerRecipeBuilder()
 			.setProcessingTime(10)
-			.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.REFRACTORY))
+			.setEmptyContainer(FluidsItems.CONTAINERS.stack(FluidContainerType.REFRACTORY_CAPSULE))
 			.setRemnants(CoreItems.REFRACTORY_WAX.stack())
 			.setRemnantsChance(0.10f)
 			.build(consumer, id("squeezer", "container", "refractory"));

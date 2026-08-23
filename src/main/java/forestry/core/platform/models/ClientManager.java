@@ -1,7 +1,7 @@
 package forestry.core.platform.models;
 
 import forestry.core.platform.block.IColoredBlock;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.render.TankRenderInfo;
 import forestry.core.platform.tile.IRenderableTile;
 import forestry.core.platform.util.ModUtil;
@@ -37,8 +37,8 @@ public enum ClientManager {
 	public static final ItemColor FORESTRY_ITEM_COLOR = (stack, tintIndex) -> {
 		Item item = stack.getItem();
 		int color = 0xffffff;
-		if (item instanceof IColoredItem coloredItem) {
-			color = coloredItem.getColorFromItemStack(stack, tintIndex);
+		if (item instanceof ITintedItem tintedItem) {
+			color = tintedItem.getColorFromItemStack(stack, tintIndex);
 		}
 		// 1.21 ItemRenderer reads ARGB; legacy IColoredItem returns 0xRRGGBB (alpha 0),
 		// which renders as fully transparent. Force alpha to 0xff so opaque-tint multiply

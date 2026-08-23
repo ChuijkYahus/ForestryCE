@@ -100,11 +100,6 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
         this.inventory.write(data, registries);
 	}
 
-	@Deprecated(forRemoval = true)
-	public void saveAdditional(CompoundTag data) {
-		saveAdditional(data, getRegistries());
-	}
-
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {

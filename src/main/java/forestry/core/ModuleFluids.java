@@ -3,7 +3,7 @@ package forestry.core;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.features.FluidsItems;
-import forestry.core.platform.item.ItemFluidContainerForestry;
+import forestry.core.platform.item.FluidContainerItem;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -18,7 +18,7 @@ public class ModuleFluids extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> ((ItemFluidContainerForestry) stack.getItem()).createFluidHandler(stack), FluidsItems.CONTAINERS.itemArray());
+		event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> ((FluidContainerItem) stack.getItem()).createFluidHandler(stack), FluidsItems.CONTAINERS.itemArray());
 	}
 
 	@Override

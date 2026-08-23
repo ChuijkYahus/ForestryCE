@@ -20,7 +20,7 @@ public class ForestryDataMaps {
 	 *
 	 * <p>A file goes under the namespace of the data map rather than the namespace of the mod adding
 	 * to it, and every mod's file at that path is merged.
-	 *
+	 * <p>
 	 * Ex. {@code data/forestry/data_maps/item/postage.json}
 	 */
 	public static final DataMapType<Item, Integer> POSTAGE = DataMapType

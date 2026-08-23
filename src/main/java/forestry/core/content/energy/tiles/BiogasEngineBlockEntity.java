@@ -7,15 +7,15 @@ import forestry.api.core.circuits.ForestryCircuitSocketTypes;
 import forestry.api.core.circuits.ICircuitBoard;
 import forestry.api.core.machines.fuels.EngineBronzeFuel;
 import forestry.api.core.machines.fuels.FuelManager;
-import forestry.core.platform.config.Constants;
-import forestry.core.engine.circuits.IEngineUpgradeable;
-import forestry.core.engine.circuits.ISocketable;
-import forestry.core.platform.fluids.*;
-import forestry.core.platform.inventory.InventoryAdapter;
-import forestry.core.platform.tile.ILiquidTankTile;
 import forestry.core.content.energy.features.EnergyTiles;
 import forestry.core.content.energy.inventory.InventoryEngineBiogas;
 import forestry.core.content.energy.menu.BiogasEngineMenu;
+import forestry.core.engine.circuits.IEngineUpgradeable;
+import forestry.core.engine.circuits.ISocketable;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.fluids.*;
+import forestry.core.platform.inventory.InventoryAdapter;
+import forestry.core.platform.tile.ILiquidTankTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -31,8 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -42,7 +40,6 @@ import static net.neoforged.neoforge.fluids.FluidType.BUCKET_VOLUME;
 
 public class BiogasEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ILiquidTankTile, IEngineUpgradeable, ISocketable {
 	public static final int ENGINE_BRONZE_HEAT_MAX = 10000;
-	public static final int ENGINE_BRONZE_HEAT_GENERATION_ENERGY = 1;
 	private final FilteredTank fuelTank;
 	private final FilteredTank heatingTank;
 	private final StandardTank burnTank;
@@ -73,11 +70,6 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		return this.tankManager;
 	}
 
-	@Nullable
-	public Fluid getBurnTankFluidType() {
-		return this.burnTank.getFluidType();
-	}
-
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		super.serverTick(level, pos, state);
@@ -97,13 +89,9 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		errorLogic.setCondition(!hasFuel, ForestryError.NO_FUEL);
 	}
 
-	/**
-	 * Burns fuel increasing stored energy
-	 */
 	@Override
 	public void burn() {
-
-        this.currentOutput = 0;
+		this.currentOutput = 0;
 
 		if (isRedstoneActivated() && (this.fuelTank.getFluidAmount() >= BUCKET_VOLUME || this.burnTank.getFluidAmount() > 0)) {
 
@@ -115,7 +103,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 			} else if (this.shutdown && canActuallyBurnFluid() && canColdStart()) {
 				if (this.heatingTank.getFluidAmount() > 0 && this.heatingTank.getFluidType() == Fluids.LAVA) {
 					addHeat(Constants.ENGINE_HEAT_VALUE_LAVA);
-                    this.heatingTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
+					this.heatingTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
 				}
 			}
 
@@ -123,26 +111,26 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 			if (heatStage > 0.2) {
 				if (this.burnTank.getFluidAmount() > 0) {
 					FluidStack drained = this.burnTank.drainInternal(1, IFluidHandler.FluidAction.SIMULATE);
-                    this.currentOutput = (int) (determineFuelValue(drained) * this.outputMult);
+					this.currentOutput = (int) (determineFuelValue(drained) * this.outputMult);
 					if (this.energyStorage.getMaxEnergyStored() - this.energyStorage.getEnergyStored() >= this.currentOutput) {
-                        this.burnTime -= this.burnRate;
+						this.burnTime -= this.burnRate;
 						setChanged();
-                        this.energyStorage.generateEnergy(this.currentOutput);
+						this.energyStorage.generateEnergy(this.currentOutput);
 						drained.setAmount((int) this.burnTime);
-                        this.burnTank.setFluid(drained);
-                        this.level.updateNeighbourForOutputSignal(this.worldPosition, getBlockState().getBlock());
+						this.burnTank.setFluid(drained);
+						this.level.updateNeighbourForOutputSignal(this.worldPosition, getBlockState().getBlock());
 					} else {
-                        this.currentOutput = 0;
+						this.currentOutput = 0;
 					}
 				} else {
 					FluidStack fuel = this.fuelTank.drainInternal(BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
 					int time = determineBurnTime(fuel);
 					if (!fuel.isEmpty()) {
 						fuel.setAmount(time);
-                        this.burnTime = time;
+						this.burnTime = time;
 					}
-                    this.burnTank.setCapacity(time);
-                    this.burnTank.setFluid(fuel);
+					this.burnTank.setCapacity(time);
+					this.burnTank.setFluid(fuel);
 				}
 			} else {
 				shutdown(true);
@@ -151,7 +139,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	}
 
 	private void shutdown(boolean val) {
-        this.shutdown = val;
+		this.shutdown = val;
 	}
 
 	private boolean canActuallyBurnFluid() {
@@ -198,16 +186,16 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 			}
 		}
 
-        this.heat -= loss;
+		this.heat -= loss;
 	}
 
 	@Override
 	public void generateHeat() {
 
 		if (isBurning()) {
-            this.heat++;
+			this.heat++;
 			if (getHeatLevel() > 0.24) {
-                this.heat++;
+				this.heat++;
 			}
 		}
 
@@ -262,13 +250,13 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.loadAdditional(nbt, registries);
 
-        this.sockets.read(nbt, registries);
+		this.sockets.read(nbt, registries);
 
 		if (nbt.contains("shutdown")) {
-            this.shutdown = nbt.getBoolean("shutdown");
+			this.shutdown = nbt.getBoolean("shutdown");
 		}
-        this.burnTime = nbt.getFloat("burnTime");
-        this.tankManager.read(nbt, registries);
+		this.burnTime = nbt.getFloat("burnTime");
+		this.tankManager.read(nbt, registries);
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
@@ -283,11 +271,11 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.saveAdditional(nbt, registries);
 
-        this.sockets.write(nbt, registries);
+		this.sockets.write(nbt, registries);
 
 		nbt.putBoolean("shutdown", this.shutdown);
 		nbt.putFloat("burnTime", this.burnTime);
-        this.tankManager.write(nbt, registries);
+		this.tankManager.write(nbt, registries);
 	}
 
 	/* NETWORK */
@@ -295,19 +283,18 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
 		data.writeBoolean(this.shutdown);
-        this.tankManager.writeData(data);
-        this.burnTank.writeData(data);
-        this.sockets.writeData(data);
+		this.tankManager.writeData(data);
+		this.burnTank.writeData(data);
+		this.sockets.writeData(data);
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readData(FriendlyByteBuf data) {
 		super.readData(data);
-        this.shutdown = data.readBoolean();
-        this.tankManager.readData(data);
-        this.burnTank.readData(data);
-        this.sockets.readData(data);
+		this.shutdown = data.readBoolean();
+		this.tankManager.readData(data);
+		this.burnTank.readData(data);
+		this.sockets.readData(data);
 	}
 
 	@Nullable
@@ -324,36 +311,36 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	public void applyEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
 		if (heat > 0) {
 			if (this.heatBonus == 0) {
-                this.heatBonus = heat;
-                this.efficiencyMult += efficiencyMult;
+				this.heatBonus = heat;
+				this.efficiencyMult += efficiencyMult;
 			}
 		} else {
-            this.efficiencyMult += efficiencyMult;
+			this.efficiencyMult += efficiencyMult;
 		}
 		if (this.heatBonus != 0) {
-            this.outputMult = this.heatBonus > 1 ? 2 : 0.5f;
+			this.outputMult = this.heatBonus > 1 ? 2 : 0.5f;
 		} else {
-            this.outputMult = 1;
+			this.outputMult = 1;
 		}
-        this.burnRate = this.outputMult / Math.min(1.6f, this.efficiencyMult);
+		this.burnRate = this.outputMult / Math.min(1.6f, this.efficiencyMult);
 	}
 
 	@Override
 	public void removeEngineUpgrade(float outputBoost, float efficiencyMult, int heat) {
 		if (heat > 0) {
 			if (this.heatBonus == heat) {
-                this.heatBonus = 0;
-                this.efficiencyMult -= efficiencyMult;
+				this.heatBonus = 0;
+				this.efficiencyMult -= efficiencyMult;
 			}
 		} else {
-            this.efficiencyMult -= efficiencyMult;
+			this.efficiencyMult -= efficiencyMult;
 		}
 		if (this.heatBonus != 0) {
-            this.outputMult = this.heatBonus > 1 ? 2 : 0.5f;
+			this.outputMult = this.heatBonus > 1 ? 2 : 0.5f;
 		} else {
-            this.outputMult = 1;
+			this.outputMult = 1;
 		}
-        this.burnRate = this.outputMult / Math.min(1.6f, this.efficiencyMult);
+		this.burnRate = this.outputMult / Math.min(1.6f, this.efficiencyMult);
 	}
 
 	@Override
@@ -382,7 +369,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 			}
 		}
 
-        this.sockets.setItem(slot, stack);
+		this.sockets.setItem(slot, stack);
 		if (stack.isEmpty()) {
 			return;
 		}

@@ -6,10 +6,10 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
-import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.core.content.resources.EnumElectronTube;
 import forestry.core.engine.circuits.EnumCircuitBoardType;
+import forestry.core.platform.item.FruitItemType;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.content.backpacks.features.CrateItems;
@@ -68,18 +68,18 @@ public class ForestryItemModels {
 		models.generic2d(ApicultureItems.FRAME_UNTREATED);
 
 		// what kind of fruit is this?
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.CHERRY));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.CHESTNUT));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.COCONUT));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.DATES));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.FEIJOA));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.LEMON));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.OLIVE));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.ORANGE));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.PAPAYA));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.PEAR));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.PLUM));
-		models.generic2d(CoreItems.FRUITS.get(ItemFruit.EnumFruit.WALNUT));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.CHERRY));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.CHESTNUT));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.COCONUT));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.DATE));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.FEIJOA));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.LEMON));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.OLIVE));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.ORANGE));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.PAPAYA));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.PEAR));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.PLUM));
+		models.generic2d(CoreItems.FRUITS.get(FruitItemType.WALNUT));
 
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PULSATING_DUST));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PULSATING_MESH));

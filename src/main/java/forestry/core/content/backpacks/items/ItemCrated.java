@@ -1,7 +1,7 @@
 package forestry.core.content.backpacks.items;
 
 import forestry.core.platform.item.ItemForestry;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.util.ItemStackUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;
@@ -16,7 +16,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.function.Supplier;
 
-public class ItemCrated extends ItemForestry implements IColoredItem {
+public class ItemCrated extends ItemForestry implements ITintedItem {
 	private final Supplier<ItemStack> contained;
 
 	public ItemCrated(Supplier<ItemStack> contained) {

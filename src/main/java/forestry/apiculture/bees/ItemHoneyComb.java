@@ -1,12 +1,11 @@
 package forestry.apiculture.bees;
 
 import forestry.core.platform.item.ItemForestry;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import forestry.apiculture.bees.EnumHoneyComb;
 
-public class ItemHoneyComb extends ItemForestry implements IColoredItem {
+public class ItemHoneyComb extends ItemForestry implements ITintedItem {
 	private final EnumHoneyComb type;
 
 	public ItemHoneyComb(EnumHoneyComb type) {

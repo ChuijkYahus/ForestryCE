@@ -7,7 +7,7 @@ import forestry.api.core.genetics.IIndividual;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.engine.genetics.ItemGE;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public class ForestryBeeItem extends ItemGE implements IColoredItem {
+public class ForestryBeeItem extends ItemGE implements ITintedItem {
 	public ForestryBeeItem(BeeLifeStage type) {
 		super(type != BeeLifeStage.DRONE ? new Item.Properties().stacksTo(1) : new Item.Properties(), type);
 	}

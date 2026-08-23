@@ -1,11 +1,6 @@
 package forestry.core.platform.item;
 
-import forestry.core.platform.config.Constants;
 import forestry.core.platform.fluids.ForestryFluids;
-import forestry.core.platform.item.DrinkProperties;
-import forestry.core.platform.item.EnumContainerType;
-import forestry.core.platform.item.FluidHandlerItemForestry;
-import forestry.core.platform.item.IColoredItem;
 import forestry.core.platform.models.FluidContainerModel;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.platform.util.Translator;
@@ -35,16 +30,12 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 
-public class ItemFluidContainerForestry extends ItemForestry implements IColoredItem {
-	private final EnumContainerType type;
+public class FluidContainerItem extends ItemForestry implements ITintedItem {
+	private final FluidContainerType type;
 
-	public ItemFluidContainerForestry(EnumContainerType type) {
+	public FluidContainerItem(FluidContainerType type) {
 		super(new Item.Properties());
 		this.type = type;
-	}
-
-	public EnumContainerType getType() {
-		return this.type;
 	}
 
 	protected FluidStack getContained(ItemStack itemStack) {
@@ -58,26 +49,19 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 
 	@Override
 	public Component getName(ItemStack stack) {
-		Item item = stack.getItem();
-		if (item instanceof ItemFluidContainerForestry) {
-			FluidStack fluid = getContained(stack);
-			if (!fluid.isEmpty()) {
-				String exactTranslationKey = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + '.' + ModUtil.getRegistryName(fluid.getFluid());
-				return Translator.tryTranslate(exactTranslationKey, () -> {
-					String grammarKey = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + ".grammar";
-					return Component.translatable(grammarKey, fluid.getHoverName());
-				});
-			} else {
-				String unlocalizedname = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + ".empty";
-				return Component.translatable(unlocalizedname);
-			}
+		FluidStack fluid = getContained(stack);
+		if (!fluid.isEmpty()) {
+			String exactTranslationKey = "item.forestry." + this.type.getSerializedName() + '.' + ModUtil.getRegistryName(fluid.getFluid());
+			return Translator.tryTranslate(exactTranslationKey, () -> {
+				String grammarKey = "item.forestry." + this.type.getSerializedName() + ".grammar";
+				return Component.translatable(grammarKey, fluid.getHoverName());
+			});
+		} else {
+			String translationKey = "item.forestry." + this.type.getSerializedName() + ".empty";
+			return Component.translatable(translationKey);
 		}
-		return super.getName(stack);
 	}
 
-	/**
-	 * DRINKS
-	 */
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving) {
 		DrinkProperties drinkProperties = getDrinkProperties(stack);

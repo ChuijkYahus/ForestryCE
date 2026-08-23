@@ -3,7 +3,7 @@ package forestry.core.content.tools;
 import forestry.api.core.IToolPipette;
 import forestry.core.features.CoreDataComponents;
 import forestry.core.platform.fluids.PipetteContents;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.util.RenderUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -16,7 +16,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 import java.util.List;
 import forestry.core.platform.item.ItemForestry;
 
-public class ItemPipette extends ItemForestry implements IToolPipette, IColoredItem {
+public class ItemPipette extends ItemForestry implements IToolPipette, ITintedItem {
 	public ItemPipette() {
 		super(new Properties().stacksTo(1));
 	}

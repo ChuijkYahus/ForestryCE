@@ -15,7 +15,7 @@ import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
 import forestry.core.platform.fluids.ForestryFluids;
-import forestry.core.platform.item.EnumContainerType;
+import forestry.core.platform.item.FluidContainerType;
 import forestry.core.platform.item.FluidHandlerItemForestry;
 import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
@@ -304,7 +304,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.HOE_KIT);
 
 		// Filled containers
-		for (EnumContainerType type : EnumContainerType.values()) {
+		for (FluidContainerType type : FluidContainerType.values()) {
 			for (Fluid fluid : BuiltInRegistries.FLUID) {
 				if (fluid instanceof FlowingFluid flowing && flowing.getSource() != fluid) {
 					continue;

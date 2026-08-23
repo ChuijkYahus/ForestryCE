@@ -5,19 +5,15 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.leaves.BlockAbstractLeaves;
-import forestry.arboriculture.leaves.BlockDecorativeLeaves;
-import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.core.platform.item.ItemBlockForestry;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import forestry.arboriculture.leaves.ItemBlockLeaves;
 
-public class ItemBlockDecorativeLeaves extends ItemBlockForestry<BlockDecorativeLeaves> implements IColoredItem {
+public class ItemBlockDecorativeLeaves extends ItemBlockForestry<BlockDecorativeLeaves> implements ITintedItem {
 	public ItemBlockDecorativeLeaves(BlockDecorativeLeaves block, Item.Properties properties) {
 		super(block, properties);
 	}

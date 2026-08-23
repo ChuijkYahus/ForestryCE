@@ -24,7 +24,6 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.platform.item.ItemFruit;
 import forestry.core.content.resources.EnumCraftingMaterial;
 
 /**
@@ -53,7 +52,7 @@ public class ForestryDataMapProvider extends DataMapProvider {
 	private void gatherCompostables() {
 		Builder<Compostable, Item> composts = builder(NeoForgeDataMaps.COMPOSTABLES);
 
-		for (ItemFruit fruit : CoreItems.FRUITS.getItems()) {
+		for (Item fruit : CoreItems.FRUITS.getItems()) {
 			compostable(composts, fruit, 0.65f);
 		}
 		compostable(composts, CoreItems.MOULDY_WHEAT.item(), 0.65f);

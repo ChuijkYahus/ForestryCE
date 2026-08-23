@@ -7,7 +7,7 @@ import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.engine.genetics.ItemGE;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.EntityUtil;
 import forestry.core.platform.util.NBTUtilForestry;
@@ -27,7 +27,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ItemButterflyGE extends ItemGE implements IColoredItem {
+public class ItemButterflyGE extends ItemGE implements ITintedItem {
 	public static final String NBT_AGE = "Age";
 
 	public ItemButterflyGE(ButterflyLifeStage stage) {

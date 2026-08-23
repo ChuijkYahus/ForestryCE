@@ -7,7 +7,6 @@ import forestry.core.content.resources.ItemRefractoryWax;
 import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.engine.circuits.ItemCircuitBoard;
 import forestry.core.engine.genetics.ItemResearchNote;
-import forestry.core.platform.item.ItemFruit;
 import forestry.core.platform.item.*;
 import forestry.core.content.tools.*;
 import forestry.core.content.analyzer.*;
@@ -131,7 +130,9 @@ public class CoreItems {
 	// Deviation from 1.20.1: forestry.core.items.ItemProperties no longer exists, so this uses a plain Item.Properties.
 	public static final FeatureItem<Item> PHOSPHOR_TORCH_ITEM = REGISTRY.item(() -> new StandingAndWallBlockItem(CoreBlocks.PHOSPHOR_TORCH.block(), CoreBlocks.PHOSPHOR_WALL_TORCH.block(), new Item.Properties(), Direction.DOWN), "phosphor_torch");
 	public static final FeatureItemGroup<ItemCraftingMaterial, EnumCraftingMaterial> CRAFTING_MATERIALS = REGISTRY.itemGroup(ItemCraftingMaterial::new, EnumCraftingMaterial.values()).create();
-	public static final FeatureItemGroup<ItemFruit, ItemFruit.EnumFruit> FRUITS = REGISTRY.itemGroup(ItemFruit::new, ItemFruit.EnumFruit.values()).identifier(type -> type == ItemFruit.EnumFruit.DATES ? "date" : type.getSerializedName()).create();
+	public static final FeatureItemGroup<ItemForestryFood, FruitItemType> FRUITS = REGISTRY
+		.itemGroup(type -> new ItemForestryFood(type.heal, type.saturation, type.useTime), FruitItemType.values())
+		.create();
 	// moved out of apiculture: the scoop catches butterflies as well as bees, and the honey
 	// drops are the Portable Analyzer's fuel, so all three are base concerns
 	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(() -> new ItemScoop(10), "scoop");

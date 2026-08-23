@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:cake_refractory"
+        "recipe": "forestry:cake_wax_capsule"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:cake_refractory"
+      "forestry:cake_wax_capsule"
     ]
   }
 }

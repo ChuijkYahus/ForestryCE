@@ -10,10 +10,9 @@ import forestry.api.core.machines.IVariableFermentable;
 import forestry.arboriculture.leaves.TileLeaves;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.engine.genetics.ItemGE;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.arboriculture.trees.TreeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -31,7 +30,7 @@ import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
 
-public class TreeItem extends ItemGE implements IVariableFermentable, IColoredItem {
+public class TreeItem extends ItemGE implements IVariableFermentable, ITintedItem {
 	public TreeItem(TreeLifeStage type) {
 		super(new Item.Properties(), type);
 	}

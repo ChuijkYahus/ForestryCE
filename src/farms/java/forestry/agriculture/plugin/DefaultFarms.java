@@ -5,13 +5,12 @@ import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.core.IProduct;
 import forestry.api.agriculture.ForestryFarmTypes;
-import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.plugin.IFarmTypeBuilder;
 import forestry.api.plugin.IFarmingRegistration;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.platform.item.ItemFruit;
+import forestry.core.platform.item.FruitItemType;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.agriculture.farmlogic.*;
 import forestry.agriculture.farmlogic.farmables.*;
@@ -97,7 +96,7 @@ public class DefaultFarms {
 			.addProducts(List.of(CoreItems.PEAT.stack(), new ItemStack(Blocks.DIRT)));
 
 		// Fruit Trees
-		IFarmTypeBuilder orchard = farming.createFarmType(ForestryFarmTypes.ORCHARD, FarmLogicOrchard::new, CoreItems.FRUITS.stack(ItemFruit.EnumFruit.CHERRY))
+		IFarmTypeBuilder orchard = farming.createFarmType(ForestryFarmTypes.ORCHARD, FarmLogicOrchard::new, CoreItems.FRUITS.stack(FruitItemType.CHERRY))
 			.setFertilizerConsumption(10)
 			.setWaterConsumption(hydrationModifier -> (int) (40 * hydrationModifier));
 		for (ITreeSpecies species : SpeciesUtil.TREE_TYPE.get().getAllSpecies()) {

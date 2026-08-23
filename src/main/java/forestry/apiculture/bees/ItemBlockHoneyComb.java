@@ -1,11 +1,11 @@
 package forestry.apiculture.bees;
 
 import forestry.core.platform.item.ItemBlockForestry;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class ItemBlockHoneyComb extends ItemBlockForestry<BlockHoneyComb> implements IColoredItem {
+public class ItemBlockHoneyComb extends ItemBlockForestry<BlockHoneyComb> implements ITintedItem {
 	@Deprecated
 	public ItemBlockHoneyComb(BlockHoneyComb block) {
 		this(block, new Item.Properties());

@@ -4,14 +4,14 @@ import forestry.api.core.IItemSubtype;
 
 import java.util.Locale;
 
-public enum EnumContainerType implements IItemSubtype {
+public enum FluidContainerType implements IItemSubtype {
 	CAN,
-	CAPSULE,
-	REFRACTORY;
+	WAX_CAPSULE,
+	REFRACTORY_CAPSULE;
 
 	private final String name;
 
-	EnumContainerType() {
+	FluidContainerType() {
 		this.name = name().toLowerCase(Locale.ENGLISH);
 	}
 

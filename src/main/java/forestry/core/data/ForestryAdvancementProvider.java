@@ -54,7 +54,7 @@ import forestry.core.platform.advancements.ArboricultureResearchTrigger;
 import forestry.core.platform.advancements.DiscoverSpeciesTrigger;
 import forestry.core.platform.block.BlockTypeCoreTesr;
 import forestry.core.platform.fluids.ForestryFluids;
-import forestry.core.platform.item.EnumContainerType;
+import forestry.core.platform.item.FluidContainerType;
 import forestry.core.platform.util.SpeciesUtil;
 
 public class ForestryAdvancementProvider extends AdvancementProvider {
@@ -105,9 +105,9 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 
 			// I Can, Can You?
 			ForestryAdvancements.add(writer, "get_cans",
-				FluidsItems.CONTAINERS.get(EnumContainerType.CAN).stack(),
+				FluidsItems.CONTAINERS.get(FluidContainerType.CAN).stack(),
 				root,
-				InventoryChangeTrigger.TriggerInstance.hasItems(FluidsItems.CONTAINERS.get(EnumContainerType.CAN)));
+				InventoryChangeTrigger.TriggerInstance.hasItems(FluidsItems.CONTAINERS.get(FluidContainerType.CAN)));
 
 			// Here's the scoop!
 			// Like what newspaper people say

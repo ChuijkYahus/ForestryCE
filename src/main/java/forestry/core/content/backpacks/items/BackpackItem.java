@@ -9,7 +9,7 @@ import forestry.core.platform.inventory.ItemHandlerInventoryManipulator;
 import forestry.core.platform.inventory.ItemInventory;
 import forestry.core.platform.inventory.StandardStackFilters;
 import forestry.core.platform.item.WithScreenItem;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.core.content.backpacks.BackpackMode;
@@ -41,7 +41,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BackpackItem extends WithScreenItem implements IColoredItem {
+public class BackpackItem extends WithScreenItem implements ITintedItem {
 	public static final int SLOTS_BACKPACK_DEFAULT = 15;
 	public static final int SLOTS_BACKPACK_WOVEN = 45;
 	public static final int SLOTS_BACKPACK_APIARIST = 128;

@@ -11,9 +11,9 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStackS
  * Fluid handler that consumes the container item after it was used.
  */
 public class FluidHandlerItemForestry extends FluidHandlerItemStackSimple.Consumable {
-	private final EnumContainerType containerType;
+	private final FluidContainerType containerType;
 
-	public FluidHandlerItemForestry(ItemStack container, EnumContainerType containerType) {
+	public FluidHandlerItemForestry(ItemStack container, FluidContainerType containerType) {
 		super(CoreDataComponents.FLUID_CONTENT, container, FluidType.BUCKET_VOLUME);
 		this.containerType = containerType;
 	}
@@ -26,11 +26,8 @@ public class FluidHandlerItemForestry extends FluidHandlerItemStackSimple.Consum
 	 */
 	private boolean contentsAllowed(FluidStack fluidStack) {
 		Fluid fluid = fluidStack.getFluid();
-		if (fluid == null) {
-			return false;
-		}
 
-		if (this.containerType == EnumContainerType.CAPSULE) {
+		if (this.containerType == FluidContainerType.WAX_CAPSULE) {
 			return fluid.getFluidType().getTemperature(fluidStack) < 310.15; // melting point of wax in kelvin
 		}
 		return true;
@@ -49,6 +46,7 @@ public class FluidHandlerItemForestry extends FluidHandlerItemStackSimple.Consum
 	@Override
 	protected void setFluid(FluidStack fluid) {
 		super.setFluid(fluid);
-        this.container.setDamageValue(1); // show the filled container model
+		// show the filled container model
+		this.container.setDamageValue(1);
 	}
 }

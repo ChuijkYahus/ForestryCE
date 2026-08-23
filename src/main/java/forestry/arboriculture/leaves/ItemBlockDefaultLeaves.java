@@ -2,18 +2,13 @@ package forestry.arboriculture.leaves;
 
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.client.IForestryClientApi;
-import forestry.arboriculture.leaves.BlockAbstractLeaves;
-import forestry.arboriculture.leaves.ForestryLeafType;
-import forestry.arboriculture.leaves.ILeafTypeBlock;
 import forestry.core.platform.item.ItemBlockForestry;
-import forestry.core.platform.item.IColoredItem;
+import forestry.core.platform.item.ITintedItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import forestry.arboriculture.leaves.ItemBlockDecorativeLeaves;
-import forestry.arboriculture.leaves.ItemBlockLeaves;
 
 /**
  * Item for the tile-less genetic leaves ({@link forestry.arboriculture.leaves.BlockDefaultLeaves} and
@@ -22,7 +17,7 @@ import forestry.arboriculture.leaves.ItemBlockLeaves;
  * decorative leaves. Using {@code ItemBlockLeaves} here (its no-NBT fallbacks) is what made these items show the raw
  * grammar name and a uniform default-foliage tint.
  */
-public class ItemBlockDefaultLeaves extends ItemBlockForestry<BlockAbstractLeaves> implements IColoredItem {
+public class ItemBlockDefaultLeaves extends ItemBlockForestry<BlockAbstractLeaves> implements ITintedItem {
 	public ItemBlockDefaultLeaves(BlockAbstractLeaves block, Item.Properties properties) {
 		super(block, properties);
 	}

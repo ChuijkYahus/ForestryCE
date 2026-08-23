@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
  * @see PropolisItem
  * @see forestry.mail.letters.ItemStamp
  */
-public class TwoTintItem extends ItemForestry implements IColoredItem {
+public class TwoTintItem extends ItemForestry implements ITintedItem {
 	// Variant of subtype that has primary/secondary color fields
 	public interface ITwoTintItemSubtype extends IItemSubtype {
 		int primaryColor();

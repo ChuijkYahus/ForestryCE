@@ -1,3 +1,26 @@
+## Forestry 3.0.0-alpha7
+- Fixed localization of Refractory Capsule and Wax Capsules
+- Wood localizations no longer use template "grammar" strings, and can be customized on a per-block basis, allowing for proper gendered language support (#110)
+- Fixed Minifarms not consuming energy while working
+- A bunch of internal code renaming
+- Items can now be assigned postage values through a new NeoForge Data Map, `forestry:postage`.
+- Bees now support different active and inactive alleles again, adding back a missing API feature from 1.20.1:
+```json
+{
+  "genome": {
+    "forestry:fertility": {
+      "active": {
+        "value": 1, 
+        "dominant": true
+      }, 
+      "inactive": {
+        "value": 4
+      }
+    }
+  }
+}
+```
+
 ## Forestry 3.0.0
 - Haploid Drones option now enabled by default (drones no longer have Inactive alleles, simplifying breeding)
 - Bees are now data-driven (trees and butterflies are too, to a lesser extent)
