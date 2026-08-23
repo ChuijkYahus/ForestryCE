@@ -1,10 +1,10 @@
 package forestry.mail.inventory;
 
-import forestry.api.mail.IStamps;
 import forestry.core.platform.inventory.InventoryAdapter;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.SlotUtil;
 import forestry.mail.carriers.trading.TradeStation;
+import forestry.mail.letters.PostageUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -62,8 +62,7 @@ public class TradeStationInventory extends InventoryAdapter {
 			Item item = stack.getItem();
 			return item == Items.PAPER;
 		} else if (SlotUtil.isSlotInRange(slotIndex, TradeStation.SLOT_STAMPS_1, TradeStation.SLOT_STAMPS_COUNT)) {
-			Item item = stack.getItem();
-			return item instanceof IStamps;
+			return PostageUtil.isStamp(stack);
 		}
 
 		return false;

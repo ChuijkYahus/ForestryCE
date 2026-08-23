@@ -1,7 +1,7 @@
 package forestry.mail.inventory;
 
-import forestry.api.mail.IStamps;
 import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.mail.letters.PostageUtil;
 import forestry.mail.postoffice.StampCollectorBlockEntity;
 import net.minecraft.world.item.ItemStack;
 
@@ -16,6 +16,6 @@ public class StampCollectorInventory extends InventoryAdapterTile<StampCollector
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		return stack.getItem() instanceof IStamps;
+		return PostageUtil.isStamp(stack);
 	}
 }

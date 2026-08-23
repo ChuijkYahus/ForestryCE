@@ -9,6 +9,7 @@ import forestry.core.platform.util.NBTUtilForestry;
 import forestry.mail.letters.Letter;
 import forestry.mail.letters.LetterUtils;
 import forestry.mail.letters.MailAddress;
+import forestry.mail.letters.PostageUtil;
 import forestry.mail.postoffice.PostOffice;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.features.MailItems;
@@ -381,25 +382,7 @@ public class TradeStation implements ITradeStation {
 	}
 
 	private boolean canPayPostage(int postage) {
-		int posted = 0;
-
-		for (ItemStack stamp : InventoryUtil.getStacks(this.inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT)) {
-			if (stamp == null) {
-				continue;
-			}
-
-			if (!(stamp.getItem() instanceof IStamps)) {
-				continue;
-			}
-
-			posted += ((IStamps) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
-
-			if (posted >= postage) {
-				return true;
-			}
-		}
-
-		return false;
+		return PostageUtil.sumPostage(InventoryUtil.getStacks(this.inventory, SLOT_STAMPS_1, SLOT_STAMPS_COUNT)) >= postage;
 	}
 
 	private int[] getPostage(final int postageRequired, boolean virtual) {
