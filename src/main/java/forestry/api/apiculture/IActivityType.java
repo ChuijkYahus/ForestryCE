@@ -3,6 +3,7 @@ package forestry.api.apiculture;
 import forestry.api.core.IError;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.LevelData;
 
 /**
@@ -53,13 +54,21 @@ public interface IActivityType {
 	LightPreference getLightPreference();
 
 	/**
-	 * Used to determine the time of day for a beehive. This takes dimensions without time, such as the Nether, into account.
+	 * Used to determine the time of day for a beehive. This takes dimensions without a normal day cycle into account.
+	 * <p>
+	 * Dimensions without skylight, like the Nether, use {@link IActivityType#NIGHT_TIME}. Dimensions with a fixed
+	 * time, like the Twilight Forest, use that fixed time. Every other dimension uses the day time of the level.
 	 *
 	 * @param level The level to query time for.
-	 * @return The time, adjusted to {@link IActivityType#NIGHT_TIME} for dimensions without a daytime cycle.
-	 * @since 2.6.1
+	 * @return The time of day used to determine bee activity
 	 */
 	static long getBeeDayTime(LevelAccessor level) {
-		return level.dimensionType().hasSkyLight() ? level.getLevelData().getDayTime() : NIGHT_TIME;
+		DimensionType dimension = level.dimensionType();
+
+		if (!dimension.hasSkyLight()) {
+			return NIGHT_TIME;
+		}
+		// Level.getDayTime is the overworld time in every dimension, so it ignores a fixed time
+		return dimension.fixedTime().orElseGet(() -> level.getLevelData().getDayTime());
 	}
 }

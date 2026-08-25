@@ -5,6 +5,7 @@
 - A bunch of internal code renaming
 - Items can now be assigned postage values through a new NeoForge Data Map, `forestry:postage`.
 - Fix Forester's Manual completely breaking when a recipe is missing
+- Fixed crepuscular bees not working in Twilight Forest
 - Bees now support different active and inactive alleles again, adding back a missing API feature from 1.20.1:
 ```json
 {
