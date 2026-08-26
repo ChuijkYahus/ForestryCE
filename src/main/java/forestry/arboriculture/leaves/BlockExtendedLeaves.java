@@ -1,6 +1,6 @@
 package forestry.arboriculture.leaves;
 
-import forestry.arboriculture.worldgen.FeatureArboriculture;
+import forestry.arboriculture.worldgen.AbstractArboricultureFeature;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -86,7 +86,7 @@ public class BlockExtendedLeaves extends LeavesBlock {
 			return true;
 		}
 
-		return FeatureArboriculture.SKIP_EXTENDED_CHECKS.get() || hasExtendedSupport(level, pos);
+		return AbstractArboricultureFeature.SKIP_EXTENDED_CHECKS.get() || hasExtendedSupport(level, pos);
 	}
 
 	private static boolean hasExtendedSupport(LevelAccessor level, BlockPos pos) {

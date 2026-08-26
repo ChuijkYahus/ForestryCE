@@ -7,7 +7,7 @@ import forestry.api.core.genetics.IIndividual;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.core.machines.IVariableFermentable;
-import forestry.arboriculture.leaves.TileLeaves;
+import forestry.arboriculture.leaves.LeavesBlockEntity;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.engine.genetics.ItemGE;
 import forestry.core.platform.item.ITintedItem;
@@ -79,7 +79,7 @@ public class TreeItem extends ItemGE implements IVariableFermentable, ITintedIte
 			return InteractionResultHolder.pass(stack);
 		}
 
-		TileLeaves leaves = TreeUtil.getOrCreateLeaves(level, pos, true);
+		LeavesBlockEntity leaves = TreeUtil.getOrCreateLeaves(level, pos, true);
 		if (leaves == null || !TreeUtil.canMate(leaves.getTree(), pollen)) {
 			return InteractionResultHolder.pass(stack);
 		}

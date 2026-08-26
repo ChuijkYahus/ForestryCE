@@ -1,6 +1,6 @@
 package forestry.arboriculture.network;
 
-import forestry.arboriculture.leaves.TileLeaves;
+import forestry.arboriculture.leaves.LeavesBlockEntity;
 import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -8,7 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 public record PacketRipeningUpdate(BlockPos pos, int value) implements CustomPacketPayload {
-	public PacketRipeningUpdate(TileLeaves leaves) {
+	public PacketRipeningUpdate(LeavesBlockEntity leaves) {
 		this(leaves.getBlockPos(), leaves.getFruitColour());
 	}
 

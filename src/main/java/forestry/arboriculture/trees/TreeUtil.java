@@ -3,7 +3,7 @@ package forestry.arboriculture.trees;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.lepidopterology.IButterflyNursery;
-import forestry.arboriculture.leaves.TileLeaves;
+import forestry.arboriculture.leaves.LeavesBlockEntity;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
@@ -22,7 +22,7 @@ public class TreeUtil {
 			return null;
 		}
 
-		if (level.getBlockEntity(pos) instanceof TileLeaves leaves) {
+		if (level.getBlockEntity(pos) instanceof LeavesBlockEntity leaves) {
 			return leaves.getTree();
 		}
 
@@ -56,8 +56,8 @@ public class TreeUtil {
 	 * Returns a TileLeaves that can be mated. This will convert vanilla leaves to Forestry leaves.
 	 */
 	@Nullable
-	public static TileLeaves getOrCreateLeaves(LevelAccessor level, final BlockPos pos, boolean convertVanilla) {
-		if (level.getBlockEntity(pos) instanceof TileLeaves leaves) {
+	public static LeavesBlockEntity getOrCreateLeaves(LevelAccessor level, final BlockPos pos, boolean convertVanilla) {
+		if (level.getBlockEntity(pos) instanceof LeavesBlockEntity leaves) {
 			return leaves;
 		} else if (convertVanilla) {
 			ITree tree = getTreeSafe(level, pos);
@@ -67,7 +67,7 @@ public class TreeUtil {
 
 				species.setLeaves(tree.getGenome(), level, pos, level.getRandom(), true);
 
-				if (level.getBlockEntity(pos) instanceof TileLeaves leaves) {
+				if (level.getBlockEntity(pos) instanceof LeavesBlockEntity leaves) {
 					return leaves;
 				}
 			}
@@ -76,7 +76,7 @@ public class TreeUtil {
 	}
 
 	// assumes serverside
-	public static boolean tryMate(TileLeaves leaves, ITree pollen) {
+	public static boolean tryMate(LeavesBlockEntity leaves, ITree pollen) {
 		ITree tree = leaves.getTree();
 
 		if (canMate(tree, pollen)) {

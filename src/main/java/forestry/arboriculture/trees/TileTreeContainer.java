@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
-import forestry.arboriculture.leaves.TileLeaves;
 
 /**
  * This is the base TE class for any block that needs to contain tree genome information.

@@ -22,11 +22,11 @@ import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
 import forestry.arboriculture.plugin.ArboricultureRegistration;
 import forestry.arboriculture.fruit.PodFruit;
-import forestry.arboriculture.fruit.BlockFruitPod;
+import forestry.arboriculture.fruit.FruitPodBlock;
 import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.fruit.TileFruitPod;
-import forestry.arboriculture.sapling.TileSapling;
+import forestry.arboriculture.fruit.FruitPodBlockEntity;
+import forestry.arboriculture.sapling.SaplingBlockEntity;
 import forestry.arboriculture.trees.TileTreeContainer;
 import forestry.core.platform.client.ClientsideCode;
 import forestry.core.engine.genetics.SpeciesType;
@@ -213,7 +213,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 			return false;
 		}
 
-		TileSapling sapling = TileUtil.getTile(level, pos, TileSapling.class);
+		SaplingBlockEntity sapling = TileUtil.getTile(level, pos, SaplingBlockEntity.class);
 		if (sapling == null) {
 			level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			return false;
@@ -233,7 +233,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 
 		// todo make this not hardcoded to forestry pods
 		if (facing != null && fruit instanceof PodFruit podFruit && ArboricultureBlocks.PODS.has(podFruit.getType())) {
-			BlockFruitPod fruitPod = ArboricultureBlocks.PODS.get(podFruit.getType()).block();
+			FruitPodBlock fruitPod = ArboricultureBlocks.PODS.get(podFruit.getType()).block();
 			BlockState state = fruitPod.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, facing);
 			boolean placed = level.setBlock(pos, state, 18);
 
@@ -241,7 +241,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 				Block block = level.getBlockState(pos).getBlock();
 
 				if (fruitPod == block) {
-					TileFruitPod pod = TileUtil.getTile(level, pos, TileFruitPod.class);
+					FruitPodBlockEntity pod = TileUtil.getTile(level, pos, FruitPodBlockEntity.class);
 
 					if (pod != null) {
 						pod.setProperties(genome, fruit, yield);

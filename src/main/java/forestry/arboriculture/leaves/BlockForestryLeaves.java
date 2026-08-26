@@ -6,7 +6,6 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
-import forestry.arboriculture.leaves.TileLeaves;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.BlockUtil;
 import forestry.core.platform.util.ItemStackUtil;
@@ -31,16 +30,15 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import forestry.arboriculture.leaves.BlockAbstractLeaves;
 
-public class BlockForestryLeaves extends BlockAbstractLeaves implements BonemealableBlock, EntityBlock {
+public class BlockForestryLeaves extends AbstractLeavesBlock implements BonemealableBlock, EntityBlock {
 	public BlockForestryLeaves(Properties properties) {
 		super(properties);
 	}
 
 	@Override
 	protected ITree getTree(BlockGetter world, BlockPos pos) {
-		TileLeaves leaves = TileUtil.getTile(world, pos, TileLeaves.class);
+		LeavesBlockEntity leaves = TileUtil.getTile(world, pos, LeavesBlockEntity.class);
 		if (leaves != null) {
 			return leaves.getTree();
 		}
@@ -52,7 +50,7 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand) {
 		super.randomTick(state, world, pos, rand);
 
-		TileLeaves tileLeaves = TileUtil.getTile(world, pos, TileLeaves.class);
+		LeavesBlockEntity tileLeaves = TileUtil.getTile(world, pos, LeavesBlockEntity.class);
 
 		// check leaves tile because they might have decayed
 		if (tileLeaves != null && !tileLeaves.isRemoved() && rand.nextFloat() <= 0.1) {
@@ -67,12 +65,12 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new TileLeaves(pos, state);
+		return new LeavesBlockEntity(pos, state);
 	}
 
 	@Override
 	protected void getLeafDrop(List<ItemStack> drops, Level level, @Nullable BlockPos pos, @Nullable GameProfile profile, float saplingModifier, int fortune, LootParams.Builder context) {
-		if (!(level.getBlockEntity(pos) instanceof TileLeaves leaves)) {
+		if (!(level.getBlockEntity(pos) instanceof LeavesBlockEntity leaves)) {
 			return;
 		}
 
@@ -98,7 +96,7 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 
 	@Override
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		TileLeaves leaves = TileUtil.getTile(level, pos, TileLeaves.class);
+		LeavesBlockEntity leaves = TileUtil.getTile(level, pos, LeavesBlockEntity.class);
 		if (leaves != null) {
 			IButterfly caterpillar = leaves.getCaterpillar();
 			ItemStack heldItem = player.getItemInHand(hand);
@@ -126,7 +124,7 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 
 	@Override
 	public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {
-		TileLeaves leafTile = TileUtil.getTile(world, pos, TileLeaves.class);
+		LeavesBlockEntity leafTile = TileUtil.getTile(world, pos, LeavesBlockEntity.class);
 		return leafTile != null && leafTile.hasFruit() && leafTile.getRipeness() < 1.0f;
 	}
 
@@ -137,7 +135,7 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 
 	@Override
 	public void performBonemeal(ServerLevel world, RandomSource rand, BlockPos pos, BlockState state) {
-		TileLeaves leafTile = TileUtil.getTile(world, pos, TileLeaves.class);
+		LeavesBlockEntity leafTile = TileUtil.getTile(world, pos, LeavesBlockEntity.class);
 		if (leafTile != null) {
 			leafTile.addRipeness(0.5f);
 		}
@@ -147,9 +145,9 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 	@OnlyIn(Dist.CLIENT)
 	public int colorMultiplier(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
 		if (level != null && pos != null) {
-			TileLeaves leaves = TileUtil.getTile(level, pos, TileLeaves.class);
+			LeavesBlockEntity leaves = TileUtil.getTile(level, pos, LeavesBlockEntity.class);
 			if (leaves != null) {
-				if (tintIndex == BlockAbstractLeaves.FRUIT_COLOR_INDEX) {
+				if (tintIndex == AbstractLeavesBlock.FRUIT_COLOR_INDEX) {
 					return leaves.getFruitColour();
 				} else {
 					return leaves.getFoliageColour();

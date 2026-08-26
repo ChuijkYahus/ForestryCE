@@ -5,7 +5,7 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.arboriculture.wood.ForestryWoodType;
-import forestry.arboriculture.leaves.BlockDecorativeLeaves;
+import forestry.arboriculture.leaves.DecorativeLeavesBlock;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureTiles;
@@ -16,8 +16,6 @@ import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
@@ -65,10 +63,10 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 		// thread during the same reload, and losing that race leaves the leaf blocks on the particle-only models
 		// they fall back to, which bake to no quads at all - a see-through block.
 		ClientManager clientManager = ClientManager.INSTANCE;
-		clientManager.registerModel(new ModelLeaves(), ArboricultureBlocks.LEAVES);
-		clientManager.registerModel(new ModelDecorativeLeaves<>(BlockDecorativeLeaves.class), ArboricultureBlocks.LEAVES_DECORATIVE);
-		clientManager.registerModel(new ModelDefaultLeaves(), ArboricultureBlocks.LEAVES_DEFAULT);
-		clientManager.registerModel(new ModelDefaultLeavesFruit(), ArboricultureBlocks.LEAVES_DEFAULT_FRUIT);
+		clientManager.registerModel(new LeavesModel(), ArboricultureBlocks.LEAVES);
+		clientManager.registerModel(new DecorativeLeavesModel<>(DecorativeLeavesBlock.class), ArboricultureBlocks.LEAVES_DECORATIVE);
+		clientManager.registerModel(new DefaultLeavesModel(), ArboricultureBlocks.LEAVES_DEFAULT);
+		clientManager.registerModel(new DefaultFruitLeavesModel(), ArboricultureBlocks.LEAVES_DEFAULT_FRUIT);
 	}
 
 	private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

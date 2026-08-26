@@ -1,9 +1,9 @@
 package forestry.arboriculture.features;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.arboriculture.fruit.TileFruitPod;
-import forestry.arboriculture.leaves.TileLeaves;
-import forestry.arboriculture.sapling.TileSapling;
+import forestry.arboriculture.fruit.FruitPodBlockEntity;
+import forestry.arboriculture.leaves.LeavesBlockEntity;
+import forestry.arboriculture.sapling.SaplingBlockEntity;
 import forestry.core.platform.registration.FeatureProvider;
 import forestry.core.platform.registration.FeatureTileType;
 import forestry.core.platform.registration.IFeatureRegistry;
@@ -16,11 +16,15 @@ import java.util.stream.Stream;
 public class ArboricultureTiles {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.ARBORICULTURE);
 
-	public static final FeatureTileType<TileSapling> SAPLING = REGISTRY.tile(TileSapling::new, "tree_sapling", ArboricultureBlocks.SAPLING_GE::collect);
-	public static final FeatureTileType<TileLeaves> LEAVES = REGISTRY.tile(TileLeaves::new, "leaves", ArboricultureBlocks.LEAVES::collect);
-	public static final FeatureTileType<TileFruitPod> PODS = REGISTRY.tile(TileFruitPod::new, "pods", ArboricultureBlocks.PODS::getList);
+	public static final FeatureTileType<SaplingBlockEntity> SAPLING = REGISTRY.tile(SaplingBlockEntity::new, "tree_sapling", ArboricultureBlocks.SAPLING_GE::collect);
+	public static final FeatureTileType<LeavesBlockEntity> LEAVES = REGISTRY.tile(LeavesBlockEntity::new, "leaves", ArboricultureBlocks.LEAVES::collect);
+	public static final FeatureTileType<FruitPodBlockEntity> PODS = REGISTRY.tile(FruitPodBlockEntity::new, "pods", ArboricultureBlocks.PODS::getList);
 
-	public static final FeatureTileType<SignBlockEntity> SIGN = REGISTRY.tile((pos, state) -> new SignBlockEntity(ArboricultureTiles.SIGN.tileType(), pos, state), "sign", () -> Stream.concat(ArboricultureBlocks.SIGN.getList().stream(), ArboricultureBlocks.WALL_SIGN.getList().stream()).toList());
+	public static final FeatureTileType<SignBlockEntity> SIGN = REGISTRY.tile(
+		(pos, state) -> new SignBlockEntity(ArboricultureTiles.SIGN.tileType(), pos, state),
+		"sign",
+		() -> Stream.concat(ArboricultureBlocks.SIGN.getList().stream(), ArboricultureBlocks.WALL_SIGN.getList().stream()).toList()
+	);
 	// Hanging signs deliberately do NOT register a Forestry-owned BlockEntityType.
 	// HangingSignBlockEntity's only public constructor hardcodes vanilla BlockEntityType.HANGING_SIGN, so any
 	// Forestry-owned type would never actually be used at runtime (breaking save validation and tickers).

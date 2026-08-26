@@ -7,7 +7,7 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.trees.genetics.Tree;
-import forestry.arboriculture.leaves.TileLeaves;
+import forestry.arboriculture.leaves.LeavesBlockEntity;
 import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -58,7 +58,7 @@ public class DefaultTreeGenerator implements ITreeGenerator {
 				return false;
 			}
 
-			TileLeaves tileLeaves = TileUtil.getTile(level, pos, TileLeaves.class);
+			LeavesBlockEntity tileLeaves = TileUtil.getTile(level, pos, LeavesBlockEntity.class);
 			if (tileLeaves == null) {
 				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 19);
 				return false;

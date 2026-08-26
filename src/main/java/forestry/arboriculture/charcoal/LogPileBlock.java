@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ICharcoalPileWall;
-import forestry.arboriculture.charcoal.CharcoalManager;
 import forestry.arboriculture.features.CharcoalBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +26,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import forestry.arboriculture.charcoal.BlockAsh;
 
 public class LogPileBlock extends Block {
 	public static final BooleanProperty IS_ACTIVE = BooleanProperty.create("active");
@@ -104,7 +102,7 @@ public class LogPileBlock extends Block {
 				if (state.getValue(AGE) < 7) {
 					world.setBlock(pos, state.setValue(AGE, state.getValue(AGE) + 1), Block.UPDATE_CLIENTS);
 				} else {
-					BlockState ashState = CharcoalBlocks.ASH.setValue(BlockAsh.AMOUNT, Math.min(Math.round(CharcoalManager.charcoalAmountBase + getCharcoalAmount(world, pos)), 63));
+					BlockState ashState = CharcoalBlocks.ASH.setValue(AshBlock.AMOUNT, Math.min(Math.round(CharcoalManager.charcoalAmountBase + getCharcoalAmount(world, pos)), 63));
 					world.setBlock(pos, ashState, Block.UPDATE_CLIENTS);
 				}
 			}

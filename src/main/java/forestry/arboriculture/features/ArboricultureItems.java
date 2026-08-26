@@ -3,7 +3,7 @@ package forestry.arboriculture.features;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.wood.ForestryWoodType;
-import forestry.arboriculture.wood.ItemForestryBoat;
+import forestry.arboriculture.wood.ForestryBoatItem;
 import forestry.arboriculture.trees.TreeItem;
 import forestry.arboriculture.trees.GrafterItem;
 import forestry.core.platform.item.ItemForestry;
@@ -20,8 +20,8 @@ public class ArboricultureItems {
 	public static final FeatureItem<GrafterItem> GRAFTER = REGISTRY.item(() -> new GrafterItem(10), "grafter");
 	public static final FeatureItem<GrafterItem> PROVEN_GRAFTER = REGISTRY.item(() -> new GrafterItem(150), "proven_grafter");
 	// If you want to implement boats in your addon, look at ItemForestryBoat, ForestryBoat, ForestryChestBoat, and ForestryBoatRenderer
-	public static final FeatureItemGroup<ItemForestryBoat, ForestryWoodType> BOAT = REGISTRY.itemGroup(type -> new ItemForestryBoat(type, false), ForestryWoodType.VALUES).identifier("boat", FeatureGroup.IdentifierType.SUFFIX).create();
-	public static final FeatureItemGroup<ItemForestryBoat, ForestryWoodType> CHEST_BOAT = REGISTRY.itemGroup(type -> new ItemForestryBoat(type, true), ForestryWoodType.VALUES).identifier("chest_boat", FeatureGroup.IdentifierType.SUFFIX).create();
+	public static final FeatureItemGroup<ForestryBoatItem, ForestryWoodType> BOAT = REGISTRY.itemGroup(type -> new ForestryBoatItem(type, false), ForestryWoodType.VALUES).identifier("boat", FeatureGroup.IdentifierType.SUFFIX).create();
+	public static final FeatureItemGroup<ForestryBoatItem, ForestryWoodType> CHEST_BOAT = REGISTRY.itemGroup(type -> new ForestryBoatItem(type, true), ForestryWoodType.VALUES).identifier("chest_boat", FeatureGroup.IdentifierType.SUFFIX).create();
 
 	// MISC
 	public static final FeatureItem<ItemForestry> AMBER_SAPLING_FOSSIL = REGISTRY.item(ItemForestry::new, "amber_sapling_fossil");

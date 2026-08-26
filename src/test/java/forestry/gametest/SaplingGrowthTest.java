@@ -14,7 +14,7 @@ import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.trees.genetics.TreeGrowthHelper;
-import forestry.arboriculture.sapling.TileSapling;
+import forestry.arboriculture.sapling.SaplingBlockEntity;
 import forestry.core.platform.util.SpeciesUtil;
 
 /**
@@ -27,7 +27,7 @@ import forestry.core.platform.util.SpeciesUtil;
  * genome. {@code getGrowthPos} therefore always returned {@code null} and growth silently no-opped (bonemeal wasn't even
  * consumed).
  * <p>
- * This plants a real {@link TileSapling} whose genome is round-tripped through serialize/deserialize (exactly how a
+ * This plants a real {@link SaplingBlockEntity} whose genome is round-tripped through serialize/deserialize (exactly how a
  * placed sapling exists) and asserts {@link TreeGrowthHelper#getGrowthPos} finds a growth position. It first asserts the
  * two genomes hold DISTINCT species-allele instances but EQUAL species values, so it genuinely exercises the reference-
  * equality bug: a naive test reusing {@code getDefaultGenome()} on both sides would {@code ==}-match and pass even with
@@ -60,7 +60,7 @@ public class SaplingGrowthTest {
 
 		BlockPos rel = new BlockPos(2, 1, 2);
 		helper.setBlock(rel, ArboricultureBlocks.SAPLING_GE.block());
-		if (!(helper.getBlockEntity(rel) instanceof TileSapling tile)) {
+		if (!(helper.getBlockEntity(rel) instanceof SaplingBlockEntity tile)) {
 			helper.fail("Expected a TileSapling at " + rel);
 			return;
 		}

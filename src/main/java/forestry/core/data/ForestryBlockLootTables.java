@@ -1,11 +1,11 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
-import forestry.arboriculture.charcoal.BlockAsh;
-import forestry.arboriculture.leaves.BlockDecorativeLeaves;
-import forestry.arboriculture.leaves.BlockDefaultLeaves;
-import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
-import forestry.arboriculture.wood.BlockForestryDoor;
+import forestry.arboriculture.charcoal.AshBlock;
+import forestry.arboriculture.leaves.DecorativeLeavesBlock;
+import forestry.arboriculture.leaves.DefaultLeavesBlock;
+import forestry.arboriculture.leaves.DefaultFruitLeavesBlock;
+import forestry.arboriculture.wood.ForestryDoorBlock;
 import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
@@ -72,26 +72,26 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 			}
 		});
 
-		for (BlockDecorativeLeaves leaves : ArboricultureBlocks.LEAVES_DECORATIVE.getList()) {
+		for (DecorativeLeavesBlock leaves : ArboricultureBlocks.LEAVES_DECORATIVE.getList()) {
 			add(leaves, block -> droppingWithChances(block, leaves.getType(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
-		for (BlockDefaultLeaves leaves : ArboricultureBlocks.LEAVES_DEFAULT.getList()) {
+		for (DefaultLeavesBlock leaves : ArboricultureBlocks.LEAVES_DEFAULT.getList()) {
 			add(leaves, block -> droppingWithChances(block, leaves.getType(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
-		for (Map.Entry<ForestryLeafType, FeatureBlock<BlockDefaultLeavesFruit, BlockItem>> entry : ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.getFeatureByType().entrySet()) {
-			FeatureBlock<BlockDefaultLeaves, BlockItem> defaultLeaves = ArboricultureBlocks.LEAVES_DEFAULT.get(entry.getKey());
+		for (Map.Entry<ForestryLeafType, FeatureBlock<DefaultFruitLeavesBlock, BlockItem>> entry : ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.getFeatureByType().entrySet()) {
+			FeatureBlock<DefaultLeavesBlock, BlockItem> defaultLeaves = ArboricultureBlocks.LEAVES_DEFAULT.get(entry.getKey());
 			Block defaultLeavesBlock = defaultLeaves.block();
 			Block fruitLeavesBlock = entry.getValue().block();
 			add(fruitLeavesBlock, (block) -> droppingWithChances(defaultLeavesBlock, entry.getKey(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
-		for (BlockForestryDoor door : ArboricultureBlocks.DOORS.getList()) {
+		for (ForestryDoorBlock door : ArboricultureBlocks.DOORS.getList()) {
 			add(door, createDoorTable(door));
 		}
 		LootItemCondition.Builder hasAsh =
 			LootItemBlockStatePropertyCondition.hasBlockStateProperties(CharcoalBlocks.ASH.block())
 				.setProperties(
 					StatePropertiesPredicate.Builder.properties()
-						.hasProperty(BlockAsh.AMOUNT, 0)
+						.hasProperty(AshBlock.AMOUNT, 0)
 				).invert();
 
 		registerLootTable(CharcoalBlocks.ASH, block ->

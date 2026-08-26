@@ -10,7 +10,7 @@ import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.core.genetics.IFruitBearer;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
+import forestry.arboriculture.leaves.DefaultFruitLeavesBlock;
 import forestry.core.platform.util.SpeciesUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
@@ -94,7 +94,7 @@ public class GrafterLootModifier extends LootModifier {
 		if (tileEntity instanceof IFruitBearer bearer) {
 			generatedLoot.addAll(bearer.pickFruit(harvestingTool));
 		}
-		if (state.getBlock() instanceof BlockDefaultLeavesFruit) {
+		if (state.getBlock() instanceof DefaultFruitLeavesBlock) {
 			IGenome genome = tree.getGenome();
 			IFruit fruitProvider = genome.resolveActive(TreeChromosomes.FRUIT);
 			if (fruitProvider.isFruitLeaf()) {

@@ -3,7 +3,7 @@ package forestry.arboriculture.trees.genetics;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
-import forestry.arboriculture.sapling.TileSapling;
+import forestry.arboriculture.sapling.SaplingBlockEntity;
 import forestry.core.platform.tile.TileUtil;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.minecraft.core.BlockPos;
@@ -108,7 +108,7 @@ public class TreeGrowthHelper {
 			return false;
 		}
 
-		TileSapling sapling = TileUtil.getTile(level, pos, TileSapling.class);
+		SaplingBlockEntity sapling = TileUtil.getTile(level, pos, SaplingBlockEntity.class);
 		if (sapling == null) {
 			return false;
 		}

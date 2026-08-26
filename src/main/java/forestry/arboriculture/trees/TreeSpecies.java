@@ -13,12 +13,12 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.ILifeStage;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.plugin.ITreeSpeciesBuilder;
-import forestry.arboriculture.leaves.BlockDefaultLeavesFruit;
+import forestry.arboriculture.leaves.DefaultFruitLeavesBlock;
 import forestry.arboriculture.leaves.BlockExtendedLeaves;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.trees.genetics.Tree;
 import forestry.arboriculture.trees.genetics.TreeGrowthHelper;
-import forestry.arboriculture.leaves.TileLeaves;
+import forestry.arboriculture.leaves.LeavesBlockEntity;
 import forestry.core.engine.genetics.Species;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -114,7 +114,7 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 
 	@Override
 	public boolean isFruitLeaf(LevelAccessor level, BlockPos pos) {
-		return level.getBlockState(pos).getBlock() instanceof BlockDefaultLeavesFruit || (level.getBlockEntity(pos) instanceof TileLeaves leaves && leaves.hasFruit());
+		return level.getBlockState(pos).getBlock() instanceof DefaultFruitLeavesBlock || (level.getBlockEntity(pos) instanceof LeavesBlockEntity leaves && leaves.hasFruit());
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 			boolean placed = level.setBlock(pos, state, 19);
 
 			if (placed) {
-				if (level.getBlockEntity(pos) instanceof TileLeaves leaves) {
+				if (level.getBlockEntity(pos) instanceof LeavesBlockEntity leaves) {
 					Tree tree = new Tree(genome);
 					leaves.setTree(tree);
 

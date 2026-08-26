@@ -3,7 +3,7 @@ package forestry.arboriculture.commands;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.genetics.IGenome;
 import forestry.core.platform.util.BlockUtil;
-import forestry.core.platform.worldgen.FeatureBase;
+import forestry.core.platform.worldgen.AbstractForestryFeature;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.util.RandomSource;
@@ -17,7 +17,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-// todo move into forestry.arboriculture.worldgen
 public class TreeGenHelper {
 	public static boolean generateTree(ITreeSpecies tree, @Nullable IGenome genome, WorldGenLevel level, RandomSource random, BlockPos pos) {
 		Feature<NoneFeatureConfiguration> gen = tree.getGenerator().getTreeFeature(tree);
@@ -25,7 +24,7 @@ public class TreeGenHelper {
 		BlockState state = level.getBlockState(pos);
 		if (BlockUtil.canPlaceTree(state, level, pos)) {
 			// todo require FeatureBase so that the genome is always respected
-			if (gen instanceof FeatureBase base) {
+			if (gen instanceof AbstractForestryFeature base) {
 				if (genome == null) {
 					genome = tree.getDefaultGenome();
 				}

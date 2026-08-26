@@ -6,8 +6,8 @@ import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.core.genetics.pollen.ForestryPollenTypes;
 import forestry.api.core.genetics.pollen.IPollen;
 import forestry.api.core.genetics.pollen.IPollenType;
-import forestry.arboriculture.leaves.BlockDefaultLeaves;
-import forestry.arboriculture.leaves.TileLeaves;
+import forestry.arboriculture.leaves.DefaultLeavesBlock;
+import forestry.arboriculture.leaves.LeavesBlockEntity;
 import forestry.core.platform.config.ForestryConfig;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.arboriculture.trees.TreeUtil;
@@ -29,13 +29,13 @@ public class TreePollenType implements IPollenType<ITree> {
 
 	@Override
 	public boolean canPollinate(LevelAccessor level, BlockPos pos, @Nullable Object pollinator) {
-		if (level.getBlockEntity(pos) instanceof TileLeaves) {
+		if (level.getBlockEntity(pos) instanceof LeavesBlockEntity) {
 			return true;
 		} else {
 			BlockState state = level.getBlockState(pos);
 
 			// Don't pollinate persistent leaves
-			Optional<Boolean> persistent = state.getOptionalValue(BlockDefaultLeaves.PERSISTENT);
+			Optional<Boolean> persistent = state.getOptionalValue(DefaultLeavesBlock.PERSISTENT);
 			if (persistent.isPresent() && persistent.get()) {
 				return false;
 			}
@@ -53,7 +53,7 @@ public class TreePollenType implements IPollenType<ITree> {
 	@Nullable
 	@Override
 	public IPollen<ITree> tryCollectPollen(LevelAccessor level, BlockPos pos, @Nullable Object pollinator) {
-		if (level.getBlockEntity(pos) instanceof TileLeaves leaves) {
+		if (level.getBlockEntity(pos) instanceof LeavesBlockEntity leaves) {
 			ITree tree = leaves.getTree();
 			if (tree != null) {
 				return new TreePollen(tree);
@@ -67,7 +67,7 @@ public class TreePollenType implements IPollenType<ITree> {
 	@Override
 	public boolean tryPollinate(LevelAccessor level, BlockPos pos, ITree pollen, @Nullable Object pollinator) {
 		boolean convertVanilla = pollinator instanceof IBee && ForestryConfig.SERVER.pollinateVanillaLeaves.get();
-		TileLeaves leaves = TreeUtil.getOrCreateLeaves(level, pos, convertVanilla);
+		LeavesBlockEntity leaves = TreeUtil.getOrCreateLeaves(level, pos, convertVanilla);
 
 		// check if tree can accept a mate (pollen)
 		return leaves != null && TreeUtil.tryMate(leaves, pollen);

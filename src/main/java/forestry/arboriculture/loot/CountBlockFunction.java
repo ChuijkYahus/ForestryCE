@@ -3,7 +3,7 @@ package forestry.arboriculture.loot;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.arboriculture.charcoal.BlockAsh;
+import forestry.arboriculture.charcoal.AshBlock;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -36,10 +36,10 @@ public class CountBlockFunction extends LootItemConditionalFunction {
 	@Override
 	protected ItemStack run(ItemStack stack, LootContext context) {
 		BlockState state = context.getParamOrNull(LootContextParams.BLOCK_STATE);
-		if (state == null || !state.hasProperty(BlockAsh.AMOUNT)) {
+		if (state == null || !state.hasProperty(AshBlock.AMOUNT)) {
 			return stack;
 		}
-		int amount = state.getValue(BlockAsh.AMOUNT);
+		int amount = state.getValue(AshBlock.AMOUNT);
 		stack.setCount(amount);
 		return stack;
 	}
