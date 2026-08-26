@@ -1,6 +1,5 @@
 package forestry.core.data;
 
-import forestry.api.core.data.BeeSpeciesProvider;
 import forestry.arboriculture.plugin.DefaultTreeSpecies;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -1,4 +1,4 @@
-package forestry.api.core.data;
+package forestry.core.data;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -10,7 +10,6 @@ import java.util.concurrent.CompletableFuture;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 
-import forestry.core.data.MapGenomeBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
