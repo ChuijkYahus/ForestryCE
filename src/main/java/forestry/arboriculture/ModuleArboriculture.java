@@ -17,7 +17,7 @@ import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
 import forestry.arboriculture.client.ArboricultureClientHandler;
-import forestry.arboriculture.commands.CommandTree;
+import forestry.arboriculture.commands.TreeCommand;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
@@ -60,7 +60,6 @@ import forestry.arboriculture.client.TreeClientManager;
 import java.util.HashMap;
 import java.util.Map;
 import forestry.arboriculture.wood.ForestryWoodType;
-import forestry.arboriculture.trees.TreeUtil;
 
 @ForestryModule
 public class ModuleArboriculture extends BlankForestryModule {
@@ -133,7 +132,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	@Override
 	public void addToRootCommand(LiteralArgumentBuilder<CommandSourceStack> command) {
-		command.then(CommandTree.register());
+		command.then(TreeCommand.register());
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
