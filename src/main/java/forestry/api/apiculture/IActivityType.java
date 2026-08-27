@@ -4,6 +4,7 @@ import forestry.api.core.IError;
 import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.LevelData;
 
 /**
@@ -56,6 +57,12 @@ public interface IActivityType extends IRegistryAlleleValue {
 	 * @since 2.6.1
 	 */
 	static long getBeeDayTime(LevelAccessor level) {
-		return level.dimensionType().hasSkyLight() ? level.getLevelData().getDayTime() : NIGHT_TIME;
+		DimensionType dimension = level.dimensionType();
+
+		if (!dimension.hasSkyLight()) {
+			return NIGHT_TIME;
+		}
+		// Level.getDayTime is the overworld time in every dimension, so it ignores a fixed time
+		return dimension.fixedTime().orElseGet(() -> level.getLevelData().getDayTime());
 	}
 }
