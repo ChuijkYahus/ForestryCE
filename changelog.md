@@ -1,10 +1,17 @@
-## Forestry 2.10.3
+## Forestry 2.11.0
 - Genetic filter now actually moves items around
 - Vintage Comb Block is no longer missing an in-world model
 - Escritoire Game state now persists across world reloads
 - Add new Forestry: CE logo
 - Add Sengir's Notes to the creative menu
 - Ash Block can now be converted back to Ash
+- Tons of new building blocks, thanks to Spearkiller
+  - Honeystone, Waxstone, Refractory Wax Stone
+  - Jumbo Candles
+- Solar Engine thanks to EnderiumSmith and Spearkiller
+- Smelter thanks to Spearkiller
+- Fixed crepuscular bees not working in Twilight Forest
+- and much more
 
 ## Forestry 2.10.2
 - Fix bugs in French translation, thanks to Horusbk (#313)
