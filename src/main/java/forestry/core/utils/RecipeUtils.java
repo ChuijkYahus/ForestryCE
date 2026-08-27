@@ -240,10 +240,14 @@ public class RecipeUtils {
 			.collect(Collectors.toSet());
 	}
 
+	/**
+	 * @return The first recipe of the given type with the given output, or {@code null} when a datapack removed it
+	 */
+	@Nullable
 	public static <R extends Recipe<C>, C extends Container> R getRecipeByOutput(FeatureRecipeType<R> recipeType, RegistryAccess registryAccess, ItemStack output) {
 		return getRecipes(getRecipeManager(), recipeType)
 			.filter(recipe -> ItemStack.isSameItem(recipe.getResultItem(registryAccess), output))
 			.findFirst()
-			.orElseThrow(() -> new IllegalStateException("Couldn't find a recipe with output: " + output));
+			.orElse(null);
 	}
 }

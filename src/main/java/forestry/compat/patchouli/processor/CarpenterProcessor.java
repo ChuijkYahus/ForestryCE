@@ -1,6 +1,6 @@
 package forestry.compat.patchouli.processor;
 
-import com.google.common.base.Preconditions;
+import forestry.Forestry;
 import forestry.api.recipes.ICarpenterRecipe;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtils;
@@ -16,19 +16,26 @@ import javax.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public class CarpenterProcessor implements IComponentProcessor {
+	protected ItemStack output = ItemStack.EMPTY;
 	@Nullable
 	protected ICarpenterRecipe recipe;
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		ItemStack stack = variables.get("item").as(ItemStack.class, ItemStack.EMPTY);
+		this.output = variables.get("item").as(ItemStack.class, ItemStack.EMPTY);
+		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), this.output);
 
-		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), stack);
+		if (this.recipe == null) {
+			Forestry.LOGGER.warn("No carpenter recipe with output {}, showing an empty recipe in the guide", this.output);
+		}
 	}
 
 	@Override
 	public IVariable process(Level level, String key) {
-		Preconditions.checkNotNull(this.recipe);
+		// a datapack can remove or replace the recipe this page was written for
+		if (this.recipe == null) {
+			return key.equals("output") ? IVariable.from(this.output) : IVariable.empty();
+		}
 		if (key.equals("output")) {
 			return IVariable.from(this.recipe.getResultItem(level.registryAccess()));
 		} else if (key.equals("fluid")) {
