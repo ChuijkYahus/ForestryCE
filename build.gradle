@@ -391,9 +391,7 @@ if (System.getenv('CURSEFORGE_TOKEN')) {
 	tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
 		apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-		projectId = project.curseforgeId
-
-		upload(projectId, reobfJar).with {
+		upload(project.curseforgeId, reobfJar).with {
 			displayName = "Forestry: CE ${project.version}"
 
 			releaseType = 'release'
