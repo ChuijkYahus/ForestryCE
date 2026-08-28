@@ -401,6 +401,8 @@ if (System.getenv('CURSEFORGE_TOKEN')) {
 			addGameVersion(project.minecraftVersion)
 			addGameVersion('Forge')
 			addGameVersion('Java 17')
+			addGameVersion('Client')
+			addGameVersion('Server')
 
 			mainArtifact(reobfJar.archiveFile) {
 				displayName = "Forestry: Community Edition ${project.version}"
