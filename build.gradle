@@ -403,8 +403,8 @@ if (System.getenv('CURSEFORGE_TOKEN')) {
 			addGameVersion('Java 17')
 			addEnvironment('Client', 'Server')
 
-			addRelation('optionalDependency', 'jei')
-			addRelation('requiredDependency', 'patchouli')
+			addRelation('jei', 'optionalDependency')
+			addRelation('patchouli', 'requiredDependency')
 		}
 	}
 }
